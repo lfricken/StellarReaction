@@ -4,3 +4,5 @@
 *.sdf
 *.pdb
 *.ilk
+*.log
+*.tlog
