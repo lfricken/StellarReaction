@@ -43,9 +43,13 @@ void NetworkFactory::free(int position)//don't adjust the list, just mark the no
 }
 void NetworkFactory::clean()
 {
-	while(m_componentPtrs.back() == NULL)
+	auto begin = m_componentPtrs.begin();
+	for(auto it = m_componentPtrs.end(); it != begin; --it)
 	{
-		m_componentPtrs.resize(m_componentPtrs.size()-1);
+		if(*it == NULL)
+			m_componentPtrs.resize(m_componentPtrs.size() - 1);
+		else
+			break;
 	}
 }
 void NetworkFactory::getData(sf::Packet& rPacket)
