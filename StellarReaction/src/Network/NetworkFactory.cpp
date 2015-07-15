@@ -21,7 +21,7 @@ int NetworkFactory::give(NetworkComponent* pComponent)//we recieve a pointer to 
 
 
 	position = m_componentPtrs.size();
-	m_componentPtrs.resize(m_componentPtrs.size()+1);//add one
+	m_componentPtrs.resize(m_componentPtrs.size() + 1);//add one
 
 
 	m_componentPtrs[position] = pComponent;
@@ -43,10 +43,9 @@ void NetworkFactory::free(int position)//don't adjust the list, just mark the no
 }
 void NetworkFactory::clean()
 {
-	auto begin = m_componentPtrs.begin();
-	for(auto it = m_componentPtrs.end(); it != begin; --it)
+	while(m_componentPtrs.size() > 0)
 	{
-		if(*it == NULL)
+		if(m_componentPtrs.back() == NULL)
 			m_componentPtrs.resize(m_componentPtrs.size() - 1);
 		else
 			break;
@@ -57,21 +56,21 @@ void NetworkFactory::getData(sf::Packet& rPacket)
 	/*
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num9) && m_name == "standard")
 	{
-	    int i;
+	int i;
 
-	    sf::Packet test;
-	    std::vector<NetworkComponent*>& rPtr = m_componentPtrs;
-	    cout << "\nSize: " <<  rPtr.size();
-	    for(int32_t i = 0; i < rPtr.size(); ++i)
-	    {
-	        if(rPtr[i] != NULL)
-	        {
-	            rPtr[i]->pack(rPacket);
-	        }
-	        else
-	            cout << "\nNULL";
-	    }
-	    cin >> i;
+	sf::Packet test;
+	std::vector<NetworkComponent*>& rPtr = m_componentPtrs;
+	cout << "\nSize: " <<  rPtr.size();
+	for(int32_t i = 0; i < rPtr.size(); ++i)
+	{
+	if(rPtr[i] != NULL)
+	{
+	rPtr[i]->pack(rPacket);
+	}
+	else
+	cout << "\nNULL";
+	}
+	cin >> i;
 	}*/
 
 	std::vector<NetworkComponent*>& rPtr = m_componentPtrs;
