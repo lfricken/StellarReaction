@@ -1,0 +1,29 @@
+{
+	"texTileSize": [186,186],
+    "stateList": [
+        {
+            "comment": "The default state is the state we are normally in",
+			"comment2": "the t represents the %of time we will spend on that tile",
+            "state": "Default",
+            "repeats": true,
+            "tileList": [
+				{
+                    "x": 0,
+                    "y": 0,
+                    "t": 1.0
+                }
+            ]
+        },
+        {
+            "state": "Error",
+            "repeats": true,
+            "tileList": [
+				{
+                    "x": 0,
+                    "y": 0,
+                    "t": 1.0
+                }
+            ]
+        }
+    ]
+}

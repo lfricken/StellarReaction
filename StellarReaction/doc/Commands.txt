@@ -1,0 +1,43 @@
+Player
+{
+	toggleGuiMode:
+	setGuiMode: (bool)
+}
+Game	///TODO
+{
+	load: (string)
+	exit:
+	printToConsole: (string)
+}
+Overlay
+{
+	setMenu: (bool)
+	toggleMenu:
+}
+Universe
+{
+	togglePause:
+	setPause: (bool)
+}
+Widget
+{
+	toggleHidden:
+	setHidden: (bool)
+	toggleEnabled:
+	setEnabled: (bool)
+	trigger:
+}
+Decoration
+{
+	setPosition: (int)(int)
+	setAnimation: (string)(float)
+}
+DecorQuad
+{
+	setPercent: (float)-(0 to 100)
+}
+NetworkBoss
+{
+	joinIP: (string)
+	joinPort: (string)
+}

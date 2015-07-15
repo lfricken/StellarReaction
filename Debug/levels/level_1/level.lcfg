@@ -1,0 +1,277 @@
+{
+    "com_BLUEPRINTS": "Additional directories to find more blueprints in. Default always loaded.",
+    "AdditionalBlueprints": [],
+    "Player1Slave": "ship_11",
+    "Chunks": [
+        {
+            "Title": "DefaultChunk",
+            "Coordinates": [
+                0,
+                0
+            ]
+        },
+        {
+            "Title": "DefaultChunk",
+            "Coordinates": [
+                4,
+                0
+            ]
+        },
+        {
+            "ClassName": "Chunk",
+            "Copies": "CombatShip",
+            "IO": {
+                "name": "ship_11"
+            },
+            "Body": {
+                "coords": [
+                    -5,
+                    -5
+                ]
+            }
+        },
+        {
+            "ClassName": "Chunk",
+            "Copies": "CombatShip",
+            "IO": {
+                "name": "ship_12"
+            },
+            "Body": {
+                "coords": [
+                    -10,
+                    -5
+                ]
+            }
+        },
+        {
+            "ClassName": "Chunk",
+            "Copies": "CombatShip",
+            "IO": {
+                "name": "ship_13"
+            },
+            "Body": {
+                "coords": [
+                    -15,
+                    -5
+                ]
+            }
+        },
+        {
+            "ClassName": "Chunk",
+            "Copies": "CombatShip",
+            "IO": {
+                "name": "ship_14"
+            },
+            "Body": {
+                "coords": [
+                    -20,
+                    -5
+                ]
+            }
+        },
+		
+		
+		
+		
+        {
+            "ClassName": "Chunk",
+            "Copies": null,
+            "IO": {
+                "name": "ship_1",
+                "courierList": [
+                    {
+                        "message": {
+                            "target": "targetName",
+                            "command": "setHidden",
+                            "data": "",
+                            "delay": 3.56,
+                            "sendValue": false
+                        },
+                        "condition": {
+                            "event": "OnCount",
+                            "value": 3,
+                            "comparator": ">",
+                            "repeatable": true
+                        }
+                    }
+                ]
+            },
+            "Body": {
+                "coords": [
+                    20,
+                    10
+                ],
+                "rotation": 0,
+                "isDynamic": true,
+                "isBullet": false,
+                "startAwake": true
+            },
+            "Missiles": {
+                "Max": 0,
+                "Value": 0
+            },
+            "Energy": {
+                "Max": 0,
+                "Value": 0
+            },
+            "Ballistic": {
+                "Max": 0,
+                "Value": 0
+            },
+            "Zoom": {
+                "Max": 64,
+                "Value": 1
+            },
+            "Modules": [
+                {
+                    "Title": "DefaultReactor",
+                    "Position": [
+                        -1,
+                        0
+                    ]
+                },
+                {
+                    "Title": "DefaultCapacitor",
+                    "Position": [
+                        1,
+                        0
+                    ]
+                },
+                {
+                    "ClassName": "Thruster",
+                    "Copies": "DefaultThruster",
+                    "Torque": 25,
+                    "EnergyConsumption": 10,
+                    "BaseSprite": {
+                        "texName": "thruster/thruster_base.png",
+                        "animSheetName": "thruster/thruster_base.acfg"
+                    }
+                },
+                {
+                    "ClassName": "Plating",
+                    "BaseSprite": {
+                        "texName": "plating/plating_base.png",
+                        "animSheetName": "plating/plating_base.acfg"
+                    },
+					"Defense": {
+						"MaxHealth": 500,
+						"Health": 500,
+						"Armor": 10
+					},
+                    "Physics": {
+                        "offset": [
+                            1,
+                            1
+                        ],
+                        "density": 1.0
+                    }
+                },
+                {
+                    "ClassName": "Radar",
+					"RadarStrength": 10,
+                    "BaseSprite": {
+                        "texName": "radar/radar_base.png",
+                        "animSheetName": "radar/radar_base.acfg"
+                    },
+                    "Physics": {
+                        "offset": [
+                            0,
+                            -1
+                        ],
+                        "density": 1.0
+                    }
+                },
+                {
+                    "ClassName": "Sensor",
+                    "Inherits": "DefaultModule",
+                    "IO": {
+                        "name": "NONAMEBP",
+                        "courierList": [
+                            {
+                                "message": {
+                                    "target": "game",
+                                    "command": "printToConsole",
+                                    "data": [
+                                        "string",
+                                        "Message from superclass."
+                                    ],
+                                    "delay": 1,
+                                    "sendValue": false
+                                },
+                                "condition": {
+                                    "event": "OnExit",
+                                    "value": 0,
+                                    "comparator": "d",
+                                    "repeatable": true
+                                }
+                            },
+                            {
+                                "message": {
+                                    "target": "game",
+                                    "command": "printToConsole",
+                                    "data": [
+                                        "string",
+                                        "Message from subclass."
+                                    ],
+                                    "delay": 0,
+                                    "sendValue": false
+                                },
+                                "condition": {
+                                    "event": "OnEnter",
+                                    "value": 0,
+                                    "comparator": "d",
+                                    "repeatable": false
+                                }
+                            },
+                            {
+                                "message": {
+                                    "target": "testDecor",
+                                    "command": "setAnimation",
+                                    "data": [
+                                        "string",
+                                        "Default",
+										"float",
+										10
+                                    ],
+                                    "delay": 0,
+                                    "sendValue": false
+                                },
+                                "condition": {
+                                    "event": "OnCount",
+                                    "value": 1,
+                                    "comparator": "=",
+                                    "repeatable": true
+                                }
+                            }
+                        ]
+                    },
+                    "Physics": {
+                        "offset": [
+                            0,
+                            2
+                        ],
+                        "density": 0,
+                        "isSensor": true
+                    }
+                },
+                {
+                    "ClassName": "Thruster",
+                    "Copies": "DefaultThruster",
+                    "Torque": 1,
+                    "BaseSprite": {
+                        "texName": "thruster/thruster_base.png",
+                        "animSheetName": "thruster/thruster_base.acfg"
+                    },
+                    "Physics": {
+                        "offset": [
+                            0,
+                            1
+                        ],
+                        "density": 1.0
+                    }
+                }
+            ],
+            "Network": {}
+        }
+    ]
+}

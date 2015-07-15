@@ -1,0 +1,18 @@
+
+design/document/refactor:
+
+Call Super in input() functions
+
+projectile weapons
+shield generator
+art hull
+art appendages for modules, add metal rings to represent the top part above the hull
+explosion damage and effects
+modules make explosion noise
+modules show correct sprite on death
+pause multiplayer
+Design simple lightmap implementation using sf::BlendMode::BlendMultiply
+zoom reticule?
+Design FSM for modules
+Have an else for (if(parsedSuccess)) and JSON checking and parse fail messages
+///ERROR LOG

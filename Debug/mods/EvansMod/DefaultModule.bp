@@ -1,0 +1,39 @@
+{
+    "ClassName": "Module",
+    "Title": "DefaultModule",
+    "IO": {
+        "name": "NONAMEBP",
+        "courierList": [
+            {
+                "message": {
+                    "target": "targetName",
+                    "command": "setHidden",
+                    "data": "",
+                    "delay": 3.56,
+                    "sendValue": false
+                },
+                "condition": {
+                    "event": "OnCount",
+                    "value": 3,
+                    "comparator": ">",
+                    "repeatable": true
+                }
+            }
+        ]
+    },
+    "Collision": {
+        "offset": [
+            0,
+            0
+        ],
+        "shape": "rectangle",
+        "size": [
+            1,
+            1
+        ],
+        "density": 1,
+        "friction": 0.3,
+        "restitution": 0.2
+    },
+    "Network": {}
+}

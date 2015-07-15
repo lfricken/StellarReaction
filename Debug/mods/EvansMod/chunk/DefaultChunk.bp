@@ -1,0 +1,74 @@
+{
+    "ClassName": "Chunk",
+    "Title": "DefaultChunk",
+    "IO": {
+        "name": "BPCHUNKNAME",
+        "courierList": [
+            {
+                "message": {
+                    "target": "targetName",
+                    "command": "setHidden",
+                    "data": "",
+                    "delay": 3.56,
+                    "sendValue": false
+                },
+                "condition": {
+                    "event": "OnCount",
+                    "value": 3,
+                    "comparator": ">",
+                    "repeatable": true
+                }
+            }
+        ]
+    },
+    "Body": {
+        "coords": [
+            5,
+            5
+        ],
+        "rotation": 0,
+        "isDynamic": true,
+        "isBullet": false,
+        "startAwake": true
+    },
+    "Missiles": {
+        "Max": 0,
+        "Value": 0
+    },
+    "Energy": {
+        "Max": 0,
+        "Value": 0
+    },
+    "Ballistic": {
+        "Max": 0,
+        "Value": 0
+    },
+    "Zoom": {
+        "Max": 32,
+        "Value": 1
+    },
+    "Modules": [
+        {
+            "Title": "DefaultReactor",
+            "Position": [
+                0,
+                0
+            ]
+        },
+        {
+            "Title": "DefaultThruster",
+            "Position": [
+                1,
+                0
+            ]
+        },
+        {
+            "Title": "DefaultCapacitor",
+            "Position": [
+                -1,
+                0
+            ]
+        }
+    ],
+    "Network": {}
+}
