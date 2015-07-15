@@ -16,6 +16,12 @@ LaserWeapon::~LaserWeapon()
 {
 
 }
+//// <summary>
+/// Pres the shot.
+/// </summary>
+/// <param name="center">The center.</param>
+/// <param name="aim">The aim.</param>
+/// <param name="radCCW">The RAD CCW.</param>
 void LaserWeapon::preShot(const b2Vec2& center, const b2Vec2& aim, float radCCW)
 {
 	m_ray.setIgnoreBody(m_pBody);

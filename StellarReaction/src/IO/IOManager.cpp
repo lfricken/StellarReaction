@@ -28,7 +28,7 @@ void IOManager::update(float dT)//iterate over the list of Packages, and if the 
 {
 
 	const int maxWork = 2000;//prevents infinite loops of messages, or too much cpu time spent here per frame
-	for(int i = 0; i<(signed)m_messageList.size() && i<maxWork; ++i)
+	for(int i = 0; i<(signed)m_messageList.size(); ++i)
 	{
 		m_messageList[i].changeDelay(-dT);
 
@@ -37,6 +37,12 @@ void IOManager::update(float dT)//iterate over the list of Packages, and if the 
 			f_send(m_messageList[i]);
 			m_messageList.erase(m_messageList.begin()+i);
 			--i;
+		}
+		if(i >= maxWork)
+		{
+			cout << FILELINE;
+			/// ERROR
+			break;
 		}
 	}
 

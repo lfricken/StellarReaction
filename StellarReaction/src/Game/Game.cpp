@@ -241,7 +241,10 @@ void Game::loadUniverse(const std::string& stuff)
 	m_spUniverse = sptr<Universe>(new Universe(universeData));
 	m_spUniverse->getUniverseIO().give(&*m_spIO);
 }
-
+/// <summary>
+/// Initializes
+/// </summary>
+/// <param name="windowFile">The window file.</param>
 void Game::loadWindow(const std::string& windowFile)
 {
 	sf::ContextSettings settings;

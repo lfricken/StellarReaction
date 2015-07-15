@@ -4,6 +4,9 @@
 #include "Message.hpp"
 #include "Condition.hpp"
 
+/// <summary>
+/// This is the standard definition 
+/// </summary>
 struct Courier
 {
 	Condition condition;
