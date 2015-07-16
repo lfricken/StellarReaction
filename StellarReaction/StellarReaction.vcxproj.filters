@@ -117,9 +117,6 @@
     <ClCompile Include="src\IO\IOComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\IO\IOComponentStore.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\IO\IOManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1032,9 +1029,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\IO\IOComponent.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\IO\IOComponentStore.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\IO\IOManager.hpp">

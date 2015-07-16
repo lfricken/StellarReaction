@@ -1,9 +1,6 @@
 #include "IOComponent.hpp"
 
-
-
 using namespace std;
-
 
 IOComponent::~IOComponent()
 {

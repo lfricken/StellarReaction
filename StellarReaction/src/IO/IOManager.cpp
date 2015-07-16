@@ -14,8 +14,7 @@ IOManager::~IOManager()
 {
 
 }
-/**SEND/RECIEVE MESSAGES**/
-void IOManager::recieve(const Message& rMessage)//called by a class to give the package to us
+void IOManager::recieve(const Message& rMessage)
 {
 	if(m_acceptsLocal)
 		m_messageList.push_back(rMessage);//if we accept local, otherwise ignore it
@@ -24,9 +23,8 @@ void IOManager::f_recieveNetwork(const Message& rMessage)
 {
 	m_messageList.push_back(rMessage);
 }
-void IOManager::update(float dT)//iterate over the list of Packages, and if the time is up, call universe.send(Package); on that package
+void IOManager::update(float dT)
 {
-
 	const int maxWork = 2000;//prevents infinite loops of messages, or too much cpu time spent here per frame
 	for(int i = 0; i<(signed)m_messageList.size(); ++i)
 	{
@@ -45,14 +43,11 @@ void IOManager::update(float dT)//iterate over the list of Packages, and if the 
 			break;
 		}
 	}
-
 }
 void IOManager::toggleAcceptsLocal(bool acceptsLocal)
 {
 	m_acceptsLocal = acceptsLocal;
 }
-
-/**STORE/FREE COMPONENTS**/
 int IOManager::give(IOComponent* pComponent)//we recieve a pointer to a component and we store it and remember the name and position
 {
 	int position;

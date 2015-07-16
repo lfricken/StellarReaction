@@ -20,15 +20,9 @@ void Eventer::add(const std::vector<Courier>& rCourierList)
 	for(auto it = rCourierList.cbegin(); it!=rCourierList.cend(); ++it)
 		add(*it);
 }
-/// <summary>
-/// Events the specified type.
-/// </summary>
-/// <param name="type">The type.</param>
-/// <param name="value">The value.</param>
-/// <param name="rData">The r data.</param>
 void Eventer::event(EventType type, int value, const sf::Packet& rData)
 {
-	auto typeIt = m_courierMap.find(type);
+	auto typeIt = m_courierMap.find(type);//find the expected type of event
 
 	if(typeIt != m_courierMap.end())
 	{
