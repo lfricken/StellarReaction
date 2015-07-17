@@ -4,6 +4,9 @@
 #include "stdafx.hpp"
 #include "SoundData.hpp"
 
+/// <summary>
+/// Stored in SoundManger. Each Sound only has a certain number of 
+/// </summary>
 struct Noise
 {
 	Noise()
@@ -16,6 +19,9 @@ struct Noise
 	float m_startTime;//from game time
 };
 
+/// <summary>
+/// Plays all sounds in game
+/// </summary>
 class SoundManager
 {
 public:
@@ -25,13 +31,25 @@ public:
 	void playSound(const SoundData& rSound);
 	void playSound(const std::string& rSoundName, int volume = leon::volume, float minDist = leon::dist, float dropOff = leon::drop, const b2Vec2& rPos = leon::dPos, bool relative = true);
 
-
 protected:
 private:
+	/// <summary>
+	/// minimum delay between playing sounds.
+	/// </summary>
 	static const float m_minDelay;
-	static const std::string m_directory;
-	static const int m_numNoises = 128;
+	static const std::string m_directory;	
+	/// <summary>
+	/// Max sounds that can play (don't mess with this)
+	/// </summary>
+	static const int m_numNoises = 128;	
+	/// <summary>
+	/// Actual sounds that are playing or have played.
+	/// </summary>
 	Noise m_noises[m_numNoises];
+	/// <summary>
+	/// map of (string soundname, sound thing which stores the actual data)
+	/// We load these into sf::Sounds to play them
+	/// </summary>
 	std::map<std::string, sf::SoundBuffer> m_buffers;
 };
 

@@ -98,6 +98,10 @@ void Controller::processDirectives()//use our stored directives to send commands
 	if(m_directives[Directive::FireSecondary])
 		directive(Directive::FireSecondary);
 }
+/// <summary>
+/// true if this controller is controlled locally (this computer)
+/// </summary>
+/// <param name="local">if set to <c>true</c> [local].</param>
 void Controller::toggleLocal(bool local)
 {
 	m_local = local;

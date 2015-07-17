@@ -42,7 +42,7 @@ void Animator::setAnimation(const std::string& setAnim, float duration)
 sf::Vector2i Animator::getTile()//what texture tile should we be on? 0,0, 1,0 ect
 {
 	float elapsed = m_timer.getTime() - m_startTime;//elapsed is the time since start of this animation
-	float percent = elapsed/m_currentDuration;//tells us how far through we are
+	float percent = elapsed / m_currentDuration;//tells us how far through we are
 
 	const Animation& rAnim = m_pSet->animations.find(m_name)->second;
 	const std::vector<std::pair<sf::Vector2i, float> >& rTiles = rAnim.tileSet;
@@ -54,10 +54,10 @@ sf::Vector2i Animator::getTile()//what texture tile should we be on? 0,0, 1,0 ec
 	}
 
 	int i = 0;
-	for(; i<(signed)rTiles.size() &&  percent>=0; ++i)//go through and find what frame we should be on
+	for(; i < (signed)rTiles.size() && percent >= 0; ++i)//go through and find what frame we should be on
 		percent -= rTiles[i].second;
 
-	return rTiles[i-1].first;
+	return rTiles[i - 1].first;///PROBLEM HERE
 }
 const sf::Vector2f& Animator::getTileSize() const
 {

@@ -100,77 +100,47 @@ SoundManager& Game::getSound()
 {
 	return *m_spSound;
 }
-
-
-
+/// <summary>
+/// Global Time, cannot be paused
+/// </summary>
+/// <returns></returns>
 float Game::getTime() const
 {
 	return m_clock.getElapsedTime().asSeconds();
 }
-
-
-
-
-
-
-
-
+/// <summary>
+/// Contains Main Game Loop
+/// </summary>
 void Game::run()
 {
-	/**===========================**/
-	/**EVAN PUT STUFF TO DRAW HERE**/
+	sf::Listener::setDirection(0, 0, -1);//make sure all sounds are heard with the listener looking at the screen
 
-	sf::Listener::setDirection(0,0,-1);//make sure all sounds are heard with the listener looking at the screen
-
-	/*
-	QuadComponentData quadData;
-	quadData.dimensions = sf::Vector2f(512,512);//this specifies how big the in game object is, to specify texture size, edit the animation configuration file
-	quadData.layer = GraphicsLayer::BackgroundFar;
-	quadData.texName = "default.png";//automatically accesses textures folder
-	quadData.animSheetName = "other/defaultEDIT.acfg";//automatically accesses textures folder
-	quadData.permanentRot = 0;//will be rotated by this much (degrees CCW)
-	quadData.center = sf::Vector2f(0,0);//this will designate the center of the picture( 0,0 is center, -width/2, +height/2 would be top left corner)
-	QuadComponent evansQuad(quadData);
-	evansQuad.setPosition(b2Vec2(-3,-4));
-	evansQuad.setRotation(leon::degToRad(45));*/
-
-	/**EVAN PUT STUFF TO DRAW HERE**/
-	/**===========================**/
-	// ProjectileData ballist;
-	// Projectile blab(ballist);
-
-
-	std::vector<std::string> controllerList;
-	controllerList.push_back("ship_11");
-	controllerList.push_back("ship_12");
-	controllerList.push_back("ship_13");
-	controllerList.push_back("ship_14");
-	m_spUniverse->loadLevel("levels/level_1/", 0, "blueprints/", controllerList);
+	{
+		std::vector<std::string> controllerList;
+		controllerList.push_back("ship_11");
+		controllerList.push_back("ship_12");
+		controllerList.push_back("ship_13");
+		controllerList.push_back("ship_14");
+		//getUniverse().loadLevel("levels/level_1/", 0, "blueprints/", controllerList);
+	}
 
 	RenderWindow& rWindow = *m_spWindow;
 	sf::View defaultView;
 	defaultView.setCenter(rWindow.getSize().x/2, rWindow.getSize().y/2);
 	defaultView.setSize(sf::Vector2f(rWindow.getSize()));
 
-	float x = 0;
 	float lastTime = 0;
-	float frameTime = 1;
-	float timeRemaining = 0;
-	float timeStep = 0;
-
-
-
+	float frameTime = 0;
+	float physTickTimeRemaining = 0;
+	float timeStep = getUniverse().getTimeStep();
 
 	while(rWindow.isOpen())
 	{
-		/**== TESTING ==**/
-
-
 		/**== FRAMERATE ==**/
 		frameTime = m_clock.getElapsedTime().asSeconds()-lastTime;
 		lastTime = m_clock.getElapsedTime().asSeconds();
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::F))
-			std::cout << "\nFPS: " << 1.f/frameTime;
+			std::cout << "\nFPS: " << 1.0f/frameTime;
 
 
 		/**== IO ==**/
@@ -179,9 +149,8 @@ void Game::run()
 
 
 		/**== PHYSICS ==**/
-		timeRemaining += frameTime;
-		timeStep = getUniverse().getTimeStep();
-		while(timeRemaining >= timeStep)
+		physTickTimeRemaining += frameTime;
+		while(physTickTimeRemaining >= timeStep)
 		{
 			getUniverse().prePhysUpdate();
 			getUniverse().physUpdate();
@@ -192,7 +161,7 @@ void Game::run()
 			getUniverse().getControllerFactory().processAllDirectives();
 
 			getUniverse().postPhysUpdate();
-			timeRemaining -= timeStep;
+			physTickTimeRemaining -= timeStep;
 		}
 
 
@@ -202,13 +171,12 @@ void Game::run()
 
 
 		/**== WINDOW ==**/
-
 		getLocalPlayer().getWindowEvents(rWindow);
 		getUniverse().getGfxUpdater().update();
 
+
 		/**== DRAW UNIVERSE ==**/
 		rWindow.clear(sf::Color::Black);
-
 		if(getUniverse().debugDraw())
 			getUniverse().getWorld().DrawDebugData();
 		else
