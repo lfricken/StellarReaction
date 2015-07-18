@@ -12,7 +12,11 @@ enum class Directive;
 enum class Request;
 
 
-
+/// <summary>
+/// A collection of box2d objects
+/// this contains the body, and fixtures are attached to us
+/// controllers find us through SlaveLocator, and issue us commands
+/// </summary>
 class Chunk : public GameObject
 {
 public:

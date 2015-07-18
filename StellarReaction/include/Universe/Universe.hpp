@@ -52,6 +52,11 @@ public:
 	void add(sptr<GameObject> spGO);
 	void add(GameObject* pGO);
 
+
+	float m_pauseTime;
+	float m_skippedTime;
+	bool m_paused;
+
 protected:
 	void loadBlueprints(const std::string& bluePrints);//loads blueprints
 
@@ -91,9 +96,7 @@ private:
 
 
 	/**TIME**/
-	float m_pauseTime;
-	float m_skippedTime;
-	bool m_paused;
+
 	/**TIME**/
 };
 

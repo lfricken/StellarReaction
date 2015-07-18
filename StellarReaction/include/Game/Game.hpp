@@ -49,19 +49,19 @@ public:
 protected:
 	void input(std::string rCommand, sf::Packet rData);
 
-private:	
+private:
 	/// <summary>
 	/// The Global IO Manager for the game, which controlls all events.
 	/// </summary>
-	sptr<IOManager> m_spCoreIO;	
+	sptr<IOManager> m_spCoreIO;
 	/// <summary>
 	/// Controlls all sound for the game.
 	/// </summary>
-	sptr<SoundManager> m_spSound;	
+	sptr<SoundManager> m_spSound;
 	/// <summary>
 	/// Manages Network Connections.
 	/// </summary>
-	sptr<NetworkBoss> m_spNetworkBoss;	
+	sptr<NetworkBoss> m_spNetworkBoss;
 	/// <summary>
 	/// The player on this computer and all info regarding him.
 	/// </summary>
@@ -69,15 +69,15 @@ private:
 	/// <summary>
 	/// SFML window.
 	/// </summary>
-	sptr<sf::RenderWindow> m_spWindow;	
+	sptr<sf::RenderWindow> m_spWindow;
 	/// <summary>
 	/// Wrapper for tgui GUI
 	/// </summary>
-	sptr<Overlay> m_spOverlay;	
+	sptr<Overlay> m_spOverlay;
 	/// <summary>
 	/// Allocates textures for game.
 	/// </summary>
-	sptr<TextureAllocator> m_spTexAlloc;	
+	sptr<TextureAllocator> m_spTexAlloc;
 	/// <summary>
 	/// Loads and stores animations for QuadComponents
 	/// </summary>
@@ -85,13 +85,13 @@ private:
 	/// <summary>
 	/// Manages physics world
 	/// </summary>
-	sptr<Universe> m_spUniverse;	
+	sptr<Universe> m_spUniverse;
 	/// <summary>
 	/// IO component for global "game"
 	/// </summary>
 	sptr<IOComponent> m_spIO;
 
-	double m_targetFPS;	
+	double m_targetFPS;
 	/// <summary>
 	/// global clock never paused
 	/// </summary>

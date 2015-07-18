@@ -18,7 +18,11 @@ struct GameObjectData
 	NetworkComponentData nwComp;
 };
 
-
+/// <summary>
+/// Things owned by Universe, such as Chunks... (what else?)
+/// Contains Networking and IO/Eventing
+/// pre/post phys update
+/// </summary>
 class GameObject
 {
 public:

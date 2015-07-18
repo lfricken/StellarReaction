@@ -201,7 +201,10 @@ void Game::exit()
 
 
 
-
+/// <summary>
+/// Destroys old universe and makes new one!
+/// </summary>
+/// <param name="stuff">The stuff.</param>
 void Game::loadUniverse(const std::string& stuff)
 {
 	IOComponentData universeData(getCoreIO());
