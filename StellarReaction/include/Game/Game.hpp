@@ -36,13 +36,12 @@ public:
 
 
 	Universe& getUniverse();
-	/**should go in UNIVERSE to be reset upon game reload**/
+	/**should go in UNIVERSE to be reset upon game reload**/	
 
-	/**should go in UNIVERSE to be reset upon game reload**/
+	void launchGame(const std::string& level, int localController, const std::string& bluePrints, const std::vector<std::string>& rControllerList);
 
 
-	void loadWindow(const std::string& windowFile);//loads the window
-	void loadUniverse(const std::string& stuff);
+
 	void run();//runs the game loop
 	void exit();
 
@@ -50,12 +49,15 @@ protected:
 	void input(std::string rCommand, sf::Packet rData);
 
 private:
+	void loadWindow(const std::string& windowFile);
+	void loadUniverse(const std::string& stuff);
+
 	/// <summary>
 	/// The Global IO Manager for the game, which controlls all events.
 	/// </summary>
 	sptr<IOManager> m_spCoreIO;
 	/// <summary>
-	/// Controlls all sound for the game.
+	/// Controls all sound for the game.
 	/// </summary>
 	sptr<SoundManager> m_spSound;
 	/// <summary>

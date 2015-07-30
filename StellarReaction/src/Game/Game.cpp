@@ -96,6 +96,25 @@ Universe& Game::getUniverse()
 {
 	return *m_spUniverse;
 }
+/// <summary>
+/// Use this to put the player in a new level from anywhere (multiplayer or otherwise)
+/// It will minimize the menu's automatically
+/// </summary>
+/// <param name="level">The level.</param>
+/// <param name="localController">The local controller.</param>
+/// <param name="bluePrints">The blue prints.</param>
+/// <param name="rControllerList">The r controller list.</param>
+void Game::launchGame(const std::string& level, int localController, const std::string& bluePrints, const std::vector<std::string>& rControllerList)
+{
+	game.loadUniverse("meanginglessString");
+	game.getUniverse().loadLevel(level, localController, bluePrints, rControllerList);
+
+	sf::Packet boolean;
+	boolean << false;
+
+	Message closeMenu("overlay", "setMenu", boolean, 0, false);
+	game.getCoreIO().recieve(closeMenu);
+}
 SoundManager& Game::getSound()
 {
 	return *m_spSound;
@@ -115,25 +134,17 @@ void Game::run()
 {
 	sf::Listener::setDirection(0, 0, -1);//make sure all sounds are heard with the listener looking at the screen
 
-	{
-		std::vector<std::string> controllerList;
-		controllerList.push_back("ship_11");
-		controllerList.push_back("ship_12");
-		controllerList.push_back("ship_13");
-		controllerList.push_back("ship_14");
-		//getUniverse().loadLevel("levels/level_1/", 0, "blueprints/", controllerList);
-	}
-
 	RenderWindow& rWindow = *m_spWindow;
 	sf::View defaultView;
 	defaultView.setCenter(rWindow.getSize().x/2, rWindow.getSize().y/2);
 	defaultView.setSize(sf::Vector2f(rWindow.getSize()));
 
+	/**== FRAMERATE ==**/
 	float lastTime = 0;
 	float frameTime = 0;
-	float physTickTimeRemaining = 0;
-	float timeStep = getUniverse().getTimeStep();
 
+	float timeStep = getUniverse().getTimeStep();
+	float physTickTimeRemaining = 0;
 	while(rWindow.isOpen())
 	{
 		/**== FRAMERATE ==**/
@@ -172,7 +183,7 @@ void Game::run()
 
 		/**== WINDOW ==**/
 		getLocalPlayer().getWindowEvents(rWindow);
-		getUniverse().getGfxUpdater().update();
+		getUniverse().getGfxUpdater().update();//update graphics components
 
 
 		/**== DRAW UNIVERSE ==**/
@@ -192,15 +203,13 @@ void Game::run()
 		rWindow.display();
 	}
 }
+/// <summary>
+/// Literally exits the game.
+/// </summary>
 void Game::exit()
 {
 	m_spWindow->close();
 }
-
-
-
-
-
 /// <summary>
 /// Destroys old universe and makes new one!
 /// </summary>
@@ -213,9 +222,9 @@ void Game::loadUniverse(const std::string& stuff)
 	m_spUniverse->getUniverseIO().give(&*m_spIO);
 }
 /// <summary>
-/// Initializes
+/// Initializes the window from a json file with the needed data.
 /// </summary>
-/// <param name="windowFile">The window file.</param>
+/// <param name="windowFile">name of file</param>
 void Game::loadWindow(const std::string& windowFile)
 {
 	sf::ContextSettings settings;
@@ -304,12 +313,11 @@ void Game::loadWindow(const std::string& windowFile)
 	cout << "\nFPS Limit:" << windowData.targetFPS;
 	m_spWindow->setFramerateLimit(windowData.targetFPS);
 }
-
-
-
-
-
-
+/// <summary>
+/// process the command
+/// </summary>
+/// <param name="rCommand">The r command.</param>
+/// <param name="rData">The r data.</param>
 void Game::input(std::string rCommand, sf::Packet rData)
 {
 	if(rCommand == "exit")

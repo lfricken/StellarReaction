@@ -30,6 +30,10 @@ const InputConfig& Player::getInCfg() const
 {
 	return m_inCfg;
 }
+/// <summary>
+/// Are the player inputs going to the gui or the controller
+/// </summary>
+/// <returns></returns>
 bool Player::inGuiMode() const//is the player in GUI mode?
 {
 	return m_inGuiMode;
@@ -38,10 +42,18 @@ bool Player::toggleGuiMode(bool isGuiModeOn)
 {
 	return m_inGuiMode = isGuiModeOn;
 }
+/// <summary>
+/// Is our camera in tracking mode?
+/// </summary>
+/// <returns></returns>
 bool Player::isTracking() const
 {
 	return m_tracking;
 }
+/// <summary>
+/// Indicate which controller our inputs should modify
+/// </summary>
+/// <param name="index">The index.</param>
 void Player::setController(int index)
 {
 	game.getUniverse().getControllerFactory().unsetLocal();
@@ -50,7 +62,10 @@ void Player::setController(int index)
 	Controller& rController2 = game.getUniverse().getControllerFactory().getController(m_controller);
 	rController2.toggleLocal(true);
 }
-void Player::getLiveInput()//get direct feed from keyboard and mouse, just gets their states though (up, down, position)
+/// <summary>
+/// Get's the state of keyboard and mouse at this exact moment.
+/// </summary>
+void Player::getLiveInput()
 {
 	if(!m_inGuiMode && hasFocus())
 	{
@@ -105,6 +120,10 @@ void Player::getLiveInput()//get direct feed from keyboard and mouse, just gets 
 		rController.setAim(m_aim);
 	}
 }
+/// <summary>
+/// Hande window events such as clicks and gui events.
+/// </summary>
+/// <param name="rWindow">The r window.</param>
 void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 {
 	sf::Event event;

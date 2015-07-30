@@ -80,7 +80,10 @@ struct PlayerData
 };
 
 
-/**This class is exclusively for 1 local player**/
+/// <summary>
+/// Represents the local player on this machine.
+/// This class also handles all user input through it's getLiveInput and getWindowEvents functions
+/// </summary>
 class Player
 {
 public:
@@ -89,8 +92,8 @@ public:
 
 	Camera& getCamera();
 	const InputConfig& getInCfg() const;
-	IOComponent& getIOComp();
-	bool inGuiMode() const;//is the player in GUI mode?
+	IOComponent& getIOComp();	
+	bool inGuiMode() const;
 	bool toggleGuiMode(bool isGuiModeOn);
 	bool toggleFocus(bool isWindowFocused);
 	bool hasFocus() const;

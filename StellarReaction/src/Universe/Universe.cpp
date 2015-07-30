@@ -176,28 +176,29 @@ bool Universe::isPaused()
 /// </summary>
 float Universe::getTime() const
 {
-	float current = game.getTime();
-	float choice;
+	float realTime = game.getTime();
+	float universeTime;
 	if(m_paused)
-		choice = m_pauseTime - m_skippedTime;
+		universeTime = m_pauseTime - m_skippedTime;
 	else
-		choice = current - m_skippedTime;
+		universeTime = realTime - m_skippedTime;
 
-	return choice;
+	return universeTime;
 }
 b2Vec2 Universe::getBed()//give a position to sleep at
 {
+	b2Vec2 bed;
 	if(m_beds.size() > 0)//if we have some already existing
 	{
-		b2Vec2 temp = m_beds.back();
+		bed = m_beds.back();
 		m_beds.pop_back();
-		return temp;
 	}
 	else
 	{
 		m_currentBed.x += m_inc;
-		return m_currentBed;
+		bed = m_currentBed;
 	}
+	return bed;
 }
 void Universe::addBed(const b2Vec2& rBed)//someone gave a bed back to us!
 {
