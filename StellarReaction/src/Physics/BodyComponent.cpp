@@ -20,7 +20,6 @@ BodyComponent::BodyComponent(const BodyComponentData& rData) : m_nw(rData.nwComp
 	m_pBody = game.getUniverse().getWorld().CreateBody(&m_bodyDef);
 	m_pBody->SetUserData(this);
 
-	m_awake = true;//regardless, set us to be awake
 	if(!rData.startAwake)//if it should be asleep
 		sleep();//then cleanly put it to sleep
 }
@@ -108,11 +107,8 @@ void BodyComponent::wake()
 }
 void BodyComponent::wake(const b2Vec2& rCoords, float radiansCCW, const b2Vec2& rVel, float angularVel)
 {
-	m_awake = true;
-
 	m_pBody->SetActive(true);
 	m_pBody->SetAwake(true);
-
 	m_pBody->SetTransform(rCoords, radiansCCW);
 	m_pBody->SetLinearVelocity(rVel);
 	m_pBody->SetAngularVelocity(angularVel);

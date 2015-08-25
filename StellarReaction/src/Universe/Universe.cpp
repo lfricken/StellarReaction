@@ -82,6 +82,10 @@ b2World& Universe::getWorld()
 {
 	return m_physWorld;
 }
+BlueprintLoader& Universe::getBlueprints()
+{
+	return *m_spBPLoader;
+}
 BatchLayers& Universe::getBatchLayers()
 {
 	return *m_spBatchLayers;
@@ -116,8 +120,11 @@ float Universe::getTimeStep() const
 void Universe::prePhysUpdate()
 {
 	if(!m_paused)
+	{
 		for(auto it = m_goList.begin(); it != m_goList.end(); ++it)
 			(*it)->prePhysUpdate();
+		m_spProjMan->prePhysUpdate();
+	}
 }
 void Universe::physUpdate()
 {
@@ -133,8 +140,11 @@ void Universe::physUpdate()
 void Universe::postPhysUpdate()
 {
 	if(!m_paused)
+	{
 		for(auto it = m_goList.begin(); it != m_goList.end(); ++it)
 			(*it)->postPhysUpdate();
+		m_spProjMan->postPhysUpdate();
+	}
 }
 /// <summary>
 /// returns true if debug draw is on
@@ -332,7 +342,7 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 	game.getLocalPlayer().loadOverlay("overlayconfig");
 
 
-
+	//getProjMan().in
 
 
 	/**CONTROL**/

@@ -63,7 +63,7 @@ struct ChunkData : public GameObjectData
 	PoolData<Missiles> missileData;
 	PoolData<Ballistic> ballisticData;
 	PoolData<Energy> energyData;
-	PoolData<float> zoomData;
+	PoolData<Zoom> zoomData;
 
 	BodyComponentData bodyComp;
 	std::vector<sptr<const ModuleData> > moduleData;

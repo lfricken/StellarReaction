@@ -31,6 +31,7 @@ public:
 	IOManager& getUniverseIO();
 	ProjectileMan& getProjMan();
 	b2World& getWorld();
+	BlueprintLoader& getBlueprints();
 
 	float getTimeStep() const;
 	void prePhysUpdate();

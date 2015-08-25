@@ -5,6 +5,7 @@
 typedef int Missiles;
 typedef float Energy;
 typedef float Ballistic;
+typedef float Zoom;
 
 
 

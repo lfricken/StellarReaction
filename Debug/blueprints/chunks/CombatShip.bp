@@ -82,6 +82,13 @@
                 0
             ]
         },
+        {
+            "Title": "BallisticTurret",
+            "Position": [
+                2,
+                0
+            ]
+        },
 		{
 			"ClassName": "Radar",
 			"RadarStrength": 20,
