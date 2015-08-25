@@ -98,6 +98,11 @@ void Player::getLiveInput()
 			m_directives[Directive::RollCW] = true;
 		else
 			m_directives[Directive::RollCW] = false;
+		//Evan - boost mechanic
+		if (Keyboard::isKeyPressed(m_inCfg.boost))
+			m_directives[Directive::Boost] = true;
+		else
+			m_directives[Directive::Boost] = false;
 
 		/**== MOUSE **/
 		if(Mouse::isButtonPressed(m_inCfg.primary))

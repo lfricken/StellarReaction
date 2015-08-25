@@ -18,6 +18,8 @@ enum class Directive
 	Right,
 	RollCCW,//roll left
 	RollCW,//roll right
+	//Evan - boost button
+	Boost,
 
 
 	/**== COMBAT ==**/

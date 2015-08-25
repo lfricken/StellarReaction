@@ -52,7 +52,8 @@ private:
 	//Evan - container of decor sprite elements (ex: ship hull)
 	std::vector<sptr<GraphicsComponent> > m_decors;
 	//Evan - keyDown var is for afterb anim and sound
-	bool keyDown;
+	bool keyShiftIsdown;
+	bool keyUpIsdown;
 	sf::SoundBuffer buffer;
 	sf::Sound afterb_sound;
 };
