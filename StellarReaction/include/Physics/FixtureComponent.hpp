@@ -3,19 +3,21 @@
 
 #include "stdafx.hpp"
 #include "CollisionCategory.hpp"
-
-enum class Shape
+namespace leon
 {
-	Rectangle,
-	Circle,
-};
+	enum class Shape
+	{
+		Rectangle,
+		Circle,
+	};
+}
 
 struct FixtureComponentData
 {
 	FixtureComponentData() :
 		offset(0,0),
 		pBody(NULL),
-		shape(Shape::Rectangle),
+		shape(leon::Shape::Rectangle),
 		size(1,1),
 		density(1.f),
 		friction(0.3f),
@@ -28,7 +30,7 @@ struct FixtureComponentData
 	}
 	b2Vec2 offset;//offset from center of body
 	b2Body* pBody;//who owns us
-	Shape shape;
+	leon::Shape shape;
 
 	b2Vec2 size;//width and height in world coordinates
 	float density;

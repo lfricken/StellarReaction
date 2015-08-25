@@ -35,7 +35,7 @@ struct ProjectileModuleData : public SensorData
 		baseDecor()
 	{
 		fixComp.isSensor = true;
-		fixComp.shape = Shape::Rectangle;
+		fixComp.shape = leon::Shape::Rectangle;
 		fixComp.colCategory = Category::Projectile;
 		fixComp.colMask = Mask::Projectile;
 		baseDecor.layer = GraphicsLayer::Projectiles;

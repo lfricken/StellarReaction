@@ -40,21 +40,21 @@
     "StartSound": {
         "name": "",
         "vol": 100,
-        "dropOff": 15,
+        "dropOff": 105,
         "minDist": 5,
         "relative": false
     },
     "ShotSound": {
         "name": "laser1.wav",
         "vol": 100,
-        "dropOff": 15,
+        "dropOff": 105,
         "minDist": 5,
         "relative": false
     },
     "EndSound": {
         "name": "",
         "vol": 100,
-        "dropOff": 15,
+        "dropOff": 105,
         "minDist": 5,
         "relative": false
     },

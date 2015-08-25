@@ -5,21 +5,21 @@
     "StartSound": {
         "name": "",
         "vol": 100,
-        "dropOff": 15,
+        "dropOff": 150,
         "minDist": 5,
         "relative": false
     },
     "ShotSound": {
         "name": "default.wav",
         "vol": 100,
-        "dropOff": 15,
+        "dropOff": 150,
         "minDist": 5,
         "relative": false
     },
     "EndSound": {
         "name": "",
         "vol": 100,
-        "dropOff": 15,
+        "dropOff": 150,
         "minDist": 5,
         "relative": false
     },
