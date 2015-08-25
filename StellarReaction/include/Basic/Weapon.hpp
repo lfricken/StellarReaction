@@ -126,12 +126,12 @@ struct WeaponData
 	virtual Weapon* generate() const
 	{
 		WeaponData copy(*this);
-		std::cout << "\n" << FILELINE;
+		std::cout << FILELINE;
 		return NULL;
 	}
 	virtual WeaponData* clone() const
 	{
-		std::cout << "\n" << FILELINE;
+		std::cout << FILELINE;
 		return new WeaponData(*this);
 	}
 };

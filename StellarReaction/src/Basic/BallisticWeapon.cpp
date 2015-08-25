@@ -33,9 +33,8 @@ void BallisticWeapon::preShot(const b2Vec2& center, const b2Vec2& aim, float rad
 	vel *= m_velocity;
 	pProj->launch(center, vel, atan2(dif.y, dif.x), 0, mes, m_projLifetime);///CHANGE FIRST 0 TO ANGLE of shot
 
-	//cout << "\nPreshot";
 }
 void BallisticWeapon::postShot(const b2Vec2& center, const b2Vec2& aim, float radCCW)
 {
-	//cout << "\nPostshot";
+
 }
