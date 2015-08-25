@@ -18,7 +18,7 @@ public:
 	virtual void postPhysUpdate() final;
 
 
-	void directive(Directive issue);
+	void directive(std::map<Directive, bool>& rIssues);
 
 protected:
 private:

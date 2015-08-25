@@ -23,7 +23,7 @@ void Module::postPhysUpdate()
 {
 
 }
-void Module::directive(Directive issue)
+void Module::directive(std::map<Directive, bool>& rIssues)
 {
 
 }
