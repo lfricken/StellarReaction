@@ -17,12 +17,13 @@ public:
 	sf::Vector2i getTile();//what tile should we be on? 0,0, 1,0 ect
 	const sf::Vector2f& getTileSize() const;
 
+	//Evan - TODO - do something with this
+	const AnimSet* m_pSet;
+
 protected:
 private:
 	mutable Timer m_timer;
 
-	const AnimSet* m_pSet;
-	sf::Vector2f m_tileSize;
 
 	float m_realTime;
 
@@ -30,6 +31,7 @@ private:
 	float m_currentDuration;//how long the animation that we are executing should last
 	float m_startTime;//when we started the most recent animation
 
+	sf::Vector2f m_tileSize;
 
 	static const std::string m_errorTiles;
 };

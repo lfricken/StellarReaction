@@ -3,11 +3,12 @@
 #include "SlaveLocator.hpp"
 #include "Controller.hpp"
 
-//Evan - afterburner animation
-#include <SFML/Graphics.hpp>
-#include "Animator.hpp"
-
+//Evan - afterburner animation and sound
+#include "SoundManager.hpp"
 #include <SFML/Audio.hpp>
+
+//Evan - TODO - delete
+#include "Animation.hpp"
 
 using namespace std;
 
@@ -39,7 +40,7 @@ Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp)
 	}
 
 	//Evan - afterburner animation
-	keyDown = false;
+	keyUpIsdown = false;
 	/*sf::Animation walkingAnimationDown;
 	walkingAnimationDown.setSpriteSheet(texture);
 	walkingAnimationDown.addFrame(sf::IntRect(32, 0, 32, 32));
@@ -50,6 +51,7 @@ Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp)
 	//Evan - afterburner sound
 	buffer.loadFromFile("audio/afterb1.wav");
 	afterb_sound.setBuffer(buffer);
+	afterb_sound.setLoop(true);
 
 }
 Chunk::~Chunk()
@@ -79,22 +81,6 @@ void Chunk::postPhysUpdate()
 		m_decors[i]->setRotation(m_body.getBodyPtr()->GetAngle());
 	}
 
-	//Evan - W key events (afterburner anim and sound)
-	//bool upKeyPressed = sf::Keyboard::isKeyPressed(sf::Keyboard::W);
-	//if (upKeyPressed)
-	//{
-	//	cout << keyDown;
-	//	if (!keyDown)
-	//	{
-	//		//start afterburner sound
-	//		afterb_sound.play(); 
-	//	}
-	//	keyDown = true;
-	//}
-	//else
-	//	//stop afterburner sound
-	//	afterb_sound.stop();
-	//	keyDown = false;
 
 
 }
@@ -115,14 +101,85 @@ void Chunk::directive(std::map<Directive, bool>& rIssues)//send command to targe
 		(*it)->directive(rIssues);
 
 	//Evan - key press 'up' results in afterburner anim
-	 //TODO - better animation handling
-	/*if (issue == Directive::Up)
+	 //TODO - have separate Quads for hullSprite and afterburnerAnim
+	bool upKeyPressed = rIssues[Directive::Up];
+	bool shiftKeyPressed = rIssues[Directive::Boost];
+	if (upKeyPressed)
 	{
-		for (auto it = m_decors.begin(); it != m_decors.end(); ++it)
-		{ 
-			(*it)->getAnimator().setAnimation("Firing", .25f);
+		if (!keyUpIsdown) {
+			for (auto it = m_decors.begin(); it != m_decors.end(); ++it)
+			{
+				(*it)->getAnimator().setAnimation("AfterBurner", .20f);
+			}
 		}
-	}*/
+	}
+	else {
+		if (keyUpIsdown) {
+			for (auto it = m_decors.begin(); it != m_decors.end(); ++it)
+			{
+				(*it)->getAnimator().setAnimation("Default", .25f);
+			}
+		}
+	}
+
+	//Evan - enable thruster anim on shift key press
+	if (shiftKeyPressed && upKeyPressed)
+	{
+		if (!keyShiftIsdown) {
+			for (auto it = m_decors.begin(); it != m_decors.end(); ++it)
+			{
+				(*it)->getAnimator().setAnimation("Thrust", .20f);
+				//if it breaks, add thrust anim
+			}
+			//add velocity to ship - add to thruster anim
+		}
+	}
+	else {
+		if (keyShiftIsdown) {
+			for (auto it = m_decors.begin(); it != m_decors.end(); ++it)
+			{
+				(*it)->getAnimator().setAnimation("Default", .25f);
+			}
+			if (upKeyPressed) {
+				for (auto it = m_decors.begin(); it != m_decors.end(); ++it)
+				{
+					(*it)->getAnimator().setAnimation("AfterBurner", .20f);
+				}
+			}
+		}
+	}
+	
+	//Evan - W key events (afterburner anim and sound)	
+	//= sf::Keyboard::isKeyPressed(sf::Keyboard::W);
+	if (upKeyPressed)
+	{
+		if (!keyUpIsdown)
+		{
+			//start afterburner sound
+			//game.getSound().playSound("afterb1.wav"); // , 100, 15.f, 0.f, new b2Vec2(0, 0), false);
+			afterb_sound.play(); 
+		}
+	}
+	else
+	{
+		//stop afterburner sound
+		if (keyUpIsdown) {
+			afterb_sound.stop();
+		}
+	}
+
+
+	//Evan - set keyDown
+	 //used to trigger that should only happen once when key is pressed and once when key is released
+	if (upKeyPressed)
+		keyUpIsdown = true;
+	else
+		keyUpIsdown = false;
+
+	if (shiftKeyPressed)
+		keyShiftIsdown = true;
+	else
+		keyShiftIsdown = false;
 }
 float Chunk::get(Request value) const//return the requested value
 {
