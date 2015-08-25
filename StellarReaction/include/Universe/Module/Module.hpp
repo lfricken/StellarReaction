@@ -19,7 +19,7 @@ public:
 
 	virtual void prePhysUpdate() = 0;
 	virtual void postPhysUpdate();
-	virtual void directive(Directive issue);
+	virtual void directive(std::map<Directive, bool>& rIssues);
 	virtual void setAim(const b2Vec2& rTarget);
 
 protected:

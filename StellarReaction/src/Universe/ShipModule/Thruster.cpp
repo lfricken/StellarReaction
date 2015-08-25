@@ -24,25 +24,16 @@ void Thruster::postPhysUpdate()
 {
 	ShipModule::postPhysUpdate();
 }
-void Thruster::directive(Directive issue)
+void Thruster::directive(std::map<Directive, bool>& rIssues)
 {
-	switch(issue)
-	{
-	case Directive::Up:
+	if(rIssues[Directive::Up])
 		thrust(b2Vec2(0,1));
-		break;
-	case Directive::Down:
+	if(rIssues[Directive::Down])
 		thrust(b2Vec2(0,-1));
-		break;
-	case Directive::RollCCW:
+	if(rIssues[Directive::RollCCW])
 		torque(true);
-		break;
-	case Directive::RollCW:
+	if(rIssues[Directive::RollCW])
 		torque(false);
-		break;
-	default:
-		break;
-	}
 }
 void Thruster::thrust(const b2Vec2& rDirection)
 {

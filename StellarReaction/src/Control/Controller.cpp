@@ -72,16 +72,6 @@ void Controller::processAim() const
 		temp->setAim(m_aim);
 }
 /// <summary>
-/// Issue a command to our slave
-/// </summary>
-/// <param name="issue">The issue.</param>
-void Controller::directive(Directive issue) const//send command to target
-{
-	Chunk* temp = game.getUniverse().getSlaveLocator().find(m_slavePosition);
-	if(temp != NULL)
-		temp->directive(issue);
-}
-/// <summary>
 /// returns the value in the slave that's requested
 /// </summary>
 /// <param name="value">The value.</param>
@@ -97,18 +87,11 @@ float Controller::get(Request value)//return the requested value
 void Controller::processDirectives()//use our stored directives to send commands
 {
 	processAim();
-	if(m_directives[Directive::Up])
-		directive(Directive::Up);
-	if(m_directives[Directive::Down])
-		directive(Directive::Down);
-	if(m_directives[Directive::RollCCW])
-		directive(Directive::RollCCW);
-	if(m_directives[Directive::RollCW])
-		directive(Directive::RollCW);
-	if(m_directives[Directive::FirePrimary])
-		directive(Directive::FirePrimary);
-	if(m_directives[Directive::FireSecondary])
-		directive(Directive::FireSecondary);
+	Chunk* temp = game.getUniverse().getSlaveLocator().find(m_slavePosition);
+	if(temp != NULL)
+		temp->directive(m_directives);
+	else
+		cout << "NO CONTROLLER" << FILELINE;
 }
 /// <summary>
 /// true if this controller is controlled locally (this computer)
