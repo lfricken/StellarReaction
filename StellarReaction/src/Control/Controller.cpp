@@ -62,18 +62,30 @@ b2Body* Controller::getBodyPtr()//return position
 	else
 		return NULL;
 }
+/// <summary>
+/// Find our slave and set it to aim at a location
+/// </summary>
 void Controller::processAim() const
 {
 	Chunk* temp = game.getUniverse().getSlaveLocator().find(m_slavePosition);
 	if(temp != NULL)
 		temp->setAim(m_aim);
 }
+/// <summary>
+/// Issue a command to our slave
+/// </summary>
+/// <param name="issue">The issue.</param>
 void Controller::directive(Directive issue) const//send command to target
 {
 	Chunk* temp = game.getUniverse().getSlaveLocator().find(m_slavePosition);
 	if(temp != NULL)
 		temp->directive(issue);
 }
+/// <summary>
+/// returns the value in the slave that's requested
+/// </summary>
+/// <param name="value">The value.</param>
+/// <returns></returns> 
 float Controller::get(Request value)//return the requested value
 {
 	Chunk* temp = game.getUniverse().getSlaveLocator().find(m_slavePosition);
@@ -98,6 +110,10 @@ void Controller::processDirectives()//use our stored directives to send commands
 	if(m_directives[Directive::FireSecondary])
 		directive(Directive::FireSecondary);
 }
+/// <summary>
+/// true if this controller is controlled locally (this computer)
+/// </summary>
+/// <param name="local">if set to <c>true</c> [local].</param>
 void Controller::toggleLocal(bool local)
 {
 	m_local = local;

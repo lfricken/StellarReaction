@@ -16,9 +16,15 @@ public:
 	void arm(const Message& rPayload);//we will now collide and send our damage Message packet
 	void disarm();//we wont collide with anyone
 
+	virtual void entered(FixtureComponent* pOther);
+	virtual void exited(FixtureComponent* pOther);
+	virtual bool shouldTerminate() const;
+
 protected:
+	bool freeSelf;
+	std::vector<sptr<GraphicsComponent> > m_decors;
 private:
-	QuadComponent m_decor;
+
 };
 
 
@@ -29,11 +35,9 @@ struct ProjectileModuleData : public SensorData
 		baseDecor()
 	{
 		fixComp.isSensor = true;
-		fixComp.shape = Shape::Circle;
+		fixComp.shape = Shape::Rectangle;
 		fixComp.colCategory = Category::Projectile;
 		fixComp.colMask = Mask::Projectile;
-		baseDecor.animSheetName = "projectile/ballistic1.acfg";
-		baseDecor.texName = "projectile/ballistic1.png";
 		baseDecor.layer = GraphicsLayer::Projectiles;
 	}
 

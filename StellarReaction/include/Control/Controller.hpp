@@ -76,11 +76,6 @@ public:
 	void setPlayerName(const std::string& rPlayerName);
 	void setSlave(const std::string& rSlaveName);
 	void setAim(const b2Vec2& world);//send our aim coordinates
-	void updateDirectives(const std::map<Directive, bool>& rDirs);
-	void directive(Directive issue) const;//send a command to our slave
-	void processAim() const;
-	void processDirectives();//use our stored directives to send commands
-	void toggleLocal(bool local);
 
 	/**GETTERS**/
 	const std::string& getPlayerName() const;
@@ -90,6 +85,12 @@ public:
 	b2Body* getBodyPtr();//return our chunk body if we have one
 	NetworkComponent& getNWComp();
 	IOComponent& getIOComp();
+
+	void updateDirectives(const std::map<Directive, bool>& rDirs);
+	void directive(Directive issue) const;//send a command to our slave
+	void processAim() const;
+	void processDirectives();//use our stored directives to send commands
+	void toggleLocal(bool local);
 
 protected:
 	virtual void input(std::string rCommand, sf::Packet rData);

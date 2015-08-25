@@ -8,15 +8,18 @@
         "capacitor/DefaultCapacitor.bp",
         "reactor/DefaultReactor.bp",
 		"turret/DefaultTurret.bp",
+		"turret/BallisticTurret.bp",
 		"plating/DefaultPlating.bp"
     ],
     "ChunkList": [
-		"chunk/CombatShip.bp",
-        "chunk/DefaultChunk.bp",
-		"projectiles/DefaultProjectile.bp"
+		"chunks/CombatShip.bp",
+        "chunks/DefaultChunk.bp"
     ],
     "WeaponList": [
         "weapon/DefaultWeapon.bp",
 		"weapon/DefaultBallisticWeapon.bp"
+    ],
+	"ProjectileList": [
+		"projectiles/DefaultProjectile.bp"
     ]
 }

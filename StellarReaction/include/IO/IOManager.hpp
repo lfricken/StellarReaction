@@ -5,6 +5,9 @@
 #include "Courier.hpp"
 class IOComponent;
 
+/// <summary>
+/// Controlls the sending of Messages throughout the program
+/// </summary>
 class IOManager
 {
 public:
@@ -12,8 +15,13 @@ public:
 	virtual ~IOManager();
 
 	/**SEND/RECIEVE MESSAGES**/
-	void recieve(const Message& rMessage);//called by a class to give the package to us
-	void update(float dT);//iterate over the list of Packages, and if the time is up, call universe.send(Package); on that package
+	void recieve(const Message& rMessage);//Put a message in here to have it sent
+	void update(float dT);//check if any packages should be sent out after that deltaTime
+	/// <summary>
+	/// Toggles whether messages coming from local items should be processed or not
+	/// if we are in a multiplayer game, and are the client, we should ignore local events
+	/// </summary>
+	/// <param name="acceptsLocal">if set to.</param>
 	void toggleAcceptsLocal(bool acceptsLocal);
 
 	/**STORE/FREE COMPONENTS**/
@@ -27,7 +35,7 @@ private:
 	bool m_acceptsLocal;//if false, we ignore messages coming to receive function
 
 	std::vector<Message> m_messageList;
-	std::vector<IOComponent*> m_componentPtrs;//where we store all of them
+	std::vector<IOComponent*> m_componentPtrs;//where we keep a pointer to all IOCompontents
 	std::vector<int> m_freeIndexes;//spots where the ptr is null and we can give a position out!
 	std::map<std::string, int> m_nameLookup;//where we lookup the position of an IOComponent after we are told its name
 };

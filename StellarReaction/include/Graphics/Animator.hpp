@@ -24,9 +24,12 @@ private:
 	const AnimSet* m_pSet;
 	sf::Vector2f m_tileSize;
 
+	float m_realTime;
+
 	std::string m_name;//the current animation state we are in
 	float m_currentDuration;//how long the animation that we are executing should last
 	float m_startTime;//when we started the most recent animation
+
 
 	static const std::string m_errorTiles;
 };

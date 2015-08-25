@@ -21,7 +21,9 @@ struct IOComponentData
 	IOManager* pMyManager;//pointer to our manager (to send a ptr to us to and for sending messages
 };
 
-
+/// <summary>
+/// A class can be given to allow it to send messages to other IOComponents on other objects
+/// </summary>
 class IOComponent
 {
 public:
@@ -34,22 +36,30 @@ public:
 		m_eventer.add(rData.courierList);
 	}
 	virtual ~IOComponent();
-
-	void event(EventType type, int value, const sf::Packet& rData);//EventType occurred, has value, and other data
+	/// <summary>
+	/// Called when an event happens.
+	/// </summary>
+	/// <param name="type">The type.</param>
+	/// <param name="value">The value.</param>
+	/// <param name="rData">Extra Data about the event.</param>
+	void event(EventType type, int value, const sf::Packet& rData);//EventType occurred, has value, and other data	
+	/// <summary>
+	/// Called when this target recieves a message
+	/// </summary>
+	/// <param name="rCommand">The r command.</param>
+	/// <param name="rData">The r data.</param>
 	void recieve(const std::string& rCommand, const sf::Packet& rData);
 	const std::string& getName() const;
 	int getPosition() const;
 
-
-
 protected:
 private:
-	IOManager& m_rManager;
-	std::string m_name;
+	IOManager& m_rManager;//a convienent reference to our manager
+	std::string m_name;//our IO name
 	int m_ioManPosition;//position of us in the io manager
 
-	Eventer m_eventer;
-	std::function<void(std::string, sf::Packet)> m_cbFunction;//the function we call when we get a receive call
+	Eventer m_eventer;//the item that stores our conditions and messages
+	std::function<void(std::string, sf::Packet)> m_cbFunction;//the function we call when we get a receive message
 };
 
 #endif // IOCOMPONENT_HPP

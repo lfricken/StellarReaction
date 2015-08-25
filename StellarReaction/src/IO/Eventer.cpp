@@ -22,7 +22,7 @@ void Eventer::add(const std::vector<Courier>& rCourierList)
 }
 void Eventer::event(EventType type, int value, const sf::Packet& rData)
 {
-	auto typeIt = m_courierMap.find(type);
+	auto typeIt = m_courierMap.find(type);//find the expected type of event
 
 	if(typeIt != m_courierMap.end())
 	{

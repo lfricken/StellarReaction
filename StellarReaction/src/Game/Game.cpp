@@ -96,81 +96,62 @@ Universe& Game::getUniverse()
 {
 	return *m_spUniverse;
 }
+/// <summary>
+/// Use this to put the player in a new level from anywhere (multiplayer or otherwise)
+/// It will minimize the menu's automatically
+/// </summary>
+/// <param name="level">The level.</param>
+/// <param name="localController">The local controller.</param>
+/// <param name="bluePrints">The blue prints.</param>
+/// <param name="rControllerList">The r controller list.</param>
+void Game::launchGame(const std::string& level, int localController, const std::string& bluePrints, const std::vector<std::string>& rControllerList)
+{
+	game.loadUniverse("meanginglessString");
+	game.getUniverse().loadLevel(level, localController, bluePrints, rControllerList);
+
+	sf::Packet boolean;
+	boolean << false;
+
+	Message closeMenu("overlay", "setMenu", boolean, 0, false);
+	game.getCoreIO().recieve(closeMenu);
+}
 SoundManager& Game::getSound()
 {
 	return *m_spSound;
 }
-
-
-
+/// <summary>
+/// Global Time, cannot be paused
+/// </summary>
+/// <returns></returns>
 float Game::getTime() const
 {
 	return m_clock.getElapsedTime().asSeconds();
 }
-
-
-
-
-
-
-
-
+/// <summary>
+/// Contains Main Game Loop
+/// </summary>
 void Game::run()
 {
-	/**===========================**/
-	/**EVAN PUT STUFF TO DRAW HERE**/
-
-	sf::Listener::setDirection(0,0,-1);//make sure all sounds are heard with the listener looking at the screen
-
-	/*
-	QuadComponentData quadData;
-	quadData.dimensions = sf::Vector2f(512,512);//this specifies how big the in game object is, to specify texture size, edit the animation configuration file
-	quadData.layer = GraphicsLayer::BackgroundFar;
-	quadData.texName = "default.png";//automatically accesses textures folder
-	quadData.animSheetName = "other/defaultEDIT.acfg";//automatically accesses textures folder
-	quadData.permanentRot = 0;//will be rotated by this much (degrees CCW)
-	quadData.center = sf::Vector2f(0,0);//this will designate the center of the picture( 0,0 is center, -width/2, +height/2 would be top left corner)
-	QuadComponent evansQuad(quadData);
-	evansQuad.setPosition(b2Vec2(-3,-4));
-	evansQuad.setRotation(leon::degToRad(45));*/
-
-	/**EVAN PUT STUFF TO DRAW HERE**/
-	/**===========================**/
-	// ProjectileData ballist;
-	// Projectile blab(ballist);
-
-
-	std::vector<std::string> controllerList;
-	controllerList.push_back("ship_11");
-	controllerList.push_back("ship_12");
-	controllerList.push_back("ship_13");
-	controllerList.push_back("ship_14");
-	m_spUniverse->loadLevel("levels/level_1/", 0, "blueprints/", controllerList);
+	sf::Listener::setDirection(0, 0, -1);//make sure all sounds are heard with the listener looking at the screen
 
 	RenderWindow& rWindow = *m_spWindow;
 	sf::View defaultView;
 	defaultView.setCenter(rWindow.getSize().x/2, rWindow.getSize().y/2);
 	defaultView.setSize(sf::Vector2f(rWindow.getSize()));
 
-	float x = 0;
+	/**== FRAMERATE ==**/
 	float lastTime = 0;
-	float frameTime = 1;
-	float timeRemaining = 0;
-	float timeStep = 0;
+	float frameTime = 0;
 
-
-
-
+	float timeStep = getUniverse().getTimeStep();
+	float physTickTimeRemaining = 0;
 	while(rWindow.isOpen())
 	{
-		/**== TESTING ==**/
-
-
 		/**== FRAMERATE ==**/
 		frameTime = m_clock.getElapsedTime().asSeconds()-lastTime;
 		lastTime = m_clock.getElapsedTime().asSeconds();
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::F))
-			std::cout << "\nFPS: " << 1.f/frameTime;
+			std::cout << "\nFPS: " << 1.0f/frameTime;
 
 
 		/**== IO ==**/
@@ -179,9 +160,8 @@ void Game::run()
 
 
 		/**== PHYSICS ==**/
-		timeRemaining += frameTime;
-		timeStep = getUniverse().getTimeStep();
-		while(timeRemaining >= timeStep)
+		physTickTimeRemaining += frameTime;
+		while(physTickTimeRemaining >= timeStep)
 		{
 			getUniverse().prePhysUpdate();
 			getUniverse().physUpdate();
@@ -192,7 +172,7 @@ void Game::run()
 			getUniverse().getControllerFactory().processAllDirectives();
 
 			getUniverse().postPhysUpdate();
-			timeRemaining -= timeStep;
+			physTickTimeRemaining -= timeStep;
 		}
 
 
@@ -202,13 +182,12 @@ void Game::run()
 
 
 		/**== WINDOW ==**/
-
 		getLocalPlayer().getWindowEvents(rWindow);
-		getUniverse().getGfxUpdater().update();
+		getUniverse().getGfxUpdater().update();//update graphics components
+
 
 		/**== DRAW UNIVERSE ==**/
 		rWindow.clear(sf::Color::Black);
-
 		if(getUniverse().debugDraw())
 			getUniverse().getWorld().DrawDebugData();
 		else
@@ -224,16 +203,17 @@ void Game::run()
 		rWindow.display();
 	}
 }
+/// <summary>
+/// Literally exits the game.
+/// </summary>
 void Game::exit()
 {
 	m_spWindow->close();
 }
-
-
-
-
-
-
+/// <summary>
+/// Destroys old universe and makes new one!
+/// </summary>
+/// <param name="stuff">The stuff.</param>
 void Game::loadUniverse(const std::string& stuff)
 {
 	IOComponentData universeData(getCoreIO());
@@ -241,7 +221,10 @@ void Game::loadUniverse(const std::string& stuff)
 	m_spUniverse = sptr<Universe>(new Universe(universeData));
 	m_spUniverse->getUniverseIO().give(&*m_spIO);
 }
-
+/// <summary>
+/// Initializes the window from a json file with the needed data.
+/// </summary>
+/// <param name="windowFile">name of file</param>
 void Game::loadWindow(const std::string& windowFile)
 {
 	sf::ContextSettings settings;
@@ -330,12 +313,11 @@ void Game::loadWindow(const std::string& windowFile)
 	cout << "\nFPS Limit:" << windowData.targetFPS;
 	m_spWindow->setFramerateLimit(windowData.targetFPS);
 }
-
-
-
-
-
-
+/// <summary>
+/// process the command
+/// </summary>
+/// <param name="rCommand">The r command.</param>
+/// <param name="rData">The r data.</param>
 void Game::input(std::string rCommand, sf::Packet rData)
 {
 	if(rCommand == "exit")

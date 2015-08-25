@@ -63,7 +63,7 @@ int SlaveLocator::findPos(const std::string& slaveTarget)
 }
 Chunk* SlaveLocator::find(int position)
 {
-	if((signed)m_slavePtrs.size() > position)
+	if((signed)m_slavePtrs.size() > position && position >= 0)
 		return m_slavePtrs[position];
 	else
 		return NULL;

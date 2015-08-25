@@ -339,7 +339,10 @@ void NetworkBoss::updateConnections()
 
 
 
-/**REDUCTION**/
+/// <summary>
+/// Loads the level.
+/// </summary>
+/// <param name="data">The data.</param>
 void NetworkBoss::loadLevel(sf::Packet& data)//we are anyone being told to load the game
 {
 	m_nwGameStarted = true;
@@ -363,15 +366,7 @@ void NetworkBoss::loadLevel(sf::Packet& data)//we are anyone being told to load 
 	data >> localController;
 	cout << "\nCont" << localController;
 
-
-	game.loadUniverse("meanginglessString");
-	game.getUniverse().loadLevel(level, localController, blueprints, controllerList);
-
-	sf::Packet boolean;
-	boolean << false;
-
-	Message closeMenu("overlay", "setMenu", boolean, 0, false);
-	game.getCoreIO().recieve(closeMenu);
+	game.launchGame(level, localController, blueprints, controllerList);
 }
 void NetworkBoss::launchMultiplayerGame()
 {
