@@ -54,7 +54,6 @@ private:
 	b2Body* m_pBody;
 	b2BodyDef m_bodyDef;
 
-	bool m_awake;
 	b2Vec2 m_oldPos;//used for sleep
 	float m_oldAngle;//used for sleep
 };

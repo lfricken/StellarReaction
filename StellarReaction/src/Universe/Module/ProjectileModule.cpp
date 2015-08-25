@@ -30,12 +30,12 @@ void ProjectileModule::postPhysUpdate()
 }
 void ProjectileModule::entered(FixtureComponent* pOther)
 {
-	std::cout << "\nEntered";
+	//std::cout << "\nEntered";
 	//freeSelf = true;
 }
 void ProjectileModule::exited(FixtureComponent* pOther)
 {
-	std::cout << "\nExited";
+	//std::cout << "\nExited";
 }
 bool ProjectileModule::shouldTerminate() const
 {

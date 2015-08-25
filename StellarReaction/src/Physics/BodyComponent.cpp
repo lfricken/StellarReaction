@@ -74,27 +74,32 @@ void BodyComponent::unpack(sf::Packet& rPacket)
 }
 bool BodyComponent::isAwake() const
 {
-	return m_pBody->IsAwake();
+	b2Body& rm_pBody = *m_pBody;
+	m_pBody->SetAwake(true);
+	bool awake = m_pBody->IsAwake();
+	return awake;
 }
 void BodyComponent::sleep()
 {
-	if(isAwake())
-	{
+	cout << "\nSleep";
+	//if(isAwake())
+	//{
 		m_oldAngle = m_pBody->GetAngle();
 		m_oldPos = m_pBody->GetPosition();
 
-		m_pBody->SetAwake(false);
 		m_pBody->SetActive(false);
+		m_pBody->SetAwake(false);
 
 		m_pBody->SetAngularVelocity(0);
-		m_pBody->SetLinearVelocity(b2Vec2(0,0));
+		m_pBody->SetLinearVelocity(b2Vec2(0, 0));
 		m_pBody->SetTransform(game.getUniverse().getBed(), 0);
-	}
-	else
-		cout << FILELINE;
+	//}
+	//else
+	//	cout << FILELINE;
 }
 void BodyComponent::wake()
 {
+	cout << "\nWake";
 	if(!isAwake())
 	{
 		m_pBody->SetActive(true);
@@ -107,6 +112,7 @@ void BodyComponent::wake()
 }
 void BodyComponent::wake(const b2Vec2& rCoords, float radiansCCW, const b2Vec2& rVel, float angularVel)
 {
+	cout << "\nWake2";
 	m_pBody->SetActive(true);
 	m_pBody->SetAwake(true);
 	m_pBody->SetTransform(rCoords, radiansCCW);
