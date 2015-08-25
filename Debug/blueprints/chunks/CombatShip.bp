@@ -32,6 +32,20 @@
         "Max": 64,
         "Value": 1
     },
+	"HullSprite": [
+		{
+			"dimensions": [2000, 2000],
+			"texName": "hulls/ship1.png",
+			"animSheetName": "hulls/ship1.acfg",
+			"layer": "ShipHull"
+		},
+		{
+			"dimensions": [800, 2800],
+			"texName": "hulls/afterb1.png",
+			"animSheetName": "hulls/afterb1.acfg",
+			"layer": "ShipModules"
+		}
+	],
     "Modules": [
         {
             "Title": "DefaultReactor",

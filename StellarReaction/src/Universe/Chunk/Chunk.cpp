@@ -3,6 +3,12 @@
 #include "SlaveLocator.hpp"
 #include "Controller.hpp"
 
+//Evan - afterburner animation
+#include <SFML/Graphics.hpp>
+#include "Animator.hpp"
+
+#include <SFML/Audio.hpp>
+
 using namespace std;
 
 Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp), m_zoomPool(rData.zoomData), m_energyPool(rData.energyData), m_ballisticPool(rData.ballisticData), m_missilePool(rData.missileData)
@@ -17,6 +23,34 @@ Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp)
 		m_modules.push_back(sptr<Module>( (*it)->generate(m_body.getBodyPtr(), myPools) ));
 
 	m_slavePosition = game.getUniverse().getSlaveLocator().give(this);
+
+	//TODO - remove commented code
+	//QuadComponentData baseDecor;
+	//baseDecor.texName = "ship1.png";
+	//m_decors.resize(1);
+
+	//Evan -  ship hull sprite
+	//add a quadcomponent to m_decors. QuadComponent's are rendered automatically. m_decors will be re-positioned every post-pysics-update
+	for (auto it = rData.hullData.begin(); it != rData.hullData.end(); ++it)
+	{
+		m_decors.push_back(sptr<GraphicsComponent>(new QuadComponent(*it)));
+		m_decors.back()->setPosition(m_body.getPosition());
+		m_decors.back()->setRotation(m_body.getBodyPtr()->GetAngle());
+	}
+
+	//Evan - afterburner animation
+	keyDown = false;
+	/*sf::Animation walkingAnimationDown;
+	walkingAnimationDown.setSpriteSheet(texture);
+	walkingAnimationDown.addFrame(sf::IntRect(32, 0, 32, 32));
+	walkingAnimationDown.addFrame(sf::IntRect(64, 0, 32, 32));
+	walkingAnimationDown.addFrame(sf::IntRect(32, 0, 32, 32));
+	walkingAnimationDown.addFrame(sf::IntRect(0,  0, 32, 32));*/
+
+	//Evan - afterburner sound
+	buffer.loadFromFile("audio/afterb1.wav");
+	afterb_sound.setBuffer(buffer);
+
 }
 Chunk::~Chunk()
 {
@@ -37,6 +71,32 @@ void Chunk::postPhysUpdate()
 		m_nw.toggleNewData(true);
 		m_body.getNWComp().toggleNewData(true);
 	}
+
+	//Evan - iterate m_decors and rotate (ex: ship hull)
+	for (int i = 0; i<(signed)m_decors.size(); ++i)
+	{
+		m_decors[i]->setPosition(m_body.getPosition());
+		m_decors[i]->setRotation(m_body.getBodyPtr()->GetAngle());
+	}
+
+	//Evan - W key events (afterburner anim and sound)
+	//bool upKeyPressed = sf::Keyboard::isKeyPressed(sf::Keyboard::W);
+	//if (upKeyPressed)
+	//{
+	//	cout << keyDown;
+	//	if (!keyDown)
+	//	{
+	//		//start afterburner sound
+	//		afterb_sound.play(); 
+	//	}
+	//	keyDown = true;
+	//}
+	//else
+	//	//stop afterburner sound
+	//	afterb_sound.stop();
+	//	keyDown = false;
+
+
 }
 const std::string& Chunk::getName() const
 {
@@ -53,6 +113,16 @@ void Chunk::directive(Directive issue)//send command to target
 {
 	for(auto it = m_modules.begin(); it!=m_modules.end(); ++it)
 		(*it)->directive(issue);
+
+	//Evan - key press 'up' results in afterburner anim
+	 //TODO - better animation handling
+	/*if (issue == Directive::Up)
+	{
+		for (auto it = m_decors.begin(); it != m_decors.end(); ++it)
+		{ 
+			(*it)->getAnimator().setAnimation("Firing", .25f);
+		}
+	}*/
 }
 float Chunk::get(Request value) const//return the requested value
 {
