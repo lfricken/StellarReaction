@@ -109,10 +109,10 @@ void Chunk::setAim(const b2Vec2& world)//send our aim coordinates
 	for(auto it = m_modules.begin(); it!=m_modules.end(); ++it)
 		(*it)->setAim(world);
 }
-void Chunk::directive(Directive issue)//send command to target
+void Chunk::directive(std::map<Directive, bool>& rIssues)//send command to target
 {
 	for(auto it = m_modules.begin(); it!=m_modules.end(); ++it)
-		(*it)->directive(issue);
+		(*it)->directive(rIssues);
 
 	//Evan - key press 'up' results in afterburner anim
 	 //TODO - better animation handling

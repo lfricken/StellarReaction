@@ -34,20 +34,15 @@ void Turret::postPhysUpdate()
 		m_spWep->postPhysUpdate(m_fix.getCenter(), m_lastAim, m_lastAngle+m_fix.getAngle(), m_fix.getBodyPtr());
 	ShipModule::postPhysUpdate();
 }
-void Turret::directive(Directive issue)
+void Turret::directive(std::map<Directive, bool>& rIssues)
 {
-	switch(issue)
-	{
-	case Directive::FirePrimary:
+	if(rIssues[Directive::FirePrimary])
 		if(m_spWep && functioning())//if we have a weapon
 			if(m_spWep->fire(m_pEnergyPool, m_pBallisticPool, m_pMissilePool))//if we successfully fired
 			{
 
 			}
-		break;
-	default:
-		break;
-	}
+
 }
 void Turret::setWep(sptr<const WeaponData> spWep)
 {
