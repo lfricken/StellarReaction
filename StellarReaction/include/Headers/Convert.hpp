@@ -33,7 +33,7 @@ namespace leon
 	{
 		///access global lookup table for sin with the value (we have to create it)
 		//return arrayElement!!!;
-		std::cout << "\nThis function has not been written." << FILELINE;
+		std::cout << FILELINE;
 		return 0;//just until this is created
 	}
 	template<typename T>
@@ -41,7 +41,7 @@ namespace leon
 	{
 		///access global lookup table for sin with the value (we have to create it)
 		//return arrayElement!!!;
-		std::cout << "\nThis function has not been written." << FILELINE;
+		std::cout << FILELINE;
 		return 0;//just until this is created
 	}
 	template<typename T>
@@ -49,7 +49,7 @@ namespace leon
 	{
 		///access global lookup table for sin with the value (we have to create it)
 		//return arrayElement!!!;
-		std::cout << "\nThis function has not been written." << FILELINE;
+		std::cout << FILELINE;
 		return 0;//just until this is created
 	}
 
