@@ -81,25 +81,25 @@ bool BodyComponent::isAwake() const
 }
 void BodyComponent::sleep()
 {
-	cout << "\nSleep";
+	///TODO WHY DOESN'T THIS WORK
 	//if(isAwake())
 	//{
-		m_oldAngle = m_pBody->GetAngle();
-		m_oldPos = m_pBody->GetPosition();
+	m_oldAngle = m_pBody->GetAngle();
+	m_oldPos = m_pBody->GetPosition();
 
-		m_pBody->SetActive(false);
-		m_pBody->SetAwake(false);
+	m_pBody->SetActive(false);
+	m_pBody->SetAwake(false);
 
-		m_pBody->SetAngularVelocity(0);
-		m_pBody->SetLinearVelocity(b2Vec2(0, 0));
-		m_pBody->SetTransform(game.getUniverse().getBed(), 0);
+	m_pBody->SetAngularVelocity(0);
+	m_pBody->SetLinearVelocity(b2Vec2(0, 0));
+	m_pBody->SetTransform(game.getUniverse().getBed(), 0);
 	//}
 	//else
 	//	cout << FILELINE;
 }
 void BodyComponent::wake()
 {
-	cout << "\nWake";
+	//cout << "\nWake";
 	if(!isAwake())
 	{
 		m_pBody->SetActive(true);
@@ -112,7 +112,7 @@ void BodyComponent::wake()
 }
 void BodyComponent::wake(const b2Vec2& rCoords, float radiansCCW, const b2Vec2& rVel, float angularVel)
 {
-	cout << "\nWake2";
+	//cout << "\nWake2";
 	m_pBody->SetActive(true);
 	m_pBody->SetAwake(true);
 	m_pBody->SetTransform(rCoords, radiansCCW);

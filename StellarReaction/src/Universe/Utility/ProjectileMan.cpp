@@ -24,7 +24,6 @@ Projectile* ProjectileMan::getProjectile(const std::string& rBPName)
 		int& rFreeIndex = get<FreeIndex>(m_projectileList[rBPName]);
 		rFreeIndex = 0;
 		it = m_projectileList.find(rBPName);
-		cout << "\nnew type!";
 	}
 
 	IndexedList& rValue = it->second;
@@ -41,7 +40,6 @@ Projectile* ProjectileMan::getProjectile(const std::string& rBPName)
 }
 void ProjectileMan::freeProjectile(Projectile* pProj)
 {
-	std::cout << "\nFreed";
 	IndexedList& rMap = m_projectileList[pProj->getTitle()];
 	std::vector<sptr<Projectile> >& rList = get<List>(rMap);
 	int& rFreeIndex = get<FreeIndex>(rMap);
@@ -60,7 +58,6 @@ void ProjectileMan::freeProjectile(Projectile* pProj)
 }
 void ProjectileMan::addNew(const std::string& rBPName)
 {
-	cout << "\nAdded New";
 	vector<sptr<Projectile> >& rProjs = get<List>(m_projectileList[rBPName]);
 	rProjs.push_back(sptr<Projectile>(game.getUniverse().getBlueprints().getProjectileSPtr(rBPName)->generate()));
 }
