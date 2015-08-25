@@ -21,11 +21,12 @@ Projectile::~Projectile()
 {
 
 }
-void Projectile::launch(const b2Vec2& rStart, const b2Vec2& rVel, float radCCW, float radCCWps, const Message& rPayload)
+void Projectile::launch(const b2Vec2& rStart, const b2Vec2& rVel, float radCCW, float radCCWps, const Message& rPayload, float lifetime)
 {
 	m_inPlay = true;
+	m_timer.setCountDown(lifetime);
 	m_timer.restartCountDown();
-	cout << m_body.getPosition().x << " " << m_body.getPosition().y;
+	//cout << m_body.getPosition().x << " " << m_body.getPosition().y;
 	m_body.wake(rStart, radCCW, rVel, radCCWps);
 	for(auto it = m_modules.begin(); it != m_modules.end(); ++it)
 		(*it)->arm(rPayload);
