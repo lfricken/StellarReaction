@@ -1,7 +1,7 @@
 {
     "texTileSize": [
         800,
-        2800
+        3000
     ],
     "stateList": [
         {
@@ -11,36 +11,56 @@
             "repeats": true,
             "tileList": [
 				{
-                    "x": 0,
-                    "y": 0,
+                    "x": 8,
+                    "y": 1,
                     "t": 1.0
                 }
             ]
         },
         {
             "comment": "this is the state we go into if we start doing something special",
-            "state": "Firing",
+            "state": "AfterBurner",
             "repeats": true,
             "tileList": [
                 {
                     "x": 0,
                     "y": 0,
-                    "t": 0.25
+                    "t": 0.125
                 },
                 {
                     "x": 1,
                     "y": 0,
-                    "t": 0.25
+                    "t": 0.125
                 },
                 {
                     "x": 2,
                     "y": 0,
-                    "t": 0.25
+                    "t": 0.125
                 },
                 {
                     "x": 3,
                     "y": 0,
-                    "t": 0.25
+                    "t": 0.125
+                },
+                {
+                    "x": 4,
+                    "y": 0,
+                    "t": 0.125
+                },
+                {
+                    "x": 5,
+                    "y": 0,
+                    "t": 0.125
+                },
+                {
+                    "x": 6,
+                    "y": 0,
+                    "t": 0.125
+                },
+                {
+                    "x": 7,
+                    "y": 0,
+                    "t": 0.125
                 }
             ]
         },

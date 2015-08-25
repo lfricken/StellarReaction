@@ -26,6 +26,7 @@ void SoundManager::playSound(const SoundData& rSound)
 /// </summary>
 void SoundManager::playSound(const std::string& rSoundName, int volume, float minDist, float dropOff, const b2Vec2& rPos, bool relative)
 {
+
 	if(rSoundName == "")
 		return;
 

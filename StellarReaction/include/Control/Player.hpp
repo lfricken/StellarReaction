@@ -16,6 +16,7 @@ struct InputConfig
 		down(sf::Keyboard::S),
 		rollCCW(sf::Keyboard::A),
 		rollCW(sf::Keyboard::D),
+		boost(sf::Keyboard::LShift),
 
 		primary(sf::Mouse::Left),
 		secondary(sf::Mouse::Right),
@@ -63,6 +64,8 @@ struct InputConfig
 	sf::Keyboard::Key cameraDown;
 	sf::Keyboard::Key cameraLeft;
 	sf::Keyboard::Key cameraRight;
+
+	sf::Keyboard::Key boost;
 };
 struct PlayerData
 {

@@ -34,6 +34,10 @@ void Thruster::directive(std::map<Directive, bool>& rIssues)
 		torque(true);
 	if(rIssues[Directive::RollCW])
 		torque(false);
+
+	//Evan - added boost mechanic
+	if (rIssues[Directive::Boost])
+		thrust(b2Vec2(0, 2));
 }
 void Thruster::thrust(const b2Vec2& rDirection)
 {
