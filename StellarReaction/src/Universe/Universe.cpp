@@ -243,7 +243,7 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 
 
 	/**HARD CODED**/
-	/**
+	/** Evan - please leave this for now
 	    ChunkData chunkdata_1;
 	    chunkdata_1.bodyComp.coords = b2Vec2(-2,5);
 	    chunkdata_1.ioComp.name = "hard_coded_chunk";

@@ -5,6 +5,8 @@
 #include "BodyComponent.hpp"
 #include "Pool.hpp"
 
+#include "QuadComponent.hpp"
+
 struct ChunkData;
 class Module;
 struct ModuleData;
@@ -42,6 +44,13 @@ private:
 	int m_slavePosition;
 	BodyComponent m_body;
 	std::vector<sptr<Module> > m_modules;
+
+	//Evan - container of decor sprite elements (ex: ship hull)
+	std::vector<sptr<GraphicsComponent> > m_decors;
+	//Evan - keyDown var is for afterb anim and sound
+	bool keyDown;
+	sf::SoundBuffer buffer;
+	sf::Sound afterb_sound;
 };
 
 
@@ -54,6 +63,9 @@ struct ChunkData : public GameObjectData
 		zoomData.startMin = 1;
 		zoomData.startValue = 1;
 		zoomData.startMax = 128;
+
+		//TODO - handle this case
+		//hullData.layer = GraphicsLayer::ShipHull; //all hulls belong to layer by default
 	}
 
 	PoolData<Missiles> missileData;
@@ -63,6 +75,8 @@ struct ChunkData : public GameObjectData
 
 	BodyComponentData bodyComp;
 	std::vector<sptr<const ModuleData> > moduleData;
+
+	std::vector<QuadComponentData> hullData;
 
 	virtual Chunk* generate() const
 	{

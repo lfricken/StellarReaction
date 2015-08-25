@@ -29,7 +29,7 @@ sptr<const ChunkData> BlueprintLoader::getChunkSPtr(const std::string& rBPName) 
 {
 	auto it = m_cnkBP.find(rBPName);
 
-	if(it != m_cnkBP.end())
+	if (it != m_cnkBP.end())
 		return it->second;
 	else
 	{
@@ -42,7 +42,7 @@ sptr<const ModuleData> BlueprintLoader::getModuleSPtr(const std::string& rBPName
 {
 	auto it = m_modBP.find(rBPName);
 
-	if(it != m_modBP.end())
+	if (it != m_modBP.end())
 		return it->second;
 	else
 	{
@@ -55,7 +55,7 @@ sptr<const WeaponData> BlueprintLoader::getWeaponSPtr(const std::string& rBPName
 {
 	auto it = m_wepBP.find(rBPName);
 
-	if(it != m_wepBP.end())
+	if (it != m_wepBP.end())
 		return it->second;
 	else
 	{
@@ -81,27 +81,27 @@ void BlueprintLoader::storeRoster(const std::string& rDir)
 	Json::Value rootRoster;
 	bool parsedSuccess = readerRoster.parse(roster, rootRoster, false);
 
-	if(parsedSuccess)
+	if (parsedSuccess)
 	{
 
 		const Json::Value weaponList = rootRoster["WeaponList"];
-		for(auto it = weaponList.begin(); it != weaponList.end(); ++it)
+		for (auto it = weaponList.begin(); it != weaponList.end(); ++it)
 		{
-			std::string file = (rDir+it->asString());
+			std::string file = (rDir + it->asString());
 			storeWeapon(file);
 		}
 
 		const Json::Value bpList = rootRoster["ModuleList"];
-		for(auto it = bpList.begin(); it != bpList.end(); ++it)
+		for (auto it = bpList.begin(); it != bpList.end(); ++it)
 		{
-			std::string file = (rDir+it->asString());
+			std::string file = (rDir + it->asString());
 			storeModule(file);
 		}
 
 		const Json::Value chunkList = rootRoster["ChunkList"];
-		for(auto it = chunkList.begin(); it != chunkList.end(); ++it)
+		for (auto it = chunkList.begin(); it != chunkList.end(); ++it)
 		{
-			std::string file = (rDir+it->asString());
+			std::string file = (rDir + it->asString());
 			storeChunk(file);
 		}
 
@@ -130,7 +130,7 @@ void BlueprintLoader::storeModule(const std::string& rFile)//load that blueprint
 	Json::Value root;
 	bool parsedSuccess = reader.parse(stream, root, false);
 
-	if(parsedSuccess)
+	if (parsedSuccess)
 	{
 		m_modBP[root["Title"].asString()] = loadModule(root);
 	}
@@ -147,7 +147,7 @@ void BlueprintLoader::storeChunk(const std::string& rFile)//load that blueprint
 	Json::Value root;
 	bool parsedSuccess = reader.parse(stream, root, false);
 
-	if(parsedSuccess)
+	if (parsedSuccess)
 	{
 		m_cnkBP[root["Title"].asString()] = loadChunk(root);
 	}
@@ -164,7 +164,7 @@ void BlueprintLoader::storeWeapon(const std::string& rFile)
 	Json::Value root;
 	bool parsedSuccess = reader.parse(stream, root, false);
 
-	if(parsedSuccess)
+	if (parsedSuccess)
 	{
 		m_wepBP[root["Title"].asString()] = loadWeapon(root);
 	}
@@ -190,30 +190,39 @@ sptr<const ChunkData> BlueprintLoader::loadChunk(const Json::Value& root)//retur
 {
 	sptr<const ChunkData> spCnk;
 
-	if(root["ClassName"].asString() == "Chunk")
+	if (root["ClassName"].asString() == "Chunk")
 	{
 		ChunkData* pCnk = new ChunkData;
 
-		if(!root["Copies"].isNull())
+		if (!root["Copies"].isNull())
 			*pCnk = *dynamic_cast<const ChunkData*>(getChunkSPtr(root["Copies"].asString()).get());
 
-		if(!root["IO"].isNull())
+		if (!root["IO"].isNull())
 			pCnk->ioComp = loadIOComp(root["IO"], pCnk->ioComp);
-		if(!root["Network"].isNull())
+		if (!root["Network"].isNull())
 			pCnk->nwComp = loadNWComp(root["Network"], pCnk->nwComp);
-		if(!root["Body"].isNull())
+		if (!root["Body"].isNull())
 			pCnk->bodyComp = loadBodyComp(root["Body"], pCnk->bodyComp);
-		if(!root["Missiles"].isNull())
+		if (!root["Missiles"].isNull())
 			pCnk->missileData = loadPool<Missiles>(root["Missiles"], pCnk->missileData);
-		if(!root["Ballistic"].isNull())
+		if (!root["Ballistic"].isNull())
 			pCnk->ballisticData = loadPool<Ballistic>(root["Ballistic"], pCnk->ballisticData);
-		if(!root["Energy"].isNull())
+		if (!root["Energy"].isNull())
 			pCnk->energyData = loadPool<Energy>(root["Energy"], pCnk->energyData);
-		if(!root["Zoom"].isNull())
+		if (!root["Zoom"].isNull())
 			pCnk->zoomData = loadPool<float>(root["Zoom"], pCnk->zoomData);
 
+		//check hull sprite
+		if (!root["HullSprite"].isNull())
+		{
+			for (auto it = root["HullSprite"].begin(); it != root["HullSprite"].end(); ++it)
+			{
+				pCnk->hullData.push_back(loadQuad(*it, QuadComponentData() ));
+			}
+		}
 
-		if(!root["Modules"].isNull())
+
+		if (!root["Modules"].isNull())
 			insertModData(root["Modules"], pCnk->moduleData);
 
 		spCnk.reset(pCnk);
@@ -236,35 +245,35 @@ sptr<const WeaponData> BlueprintLoader::loadWeapon(const Json::Value& root)//ret
 {
 	sptr<const WeaponData> spWep;
 
-	if(root["WeaponType"].asString() == "Laser")
+	if (root["WeaponType"].asString() == "Laser")
 	{
 		LaserWeaponData* pWep = new LaserWeaponData;
-		if(!root["Copies"].isNull())
+		if (!root["Copies"].isNull())
 			*pWep = *dynamic_cast<const LaserWeaponData*>(getWeaponSPtr(root["Copies"].asString()).get());
 
-		if(!root["BeamWidth"].isNull())
+		if (!root["BeamWidth"].isNull())
 			pWep->beamWidth = root["BeamWidth"].asInt();
-		if(!root["BeamColor"].isNull())
+		if (!root["BeamColor"].isNull())
 			pWep->beamColor = loadColor(root["BeamColor"]);
-		if(!root["ShowTime"].isNull())
+		if (!root["ShowTime"].isNull())
 			pWep->showTime = root["ShowTime"].asFloat();
-		if(!root["BeamStart"].isNull())
+		if (!root["BeamStart"].isNull())
 			pWep->beamComp.start = loadQuad(root["BeamStart"], pWep->beamComp.start);
-		if(!root["BeamEnd"].isNull())
+		if (!root["BeamEnd"].isNull())
 			pWep->beamComp.end = loadQuad(root["BeamEnd"], pWep->beamComp.end);
-		if(!root["BeamMid"].isNull())
+		if (!root["BeamMid"].isNull())
 			static_cast<QuadComponentData>(pWep->beamComp) = loadQuad(root["BeamMid"], pWep->beamComp);
-		if(!root["StartSound"].isNull())
+		if (!root["StartSound"].isNull())
 			pWep->startSound = loadSound(root["StartSound"], pWep->startSound);
-		if(!root["ShotSound"].isNull())
+		if (!root["ShotSound"].isNull())
 			pWep->shotSound = loadSound(root["ShotSound"], pWep->shotSound);
-		if(!root["EndSound"].isNull())
+		if (!root["EndSound"].isNull())
 			pWep->endSound = loadSound(root["EndSound"], pWep->endSound);
 
 		inheritWeapon(root, pWep);
 		spWep.reset(pWep);
 	}
-	else if(root["WeaponType"].asString() == "Ballistic")
+	else if (root["WeaponType"].asString() == "Ballistic")
 	{
 		cout << "\nAttempted to load ballistic weapon. still needs coding" << FILELINE;
 	}
@@ -278,26 +287,26 @@ sptr<const WeaponData> BlueprintLoader::loadWeapon(const Json::Value& root)//ret
 }
 void BlueprintLoader::inheritWeapon(const Json::Value& root, WeaponData* pWep)
 {
-	if(!root["EnergyConsumption"].isNull())
+	if (!root["EnergyConsumption"].isNull())
 		pWep->ener = root["EnergyConsumption"].asFloat();
-	if(!root["BallisticConsumption"].isNull())
+	if (!root["BallisticConsumption"].isNull())
 		pWep->ball = root["BallisticConsumption"].asFloat();
 
-	if(!root["Shots"].isNull())
+	if (!root["Shots"].isNull())
 		pWep->shots = root["Shots"].asInt();
-	if(!root["Damage"].isNull())
+	if (!root["Damage"].isNull())
 		pWep->damage = root["Damage"].asInt();
 
 
-	if(!root["ShotDelay"].isNull())
+	if (!root["ShotDelay"].isNull())
 		pWep->shotDelay = root["ShotFrequency"].asFloat();
-	if(!root["ReloadTime"].isNull())
+	if (!root["ReloadTime"].isNull())
 		pWep->fireDelay = root["ReloadTime"].asFloat();
 
-	if(!root["Range"].isNull())
+	if (!root["Range"].isNull())
 		pWep->range = root["Range"].asFloat();
 
-	if(!root["WeaponSprite"].isNull())
+	if (!root["WeaponSprite"].isNull())
 		pWep->weaponQuad = loadQuad(root["WeaponSprite"], pWep->weaponQuad);
 }
 
@@ -313,21 +322,21 @@ sptr<const ModuleData> BlueprintLoader::loadModule(const Json::Value& root)//ret
 	/**=================**/
 	/**==== MODULES ====**/
 	/**=================**/
-	if(root["ClassName"].asString() == "Module")
+	if (root["ClassName"].asString() == "Module")
 	{
 		ModuleData* pSMod = new ModuleData;
 		copyModule<ModuleData>(root, pSMod);
 		inheritModule(root, pSMod);
 		spMod.reset(pSMod);
 	}
-	else if(root["ClassName"].asString() == "Sensor")
+	else if (root["ClassName"].asString() == "Sensor")
 	{
 		SensorData* pSMod = new SensorData;
 		copyModule<SensorData>(root, pSMod);
 		inheritModule(root, pSMod);
 		spMod.reset(pSMod);
 	}
-	else if(root["ClassName"].asString() == "ShipModule")
+	else if (root["ClassName"].asString() == "ShipModule")
 	{
 		ShipModuleData* pSMod = new ShipModuleData;
 		inheritModule(root, pSMod);
@@ -338,20 +347,20 @@ sptr<const ModuleData> BlueprintLoader::loadModule(const Json::Value& root)//ret
 	/**======================**/
 	/**==== SHIP MODULES ====**/
 	/**======================**/
-	else if(root["ClassName"].asString() == "Turret")
+	else if (root["ClassName"].asString() == "Turret")
 	{
 		TurretData* pSMod = new TurretData;
 		copyModule<TurretData>(root, pSMod);
 
-		if(!root["StartEmpty"].isNull())
+		if (!root["StartEmpty"].isNull())
 			pSMod->startEmpty = root["StartEmpty"].asBool();
-		if(!root["Weapon"].isNull())
+		if (!root["Weapon"].isNull())
 			insertWeaponData(root["Weapon"], pSMod->startWep);
 
 		inheritShipModule(root, pSMod);
 		spMod.reset(pSMod);
 	}
-	else if(root["ClassName"].asString() == "Plating")
+	else if (root["ClassName"].asString() == "Plating")
 	{
 		PlatingData* pSMod = new PlatingData;
 		copyModule<PlatingData>(root, pSMod);
@@ -359,55 +368,55 @@ sptr<const ModuleData> BlueprintLoader::loadModule(const Json::Value& root)//ret
 		inheritShipModule(root, pSMod);
 		spMod.reset(pSMod);
 	}
-	else if(root["ClassName"].asString() == "Radar")
+	else if (root["ClassName"].asString() == "Radar")
 	{
 		RadarData* pSMod = new RadarData;
 		copyModule<RadarData>(root, pSMod);
 
-		if(!root["RadarStrength"].isNull())
+		if (!root["RadarStrength"].isNull())
 			pSMod->zoomAddition = root["RadarStrength"].asFloat();
 
 		inheritShipModule(root, pSMod);
 		spMod.reset(pSMod);
 	}
-	else if(root["ClassName"].asString() == "Thruster")
+	else if (root["ClassName"].asString() == "Thruster")
 	{
 		ThrusterData* pSMod = new ThrusterData;
 		copyModule<ThrusterData>(root, pSMod);
 
-		if(!root["Force"].isNull())
+		if (!root["Force"].isNull())
 			pSMod->force = root["Force"].asFloat();
-		if(!root["Torque"].isNull())
+		if (!root["Torque"].isNull())
 			pSMod->torque = root["Torque"].asFloat();
-		if(!root["EnergyConsumption"].isNull())
+		if (!root["EnergyConsumption"].isNull())
 			pSMod->energyConsumption = root["EnergyConsumption"].asFloat();
 
 		inheritShipModule(root, pSMod);
 		spMod.reset(pSMod);
 	}
-	else if(root["ClassName"].asString() == "Capacitor")
+	else if (root["ClassName"].asString() == "Capacitor")
 	{
 		CapacitorData* pSMod = new CapacitorData;
 		copyModule<CapacitorData>(root, pSMod);
 
-		if(!root["EnergyCapacity"].isNull())
+		if (!root["EnergyCapacity"].isNull())
 			pSMod->storage = root["EnergyCapacity"].asFloat();
 
 		inheritShipModule(root, pSMod);
 		spMod.reset(pSMod);
 	}
-	else if(root["ClassName"].asString() == "Reactor")
+	else if (root["ClassName"].asString() == "Reactor")
 	{
 		ReactorData* pSMod = new ReactorData;
 		copyModule<ReactorData>(root, pSMod);
 
-		if(!root["EnergyProduction"].isNull())
+		if (!root["EnergyProduction"].isNull())
 			pSMod->rate = root["EnergyProduction"].asFloat();
 
 		inheritShipModule(root, pSMod);
 		spMod.reset(pSMod);
 	}
-	else if(root["ClassName"].asString() == "Projectile")
+	else if (root["ClassName"].asString() == "Projectile")
 	{
 		ProjectileModuleData* pSMod = new ProjectileModuleData;
 		copyModule<ProjectileModuleData>(root, pSMod);
@@ -425,13 +434,13 @@ sptr<const ModuleData> BlueprintLoader::loadModule(const Json::Value& root)//ret
 void BlueprintLoader::inheritShipModule(const Json::Value& root, ShipModuleData* pSMod)//do things that they all have in common
 {
 	/**INHERIT**/
-	if(!root["Inherits"].isNull())
+	if (!root["Inherits"].isNull())
 		*static_cast<ShipModuleData*>(pSMod) = *static_cast<const ShipModuleData*>(getModuleSPtr(root["Inherits"].asString()).get());
 
 	/**OVERWRITES**/
-	if(!root["Defense"].isNull())
+	if (!root["Defense"].isNull())
 		pSMod->health = loadHealth(root["Defense"], pSMod->health);
-	if(!root["BaseSprite"].isNull())
+	if (!root["BaseSprite"].isNull())
 		pSMod->baseDecor = loadQuad(root["BaseSprite"], pSMod->baseDecor);
 
 	/**ParentData**/
@@ -439,14 +448,14 @@ void BlueprintLoader::inheritShipModule(const Json::Value& root, ShipModuleData*
 }
 void BlueprintLoader::inheritModule(const Json::Value& root, ModuleData* pSMod)//do things that they all have in common
 {
-	if(!root["Inherits"].isNull())
+	if (!root["Inherits"].isNull())
 		*static_cast<ModuleData*>(pSMod) = *static_cast<const ModuleData*>(getModuleSPtr(root["Inherits"].asString()).get());
 	/**OVERWRITES**/
-	if(!root["IO"].isNull())
+	if (!root["IO"].isNull())
 		pSMod->ioComp = loadIOComp(root["IO"], pSMod->ioComp);
-	if(!root["Physics"].isNull())
+	if (!root["Physics"].isNull())
 		pSMod->fixComp = loadFixComp(root["Physics"], pSMod->fixComp);
-	if(!root["Network"].isNull())
+	if (!root["Network"].isNull())
 		pSMod->nwComp = loadNWComp(root["Network"], pSMod->nwComp);
 }
 /**====================**/
@@ -468,16 +477,16 @@ void BlueprintLoader::inheritModule(const Json::Value& root, ModuleData* pSMod)/
 void BlueprintLoader::insertModData(const Json::Value& root, std::vector<sptr<const ModuleData> >& rModData)
 {
 	sptr<ModuleData> spMod;
-	for(auto it = root.begin(); it != root.end(); ++it)
+	for (auto it = root.begin(); it != root.end(); ++it)
 	{
-		if(!(*it)["Title"].isNull() && (*it)["ClassName"].isNull())
+		if (!(*it)["Title"].isNull() && (*it)["ClassName"].isNull())
 		{
 			spMod.reset(getModuleSPtr((*it)["Title"].asString())->clone());
 
 			spMod->fixComp.offset.x = (*it)["Position"][0].asFloat();
 			spMod->fixComp.offset.y = (*it)["Position"][1].asFloat();
 		}
-		else if(!(*it)["ClassName"].isNull())
+		else if (!(*it)["ClassName"].isNull())
 		{
 			spMod.reset(loadModule(*it)->clone());
 		}
@@ -494,11 +503,11 @@ void BlueprintLoader::insertWeaponData(const Json::Value& root, sptr<const Weapo
 {
 	sptr<WeaponData> spWep;
 
-	if(!root["Title"].isNull() && root["WeaponType"].isNull())
+	if (!root["Title"].isNull() && root["WeaponType"].isNull())
 	{
 		spWep.reset(getWeaponSPtr(root["Title"].asString())->clone());
 	}
-	else if(!root["WeaponType"].isNull())
+	else if (!root["WeaponType"].isNull())
 	{
 		spWep.reset(loadWeapon(root)->clone());
 	}
@@ -534,18 +543,18 @@ BodyComponentData BlueprintLoader::loadBodyComp(const Json::Value& root, const B
 {
 	BodyComponentData data(orig);
 
-	if(!root["coords"].isNull())
+	if (!root["coords"].isNull())
 	{
 		data.coords.x = root["coords"][0].asFloat();
 		data.coords.y = root["coords"][1].asFloat();
 	}
-	if(!root["rotation"].isNull())
+	if (!root["rotation"].isNull())
 		data.rotation = root["rotation"].asFloat();
-	if(!root["isDynamic"].isNull())
+	if (!root["isDynamic"].isNull())
 		data.isDynamic = root["isDynamic"].asBool();
-	if(!root["isBullet"].isNull())
+	if (!root["isBullet"].isNull())
 		data.isBullet = root["isBullet"].asBool();
-	if(!root["startAwake"].isNull())
+	if (!root["startAwake"].isNull())
 		data.startAwake = root["startAwake"].asBool();
 
 	return data;
@@ -554,13 +563,13 @@ IOComponentData BlueprintLoader::loadIOComp(const Json::Value& root, const IOCom
 {
 	IOComponentData data(orig);
 
-	if(!root["name"].isNull())
+	if (!root["name"].isNull())
 		data.name = root["name"].asString();
 
-	if(!root["courierList"].isNull())
+	if (!root["courierList"].isNull())
 	{
 		const Json::Value courierList = root["courierList"];
-		for(auto it = courierList.begin(); it != courierList.end(); ++it)
+		for (auto it = courierList.begin(); it != courierList.end(); ++it)
 		{
 			Courier c;
 
@@ -569,19 +578,19 @@ IOComponentData BlueprintLoader::loadIOComp(const Json::Value& root, const IOCom
 
 			sf::Packet packData;
 			const Json::Value dataList = (*it)["message"]["data"];
-			if(dataList.size()%2 == 0)//if it's divisible by two
-				for(auto it = dataList.begin(); it!=dataList.end(); ++it)
+			if (dataList.size() % 2 == 0)//if it's divisible by two
+				for (auto it = dataList.begin(); it != dataList.end(); ++it)
 				{
 					string type = it->asString();
 
 					++it;
-					if(type == "bool")
+					if (type == "bool")
 						packData << it->asBool();
-					if(type == "int")
+					if (type == "int")
 						packData << it->asInt();
-					if(type == "float")
+					if (type == "float")
 						packData << it->asFloat();
-					if(type == "string")
+					if (type == "string")
 						packData << it->asString();
 				}
 			else
@@ -609,18 +618,18 @@ IOComponentData BlueprintLoader::loadIOComp(const Json::Value& root, const IOCom
 FixtureComponentData BlueprintLoader::loadFixComp(const Json::Value& root, const FixtureComponentData& orig)
 {
 	FixtureComponentData data(orig);
-	if(!root["offset"].isNull())
+	if (!root["offset"].isNull())
 	{
 		data.offset.x = root["offset"][0].asFloat();
 		data.offset.y = root["offset"][1].asFloat();
 	}
 
-	if(!root["shape"].isNull())
+	if (!root["shape"].isNull())
 	{
 		string temp = root["shape"].asString();
-		if(temp == "rectangle")
+		if (temp == "rectangle")
 			data.shape = Shape::Rectangle;
-		else if(temp == "circle")
+		else if (temp == "circle")
 			data.shape = Shape::Circle;
 		else
 		{
@@ -629,24 +638,24 @@ FixtureComponentData BlueprintLoader::loadFixComp(const Json::Value& root, const
 		}
 	}
 
-	if(!root["size"].isNull())
+	if (!root["size"].isNull())
 	{
 		data.size.x = root["size"][0].asFloat();
 		data.size.y = root["size"][1].asFloat();
 	}
 
-	if(!root["density"].isNull())
+	if (!root["density"].isNull())
 		data.density = root["density"].asFloat();
-	if(!root["friction"].isNull())
+	if (!root["friction"].isNull())
 		data.friction = root["friction"].asFloat();
-	if(!root["restitution"].isNull())
+	if (!root["restitution"].isNull())
 		data.restitution = root["restitution"].asFloat();
-	if(!root["isSensor"].isNull())
+	if (!root["isSensor"].isNull())
 		data.isSensor = root["isSensor"].asBool();
 
-	if(!root["colCat"].isNull())
+	if (!root["colCat"].isNull())
 		data.colCategory = ChooseCategory(root["colCat"].asString());
-	if(!root["colMask"].isNull())
+	if (!root["colMask"].isNull())
 		data.colMask = ChooseMask(root["colMask"].asString());
 
 	return data;
@@ -662,11 +671,11 @@ HealthData BlueprintLoader::loadHealth(const Json::Value& root, const HealthData
 {
 	HealthData data(orig);
 
-	if(!root["MaxHealth"].isNull())
+	if (!root["MaxHealth"].isNull())
 		data.startMax = root["MaxHealth"].asInt();
-	if(!root["Health"].isNull())
+	if (!root["Health"].isNull())
 		data.startValue = root["Health"].asInt();
-	if(!root["Armor"].isNull())
+	if (!root["Armor"].isNull())
 		data.armor = root["Armor"].asInt();
 
 	return data;
@@ -675,26 +684,26 @@ QuadComponentData BlueprintLoader::loadQuad(const Json::Value& root, const QuadC
 {
 	QuadComponentData data(orig);
 
-	if(!root["dimensions"].isNull())
+	if (!root["dimensions"].isNull())
 	{
 		data.dimensions.x = root["dimensions"][0].asInt();
 		data.dimensions.y = root["dimensions"][1].asInt();
 	}
 
-	if(!root["permanentRot"].isNull())
+	if (!root["permanentRot"].isNull())
 		data.permanentRot = root["permanentRot"].asFloat();
 
-	if(!root["center"].isNull())
+	if (!root["center"].isNull())
 	{
 		data.center.x = root["center"][0].asInt();
 		data.center.y = root["center"][1].asInt();
 	}
 
-	if(!root["texName"].isNull())
+	if (!root["texName"].isNull())
 		data.texName = root["texName"].asString();
-	if(!root["animSheetName"].isNull())
+	if (!root["animSheetName"].isNull())
 		data.animSheetName = root["animSheetName"].asString();
-	if(!root["layer"].isNull())
+	if (!root["layer"].isNull())
 		data.layer = ChooseLayer(root["layer"].asString());
 
 	return data;
@@ -703,15 +712,15 @@ SoundData BlueprintLoader::loadSound(const Json::Value& root, const SoundData& o
 {
 	SoundData data(orig);
 
-	if(!root["name"].isNull())
+	if (!root["name"].isNull())
 		data.name = root["name"].asString();
-	if(!root["vol"].isNull())
+	if (!root["vol"].isNull())
 		data.vol = root["vol"].asInt();
-	if(!root["dropOff"].isNull())
+	if (!root["dropOff"].isNull())
 		data.dropOff = root["dropOff"].asFloat();
-	if(!root["minDist"].isNull())
+	if (!root["minDist"].isNull())
 		data.minDist = root["minDist"].asFloat();
-	if(!root["relative"].isNull())
+	if (!root["relative"].isNull())
 		data.relative = root["relative"].asBool();
 
 	return data;

@@ -38,5 +38,5 @@ QuadComponent::~QuadComponent()
 }
 void QuadComponent::postUpdate()
 {
-
+	
 }
