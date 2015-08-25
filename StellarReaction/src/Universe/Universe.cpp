@@ -43,8 +43,8 @@ Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input,
 
 	/**PHYControlCS**/
 	m_paused = false;
-	m_skippedTime = 0;
-	m_pauseTime = game.getTime();
+	m_skippedTime = game.getTime();
+	m_pauseTime = m_skippedTime;
 
 	m_velocityIterations = 1;
 	m_positionIterations = 1;
@@ -66,10 +66,6 @@ Universe::~Universe()
 	game.getLocalPlayer().universeDestroyed();
 	cout << "\nEnd.";
 }
-void Universe::toggleDebugDraw()
-{
-	m_debugDrawEnabled = !m_debugDrawEnabled;
-}
 ControlFactory& Universe::getControllerFactory()
 {
 	return *m_spControlFactory;
@@ -86,6 +82,10 @@ b2World& Universe::getWorld()
 {
 	return m_physWorld;
 }
+BlueprintLoader& Universe::getBlueprints()
+{
+	return *m_spBPLoader;
+}
 BatchLayers& Universe::getBatchLayers()
 {
 	return *m_spBatchLayers;
@@ -99,16 +99,32 @@ IOManager& Universe::getUniverseIO()
 	return *m_spUniverseIO;
 }
 
-
+/// <summary>
+/// If true, we only draw box2d things on screen.
+/// </summary>
+void Universe::toggleDebugDraw()
+{
+	m_debugDrawEnabled = !m_debugDrawEnabled;
+}
+/// <summary>
+/// get the time step for the box2d::world
+/// </summary>
+/// <returns></returns>
 float Universe::getTimeStep() const
 {
 	return m_timeStep;
 }
+/// <summary>
+/// Where we call prePhysUpdate on all GameObjects
+/// </summary>
 void Universe::prePhysUpdate()
 {
 	if(!m_paused)
+	{
 		for(auto it = m_goList.begin(); it != m_goList.end(); ++it)
 			(*it)->prePhysUpdate();
+		m_spProjMan->prePhysUpdate();
+	}
 }
 void Universe::physUpdate()
 {
@@ -118,28 +134,44 @@ void Universe::physUpdate()
 		///m_projAlloc.recoverProjectiles();
 	}
 }
+/// <summary>
+/// Where we call postPhysUpdate on all GameObjects
+/// </summary>
 void Universe::postPhysUpdate()
 {
 	if(!m_paused)
+	{
 		for(auto it = m_goList.begin(); it != m_goList.end(); ++it)
 			(*it)->postPhysUpdate();
+		m_spProjMan->postPhysUpdate();
+	}
 }
-
-
-
-bool Universe::debugDraw() const//should we draw debug or normal?
+/// <summary>
+/// returns true if debug draw is on
+/// debug draw is drawing box2d shapes only
+/// </summary>
+/// <returns></returns>
+bool Universe::debugDraw() const
 {
 	return m_debugDrawEnabled;
 }
+/// <summary>
+/// Toggles pause on the Universe
+/// this affects Timer
+/// </summary>
 void Universe::togglePause(bool pause)
 {
-	m_paused = pause;
-
-	if(!m_paused)
+	if(m_paused && !pause)//switched to not paused
 		m_skippedTime += game.getTime()-m_pauseTime;
-	else
+	else if(!m_paused && pause)//switch to paused
 		m_pauseTime = game.getTime();
+
+	m_paused = pause;
 }
+/// <summary>
+/// Toggles pause on the Universe
+/// this affects Timer
+/// </summary>
 void Universe::togglePause()
 {
 	togglePause(!m_paused);
@@ -148,32 +180,40 @@ bool Universe::isPaused()
 {
 	return m_paused;
 }
+/// <summary>
+/// Gets universe time
+/// this can be paused and resumed
+/// </summary>
 float Universe::getTime() const
 {
+	float realTime = game.getTime();
+	float universeTime;
 	if(m_paused)
-		return m_pauseTime-m_skippedTime;
+		universeTime = m_pauseTime - m_skippedTime;
 	else
-		return game.getTime()-m_skippedTime;
+		universeTime = realTime - m_skippedTime;
+
+	return universeTime;
 }
 b2Vec2 Universe::getBed()//give a position to sleep at
 {
+	b2Vec2 bed;
 	if(m_beds.size() > 0)//if we have some already existing
 	{
-		b2Vec2 temp = m_beds.back();
+		bed = m_beds.back();
 		m_beds.pop_back();
-		return temp;
 	}
 	else
 	{
 		m_currentBed.x += m_inc;
-		return m_currentBed;
+		bed = m_currentBed;
 	}
+	return bed;
 }
 void Universe::addBed(const b2Vec2& rBed)//someone gave a bed back to us!
 {
 	m_beds.push_back(rBed);
 }
-
 void Universe::loadBlueprints(const std::string& bpDir)//loads blueprints
 {
 	m_spBPLoader->storeRoster(bpDir);
@@ -302,7 +342,7 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 	game.getLocalPlayer().loadOverlay("overlayconfig");
 
 
-
+	//getProjMan().in
 
 
 	/**CONTROL**/
@@ -317,8 +357,6 @@ void Universe::add(GameObject* pGO)
 {
 	m_goList.push_back(sptr<GameObject>(pGO));
 }
-
-
 void Universe::input(std::string rCommand, sf::Packet rData)
 {
 	sf::Packet data(rData);

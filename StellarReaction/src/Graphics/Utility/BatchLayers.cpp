@@ -14,7 +14,7 @@ QuadData BatchLayers::request(const std::string& rTexName, GraphicsLayer layer)
 }
 void BatchLayers::drawWorld(sf::RenderTarget& rTarget)
 {
-	for(auto it = m_batches.begin(); (it->first != GraphicsLayer::Overlay)&&(it != m_batches.end()); ++it)
+	for(auto it = m_batches.begin(); (it != m_batches.end()) && (it->first != GraphicsLayer::Overlay); ++it)
 		rTarget.draw(it->second);
 }
 

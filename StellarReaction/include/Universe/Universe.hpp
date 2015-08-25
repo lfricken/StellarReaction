@@ -31,6 +31,7 @@ public:
 	IOManager& getUniverseIO();
 	ProjectileMan& getProjMan();
 	b2World& getWorld();
+	BlueprintLoader& getBlueprints();
 
 	float getTimeStep() const;
 	void prePhysUpdate();
@@ -51,6 +52,11 @@ public:
 	void loadLevel(const std::string& level, int localController, const std::string& bluePrints, const std::vector<std::string>& rControllerList);//loads a level using blueprints
 	void add(sptr<GameObject> spGO);
 	void add(GameObject* pGO);
+
+
+	float m_pauseTime;
+	float m_skippedTime;
+	bool m_paused;
 
 protected:
 	void loadBlueprints(const std::string& bluePrints);//loads blueprints
@@ -91,9 +97,7 @@ private:
 
 
 	/**TIME**/
-	float m_pauseTime;
-	float m_skippedTime;
-	bool m_paused;
+
 	/**TIME**/
 };
 

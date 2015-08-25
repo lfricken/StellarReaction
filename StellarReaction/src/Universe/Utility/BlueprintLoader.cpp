@@ -12,6 +12,8 @@
 #include "Turret.hpp"
 #include "ProjectileModule.hpp"
 #include "LaserWeapon.hpp"
+#include "BallisticWeapon.hpp"
+#include "Projectile.hpp"
 
 using namespace std;
 
@@ -36,6 +38,19 @@ sptr<const ChunkData> BlueprintLoader::getChunkSPtr(const std::string& rBPName) 
 		cout << "\nCouldnt find [" << rBPName << "]." << FILELINE;
 		///ERROR LOG
 		return m_cnkBP.begin()->second;
+	}
+}
+sptr<const ProjectileData> BlueprintLoader::getProjectileSPtr(const std::string& rBPName) const
+{
+	auto it = m_prjBP.find(rBPName);
+
+	if(it != m_prjBP.end())
+		return it->second;
+	else
+	{
+		cout << "\nCouldnt find [" << rBPName << "]." << FILELINE;
+		///ERROR LOG
+		return m_prjBP.begin()->second;
 	}
 }
 sptr<const ModuleData> BlueprintLoader::getModuleSPtr(const std::string& rBPName) const
@@ -105,6 +120,13 @@ void BlueprintLoader::storeRoster(const std::string& rDir)
 			storeChunk(file);
 		}
 
+		const Json::Value prjList = rootRoster["ProjectileList"];
+		for(auto it = prjList.begin(); it != prjList.end(); ++it)
+		{
+			std::string file = (rDir + it->asString());
+			storeProjectile(file);
+		}
+
 	}
 	else
 	{
@@ -150,6 +172,23 @@ void BlueprintLoader::storeChunk(const std::string& rFile)//load that blueprint
 	if (parsedSuccess)
 	{
 		m_cnkBP[root["Title"].asString()] = loadChunk(root);
+	}
+	else
+	{
+		cout << "\n" << FILELINE;
+		///ERROR LOG
+	}
+}
+void BlueprintLoader::storeProjectile(const std::string& rFile)//load that blueprint
+{
+	std::ifstream stream(rFile, std::ifstream::binary);
+	Json::Reader reader;
+	Json::Value root;
+	bool parsedSuccess = reader.parse(stream, root, false);
+
+	if(parsedSuccess)
+	{
+		m_prjBP[root["Title"].asString()] = loadProjectile(root);
 	}
 	else
 	{
@@ -221,9 +260,8 @@ sptr<const ChunkData> BlueprintLoader::loadChunk(const Json::Value& root)//retur
 			}
 		}
 
-
-		if (!root["Modules"].isNull())
-			insertModData(root["Modules"], pCnk->moduleData);
+		if(!root["Modules"].isNull())
+			insertModuleData(root["Modules"], pCnk->moduleData);
 
 		spCnk.reset(pCnk);
 	}
@@ -236,8 +274,37 @@ sptr<const ChunkData> BlueprintLoader::loadChunk(const Json::Value& root)//retur
 }
 
 
+/// <summary>
+/// Take a json projectile and load it.
+/// </summary>
+sptr<const ProjectileData> BlueprintLoader::loadProjectile(const Json::Value& root)
+{
+	sptr<const ProjectileData> spPrj;
 
+	if(root["ClassName"].asString() == "Projectile")
+	{
+		ProjectileData* pPrj = new ProjectileData;
 
+		if(!root["Copies"].isNull())
+			*pPrj = *dynamic_cast<const ProjectileData*>(getProjectileSPtr(root["Copies"].asString()).get());
+
+		pPrj->title = root["Title"].asString();
+
+		if(!root["Body"].isNull())
+			pPrj->body = loadBodyComp(root["Body"], pPrj->body);
+
+		if(!root["Modules"].isNull())
+			insertModuleData(root["Modules"], pPrj->moduleData);
+
+		spPrj.reset(pPrj);
+	}
+	else
+	{
+		cout << "\n" << FILELINE;
+		///ERROR LOG
+	}
+	return spPrj;
+}
 
 
 
@@ -275,7 +342,19 @@ sptr<const WeaponData> BlueprintLoader::loadWeapon(const Json::Value& root)//ret
 	}
 	else if (root["WeaponType"].asString() == "Ballistic")
 	{
-		cout << "\nAttempted to load ballistic weapon. still needs coding" << FILELINE;
+		BallisticWeaponData* pWep = new BallisticWeaponData;
+		if(!root["Copies"].isNull())
+			*pWep = *dynamic_cast<const BallisticWeaponData*>(getWeaponSPtr(root["Copies"].asString()).get());
+
+		if(!root["StartSound"].isNull())
+			pWep->startSound = loadSound(root["StartSound"], pWep->startSound);
+		if(!root["ShotSound"].isNull())
+			pWep->shotSound = loadSound(root["ShotSound"], pWep->shotSound);
+		if(!root["EndSound"].isNull())
+			pWep->endSound = loadSound(root["EndSound"], pWep->endSound);
+
+		inheritWeapon(root, pWep);
+		spWep.reset(pWep);
 	}
 	else
 	{
@@ -420,6 +499,10 @@ sptr<const ModuleData> BlueprintLoader::loadModule(const Json::Value& root)//ret
 	{
 		ProjectileModuleData* pSMod = new ProjectileModuleData;
 		copyModule<ProjectileModuleData>(root, pSMod);
+
+		if(!root["BaseSprite"].isNull())
+			pSMod->baseDecor = loadQuad(root["BaseSprite"], pSMod->baseDecor);
+
 		inheritModule(root, pSMod);
 		spMod.reset(pSMod);
 	}
@@ -473,20 +556,22 @@ void BlueprintLoader::inheritModule(const Json::Value& root, ModuleData* pSMod)/
 
 
 
-
-void BlueprintLoader::insertModData(const Json::Value& root, std::vector<sptr<const ModuleData> >& rModData)
+/// <summary>
+/// Load a list of modules. Even if they are inlined
+/// </summary>
+void BlueprintLoader::insertModuleData(const Json::Value& root, std::vector<sptr<const ModuleData> >& rModData)
 {
 	sptr<ModuleData> spMod;
 	for (auto it = root.begin(); it != root.end(); ++it)
 	{
-		if (!(*it)["Title"].isNull() && (*it)["ClassName"].isNull())
+		if(!(*it)["Title"].isNull() && (*it)["ClassName"].isNull())//from title
 		{
 			spMod.reset(getModuleSPtr((*it)["Title"].asString())->clone());
 
 			spMod->fixComp.offset.x = (*it)["Position"][0].asFloat();
 			spMod->fixComp.offset.y = (*it)["Position"][1].asFloat();
 		}
-		else if (!(*it)["ClassName"].isNull())
+		else if(!(*it)["ClassName"].isNull())//from inline
 		{
 			spMod.reset(loadModule(*it)->clone());
 		}

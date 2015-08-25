@@ -15,6 +15,7 @@
 
 struct ShipModuleData;
 struct ModuleData;
+struct ProjectileData;
 struct ChunkData;
 struct WeaponData;
 
@@ -30,6 +31,7 @@ public:
 	sptr<const ModuleData> getModuleSPtr(const std::string& rBPName) const;
 	sptr<const ChunkData> getChunkSPtr(const std::string& rBPName) const;
 	sptr<const WeaponData> getWeaponSPtr(const std::string& rBPName) const;
+	sptr<const ProjectileData> getProjectileSPtr(const std::string& rBPName) const;
 	/**===============**/
 	/**GET A BLUEPRINT**/
 
@@ -42,6 +44,7 @@ public:
 	void storeModule(const std::string& rFile);
 	void storeChunk(const std::string& rFile);
 	void storeWeapon(const std::string& rFile);
+	void storeProjectile(const std::string& rFile);
 	/**===================**/
 	/**LOAD SPECIFIC FILES**/
 
@@ -50,12 +53,12 @@ public:
 	/**LOAD MULTI PART DATA**/
 	/**====================**/
 	sptr<const ChunkData> loadChunk(const Json::Value& root);
+	sptr<const ProjectileData> loadProjectile(const Json::Value& root);
 protected:
 private:
 	sptr<const ModuleData> loadModule(const Json::Value& root);
 	void inheritShipModule(const Json::Value& root, ShipModuleData* pSMod);
 	void inheritModule(const Json::Value& root, ModuleData* pSMod);
-
 	template <typename T>
 	void copyModule(const Json::Value& root, T* pSMod)
 	{
@@ -72,7 +75,7 @@ private:
 
 
 	/**UNNAMED THINGS**/
-	void insertModData(const Json::Value& root, std::vector<sptr<const ModuleData> >& rModData);
+	void insertModuleData(const Json::Value& root, std::vector<sptr<const ModuleData> >& rModData);
 	void insertWeaponData(const Json::Value& root, sptr<const WeaponData>& rModData);
 
 
@@ -108,6 +111,7 @@ private:
 	std::map<std::string, sptr<const ModuleData> > m_modBP;
 	std::map<std::string, sptr<const WeaponData> > m_wepBP;
 	std::map<std::string, sptr<const ChunkData> > m_cnkBP;
+	std::map<std::string, sptr<const ProjectileData> > m_prjBP;
 };
 
 #endif // BLUEPRINTLOADER_HPP

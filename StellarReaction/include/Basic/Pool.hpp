@@ -5,6 +5,7 @@
 typedef int Missiles;
 typedef float Energy;
 typedef float Ballistic;
+typedef float Zoom;
 
 
 
@@ -100,10 +101,6 @@ private:
 	T m_value;//our current value
 };
 
-
-
-
-
 struct PoolCollection
 {
 	Pool<Ballistic>* ballisticPool;
@@ -111,10 +108,5 @@ struct PoolCollection
 	Pool<Energy>* energyPool;
 	Pool<float>* zoomPool;
 };
-
-
-
-
-
 
 #endif // POOL_HPP

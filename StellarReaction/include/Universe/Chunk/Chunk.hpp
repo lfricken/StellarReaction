@@ -14,7 +14,11 @@ enum class Directive;
 enum class Request;
 
 
-
+/// <summary>
+/// A collection of box2d objects
+/// this contains the body, and fixtures are attached to us
+/// controllers find us through SlaveLocator, and issue us commands
+/// </summary>
 class Chunk : public GameObject
 {
 public:
@@ -71,7 +75,7 @@ struct ChunkData : public GameObjectData
 	PoolData<Missiles> missileData;
 	PoolData<Ballistic> ballisticData;
 	PoolData<Energy> energyData;
-	PoolData<float> zoomData;
+	PoolData<Zoom> zoomData;
 
 	BodyComponentData bodyComp;
 	std::vector<sptr<const ModuleData> > moduleData;

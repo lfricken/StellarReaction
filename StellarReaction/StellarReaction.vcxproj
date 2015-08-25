@@ -91,7 +91,6 @@
     <ClCompile Include="src\IO\EventTypes.cpp" />
     <ClCompile Include="src\IO\IOBase.cpp" />
     <ClCompile Include="src\IO\IOComponent.cpp" />
-    <ClCompile Include="src\IO\IOComponentStore.cpp" />
     <ClCompile Include="src\IO\IOManager.cpp" />
     <ClCompile Include="src\IO\Message.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -352,7 +351,6 @@
     <ClInclude Include="include\IO\EventTypes.hpp" />
     <ClInclude Include="include\IO\IOBase.hpp" />
     <ClInclude Include="include\IO\IOComponent.hpp" />
-    <ClInclude Include="include\IO\IOComponentStore.hpp" />
     <ClInclude Include="include\IO\IOManager.hpp" />
     <ClInclude Include="include\IO\Message.hpp" />
     <ClInclude Include="include\Network\Connection.hpp" />

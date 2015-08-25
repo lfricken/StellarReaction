@@ -36,5 +36,6 @@ void Timer::setCountDown(float countDown)
 }
 void Timer::restartCountDown()
 {
+	m_lastCountDownTime = getTime();
 	m_countDownTimeRemain = m_countDownTime;
 }

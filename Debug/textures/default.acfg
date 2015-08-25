@@ -8,7 +8,7 @@
             "comment": "The default state is the state we are normally in",
 			"comment2": "the t represents the %of time we will spend on that tile",
             "state": "Default",
-            "repeats": false,
+            "repeats": true,
             "tileList": [
 				{
                     "x": 0,
