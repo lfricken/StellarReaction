@@ -2,6 +2,7 @@
 #include "Convert.hpp"
 #include "Universe.hpp"
 #include "Globals.hpp"
+#include "FixtureComponent.hpp"
 
 using namespace std;
 

@@ -31,7 +31,7 @@ Projectile* ProjectileMan::getProjectile(const std::string& rBPName)
 	vector<sptr<Projectile> >& rProjs = get<List>(rValue);
 	    
 	//if we don't have enough projectiles, add some more
-	if(rFreeIndex >= rProjs.size())
+	if(rFreeIndex >= (signed)rProjs.size())
 		addNew(rBPName);
 
 	Projectile* pTemp = rProjs[rFreeIndex].get();

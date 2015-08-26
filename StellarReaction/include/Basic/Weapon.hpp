@@ -8,6 +8,7 @@
 #include "SoundData.hpp"
 
 struct WeaponData;
+class FixtureComponent;
 
 /// <summary>
 /// Base Class for all weapon types.
@@ -26,7 +27,7 @@ public:
 	/// <param name="pBall">Parent pool</param>
 	/// <param name="pMis">Parent pool</param>
 	/// <returns></returns>
-	bool fire(Pool<Energy>* pEnergy, Pool<Ballistic>* pBall, Pool<Missiles>* pMis);
+	bool fire(const FixtureComponent& pParent, Pool<Energy>* pEnergy, Pool<Ballistic>* pBall, Pool<Missiles>* pMis);
 	/// <summary>
 	/// Called by our parent module
 	/// </summary>
@@ -53,17 +54,18 @@ public:
 	/// <param name="aim">Aim of Controller</param>
 	/// <param name="radCCW">Angle of Parent Module</param>
 	virtual void postShot(const b2Vec2& center, const b2Vec2& aim, float radCCW) = 0;
-protected:	
+protected:
+	b2Body* m_pBody;
+	const FixtureComponent* m_pTempParent;
+	int m_shots;//how many shots we do upon each fire command
+	int m_damage;
+	float m_range;
+	int m_collisions;//how many collisions should we do
+
 	/// <summary>
 	/// Damages the specified fixture (which has a module)
 	/// </summary>
-	/// <param name="pFix">The p fix.</param>
-	/// <param name="damage">The damage.</param>
 	void damage(b2Fixture* pFix, int damage);
-	b2Body* m_pBody;
-
-	int m_damage;
-	float m_range;
 private:
 	QuadComponent m_decor;//the weapon sprite
 
@@ -74,7 +76,6 @@ private:
 
 	Timer m_shotTimer;// Records how often we can "shot"
 	int m_shotsRemain;//how many shots we have remaining on this fire
-	int m_shots;//how many shots we do upon each fire command
 	
 	Energy m_energy;// How much do we consume from parent pool.
 	Ballistic m_ballistic;// How much do we consume from parent pool.
@@ -97,7 +98,7 @@ struct WeaponData
 
 		shotDelay(0.09f),
 		fireDelay(1.5f),
-
+		collisions(3),
 		range(45.f)
 	{
 		weaponQuad.animSheetName = "weapons/laser1.acfg";
@@ -117,7 +118,7 @@ struct WeaponData
 
 	float shotDelay;//how much time between shots
 	float fireDelay;//reload time
-
+	int collisions;//TODO works for projectiles atm, but not lasers
 	float range;//how far can this shoot
 
 	QuadComponentData weaponQuad;

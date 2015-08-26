@@ -13,16 +13,24 @@ public:
 	virtual ~ProjectileModule();
 
 	void postPhysUpdate();
-	void arm(const Message& rPayload);//we will now collide and send our damage Message packet
-	void disarm();//we wont collide with anyone
+	void setPayload(int damage, const FixtureComponent* pParent, int collisions);
 
 	virtual void entered(FixtureComponent* pOther);
 	virtual void exited(FixtureComponent* pOther);
 	virtual bool shouldTerminate() const;
 
 protected:
-	bool freeSelf;
+	bool m_freeThisProjectile;
+	int m_damage;
+	const b2Body* m_pParent;
 	std::vector<sptr<GraphicsComponent> > m_decors;
+	int m_currentCollisions;//how many collisions have we had so far
+	int m_maxCollisions;//how many collisions should we do
+
+	/// <summary>
+	/// Damages the specified fixture (which has a module)
+	/// </summary>
+	void damage(FixtureComponent* pFix, int damage);
 private:
 
 };
@@ -35,7 +43,7 @@ struct ProjectileModuleData : public SensorData
 		baseDecor()
 	{
 		fixComp.isSensor = true;
-		fixComp.shape = Shape::Rectangle;
+		fixComp.shape = leon::Shape::Rectangle;
 		fixComp.colCategory = Category::Projectile;
 		fixComp.colMask = Mask::Projectile;
 		baseDecor.layer = GraphicsLayer::Projectiles;

@@ -713,13 +713,13 @@ FixtureComponentData BlueprintLoader::loadFixComp(const Json::Value& root, const
 	{
 		string temp = root["shape"].asString();
 		if (temp == "rectangle")
-			data.shape = Shape::Rectangle;
+			data.shape = leon::Shape::Rectangle;
 		else if (temp == "circle")
-			data.shape = Shape::Circle;
+			data.shape = leon::Shape::Circle;
 		else
 		{
 			cout << "\n" << FILELINE;
-			data.shape = Shape::Circle;
+			data.shape = leon::Shape::Circle;
 		}
 	}
 
