@@ -20,18 +20,18 @@ Camera::~Camera()
 }
 void Camera::setPosition(const b2Vec2& rPos)//world position
 {
-	sf::Listener::setPosition(rPos.x, rPos.y, 0);///HOW DO WE SET Z OF LISTENER
+	sf::Listener::setPosition(rPos.x, 0.f, 0.f);///HOW DO WE SET Z OF LISTENER rPos.y
 	m_view.setCenter(leon::b2Tosf<float>(rPos));
 }
 void Camera::move(const b2Vec2& change)
 {
-	sf::Vector2f bob = leon::b2Tosf<float>(change);
-	bob.x *= m_zoomLevel;
-	bob.y *= m_zoomLevel;
-	m_view.move(bob);
+	sf::Vector2f delta = leon::b2Tosf<float>(change);
+	delta.x *= m_zoomLevel;
+	delta.y *= m_zoomLevel;
+	m_view.move(delta);
 
 	b2Vec2 rPos = leon::sfTob2(m_view.getCenter());
-	sf::Listener::setPosition(rPos.x, rPos.y, 0);///HOW DO WE SET Z OF LISTENER
+	sf::Listener::setPosition(rPos.x, 0.f, 0.f);///HOW DO WE SET Z OF LISTENER rPos.y
 }
 void Camera::setZoom(float level)//multiple of each dimension to find new
 {

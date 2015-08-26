@@ -4,7 +4,7 @@
 using namespace std;
 
 
-const float SoundManager::m_minDelay = 0.01;
+const float SoundManager::m_minDelay = 0.01f;
 const std::string SoundManager::m_directory = "audio/";
 SoundManager::SoundManager()
 {
@@ -22,8 +22,14 @@ void SoundManager::playSound(const SoundData& rSound)
 	playSound(rSound.name, rSound.vol, rSound.minDist, rSound.dropOff, rSound.pos, rSound.relative);
 }
 /// <summary>
-/// Use this to play sounds in game.
+/// Plays the sound.
 /// </summary>
+/// <param name="rSoundName">Name and path of the sound (from audio directory)</param>
+/// <param name="volume">0-100</param>
+/// <param name="minDist">The volume under which it will be indicated volume</param>
+/// <param name="dropOff">How quickly the sound drops off, larger means more rapid drop off</param>
+/// <param name="rPos">origin</param>
+/// <param name="relative">If false, it will be heard globally at it's volume</param>
 void SoundManager::playSound(const std::string& rSoundName, int volume, float minDist, float dropOff, const b2Vec2& rPos, bool relative)
 {
 
@@ -63,8 +69,10 @@ void SoundManager::playSound(const std::string& rSoundName, int volume, float mi
 			m_noises[i].m_sound.setRelativeToListener(relative);
 			m_noises[i].m_sound.setAttenuation(dropOff);
 			m_noises[i].m_sound.setVolume(volume);
-			m_noises[i].m_sound.setPosition(rPos.x, rPos.y, 0.0f);
+			m_noises[i].m_sound.setPosition(rPos.x, 0.f, 0.f);//TODO rPos.y
 			m_noises[i].m_sound.play();
+			sf::Vector3f d = sf::Listener::getDirection();
+			sf::Vector3f p = sf::Listener::getPosition();
 			return;
 		}
 	cout << "\nSounds are full, trying [" << rSoundName << "] " << FILELINE;

@@ -14,7 +14,7 @@ public:
 	Projectile(const ProjectileData& rData);
 	virtual ~Projectile();
 
-	void launch(const b2Vec2& rStart, const b2Vec2& rVel, float radCCW, float radCCWps, const Message& rPayload, float lifetime);// coord, linVel, rot, rotVel
+	void launch(const b2Vec2& rStart, const b2Vec2& rVel, float radCCW, float radCCWps, float lifetime, int damage, const FixtureComponent* pParent, int collisions);// coord, linVel, rot, rotVel
 	void reset();//this projectile will go back into projectile pool
 
 	virtual void prePhysUpdate();
