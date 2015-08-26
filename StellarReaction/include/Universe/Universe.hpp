@@ -62,6 +62,7 @@ public:
 	float m_skippedTime;
 	bool m_paused;
 
+
 protected:
 	void loadBlueprints(const std::string& bluePrints);//loads blueprints
 

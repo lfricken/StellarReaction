@@ -56,6 +56,9 @@ private:
 	bool keyUpIsdown;
 	sf::SoundBuffer buffer;
 	sf::Sound afterb_sound;
+	
+	sf::SoundBuffer thrust_buffer;
+	sf::Sound thrust_sound;
 };
 
 

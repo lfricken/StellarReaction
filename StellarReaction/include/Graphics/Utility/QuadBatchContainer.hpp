@@ -32,6 +32,7 @@ protected:
 private:
 
 	std::map<std::string, sptr<Batch> > m_vertexLists;//contains all QUAD vertexes for all
+
 };
 
 #endif // QUADBATCHCONTAINER_HPP

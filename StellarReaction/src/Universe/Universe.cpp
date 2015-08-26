@@ -22,7 +22,10 @@
 #include "ProjectileMan.hpp"
 #include "DecorQuad.hpp"
 
+
 using namespace std;
+
+
 
 Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input, this), m_physWorld(b2Vec2(0,0))
 {
@@ -60,6 +63,8 @@ Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input,
 	/**PHYControlCS**/
 
 	m_debugDrawEnabled = false;
+
+
 }
 Universe::~Universe()
 {
@@ -146,6 +151,8 @@ void Universe::postPhysUpdate()
 			(*it)->postPhysUpdate();
 		m_spProjMan->postPhysUpdate();
 	}
+
+
 }
 void Universe::updateDecorationPosition(const b2Vec2& rCameraPos)
 {
@@ -298,6 +305,19 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 				add(spCnk->generate());
 			}
 		}
+
+		//Evan - load background image
+		if (!root["Background1"].isNull())
+		{
+			//nothing for now
+			//QuadComponentData rData = loadQuad(root["Background1"], QuadComponentData());
+		}
+		else 
+		{
+			cout << "Background json entry could not be loaded (check level config file)" << FILELINE;
+			///ERROR LOG
+		}
+
 	}
 
 
