@@ -52,6 +52,12 @@ Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp)
 	buffer.loadFromFile("audio/afterb1.wav");
 	afterb_sound.setBuffer(buffer);
 	afterb_sound.setLoop(true);
+	afterb_sound.setVolume(60);
+
+	thrust_buffer.loadFromFile("audio/afterb2.wav");
+	thrust_sound.setBuffer(thrust_buffer);
+	thrust_sound.setLoop(true);
+	thrust_sound.setVolume(100);
 
 }
 Chunk::~Chunk()
@@ -132,6 +138,7 @@ void Chunk::directive(std::map<Directive, bool>& rIssues)//send command to targe
 				//if it breaks, add thrust anim
 			}
 			//add velocity to ship - add to thruster anim
+			thrust_sound.play();
 		}
 	}
 	else {
@@ -146,6 +153,7 @@ void Chunk::directive(std::map<Directive, bool>& rIssues)//send command to targe
 					(*it)->getAnimator().setAnimation("AfterBurner", .20f);
 				}
 			}
+			thrust_sound.stop();
 		}
 	}
 	
