@@ -184,6 +184,7 @@ void Game::run()
 		/**== WINDOW ==**/
 		getLocalPlayer().getWindowEvents(rWindow);
 		getUniverse().getGfxUpdater().update();//update graphics components
+		getUniverse().updateDecorationPosition(getLocalPlayer().getCamera().getPosition());
 
 
 		/**== DRAW UNIVERSE ==**/
