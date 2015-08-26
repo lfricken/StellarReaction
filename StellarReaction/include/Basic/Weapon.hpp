@@ -89,7 +89,7 @@ private:
 struct WeaponData
 {
 	WeaponData() :
-		ener(3),
+		ener(0),
 		ball(0),
 		mis(0),
 

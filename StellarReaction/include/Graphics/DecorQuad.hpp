@@ -7,16 +7,17 @@
 class GraphicsComponent;
 struct DecorQuadData;
 
+/// <summary>
+/// Child decoration type.Implements a specific type of graphic for GraphicsComponent (a quad component)
+/// </summary>
 class DecorQuad : public Decoration
 {
 public:
 	DecorQuad(const DecorQuadData& rData);
 	virtual ~DecorQuad();
 
-
-	virtual void input(std::string rCommand, sf::Packet rData);
+	virtual bool inputHook(std::string rCommand, sf::Packet rData);
 protected:
-
 
 	QuadComponent m_quad;
 private:

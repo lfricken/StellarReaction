@@ -20,6 +20,7 @@
 #include "LinearMeter.hpp"
 #include "BallisticWeapon.hpp"
 #include "ProjectileMan.hpp"
+#include "DecorQuad.hpp"
 
 using namespace std;
 
@@ -146,6 +147,13 @@ void Universe::postPhysUpdate()
 		m_spProjMan->postPhysUpdate();
 	}
 }
+void Universe::updateDecorationPosition(const b2Vec2& rCameraPos)
+{
+	for(auto it = m_decorList.begin(); it != m_decorList.end(); ++it)
+	{
+		(*it)->updateScaledPosition(rCameraPos);
+	}
+}
 /// <summary>
 /// returns true if debug draw is on
 /// debug draw is drawing box2d shapes only
@@ -229,6 +237,17 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 	Json::Reader reader;
 	Json::Value root;
 	bool parsedSuccess = reader.parse(level, root, false);
+
+
+
+	DecorQuadData data;
+	data.ioComp.name = "decorTest";
+	DecorQuad* t = new DecorQuad(data);
+	add(t);
+
+	data.initPosition = b2Vec2(1, 1);
+	DecorQuad* t2 = new DecorQuad(data);
+	add(t2);
 
 
 	if(!parsedSuccess)
@@ -356,6 +375,14 @@ void Universe::add(sptr<GameObject> spGO)
 void Universe::add(GameObject* pGO)
 {
 	m_goList.push_back(sptr<GameObject>(pGO));
+}
+void Universe::add(sptr<Decoration> pDec)
+{
+	m_decorList.push_back(pDec);
+}
+void Universe::add(Decoration* pDec)
+{
+	m_decorList.push_back(sptr<Decoration>(pDec));
 }
 void Universe::input(std::string rCommand, sf::Packet rData)
 {

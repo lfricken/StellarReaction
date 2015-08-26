@@ -256,7 +256,7 @@ sptr<const ChunkData> BlueprintLoader::loadChunk(const Json::Value& root)//retur
 		{
 			for (auto it = root["HullSprite"].begin(); it != root["HullSprite"].end(); ++it)
 			{
-				pCnk->hullData.push_back(loadQuad(*it, QuadComponentData() ));
+				pCnk->hullData.push_back(loadQuad(*it, QuadComponentData()));
 			}
 		}
 
@@ -330,12 +330,7 @@ sptr<const WeaponData> BlueprintLoader::loadWeapon(const Json::Value& root)//ret
 			pWep->beamComp.end = loadQuad(root["BeamEnd"], pWep->beamComp.end);
 		if (!root["BeamMid"].isNull())
 			static_cast<QuadComponentData>(pWep->beamComp) = loadQuad(root["BeamMid"], pWep->beamComp);
-		if (!root["StartSound"].isNull())
-			pWep->startSound = loadSound(root["StartSound"], pWep->startSound);
-		if (!root["ShotSound"].isNull())
-			pWep->shotSound = loadSound(root["ShotSound"], pWep->shotSound);
-		if (!root["EndSound"].isNull())
-			pWep->endSound = loadSound(root["EndSound"], pWep->endSound);
+
 
 		inheritWeapon(root, pWep);
 		spWep.reset(pWep);
@@ -346,12 +341,8 @@ sptr<const WeaponData> BlueprintLoader::loadWeapon(const Json::Value& root)//ret
 		if(!root["Copies"].isNull())
 			*pWep = *dynamic_cast<const BallisticWeaponData*>(getWeaponSPtr(root["Copies"].asString()).get());
 
-		if(!root["StartSound"].isNull())
-			pWep->startSound = loadSound(root["StartSound"], pWep->startSound);
-		if(!root["ShotSound"].isNull())
-			pWep->shotSound = loadSound(root["ShotSound"], pWep->shotSound);
-		if(!root["EndSound"].isNull())
-			pWep->endSound = loadSound(root["EndSound"], pWep->endSound);
+		if(!root["ProjectileName"].isNull())
+			pWep->projName = root["ProjectileName"].asString();
 
 		inheritWeapon(root, pWep);
 		spWep.reset(pWep);
@@ -376,6 +367,12 @@ void BlueprintLoader::inheritWeapon(const Json::Value& root, WeaponData* pWep)
 	if (!root["Damage"].isNull())
 		pWep->damage = root["Damage"].asInt();
 
+	if(!root["StartSound"].isNull())
+		pWep->startSound = loadSound(root["StartSound"], pWep->startSound);
+	if(!root["ShotSound"].isNull())
+		pWep->shotSound = loadSound(root["ShotSound"], pWep->shotSound);
+	if(!root["EndSound"].isNull())
+		pWep->endSound = loadSound(root["EndSound"], pWep->endSound);
 
 	if (!root["ShotDelay"].isNull())
 		pWep->shotDelay = root["ShotFrequency"].asFloat();
@@ -384,6 +381,9 @@ void BlueprintLoader::inheritWeapon(const Json::Value& root, WeaponData* pWep)
 
 	if (!root["Range"].isNull())
 		pWep->range = root["Range"].asFloat();
+
+	if(!root["Collisions"].isNull())
+		pWep->collisions = root["Collisions"].asInt();
 
 	if (!root["WeaponSprite"].isNull())
 		pWep->weaponQuad = loadQuad(root["WeaponSprite"], pWep->weaponQuad);
@@ -765,6 +765,9 @@ HealthData BlueprintLoader::loadHealth(const Json::Value& root, const HealthData
 
 	return data;
 }
+/// <summary>
+/// TODO USE INHERIT FUNCTION DO INHERIT GRAPHICSCOMPONENT data
+/// </summary>
 QuadComponentData BlueprintLoader::loadQuad(const Json::Value& root, const QuadComponentData& orig)
 {
 	QuadComponentData data(orig);
