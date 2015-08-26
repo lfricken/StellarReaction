@@ -20,6 +20,9 @@ public:
 	void setPosition(const b2Vec2& rWorld);
 	void setRotation(float radiansCCW);
 	void setAnimation(const std::string& rAnimName, float duration);
+	void setScale(float scale);
+
+	bool hasAbsoluteSize() const;
 
 	void updateScaledPosition(const b2Vec2& rCameraCenter);
 
@@ -30,6 +33,7 @@ protected:
 private:
 	IOComponent m_io;
 
+	bool m_isAbsoluteSize;
 	float m_movementScale;
 	GraphicsComponent* m_gfx;
 	b2Vec2 m_position;//world
@@ -44,13 +48,15 @@ struct DecorationData
 	DecorationData() :
 		ioComp(game.getUniverse().getUniverseIO()),
 		initPosition(b2Vec2(0,0)),
-		movementScale(0.5)
+		movementScale(0.5),
+		isAbsoluteSize(false)
 	{
 
 	}
 
 	IOComponentData ioComp;
 	float movementScale;
+	bool isAbsoluteSize;
 	b2Vec2 initPosition;
 
 	virtual Decoration* generate() const = 0;

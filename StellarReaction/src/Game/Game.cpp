@@ -55,7 +55,7 @@ Game::Game()
 	gameData.name = "game";
 	m_spIO = sptr<IOComponent>(new IOComponent(gameData, &Game::input, this));
 
-	loadUniverse("RANDOMTEXT");
+	loadUniverse("RANDOMTEXT");//TODO RANDOMTEXT
 	m_spUniverse->togglePause(true);
 }
 Game::~Game()
@@ -182,13 +182,20 @@ void Game::run()
 
 
 		/**== WINDOW ==**/
+		rWindow.setView(getLocalPlayer().getCamera().getView());
 		getLocalPlayer().getWindowEvents(rWindow);
+		getUniverse().updateDecorationPosition(getLocalPlayer().getCamera().getPosition(), getLocalPlayer().getCamera().getZoom());
 		getUniverse().getGfxUpdater().update();//update graphics components
-		getUniverse().updateDecorationPosition(getLocalPlayer().getCamera().getPosition());
+
 
 
 		/**== DRAW UNIVERSE ==**/
 		rWindow.clear(sf::Color::Black);
+
+		rWindow.setView(defaultView);
+		getUniverse().getBatchLayers().drawBackground(rWindow);
+
+		rWindow.setView(getLocalPlayer().getCamera().getView());
 		if(getUniverse().debugDraw())
 			getUniverse().getWorld().DrawDebugData();
 		else

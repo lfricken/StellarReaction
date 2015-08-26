@@ -37,7 +37,7 @@ public:
 	void prePhysUpdate();
 	void physUpdate();
 	void postPhysUpdate();
-	void updateDecorationPosition(const b2Vec2& rCameraPos);
+	void updateDecorationPosition(const b2Vec2& rCameraPos, float zoom);
 
 
 	bool debugDraw() const;//should we draw debug or normal?
@@ -95,6 +95,7 @@ private:
 
 	std::vector<sptr<GameObject> > m_goList;//list of game objects that WE need to keep track of
 	std::vector<sptr<Decoration> > m_decorList;//list of decorations
+	std::vector<sptr<Decoration> > m_decorListAbsolute;//list of decorations that don't get scaled
 
 	IOComponent m_io;
 	float m_lastTime;//used for update method//cant use timer because timer references us!

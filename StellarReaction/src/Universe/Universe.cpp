@@ -151,15 +151,11 @@ void Universe::postPhysUpdate()
 			(*it)->postPhysUpdate();
 		m_spProjMan->postPhysUpdate();
 	}
-
-
 }
-void Universe::updateDecorationPosition(const b2Vec2& rCameraPos)
+void Universe::updateDecorationPosition(const b2Vec2& rCameraPos, float zoom)
 {
 	for(auto it = m_decorList.begin(); it != m_decorList.end(); ++it)
-	{
 		(*it)->updateScaledPosition(rCameraPos);
-	}
 }
 /// <summary>
 /// returns true if debug draw is on
@@ -249,10 +245,14 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 
 	DecorQuadData data;
 	data.ioComp.name = "decorTest";
+	data.movementScale = 0;
+	data.isAbsoluteSize = true;
+	data.quadComp.layer = GraphicsLayer::BackgroundUnmoving1;
+	data.initPosition = b2Vec2(4, 3);
 	DecorQuad* t = new DecorQuad(data);
 	add(t);
 
-	data.initPosition = b2Vec2(1, 1);
+	data.initPosition = b2Vec2(1, -1);
 	DecorQuad* t2 = new DecorQuad(data);
 	add(t2);
 
@@ -394,7 +394,7 @@ void Universe::add(sptr<GameObject> spGO)
 }
 void Universe::add(GameObject* pGO)
 {
-	m_goList.push_back(sptr<GameObject>(pGO));
+	add(sptr<GameObject>(pGO));
 }
 void Universe::add(sptr<Decoration> pDec)
 {
@@ -402,7 +402,7 @@ void Universe::add(sptr<Decoration> pDec)
 }
 void Universe::add(Decoration* pDec)
 {
-	m_decorList.push_back(sptr<Decoration>(pDec));
+	add(sptr<Decoration>(pDec));
 }
 void Universe::input(std::string rCommand, sf::Packet rData)
 {
