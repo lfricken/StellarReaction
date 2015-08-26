@@ -21,7 +21,7 @@ Projectile::~Projectile()
 {
 
 }
-void Projectile::launch(const b2Vec2& rStart, const b2Vec2& rVel, float radCCW, float radCCWps, const Message& rPayload, float lifetime)
+void Projectile::launch(const b2Vec2& rStart, const b2Vec2& rVel, float radCCW, float radCCWps, float lifetime, int damage, const FixtureComponent* pParent, int collisions)
 {
 	m_inPlay = true;
 	m_timer.setCountDown(lifetime);
@@ -29,7 +29,7 @@ void Projectile::launch(const b2Vec2& rStart, const b2Vec2& rVel, float radCCW, 
 	//cout << m_body.getPosition().x << " " << m_body.getPosition().y;
 	m_body.wake(rStart, radCCW, rVel, radCCWps);
 	for(auto it = m_modules.begin(); it != m_modules.end(); ++it)
-		(*it)->arm(rPayload);
+		(*it)->setPayload(damage, pParent, collisions);
 }
 void Projectile::reset()//this projectile will go back into projectile pool
 {

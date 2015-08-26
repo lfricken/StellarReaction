@@ -22,6 +22,7 @@ protected:
 	Beam m_beam;
 	float m_showTime;
 private:
+
 };
 
 

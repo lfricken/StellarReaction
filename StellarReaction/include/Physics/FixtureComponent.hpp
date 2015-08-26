@@ -53,6 +53,7 @@ public:
 	float getAngle() const;//RADIANS CCW
 	int getIOPos() const;
 	b2Body* getBodyPtr();
+	const b2Body* getBodyPtr() const;
 
 	void applyForce(const b2Vec2& rForce);//applies force to center of body(Newtons)
 	void applyForceFixture(const b2Vec2& rForce);//applies force at the center of fixture(Newtons)

@@ -24,6 +24,6 @@
         "relative": false
     },
     "EnergyConsumption": 1,
-    "Damage": 1,
+    "Damage": 1000,
     "Shots": 1
 }
