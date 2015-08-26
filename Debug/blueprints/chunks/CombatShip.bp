@@ -34,8 +34,8 @@
     },
 	"HullSprite": [
 		{
-			"dimensions": [2000, 2000],
-			"texName": "hulls/ship1.png",
+			"dimensions": [2200, 2000],
+			"texName": "hulls/thrustanim1.png",
 			"animSheetName": "hulls/ship1.acfg",
 			"layer": "ShipHull"
 		},

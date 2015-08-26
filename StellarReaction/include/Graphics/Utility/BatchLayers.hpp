@@ -14,8 +14,10 @@ public:
 	void drawWorld(sf::RenderTarget& rTarget);
 	void drawOverlay(sf::RenderTarget& rTarget);
 
+
 protected:
 private:
+
 	std::map<GraphicsLayer, QuadBatchContainer> m_batches;
 };
 
