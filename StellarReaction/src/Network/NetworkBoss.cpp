@@ -386,7 +386,7 @@ void NetworkBoss::launchMultiplayerGame()
 
 	//host
 	data << "1";
-	data << "CombatShip";
+	data << game.getLocalPlayer().getShipName();
 	//for clients
 	for(int32_t i = 0; i < (signed)m_connections.size(); ++i)
 	{
