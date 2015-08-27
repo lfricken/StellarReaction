@@ -25,7 +25,8 @@
 
 using namespace std;
 
-
+//Evan
+#include "Convert.hpp"
 
 Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input, this), m_physWorld(b2Vec2(0, 0))
 {
@@ -249,20 +250,147 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 	bool parsedSuccess = reader.parse(level, root, false);
 
 
+	//TODO - handle zoom of 100 - note - 'sparkling' happens after zoom 20
+	//TODO - have data know how many it needs to move over
+	//DecorQuadData data;
+	//data.ioComp.name = "decorTest";
+	//data.movementScale = 1;
+	//DecorQuad* t = new DecorQuad(data);
+	//add(t);
+	//data.initPosition = b2Vec2(1, 1);
 
+	float height = 6 * 2400.0f; float width = 6 * 2400.0f; //these have to be floats
+
+	QuadComponentData rData;
+	//nearest
 	DecorQuadData data;
 	data.ioComp.name = "decorTest";
-	data.movementScale = 0;
-	data.isAbsoluteSize = true;
-	data.quadComp.layer = GraphicsLayer::BackgroundUnmoving1;
-	data.initPosition = b2Vec2(4, 3);
-	DecorQuad* t = new DecorQuad(data);
-	add(t);
+	data.movementScale = .1f;
+	rData.dimensions.x = width;
+	rData.dimensions.y = height;
+	rData.texName = "backgrounds/stars4.png";
+	rData.layer = GraphicsLayer::Background4;
+	data.quadComp = rData;
+	data.dimensions = b2Vec2(width,height);
+	//second nearest
+	DecorQuadData data2;
+	data2.ioComp.name = "decorTest";
+	data2.movementScale = .8f;
+	rData.dimensions.x = width / 2;
+	rData.dimensions.y = height / 2;
+	rData.texName = "backgrounds/stars4.png";
+	rData.layer = GraphicsLayer::Background3;
+	data2.quadComp = rData;
+	data2.dimensions = b2Vec2(width / 2, height / 2);
+	//third nearest
+	DecorQuadData data3;
+	data3.ioComp.name = "decorTest";
+	data3.movementScale = .85f;
+	rData.dimensions.x = width / 3;
+	rData.dimensions.y = height / 3;
+	rData.texName = "backgrounds/stars3.png";
+	rData.layer = GraphicsLayer::Background2;
+	data3.quadComp = rData;
+	data3.dimensions = b2Vec2(width / 3, height / 3);
+	//fourth nearest
+	DecorQuadData data4;
+	data4.ioComp.name = "decorTest";
+	data4.movementScale = .9f;
+	rData.dimensions.x = width / 4;
+	rData.dimensions.y = height / 4;
+	rData.texName = "backgrounds/stars3.png";
+	rData.layer = GraphicsLayer::Background1;
+	data4.quadComp = rData;
+	data4.dimensions = b2Vec2(width / 4, height / 4);
 
-	data.initPosition = b2Vec2(1, -1);
-	DecorQuad* t2 = new DecorQuad(data);
-	add(t2);
+	//DecorQuad* t2 = new DecorQuad(data);
+	//t2->setPosition(b2Vec2(-10000, -10000)); //doesn't work
+	//game.getLocalPlayer().getCamera().getView().getSize().x;
+	
 
+	int startPosX = game.getLocalPlayer().getCamera().getView().getCenter().x - 20000;
+	int endPosX = game.getLocalPlayer().getCamera().getView().getCenter().x + 20000;
+	int startPosY = game.getLocalPlayer().getCamera().getView().getCenter().y + 10000;
+	int endPosY = game.getLocalPlayer().getCamera().getView().getCenter().y - 10000;
+	//cout << endl << game.getLocalPlayer().getCamera().getView().getSize().x; //if you want size of camera
+	b2Vec2 startPos = leon::sfTob2(b2Vec2(startPosX, startPosY));
+	b2Vec2 endPos = leon::sfTob2(b2Vec2(endPosX, endPosY));
+
+	//for square in screen region, add one of these
+	//one world unit is 256
+	//did the below by hand
+	int tilesX = 11; 
+	int tilesY = 8;
+
+	DecorQuad* temp;
+	for (int i = 0; i < tilesX; i++)
+	{
+		for (int j = 0; j < tilesY; j++)
+		{
+			//nearest 
+			if ( i < 3 && j < 3) {
+				//cout << "add at x: " << startPos.x + (i*height) / scale << endl;
+				//cout << "add at y: " << startPos.y + (j*width) / scale << endl;
+				data.initPosition = b2Vec2(startPos.x + (i*height) / scale, startPos.y + (j*width) / scale);
+				data.num_in_layer = b2Vec2(3,3);
+				temp = new DecorQuad(data);
+				add(temp);
+			}
+
+			//second nearest
+			if ( i < 6 && j < 4) {
+				data2.initPosition = b2Vec2(startPos.x + (i*height / 2) / scale, startPos.y + (j*width / 2) / scale);
+				data2.num_in_layer = b2Vec2(6, 4);
+				temp = new DecorQuad(data2);
+				add(temp);
+			}
+
+			//third nearest
+			if (i < 9 && j < 6) {
+				data3.initPosition = b2Vec2(startPos.x + (i*height / 3) / scale, startPos.y + (j*width / 3) / scale);
+				data3.num_in_layer = b2Vec2(9, 6);
+				temp = new DecorQuad(data3);
+				add(temp);
+			}
+
+			//fourth nearest
+			if (i < 11 && j < 8) {
+				data4.initPosition = b2Vec2(startPos.x + (i*height / 4) / scale, startPos.y + (j*width / 4) / scale);
+				data4.num_in_layer = b2Vec2(11, 8);
+				temp = new DecorQuad(data4);
+				add(temp);
+			}
+
+		}
+	}
+
+	//background
+	DecorQuadData bg_data;
+	bg_data.ioComp.name = "decorTest";
+	bg_data.movementScale = 0;
+	rData.dimensions.x = 2400;
+	rData.dimensions.y = 1200;
+	//rData.center = sf::Vector2f(600,600);
+	rData.texName = "backgrounds/bg6.png";
+	rData.animSheetName = "backgrounds/bg1.acfg";
+	rData.layer = GraphicsLayer::BackgroundUnmoving1;
+	bg_data.quadComp = rData;
+	bg_data.dimensions = b2Vec2(1200, 1200);
+	int pixelsX = game.getWindow().getDefaultView().getSize().x / 2;
+	int pixelsY = game.getWindow().getDefaultView().getSize().y / 2; 
+	bg_data.initPosition = b2Vec2(pixelsX / static_cast<float>(scale), -pixelsY / static_cast<float>(scale));
+	bg_data.num_in_layer = b2Vec2(100, 100);
+	temp = new DecorQuad(bg_data);
+	add(temp);
+
+	//rData.dimensions = sf::Vector2f(1200, 1200);
+	//rData.center = sf::Vector2f(pixelsX / static_cast<float>(scale), -pixelsY / static_cast<float>(scale));
+	//rData.layer = GraphicsLayer::BackgroundUnmoving1;
+	//rData.animSheetName = "backgrounds/bg1.acfg";
+	//QuadComponent * quad_temp = new QuadComponent(rData);
+
+	//LEON!!!! THERES A BUG!!! 
+	 //textures without animsheet will have the top-left portion of the texture loaded.
 
 	if(!parsedSuccess)
 	{

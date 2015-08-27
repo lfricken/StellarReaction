@@ -251,13 +251,28 @@ sptr<const ChunkData> BlueprintLoader::loadChunk(const Json::Value& root)//retur
 		if (!root["Zoom"].isNull())
 			pCnk->zoomData = loadPool<float>(root["Zoom"], pCnk->zoomData);
 
+		//TODO - remove
 		//check hull sprite
-		if (!root["HullSprite"].isNull())
+		//if (!root["Hull_Sprite"].isNull())
+		//{
+		//	for (auto it = root["Hull_Sprite"].begin(); it != root["Hull_Sprite"].end(); ++it)
+		//	{
+		//		pCnk->hullData.push_back(loadQuad(*it, QuadComponentData()));
+		//	}
+		//}
+
+		//Evan - load hull sprite, afterburner and afterburner_thrust anims
+		if (!root["Hull_Sprite"].isNull())
 		{
-			for (auto it = root["HullSprite"].begin(); it != root["HullSprite"].end(); ++it)
-			{
-				pCnk->hullData.push_back(loadQuad(*it, QuadComponentData()));
-			}
+			pCnk->hullSpriteData = loadQuad(root["Hull_Sprite"], QuadComponentData());
+		}
+		if (!root["Afterburner_Sprite"].isNull())
+		{
+			pCnk->afterburnerSpriteData = loadQuad(root["Afterburner_Sprite"], QuadComponentData());
+		}
+		if (!root["Afterburner_Thrust_Sprite"].isNull())
+		{
+			pCnk->afterburnerThrustSpriteData = loadQuad(root["Afterburner_Thrust_Sprite"], QuadComponentData());
 		}
 
 		if(!root["Modules"].isNull())

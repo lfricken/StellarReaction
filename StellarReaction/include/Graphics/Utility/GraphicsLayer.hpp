@@ -9,6 +9,10 @@ enum class GraphicsLayer
 	BackgroundUnmoving2,
 
 	BackgroundFar,//scenery
+	Background1,//scenery
+	Background2,//scenery
+	Background3,//scenery
+	Background4,//scenery
 	BackgroundClose,//scenery
 
 	ShipUnder,//fill background

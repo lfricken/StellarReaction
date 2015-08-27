@@ -38,6 +38,7 @@ void Thruster::directive(std::map<Directive, bool>& rIssues)
 	//Evan - added boost mechanic
 	if (rIssues[Directive::Boost])
 		thrust(b2Vec2(0, 2));
+
 }
 void Thruster::thrust(const b2Vec2& rDirection)
 {

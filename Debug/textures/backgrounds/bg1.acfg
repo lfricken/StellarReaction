@@ -1,7 +1,7 @@
 {
     "texTileSize": [
-        600,
-        600
+        2400,
+        1200
     ],
     "stateList": [
         {
@@ -17,9 +17,22 @@
                 }
             ]
         },
+		{
+            "comment": "The default state is the state we are normally in",
+			"comment2": "the t represents the %of time we will spend on that tile",
+            "state": "Activated",
+            "repeats": true,
+            "tileList": [
+				{
+                    "x": 0,
+                    "y": 0,
+                    "t": 1.0
+                }
+            ]
+        },
         {
             "comment": "this is the state we go into if we start doing something special",
-            "state": "Activated",
+            "state": "Activated_old",
             "repeats": true,
             "tileList": [
                 {
