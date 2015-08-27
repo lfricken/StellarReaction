@@ -13,6 +13,8 @@ Connection::Connection(sf::UdpSocket* pSocket, sptr<sf::TcpSocket> spTCPSocket, 
 		m_lastSendRecieve[static_cast<Protocol>(i)].first = 0;
 		m_lastSendRecieve[static_cast<Protocol>(i)].second = 0;
 	}
+
+	m_shipChoice = "CombatShip";
 }
 Connection::~Connection()
 {
@@ -68,4 +70,12 @@ bool Connection::validated() const
 void Connection::setValid()
 {
 	m_valid = true;
+}
+void Connection::setShipChoice(const std::string& rTitle)
+{
+	m_shipChoice = rTitle;
+}
+const std::string&  Connection::getShipChoice() const
+{
+	return m_shipChoice;
 }

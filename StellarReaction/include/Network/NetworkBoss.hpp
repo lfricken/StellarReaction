@@ -62,7 +62,7 @@ public:
 
 
 	/**REDUCTION**/
-	void loadLevel(sf::Packet& data);
+	void recieveLevel(sf::Packet& data);
 	void launchMultiplayerGame();
 
 protected:

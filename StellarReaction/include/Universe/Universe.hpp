@@ -48,9 +48,8 @@ public:
 	void toggleDebugDraw();
 
 	b2Vec2 getBed();//give a position to sleep at
-	void addBed(const b2Vec2& rBed);//someone gave a bed back to us!
-
-	void loadLevel(const std::string& level, int localController, const std::string& bluePrints, const std::vector<std::string>& rControllerList);//loads a level using blueprints
+	void addBed(const b2Vec2& rBed);//someone gave a bed back to us!	
+	void loadLevel(const std::string& level, int localController, const std::string& bluePrints, const std::vector<std::string>& rControllerList, const std::vector<std::string>& rShipTitleList);//loads a level using blueprints
 
 	void add(sptr<GameObject> spGO);
 	void add(GameObject* pGO);
@@ -92,6 +91,8 @@ private:
 	sptr<GraphicsComponentUpdater> m_spGfxUpdater;
 	sptr<IOManager> m_spUniverseIO;//manages IO for the game objects
 	sptr<ProjectileMan> m_spProjMan;//manages IO for the game objects
+
+	std::map<int, std::vector<b2Vec2> > m_spawnPoints;//places for people to spawn, int is team
 
 	std::vector<sptr<GameObject> > m_goList;//list of game objects that WE need to keep track of
 	std::vector<sptr<Decoration> > m_decorList;//list of decorations

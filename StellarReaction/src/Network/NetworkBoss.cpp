@@ -58,7 +58,7 @@ bool NetworkBoss::setRecievePort(unsigned short port)//set receiving port, retur
 			///ERROR LOG
 			messageLobbyLocal("There was a problem binding to the port.");
 		}
-	if(m_udp.bind(port+1) != sf::Socket::Done)
+	if(m_udp.bind(port + 1) != sf::Socket::Done)
 	{
 		cout << "\nUDP There was an error binding to port [" << port << "]";
 		///ERROR LOG
@@ -92,15 +92,15 @@ NWState NetworkBoss::getNWState() const
 }
 Connection* NetworkBoss::findConnection(const sf::IpAddress& rAdd, unsigned short fromUDPPort)/**FIND A CONNECTION IF WE HAVE ONE**/
 {
-	for(auto it = m_connections.begin(); it!= m_connections.end(); ++it)
-		if((*it)->getTcpSocket().getRemoteAddress() == rAdd && ((*it)->getTcpSocket().getRemotePort()+1) == fromUDPPort)
+	for(auto it = m_connections.begin(); it != m_connections.end(); ++it)
+		if((*it)->getTcpSocket().getRemoteAddress() == rAdd && ((*it)->getTcpSocket().getRemotePort() + 1) == fromUDPPort)
 			return it->get();
 
 	return NULL;
 }
 bool NetworkBoss::hasConnections()/**DO WE HAVE CONNECTIONS?**/
 {
-	return (m_connections.size()>0);
+	return (m_connections.size() > 0);
 }
 void NetworkBoss::addConnection(sptr<sf::TcpSocket> spTcpSocket, bool valid)/**SERVER ADDING CONNECTION**/
 {
@@ -236,7 +236,7 @@ void NetworkBoss::udpRecieve()
 void NetworkBoss::tcpRecieve()//receive data from each TcpPort (tcp)
 {
 	sf::Packet data;
-	for(int32_t i=0; i<(signed)m_connections.size(); ++i)
+	for(int32_t i = 0; i < (signed)m_connections.size(); ++i)
 	{
 		bool done = false;
 		while(!done)
@@ -252,7 +252,7 @@ void NetworkBoss::tcpRecieve()//receive data from each TcpPort (tcp)
 						m_nwFactoryTcp.process(data);
 					else if(proto == Protocol::LoadLevel)
 					{
-						loadLevel(data);
+						recieveLevel(data);
 						cout << "\nLoad Level";
 					}
 					else if(proto == Protocol::Handshake)
@@ -277,19 +277,19 @@ void NetworkBoss::sendUdp()
 {
 	sf::Packet udpPacket;
 	m_nwFactory.getData(udpPacket);//WE NEED TO SEND OUR NW game DATA
-	for(int32_t i = 0; i<(signed)m_connections.size(); ++i)
+	for(int32_t i = 0; i < (signed)m_connections.size(); ++i)
 		m_connections[i]->sendUdp(Protocol::Data, udpPacket);
 
 	udpPacket.clear();
 	game.getUniverse().getControllerFactory().getNWFactory().getData(udpPacket);//WE NEED TO SEND OUR CONTROLLER DATA
-	for(int32_t i = 0; i<(signed)m_connections.size(); ++i)
+	for(int32_t i = 0; i < (signed)m_connections.size(); ++i)
 		m_connections[i]->sendUdp(Protocol::Control, udpPacket);
 }
 void NetworkBoss::sendTcp()
 {
 	sf::Packet tcpPacket;
 	m_nwFactoryTcp.getData(tcpPacket);//WE NEED TO SEND OUR NW game DATA
-	for(int32_t i = 0; i<(signed)m_connections.size(); ++i)
+	for(int32_t i = 0; i < (signed)m_connections.size(); ++i)
 		m_connections[i]->sendTcp(Protocol::Tcp, tcpPacket);
 }
 void NetworkBoss::tcpListen()//check for new connections
@@ -301,7 +301,7 @@ void NetworkBoss::tcpListen()//check for new connections
 		sf::Socket::Status fal = m_listener.accept(*spSocket);
 		if(fal == sf::Socket::Done && m_isOpen)
 		{
-			int32_t players = m_connections.size()+1;
+			int32_t players = m_connections.size() + 1;
 			std::stringstream sst;
 			sst << players;
 			std::string num = sst.str();
@@ -314,7 +314,7 @@ void NetworkBoss::tcpListen()//check for new connections
 }
 void NetworkBoss::updateConnections()
 {
-	for(int32_t i = 0; i<(signed)m_connections.size(); ++i)
+	for(int32_t i = 0; i < (signed)m_connections.size(); ++i)
 	{
 		if(m_connections[i]->getStatus() == sf::Socket::Status::Disconnected && m_connections[i]->validated())//check if this connection is still working
 		{
@@ -325,7 +325,7 @@ void NetworkBoss::updateConnections()
 			}
 			else
 			{
-				m_connections.erase(m_connections.begin()+i);
+				m_connections.erase(m_connections.begin() + i);
 				--i;
 				cout << "\nConnection Dropped From Timeout";
 				messageLobby("Player Disconnected");
@@ -343,30 +343,34 @@ void NetworkBoss::updateConnections()
 /// Loads the level.
 /// </summary>
 /// <param name="data">The data.</param>
-void NetworkBoss::loadLevel(sf::Packet& data)//we are anyone being told to load the game
+void NetworkBoss::recieveLevel(sf::Packet& data)//we are anyone being told to load the game
 {
 	m_nwGameStarted = true;
 	std::string level;
 	std::string blueprints;
 	int32_t numControllers;
 	std::string slave;
+	std::string title;
 	std::vector<std::string> controllerList;
+	std::vector<std::string> shipTitleList;
 	int32_t localController;
 
 
 	data >> level;
 	data >> blueprints;
 	data >> numControllers;
-	for(int32_t i=0; i<numControllers; ++i)
+	for(int32_t i = 0; i < numControllers; ++i)
 	{
 		data >> slave;
-		cout << "\n[" << slave << "]";
+		data >> title;
+		cout << "\n[" << slave << "][" << title << "]";
 		controllerList.push_back(slave);
+		shipTitleList.push_back(title);
 	}
 	data >> localController;
 	cout << "\nCont" << localController;
 
-	game.launchGame(level, localController, blueprints, controllerList);
+	game.launchGame(level, localController, blueprints, controllerList, shipTitleList);
 }
 void NetworkBoss::launchMultiplayerGame()
 {
@@ -377,26 +381,33 @@ void NetworkBoss::launchMultiplayerGame()
 
 	data << level;
 	data << blueprints;
-	data << static_cast<int32_t>(m_connections.size()+1);//number of controllers
-	for(int32_t i = 0; i <= (signed)m_connections.size(); ++i)
+	data << static_cast<int32_t>(m_connections.size() + 1);//number of controllers
+
+	//host
+	data << "1";
+	data << "CombatShip";
+	//for clients
+	for(int32_t i = 0; i < (signed)m_connections.size(); ++i)
 	{
-		std::string name = ("ship_1"+std::to_string(i+1));
-		cout << endl << name;
-		data << name;
+		string slaveName = std::to_string(i + 1 + 1);
+		string shipName = m_connections[i]->getShipChoice();
+		cout << "\nSlave:[" << slaveName << "] title:[" << shipName << "].";
+		data << slaveName;
+		data << shipName;
 	}
 
 	int32_t controller = 0;
 	sf::Packet hostData(data);
 	hostData << controller++;
 
-	for(auto it = m_connections.begin(); it!=m_connections.end(); ++it)
+	for(auto it = m_connections.begin(); it != m_connections.end(); ++it)
 	{
 		sf::Packet launchData(data);
 		launchData << controller++;
 		(*it)->sendTcp(Protocol::LoadLevel, launchData);
 	}
 
-	loadLevel(hostData);
+	recieveLevel(hostData);
 }
 /**REDUCTION**/
 
@@ -428,7 +439,7 @@ void NetworkBoss::input(const std::string rCommand, sf::Packet rData)
 	}
 	else if(rCommand == "host")
 	{
-		if(m_joinPort>1024)
+		if(m_joinPort > 1024)
 			setServer(m_joinPort, m_timeOut);
 	}
 	else if(rCommand == "localOnly")
