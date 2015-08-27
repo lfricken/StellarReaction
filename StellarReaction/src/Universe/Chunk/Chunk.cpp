@@ -113,7 +113,7 @@ void Chunk::directive(std::map<Directive, bool>& rIssues)//send command to targe
 	if (upKeyPressed)
 	{
 		if (!keyUpIsdown) {
-			hull->getAnimator().setAnimation("AfterBurner", .20f);
+			hull->getAnimator().setAnimation("AfterBurner", .35f);
 			afterburner->getAnimator().setAnimation("AfterBurner", .20f);
 		}
 	}
