@@ -30,6 +30,7 @@ public:
 	b2Vec2 velocity;
 	Timer velocityTimer;
 	b2Vec2 dimensions;
+	b2Vec2 num_in_layer;
 
 protected:
 
@@ -63,6 +64,7 @@ struct DecorationData
 	virtual DecorationData* clone() const = 0;
 
 	//Evan
+	b2Vec2 num_in_layer;
 	b2Vec2 dimensions;
 };
 

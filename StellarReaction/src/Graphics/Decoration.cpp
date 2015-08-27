@@ -6,6 +6,7 @@
 #include "Player.hpp"
 #include "Globals.hpp"
 #include "Camera.hpp"
+#include "Convert.hpp"
 
 using namespace std;
 
@@ -16,9 +17,12 @@ Decoration::Decoration(const DecorationData& rData, GraphicsComponent* pGfx) : m
 	setPosition(rData.initPosition);
 	m_movementScale = rData.movementScale;
 
+	//Evan
 	velocity = b2Vec2(.25f, .25f);
 	velocityTimer.getTimeElapsed();
-	dimensions = rData.dimensions;
+	dimensions = b2Vec2(rData.dimensions);
+	num_in_layer = b2Vec2(rData.num_in_layer);
+
 }
 Decoration::~Decoration()
 {
@@ -80,33 +84,35 @@ void Decoration::updateScaledPosition(const b2Vec2& rCameraCenter)
 	//Evan - check for wrap around
 	//int max_x = 33600; //got manually via cout
 	//int max_y = 16800;
-	int max_x = 600; //got manually via cout
-	int max_y = 16800;
+	int max_x = 80; //got manually via cout
+	int max_y = 60;
 	//cout << endl << "cam y: " << game.getLocalPlayer().getCamera().getView().getSize().y;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F)) {
 		//cout << endl << "m_initPosition.x: " << m_initPosition.x;
-		cout << endl << "rCameraCenter.y: " << rCameraCenter.y;
 	}
 
-	if (m_initPosition.x > (rCameraCenter.x + (max_x / 2)))
+	//below lines are magic
+	if (m_initPosition.x + rCameraCenter.x * m_movementScale > (rCameraCenter.x) + (max_x))
 	{
-		m_initPosition.x -= (dimensions.x / scale)*;
-		cout << endl << "jump to: " << m_initPosition.x;
+		//cout << endl << "jump from: " << m_initPosition.x;
+		//cout << endl << "jump amt: " << -(dimensions.x / scale)*num_in_layer.x;
+		//cout << endl << "camera x : " << rCameraCenter.x;
+		//system("PAUSE");
+		m_initPosition.x -= (dimensions.x / scale)*num_in_layer.x;
 	}	
-	//else if (m_initPosition.x < (rCameraCenter.x - (max_x / 2)))
-	//{
-	//	m_initPosition.x += dimensions.x / scale;
-	//	cout << endl << "jump to: " << m_initPosition.x;
-	//}
-	//if (m_initPosition.y > (rCameraCenter.y - (max_y / 2)))
-	//{
-	//	m_initPosition.y -= max_y;
-	//}
-	//else if (m_initPosition.y < (rCameraCenter.y - (max_y / 2)))
-	//{
-	//	m_initPosition.y += max_y;
-	//}
+	else if (m_initPosition.x + rCameraCenter.x * m_movementScale < (rCameraCenter.x) - (max_x))
+	{
+		m_initPosition.x += (dimensions.x / scale)*num_in_layer.x;
+	}
+	if (m_initPosition.y + rCameraCenter.y * m_movementScale > (rCameraCenter.y + (max_y)))
+	{
+		m_initPosition.y -= (dimensions.y / scale)*num_in_layer.y;
+	}
+	else if (m_initPosition.y + rCameraCenter.y * m_movementScale< (rCameraCenter.y - (max_y)))
+	{
+		m_initPosition.y += (dimensions.y / scale)*num_in_layer.y;
+	}
 
 
 	setPosition(m_initPosition + b2Vec2(rCameraCenter.x*m_movementScale, rCameraCenter.y*m_movementScale));

@@ -247,7 +247,8 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 	bool parsedSuccess = reader.parse(level, root, false);
 
 
-	//TODO - handle zoom of 100
+	//TODO - handle zoom of 100 - note - 'sparkling' happens after zoom 20
+	//TODO - have data know how many it needs to move over
 	//DecorQuadData data;
 	//data.ioComp.name = "decorTest";
 	//data.movementScale = 1;
@@ -262,38 +263,42 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 	DecorQuadData data;
 	data.ioComp.name = "decorTest";
 	data.movementScale = .1f;
-	rData.dimensions.x = height;
-	rData.dimensions.y = width;
+	rData.dimensions.x = width;
+	rData.dimensions.y = height;
 	rData.texName = "backgrounds/stars4.png";
+	rData.layer = GraphicsLayer::Background4;
 	data.quadComp = rData;
 	data.dimensions = b2Vec2(width,height);
 	//second nearest
 	DecorQuadData data2;
 	data2.ioComp.name = "decorTest";
 	data2.movementScale = .8f;
-	rData.dimensions.x = height / 2;
-	rData.dimensions.y = width / 2;
+	rData.dimensions.x = width / 2;
+	rData.dimensions.y = height / 2;
 	rData.texName = "backgrounds/stars4.png";
+	rData.layer = GraphicsLayer::Background3;
 	data2.quadComp = rData;
-	data.dimensions = b2Vec2(width / 2, height / 2);
+	data2.dimensions = b2Vec2(width / 2, height / 2);
 	//third nearest
 	DecorQuadData data3;
 	data3.ioComp.name = "decorTest";
 	data3.movementScale = .85f;
-	rData.dimensions.x = height / 3;
-	rData.dimensions.y = width / 3;
+	rData.dimensions.x = width / 3;
+	rData.dimensions.y = height / 3;
 	rData.texName = "backgrounds/stars3.png";
+	rData.layer = GraphicsLayer::Background2;
 	data3.quadComp = rData;
-	data.dimensions = b2Vec2(width / 3, height / 3);
+	data3.dimensions = b2Vec2(width / 3, height / 3);
 	//fourth nearest
 	DecorQuadData data4;
 	data4.ioComp.name = "decorTest";
 	data4.movementScale = .9f;
-	rData.dimensions.x = height / 4;
-	rData.dimensions.y = width / 4;
+	rData.dimensions.x = width / 4;
+	rData.dimensions.y = height / 4;
 	rData.texName = "backgrounds/stars3.png";
+	rData.layer = GraphicsLayer::Background1;
 	data4.quadComp = rData;
-	data.dimensions = b2Vec2(width / 4, height / 4);
+	data4.dimensions = b2Vec2(width / 4, height / 4);
 
 	//DecorQuad* t2 = new DecorQuad(data);
 	//t2->setPosition(b2Vec2(-10000, -10000)); //doesn't work
@@ -311,8 +316,8 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 	//for square in screen region, add one of these
 	//one world unit is 256
 	//did the below by hand
-	int tilesX = 10; 
-	int tilesY = 6;
+	int tilesX = 11; 
+	int tilesY = 8;
 
 	DecorQuad* temp;
 	for (int i = 0; i < tilesX; i++)
@@ -320,10 +325,11 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 		for (int j = 0; j < tilesY; j++)
 		{
 			//nearest 
-			if ( i < 3 && j < 2) {
+			if ( i < 3 && j < 3) {
 				//cout << "add at x: " << startPos.x + (i*height) / scale << endl;
 				//cout << "add at y: " << startPos.y + (j*width) / scale << endl;
 				data.initPosition = b2Vec2(startPos.x + (i*height) / scale, startPos.y + (j*width) / scale);
+				data.num_in_layer = b2Vec2(3,3);
 				temp = new DecorQuad(data);
 				add(temp);
 			}
@@ -331,20 +337,23 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 			//second nearest
 			if ( i < 6 && j < 4) {
 				data2.initPosition = b2Vec2(startPos.x + (i*height / 2) / scale, startPos.y + (j*width / 2) / scale);
+				data2.num_in_layer = b2Vec2(6, 4);
 				temp = new DecorQuad(data2);
 				add(temp);
 			}
 
 			//third nearest
-			if (i > 0 && i < 9 && j < 5) {
+			if (i < 9 && j < 6) {
 				data3.initPosition = b2Vec2(startPos.x + (i*height / 3) / scale, startPos.y + (j*width / 3) / scale);
+				data3.num_in_layer = b2Vec2(9, 6);
 				temp = new DecorQuad(data3);
 				add(temp);
 			}
 
 			//fourth nearest
-			if (i > 0 && i < 11 && j < 6) {
+			if (i < 11 && j < 8) {
 				data4.initPosition = b2Vec2(startPos.x + (i*height / 4) / scale, startPos.y + (j*width / 4) / scale);
+				data4.num_in_layer = b2Vec2(11, 8);
 				temp = new DecorQuad(data4);
 				add(temp);
 			}
