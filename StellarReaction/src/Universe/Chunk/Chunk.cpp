@@ -31,7 +31,7 @@ Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp)
 	//m_decors.resize(1);
 
 	//Evan -  ship hull sprite
-	//add a quadcomponent to m_decors. QuadComponent's are rendered automatically. m_decors will be re-positioned every post-pysics-update
+	//add a quadcomponent to m_decors. QuadComponent's are rendered automatically. m_decors will be re-positioned every post-physics-update
 	for (auto it = rData.hullData.begin(); it != rData.hullData.end(); ++it)
 	{
 		m_decors.push_back(sptr<GraphicsComponent>(new QuadComponent(*it)));

@@ -25,7 +25,8 @@
 
 using namespace std;
 
-
+//Evan
+#include "Convert.hpp"
 
 Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input, this), m_physWorld(b2Vec2(0,0))
 {
@@ -246,15 +247,110 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 	bool parsedSuccess = reader.parse(level, root, false);
 
 
+	//TODO - handle zoom of 100
+	//DecorQuadData data;
+	//data.ioComp.name = "decorTest";
+	//data.movementScale = 1;
+	//DecorQuad* t = new DecorQuad(data);
+	//add(t);
+	//data.initPosition = b2Vec2(1, 1);
 
+	float height = 6 * 2400.0f; float width = 6 * 2400.0f; //these have to be floats
+
+	QuadComponentData rData;
+	//nearest
 	DecorQuadData data;
 	data.ioComp.name = "decorTest";
-	DecorQuad* t = new DecorQuad(data);
-	add(t);
+	data.movementScale = .1f;
+	rData.dimensions.x = height;
+	rData.dimensions.y = width;
+	rData.texName = "backgrounds/stars4.png";
+	data.quadComp = rData;
+	data.dimensions = b2Vec2(width,height);
+	//second nearest
+	DecorQuadData data2;
+	data2.ioComp.name = "decorTest";
+	data2.movementScale = .8f;
+	rData.dimensions.x = height / 2;
+	rData.dimensions.y = width / 2;
+	rData.texName = "backgrounds/stars4.png";
+	data2.quadComp = rData;
+	data.dimensions = b2Vec2(width / 2, height / 2);
+	//third nearest
+	DecorQuadData data3;
+	data3.ioComp.name = "decorTest";
+	data3.movementScale = .85f;
+	rData.dimensions.x = height / 3;
+	rData.dimensions.y = width / 3;
+	rData.texName = "backgrounds/stars3.png";
+	data3.quadComp = rData;
+	data.dimensions = b2Vec2(width / 3, height / 3);
+	//fourth nearest
+	DecorQuadData data4;
+	data4.ioComp.name = "decorTest";
+	data4.movementScale = .9f;
+	rData.dimensions.x = height / 4;
+	rData.dimensions.y = width / 4;
+	rData.texName = "backgrounds/stars3.png";
+	data4.quadComp = rData;
+	data.dimensions = b2Vec2(width / 4, height / 4);
 
-	data.initPosition = b2Vec2(1, 1);
-	DecorQuad* t2 = new DecorQuad(data);
-	add(t2);
+	//DecorQuad* t2 = new DecorQuad(data);
+	//t2->setPosition(b2Vec2(-10000, -10000)); //doesn't work
+	//game.getLocalPlayer().getCamera().getView().getSize().x;
+	
+
+	int startPosX = game.getLocalPlayer().getCamera().getView().getCenter().x - 20000;
+	int endPosX = game.getLocalPlayer().getCamera().getView().getCenter().x + 20000;
+	int startPosY = game.getLocalPlayer().getCamera().getView().getCenter().y + 10000;
+	int endPosY = game.getLocalPlayer().getCamera().getView().getCenter().y - 10000;
+	//cout << endl << game.getLocalPlayer().getCamera().getView().getSize().x; //if you want size of camera
+	b2Vec2 startPos = leon::sfTob2(b2Vec2(startPosX, startPosY));
+	b2Vec2 endPos = leon::sfTob2(b2Vec2(endPosX, endPosY));
+
+	//for square in screen region, add one of these
+	//one world unit is 256
+	//did the below by hand
+	int tilesX = 10; 
+	int tilesY = 6;
+
+	DecorQuad* temp;
+	for (int i = 0; i < tilesX; i++)
+	{
+		for (int j = 0; j < tilesY; j++)
+		{
+			//nearest 
+			if ( i < 3 && j < 2) {
+				//cout << "add at x: " << startPos.x + (i*height) / scale << endl;
+				//cout << "add at y: " << startPos.y + (j*width) / scale << endl;
+				data.initPosition = b2Vec2(startPos.x + (i*height) / scale, startPos.y + (j*width) / scale);
+				temp = new DecorQuad(data);
+				add(temp);
+			}
+
+			//second nearest
+			if ( i < 6 && j < 4) {
+				data2.initPosition = b2Vec2(startPos.x + (i*height / 2) / scale, startPos.y + (j*width / 2) / scale);
+				temp = new DecorQuad(data2);
+				add(temp);
+			}
+
+			//third nearest
+			if (i > 0 && i < 9 && j < 5) {
+				data3.initPosition = b2Vec2(startPos.x + (i*height / 3) / scale, startPos.y + (j*width / 3) / scale);
+				temp = new DecorQuad(data3);
+				add(temp);
+			}
+
+			//fourth nearest
+			if (i > 0 && i < 11 && j < 6) {
+				data4.initPosition = b2Vec2(startPos.x + (i*height / 4) / scale, startPos.y + (j*width / 4) / scale);
+				temp = new DecorQuad(data4);
+				add(temp);
+			}
+
+		}
+	}
 
 
 	if(!parsedSuccess)
