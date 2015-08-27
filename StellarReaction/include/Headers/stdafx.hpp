@@ -15,9 +15,14 @@
 #include <memory>
 #include <functional>
 #include <random>
+#include <chrono>
+
+#include <time.h>
 #include <conio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <intrin.h>
+#include <stdint.h>
 
 
 #include <SFML/System.hpp>/**SFML**/

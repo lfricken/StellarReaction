@@ -35,7 +35,9 @@ Game::Game()
 
 	loadWindow("window.ini");
 
-
+	m_sampleClock = 0;
+	m_sampleFreq = 40;
+	m_lastTime = 0;
 
 	m_spSound = sptr<SoundManager>(new SoundManager);
 	m_spAnimAlloc = sptr<AnimAlloc>(new AnimAlloc);
@@ -145,7 +147,15 @@ SoundManager& Game::getSound()
 /// <returns></returns>
 float Game::getTime() const
 {
-	return m_clock.getElapsedTime().asSeconds();
+	if(m_sampleClock < m_sampleFreq)
+		++m_sampleClock;
+	else
+	{
+		m_sampleClock = 0;
+		m_lastTime = m_clock.getElapsedTime().asSeconds();
+	}
+	return m_lastTime;
+	
 }
 /// <summary>
 /// Contains Main Game Loop

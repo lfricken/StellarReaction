@@ -99,6 +99,9 @@ private:
 	/// global clock never paused
 	/// </summary>
 	sf::Clock m_clock;
+	mutable float m_lastTime;
+	mutable int m_sampleClock;
+	mutable int m_sampleFreq;
 };
 
 #endif // GAME_HPP
