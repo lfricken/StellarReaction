@@ -5,7 +5,10 @@
 
 enum class GraphicsLayer
 {
-	BackgroundFar = 0,//scenery
+	BackgroundUnmoving1 = 0,
+	BackgroundUnmoving2,
+
+	BackgroundFar,//scenery
 	BackgroundClose,//scenery
 
 	ShipUnder,//fill background

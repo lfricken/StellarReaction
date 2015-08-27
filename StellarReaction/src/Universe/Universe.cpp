@@ -20,13 +20,14 @@
 #include "LinearMeter.hpp"
 #include "BallisticWeapon.hpp"
 #include "ProjectileMan.hpp"
+#include "DecorQuad.hpp"
 
 
 using namespace std;
 
 
 
-Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input, this), m_physWorld(b2Vec2(0,0))
+Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input, this), m_physWorld(b2Vec2(0, 0))
 {
 	m_spBPLoader = sptr<BlueprintLoader>(new BlueprintLoader);//MUST BE AFTER IO
 	m_spSlaveLocator = sptr<SlaveLocator>(new SlaveLocator);
@@ -51,10 +52,10 @@ Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input,
 
 	m_velocityIterations = 1;
 	m_positionIterations = 1;
-	m_timeStep = 1.0f/120.0f;///LOAD FROM FILE
+	m_timeStep = 1.0f / 120.0f;///LOAD FROM FILE
 
 	m_inc = 10;
-	m_currentBed = b2Vec2(-10000,10000);
+	m_currentBed = b2Vec2(-10000, 10000);
 
 	m_physWorld.SetContactListener(&m_contactListener);
 	m_physWorld.SetDebugDraw(&m_debugDraw);
@@ -150,8 +151,11 @@ void Universe::postPhysUpdate()
 			(*it)->postPhysUpdate();
 		m_spProjMan->postPhysUpdate();
 	}
-
-
+}
+void Universe::updateDecorationPosition(const b2Vec2& rCameraPos, float zoom)
+{
+	for(auto it = m_decorList.begin(); it != m_decorList.end(); ++it)
+		(*it)->updateScaledPosition(rCameraPos);
 }
 /// <summary>
 /// returns true if debug draw is on
@@ -169,7 +173,7 @@ bool Universe::debugDraw() const
 void Universe::togglePause(bool pause)
 {
 	if(m_paused && !pause)//switched to not paused
-		m_skippedTime += game.getTime()-m_pauseTime;
+		m_skippedTime += game.getTime() - m_pauseTime;
 	else if(!m_paused && pause)//switch to paused
 		m_pauseTime = game.getTime();
 
@@ -225,22 +229,44 @@ void Universe::loadBlueprints(const std::string& bpDir)//loads blueprints
 {
 	m_spBPLoader->storeRoster(bpDir);
 }
-void Universe::loadLevel(const std::string& levelDir, int localController, const std::string& bluePrints, const std::vector<std::string>& rControllerList)//loads a level using blueprints
+/// <summary>
+/// Loads the level.
+/// </summary>
+/// <param name="level">The level.</param>
+/// <param name="localController">The local controller.</param>
+/// <param name="bluePrints">The blue prints.</param>
+/// <param name="rControllerList">The r controller list.</param>
+void Universe::loadLevel(const std::string& levelDir, int localController, const std::string& bluePrints, const std::vector<std::string>& rControllerList, const std::vector<std::string>& rShipTitleList)//loads a level using blueprints
 {
 	loadBlueprints(bluePrints);
 
 	string configFile = "level.lcfg";
 	string modDir = "mods/";
 
-	ifstream level(levelDir+configFile, std::ifstream::binary);
+	ifstream level(levelDir + configFile, std::ifstream::binary);
 	Json::Reader reader;
 	Json::Value root;
 	bool parsedSuccess = reader.parse(level, root, false);
 
 
+
+	DecorQuadData data;
+	data.ioComp.name = "decorTest";
+	data.movementScale = 0;
+	data.isAbsoluteSize = true;
+	data.quadComp.layer = GraphicsLayer::BackgroundUnmoving1;
+	data.initPosition = b2Vec2(4, 3);
+	DecorQuad* t = new DecorQuad(data);
+	add(t);
+
+	data.initPosition = b2Vec2(1, -1);
+	DecorQuad* t2 = new DecorQuad(data);
+	add(t2);
+
+
 	if(!parsedSuccess)
 	{
-		cout << "\nProblem Parsing [" << levelDir+configFile << "].";
+		cout << "\nProblem Parsing [" << levelDir + configFile << "].";
 		///error log
 		return;
 	}
@@ -252,15 +278,31 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 			const Json::Value bpList = root["AdditionalBlueprints"];
 			for(auto it = bpList.begin(); it != bpList.end(); ++it)
 			{
-				m_spBPLoader->storeRoster(modDir+it->asString());
+				m_spBPLoader->storeRoster(modDir + it->asString());
 			}
 		}
 		else
 		{
 			cout << FILELINE;
-			///ERROR LOG
 		}
-
+		if(!root["SpawnPoints"].isNull())
+		{
+			const Json::Value spawnList = root["SpawnPoints"];
+			for(auto it = spawnList.begin(); it != spawnList.end(); ++it)
+			{
+				const Json::Value pointsJson = (*it)["Points"];
+				vector<b2Vec2> points;
+				for(auto itPoint = pointsJson.begin(); itPoint != pointsJson.end(); ++itPoint)
+				{
+					points.push_back(b2Vec2((*itPoint)[0].asFloat(), (*itPoint)[1].asFloat()));
+				}
+				m_spawnPoints[(*it)["Team"].asInt()] = points;
+			}
+		}
+		else
+		{
+			cout << FILELINE;
+		}
 		/**CHUNKS**/
 		sptr<ChunkData> spCnk;
 		if(!root["Chunks"].isNull())
@@ -287,13 +329,14 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 			}
 		}
 
+
 		//Evan - load background image
-		if (!root["Background1"].isNull())
+		if(!root["Background1"].isNull())
 		{
 			//nothing for now
 			//QuadComponentData rData = loadQuad(root["Background1"], QuadComponentData());
 		}
-		else 
+		else
 		{
 			cout << "Background json entry could not be loaded (check level config file)" << FILELINE;
 			///ERROR LOG
@@ -301,69 +344,17 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 
 	}
 
-
-	/**HARD CODED**/
-	/** Evan - please leave this for now
-	    ChunkData chunkdata_1;
-	    chunkdata_1.bodyComp.coords = b2Vec2(-2,5);
-	    chunkdata_1.ioComp.name = "hard_coded_chunk";
-	    chunkdata_1.zoomData.startValue = 10;
-
-	    ThrusterData thrust;
-	    thrust.force = 40;
-	    thrust.torque = 20;
-	    thrust.energyConsumption = 0.1;
-	    thrust.fixComp.offset = b2Vec2(0,0);
-	    chunkdata_1.moduleData.push_back(sptr<ModuleData>(new ThrusterData(thrust)));
-
-	    SensorData sens;
-	    sens.fixComp.offset = b2Vec2(3,3);
-	    chunkdata_1.moduleData.push_back(sptr<ModuleData>(new SensorData(sens)));
-
-	    ReactorData data;
-	    data.fixComp.offset = b2Vec2(1,0);
-	    chunkdata_1.moduleData.push_back(sptr<ModuleData>(new ReactorData(data)));
-
-	    CapacitorData data3;
-	    data3.fixComp.offset = b2Vec2(-2,0);
-	    chunkdata_1.moduleData.push_back(sptr<ModuleData>(new CapacitorData(data3)));
-
-	    TurretData data4;
-	    data4.fixComp.offset = b2Vec2(-2,1);
-	    LaserWeaponData* pWep = new LaserWeaponData;
-	    pWep->beamColor = sf::Color::Red;
-	    pWep->damage = 100;
-	    pWep->beamWidth = 32;
-	    data4.startWep.reset(pWep);
-	    //chunkdata_1.moduleData.push_back(sptr<ModuleData>(new TurretData(data4)));
-
-	    TurretData data6;
-	    data6.fixComp.offset = b2Vec2(0,3);
-	    BallisticWeaponData* pBall = new BallisticWeaponData;
-	    data6.startWep.reset(pBall);
-	    chunkdata_1.moduleData.push_back(sptr<ModuleData>(new TurretData(data6)));
-
-	    TurretData* pData5 = (TurretData*)m_spBPLoader->getModuleSPtr("DefaultTurret")->clone();
-	    pData5->fixComp.offset = b2Vec2(0, 2);
-	    //chunkdata_1.moduleData.push_back(sptr<ModuleData>(new TurretData(*pData5)));
-
-	    add(chunkdata_1.generate());
-
-	        **/
-
-
-	//CHOSE A CONTROLLER MANUALLY
-	//localController = 0;
-	//std::vector<std::string> manualController;
-	// manualController.push_back("hard_coded_chunk");
-	/**HARD CODED**/
-
+	int team = 1;
+	sptr<ChunkData> spCnk;
+	for(int i = 0; i < (signed)rShipTitleList.size(); ++i)
+	{
+		spCnk.reset(m_spBPLoader->getChunkSPtr(rShipTitleList[i])->clone());
+		spCnk->bodyComp.coords = m_spawnPoints[team][i];
+		spCnk->ioComp.name = std::to_string(i + 1);
+		add(spCnk->generate());
+	}
 
 	game.getLocalPlayer().loadOverlay("overlayconfig");
-
-
-	//getProjMan().in
-
 
 	/**CONTROL**/
 	m_spControlFactory->resetControllers(rControllerList);
@@ -375,7 +366,15 @@ void Universe::add(sptr<GameObject> spGO)
 }
 void Universe::add(GameObject* pGO)
 {
-	m_goList.push_back(sptr<GameObject>(pGO));
+	add(sptr<GameObject>(pGO));
+}
+void Universe::add(sptr<Decoration> pDec)
+{
+	m_decorList.push_back(pDec);
+}
+void Universe::add(Decoration* pDec)
+{
+	add(sptr<Decoration>(pDec));
 }
 void Universe::input(std::string rCommand, sf::Packet rData)
 {

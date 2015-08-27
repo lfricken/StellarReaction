@@ -37,6 +37,7 @@ public:
 	void prePhysUpdate();
 	void physUpdate();
 	void postPhysUpdate();
+	void updateDecorationPosition(const b2Vec2& rCameraPos, float zoom);
 
 
 	bool debugDraw() const;//should we draw debug or normal?
@@ -47,11 +48,13 @@ public:
 	void toggleDebugDraw();
 
 	b2Vec2 getBed();//give a position to sleep at
-	void addBed(const b2Vec2& rBed);//someone gave a bed back to us!
+	void addBed(const b2Vec2& rBed);//someone gave a bed back to us!	
+	void loadLevel(const std::string& level, int localController, const std::string& bluePrints, const std::vector<std::string>& rControllerList, const std::vector<std::string>& rShipTitleList);//loads a level using blueprints
 
-	void loadLevel(const std::string& level, int localController, const std::string& bluePrints, const std::vector<std::string>& rControllerList);//loads a level using blueprints
 	void add(sptr<GameObject> spGO);
 	void add(GameObject* pGO);
+	void add(sptr<Decoration> pDec);
+	void add(Decoration* pDec);
 
 
 	float m_pauseTime;
@@ -89,8 +92,11 @@ private:
 	sptr<IOManager> m_spUniverseIO;//manages IO for the game objects
 	sptr<ProjectileMan> m_spProjMan;//manages IO for the game objects
 
+	std::map<int, std::vector<b2Vec2> > m_spawnPoints;//places for people to spawn, int is team
+
 	std::vector<sptr<GameObject> > m_goList;//list of game objects that WE need to keep track of
-	std::vector<sptr<Decoration> > m_decorList;
+	std::vector<sptr<Decoration> > m_decorList;//list of decorations
+	std::vector<sptr<Decoration> > m_decorListAbsolute;//list of decorations that don't get scaled
 
 	IOComponent m_io;
 	float m_lastTime;//used for update method//cant use timer because timer references us!

@@ -17,10 +17,15 @@ Player::Player(const PlayerData& rData) : m_io(rData.ioComp, &Player::input, thi
 	m_hasFocus = true;
 	m_inGuiMode = true;
 	m_tracking = rData.tracking;
+	m_name = rData.name;
 }
 Player::~Player()
 {
 	cout << "\nPlayer Destroying...";
+}
+const std::string& Player::getName() const
+{
+	return m_name;
 }
 Camera& Player::getCamera()
 {

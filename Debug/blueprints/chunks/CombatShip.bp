@@ -113,7 +113,7 @@
         },
 		{
 			"ClassName": "Radar",
-			"RadarStrength": 20,
+			"RadarStrength": 100,
 			"BaseSprite": {
 				"texName": "radar/radar_base.png",
 				"animSheetName": "radar/radar_base.acfg"

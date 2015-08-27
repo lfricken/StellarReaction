@@ -47,15 +47,15 @@ Game::Game()
 	overlayData.name = "overlay";
 	m_spOverlay = sptr<Overlay>(new Overlay(overlayData));
 	m_spOverlay->loadMenus();
-	PlayerData playerData;
-	m_spLocalPlayer = sptr<Player>(new Player(playerData));
+
+	loadPlayer("settings/GeneralSettings.cfg");
 
 	/**== GAME IO COMPONENT ==**/
 	IOComponentData gameData(getCoreIO());
 	gameData.name = "game";
 	m_spIO = sptr<IOComponent>(new IOComponent(gameData, &Game::input, this));
 
-	loadUniverse("RANDOMTEXT");
+	loadUniverse("RANDOMTEXT");//TODO RANDOMTEXT
 	m_spUniverse->togglePause(true);
 }
 Game::~Game()
@@ -63,7 +63,27 @@ Game::~Game()
 	cout << "\nGame Destroying...";
 	cout << "\nExpect to see (0x8000FFFF) upon exit due to SFML audio.";
 }
+void Game::loadPlayer(const std::string& rFileName)
+{
+	PlayerData data;
 
+	Json::Value root;//Let's parse it
+	Json::Reader reader;
+	std::ifstream test(rFileName, std::ifstream::binary);
+	bool parsedSuccess = reader.parse(test, root, false);
+
+	if(!parsedSuccess)
+	{
+		std::cout << "\nFailed to parse JSON file [" << rFileName << "]." << std::endl << FILELINE;
+		///eRROR LOG
+	}
+	else
+	{
+		data.name = root["PlayerName"].asString();
+	}
+
+	m_spLocalPlayer = sptr<Player>(new Player(data));
+}
 Player& Game::getLocalPlayer()
 {
 	return *m_spLocalPlayer;
@@ -104,10 +124,10 @@ Universe& Game::getUniverse()
 /// <param name="localController">The local controller.</param>
 /// <param name="bluePrints">The blue prints.</param>
 /// <param name="rControllerList">The r controller list.</param>
-void Game::launchGame(const std::string& level, int localController, const std::string& bluePrints, const std::vector<std::string>& rControllerList)
+void Game::launchGame(const std::string& level, int localController, const std::string& bluePrints, const std::vector<std::string>& rControllerList, const std::vector<std::string>& rShipTitleList)
 {
 	game.loadUniverse("meanginglessString");
-	game.getUniverse().loadLevel(level, localController, bluePrints, rControllerList);
+	game.getUniverse().loadLevel(level, localController, bluePrints, rControllerList, rShipTitleList);
 
 	sf::Packet boolean;
 	boolean << false;
@@ -182,12 +202,20 @@ void Game::run()
 
 
 		/**== WINDOW ==**/
+		rWindow.setView(getLocalPlayer().getCamera().getView());
 		getLocalPlayer().getWindowEvents(rWindow);
+		getUniverse().updateDecorationPosition(getLocalPlayer().getCamera().getPosition(), getLocalPlayer().getCamera().getZoom());
 		getUniverse().getGfxUpdater().update();//update graphics components
+
 
 
 		/**== DRAW UNIVERSE ==**/
 		rWindow.clear(sf::Color::Black);
+
+		rWindow.setView(defaultView);
+		getUniverse().getBatchLayers().drawBackground(rWindow);
+
+		rWindow.setView(getLocalPlayer().getCamera().getView());
 		if(getUniverse().debugDraw())
 			getUniverse().getWorld().DrawDebugData();
 		else

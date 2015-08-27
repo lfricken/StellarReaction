@@ -1,6 +1,7 @@
 #include "Chatbox.hpp"
-
+#include "Globals.hpp"
 #include "NetworkBoss.hpp"
+#include "Player.hpp"
 
 using namespace leon;
 using namespace std;
@@ -37,10 +38,10 @@ void Chatbox::f_initialize(const ChatboxData& rData)
 
 	Courier enterPressed;
 	enterPressed.condition.reset(EventType::ReturnKeyPressed, 0, 'd', true);
-	enterPressed.message.reset(rData.ioComp.name, "addLine", voidPacket, 0, true);
+	enterPressed.message.reset(rData.ioComp.name, "chat", voidPacket, 0, true);
 	ebd.ioComp.courierList.push_back(enterPressed);
 
-	sf::Packet null;
+	sf::Packet null;//TODO WHAT IS THIS CONDITION FOR???
 	null << "";
 	Courier enterPressedClear;
 	enterPressedClear.condition.reset(EventType::ReturnKeyPressed, 0, 'd', true);
@@ -63,21 +64,28 @@ void Chatbox::f_callback(const tgui::Callback& callback)
 }
 void Chatbox::input(const std::string rCommand, sf::Packet rData)
 {
-	if(rCommand == "addLine")
+	if(rCommand == "chat")
 	{
-		if(game.getNwBoss().isClient())//if we are a client, send it to the nw component
-		{
-			rData >> m_latest;
-			m_nw.toggleNewData(true);
-		}
-		else//if we are a host, dispatch it and enter it
-		{
-			///DISPATCH IT SOMEHOW USING NW COMPONENT m_nw.send(command, rData)
-			rData >> m_latest;
-			m_nw.toggleNewData(true);
+		string text;
+		rData >> text;
+		text = game.getLocalPlayer().getName() + ": " + text;
 
+		m_latest = text;
+		m_nw.toggleNewData(true);
+
+		if(!game.getNwBoss().isClient())//if we are a host, put it locally as well as to clients
 			addLine(m_latest);
-		}
+	}
+	else if(rCommand == "addLine")
+	{
+		string text;
+		rData >> text;
+
+		m_latest = text;
+		m_nw.toggleNewData(true);
+
+		if(!game.getNwBoss().isClient())//if we are a host, put it locally as well as to clients
+			addLine(m_latest);
 	}
 	else if(rCommand == "addLineLocal")
 	{

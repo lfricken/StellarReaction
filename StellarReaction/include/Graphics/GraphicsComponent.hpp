@@ -40,6 +40,7 @@ public:
 	void setOffset(const sf::Vector2f pixels);//offsets us in pixels (from center of us)
 	void setColor(sf::Color);
 	Animator& getAnimator();
+	void setScale(float scale);
 
 	/**GETTERS**/
 	const b2Vec2& getPosition() const;
@@ -74,6 +75,7 @@ protected:
 
 	Animator m_animator;
 private:
+	float m_scale;
 };
 
 #endif // GRAPHICSCOMPONENT_HPP
