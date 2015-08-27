@@ -20,6 +20,7 @@ public:
 	void setValid();
 	void setShipChoice(const std::string& rTitle);
 	const std::string& getShipChoice() const;
+	const std::string& getName() const;
 protected:
 private:
 	void prepSend(Protocol proto, const sf::Packet& rData, sf::Packet& data);

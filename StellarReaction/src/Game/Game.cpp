@@ -47,8 +47,8 @@ Game::Game()
 	overlayData.name = "overlay";
 	m_spOverlay = sptr<Overlay>(new Overlay(overlayData));
 	m_spOverlay->loadMenus();
-	PlayerData playerData;
-	m_spLocalPlayer = sptr<Player>(new Player(playerData));
+
+	loadPlayer("settings/GeneralSettings.cfg");
 
 	/**== GAME IO COMPONENT ==**/
 	IOComponentData gameData(getCoreIO());
@@ -63,7 +63,27 @@ Game::~Game()
 	cout << "\nGame Destroying...";
 	cout << "\nExpect to see (0x8000FFFF) upon exit due to SFML audio.";
 }
+void Game::loadPlayer(const std::string& rFileName)
+{
+	PlayerData data;
 
+	Json::Value root;//Let's parse it
+	Json::Reader reader;
+	std::ifstream test(rFileName, std::ifstream::binary);
+	bool parsedSuccess = reader.parse(test, root, false);
+
+	if(!parsedSuccess)
+	{
+		std::cout << "\nFailed to parse JSON file [" << rFileName << "]." << std::endl << FILELINE;
+		///eRROR LOG
+	}
+	else
+	{
+		data.name = root["PlayerName"].asString();
+	}
+
+	m_spLocalPlayer = sptr<Player>(new Player(data));
+}
 Player& Game::getLocalPlayer()
 {
 	return *m_spLocalPlayer;

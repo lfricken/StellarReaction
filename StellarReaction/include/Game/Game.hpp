@@ -49,6 +49,7 @@ protected:
 	void input(std::string rCommand, sf::Packet rData);
 
 private:
+	void loadPlayer(const std::string& rFileName);
 	void loadWindow(const std::string& windowFile);
 	void loadUniverse(const std::string& stuff);
 

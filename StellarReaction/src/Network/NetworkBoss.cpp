@@ -259,6 +259,7 @@ void NetworkBoss::tcpRecieve()//receive data from each TcpPort (tcp)
 					{
 						m_connections.back()->setValid();
 						messageLobbyLocal("Connection Successful");
+						messageLobby(game.getLocalPlayer().getName() + " has joined.");
 					}
 					else
 						cout << "\n" << FILELINE << " [" << static_cast<int32_t>(proto) << "]";
@@ -301,13 +302,13 @@ void NetworkBoss::tcpListen()//check for new connections
 		sf::Socket::Status fal = m_listener.accept(*spSocket);
 		if(fal == sf::Socket::Done && m_isOpen)
 		{
-			int32_t players = m_connections.size() + 1;
+			int32_t players = m_connections.size() + 2;//+1 for host, +1 cause we haven't added this one yet
 			std::stringstream sst;
 			sst << players;
 			std::string num = sst.str();
-			messageLobby("New Player Connected.");
-			messageLobby(num + "players total.");
-			std::cout << "\nNew connection received from [" << spSocket->getRemoteAddress() << "].";
+			//messageLobby("New Player Connected.");
+			messageLobby(num + "players");
+			//std::cout << "\nNew connection received from [" << spSocket->getRemoteAddress() << "].";
 			addConnection(spSocket, true);
 		}
 	}
@@ -328,7 +329,7 @@ void NetworkBoss::updateConnections()
 				m_connections.erase(m_connections.begin() + i);
 				--i;
 				cout << "\nConnection Dropped From Timeout";
-				messageLobby("Player Disconnected");
+				messageLobby("Player Disconnected. " + std::to_string(m_connections.size() + 1) + " players total.");
 			}
 		}
 	}
