@@ -364,6 +364,33 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 		}
 	}
 
+	//background
+	DecorQuadData bg_data;
+	bg_data.ioComp.name = "decorTest";
+	bg_data.movementScale = 0;
+	rData.dimensions.x = 2400;
+	rData.dimensions.y = 1200;
+	//rData.center = sf::Vector2f(600,600);
+	rData.texName = "backgrounds/bg6.png";
+	rData.animSheetName = "backgrounds/bg1.acfg";
+	rData.layer = GraphicsLayer::BackgroundUnmoving1;
+	bg_data.quadComp = rData;
+	bg_data.dimensions = b2Vec2(1200, 1200);
+	int pixelsX = game.getWindow().getDefaultView().getSize().x / 2;
+	int pixelsY = game.getWindow().getDefaultView().getSize().y / 2; 
+	bg_data.initPosition = b2Vec2(pixelsX / static_cast<float>(scale), -pixelsY / static_cast<float>(scale));
+	bg_data.num_in_layer = b2Vec2(100, 100);
+	temp = new DecorQuad(bg_data);
+	add(temp);
+
+	//rData.dimensions = sf::Vector2f(1200, 1200);
+	//rData.center = sf::Vector2f(pixelsX / static_cast<float>(scale), -pixelsY / static_cast<float>(scale));
+	//rData.layer = GraphicsLayer::BackgroundUnmoving1;
+	//rData.animSheetName = "backgrounds/bg1.acfg";
+	//QuadComponent * quad_temp = new QuadComponent(rData);
+
+	//LEON!!!! THERES A BUG!!! 
+	 //textures without animsheet will have the top-left portion of the texture loaded.
 
 	if(!parsedSuccess)
 	{

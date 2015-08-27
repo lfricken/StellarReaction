@@ -12,6 +12,8 @@ using namespace std;
 
 Decoration::Decoration(const DecorationData& rData, GraphicsComponent* pGfx) : m_io(rData.ioComp, &Decoration::input, this)
 {
+
+
 	m_gfx = pGfx;
 	m_initPosition = rData.initPosition;
 	setPosition(rData.initPosition);
@@ -85,6 +87,12 @@ void Decoration::setScale(float scale)
 }
 void Decoration::updateScaledPosition(const b2Vec2& rCameraCenter)
 {
+
+	if (m_movementScale == 0.0f) {
+		setPosition(m_initPosition);
+		return;
+	}
+
 	//Evan - update velocity over time
 	float time = velocityTimer.getTimeElapsed();
 	b2Vec2 deltaV(velocity.x*time/m_movementScale, velocity.y*time/m_movementScale);
@@ -96,18 +104,10 @@ void Decoration::updateScaledPosition(const b2Vec2& rCameraCenter)
 	int max_x = 80; //got manually via cout
 	int max_y = 60;
 	//cout << endl << "cam y: " << game.getLocalPlayer().getCamera().getView().getSize().y;
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F)) {
-		//cout << endl << "m_initPosition.x: " << m_initPosition.x;
-	}
-
+	
 	//below lines are magic
 	if (m_initPosition.x + rCameraCenter.x * m_movementScale > (rCameraCenter.x) + (max_x))
 	{
-		//cout << endl << "jump from: " << m_initPosition.x;
-		//cout << endl << "jump amt: " << -(dimensions.x / scale)*num_in_layer.x;
-		//cout << endl << "camera x : " << rCameraCenter.x;
-		//system("PAUSE");
 		m_initPosition.x -= (dimensions.x / scale)*num_in_layer.x;
 	}	
 	else if (m_initPosition.x + rCameraCenter.x * m_movementScale < (rCameraCenter.x) - (max_x))
