@@ -61,14 +61,14 @@
             ]
         },
         {
-            "Title": "Razor_Laser1",
+            "Title": "DefaultTurret",
             "Position": [
                 0,
                 0
             ]
         },
         {
-            "Title": "Razor_Laser1",
+            "Title": "DefaultTurret",
             "Position": [
                 1,
                 -1
@@ -103,7 +103,7 @@
             ]
         },
         {
-            "Title": "Razor_Ballistic1",
+            "Title": "BallisticTurret",
             "Position": [
                 2,
                 0
