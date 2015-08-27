@@ -107,7 +107,7 @@ void Chunk::directive(std::map<Directive, bool>& rIssues)//send command to targe
 		(*it)->directive(rIssues);
 
 	//Evan - key press 'up' results in afterburner anim
-	 //TODO - have separate Quads for hullSprite and afterburnerAnim
+	 //TODO - leon needs to make chunk vars available to thruster module (need to set anim for hull etc)
 	bool upKeyPressed = rIssues[Directive::Up];
 	bool shiftKeyPressed = rIssues[Directive::Boost];
 	if (upKeyPressed)
@@ -127,7 +127,7 @@ void Chunk::directive(std::map<Directive, bool>& rIssues)//send command to targe
 	//Evan - enable thruster anim on shift key press
 	if (shiftKeyPressed && upKeyPressed)
 	{
-		if (!keyShiftIsdown) {
+		if (!keyShiftIsdown || !keyUpIsdown) {
 
 			afterburner->getAnimator().setAnimation("Default", .20f);
 			afterburner_thrust->getAnimator().setAnimation("Thrust", .20f);
