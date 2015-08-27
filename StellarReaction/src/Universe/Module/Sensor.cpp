@@ -18,7 +18,7 @@ void Sensor::startContactCB(FixtureComponent* pOther)
 {
 	m_guests.push_back(pOther);
 	sf::Packet enter;
-	enter << pOther;
+	enter << pOther;//TODO THIS IS BAD, YOU CANT DO A POINTER, it gets casted
 	m_io.event(EventType::OnEnter, m_guests.size(), enter);
 
 	sf::Packet count;
@@ -37,7 +37,7 @@ void Sensor::endContactCB(FixtureComponent* pOther)
 		}
 
 	sf::Packet exit;
-	exit << pOther;
+	exit << pOther;//TODO THIS IS BAD, YOU CANT DO A POINTER, it gets casted
 	m_io.event(EventType::OnExit, m_guests.size(), exit);
 
 	sf::Packet count;

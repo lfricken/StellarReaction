@@ -5,8 +5,8 @@
 
 enum class GraphicsLayer
 {
-	BackgroundUnmoving = 0,
-	BackgroundSlow,
+	BackgroundUnmoving1 = 0,
+	BackgroundUnmoving2,
 
 	BackgroundFar,//scenery
 	Background1,//scenery

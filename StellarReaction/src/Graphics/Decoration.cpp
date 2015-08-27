@@ -23,10 +23,15 @@ Decoration::Decoration(const DecorationData& rData, GraphicsComponent* pGfx) : m
 	dimensions = b2Vec2(rData.dimensions);
 	num_in_layer = b2Vec2(rData.num_in_layer);
 
+	//m_isAbsoluteSize = rData.isAbsoluteSize;
 }
 Decoration::~Decoration()
 {
 
+}
+bool Decoration::hasAbsoluteSize() const
+{
+	return m_isAbsoluteSize;
 }
 void Decoration::input(std::string rCommand, sf::Packet rData)
 {
@@ -73,6 +78,10 @@ void Decoration::setRotation(float radiansCCW)
 void Decoration::setAnimation(const std::string& rAnimName, float duration)
 {
 	m_gfx->getAnimator().setAnimation(rAnimName, duration);
+}
+void Decoration::setScale(float scale)
+{
+	m_gfx->setScale(scale);
 }
 void Decoration::updateScaledPosition(const b2Vec2& rCameraCenter)
 {

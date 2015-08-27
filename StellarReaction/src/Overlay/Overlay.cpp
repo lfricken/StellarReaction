@@ -106,7 +106,7 @@ void Overlay::loadMenus()
 	leon::PanelData multiplayerConnect;
 	multiplayerConnect.ioComp.name = "multiplayer_connect";
 	multiplayerConnect.startHidden = true;
-	multiplayerConnect.backgroundColor = sf::Color::Black;
+	multiplayerConnect.backgroundColor = sf::Color(50, 50, 50, 128);
 	multiplayerConnect.screenCoords = sf::Vector2f(game.getWindow().getSize().x/2-multPanelSize.x/2,game.getWindow().getSize().y/2-multPanelSize.y/2);
 	multiplayerConnect.size = sf::Vector2f(multPanelSize.x,multPanelSize.y);
 	leon::Panel* pMultMenu = new leon::Panel(*pMain_menu->getPanelPtr(), multiplayerConnect);
@@ -163,7 +163,7 @@ void Overlay::loadMenus()
 	leon::PanelData lobbyPanel;
 	lobbyPanel.ioComp.name = "lobby";
 	lobbyPanel.startHidden = true;
-	lobbyPanel.backgroundColor = sf::Color::Black;
+	lobbyPanel.backgroundColor = sf::Color(50,50,50,128);
 	lobbyPanel.screenCoords = sf::Vector2f(game.getWindow().getSize().x/2-lobbyPanelSize.x/2,game.getWindow().getSize().y/2-lobbyPanelSize.y/2);
 	lobbyPanel.size = sf::Vector2f(lobbyPanelSize.x,lobbyPanelSize.y);
 	leon::Panel* pLobby = new leon::Panel(*pMain_menu->getPanelPtr(), lobbyPanel);
@@ -208,7 +208,7 @@ void Overlay::loadMenus()
 	/**CHATBOX**/
 	leon::ChatboxData chatbox;
 	chatbox.ioComp.name = "lobby_chatbox";
-	chatbox.size = sf::Vector2f(250,200);
+	chatbox.size = sf::Vector2f(500,300);
 	chatbox.screenCoords = sf::Vector2f(3,7);
 
 	pLobby->add(tr1::shared_ptr<leon::WidgetBase>(new leon::Chatbox(*pLobby->getPanelPtr(), chatbox)));
