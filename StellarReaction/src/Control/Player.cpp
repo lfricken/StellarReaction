@@ -18,10 +18,20 @@ Player::Player(const PlayerData& rData) : m_io(rData.ioComp, &Player::input, thi
 	m_inGuiMode = true;
 	m_tracking = rData.tracking;
 	m_name = rData.name;
+	m_shipName = "CombatShip";
+	m_team = 1;
 }
 Player::~Player()
 {
 	cout << "\nPlayer Destroying...";
+}
+int Player::getTeam() const
+{
+	return m_team;
+}
+void Player::setTeam(int team)
+{
+	m_team = team;
 }
 const std::string& Player::getName() const
 {
@@ -34,6 +44,14 @@ Camera& Player::getCamera()
 const InputConfig& Player::getInCfg() const
 {
 	return m_inCfg;
+}
+void Player::setShipName(const std::string& name)
+{
+	m_shipName = name;
+}
+const std::string& Player::getShipName() const
+{
+	return m_shipName;
 }
 /// <summary>
 /// Are the player inputs going to the gui or the controller

@@ -36,12 +36,14 @@ void Animator::setAnimation(const std::string& setAnim, float duration)
 	{
 		m_name = m_errorTiles;
 		auto it = m_pSet->animations.find(m_name);
+
 		if(it == m_pSet->animations.end())
-		{
 			cout << "\n" << FILELINE;
-			///ERROR LOG
-		}
+		else
+			m_pAnim = &(it->second);
 	}
+	else
+		m_pAnim = &(it->second);
 }
 sf::Vector2i Animator::getTile()//what texture tile should we be on? 0,0, 1,0 ect
 {
@@ -53,12 +55,11 @@ sf::Vector2i Animator::getTile()//what texture tile should we be on? 0,0, 1,0 ec
 	float elapsed = timer - m_startTime;//elapsed is the time since start of this animation
 	float percent = elapsed / m_currentDuration;//tells us how far through we are
 
-	const Animation& rAnim = m_pSet->animations.find(m_name)->second;
-	const std::vector<std::pair<sf::Vector2i, float> >& rTiles = rAnim.tileSet;
+	const std::vector<std::pair<sf::Vector2i, float> >& rTiles = m_pAnim->tileSet;
 
-	if(percent >= 1.f && rAnim.repeats)
+	if(percent >= 1.f && m_pAnim->repeats)
 	{
-		setAnimation(m_name, m_currentDuration);
+		m_startTime = m_timer.getTime();
 		percent = 0.f;
 	}
 

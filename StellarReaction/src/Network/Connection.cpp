@@ -14,7 +14,9 @@ Connection::Connection(sf::UdpSocket* pSocket, sptr<sf::TcpSocket> spTCPSocket, 
 		m_lastSendRecieve[static_cast<Protocol>(i)].second = 0;
 	}
 
+	m_team = 1;
 	m_shipChoice = "CombatShip";
+	m_name = "defaultName";
 }
 Connection::~Connection()
 {
@@ -78,4 +80,20 @@ void Connection::setShipChoice(const std::string& rTitle)
 const std::string&  Connection::getShipChoice() const
 {
 	return m_shipChoice;
+}
+void Connection::setName(const std::string& rTitle)
+{
+	m_name = rTitle;
+}
+const std::string& Connection::getName() const
+{
+	return m_name;
+}
+void Connection::setTeam(int team)
+{
+	m_team = team;
+}
+int Connection::getTeam() const
+{
+	return m_team;
 }

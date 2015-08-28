@@ -9,7 +9,7 @@ TextureAllocator::TextureAllocator(bool shouldSmoothTextures)
 
 	m_smoothTextures = shouldSmoothTextures;
 
-	tr1::shared_ptr<Texture> spTempTex(new Texture);
+	sptr<Texture> spTempTex(new Texture);
 	if(!spTempTex->loadFromFile(defaultTex))/**cant be loaded**/
 	{
 		///ERROR LOG
@@ -30,13 +30,13 @@ void TextureAllocator::smoothTextures(bool smooth)
 }
 Texture* TextureAllocator::request(const std::string& rFilePath)
 {
-	map<string, tr1::shared_ptr<Texture> >::iterator it = m_textures.find(rFilePath);
+	map<string, sptr<Texture> >::iterator it = m_textures.find(rFilePath);
 
 	if(it != m_textures.end())/**we already have it**/
 		return &(*(it->second));
 	else/**we dont have it loaded**/
 	{
-		tr1::shared_ptr<Texture> spTempTex(new Texture);
+		sptr<Texture> spTempTex(new Texture);
 		if(!spTempTex->loadFromFile("textures/"+rFilePath))/**cant be loaded**/
 		{
 			///ERROR LOG

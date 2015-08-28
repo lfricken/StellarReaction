@@ -28,6 +28,13 @@ public:
 
 	void input(std::string rCommand, sf::Packet rData);
 	virtual bool inputHook(std::string rCommand, sf::Packet rData) = 0;//returns true if we handled the command
+
+	//Evan
+	b2Vec2 velocity;
+	Timer velocityTimer;
+	b2Vec2 dimensions;
+	b2Vec2 num_in_layer;
+
 protected:
 
 private:
@@ -61,6 +68,10 @@ struct DecorationData
 
 	virtual Decoration* generate() const = 0;
 	virtual DecorationData* clone() const = 0;
+
+	//Evan
+	b2Vec2 num_in_layer;
+	b2Vec2 dimensions;
 };
 
 

@@ -62,6 +62,7 @@ public:
 
 
 	/**REDUCTION**/
+	void recieveLobby(sf::Packet& rData, Connection* pFrom);
 	void recieveLevel(sf::Packet& data);
 	void launchMultiplayerGame();
 

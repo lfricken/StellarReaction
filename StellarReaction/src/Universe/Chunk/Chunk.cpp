@@ -30,23 +30,22 @@ Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp)
 	//baseDecor.texName = "ship1.png";
 	//m_decors.resize(1);
 
-	//Evan -  ship hull sprite
-	//add a quadcomponent to m_decors. QuadComponent's are rendered automatically. m_decors will be re-positioned every post-pysics-update
-	for (auto it = rData.hullData.begin(); it != rData.hullData.end(); ++it)
-	{
-		m_decors.push_back(sptr<GraphicsComponent>(new QuadComponent(*it)));
-		m_decors.back()->setPosition(m_body.getPosition());
-		m_decors.back()->setRotation(m_body.getBodyPtr()->GetAngle());
-	}
+	//Evan -  
+	//add a quadcomponent to m_decors. QuadComponent's are rendered automatically. m_decors will be re-positioned every post-physics-update
+	//Evan - add hull, afterburner and afterburner_thrust
+	hull = sptr<GraphicsComponent>(new QuadComponent(rData.hullSpriteData));
+	hull->setPosition(m_body.getPosition());
+	hull->setRotation(m_body.getBodyPtr()->GetAngle());
+	afterburner = sptr<GraphicsComponent>(new QuadComponent(rData.afterburnerSpriteData));
+	afterburner->setPosition(m_body.getPosition());
+	afterburner->setRotation(m_body.getBodyPtr()->GetAngle());
+	afterburner_thrust = sptr<GraphicsComponent>(new QuadComponent(rData.afterburnerThrustSpriteData));
+	afterburner_thrust->setPosition(m_body.getPosition());
+	afterburner_thrust->setRotation(m_body.getBodyPtr()->GetAngle());
 
 	//Evan - afterburner animation
 	keyUpIsdown = false;
-	/*sf::Animation walkingAnimationDown;
-	walkingAnimationDown.setSpriteSheet(texture);
-	walkingAnimationDown.addFrame(sf::IntRect(32, 0, 32, 32));
-	walkingAnimationDown.addFrame(sf::IntRect(64, 0, 32, 32));
-	walkingAnimationDown.addFrame(sf::IntRect(32, 0, 32, 32));
-	walkingAnimationDown.addFrame(sf::IntRect(0,  0, 32, 32));*/
+	keyShiftIsdown = false;
 
 	//Evan - afterburner sound
 	buffer.loadFromFile("audio/afterb1.wav");
@@ -80,12 +79,13 @@ void Chunk::postPhysUpdate()
 		m_body.getNWComp().toggleNewData(true);
 	}
 
-	//Evan - iterate m_decors and rotate (ex: ship hull)
-	for (int i = 0; i<(signed)m_decors.size(); ++i)
-	{
-		m_decors[i]->setPosition(m_body.getPosition());
-		m_decors[i]->setRotation(m_body.getBodyPtr()->GetAngle());
-	}
+	//Evan - rotate hull, afterburner and afterburner_thrust
+	hull->setPosition(m_body.getPosition());
+	hull->setRotation(m_body.getBodyPtr()->GetAngle());
+	afterburner->setPosition(m_body.getPosition());
+	afterburner->setRotation(m_body.getBodyPtr()->GetAngle());
+	afterburner_thrust->setPosition(m_body.getPosition());
+	afterburner_thrust->setRotation(m_body.getBodyPtr()->GetAngle());
 
 
 
@@ -107,51 +107,42 @@ void Chunk::directive(std::map<Directive, bool>& rIssues)//send command to targe
 		(*it)->directive(rIssues);
 
 	//Evan - key press 'up' results in afterburner anim
-	 //TODO - have separate Quads for hullSprite and afterburnerAnim
+	 //TODO - leon needs to make chunk vars available to thruster module (need to set anim for hull etc)
 	bool upKeyPressed = rIssues[Directive::Up];
 	bool shiftKeyPressed = rIssues[Directive::Boost];
 	if (upKeyPressed)
 	{
 		if (!keyUpIsdown) {
-			for (auto it = m_decors.begin(); it != m_decors.end(); ++it)
-			{
-				(*it)->getAnimator().setAnimation("AfterBurner", .20f);
-			}
+			hull->getAnimator().setAnimation("AfterBurner", .35f);
+			afterburner->getAnimator().setAnimation("AfterBurner", .20f);
 		}
 	}
 	else {
 		if (keyUpIsdown) {
-			for (auto it = m_decors.begin(); it != m_decors.end(); ++it)
-			{
-				(*it)->getAnimator().setAnimation("Default", .25f);
-			}
+			hull->getAnimator().setAnimation("Default", .20f);
+			afterburner->getAnimator().setAnimation("Default", .20f);
 		}
 	}
 
 	//Evan - enable thruster anim on shift key press
 	if (shiftKeyPressed && upKeyPressed)
 	{
-		if (!keyShiftIsdown) {
-			for (auto it = m_decors.begin(); it != m_decors.end(); ++it)
-			{
-				(*it)->getAnimator().setAnimation("Thrust", .20f);
-				//if it breaks, add thrust anim
-			}
+		if (!keyShiftIsdown || !keyUpIsdown) {
+
+			afterburner->getAnimator().setAnimation("Default", .20f);
+			afterburner_thrust->getAnimator().setAnimation("Thrust", .20f);
+
 			//add velocity to ship - add to thruster anim
 			thrust_sound.play();
 		}
 	}
 	else {
 		if (keyShiftIsdown) {
-			for (auto it = m_decors.begin(); it != m_decors.end(); ++it)
-			{
-				(*it)->getAnimator().setAnimation("Default", .25f);
-			}
+
+			afterburner_thrust->getAnimator().setAnimation("Default", .20f);
+
 			if (upKeyPressed) {
-				for (auto it = m_decors.begin(); it != m_decors.end(); ++it)
-				{
-					(*it)->getAnimator().setAnimation("AfterBurner", .20f);
-				}
+				afterburner->getAnimator().setAnimation("AfterBurner", .20f);
 			}
 			thrust_sound.stop();
 		}

@@ -18,9 +18,17 @@ public:
 	sf::Socket::Status getStatus() const;
 	bool validated() const;//did we get validated
 	void setValid();
+
+	/**PLAYER DATA**/
+	void setTeam(int team);
+	int getTeam() const;
+
 	void setShipChoice(const std::string& rTitle);
 	const std::string& getShipChoice() const;
+
+	void setName(const std::string& rTitle);
 	const std::string& getName() const;
+
 protected:
 private:
 	void prepSend(Protocol proto, const sf::Packet& rData, sf::Packet& data);
@@ -32,7 +40,11 @@ private:
 	sptr<sf::TcpSocket> m_spTcpSocket;//each connection has a TCP port
 
 	std::map<Protocol, std::pair<int32_t, int32_t> > m_lastSendRecieve;//for each type of protocol, what was the last send?
+
+	/**PLAYER DATA**/
 	std::string m_shipChoice;
+	std::string m_name;
+	int m_team;
 };
 
 

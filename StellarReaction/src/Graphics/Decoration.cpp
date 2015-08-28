@@ -2,15 +2,30 @@
 
 #include "GraphicsComponent.hpp"
 
+//Evan
+#include "Player.hpp"
+#include "Globals.hpp"
+#include "Camera.hpp"
+#include "Convert.hpp"
+
 using namespace std;
 
 Decoration::Decoration(const DecorationData& rData, GraphicsComponent* pGfx) : m_io(rData.ioComp, &Decoration::input, this)
 {
+
+
 	m_gfx = pGfx;
 	m_initPosition = rData.initPosition;
 	setPosition(rData.initPosition);
 	m_movementScale = rData.movementScale;
-	m_isAbsoluteSize = rData.isAbsoluteSize;
+
+	//Evan
+	velocity = b2Vec2(.25f, .25f);
+	velocityTimer.getTimeElapsed();
+	dimensions = b2Vec2(rData.dimensions);
+	num_in_layer = b2Vec2(rData.num_in_layer);
+
+	//m_isAbsoluteSize = rData.isAbsoluteSize;
 }
 Decoration::~Decoration()
 {
@@ -72,5 +87,42 @@ void Decoration::setScale(float scale)
 }
 void Decoration::updateScaledPosition(const b2Vec2& rCameraCenter)
 {
+
+	if (m_movementScale == 0.0f) {
+		setPosition(m_initPosition);
+		return;
+	}
+
+	//Evan - update velocity over time
+	float time = velocityTimer.getTimeElapsed();
+	b2Vec2 deltaV(velocity.x*time/m_movementScale, velocity.y*time/m_movementScale);
+	m_initPosition += deltaV;
+
+	//Evan - check for wrap around
+	//int max_x = 33600; //got manually via cout
+	//int max_y = 16800;
+	int max_x = 80; //got manually via cout
+	int max_y = 60;
+	//cout << endl << "cam y: " << game.getLocalPlayer().getCamera().getView().getSize().y;
+	
+	//below lines are magic
+	if (m_initPosition.x + rCameraCenter.x * m_movementScale > (rCameraCenter.x) + (max_x))
+	{
+		m_initPosition.x -= (dimensions.x / scale)*num_in_layer.x;
+	}	
+	else if (m_initPosition.x + rCameraCenter.x * m_movementScale < (rCameraCenter.x) - (max_x))
+	{
+		m_initPosition.x += (dimensions.x / scale)*num_in_layer.x;
+	}
+	if (m_initPosition.y + rCameraCenter.y * m_movementScale > (rCameraCenter.y + (max_y)))
+	{
+		m_initPosition.y -= (dimensions.y / scale)*num_in_layer.y;
+	}
+	else if (m_initPosition.y + rCameraCenter.y * m_movementScale< (rCameraCenter.y - (max_y)))
+	{
+		m_initPosition.y += (dimensions.y / scale)*num_in_layer.y;
+	}
+
+
 	setPosition(m_initPosition + b2Vec2(rCameraCenter.x*m_movementScale, rCameraCenter.y*m_movementScale));
 }

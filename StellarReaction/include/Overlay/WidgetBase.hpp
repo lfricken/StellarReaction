@@ -9,11 +9,11 @@ namespace leon
 {
 	struct WidgetBaseData
 	{
-		WidgetBaseData():
+		WidgetBaseData() :
 			startHidden(false),
 			configFile("TGUI/widgets/Black.conf"),
-			screenCoords(game.getWindow().getSize().x/2, game.getWindow().getSize().y/2),
-			size(128,64),
+			screenCoords(game.getWindow().getSize().x / 2, game.getWindow().getSize().y / 2),
+			size(128, 64),
 			ioComp(game.getCoreIO())
 		{
 		}

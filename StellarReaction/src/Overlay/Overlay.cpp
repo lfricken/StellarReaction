@@ -7,6 +7,7 @@
 #include "Courier.hpp"
 #include "EditBox.hpp"
 #include "Chatbox.hpp"
+#include "NetworkedSelection.hpp"
 
 using namespace std;
 
@@ -59,7 +60,7 @@ void Overlay::loadMenus()
 	pictureData.screenCoords = sf::Vector2f(20, 20);
 	pictureData.size = sf::Vector2f(847,104);
 	leon::WidgetBase* picture = new leon::Picture(*pMain_menu->getPanelPtr(), pictureData);
-	pMain_menu->add(tr1::shared_ptr<leon::WidgetBase>(picture));
+	pMain_menu->add(sptr<leon::WidgetBase>(picture));
 	/**====RESUME====**/
 	leon::ButtonData resumeButtonData;
 	resumeButtonData.size = sf::Vector2f(150,50);
@@ -72,7 +73,7 @@ void Overlay::loadMenus()
 
 	resumeButtonData.ioComp.courierList.push_back(resumeMessage1);
 	leon::WidgetBase* pResume = new leon::Button(*pMain_menu->getPanelPtr(), resumeButtonData);
-	pMain_menu->add(tr1::shared_ptr<leon::WidgetBase>(pResume));
+	pMain_menu->add(sptr<leon::WidgetBase>(pResume));
 	/**====HOW TO PLAY====**/
 	leon::ButtonData htpButData;
 	htpButData.size = sf::Vector2f(275,50);
@@ -83,7 +84,7 @@ void Overlay::loadMenus()
 	htpMessage.message.reset("multiplayer_connect", "toggleHidden", voidPacket, 0, false);
 	htpButData.ioComp.courierList.push_back(htpMessage);
 	leon::WidgetBase* pHTP = new leon::Button(*pMain_menu->getPanelPtr(), htpButData);
-	pMain_menu->add(tr1::shared_ptr<leon::WidgetBase>(pHTP));
+	pMain_menu->add(sptr<leon::WidgetBase>(pHTP));
 	/**====EXIT====**/
 	leon::ButtonData exitButtonData;
 	exitButtonData.size = sf::Vector2f(100,50);
@@ -94,9 +95,9 @@ void Overlay::loadMenus()
 	buttonMessage.message.reset("game", "exit", voidPacket, 0, false);
 	exitButtonData.ioComp.courierList.push_back(buttonMessage);
 	leon::WidgetBase* pExit = new leon::Button(*pMain_menu->getPanelPtr(), exitButtonData);
-	pMain_menu->add(tr1::shared_ptr<leon::WidgetBase>(pExit));
+	pMain_menu->add(sptr<leon::WidgetBase>(pExit));
 
-	game.getOverlay().addPanel(tr1::shared_ptr<leon::Panel>(pMain_menu));
+	game.getOverlay().addPanel(sptr<leon::Panel>(pMain_menu));
 	/**=========**/
 	/**MAIN MENU**/
 
@@ -121,7 +122,7 @@ void Overlay::loadMenus()
 	joinMess.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
 	joinMess.message.reset("networkboss", "join", voidPacket, 0, false);
 	joinButt.ioComp.courierList.push_back(joinMess);
-	pMultMenu->add(tr1::shared_ptr<leon::WidgetBase>(new leon::Button(*pMultMenu->getPanelPtr(), joinButt)));
+	pMultMenu->add(sptr<leon::WidgetBase>(new leon::Button(*pMultMenu->getPanelPtr(), joinButt)));
 	/**HOST**/
 	leon::ButtonData hostButt;
 	hostButt.size = sf::Vector2f(100,50);
@@ -131,7 +132,7 @@ void Overlay::loadMenus()
 	hostMess.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
 	hostMess.message.reset("networkboss", "host", voidPacket, 0, false);
 	hostButt.ioComp.courierList.push_back(hostMess);
-	pMultMenu->add(tr1::shared_ptr<leon::WidgetBase>(new leon::Button(*pMultMenu->getPanelPtr(), hostButt)));
+	pMultMenu->add(sptr<leon::WidgetBase>(new leon::Button(*pMultMenu->getPanelPtr(), hostButt)));
 	/**PORT**/
 	leon::EditBoxData port;
 	port.size = sf::Vector2f(125,50);
@@ -141,7 +142,7 @@ void Overlay::loadMenus()
 	portMess.condition.reset(EventType::TextChanged, 0, 'd', true);
 	portMess.message.reset("networkboss", "joinPort", voidPacket, 0, true);
 	port.ioComp.courierList.push_back(portMess);
-	pMultMenu->add(tr1::shared_ptr<leon::WidgetBase>(new leon::EditBox(*pMultMenu->getPanelPtr(), port)));
+	pMultMenu->add(sptr<leon::WidgetBase>(new leon::EditBox(*pMultMenu->getPanelPtr(), port)));
 	/**IP**/
 	leon::EditBoxData ipAdd;
 	ipAdd.ioComp.name = "ipaddress_editbox";
@@ -152,14 +153,14 @@ void Overlay::loadMenus()
 	ipAddMess.condition.reset(EventType::TextChanged, 0, 'd', true);
 	ipAddMess.message.reset("networkboss", "joinIP", voidPacket, 0, true);
 	ipAdd.ioComp.courierList.push_back(ipAddMess);
-	pMultMenu->add(tr1::shared_ptr<leon::WidgetBase>(new leon::EditBox(*pMultMenu->getPanelPtr(), ipAdd)));
+	pMultMenu->add(sptr<leon::WidgetBase>(new leon::EditBox(*pMultMenu->getPanelPtr(), ipAdd)));
 	/**MULTIPLAYER**/
 
 
 
 
 	/**LOBBY**/
-	sf::Vector2f lobbyPanelSize = sf::Vector2f(640,480);
+	sf::Vector2f lobbyPanelSize = sf::Vector2f(750,500);
 	leon::PanelData lobbyPanel;
 	lobbyPanel.ioComp.name = "lobby";
 	lobbyPanel.startHidden = true;
@@ -185,7 +186,7 @@ void Overlay::loadMenus()
 	disconnect.ioComp.courierList.push_back(disconnectMess2);
 
 
-	pLobby->add(tr1::shared_ptr<leon::WidgetBase>(new leon::Button(*pLobby->getPanelPtr(), disconnect)));
+	pLobby->add(sptr<leon::WidgetBase>(new leon::Button(*pLobby->getPanelPtr(), disconnect)));
 
 	/**Launch**/
 	leon::ButtonData launch;
@@ -203,15 +204,50 @@ void Overlay::loadMenus()
 	launch.ioComp.courierList.push_back(launchMess1);
 
 
-	pLobby->add(tr1::shared_ptr<leon::WidgetBase>(new leon::Button(*pLobby->getPanelPtr(), launch)));
+	pLobby->add(sptr<leon::WidgetBase>(new leon::Button(*pLobby->getPanelPtr(), launch)));
 
 	/**CHATBOX**/
 	leon::ChatboxData chatbox;
 	chatbox.ioComp.name = "lobby_chatbox";
-	chatbox.size = sf::Vector2f(500,300);
+	chatbox.size = sf::Vector2f(400,300);
 	chatbox.screenCoords = sf::Vector2f(3,7);
 
-	pLobby->add(tr1::shared_ptr<leon::WidgetBase>(new leon::Chatbox(*pLobby->getPanelPtr(), chatbox)));
+	pLobby->add(sptr<leon::WidgetBase>(new leon::Chatbox(*pLobby->getPanelPtr(), chatbox)));
+
+	/**SHIP SELECTION**/
+	leon::NetworkedSelectionData select;
+	select.command = "setShip";
+	select.size = sf::Vector2f(200, 200);
+	select.screenCoords = sf::Vector2f(420, 7);
+	select.ioComp.name = "lobby_shipSelect";
+	select.items.push_back(pair<string, int>("CombatShip", 1));
+	select.items.push_back(pair<string, int>("DefaultChunk", 2));
+
+	Courier setShip;
+	setShip.condition.reset(EventType::Selection, 0, 'd', true);
+	setShip.message.reset("networkboss", "sendTcpToHost", voidPacket, 0, true);
+	select.ioComp.courierList.push_back(setShip);
+
+	pLobby->add(sptr<leon::WidgetBase>(new leon::NetworkedSelection(*pLobby->getPanelPtr(), select)));
+
+	/**TEAM SELECTION**/
+	leon::NetworkedSelectionData selectTeam;
+	selectTeam.command = "setTeam";
+	selectTeam.size = sf::Vector2f(50, 150);
+	selectTeam.itemHeight = 20;
+	selectTeam.screenCoords = sf::Vector2f(420, 207);
+	selectTeam.ioComp.name = "lobby_teamSelect";
+	selectTeam.items.push_back(pair<string, int>("1", 1));
+	selectTeam.items.push_back(pair<string, int>("2", 2));
+	selectTeam.items.push_back(pair<string, int>("3", 3));
+	selectTeam.items.push_back(pair<string, int>("4", 4));
+
+	Courier setTeam;
+	setTeam.condition.reset(EventType::Selection, 0, 'd', true);
+	setTeam.message.reset("networkboss", "sendTcpToHost", voidPacket, 0, true);
+	selectTeam.ioComp.courierList.push_back(setTeam);
+
+	pLobby->add(sptr<leon::WidgetBase>(new leon::NetworkedSelection(*pLobby->getPanelPtr(), selectTeam)));
 	/**LOBBY**/
 
 
@@ -237,8 +273,8 @@ void Overlay::loadMenus()
 	closeMess.message.reset("message_panel", "toggleHidden", voidPacket, 0, false);
 	closeMessBox.ioComp.courierList.push_back(closeMess);
 	leon::WidgetBase* pClose = new leon::Button(*pMessBox->getPanelPtr(), closeMessBox);
-	pMessBox->add(tr1::shared_ptr<leon::WidgetBase>(pClose));
-	game.getOverlay().addPanel(tr1::shared_ptr<leon::Panel>(pMessBox));
+	pMessBox->add(sptr<leon::WidgetBase>(pClose));
+	game.getOverlay().addPanel(sptr<leon::Panel>(pMessBox));
 
 }
 void Overlay::toggleMenu(bool show)//display menu, assume gui control, send pause game command
