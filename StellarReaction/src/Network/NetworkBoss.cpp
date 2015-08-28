@@ -409,7 +409,7 @@ void NetworkBoss::recieveLevel(sf::Packet& data)//we are anyone being told to lo
 	data >> localController;
 	cout << "\nCont" << localController;
 
-	game.launchGame(level, localController, blueprints, controllerList, shipTitleList);
+	game.launchGame(level, localController, blueprints, controllerList, shipTitleList, teams);
 }
 void NetworkBoss::launchMultiplayerGame()
 {
