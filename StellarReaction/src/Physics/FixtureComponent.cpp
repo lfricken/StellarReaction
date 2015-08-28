@@ -10,13 +10,13 @@ FixtureComponent::FixtureComponent(const FixtureComponentData& rData)
 	/**RECTANGLE**/
 	if(rData.shape == leon::Shape::Rectangle)
 	{
-		m_spShape = tr1::shared_ptr<b2Shape>(new b2PolygonShape);
+		m_spShape = sptr<b2Shape>(new b2PolygonShape);
 		tr1::static_pointer_cast<b2PolygonShape>(m_spShape)->SetAsBox(rData.size.x/2, rData.size.y/2, rData.offset, 0);
 	}
 	/**CIRCLE**/
 	else if(rData.shape == leon::Shape::Circle)
 	{
-		m_spShape = tr1::shared_ptr<b2Shape>(new b2CircleShape);
+		m_spShape = sptr<b2Shape>(new b2CircleShape);
 		b2CircleShape* temp = &*tr1::static_pointer_cast<b2CircleShape>(m_spShape);
 		temp->m_p.Set(rData.offset.x, rData.offset.y);
 		temp->m_radius = rData.size.x/2;

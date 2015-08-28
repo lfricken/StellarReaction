@@ -54,7 +54,7 @@ void EditBox::f_callback(const tgui::Callback& callback)
 	}
 	else
 	{
-
+		cout << FILELINE;
 	}
 }
 void EditBox::setText(const std::string& rText)

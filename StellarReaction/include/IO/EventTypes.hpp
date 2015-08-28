@@ -13,11 +13,12 @@ enum class EventType
 	/**UNIVERSE**/
 
 	/**GUI**/
-	MouseLeft,//called when mouse left our AABB, pass in ///?????????????????
-	MouseEntered,//called when mouse entered our AABB, pass in ///???????????
-	LeftMouseClicked,//called when we are leftClicked on, pass in ///????????
+	MouseLeft,//called when mouse left our AABB, pass in
+	MouseEntered,//called when mouse entered our AABB, pass in
+	LeftMouseClicked,//called when we are leftClicked on, pass in
 	TextChanged,//called when text changes in editbox, pass in TextInBox
 	ReturnKeyPressed,//called when enter pressed in editbox, pass in TextInBox
+	Selection,//called when someone selects from a list
 	/**GUI**/
 
 	/**TRIGGERS**/

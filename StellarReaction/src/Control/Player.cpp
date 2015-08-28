@@ -19,10 +19,19 @@ Player::Player(const PlayerData& rData) : m_io(rData.ioComp, &Player::input, thi
 	m_tracking = rData.tracking;
 	m_name = rData.name;
 	m_shipName = "CombatShip";
+	m_team = 1;
 }
 Player::~Player()
 {
 	cout << "\nPlayer Destroying...";
+}
+int Player::getTeam() const
+{
+	return m_team;
+}
+void Player::setTeam(int team)
+{
+	m_team = team;
 }
 const std::string& Player::getName() const
 {
