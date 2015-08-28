@@ -51,8 +51,8 @@ private:
 
 	//Evan - sprites for hull, afterburner, afterburner_thrust. need to set anims and anim speed individually
 	sptr<GraphicsComponent> hull;
-	sptr<GraphicsComponent> afterburner;
-	sptr<GraphicsComponent> afterburner_thrust;
+	std::vector<sptr<GraphicsComponent>> afterburners;
+	std::vector<sptr<GraphicsComponent>> afterburners_thrust;
 
 	//Evan - keyDown var is for afterb anim and sound
 	bool keyShiftIsdown;
@@ -87,8 +87,8 @@ struct ChunkData : public GameObjectData
 
 	//Evan
 	QuadComponentData hullSpriteData;
-	QuadComponentData afterburnerSpriteData;
-	QuadComponentData afterburnerThrustSpriteData;
+	std::vector<QuadComponentData> afterburnerSpriteData;
+	std::vector<QuadComponentData> afterburnerThrustSpriteData;
 
 	virtual Chunk* generate() const
 	{

@@ -15,6 +15,10 @@ Connection::Connection(sf::UdpSocket* pSocket, sptr<sf::TcpSocket> spTCPSocket, 
 	}
 
 	m_shipChoice = "CombatShip";
+
+	//Evan - choose different ship for now
+	m_shipChoice = "CombatShip2";
+
 }
 Connection::~Connection()
 {

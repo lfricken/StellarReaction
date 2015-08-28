@@ -15,6 +15,7 @@
     ],
     "ChunkList": [
 		"chunks/CombatShip.bp",
+		"chunks/CombatShip2.bp",
         "chunks/DefaultChunk.bp"
     ],
     "WeaponList": [

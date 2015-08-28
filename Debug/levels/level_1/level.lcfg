@@ -62,7 +62,7 @@
         },
         {
             "ClassName": "Chunk",
-            "Copies": "CombatShip",
+            "Copies": "CombatShip2",
             "IO": {
                 "name": "garbage"
             },
