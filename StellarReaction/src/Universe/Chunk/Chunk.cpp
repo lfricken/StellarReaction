@@ -36,12 +36,20 @@ Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp)
 	hull = sptr<GraphicsComponent>(new QuadComponent(rData.hullSpriteData));
 	hull->setPosition(m_body.getPosition());
 	hull->setRotation(m_body.getBodyPtr()->GetAngle());
-	afterburner = sptr<GraphicsComponent>(new QuadComponent(rData.afterburnerSpriteData));
-	afterburner->setPosition(m_body.getPosition());
-	afterburner->setRotation(m_body.getBodyPtr()->GetAngle());
-	afterburner_thrust = sptr<GraphicsComponent>(new QuadComponent(rData.afterburnerThrustSpriteData));
-	afterburner_thrust->setPosition(m_body.getPosition());
-	afterburner_thrust->setRotation(m_body.getBodyPtr()->GetAngle());
+	for (auto it = rData.afterburnerSpriteData.begin(); it != rData.afterburnerSpriteData.end(); ++it)
+	{
+		sptr<GraphicsComponent> temp = sptr<GraphicsComponent>(new QuadComponent(*it));
+		temp->setPosition(m_body.getPosition());
+		temp->setRotation(m_body.getBodyPtr()->GetAngle());
+		afterburners.push_back(temp);
+	}
+	for (auto it = rData.afterburnerThrustSpriteData.begin(); it != rData.afterburnerThrustSpriteData.end(); ++it)
+	{
+		sptr<GraphicsComponent> temp = sptr<GraphicsComponent>(new QuadComponent(*it));
+		temp->setPosition(m_body.getPosition());
+		temp->setRotation(m_body.getBodyPtr()->GetAngle());
+		afterburners_thrust.push_back(temp);
+	}
 
 	//Evan - afterburner animation
 	keyUpIsdown = false;
@@ -82,10 +90,16 @@ void Chunk::postPhysUpdate()
 	//Evan - rotate hull, afterburner and afterburner_thrust
 	hull->setPosition(m_body.getPosition());
 	hull->setRotation(m_body.getBodyPtr()->GetAngle());
-	afterburner->setPosition(m_body.getPosition());
-	afterburner->setRotation(m_body.getBodyPtr()->GetAngle());
-	afterburner_thrust->setPosition(m_body.getPosition());
-	afterburner_thrust->setRotation(m_body.getBodyPtr()->GetAngle());
+	for (auto it = afterburners.begin(); it != afterburners.end(); ++it)
+	{
+		(*it)->setPosition(m_body.getPosition());
+		(*it)->setRotation(m_body.getBodyPtr()->GetAngle());
+	}
+	for (auto it = afterburners_thrust.begin(); it != afterburners_thrust.end(); ++it)
+	{
+		(*it)->setPosition(m_body.getPosition());
+		(*it)->setRotation(m_body.getBodyPtr()->GetAngle());
+	}
 
 
 
@@ -114,13 +128,19 @@ void Chunk::directive(std::map<Directive, bool>& rIssues)//send command to targe
 	{
 		if (!keyUpIsdown) {
 			hull->getAnimator().setAnimation("AfterBurner", .35f);
-			afterburner->getAnimator().setAnimation("AfterBurner", .20f);
+			for (auto it = afterburners.begin(); it != afterburners.end(); ++it)
+			{
+				(*it)->getAnimator().setAnimation("AfterBurner", .20f);
+			}
 		}
 	}
 	else {
 		if (keyUpIsdown) {
 			hull->getAnimator().setAnimation("Default", .20f);
-			afterburner->getAnimator().setAnimation("Default", .20f);
+			for (auto it = afterburners.begin(); it != afterburners.end(); ++it)
+			{
+				(*it)->getAnimator().setAnimation("Default", .20f);
+			}
 		}
 	}
 
@@ -129,8 +149,14 @@ void Chunk::directive(std::map<Directive, bool>& rIssues)//send command to targe
 	{
 		if (!keyShiftIsdown || !keyUpIsdown) {
 
-			afterburner->getAnimator().setAnimation("Default", .20f);
-			afterburner_thrust->getAnimator().setAnimation("Thrust", .20f);
+			for (auto it = afterburners.begin(); it != afterburners.end(); ++it)
+			{
+				(*it)->getAnimator().setAnimation("Default", .20f);
+			}
+			for (auto it = afterburners_thrust.begin(); it != afterburners_thrust.end(); ++it)
+			{
+				(*it)->getAnimator().setAnimation("Thrust", .20f);
+			}
 
 			//add velocity to ship - add to thruster anim
 			thrust_sound.play();
@@ -139,10 +165,16 @@ void Chunk::directive(std::map<Directive, bool>& rIssues)//send command to targe
 	else {
 		if (keyShiftIsdown) {
 
-			afterburner_thrust->getAnimator().setAnimation("Default", .20f);
+			for (auto it = afterburners_thrust.begin(); it != afterburners_thrust.end(); ++it)
+			{
+				(*it)->getAnimator().setAnimation("Default", .20f);
+			}
 
 			if (upKeyPressed) {
-				afterburner->getAnimator().setAnimation("AfterBurner", .20f);
+				for (auto it = afterburners.begin(); it != afterburners.end(); ++it)
+				{
+					(*it)->getAnimator().setAnimation("AfterBurner", .20f);
+				}
 			}
 			thrust_sound.stop();
 		}
