@@ -266,13 +266,19 @@ sptr<const ChunkData> BlueprintLoader::loadChunk(const Json::Value& root)//retur
 		{
 			pCnk->hullSpriteData = loadQuad(root["Hull_Sprite"], QuadComponentData());
 		}
-		if (!root["Afterburner_Sprite"].isNull())
+		if (!root["Afterburner_Sprites"].isNull())
 		{
-			pCnk->afterburnerSpriteData = loadQuad(root["Afterburner_Sprite"], QuadComponentData());
+			for (auto it = root["Afterburner_Sprites"].begin(); it != root["Afterburner_Sprites"].end(); ++it) 
+			{
+				pCnk->afterburnerSpriteData.push_back(loadQuad(*it, QuadComponentData()));
+			}
 		}
-		if (!root["Afterburner_Thrust_Sprite"].isNull())
+		if (!root["Afterburner_Thrust_Sprites"].isNull())
 		{
-			pCnk->afterburnerThrustSpriteData = loadQuad(root["Afterburner_Thrust_Sprite"], QuadComponentData());
+			for (auto it = root["Afterburner_Thrust_Sprites"].begin(); it != root["Afterburner_Thrust_Sprites"].end(); ++it)
+			{
+				pCnk->afterburnerThrustSpriteData.push_back(loadQuad(*it, QuadComponentData()));
+			}
 		}
 
 		if(!root["Modules"].isNull())
