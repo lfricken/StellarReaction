@@ -237,7 +237,7 @@ void Universe::loadBlueprints(const std::string& bpDir)//loads blueprints
 /// <param name="localController">The local controller.</param>
 /// <param name="bluePrints">The blue prints.</param>
 /// <param name="rControllerList">The r controller list.</param>
-void Universe::loadLevel(const std::string& levelDir, int localController, const std::string& bluePrints, const std::vector<std::string>& rControllerList, const std::vector<std::string>& rShipTitleList)//loads a level using blueprints
+void Universe::loadLevel(const std::string& levelDir, int localController, const std::string& bluePrints, const std::vector<std::string>& rControllerList, const std::vector<std::string>& rShipTitleList, const std::vector<int>& teams)//loads a level using blueprints
 {
 	loadBlueprints(bluePrints);
 
@@ -476,6 +476,7 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 	sptr<ChunkData> spCnk;
 	for(int i = 0; i < (signed)rShipTitleList.size(); ++i)
 	{
+		team = teams[i];
 		spCnk.reset(m_spBPLoader->getChunkSPtr(rShipTitleList[i])->clone());
 		spCnk->bodyComp.coords = m_spawnPoints[team][i];
 		spCnk->ioComp.name = std::to_string(i + 1);

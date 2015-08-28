@@ -177,12 +177,8 @@ void NetworkBoss::setState(NWState state, bool open, bool acceptsLocal, bool hid
 
 
 
-
-
-
 void NetworkBoss::update()
 {
-
 	tcpListen();
 	updateConnections();
 
@@ -191,9 +187,7 @@ void NetworkBoss::update()
 
 	sendUdp();
 	sendTcp();
-
 }
-
 void NetworkBoss::udpRecieve()
 {
 	if(m_nwGameStarted)
@@ -255,11 +249,29 @@ void NetworkBoss::tcpRecieve()//receive data from each TcpPort (tcp)
 						recieveLevel(data);
 						cout << "\nLoad Level";
 					}
+					else if(proto == Protocol::LobbyOption)
+					{
+						if(getNWState() == NWState::Server)
+							recieveLobby(data, m_connections[i].get());
+						cout << "\nLobbyOption Attempted";
+					}
 					else if(proto == Protocol::Handshake)
 					{
 						m_connections.back()->setValid();
 						messageLobbyLocal("Connection Successful");
 						messageLobby(game.getLocalPlayer().getName() + " has joined.");
+
+						/**SET OUR DATA**/
+						sf::Packet setNamePacket;
+
+						setNamePacket << "setName";
+						setNamePacket << game.getLocalPlayer().getName();
+
+						if(m_connections.back()->validated())
+						{
+							m_connections.back()->sendTcp(Protocol::LobbyOption, setNamePacket);
+						}
+						/**SET OUR DATA**/
 					}
 					else
 						cout << "\n" << FILELINE << " [" << static_cast<int32_t>(proto) << "]";
@@ -334,12 +346,34 @@ void NetworkBoss::updateConnections()
 		}
 	}
 }
-
-
-
-
-
-
+void NetworkBoss::recieveLobby(sf::Packet& rData, Connection* pFrom)//we are the lobby being given player information
+{
+	string command;
+	rData >> command;
+	if(command == "setShip")
+	{
+		string shipName;
+		rData >> shipName;
+		pFrom->setShipChoice(shipName);
+		messageLobby(pFrom->getName() + " changed ship to [" + shipName + "].");
+	}
+	else if(command == "setTeam")
+	{
+		string steam;
+		rData >> steam;
+		int team = stoi(steam);
+		pFrom->setTeam(team);
+		messageLobby(pFrom->getName() + " changed to team [" + to_string(team) + "].");
+	}
+	else if(command == "setName")
+	{
+		string name;
+		rData >> name;
+		pFrom->setName(name);
+	}
+	else
+		cout << FILELINE;
+}
 /// <summary>
 /// Loads the level.
 /// </summary>
@@ -352,8 +386,10 @@ void NetworkBoss::recieveLevel(sf::Packet& data)//we are anyone being told to lo
 	int32_t numControllers;
 	std::string slave;
 	std::string title;
+	int team;
 	std::vector<std::string> controllerList;
 	std::vector<std::string> shipTitleList;
+	std::vector<int> teams;
 	int32_t localController;
 
 
@@ -364,14 +400,16 @@ void NetworkBoss::recieveLevel(sf::Packet& data)//we are anyone being told to lo
 	{
 		data >> slave;
 		data >> title;
+		data >> team;
 		cout << "\n[" << slave << "][" << title << "]";
 		controllerList.push_back(slave);
 		shipTitleList.push_back(title);
+		teams.push_back(team);
 	}
 	data >> localController;
 	cout << "\nCont" << localController;
 
-	game.launchGame(level, localController, blueprints, controllerList, shipTitleList);
+	game.launchGame(level, localController, blueprints, controllerList, shipTitleList, teams);
 }
 void NetworkBoss::launchMultiplayerGame()
 {
@@ -386,17 +424,18 @@ void NetworkBoss::launchMultiplayerGame()
 
 	//host
 	data << "1";
-	//Evan - different ship
-	//data << "CombatShip";
-	data << "CombatShip2";
+	data << game.getLocalPlayer().getShipName();
+	data << game.getLocalPlayer().getTeam();
 	//for clients
 	for(int32_t i = 0; i < (signed)m_connections.size(); ++i)
 	{
 		string slaveName = std::to_string(i + 1 + 1);
 		string shipName = m_connections[i]->getShipChoice();
+		int team = m_connections[i]->getTeam();
 		cout << "\nSlave:[" << slaveName << "] title:[" << shipName << "].";
 		data << slaveName;
 		data << shipName;
+		data << team;
 	}
 
 	int32_t controller = 0;
@@ -453,6 +492,32 @@ void NetworkBoss::input(const std::string rCommand, sf::Packet rData)
 	{
 		if(m_state != NWState::Client)
 			launchMultiplayerGame();
+	}
+	else if(rCommand == "sendTcpToHost")
+	{
+		if(getNWState() == NWState::Server)
+		{
+			string command;
+			rData >> command;
+			if(command == "setShip")
+			{
+				string shipName;
+				rData >> shipName;
+				game.getLocalPlayer().setShipName(shipName);
+				messageLobby(game.getLocalPlayer().getName() + " changed ship to [" + shipName + "].");
+			}
+			else if(command == "setTeam")
+			{
+				string steam;
+				rData >> steam;
+				int team = stoi(steam);
+				game.getLocalPlayer().setTeam(team);
+				messageLobby(game.getLocalPlayer().getName() + " changed to team [" + to_string(team) + "].");
+			}
+		}
+		else
+			for(auto it = m_connections.begin(); it != m_connections.end(); ++it)
+				(*it)->sendTcp(Protocol::LobbyOption, rData);
 	}
 	else
 	{

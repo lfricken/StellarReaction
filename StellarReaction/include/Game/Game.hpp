@@ -38,7 +38,7 @@ public:
 	Universe& getUniverse();
 	/**should go in UNIVERSE to be reset upon game reload**/	
 
-	void launchGame(const std::string& level, int localController, const std::string& bluePrints, const std::vector<std::string>& rControllerList, const std::vector<std::string>& rShipTitleList);
+	void launchGame(const std::string& level, int localController, const std::string& bluePrints, const std::vector<std::string>& rControllerList, const std::vector<std::string>& rShipTitleList, const std::vector<int>& teams);
 
 
 
@@ -99,6 +99,9 @@ private:
 	/// global clock never paused
 	/// </summary>
 	sf::Clock m_clock;
+	mutable float m_lastTime;
+	mutable int m_sampleClock;
+	mutable int m_sampleFreq;
 };
 
 #endif // GAME_HPP

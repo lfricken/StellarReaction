@@ -35,7 +35,9 @@ Game::Game()
 
 	loadWindow("window.ini");
 
-
+	m_sampleClock = 0;
+	m_sampleFreq = 40;
+	m_lastTime = 0;
 
 	m_spSound = sptr<SoundManager>(new SoundManager);
 	m_spAnimAlloc = sptr<AnimAlloc>(new AnimAlloc);
@@ -124,10 +126,10 @@ Universe& Game::getUniverse()
 /// <param name="localController">The local controller.</param>
 /// <param name="bluePrints">The blue prints.</param>
 /// <param name="rControllerList">The r controller list.</param>
-void Game::launchGame(const std::string& level, int localController, const std::string& bluePrints, const std::vector<std::string>& rControllerList, const std::vector<std::string>& rShipTitleList)
+void Game::launchGame(const std::string& level, int localController, const std::string& bluePrints, const std::vector<std::string>& rControllerList, const std::vector<std::string>& rShipTitleList, const std::vector<int>& teams)
 {
 	game.loadUniverse("meanginglessString");
-	game.getUniverse().loadLevel(level, localController, bluePrints, rControllerList, rShipTitleList);
+	game.getUniverse().loadLevel(level, localController, bluePrints, rControllerList, rShipTitleList, teams);
 
 	sf::Packet boolean;
 	boolean << false;
@@ -145,7 +147,15 @@ SoundManager& Game::getSound()
 /// <returns></returns>
 float Game::getTime() const
 {
-	return m_clock.getElapsedTime().asSeconds();
+	if(m_sampleClock < m_sampleFreq)
+		++m_sampleClock;
+	else
+	{
+		m_sampleClock = 0;
+		m_lastTime = m_clock.getElapsedTime().asSeconds();
+	}
+	return m_lastTime;
+	
 }
 /// <summary>
 /// Contains Main Game Loop

@@ -6,6 +6,7 @@
 
 class AnimAlloc;
 struct AnimSet;
+struct Animation;
 
 class Animator
 {
@@ -24,6 +25,7 @@ protected:
 private:
 	mutable Timer m_timer;
 
+	const Animation* m_pAnim;
 
 	float m_realTime;
 

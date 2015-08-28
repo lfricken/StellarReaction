@@ -1,0 +1,84 @@
+{
+    "texTileSize": [
+        32,
+        128
+    ],
+    "stateList": [
+        {
+            "comment": "The default state is the state we are normally in",
+			"comment2": "the t represents the %of time we will spend on that tile",
+            "state": "Default",
+            "repeats": false,
+            "tileList": [
+				{
+                    "x": 0,
+                    "y": 0,
+                    "t": 1.0
+                }
+            ]
+        },
+        {
+            "comment": "this is the state we go into if we start doing something special",
+            "state": "Activated",
+            "repeats": true,
+            "tileList": [
+                {
+                    "x": 0,
+                    "y": 1,
+                    "t": 0.25
+                },
+                {
+                    "x": 1,
+                    "y": 1,
+                    "t": 0.25
+                },
+                {
+                    "x": 2,
+                    "y": 1,
+                    "t": 0.25
+                },
+                {
+                    "x": 3,
+                    "y": 1,
+                    "t": 0.25
+                }
+            ]
+        },
+        {
+            "comment": "This is the state we go into if we are told to go into a state we dont have (always have this for all acfg files",
+            "state": "Error",
+            "repeats": true,
+            "tileList": [
+                {
+                    "x": 3,
+                    "y": 0,
+                    "t": 1
+                }
+            ]
+        },
+        {
+            "comment": "This is what we do if we have been damaged (classified as <50% health as of 8/14/2014)",
+            "state": "Damaged",
+            "repeats": false,
+            "tileList": [
+                {
+                    "x": 1,
+                    "y": 0,
+                    "t": 1
+                }
+            ]
+        },
+        {
+            "comment": "We have been destroyed",
+            "state": "Destroyed",
+            "repeats": false,
+            "tileList": [
+                {
+                    "x": 2,
+                    "y": 0,
+                    "t": 1
+                }
+            ]
+        }
+    ]
+}

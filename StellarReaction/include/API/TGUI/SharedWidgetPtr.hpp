@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 // TGUI - Texus's Graphical User Interface
-// Copyright (C) 2012-2014 Bruno Van de Velde (vdv_b@tgui.eu)
+// Copyright (C) 2012-2015 Bruno Van de Velde (vdv_b@tgui.eu)
 //
 // This software is provided 'as-is', without any express or implied warranty.
 // In no event will the authors be held liable for any damages arising from the use of this software.
@@ -107,14 +107,14 @@ namespace tgui
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         template <typename U>
-        bool friend operator ==(const SharedWidgetPtr<T>& left, const U* right)
+        friend bool operator ==(const SharedWidgetPtr<T>& left, const U* right)
         {
             return left.m_WidgetPtr == right;
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        bool friend operator ==(const SharedWidgetPtr<T>& left, const T* right)
+        friend bool operator ==(const SharedWidgetPtr<T>& left, const T* right)
         {
             return left.m_WidgetPtr == right;
         }
@@ -122,14 +122,14 @@ namespace tgui
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         template <typename U>
-        bool friend operator ==(const U* left, const SharedWidgetPtr<T>& right)
+        friend bool operator ==(const U* left, const SharedWidgetPtr<T>& right)
         {
             return left == right.m_WidgetPtr;
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        bool friend operator ==(const T* left, const SharedWidgetPtr<T>& right)
+        friend bool operator ==(const T* left, const SharedWidgetPtr<T>& right)
         {
             return left == right.m_WidgetPtr;
         }
@@ -146,14 +146,14 @@ namespace tgui
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         template <typename U>
-        bool friend operator !=(const SharedWidgetPtr<T>& left, const U* right)
+        friend bool operator !=(const SharedWidgetPtr<T>& left, const U* right)
         {
             return left.m_WidgetPtr != right;
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        bool friend operator !=(const SharedWidgetPtr<T>& left, const T* right)
+        friend bool operator !=(const SharedWidgetPtr<T>& left, const T* right)
         {
             return left.m_WidgetPtr != right;
         }
@@ -161,14 +161,14 @@ namespace tgui
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         template <typename U>
-        bool friend operator !=(const U* left, const SharedWidgetPtr<T>& right)
+        friend bool operator !=(const U* left, const SharedWidgetPtr<T>& right)
         {
             return left != right.m_WidgetPtr;
         }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        bool friend operator !=(const T* left, const SharedWidgetPtr<T>& right)
+        friend bool operator !=(const T* left, const SharedWidgetPtr<T>& right)
         {
             return left != right.m_WidgetPtr;
         }

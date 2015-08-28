@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 // TGUI - Texus's Graphical User Interface
-// Copyright (C) 2012-2014 Bruno Van de Velde (vdv_b@tgui.eu)
+// Copyright (C) 2012-2015 Bruno Van de Velde (vdv_b@tgui.eu)
 //
 // This software is provided 'as-is', without any express or implied warranty.
 // In no event will the authors be held liable for any damages arising from the use of this software.
@@ -89,11 +89,12 @@ namespace tgui
         /// \brief Loads the widget.
         ///
         /// \param configFileFilename  Filename of the config file.
+        /// \param sectionName         Name of the section in the file to load
         ///
         /// The config file must contain a TextBox section with the needed information.
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        bool load(const std::string& configFileFilename);
+        bool load(const std::string& configFileFilename, const std::string& sectionName = "TextBox");
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -379,6 +380,9 @@ namespace tgui
         /// \param charactersBeforeSelectionPoint  The amount of characters that are before the selection point
         ///
         /// Normally you will not need this function.
+        ///
+        /// If the selection point is outside the visible area, the text box will scroll to show the part where the selection
+        /// point is located. So calling setSelectionPointPosition(0) will always make the scrollbar go completely to the top.
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         void setSelectionPointPosition(unsigned int charactersBeforeSelectionPoint);

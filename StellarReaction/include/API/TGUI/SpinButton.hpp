@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 // TGUI - Texus's Graphical User Interface
-// Copyright (C) 2012-2014 Bruno Van de Velde (vdv_b@tgui.eu)
+// Copyright (C) 2012-2015 Bruno Van de Velde (vdv_b@tgui.eu)
 //
 // This software is provided 'as-is', without any express or implied warranty.
 // In no event will the authors be held liable for any damages arising from the use of this software.
@@ -87,11 +87,12 @@ namespace tgui
         /// \brief Loads the widget.
         ///
         /// \param configFileFilename  Filename of the config file.
+        /// \param sectionName         Name of the section in the file to load
         ///
         /// The config file must contain a SpinButton section with the needed information.
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        bool load(const std::string& configFileFilename);
+        bool load(const std::string& configFileFilename, const std::string& sectionName = "SpinButton");
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -276,7 +277,7 @@ namespace tgui
         enum SpinButtonCallbacks
         {
             ValueChanged = ClickableWidgetCallbacksCount * 1,               ///< Value has changed
-            AllSpinButtonCallbacks = ClickableWidgetCallbacksCount * 2 - 1, ///< All triggers defined in TextBox and its base classes
+            AllSpinButtonCallbacks = ClickableWidgetCallbacksCount * 2 - 1, ///< All triggers defined in SpinButton and its base classes
             SpinButtonCallbacksCount = ClickableWidgetCallbacksCount * 2
         };
 
