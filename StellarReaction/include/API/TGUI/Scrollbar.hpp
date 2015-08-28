@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 // TGUI - Texus's Graphical User Interface
-// Copyright (C) 2012-2014 Bruno Van de Velde (vdv_b@tgui.eu)
+// Copyright (C) 2012-2015 Bruno Van de Velde (vdv_b@tgui.eu)
 //
 // This software is provided 'as-is', without any express or implied warranty.
 // In no event will the authors be held liable for any damages arising from the use of this software.
@@ -87,11 +87,12 @@ namespace tgui
         /// \brief Loads the widget.
         ///
         /// \param configFileFilename  Filename of the config file.
+        /// \param sectionName         Name of the section in the file to load
         ///
         /// The config file must contain a Scrollbar section with the needed information.
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        bool load(const std::string& configFileFilename);
+        bool load(const std::string& configFileFilename, const std::string& sectionName = "Scrollbar");
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -321,7 +322,7 @@ namespace tgui
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Returns the position and size of the thumb
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        sf::FloatRect getThumbRect();
+        sf::FloatRect getThumbRect() const;
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -355,6 +356,7 @@ namespace tgui
         // When the mouse went down, did it go down on top of the thumb? If so, where?
         bool m_MouseDownOnThumb;
         sf::Vector2f m_MouseDownOnThumbPos;
+        sf::Vector2f m_lastMousePos;
 
         unsigned int m_Maximum;
         unsigned int m_Value;

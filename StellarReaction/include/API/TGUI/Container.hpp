@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 // TGUI - Texus's Graphical User Interface
-// Copyright (C) 2012-2014 Bruno Van de Velde (vdv_b@tgui.eu)
+// Copyright (C) 2012-2015 Bruno Van de Velde (vdv_b@tgui.eu)
 //
 // This software is provided 'as-is', without any express or implied warranty.
 // In no event will the authors be held liable for any damages arising from the use of this software.
@@ -122,7 +122,7 @@ namespace tgui
         /// \return Vector of all widget pointers
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        std::vector<Widget::Ptr>& getWidgets();
+        const std::vector<Widget::Ptr>& getWidgets();
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -131,7 +131,7 @@ namespace tgui
         /// \return Vector of all widget names
         ///
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        std::vector<sf::String>& getWidgetNames();
+        const std::vector<sf::String>& getWidgetNames();
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -552,8 +552,8 @@ namespace tgui
         std::vector<Widget::Ptr> m_Widgets;
         std::vector<sf::String>  m_ObjName;
 
-        // The id of the focused widget
-        unsigned int m_FocusedWidget;
+        // The focused widget
+        Widget* m_FocusedWidget;
 
         sf::Font m_GlobalFont;
 
