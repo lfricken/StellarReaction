@@ -147,6 +147,13 @@ void Player::getLiveInput()
 		rController.updateDirectives(m_directives);
 		rController.setAim(m_aim);
 	}
+	else if(!hasFocus())
+	{
+		Controller& rController = game.getUniverse().getControllerFactory().getController(m_controller);
+		for(auto it = m_directives.begin(); it != m_directives.end(); ++it)
+			it->second = false;
+		rController.updateDirectives(m_directives);
+	}
 }
 /// <summary>
 /// Hande window events such as clicks and gui events.
