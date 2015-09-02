@@ -366,6 +366,9 @@
     <ClCompile Include="src\Overlay\NetworkedSelection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Control\BasePlayerTraits.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\API\Box2D\Box2D.h">
@@ -1143,6 +1146,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Overlay\NetworkedSelection.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Control\BasePlayerTraits.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Control\Money.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

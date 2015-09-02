@@ -51,28 +51,11 @@ void NetworkFactory::clean()
 			break;
 	}
 }
-void NetworkFactory::getData(sf::Packet& rPacket)
+/// <summary>
+/// gets data of all NetworkComponents
+/// </summary>
+void NetworkFactory::getComponentData(sf::Packet& rPacket)
 {
-	/*
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num9) && m_name == "standard")
-	{
-	int i;
-
-	sf::Packet test;
-	std::vector<NetworkComponent*>& rPtr = m_componentPtrs;
-	cout << "\nSize: " <<  rPtr.size();
-	for(int32_t i = 0; i < rPtr.size(); ++i)
-	{
-	if(rPtr[i] != NULL)
-	{
-	rPtr[i]->pack(rPacket);
-	}
-	else
-	cout << "\nNULL";
-	}
-	cin >> i;
-	}*/
-
 	std::vector<NetworkComponent*>& rPtr = m_componentPtrs;
 	for(int32_t i = 0; i < (signed)rPtr.size(); ++i)
 	{
@@ -89,13 +72,6 @@ void NetworkFactory::getData(sf::Packet& rPacket)
 }
 void NetworkFactory::process(sf::Packet& rPacket)
 {
-	//if(m_name == "standard")
-	//cout << "\n" << m_componentPtrs.size();
-
-
-
-
-
 	int32_t id;
 	int32_t old_id;
 	while(rPacket >> id && !rPacket.endOfPacket())

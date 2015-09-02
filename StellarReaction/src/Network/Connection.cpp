@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Connection::Connection(sf::UdpSocket* pSocket, sptr<sf::TcpSocket> spTCPSocket, bool valid)
+Connection::Connection(sf::UdpSocket* pSocket, sptr<sf::TcpSocket> spTCPSocket, bool valid) : BasePlayerTraits("default", 0)
 {
 	m_valid = valid;
 	m_pUdpSocket = pSocket;
@@ -13,10 +13,6 @@ Connection::Connection(sf::UdpSocket* pSocket, sptr<sf::TcpSocket> spTCPSocket, 
 		m_lastSendRecieve[static_cast<Protocol>(i)].first = 0;
 		m_lastSendRecieve[static_cast<Protocol>(i)].second = 0;
 	}
-
-	m_team = 1;
-	m_shipChoice = "CombatShip";
-	m_name = "defaultName";
 }
 Connection::~Connection()
 {
@@ -51,7 +47,7 @@ Protocol Connection::recievePacket(sf::Packet& rData)//what do we do with this p
 	rData >> sendID;
 	proto = static_cast<Protocol>(proto32);
 
-	if(sendID < m_lastSendRecieve[proto].second)//if this sendID is old...
+	if(sendID <= m_lastSendRecieve[proto].second)//if this sendID is old...
 		return Protocol::End;
 
 	m_lastSendRecieve[proto].second = sendID;
@@ -73,27 +69,8 @@ void Connection::setValid()
 {
 	m_valid = true;
 }
-void Connection::setShipChoice(const std::string& rTitle)
+void Connection::syncPlayerTraits()
 {
-	m_shipChoice = rTitle;
-}
-const std::string&  Connection::getShipChoice() const
-{
-	return m_shipChoice;
-}
-void Connection::setName(const std::string& rTitle)
-{
-	m_name = rTitle;
-}
-const std::string& Connection::getName() const
-{
-	return m_name;
-}
-void Connection::setTeam(int team)
-{
-	m_team = team;
-}
-int Connection::getTeam() const
-{
-	return m_team;
+	sf::Packet message;
+	message << static_cast<int32_t>(getMoney());
 }

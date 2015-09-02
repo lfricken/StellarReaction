@@ -222,6 +222,7 @@ void Overlay::loadMenus()
 	select.ioComp.name = "lobby_shipSelect";
 	select.items.push_back(pair<string, int>("CombatShip", 1));
 	select.items.push_back(pair<string, int>("DefaultChunk", 2));
+	select.items.push_back(pair<string, int>("CombatShip2", 3));
 
 	Courier setShip;
 	setShip.condition.reset(EventType::Selection, 0, 'd', true);

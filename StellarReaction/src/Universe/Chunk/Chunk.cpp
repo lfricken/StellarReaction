@@ -67,6 +67,15 @@ Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp)
 	thrust_sound.setVolume(100);
 
 }
+void Chunk::add(const ModuleData& rData)
+{
+	PoolCollection myPools;
+	myPools.ballisticPool = &m_ballisticPool;
+	myPools.zoomPool = &m_zoomPool;
+	myPools.missilePool = &m_missilePool;
+	myPools.energyPool = &m_energyPool;
+	m_modules.push_back(sptr<Module>(rData.generate(m_body.getBodyPtr(), myPools)));
+}
 Chunk::~Chunk()
 {
 	game.getUniverse().getSlaveLocator().free(m_slavePosition);
@@ -257,5 +266,9 @@ b2Body* Chunk::getBodyPtr()
 }
 void Chunk::input(std::string rCommand, sf::Packet rData)
 {
+	if(rCommand == "addShipModule")
+	{
+
+	}
 	cout << "\nCommand not found in [" << m_io.getName() << "].";
 }

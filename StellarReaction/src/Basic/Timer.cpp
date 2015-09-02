@@ -7,8 +7,8 @@ Timer::Timer()
 {
 	m_lastElapsedTime = game.getUniverse().getTime();
 	m_lastCountDownTime = game.getUniverse().getTime();
-	m_countDownTime = 1.0f;
-	m_countDownTimeRemain = 0;
+	m_countDownTime = 1.f;
+	m_countDownTimeRemain = 0.f;
 }
 Timer::~Timer()
 {

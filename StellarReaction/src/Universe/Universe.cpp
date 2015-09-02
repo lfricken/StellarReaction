@@ -21,12 +21,11 @@
 #include "BallisticWeapon.hpp"
 #include "ProjectileMan.hpp"
 #include "DecorQuad.hpp"
-
+#include "Convert.hpp"
 
 using namespace std;
 
-//Evan
-#include "Convert.hpp"
+
 
 Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input, this), m_physWorld(b2Vec2(0, 0))
 {
@@ -116,7 +115,6 @@ void Universe::toggleDebugDraw()
 /// <summary>
 /// get the time step for the box2d::world
 /// </summary>
-/// <returns></returns>
 float Universe::getTimeStep() const
 {
 	return m_timeStep;
@@ -126,12 +124,18 @@ float Universe::getTimeStep() const
 /// </summary>
 void Universe::prePhysUpdate()
 {
+	static bool hap = false;
+	ThrusterData data;
+	data.fixComp.offset = b2Vec2(1, 6);
 	if(!m_paused)
 	{
 		for(auto it = m_goList.begin(); it != m_goList.end(); ++it)
+		{
 			(*it)->prePhysUpdate();
+		}
 		m_spProjMan->prePhysUpdate();
 	}
+
 }
 void Universe::physUpdate()
 {
@@ -233,10 +237,6 @@ void Universe::loadBlueprints(const std::string& bpDir)//loads blueprints
 /// <summary>
 /// Loads the level.
 /// </summary>
-/// <param name="level">The level.</param>
-/// <param name="localController">The local controller.</param>
-/// <param name="bluePrints">The blue prints.</param>
-/// <param name="rControllerList">The r controller list.</param>
 void Universe::loadLevel(const std::string& levelDir, int localController, const std::string& bluePrints, const std::vector<std::string>& rControllerList, const std::vector<std::string>& rShipTitleList, const std::vector<int>& teams)//loads a level using blueprints
 {
 	loadBlueprints(bluePrints);
@@ -382,15 +382,6 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 	bg_data.num_in_layer = b2Vec2(100, 100);
 	temp = new DecorQuad(bg_data);
 	add(temp);
-
-	//rData.dimensions = sf::Vector2f(1200, 1200);
-	//rData.center = sf::Vector2f(pixelsX / static_cast<float>(scale), -pixelsY / static_cast<float>(scale));
-	//rData.layer = GraphicsLayer::BackgroundUnmoving1;
-	//rData.animSheetName = "backgrounds/bg1.acfg";
-	//QuadComponent * quad_temp = new QuadComponent(rData);
-
-	//LEON!!!! THERES A BUG!!! 
-	 //textures without animsheet will have the top-left portion of the texture loaded.
 
 	if(!parsedSuccess)
 	{

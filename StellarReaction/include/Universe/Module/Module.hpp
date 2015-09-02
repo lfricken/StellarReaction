@@ -46,6 +46,7 @@ struct ModuleData
 {
 	ModuleData() :
 		//type(ModuleType::Broken),
+		cost(1),
 		ioComp(game.getUniverse().getUniverseIO()),
 		nwComp(),
 		fixComp()
@@ -53,6 +54,7 @@ struct ModuleData
 
 	}
 
+	int cost;
 	IOComponentData ioComp;
 	NetworkComponentData nwComp;
 	FixtureComponentData fixComp;

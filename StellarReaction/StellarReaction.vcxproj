@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Control\BasePlayerTraits.cpp" />
     <ClCompile Include="include\API\Box2D\Collision\b2BroadPhase.cpp" />
     <ClCompile Include="include\API\Box2D\Collision\b2CollideCircle.cpp" />
     <ClCompile Include="include\API\Box2D\Collision\b2CollideEdge.cpp" />
@@ -130,6 +131,7 @@
     <ClCompile Include="src\Universe\Utility\UniversalContactListener.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Control\BasePlayerTraits.hpp" />
     <ClInclude Include="include\API\Box2D\Box2D.h" />
     <ClInclude Include="include\API\Box2D\Collision\b2BroadPhase.h" />
     <ClInclude Include="include\API\Box2D\Collision\b2Collision.h" />
@@ -324,6 +326,7 @@
     <ClInclude Include="include\Control\ControlFactory.hpp" />
     <ClInclude Include="include\Control\Controller.hpp" />
     <ClInclude Include="include\Control\Input.hpp" />
+    <ClInclude Include="include\Control\Money.hpp" />
     <ClInclude Include="include\Control\Player.hpp" />
     <ClInclude Include="include\Control\SlaveLocator.hpp" />
     <ClInclude Include="include\Game\Game.hpp" />

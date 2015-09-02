@@ -28,6 +28,8 @@ public:
 	virtual void prePhysUpdate();
 	virtual void postPhysUpdate();
 
+	void add(const ModuleData& rData);
+
 	const std::string& getName() const;
 
 	void setAim(const b2Vec2& world);//send our aim coordinates

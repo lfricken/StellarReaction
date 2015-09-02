@@ -4,6 +4,7 @@
 #include "stdafx.hpp"
 #include "Controller.hpp"
 #include "Camera.hpp"
+#include "BasePlayerTraits.hpp"
 
 
 class DecorQuad;
@@ -88,20 +89,13 @@ struct PlayerData
 /// Represents the local player on this machine.
 /// This class also handles all user input through it's getLiveInput and getWindowEvents functions
 /// </summary>
-class Player
+class Player : public BasePlayerTraits
 {
 public:
 	Player(const PlayerData& rData);
 	virtual ~Player();
 
 	Camera& getCamera();
-
-	int getTeam() const;
-	void setTeam(int team);
-	void setShipName(const std::string& name);
-	const std::string& getShipName() const;
-	const std::string& getName() const;
-
 
 	const InputConfig& getInCfg() const;
 	IOComponent& getIOComp();	
@@ -126,10 +120,6 @@ protected:
 	void input(std::string rCommand, sf::Packet rData);
 
 private:
-	/**PLAYER DATA**/
-	std::string m_name;
-	std::string m_shipName;
-	int m_team;
 
 	int m_controller;//which controller do we have, 0, 1, 2, ect.(points to a controller in the list)
 	b2Vec2 m_aim;//where we are aiming in the world ATM

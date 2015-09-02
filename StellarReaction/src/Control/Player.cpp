@@ -11,31 +11,16 @@
 using namespace std;
 using namespace sf;
 
-Player::Player(const PlayerData& rData) : m_io(rData.ioComp, &Player::input, this)
+Player::Player(const PlayerData& rData) : m_io(rData.ioComp, &Player::input, this), BasePlayerTraits(rData.name, 0)
 {
 	m_controller = 999999;//by default they have the 0 controller
 	m_hasFocus = true;
 	m_inGuiMode = true;
 	m_tracking = rData.tracking;
-	m_name = rData.name;
-	m_shipName = "CombatShip";
-	m_team = 1;
 }
 Player::~Player()
 {
 	cout << "\nPlayer Destroying...";
-}
-int Player::getTeam() const
-{
-	return m_team;
-}
-void Player::setTeam(int team)
-{
-	m_team = team;
-}
-const std::string& Player::getName() const
-{
-	return m_name;
 }
 Camera& Player::getCamera()
 {
@@ -44,14 +29,6 @@ Camera& Player::getCamera()
 const InputConfig& Player::getInCfg() const
 {
 	return m_inCfg;
-}
-void Player::setShipName(const std::string& name)
-{
-	m_shipName = name;
-}
-const std::string& Player::getShipName() const
-{
-	return m_shipName;
 }
 /// <summary>
 /// Are the player inputs going to the gui or the controller

@@ -65,7 +65,8 @@ void NetworkedSelection::f_callback(const tgui::Callback& callback)
 	}
 	else if(callback.trigger == tgui::ListBox::ItemSelected)
 	{
-		f_ItemSelected();
+		if(m_pListBox->getSelectedItemId() != 0)//make sure nothing isn't selected
+			f_ItemSelected();
 	}
 	else
 	{

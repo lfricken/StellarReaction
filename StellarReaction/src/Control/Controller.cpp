@@ -22,12 +22,15 @@ Controller::~Controller()
 {
 
 }
-
-
-
-
-
-
+int Controller::getMoney() const
+{
+	return m_money;
+}
+void Controller::setMoney(int money)
+{
+	m_money = money;
+	m_nw.toggleNewData(true);
+}
 void Controller::setSlave(const std::string& rSlaveName)
 {
 	m_slaveName = rSlaveName;
@@ -37,9 +40,6 @@ const std::string& Controller::getSlaveName() const
 {
 	return m_slaveName;
 }
-
-
-
 IOComponent& Controller::getIOComp()
 {
 	return m_io;
@@ -122,6 +122,7 @@ void Controller::pack(sf::Packet& rPacket)
 {
 	rPacket << static_cast<float32>(m_aim.x);
 	rPacket << static_cast<float32>(m_aim.y);
+	rPacket << static_cast<int32_t>(m_money);
 	for(int32_t i=0; i<static_cast<int32_t>(Directive::End); ++i)
 	{
 		rPacket << m_directives[static_cast<Directive>(i)];
@@ -134,8 +135,11 @@ void Controller::unpack(sf::Packet& rPacket)
 
 	bool dir;
 	float32 aimX, aimY;
+	int32_t money;
 	rPacket >> aimX;
 	rPacket >> aimY;
+	rPacket >> money;
+	m_money = money;
 	setAim(b2Vec2(aimX, aimY));
 	for(int32_t i = 0; i<static_cast<int32_t>(Directive::End); ++i)
 	{

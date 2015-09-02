@@ -13,7 +13,7 @@ public:
 	int give(NetworkComponent* pComponent);
 	void clean();//clean up everything
 	void free(int position);//don't adjust the list, just mark the node as null and offer it as a position to future components
-	void getData(sf::Packet& rPacket);
+	void getComponentData(sf::Packet& rPacket);
 	void process(sf::Packet& rPacket);
 
 protected:
