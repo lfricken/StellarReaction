@@ -338,6 +338,7 @@ void NetworkBoss::sendUdp()
 	const int frequency = 6;
 	if(counter >= frequency)
 	{
+		counter = 0;
 		//universe component data
 		if(getNWState() == NWState::Server)
 		{
@@ -352,7 +353,7 @@ void NetworkBoss::sendUdp()
 	game.getUniverse().getControllerFactory().getNWFactory().getComponentData(udpPacket);
 	for(int32_t i = 0; i < (signed)m_connections.size(); ++i)
 		m_connections[i]->sendUdp(Protocol::Control, udpPacket);
-	counter = 0;
+	++counter;
 }
 /// <summary>
 /// Anyone sending via TCP to all connections
@@ -403,12 +404,12 @@ void NetworkBoss::updateConnections()
 				--i;
 			}
 		}
-		else if(counter == frequency && getNWState() == NWState::Server && m_connections[i]->validated())
+		else if(counter >= frequency && getNWState() == NWState::Server && m_connections[i]->validated())
 		{
 			m_connections[i]->syncPlayerTraits();
 		}
 	}
-	if(counter == frequency)
+	if(counter >= frequency)
 		counter = 0;
 	++counter;
 
