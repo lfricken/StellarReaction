@@ -33,7 +33,6 @@ const InputConfig& Player::getInCfg() const
 /// <summary>
 /// Are the player inputs going to the gui or the controller
 /// </summary>
-/// <returns></returns>
 bool Player::inGuiMode() const//is the player in GUI mode?
 {
 	return m_inGuiMode;
@@ -45,7 +44,6 @@ bool Player::toggleGuiMode(bool isGuiModeOn)
 /// <summary>
 /// Is our camera in tracking mode?
 /// </summary>
-/// <returns></returns>
 bool Player::isTracking() const
 {
 	return m_tracking;
@@ -53,7 +51,6 @@ bool Player::isTracking() const
 /// <summary>
 /// Indicate which controller our inputs should modify
 /// </summary>
-/// <param name="index">The index.</param>
 void Player::setController(int index)
 {
 	game.getUniverse().getControllerFactory().unsetLocal();
@@ -69,6 +66,10 @@ void Player::getLiveInput()
 {
 	if(!m_inGuiMode && hasFocus())
 	{
+		//default to false
+		for(auto it = m_directives.begin(); it != m_directives.end(); ++it)
+			it->second = false;
+
 		/**== CAMERA ==**/
 		const float speed = 0.05f;
 		if(Keyboard::isKeyPressed(m_inCfg.cameraUp))
@@ -84,35 +85,26 @@ void Player::getLiveInput()
 		/**== KEYBOARD ==**/
 		if(Keyboard::isKeyPressed(m_inCfg.up))
 			m_directives[Directive::Up] = true;
-		else
-			m_directives[Directive::Up] = false;
 		if(Keyboard::isKeyPressed(m_inCfg.down))
 			m_directives[Directive::Down] = true;
-		else
-			m_directives[Directive::Down] = false;
 		if(Keyboard::isKeyPressed(m_inCfg.rollCCW))
 			m_directives[Directive::RollCCW] = true;
-		else
-			m_directives[Directive::RollCCW] = false;
 		if(Keyboard::isKeyPressed(m_inCfg.rollCW))
 			m_directives[Directive::RollCW] = true;
-		else
-			m_directives[Directive::RollCW] = false;
-		//Evan - boost mechanic
 		if (Keyboard::isKeyPressed(m_inCfg.boost))
 			m_directives[Directive::Boost] = true;
-		else
-			m_directives[Directive::Boost] = false;
 
-		/**== MOUSE **/
+
+		/**== SPECIAL ==**/
+		if(Keyboard::isKeyPressed(m_inCfg.store))
+			m_directives[Directive::ShowStore] = true;
+
+
+		/**== MOUSE ==**/
 		if(Mouse::isButtonPressed(m_inCfg.primary))
 			m_directives[Directive::FirePrimary] = true;
-		else
-			m_directives[Directive::FirePrimary] = false;
 		if(Mouse::isButtonPressed(m_inCfg.secondary))
 			m_directives[Directive::FireSecondary] = true;
-		else
-			m_directives[Directive::FireSecondary] = false;
 
 		m_aim = leon::sfTob2(game.getWindow().mapPixelToCoords(Mouse::getPosition(game.getWindow()), m_camera.getView()));
 
@@ -133,9 +125,8 @@ void Player::getLiveInput()
 	}
 }
 /// <summary>
-/// Hande window events such as clicks and gui events.
+/// Handle window events such as clicks and gui events.
 /// </summary>
-/// <param name="rWindow">The r window.</param>
 void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 {
 	sf::Event event;

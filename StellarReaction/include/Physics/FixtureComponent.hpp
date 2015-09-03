@@ -55,12 +55,15 @@ public:
 	b2Body* getBodyPtr();
 	const b2Body* getBodyPtr() const;
 
-	void applyForce(const b2Vec2& rForce);//applies force to center of body(Newtons)
-	void applyForceFixture(const b2Vec2& rForce);//applies force at the center of fixture(Newtons)
-	void applyTorque(float radiansCCW);//applies torque to body(Newton Meters)
+	void applyForce(const b2Vec2& rForce);
+	void applyForceFixture(const b2Vec2& rForce);
+	void applyTorque(float radiansCCW);
 
 	void setCategory(Category cat);
 	void setMask(Mask mask);
+
+	void setStore(const std::string& rTargetName);
+	const std::string& getStore() const;
 
 protected:
 private:
@@ -89,6 +92,8 @@ private:
 	b2FixtureDef m_fixtureDef;
 	b2Fixture* m_pFixture;
 	int m_ioPos;
+
+	std::string m_store;
 };
 
 #endif // FIXTURECOMPONENT_HPP

@@ -33,7 +33,7 @@ public:
 	const std::string& getName() const;
 
 	void setAim(const b2Vec2& world);//send our aim coordinates
-	void directive(std::map<Directive, bool>& rIssues);//send command to target
+	void directive(std::map<Directive, bool>& rIssues, bool local);//send command to target
 	float get(Request value) const;//return the requested value
 	b2Body* getBodyPtr();
 

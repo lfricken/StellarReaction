@@ -51,7 +51,7 @@ bool NetworkBoss::setRecievePort(unsigned short localPort)
 		if(m_listener.listen(localPort) != sf::Socket::Done)
 			worked = false;
 
-	if(m_udp.bind(localPort+1) != sf::Socket::Done)
+	if(m_udp.bind(localPort + 1) != sf::Socket::Done)
 		worked = false;
 
 	if(worked)
@@ -100,7 +100,7 @@ NWState NetworkBoss::getNWState() const
 Connection* NetworkBoss::findConnection(const sf::IpAddress& remoteAddress, unsigned short remotePort)/**FIND A CONNECTION IF WE HAVE ONE**/
 {
 	for(auto it = m_connections.begin(); it != m_connections.end(); ++it)
-		if((*it)->getTcpSocket().getRemoteAddress() == remoteAddress && ((*it)->getTcpSocket().getRemotePort()+1) == remotePort)
+		if((*it)->getTcpSocket().getRemoteAddress() == remoteAddress && ((*it)->getTcpSocket().getRemotePort() + 1) == remotePort)
 			return it->get();
 
 	return NULL;
@@ -240,6 +240,8 @@ void NetworkBoss::udpRecieve()
 							game.getUniverse().getControllerFactory().getNWFactory().process(data);
 						else if(proto == Protocol::Data)
 							m_nwFactory.process(data);
+						else if(proto == Protocol::PlayerTraits)
+							pCon->recievePlayerTraits(data);
 						else
 							cout << "\n" << FILELINE << " [" << static_cast<int32_t>(proto) << "]";
 					}
@@ -331,17 +333,26 @@ void NetworkBoss::tcpRecieve()
 /// </summary>
 void NetworkBoss::sendUdp()
 {
-	//universe component data
 	sf::Packet udpPacket;
-	m_nwFactory.getComponentData(udpPacket);
-	for(int32_t i = 0; i < (signed)m_connections.size(); ++i)
-		m_connections[i]->sendUdp(Protocol::Data, udpPacket);
+	static int counter = 0;
+	const int frequency = 6;
+	if(counter >= frequency)
+	{
+		//universe component data
+		if(getNWState() == NWState::Server)
+		{
+			m_nwFactory.getComponentData(udpPacket);
+			for(int32_t i = 0; i < (signed)m_connections.size(); ++i)
+				m_connections[i]->sendUdp(Protocol::Data, udpPacket);
+		}
+	}
 
 	//controller data
 	udpPacket.clear();
 	game.getUniverse().getControllerFactory().getNWFactory().getComponentData(udpPacket);
 	for(int32_t i = 0; i < (signed)m_connections.size(); ++i)
 		m_connections[i]->sendUdp(Protocol::Control, udpPacket);
+	counter = 0;
 }
 /// <summary>
 /// Anyone sending via TCP to all connections
@@ -373,6 +384,8 @@ void NetworkBoss::tcpListen()
 /// </summary>
 void NetworkBoss::updateConnections()
 {
+	static int counter = 0;
+	const int frequency = 10;
 	for(int32_t i = 0; i < (signed)m_connections.size(); ++i)
 	{
 		if(m_connections[i]->getStatus() == sf::Socket::Status::Disconnected && m_connections[i]->validated())//check if this connection is still working
@@ -390,11 +403,15 @@ void NetworkBoss::updateConnections()
 				--i;
 			}
 		}
-		else if(m_connections[i]->validated())
+		else if(counter == frequency && getNWState() == NWState::Server && m_connections[i]->validated())
 		{
 			m_connections[i]->syncPlayerTraits();
 		}
 	}
+	if(counter == frequency)
+		counter = 0;
+	++counter;
+
 }
 /// <summary>
 /// server being given player information

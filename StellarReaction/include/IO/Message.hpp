@@ -13,6 +13,7 @@ public:
 	void reset(const std::string& rTargetName, const std::string& rCommand, const sf::Packet& rData, float delay, bool replaceData);
 	void reset(unsigned rTargetPosition, const std::string& rCommand, const sf::Packet& rData, float delay, bool replaceData);
 
+	void tryReplaceTargetPos(const sf::Packet& rData);
 	void tryReplaceData(const sf::Packet& rData);
 	void changeDelay(float change);//the m_delay will be changed by that much (used by IOManager)
 
@@ -21,6 +22,8 @@ public:
 	const std::string& getCommand() const;
 	const sf::Packet& getData() const;
 	float getDelay() const;
+
+	bool m_replaceTargetPos;//true if we should replace our data with the data sent by the calling object
 
 protected:
 private:

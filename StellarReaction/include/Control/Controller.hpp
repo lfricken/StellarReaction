@@ -33,6 +33,7 @@ enum class Directive
 	/**== MISC. ==**/
 	Use,
 	ShieldToggle,
+	ShowStore,//toggle the store on or off (if there is one near us)
 	Special1,
 	Special2,
 	End,
@@ -93,9 +94,6 @@ public:
 	void processDirectives();//use our stored directives to send commands
 	void toggleLocal(bool local);
 
-	int getMoney() const;
-	void setMoney(int money);
-
 protected:
 	virtual void input(std::string rCommand, sf::Packet rData);
 	virtual void pack(sf::Packet& rPacket) final;
@@ -112,8 +110,6 @@ private:
 	bool m_local;//true if this is controlled by a local player and shouldn't be unpacked(NW) into
 	IOComponent m_io;
 	std::string m_playerName;//name of us in game, like BobbyLolcatz99, not used for anything but player reading
-
-	int m_money;
 };
 
 #endif // INTELLIGENCE_HPP

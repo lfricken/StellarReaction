@@ -25,7 +25,7 @@ void IOManager::f_recieveNetwork(const Message& rMessage)
 }
 void IOManager::update(float dT)
 {
-	const int maxWork = 2000;//prevents infinite loops of messages, or too much cpu time spent here per frame
+	const int maxWork = 500;//prevents infinite loops of messages, or too much cpu time spent here per frame
 	for(int i = 0; i<(signed)m_messageList.size(); ++i)
 	{
 		m_messageList[i].changeDelay(-dT);

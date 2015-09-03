@@ -13,6 +13,7 @@ enum class Protocol//indicate which type of message it is
 	Handshake,//client recieves first packet from server
 	ReturnHandshake,//server recieves first packet from client
 	PlayerOption,//switch teams, choose ship
+	PlayerTraits,//values in the player traits
 
 	End,//end of protocol, or ignore this packet
 };

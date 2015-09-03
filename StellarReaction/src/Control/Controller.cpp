@@ -22,15 +22,6 @@ Controller::~Controller()
 {
 
 }
-int Controller::getMoney() const
-{
-	return m_money;
-}
-void Controller::setMoney(int money)
-{
-	m_money = money;
-	m_nw.toggleNewData(true);
-}
 void Controller::setSlave(const std::string& rSlaveName)
 {
 	m_slaveName = rSlaveName;
@@ -89,14 +80,15 @@ void Controller::processDirectives()//use our stored directives to send commands
 	processAim();
 	Chunk* temp = game.getUniverse().getSlaveLocator().find(m_slavePosition);
 	if(temp != NULL)
-		temp->directive(m_directives);
+		temp->directive(m_directives, m_local);
 	else
 		cout << "NO CONTROLLER" << FILELINE;
 }
 /// <summary>
 /// true if this controller is controlled locally (this computer)
+/// This is so we can determine whether to ignore outside updates to us
+/// and whether to send this data at all
 /// </summary>
-/// <param name="local">if set to <c>true</c> [local].</param>
 void Controller::toggleLocal(bool local)
 {
 	m_local = local;
@@ -122,7 +114,6 @@ void Controller::pack(sf::Packet& rPacket)
 {
 	rPacket << static_cast<float32>(m_aim.x);
 	rPacket << static_cast<float32>(m_aim.y);
-	rPacket << static_cast<int32_t>(m_money);
 	for(int32_t i=0; i<static_cast<int32_t>(Directive::End); ++i)
 	{
 		rPacket << m_directives[static_cast<Directive>(i)];
@@ -135,11 +126,8 @@ void Controller::unpack(sf::Packet& rPacket)
 
 	bool dir;
 	float32 aimX, aimY;
-	int32_t money;
 	rPacket >> aimX;
 	rPacket >> aimY;
-	rPacket >> money;
-	m_money = money;
 	setAim(b2Vec2(aimX, aimY));
 	for(int32_t i = 0; i<static_cast<int32_t>(Directive::End); ++i)
 	{

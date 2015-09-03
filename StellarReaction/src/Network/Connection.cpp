@@ -72,5 +72,16 @@ void Connection::setValid()
 void Connection::syncPlayerTraits()
 {
 	sf::Packet message;
+
 	message << static_cast<int32_t>(getMoney());
+
+	sendUdp(Protocol::PlayerTraits, message);
+}
+void Connection::recievePlayerTraits(sf::Packet mes)
+{
+	int32_t money;
+
+	mes >> money;
+
+	setMoney(money);
 }

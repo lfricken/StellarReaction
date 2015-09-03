@@ -19,8 +19,9 @@ public:
 	sf::Socket::Status getStatus() const;
 	bool validated() const;//did we get validated
 	void setValid();
-	void syncPlayerTraits();
 
+	void syncPlayerTraits();
+	void recievePlayerTraits(sf::Packet mes);
 
 protected:
 private:

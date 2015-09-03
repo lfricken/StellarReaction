@@ -54,7 +54,9 @@ void FixtureComponent::endContact(FixtureComponent* pOther)
 
 
 
-
+/// <summary>
+/// Finds the center in world coordinates of the fixture
+/// </summary>
 b2Vec2 FixtureComponent::getCenter() const
 {
 	b2Vec2 center(0,0);
@@ -63,8 +65,8 @@ b2Vec2 FixtureComponent::getCenter() const
 	{
 		b2PolygonShape* pPShape = static_cast<b2PolygonShape*>(m_spShape.get());
 
-		unsigned int num = pPShape->GetVertexCount();
-		for(unsigned int i = 0; i<num; ++i)
+		int num = pPShape->GetVertexCount();
+		for(int i = 0; i<num; ++i)
 			center += pPShape->GetVertex(i);
 
 		center.x /= num;
@@ -108,16 +110,25 @@ void FixtureComponent::setIOPos(int ioPos)
 
 
 
+/// <summary>
+/// Applies force to center of body(Newtons)
+/// </summary>
 void FixtureComponent::applyForce(const b2Vec2& rForce)//applies force to center of body(Newtons)
 {
 	if(!game.getUniverse().isPaused())
 		m_pFixture->GetBody()->ApplyForceToCenter(rForce, true);
 }
+/// <summary>
+/// Applies force to center of this fixture(Newtons)
+/// </summary>
 void FixtureComponent::applyForceFixture(const b2Vec2& rForce)//applies force at the center of fixture(Newtons)
 {
 	if(!game.getUniverse().isPaused())
 		m_pFixture->GetBody()->ApplyForce(rForce, getCenter(), true);
 }
+/// <summary>
+/// applies torque to body(Newton Meters)
+/// </summary>
 void FixtureComponent::applyTorque(float radiansCCW)//applies torque to body(Newton Meters)
 {
 	if(!game.getUniverse().isPaused())
@@ -139,4 +150,13 @@ void FixtureComponent::setMask(Mask mask)
 	b2Filter filter = m_pFixture->GetFilterData();
 	filter.maskBits = static_cast<uint16_t>(mask);
 	m_pFixture->SetFilterData(filter);
+}
+
+void FixtureComponent::setStore(const std::string& rTargetName)
+{
+	m_store = rTargetName;
+}
+const std::string& FixtureComponent::getStore() const
+{
+	return m_store;
 }

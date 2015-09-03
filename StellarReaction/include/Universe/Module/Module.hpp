@@ -21,6 +21,7 @@ public:
 	virtual void postPhysUpdate();
 	virtual void directive(std::map<Directive, bool>& rIssues);
 	virtual void setAim(const b2Vec2& rTarget);
+	const std::string& getStore() const;
 
 protected:
 	virtual void input(std::string rCommand, sf::Packet rData);
