@@ -223,6 +223,7 @@ void Overlay::loadMenus()
 	select.items.push_back(pair<string, int>("CombatShip", 1));
 	select.items.push_back(pair<string, int>("DefaultChunk", 2));
 	select.items.push_back(pair<string, int>("CombatShip2", 3));
+	select.items.push_back(pair<string, int>("Raven1", 4));
 
 	Courier setShip;
 	setShip.condition.reset(EventType::Selection, 0, 'd', true);
