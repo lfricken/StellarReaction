@@ -47,9 +47,12 @@ private:
 	Pool<Energy> m_energyPool;
 	Pool<float> m_zoomPool;
 
+	Timer m_timer;
 	int m_slavePosition;
 	BodyComponent m_body;
 	std::vector<sptr<Module> > m_modules;
+
+
 
 	//Evan - sprites for hull, afterburner, afterburner_thrust. need to set anims and anim speed individually
 	sptr<GraphicsComponent> hull;

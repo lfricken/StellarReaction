@@ -11,15 +11,16 @@ FixtureComponent::FixtureComponent(const FixtureComponentData& rData)
 	if(rData.shape == leon::Shape::Rectangle)
 	{
 		m_spShape = sptr<b2Shape>(new b2PolygonShape);
-		tr1::static_pointer_cast<b2PolygonShape>(m_spShape)->SetAsBox(rData.size.x/2, rData.size.y/2, rData.offset, 0);
+		b2Vec2 offset(rData.offset.x * sizeScalingFactor, rData.offset.y * sizeScalingFactor);
+		static_cast<b2PolygonShape*>(m_spShape.get())->SetAsBox(rData.size.x / 2.f * sizeScalingFactor, rData.size.y / 2.f * sizeScalingFactor, offset, 0);
 	}
 	/**CIRCLE**/
 	else if(rData.shape == leon::Shape::Circle)
 	{
 		m_spShape = sptr<b2Shape>(new b2CircleShape);
-		b2CircleShape* temp = &*tr1::static_pointer_cast<b2CircleShape>(m_spShape);
-		temp->m_p.Set(rData.offset.x, rData.offset.y);
-		temp->m_radius = rData.size.x/2;
+		b2CircleShape* temp = static_cast<b2CircleShape*>(m_spShape.get());
+		temp->m_p.Set(rData.offset.x * sizeScalingFactor, rData.offset.y * sizeScalingFactor);
+		temp->m_radius = rData.size.x / 2.f * sizeScalingFactor;
 	}
 
 

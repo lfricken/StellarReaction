@@ -87,38 +87,38 @@ void Decoration::setScale(float scale)
 }
 void Decoration::updateScaledPosition(const b2Vec2& rCameraCenter)
 {
-
-	if (m_movementScale == 0.0f) {
+	if(m_movementScale == 0.0f)
+	{
 		setPosition(m_initPosition);
 		return;
 	}
 
 	//Evan - update velocity over time
 	float time = velocityTimer.getTimeElapsed();
-	b2Vec2 deltaV(velocity.x*time/m_movementScale, velocity.y*time/m_movementScale);
+	b2Vec2 deltaV(velocity.x * time / m_movementScale * sizeScalingFactor, velocity.y * time / m_movementScale * sizeScalingFactor);
 	m_initPosition += deltaV;
 
 	//Evan - check for wrap around
 	//int max_x = 33600; //got manually via cout
 	//int max_y = 16800;
-	int max_x = 80; //got manually via cout
-	int max_y = 60;
+	int max_x = 80 * sizeScalingFactor; //got manually via cout
+	int max_y = 60 * sizeScalingFactor;
 	//cout << endl << "cam y: " << game.getLocalPlayer().getCamera().getView().getSize().y;
-	
+
 	//below lines are magic
-	if (m_initPosition.x + rCameraCenter.x * m_movementScale > (rCameraCenter.x) + (max_x))
+	if(m_initPosition.x + rCameraCenter.x * m_movementScale > (rCameraCenter.x) + (max_x))
 	{
 		m_initPosition.x -= (dimensions.x / scale)*num_in_layer.x;
-	}	
-	else if (m_initPosition.x + rCameraCenter.x * m_movementScale < (rCameraCenter.x) - (max_x))
+	}
+	else if(m_initPosition.x + rCameraCenter.x * m_movementScale < (rCameraCenter.x) - (max_x))
 	{
 		m_initPosition.x += (dimensions.x / scale)*num_in_layer.x;
 	}
-	if (m_initPosition.y + rCameraCenter.y * m_movementScale > (rCameraCenter.y + (max_y)))
+	if(m_initPosition.y + rCameraCenter.y * m_movementScale >(rCameraCenter.y + (max_y)))
 	{
 		m_initPosition.y -= (dimensions.y / scale)*num_in_layer.y;
 	}
-	else if (m_initPosition.y + rCameraCenter.y * m_movementScale< (rCameraCenter.y - (max_y)))
+	else if(m_initPosition.y + rCameraCenter.y * m_movementScale < (rCameraCenter.y - (max_y)))
 	{
 		m_initPosition.y += (dimensions.y / scale)*num_in_layer.y;
 	}

@@ -246,7 +246,9 @@ void NetworkBoss::udpRecieve()
 							cout << "\n" << FILELINE << " [" << static_cast<int32_t>(proto) << "]";
 					}
 					else
-						cout << FILELINE;
+					{
+						//cout << FILELINE;
+					}
 				}
 				else//if we don't regonize the remoteAddress, we should ignore it
 					cout << FILELINE;

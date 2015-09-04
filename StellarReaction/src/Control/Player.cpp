@@ -64,12 +64,14 @@ void Player::setController(int index)
 /// </summary>
 void Player::getLiveInput()
 {
+	Controller& rController = game.getUniverse().getControllerFactory().getController(m_controller);
+
+	//default to false
+	for(auto it = m_directives.begin(); it != m_directives.end(); ++it)
+		it->second = false;
+
 	if(!m_inGuiMode && hasFocus())
 	{
-		//default to false
-		for(auto it = m_directives.begin(); it != m_directives.end(); ++it)
-			it->second = false;
-
 		/**== CAMERA ==**/
 		const float speed = 0.05f;
 		if(Keyboard::isKeyPressed(m_inCfg.cameraUp))
@@ -113,16 +115,11 @@ void Player::getLiveInput()
 			cout << "\n(" << m_aim.x << ",\t" << m_aim.y << ")";
 
 		Controller& rController = game.getUniverse().getControllerFactory().getController(m_controller);
-		rController.updateDirectives(m_directives);
-		rController.setAim(m_aim);
+
 	}
-	else if(!hasFocus())
-	{
-		Controller& rController = game.getUniverse().getControllerFactory().getController(m_controller);
-		for(auto it = m_directives.begin(); it != m_directives.end(); ++it)
-			it->second = false;
-		rController.updateDirectives(m_directives);
-	}
+
+	rController.updateDirectives(m_directives);
+	rController.setAim(m_aim);
 }
 /// <summary>
 /// Handle window events such as clicks and gui events.

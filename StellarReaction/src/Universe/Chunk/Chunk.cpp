@@ -15,6 +15,8 @@ using namespace std;
 
 Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp), m_zoomPool(rData.zoomData), m_energyPool(rData.energyData), m_ballisticPool(rData.ballisticData), m_missilePool(rData.missileData)
 {
+	m_timer.setCountDown(1);
+	m_timer.restartCountDown();
 	PoolCollection myPools;
 	myPools.ballisticPool = &m_ballisticPool;
 	myPools.zoomPool = &m_zoomPool;
@@ -126,21 +128,27 @@ void Chunk::directive(std::map<Directive, bool>& rIssues, bool local)//send comm
 {
 	for(auto it = m_modules.begin(); it != m_modules.end(); ++it)
 		(*it)->directive(rIssues);
+
+	cout << rIssues[Directive::ShowStore];
 	if(rIssues[Directive::ShowStore] && local)
 	{
-		std::string store;
-		for(auto it = m_modules.begin(); it != m_modules.end(); ++it)
+		if(m_timer.isTimeUp())
 		{
-			store = (*it)->getStore();
+			std::string store;
+			for(auto it = m_modules.begin(); it != m_modules.end(); ++it)
+			{
+				store = (*it)->getStore();
+				if(store != "")
+					break;
+			}
 			if(store != "")
-				break;
-		}
-		if(store != "")
-		{
-			Message toggle(store, "toggleHidden", voidPacket, 0, false);
-			Message mes2("local_player", "toggleGuiMode", voidPacket, 0, false);
-			game.getCoreIO().recieve(toggle);
-			game.getCoreIO().recieve(mes2);
+			{
+				Message toggle(store, "toggleHidden", voidPacket, 0, false);
+				Message mes2("local_player", "toggleGuiMode", voidPacket, 0, false);
+				game.getCoreIO().recieve(toggle);
+				game.getCoreIO().recieve(mes2);
+			}
+			m_timer.restartCountDown();
 		}
 	}
 
