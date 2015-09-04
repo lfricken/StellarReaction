@@ -3,11 +3,11 @@
 using namespace leon;
 using namespace std;
 
-NetworkedSelection::NetworkedSelection(tgui::Gui& gui, const NetworkedSelectionData& rData) : WidgetBase(rData), m_pListBox(gui)
+NetworkedSelection::NetworkedSelection(tgui::Gui& gui, const NetworkedSelectionData& rData) : Panel(gui, rData)
 {
 	f_initialize(rData);
 }
-NetworkedSelection::NetworkedSelection(tgui::Container& container, const NetworkedSelectionData& rData = NetworkedSelectionData()) : WidgetBase(rData), m_pListBox(container)
+NetworkedSelection::NetworkedSelection(tgui::Container& container, const NetworkedSelectionData& rData = NetworkedSelectionData()) : Panel(container, rData)
 {
 	f_initialize(rData);
 }
@@ -17,25 +17,30 @@ NetworkedSelection::~NetworkedSelection()
 }
 void NetworkedSelection::f_initialize(const NetworkedSelectionData& rData)
 {
-	m_pListBox->setItemHeight(rData.itemHeight);
 	m_command = rData.command;
-	f_assign(m_pListBox.get());
-	m_pListBox->load(rData.configFile);
-	m_pListBox->setPosition(rData.screenCoords);
-	m_pListBox->setSize(rData.size.x, rData.size.y);
+	int i = 0;
+	for(auto it = rData.items.begin(); it != rData.items.end(); ++it)
+	{
+		ButtonData select;
+		select.buttonText = "";
+		select.screenCoords = sf::Vector2f(0, i*rData.itemSize.y);
+		select.size = rData.itemSize;
+		select.ioComp.name = std::to_string(i);
+		Courier buttonMes;
+		buttonMes.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
+		buttonMes.message.reset(m_io.getPosition(), "itemClicked", voidPacket, 0, true);
+		select.ioComp.courierList.push_back();
 
-	addItems(rData.items);
+		++i;
+	}
+}
+void NetworkedSelection::addItem()
+{
 
-	m_pListBox->bindCallbackEx(&NetworkedSelection::f_callback, this, tgui::EditBox::AllEditBoxCallbacks);
 }
-void NetworkedSelection::addItem(const std::string& rText, int id)
+void NetworkedSelection::addItems()
 {
-	m_pListBox->addItem(rText, id);
-}
-void NetworkedSelection::addItems(const std::vector<std::pair<std::string, int> >& rTextList)
-{
-	for(auto it = rTextList.cbegin(); it != rTextList.cend(); ++it)
-		addItem(it->first, it->second);
+
 }
 
 

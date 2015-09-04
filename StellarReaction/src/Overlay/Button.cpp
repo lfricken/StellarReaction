@@ -25,18 +25,10 @@ void Button::f_initialize(const ButtonData& rData)
 
 	m_pButton->bindCallbackEx(&Button::f_callback, this, tgui::Button::AllButtonCallbacks);
 }
-
-
-/**IO**/
 void Button::input(const std::string rCommand, sf::Packet rData)
 {
 	WidgetBase::input(rCommand, rData);
 }
-
-
-
-
-/**PRIVATE**/
 void Button::f_callback(const tgui::Callback& callback)
 {
 	if(callback.trigger == tgui::Button::MouseEntered)
@@ -52,9 +44,10 @@ void Button::f_callback(const tgui::Callback& callback)
 		f_MouseLeft();
 	}
 }
-
 void Button::f_trigger()
 {
-	m_io.event(EventType::Triggered, 0, voidPacket);
+	sf::Packet pack;
+	pack << m_io.getName();
+	m_io.event(EventType::Triggered, 0, pack);
 	f_LeftMouseClicked();
 }
