@@ -47,3 +47,11 @@ Money BasePlayerTraits::getMoney() const
 {
 	return m_balance;
 }
+void BasePlayerTraits::setController(int index)
+{
+	m_controller = index;
+}
+int BasePlayerTraits::getController() const
+{
+	return m_controller;
+}

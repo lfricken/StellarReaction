@@ -124,7 +124,6 @@ protected:
 
 private:
 
-	int m_controller;//which controller do we have, 0, 1, 2, ect.(points to a controller in the list)
 	b2Vec2 m_aim;//where we are aiming in the world ATM
 	std::map<Directive, bool> m_directives;//up, down, rollCW, roll CCW, ect.
 

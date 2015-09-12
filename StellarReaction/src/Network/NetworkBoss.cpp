@@ -3,6 +3,8 @@
 #include "IOManager.hpp"
 #include "Universe.hpp"
 #include "Player.hpp"
+#include "SlaveLocator.hpp"
+#include "Chunk.hpp"
 
 using namespace std;
 using namespace sf;
@@ -444,6 +446,21 @@ void NetworkBoss::playerOption(sf::Packet& rData, BasePlayerTraits* pFrom)
 		rData >> name;
 		pFrom->setName(name);
 	}
+	else if(command == "buyModule")
+	{
+		string bpName;
+		rData >> bpName;
+		int controller = pFrom->getController();
+		Controller* pCon = &game.getUniverse().getControllerFactory().getController(controller);
+		std::string slaveName = pCon->getSlaveName();
+		Chunk* pTemp = game.getUniverse().getSlaveLocator().findHack(slaveName);
+		int targetPos = pTemp->m_io.getPosition();
+		sf::Packet pack;
+		pack << bpName;
+		Message bought((unsigned)targetPos, "addModule", pack, 0, false);
+		game.getUniverse().getUniverseIO().recieve(bought);
+		cout << "\n" << targetPos << bpName;
+	}
 	else
 		cout << FILELINE << " [" << command << "].";
 }
@@ -515,12 +532,15 @@ void NetworkBoss::launchMultiplayerGame()
 
 	int32_t controller = 0;
 	sf::Packet hostData(data);
-	hostData << controller++;
+	hostData << controller;
+	++controller;
 
 	for(auto it = m_connections.begin(); it != m_connections.end(); ++it)
 	{
 		sf::Packet launchData(data);
-		launchData << controller++;
+		(*it)->setController(controller);
+		launchData << controller;
+		++controller;
 		(*it)->sendTcp(Protocol::LoadLevel, launchData);
 	}
 

@@ -13,7 +13,6 @@ using namespace sf;
 
 Player::Player(const PlayerData& rData) : m_io(rData.ioComp, &Player::input, this), BasePlayerTraits(rData.name, 0)
 {
-	m_controller = 999999;//by default they have the 0 controller
 	m_hasFocus = true;
 	m_inGuiMode = true;
 	m_tracking = rData.tracking;

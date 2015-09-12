@@ -317,19 +317,19 @@ void Overlay::loadMenus()
 
 	Courier storeBuy;
 	storeBuy.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
-	storeBuy.message.reset("game", "printToConsole", voidPacket, 0, false);
+	storeBuy.message.reset("networkboss", "sendTcpToHost", voidPacket, 0, false);
 	data2.buttData.ioComp.courierList.push_back(storeBuy);
 	data2.labelData.back().textSize = 16;
 
 
 	store.command = "buyModule";
 
-	data2.labelData.back().text = "MOAR AMMO";
-	data2.id = "mod1";
+	data2.labelData.back().text = "70mm Autoturret";
+	data2.id = "Razor_Ballistic1";
 	store.items.push_back(data2);
 
-	data2.labelData.back().text = "SuperWep";
-	data2.id = "mod2";
+	data2.labelData.back().text = "Razor 2.5GW Pulse";
+	data2.id = "Razor_Laser1";
 	store.items.push_back(data2);
 
 	pStore->add(sptr<leon::WidgetBase>(new leon::NetworkedSelection(*pStore->getPanelPtr(), store)));

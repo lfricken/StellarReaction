@@ -3,6 +3,7 @@
 #include "SlaveLocator.hpp"
 #include "Controller.hpp"
 #include "Overlay.hpp"
+#include "BlueprintLoader.hpp"
 
 //Evan - afterburner animation and sound
 #include "SoundManager.hpp"
@@ -296,9 +297,20 @@ b2Body* Chunk::getBodyPtr()
 }
 void Chunk::input(std::string rCommand, sf::Packet rData)
 {
-	if(rCommand == "addShipModule")
+	if(rCommand == "addModule")
 	{
-
+		std::string bpName;
+		rData >> bpName;
+		ModuleData* thing = game.getUniverse().getBlueprints().getModuleSPtr(bpName)->clone();
+		if(thing != NULL)
+		{
+			thing->fixComp.offset = b2Vec2(0, 7);
+			add(*thing);
+		}
+		else
+		{
+			cout << "\nBlueprint didn't exist.";
+		}
 	}
 	cout << "\nCommand not found in [" << m_io.getName() << "].";
 }
