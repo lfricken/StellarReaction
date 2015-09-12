@@ -214,46 +214,145 @@ void Overlay::loadMenus()
 
 	pLobby->add(sptr<leon::WidgetBase>(new leon::Chatbox(*pLobby->getPanelPtr(), chatbox)));
 
+
+
 	/**SHIP SELECTION**/
 	leon::NetworkedSelectionData select;
-	select.command = "setShip";
 	select.size = sf::Vector2f(200, 200);
+	select.itemSize = sf::Vector2f(200, 40);
 	select.screenCoords = sf::Vector2f(420, 7);
+	select.backgroundColor = sf::Color(50, 50, 50, 128);
+	select.startHidden = false;
 	select.ioComp.name = "lobby_shipSelect";
-	select.items.push_back(pair<string, int>("CombatShip", 1));
-	select.items.push_back(pair<string, int>("DefaultChunk", 2));
-	select.items.push_back(pair<string, int>("CombatShip2", 3));
+	leon::SelectableItemData data1;
+	data1.texName = "menu/default_menu.png";
+	leon::LabelData label1;
+	data1.labelData.push_back(label1);
 
-	Courier setShip;
-	setShip.condition.reset(EventType::Selection, 0, 'd', true);
-	setShip.message.reset("networkboss", "sendTcpToHost", voidPacket, 0, true);
-	select.ioComp.courierList.push_back(setShip);
+	Courier buttonClick;
+	buttonClick.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
+	buttonClick.message.reset("networkboss", "sendTcpToHost", voidPacket, 0, false);
+	data1.buttData.ioComp.courierList.push_back(buttonClick);
+	data1.labelData.back().textSize = 16;
+
+
+	select.command = "setShip";
+
+	data1.labelData.back().text = "Onyx Fighter";
+	data1.id = "CombatShip";
+	select.items.push_back(data1);
+
+	data1.labelData.back().text = "Dreadnought";
+	data1.id = "CombatShip2";
+	select.items.push_back(data1);
+
+	data1.labelData.back().text = "Stupid Ship";
+	data1.id = "DefaultChunk";
+	select.items.push_back(data1);
 
 	pLobby->add(sptr<leon::WidgetBase>(new leon::NetworkedSelection(*pLobby->getPanelPtr(), select)));
 
+
+
 	/**TEAM SELECTION**/
 	leon::NetworkedSelectionData selectTeam;
-	selectTeam.command = "setTeam";
-	selectTeam.size = sf::Vector2f(50, 150);
-	selectTeam.itemHeight = 20;
+	selectTeam.backgroundColor = sf::Color(50, 50, 50, 128);
+	selectTeam.size = sf::Vector2f(200, 160);
+	selectTeam.itemSize = sf::Vector2f(200, 40);
 	selectTeam.screenCoords = sf::Vector2f(420, 207);
 	selectTeam.ioComp.name = "lobby_teamSelect";
-	selectTeam.items.push_back(pair<string, int>("1", 1));
-	selectTeam.items.push_back(pair<string, int>("2", 2));
-	selectTeam.items.push_back(pair<string, int>("3", 3));
-	selectTeam.items.push_back(pair<string, int>("4", 4));
+	selectTeam.startHidden = false;
 
-	Courier setTeam;
-	setTeam.condition.reset(EventType::Selection, 0, 'd', true);
-	setTeam.message.reset("networkboss", "sendTcpToHost", voidPacket, 0, true);
-	selectTeam.ioComp.courierList.push_back(setTeam);
+	leon::SelectableItemData data;
+
+	leon::LabelData label;
+	label.textSize = 16;
+	data.labelData.push_back(label);
+
+	Courier mes;
+	mes.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
+	mes.message.reset("networkboss", "sendTcpToHost", voidPacket, 0, false);
+	data.buttData.ioComp.courierList.push_back(mes);
+	selectTeam.command = "setTeam";
+
+	data.labelData.back().text = "Team 1";
+	data.id = "1";
+	selectTeam.items.push_back(data);
+	data.labelData.back().text = "Team 2";
+	data.id = "2";
+	selectTeam.items.push_back(data);
+	data.labelData.back().text = "Team 3";
+	data.id = "3";
+	selectTeam.items.push_back(data);
+	data.labelData.back().text = "Team 4";
+	data.id = "4";
+	selectTeam.items.push_back(data);
 
 	pLobby->add(sptr<leon::WidgetBase>(new leon::NetworkedSelection(*pLobby->getPanelPtr(), selectTeam)));
 	/**LOBBY**/
+	/**LOBBY**/
 
+
+	/**STORE PANEL**/
+	sf::Vector2f storePanelSize = sf::Vector2f(750, 500);
+	leon::PanelData storePanelData;
+	storePanelData.ioComp.name = "store_default";
+	storePanelData.startHidden = true;
+	storePanelData.backgroundColor = sf::Color(50, 50, 50, 128);
+	storePanelData.screenCoords = sf::Vector2f(game.getWindow().getSize().x / 2 - storePanelSize.x / 2, game.getWindow().getSize().y / 2 - storePanelSize.y / 2);
+	storePanelData.size = sf::Vector2f(storePanelSize.x, storePanelSize.y);
+	leon::Panel* pStore = new leon::Panel(game.getOverlay().getGui(), storePanelData);
+	/**STORE**/
+	leon::NetworkedSelectionData store;
+	store.size = sf::Vector2f(200, 200);
+	store.itemSize = sf::Vector2f(200, 40);
+	store.screenCoords = sf::Vector2f(0, 0);
+	store.backgroundColor = sf::Color(50, 50, 50, 128);
+	store.startHidden = false;
+	store.ioComp.name = "";
+	leon::SelectableItemData data2;
+	data2.texName = "menu/default_menu.png";
+	leon::LabelData buyLabel;
+	data2.labelData.push_back(buyLabel);
+
+	Courier storeBuy;
+	storeBuy.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
+	storeBuy.message.reset("game", "printToConsole", voidPacket, 0, false);
+	data2.buttData.ioComp.courierList.push_back(storeBuy);
+	data2.labelData.back().textSize = 16;
+
+
+	store.command = "buyModule";
+
+	data2.labelData.back().text = "MOAR AMMO";
+	data2.id = "mod1";
+	store.items.push_back(data2);
+
+	data2.labelData.back().text = "SuperWep";
+	data2.id = "mod2";
+	store.items.push_back(data2);
+
+	pStore->add(sptr<leon::WidgetBase>(new leon::NetworkedSelection(*pStore->getPanelPtr(), store)));
+
+
+	/**Close Store**/
+	leon::ButtonData close;
+	close.ioComp.name = "join_button";
+	close.screenCoords = sf::Vector2f(storePanelSize.x-100, 0);
+	close.size = sf::Vector2f(50, 50);
+	close.buttonText = "X";
+	Courier closeMes;
+	closeMes.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
+	closeMes.message.reset("store_default", "toggleHidden", voidPacket, 0, false);
+	close.ioComp.courierList.push_back(closeMes);
+	Courier guiMode;
+	guiMode.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
+	guiMode.message.reset("local_player", "toggleGuiMode", voidPacket, 0, false);
+	close.ioComp.courierList.push_back(guiMode);
+	pStore->add(sptr<leon::WidgetBase>(new leon::Button(*pStore->getPanelPtr(), close)));
+	/**STORE**/
 
 	/**STORE**/
-	/**LOBBY**/
 
 
 	/**MESSAGE**/

@@ -5,33 +5,39 @@ using namespace std;
 
 NetworkedSelection::NetworkedSelection(tgui::Gui& gui, const NetworkedSelectionData& rData) : Panel(gui, rData)
 {
-	f_initialize(rData);
+	NetworkedSelectionData copy(rData);
+	f_initialize(copy, &gui, false);
 }
 NetworkedSelection::NetworkedSelection(tgui::Container& container, const NetworkedSelectionData& rData = NetworkedSelectionData()) : Panel(container, rData)
 {
-	f_initialize(rData);
+	NetworkedSelectionData copy(rData);
+	f_initialize(copy, &container, true);
 }
 NetworkedSelection::~NetworkedSelection()
 {
 
 }
-void NetworkedSelection::f_initialize(const NetworkedSelectionData& rData)
+void NetworkedSelection::f_initialize(NetworkedSelectionData& rData, void* container, bool isContainer)
 {
 	m_command = rData.command;
 	int i = 0;
-	for(auto it = rData.items.begin(); it != rData.items.end(); ++it)
+	sf::Vector2f offset(0,0);
+	for(auto it = rData.items.begin(); it != rData.items.end(); ++it, ++i, offset.y += rData.itemSize.y)
 	{
-		ButtonData select;
-		select.buttonText = "";
-		select.screenCoords = sf::Vector2f(0, i*rData.itemSize.y);
-		select.size = rData.itemSize;
-		select.ioComp.name = std::to_string(i);
-		Courier buttonMes;
-		buttonMes.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
-		buttonMes.message.reset(m_io.getPosition(), "itemClicked", voidPacket, 0, true);
-		select.ioComp.courierList.push_back();
+		it->buttData.screenCoords += offset;
+		it->buttData.size = rData.itemSize;
+		sf::Packet pack;
+		pack << rData.command;
+		it->buttData.ioComp.courierList.back().message.setData(pack);
 
-		++i;
+		auto itLabel = it->labelData.begin();
+		for(; itLabel != it->labelData.end(); ++itLabel)
+		{
+			itLabel->position += offset;
+		}
+
+
+		m_items.push_back(sptr<SelectableItem>(new SelectableItem(*getPanelPtr(), *it)));
 	}
 }
 void NetworkedSelection::addItem()
@@ -48,11 +54,7 @@ void NetworkedSelection::addItems()
 /**PRIVATE**/
 void NetworkedSelection::f_GrabInfo(sf::Packet* rPacket)
 {
-	string stuff = m_pListBox->getSelectedItem();
-	int id = m_pListBox->getSelectedItemId();
-	(*rPacket) << m_command;
-	(*rPacket) << stuff;
-	(*rPacket) << id;
+
 }
 void NetworkedSelection::f_callback(const tgui::Callback& callback)
 {
@@ -68,14 +70,9 @@ void NetworkedSelection::f_callback(const tgui::Callback& callback)
 	{
 		f_MouseLeft();
 	}
-	else if(callback.trigger == tgui::ListBox::ItemSelected)
-	{
-		if(m_pListBox->getSelectedItemId() != 0)//make sure nothing isn't selected
-			f_ItemSelected();
-	}
 	else
 	{
-		cout << FILELINE;
+		//cout << FILELINE;
 	}
 }
 void NetworkedSelection::f_ItemSelected()
@@ -110,14 +107,5 @@ void NetworkedSelection::f_trigger()
 }
 void NetworkedSelection::input(const std::string rCommand, sf::Packet rData)
 {
-	if(rCommand == "addItem")
-	{
-		string text;
-		int id;
-		rData >> text;
-		rData >> id;
-		addItem(text, id);
-	}
-	else
-		WidgetBase::input(rCommand, rData);
+	Panel::input(rCommand, rData);
 }

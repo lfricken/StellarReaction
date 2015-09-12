@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Audio\SoundManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Basic\BallisticWeapon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -367,6 +364,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Control\BasePlayerTraits.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\Audio\SoundManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Overlay\SelectableItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1152,6 +1155,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Control\Money.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Overlay\SelectableItem.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

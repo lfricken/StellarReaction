@@ -6,12 +6,15 @@ using namespace std;
 WidgetBase::WidgetBase(const WidgetBaseData& rData) : m_io(rData.ioComp, &leon::WidgetBase::input, this)
 {
 	m_startHidden = rData.startHidden;
+	m_tempTransparency = rData.transparency;
 }
 void WidgetBase::f_assign(tgui::Widget* pWidget)
 {
 	m_pWidget = pWidget;
 	if(m_startHidden)
 		m_pWidget->hide();
+
+	m_pWidget->setTransparency(m_tempTransparency);
 }
 WidgetBase::~WidgetBase()
 {

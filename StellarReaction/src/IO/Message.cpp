@@ -76,3 +76,7 @@ float Message::getDelay() const
 {
 	return m_delay;
 }
+void Message::setData(const sf::Packet& rData)
+{
+	m_data = sf::Packet(rData);
+}

@@ -14,6 +14,7 @@ namespace leon
 			configFile("TGUI/widgets/Black.conf"),
 			screenCoords(game.getWindow().getSize().x / 2, game.getWindow().getSize().y / 2),
 			size(128, 64),
+			transparency(255),
 			ioComp(game.getCoreIO())
 		{
 		}
@@ -21,6 +22,7 @@ namespace leon
 		std::string configFile;/**TGUI config file**/
 		sf::Vector2f screenCoords;/**upper left corner**/
 		sf::Vector2f size;/**pixels**/
+		unsigned char transparency;
 
 		IOComponentData ioComp;
 	};
@@ -53,6 +55,7 @@ namespace leon
 	private:
 		bool m_startHidden;
 		tgui::Widget* m_pWidget;
+		unsigned char m_tempTransparency;
 	};
 }
 #endif // WIDGETBASE_H

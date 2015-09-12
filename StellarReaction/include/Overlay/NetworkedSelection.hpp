@@ -1,35 +1,11 @@
 #ifndef NETWORKEDSELECTION_HPP
 #define NETWORKEDSELECTION_HPP
 
-#include "WidgetBase.hpp"
 #include "Panel.hpp"
-#include "Button.hpp"
+#include "SelectableItem.hpp"
 
 namespace leon
 {
-	struct LabelData
-	{
-		sf::Vector2f position;
-		sf::Vector2f size;
-		sf::Color color;
-		std::string text;
-	};
-	struct SelectableItemData
-	{
-		std::string texName;
-		std::vector<LabelData> labelData;
-		std::string id;
-	};
-
-
-
-	struct SelectableItem
-	{
-		tgui::Picture::Ptr pic;
-		std::vector<sptr<tgui::Label::Ptr> > labels;
-		Button butt;
-		std::string id;
-	};
 	struct NetworkedSelectionData : public PanelData
 	{
 		NetworkedSelectionData() :
@@ -37,10 +13,11 @@ namespace leon
 			itemSize(100, 40),
 			command("setShip")
 		{
+
 		}
-		PanelData internalPanel;
-		sf::Vector2f itemSize;
-		std::string command;
+
+		sf::Vector2f itemSize;//size of each item
+		std::string command;//what command to send when an item has been clicked
 		std::vector<SelectableItemData> items;
 	};
 
@@ -65,10 +42,10 @@ namespace leon
 
 		void input(const std::string rCommand, sf::Packet rData);
 	private:
-		virtual void f_initialize(const NetworkedSelectionData& data);
+		virtual void f_initialize(NetworkedSelectionData& data, void* container, bool isContainer);
 
-		std::string m_command;
-		std::vector<sptr<SelectableItem> > m_select;
+		std::string m_command;//command to send when an item has been selected
+		std::vector<sptr<SelectableItem> > m_items;
 	};
 }
 

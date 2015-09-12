@@ -48,7 +48,7 @@
 							"command": "setStore",
 							"data": [
 								"string",
-								"main_menu"
+								"store_default"
 							],
 							"delay": 0,
 							"sendValue": false,

@@ -445,7 +445,7 @@ void NetworkBoss::playerOption(sf::Packet& rData, BasePlayerTraits* pFrom)
 		pFrom->setName(name);
 	}
 	else
-		cout << FILELINE;
+		cout << FILELINE << " [" << command << "].";
 }
 /// <summary>
 /// anyone being told to load the game

@@ -129,7 +129,6 @@ void Chunk::directive(std::map<Directive, bool>& rIssues, bool local)//send comm
 	for(auto it = m_modules.begin(); it != m_modules.end(); ++it)
 		(*it)->directive(rIssues);
 
-	cout << rIssues[Directive::ShowStore];
 	if(rIssues[Directive::ShowStore] && local)
 	{
 		if(m_timer.isTimeUp())
