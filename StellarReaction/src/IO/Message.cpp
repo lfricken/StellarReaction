@@ -80,3 +80,7 @@ void Message::setData(const sf::Packet& rData)
 {
 	m_data = sf::Packet(rData);
 }
+void Message::setName(const std::string rName)
+{
+	m_targetName = rName;
+}

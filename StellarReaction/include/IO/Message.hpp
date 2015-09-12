@@ -16,7 +16,9 @@ public:
 	void tryReplaceTargetPos(const sf::Packet& rData);
 	void tryReplaceData(const sf::Packet& rData);
 	void changeDelay(float change);//the m_delay will be changed by that much (used by IOManager)
+
 	void setData(const sf::Packet& rData);
+	void setName(const std::string rName);
 
 	unsigned getTargetPosition() const;
 	const std::string& getTargetName() const;

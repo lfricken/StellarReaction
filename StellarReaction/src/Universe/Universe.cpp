@@ -37,7 +37,7 @@ Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input,
 	m_spProjMan = sptr<ProjectileMan>(new ProjectileMan);
 
 	/**IO**/
-	m_spUniverseIO = sptr<IOManager>(new IOManager(true));
+	m_spUniverseIO = sptr<IOManager>(new IOManager(true, true));
 	m_spUniverseIO->give(&m_io);
 	m_spUniverseIO->give(&game.getLocalPlayer().getIOComp());
 	/**IO**/
