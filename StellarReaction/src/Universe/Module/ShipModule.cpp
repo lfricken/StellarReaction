@@ -1,4 +1,5 @@
 #include "ShipModule.hpp"
+#include "SoundManager.hpp"
 
 using namespace std;
 
@@ -26,10 +27,6 @@ ShipModule::ShipModule(const ShipModuleData& rData) : Module(rData), m_health(rD
 	hitAnim->setPosition(m_fix.getCenter());
 	hitAnim->setRotation(m_fix.getAngle());
 
-	hit_buffer.loadFromFile("audio/hit1.wav");
-	hit_sound.setBuffer(hit_buffer);
-	hit_sound.setLoop(false);
-	hit_sound.setVolume(100);
 
 
 	//Evan - load 'explosion' sprite/animation
@@ -59,16 +56,32 @@ ShipModule::ShipModule(const ShipModuleData& rData) : Module(rData), m_health(rD
 	explosionAnimSmall = sptr<GraphicsComponent>(new QuadComponent(data));
 	explosionAnimSmall->setPosition(m_fix.getCenter());
 	explosionAnimSmall->setRotation(m_fix.getAngle());
+	
+	/*
+	hit_buffer.loadFromFile("audio/hit1.wav");
+	hit_sound.setBuffer(hit_buffer);
+	hit_sound.setLoop(false);
+	hit_sound.setVolume(100);
+	explode_buffer1.loadFromFile("audio/explode_small1.wav");
+	explode_sound1.setBuffer(explode_buffer1);
+	explode_sound1.setLoop(false);
+	explode_sound1.setVolume(100);
+	explode_buffer2.loadFromFile("audio/explode1.wav");
+	explode_sound2.setBuffer(explode_buffer2);
+	explode_sound2.setLoop(false);
+	explode_sound2.setVolume(50);*/
 
-	positions.push_back(b2Vec2(200, 200));
-	positions.push_back(b2Vec2(200, -200));
-	positions.push_back(b2Vec2(-200, -200));
-	positions.push_back(b2Vec2(-200, 200));
-	positions.push_back(b2Vec2(-200, -200));
-	positions.push_back(b2Vec2(200, 200));
+	//rand()
+	positions.push_back(b2Vec2(.25f, .25f));
+	positions.push_back(b2Vec2(.25f, -.25f));
+	positions.push_back(b2Vec2(-.25f, -.25f));
+	positions.push_back(b2Vec2(-.25f, .25f));
+	positions.push_back(b2Vec2(-.25f, -.25f));
+	positions.push_back(b2Vec2(.25f, .25f));
 	isExploding = false;
 	timer1 = 150;
-	timer2 = 25;
+	timer2 = 20;
+	originalPos = b2Vec2(explosionAnimSmall->getPosition());
 }
 ShipModule::~ShipModule()
 {
@@ -91,8 +104,8 @@ void ShipModule::postPhysUpdate()
 	hitAnim->setRotation(m_fix.getAngle());
 	explosionAnim->setPosition(m_fix.getCenter());
 	explosionAnim->setRotation(m_fix.getAngle());
-	/*explosionAnimSmall->setPosition(m_fix.getCenter());
-	explosionAnimSmall->setRotation(m_fix.getAngle());*/
+	originalPos = m_fix.getCenter();
+	explosionAnimSmall->setRotation(m_fix.getAngle());
 
 	//Evan - isExploding animation
 	if (isExploding)
@@ -100,18 +113,23 @@ void ShipModule::postPhysUpdate()
 		//when to do explosion anim
 		if (timer1 < 0) 
 		{
+			hitAnim->getAnimator().setAnimation("Default", 1.0f);
 			explosionAnim->getAnimator().setAnimation("Explode", 1.0f);
 			setHealthState(HealthState::Broken); //?
 			isExploding = false;
+			//explode_sound2.play();
+			game.getSound().playSound("explode1.wav", 100, 20, 20, m_fix.getCenter(), true);
 		}
 
 		//when to do explosion anim
-		if (timer2 < 0) 
+		if (timer2 < 0 && !positions.empty())
 		{
-			explosionAnimSmall->setPosition(b2Vec2(explosionAnimSmall->getPosition().x + positions.back().x, explosionAnimSmall->getPosition().y + positions.back().y));
-			explosionAnimSmall->getAnimator().setAnimation("Explode", 1.0f);
-			timer2 = 25;
+			explosionAnimSmall->setPosition(b2Vec2(originalPos.x + positions.back().x, originalPos.y + positions.back().y));
+			explosionAnimSmall->getAnimator().setAnimation("Explode", .5f);
+			timer2 = 20;
 			positions.pop_back();
+			//explode_sound1.play();
+			game.getSound().playSound("explode_small2.wav", 100, 20, 20, m_fix.getCenter(), true);
 		}
 		timer1--;
 		timer2--;
@@ -150,7 +168,7 @@ void ShipModule::input(std::string rCommand, sf::Packet rData)
 		if (!m_health.isDead())
 		{
 			hitAnim->getAnimator().setAnimation("Hit", .20f);
-			hit_sound.play();
+			//hit_sound.play(); //todo - better sound
 		}
 
 	}
