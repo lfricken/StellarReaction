@@ -366,10 +366,10 @@
     <ClCompile Include="src\Control\BasePlayerTraits.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="lib\Audio\SoundManager.cpp">
+    <ClCompile Include="src\Overlay\SelectableItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Overlay\SelectableItem.cpp">
+    <ClCompile Include="src\Audio\SoundManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

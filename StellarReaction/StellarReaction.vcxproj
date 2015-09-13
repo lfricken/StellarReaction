@@ -60,7 +60,7 @@
     <ClCompile Include="include\API\Box2D\Dynamics\Joints\b2WheelJoint.cpp" />
     <ClCompile Include="include\API\Box2D\Rope\b2Rope.cpp" />
     <ClCompile Include="src\Overlay\NetworkedSelection.cpp" />
-    <ClCompile Include="lib\Audio\SoundManager.cpp" />
+    <ClCompile Include="src\Audio\SoundManager.cpp" />
     <ClCompile Include="src\Basic\BallisticWeapon.cpp" />
     <ClCompile Include="src\Basic\Health.cpp" />
     <ClCompile Include="src\Basic\LaserWeapon.cpp" />

@@ -133,58 +133,68 @@ void IOManager::f_send(const Message& rMessage)
 }
 void IOManager::pack(sf::Packet& rPacket)//give us data to send to the twin in the other world
 {
-	//if(m_acceptsLocal)
-	//{
-	//	int32_t total = m_latest.size();
-	//	rPacket << total;
-	//	for(int32_t i = 0; i < (signed)m_latest.size(); ++i)
-	//	{
-	//		rPacket << (int32_t)m_latest[i].getTargetPosition();
-	//		rPacket << m_latest[i].getTargetName();
-	//		rPacket << m_latest[i].getCommand();
+	if(m_acceptsLocal)
+	{
+		int32_t total = m_latest.size();
+		rPacket << total;
+		for(int32_t i = 0; i < (signed)m_latest.size(); ++i)
+		{
+			rPacket << (int32_t)m_latest[i].getTargetPosition();
+			rPacket << m_latest[i].getTargetName();
+			rPacket << m_latest[i].getCommand();
 
-	//		rPacket << (int32_t)m_latest[i].getData().getDataSize();
+			int dataSize = (signed)m_latest[i].getData().getDataSize();
 
-	//		for(int chard = 0; chard < (signed)m_latest[i].getData().getDataSize(); ++chard)
-	//			rPacket << ((int8_t*)m_latest[i].getData().getData())[chard];
+			rPacket << (int32_t)dataSize;
 
-	//		rPacket << m_latest[i].getDelay();
-	//	}
-	//}
+			int8_t* pByte = (int8_t*)m_latest[i].getData().getData();
+			for(int chard = 0; chard < dataSize; ++chard)
+			{
+				int8_t byte = pByte[chard];
+				rPacket << byte;
+			}
+
+			rPacket << m_latest[i].getDelay();
+		}
+	}
 	m_latest.clear();
 }
 void IOManager::unpack(sf::Packet& rPacket)//process data from our twin
 {
-	//if(!m_acceptsLocal)
-	//{
-	//	int32_t total;
-	//	rPacket >> total;
-	//	for(int32_t i = 0; i < total; ++i)
-	//	{
-	//		int32_t pos;
-	//		std::string name;
-	//		std::string command;
-	//		int32_t size;
-	//		int8_t* data;
-	//		sf::Packet messageData;
-	//		float delay;
+	if(!m_acceptsLocal)
+	{
+		int32_t total;
+		rPacket >> total;
+		for(int32_t i = 0; i < total; ++i)
+		{
+			int32_t pos;
+			std::string name;
+			std::string command;
+			int32_t size;
+			int8_t* pData;
+			sf::Packet messageData;
+			float delay;
 
-	//		rPacket >> pos;
-	//		rPacket >> name;
-	//		rPacket >> command;
+			rPacket >> pos;
+			rPacket >> name;
+			rPacket >> command;
 
-	//		rPacket >> size;
+			rPacket >> size;
 
-	//		data = new int8_t[size];
-	//		for(int i = 0; i < (signed)m_latest[i].getData().getDataSize(); ++i)
-	//			rPacket >> data[i];
-	//		messageData.append(data, size);
+			pData = new int8_t[size];
+			for(int chard = 0; chard < size; ++chard)
+			{
+				int8_t byte;
+				rPacket >> byte;
+				pData[chard] = byte;
+			}
+			messageData.append(pData, size);
 
-	//		rPacket >> delay;
+			rPacket >> delay;
 
-	//		m_messageList.push_back(Message((unsigned int)pos, command, messageData, delay, false));
-	//		m_messageList.back().setName(name);
-	//		delete data;
-	//	}
-	//}
+			m_messageList.push_back(Message((unsigned int)pos, command, messageData, delay, false));
+			m_messageList.back().setName(name);
+			delete pData;
+		}
+	}
 }
