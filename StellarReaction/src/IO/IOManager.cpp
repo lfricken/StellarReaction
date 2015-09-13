@@ -22,7 +22,7 @@ void IOManager::recieve(const Message& rMessage)
 {
 	if(m_acceptsLocal)
 	{
-		if(m_networked)
+		if(m_networked && rMessage.sendOverNW())
 		{
 			m_spNw->toggleNewData(true);
 			m_latest.push_back(rMessage);

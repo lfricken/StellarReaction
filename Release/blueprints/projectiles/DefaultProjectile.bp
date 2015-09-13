@@ -50,8 +50,8 @@
 					0.125
 				],
 				"Physics": {
-					"colCat": "ShipModule",
-					"colMask": "ShipModule"	
+					"colCat": "Projectile",
+					"colMask": "Projectile"	
 				},
 				"density": 1.0,
 				"isSensor": true

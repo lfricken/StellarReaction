@@ -38,24 +38,20 @@
 		"animSheetName": "hulls/ship1.acfg",
 		"layer": "ShipHull"
 	},
-	"Afterburner_Sprites": [
-		{
-			"dimensions": [250, 700],
-			"center": [0, 835],
-			"texName": "hulls/afterb1.png",
-			"animSheetName": "hulls/afterb1.acfg",
-			"layer": "ShipModules"
-		}
-	],
-	"Afterburner_Thrust_Sprites": [
-		{
-			"dimensions": [250, 1400],
-			"center": [0, 1050],
-			"texName": "hulls/afterb1.png",
-			"animSheetName": "hulls/afterb1_thrust.acfg",
-			"layer": "ShipModules"
-		}
-	],
+	"Afterburner_Sprite": {
+		"dimensions": [250, 700],
+		"center": [0, 835],
+		"texName": "hulls/afterb1.png",
+		"animSheetName": "hulls/afterb1.acfg",
+		"layer": "ShipModules"
+	},
+	"Afterburner_Thrust_Sprite": {
+		"dimensions": [250, 1400],
+		"center": [0, 1050],
+		"texName": "hulls/afterb1.png",
+		"animSheetName": "hulls/afterb1_thrust.acfg",
+		"layer": "ShipModules"
+	},
     "Modules": [
         {
             "Title": "DefaultReactor",
@@ -65,14 +61,14 @@
             ]
         },
         {
-            "Title": "Razor_Laser1",
+            "Title": "DefaultTurret",
             "Position": [
                 0,
                 0
             ]
         },
         {
-            "Title": "Razor_Laser1",
+            "Title": "DefaultTurret",
             "Position": [
                 1,
                 -1
@@ -107,7 +103,7 @@
             ]
         },
         {
-            "Title": "Razor_Ballistic1",
+            "Title": "BallisticTurret",
             "Position": [
                 2,
                 0

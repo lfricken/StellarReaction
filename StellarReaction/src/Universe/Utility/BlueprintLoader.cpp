@@ -707,8 +707,10 @@ IOComponentData BlueprintLoader::loadIOComp(const Json::Value& root, const IOCom
 
 			float delay = (*it)["message"]["delay"].asFloat();
 			bool sendValue = (*it)["message"]["sendValue"].asBool();
+			bool sendOverNW = (*it)["message"]["sendOverNW"].asBool();
 			c.message.m_replaceTargetPos = (*it)["message"]["replaceTargetPosition"].asBool();
 			c.message.reset(target, command, packData, delay, sendValue);
+			c.message.sendOverNW(sendOverNW);
 			
 
 			EventType event = ChooseEvent((*it)["condition"]["event"].asString());

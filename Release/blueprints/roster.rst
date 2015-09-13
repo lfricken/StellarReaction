@@ -9,15 +9,22 @@
         "reactor/DefaultReactor.bp",
 		"turret/DefaultTurret.bp",
 		"turret/BallisticTurret.bp",
+		"turret/Razor_Laser1.bp",
+		"turret/Razor_Ballistic1.bp",
 		"plating/DefaultPlating.bp"
     ],
     "ChunkList": [
 		"chunks/CombatShip.bp",
+		"chunks/CombatShip2.bp",
+		"chunks/DefaultStation.bp",
         "chunks/DefaultChunk.bp"
     ],
     "WeaponList": [
         "weapon/DefaultWeapon.bp",
-		"weapon/DefaultBallisticWeapon.bp"
+		"weapon/DefaultBallisticWeapon.bp",
+		"weapon/Razor_Laser1.bp",
+		"weapon/Razor_Ballistic1.bp"
+		
     ],
 	"ProjectileList": [
 		"projectiles/DefaultProjectile.bp"

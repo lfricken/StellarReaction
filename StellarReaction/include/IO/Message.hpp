@@ -20,6 +20,9 @@ public:
 	void setData(const sf::Packet& rData);
 	void setName(const std::string rName);
 
+	void sendOverNW(bool shouldSend);
+	bool sendOverNW() const;
+
 	unsigned getTargetPosition() const;
 	const std::string& getTargetName() const;
 	const std::string& getCommand() const;
@@ -30,6 +33,7 @@ public:
 
 protected:
 private:
+	bool m_shouldSendOverNW;//if true, as a client we should send it to our host
 	unsigned m_targetPosition;
 	std::string m_targetName;//the name of our target IOComponent
 	std::string m_command;//the command that we want the target to do
