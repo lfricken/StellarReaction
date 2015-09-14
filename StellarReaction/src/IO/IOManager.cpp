@@ -20,7 +20,7 @@ IOManager::~IOManager()
 }
 void IOManager::recieve(const Message& rMessage)
 {
-	if(m_acceptsLocal)
+	if(m_acceptsLocal)//if we are host
 	{
 		if(m_networked && rMessage.sendOverNW())
 		{

@@ -458,6 +458,7 @@ void NetworkBoss::playerOption(sf::Packet& rData, BasePlayerTraits* pFrom)
 		sf::Packet pack;
 		pack << bpName;
 		Message bought((unsigned)targetPos, "addModule", pack, 0, false);
+		bought.sendOverNW(true);
 		game.getUniverse().getUniverseIO().recieve(bought);
 		cout << "\n" << targetPos << bpName;
 	}

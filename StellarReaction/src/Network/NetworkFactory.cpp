@@ -76,9 +76,9 @@ void NetworkFactory::process(sf::Packet& rPacket)
 	int32_t old_id;
 	while(rPacket >> id && !rPacket.endOfPacket())
 	{
+		old_id = id;
 		if(id < (signed)m_componentPtrs.size())
 		{
-			old_id = id;
 			if(m_componentPtrs[id] != NULL)
 			{
 				m_componentPtrs[id]->unpack(rPacket);
