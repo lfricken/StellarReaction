@@ -244,7 +244,7 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 	string configFile = "level.lcfg";
 	string modDir = "mods/";
 
-	ifstream level(levelDir + configFile, std::ifstream::binary);
+	ifstream level(contentDir + levelDir + configFile, std::ifstream::binary);
 	Json::Reader reader;
 	Json::Value root;
 	bool parsedSuccess = reader.parse(level, root, false);

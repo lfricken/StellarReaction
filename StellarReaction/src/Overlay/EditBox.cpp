@@ -18,7 +18,7 @@ EditBox::~EditBox()
 void EditBox::f_initialize(const EditBoxData& data)
 {
 	f_assign(m_pEditBox.get());
-	m_pEditBox->load(data.configFile);
+	m_pEditBox->load(contentDir + data.configFile);
 	m_pEditBox->setPosition(data.screenCoords);
 	m_pEditBox->setText(data.startingText);
 	m_pEditBox->setSize(data.size.x, data.size.y);

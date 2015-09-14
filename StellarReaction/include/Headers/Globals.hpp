@@ -5,9 +5,14 @@
 
 
 #include "Game.hpp"
-extern Game game;
 
+//const std::string& AppConfigFileName()
+//{
+//	static const std::string dir("../");
+//	return dir;
+//}
 
+#define contentDir "../"
 
 
 const sf::Packet voidPacket;
@@ -17,6 +22,6 @@ const float sizeScalingFactor = static_cast<float>(standardModuleSize) / static_
 const float pi = 3.14159f;
 #define FILELINE "file:{"<<__FILE__<<"}line:{"<<__LINE__<<"}"
 
-
+extern Game game;
 
 #endif // GLOBALS_H

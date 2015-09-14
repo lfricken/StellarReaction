@@ -1,4 +1,5 @@
 #include "TextureAllocator.hpp"
+#include "Globals.hpp"
 
 using namespace std;
 using namespace sf;
@@ -10,7 +11,7 @@ TextureAllocator::TextureAllocator(bool shouldSmoothTextures)
 	m_smoothTextures = shouldSmoothTextures;
 
 	sptr<Texture> spTempTex(new Texture);
-	if(!spTempTex->loadFromFile(defaultTex))/**cant be loaded**/
+	if(!spTempTex->loadFromFile(contentDir + defaultTex))/**cant be loaded**/
 	{
 		///ERROR LOG
 		cout << "\nThere was an error loading the texture [" << defaultTex << "].";
@@ -37,10 +38,10 @@ Texture* TextureAllocator::request(const std::string& rFilePath)
 	else/**we dont have it loaded**/
 	{
 		sptr<Texture> spTempTex(new Texture);
-		if(!spTempTex->loadFromFile("textures/"+rFilePath))/**cant be loaded**/
+		if(!spTempTex->loadFromFile(contentDir + "textures/" + rFilePath))/**cant be loaded**/
 		{
 			///ERROR LOG
-			cout << "\nThere was an error loading the texture [" << rFilePath << "].";
+			cout << "\nThere was an error loading the texture [" << contentDir + rFilePath << "].";
 			return &*m_textures[defaultTex];
 		}
 		m_textures[rFilePath] = spTempTex;

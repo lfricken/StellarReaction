@@ -39,17 +39,17 @@ void SoundManager::playSound(const std::string& rSoundName, int volume, float mi
 	const float time = game.getTime();
 
 	/**See if the sound is already playing**/
-	for(int i=0; i<m_numNoises; ++i)
-		if(m_noises[i].m_name == rSoundName && (time-m_noises[i].m_startTime) < m_minDelay)
+	for(int i = 0; i < m_numNoises; ++i)
+		if(m_noises[i].m_name == rSoundName && (time - m_noises[i].m_startTime) < m_minDelay)
 			return;
 
 	/**It's not playing, so see if it is loaded**/
 	auto itBuffer = m_buffers.find(rSoundName);
 	if(itBuffer == m_buffers.end())//try loading it since it's not
 	{
-		if(!m_buffers[rSoundName].loadFromFile(m_directory+rSoundName))
+		if(!m_buffers[rSoundName].loadFromFile(contentDir + m_directory + rSoundName))
 		{
-			cout << "\nError loading sound [" << m_directory+rSoundName << "] " << FILELINE;
+			cout << "\nError loading sound [" << m_directory + rSoundName << "] " << FILELINE;
 			///ERROR LOG
 			return;
 		}
@@ -58,7 +58,7 @@ void SoundManager::playSound(const std::string& rSoundName, int volume, float mi
 
 
 	/**It's been loaded, find a noise to play it in**/
-	for(int i=0; i<m_numNoises; ++i)
+	for(int i = 0; i < m_numNoises; ++i)
 		if(m_noises[i].m_sound.getStatus() == sf::Sound::Stopped)
 		{
 			m_noises[i].m_name = rSoundName;
