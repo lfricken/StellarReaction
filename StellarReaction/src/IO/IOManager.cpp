@@ -20,9 +20,14 @@ IOManager::~IOManager()
 }
 void IOManager::recieve(const Message& rMessage)
 {
-	if(m_acceptsLocal)//if we are host
+	if(m_acceptsLocal)
 	{
-		if(m_networked && rMessage.sendOverNW())
+		if(m_networked && rMessage.sendOverNW())//we are someone about to send an important message
+		{
+			m_spNw->toggleNewData(true);
+			m_latest.push_back(rMessage);
+		}
+		else if(m_networked && game.getNwBoss().getNWState == NWState::Server)//we are the host with any info
 		{
 			m_spNw->toggleNewData(true);
 			m_latest.push_back(rMessage);
