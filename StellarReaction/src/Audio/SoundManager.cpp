@@ -36,6 +36,7 @@ void SoundManager::playSound(const std::string& rSoundName, int volume, float mi
 	if(rSoundName == "")
 		return;
 
+
 	const float time = game.getTime();
 
 	/**See if the sound is already playing**/
@@ -47,9 +48,9 @@ void SoundManager::playSound(const std::string& rSoundName, int volume, float mi
 	auto itBuffer = m_buffers.find(rSoundName);
 	if(itBuffer == m_buffers.end())//try loading it since it's not
 	{
-		if(!m_buffers[rSoundName].loadFromFile(contentDir + m_directory + rSoundName))
+		if(!m_buffers[rSoundName].loadFromFile(contentDir() + m_directory + rSoundName))
 		{
-			cout << "\nError loading sound [" << m_directory + rSoundName << "] " << FILELINE;
+			cout << "\nError loading sound [" << contentDir() + m_directory + rSoundName << "] " << FILELINE;
 			///ERROR LOG
 			return;
 		}

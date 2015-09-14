@@ -21,7 +21,7 @@ Chatbox::~Chatbox()
 void Chatbox::f_initialize(const ChatboxData& rData)
 {
 	f_assign(m_pChatBox.get());
-	m_pChatBox->load(contentDir + rData.configFile);
+	m_pChatBox->load(contentDir() + rData.configFile);
 	m_pChatBox->setPosition(rData.screenCoords);
 	m_pChatBox->setSize(rData.size.x, rData.size.y);
 

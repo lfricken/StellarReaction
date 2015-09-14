@@ -18,7 +18,7 @@ namespace leon
 	void Picture::f_initialize(const PictureData& rData)
 	{
 		f_assign(m_pPicture.get());
-		m_pPicture->load(contentDir + "textures/" + rData.texName);
+		m_pPicture->load(contentDir() + "textures/" + rData.texName);
 		m_pPicture->setPosition(rData.screenCoords);
 		m_pPicture->setSize(rData.size.x, rData.size.y);
 

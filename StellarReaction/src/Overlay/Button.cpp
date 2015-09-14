@@ -18,7 +18,7 @@ Button::~Button()
 void Button::f_initialize(const ButtonData& rData)
 {
 	f_assign(m_pButton.get());
-	m_pButton->load(contentDir + rData.configFile);
+	m_pButton->load(contentDir() + rData.configFile);
 	m_pButton->setPosition(rData.screenCoords);
 	m_pButton->setText(rData.buttonText);
 	m_pButton->setSize(rData.size.x, rData.size.y);

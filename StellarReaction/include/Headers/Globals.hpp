@@ -6,14 +6,7 @@
 
 #include "Game.hpp"
 
-//const std::string& AppConfigFileName()
-//{
-//	static const std::string dir("../");
-//	return dir;
-//}
-
-#define contentDir "../"
-
+const std::string& contentDir();
 
 const sf::Packet voidPacket;
 const int scale = 512;

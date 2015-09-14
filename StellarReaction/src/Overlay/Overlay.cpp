@@ -13,7 +13,7 @@ using namespace std;
 
 Overlay::Overlay(const IOComponentData& rData) : m_gui(game.getWindow()), m_io(rData, &Overlay::input, this)
 {
-	m_gui.setGlobalFont(contentDir + "TGUI/fonts/DejaVuSans.ttf");
+	m_gui.setGlobalFont(contentDir() + "TGUI/fonts/DejaVuSans.ttf");
 	m_menuShowing = true;
 	/**If we call loadMenus now, we try and access this very Overlay object before it has been returned to game**/
 }

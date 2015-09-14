@@ -33,7 +33,7 @@ Game::Game()
 {
 	srand(time(NULL));
 
-	loadWindow(contentDir + "window.ini");
+	loadWindow(contentDir() + "window.ini");
 
 	m_sampleClock = 0;
 	m_sampleFreq = 40;
@@ -50,7 +50,7 @@ Game::Game()
 	m_spOverlay = sptr<Overlay>(new Overlay(overlayData));
 	m_spOverlay->loadMenus();
 
-	loadPlayer(contentDir + "settings/GeneralSettings.cfg");
+	loadPlayer(contentDir() + "settings/GeneralSettings.cfg");
 
 	/**== GAME IO COMPONENT ==**/
 	IOComponentData gameData(getCoreIO());

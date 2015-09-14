@@ -91,7 +91,9 @@ sptr<const WeaponData> BlueprintLoader::getWeaponSPtr(const std::string& rBPName
 /**===========================================**/
 void BlueprintLoader::storeRoster(const std::string& rDir)
 {
-	std::ifstream roster(rDir + "roster.rst", std::ifstream::binary);
+	std::string directory = contentDir() + rDir;
+	std::ifstream roster(directory + "roster.rst", std::ifstream::binary);
+
 	Json::Reader readerRoster;
 	Json::Value rootRoster;
 	bool parsedSuccess = readerRoster.parse(roster, rootRoster, false);
@@ -102,35 +104,35 @@ void BlueprintLoader::storeRoster(const std::string& rDir)
 		const Json::Value weaponList = rootRoster["WeaponList"];
 		for (auto it = weaponList.begin(); it != weaponList.end(); ++it)
 		{
-			std::string file = (rDir + it->asString());
+			std::string file = (directory + it->asString());
 			storeWeapon(file);
 		}
 
 		const Json::Value bpList = rootRoster["ModuleList"];
 		for (auto it = bpList.begin(); it != bpList.end(); ++it)
 		{
-			std::string file = (rDir + it->asString());
+			std::string file = (directory + it->asString());
 			storeModule(file);
 		}
 
 		const Json::Value chunkList = rootRoster["ChunkList"];
 		for (auto it = chunkList.begin(); it != chunkList.end(); ++it)
 		{
-			std::string file = (rDir + it->asString());
+			std::string file = (directory + it->asString());
 			storeChunk(file);
 		}
 
 		const Json::Value prjList = rootRoster["ProjectileList"];
 		for(auto it = prjList.begin(); it != prjList.end(); ++it)
 		{
-			std::string file = (rDir + it->asString());
+			std::string file = (directory + it->asString());
 			storeProjectile(file);
 		}
 
 	}
 	else
 	{
-		cout << "Couldn't Parse [" << rDir + "roster.rst" << "]" << FILELINE;
+		cout << "Couldn't Parse [" << directory + "roster.rst" << "]" << FILELINE;
 		///ERRORLOG
 	}
 }
