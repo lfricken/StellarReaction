@@ -3,8 +3,9 @@
 
 #include "stdafx.hpp"
 #include "Protocol.hpp"
+#include "BasePlayerTraits.hpp"
 
-class Connection
+class Connection : public BasePlayerTraits
 {
 public:
 	Connection(sf::UdpSocket* pSocket, sptr<sf::TcpSocket> spTcpSocket, bool valid);
@@ -19,15 +20,8 @@ public:
 	bool validated() const;//did we get validated
 	void setValid();
 
-	/**PLAYER DATA**/
-	void setTeam(int team);
-	int getTeam() const;
-
-	void setShipChoice(const std::string& rTitle);
-	const std::string& getShipChoice() const;
-
-	void setName(const std::string& rTitle);
-	const std::string& getName() const;
+	void syncPlayerTraits();
+	void recievePlayerTraits(sf::Packet mes);
 
 protected:
 private:
@@ -39,13 +33,7 @@ private:
 	sf::UdpSocket* m_pUdpSocket;
 	sptr<sf::TcpSocket> m_spTcpSocket;//each connection has a TCP port
 
-	std::map<Protocol, std::pair<int32_t, int32_t> > m_lastSendRecieve;//for each type of protocol, what was the last send?
-
-	/**PLAYER DATA**/
-	std::string m_shipChoice;
-	std::string m_name;
-	int m_team;
+	std::map<Protocol, std::pair<int32_t, int32_t> > m_lastSendRecieve;//for each type of protocol, what was the last sendID, and what was the lastRecieveID?
 };
-
 
 #endif // CONNECTION_HPP

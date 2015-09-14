@@ -6,8 +6,8 @@ using namespace std;
 Thruster::Thruster(const ThrusterData& rData) : ShipModule(rData)
 {
 	m_eConsump = rData.energyConsumption;
-	m_force = rData.force;
-	m_torque = rData.torque;
+	m_force = rData.force * sizeScalingFactor;
+	m_torque = rData.torque * sizeScalingFactor * sizeScalingFactor;
 
 	m_forceVec = b2Vec2(0,1);
 	m_isCCW = true;

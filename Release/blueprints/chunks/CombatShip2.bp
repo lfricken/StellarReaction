@@ -1,0 +1,152 @@
+{
+    "ClassName": "Chunk",
+    "Title": "CombatShip2",
+	"Copies": null,
+    "IO": {
+        "name": "BPCHUNKNAME",
+        "courierList": []
+    },
+    "Body": {
+        "coords": [
+            0,
+            0
+        ],
+        "rotation": 0,
+        "isDynamic": true,
+        "isBullet": false,
+        "startAwake": true
+    },
+    "Missiles": {
+        "Max": 0,
+        "Value": 0
+    },
+    "Energy": {
+        "Max": 0,
+        "Value": 0
+    },
+    "Ballistic": {
+        "Max": 0,
+        "Value": 0
+    },
+    "Zoom": {
+        "Max": 64,
+        "Value": 1
+    },
+	"Hull_Sprite": {
+		"dimensions": [3275, 2454],
+		"center": [0,-500],
+		"texName": "hulls/titan1.png",
+		"animSheetName": "hulls/titan1.acfg",
+		"layer": "ShipHull"
+	},
+	"Afterburner_Sprites": [
+		{
+			"dimensions": [200, 600],
+			"center": [-240, 965],
+			"texName": "hulls/afterb1.png",
+			"animSheetName": "hulls/afterb1.acfg",
+			"layer": "ShipModules",
+			"permanentRot": -2
+		},
+		{
+			"dimensions": [200, 600],
+			"center": [240, 965],
+			"texName": "hulls/afterb1.png",
+			"animSheetName": "hulls/afterb1.acfg",
+			"layer": "ShipModules",
+			"permanentRot": 2
+		}
+	],
+	"Afterburner_Thrust_Sprites": [
+		{
+			"dimensions": [200, 1400],
+			"center": [-240, 1280],
+			"texName": "hulls/afterb1.png",
+			"animSheetName": "hulls/afterb1_thrust.acfg",
+			"layer": "ShipModules",
+			"permanentRot": -2
+		},
+		{
+			"dimensions": [200, 1400],
+			"center": [240, 1280],
+			"texName": "hulls/afterb1.png",
+			"animSheetName": "hulls/afterb1_thrust.acfg",
+			"layer": "ShipModules",
+			"permanentRot": 2
+		}
+	],
+    "Modules": [
+        {
+            "Title": "DefaultReactor",
+            "Position": [
+                0,
+                2
+            ]
+        },
+        {
+            "Title": "Razor_Laser1",
+            "Position": [
+                0,
+                1
+            ]
+        },
+        {
+            "Title": "Razor_Laser1",
+            "Position": [
+                -2,
+                0
+            ]
+        },
+        {
+            "Title": "DefaultPlating",
+            "Position": [
+                0,
+                3
+            ]
+        },
+        {
+            "Title": "DefaultPlating",
+            "Position": [
+                -1,
+                0
+            ]
+        },
+        {
+            "Title": "DefaultCapacitor",
+            "Position": [
+                1,
+                0
+            ]
+        },
+        {
+            "Title": "Razor_Ballistic1",
+            "Position": [
+                2,
+                0
+            ]
+        },
+		{
+			"ClassName": "Radar",
+			"RadarStrength": 20,
+			"BaseSprite": {
+				"texName": "radar/radar_base.png",
+				"animSheetName": "radar/radar_base.acfg"
+			},
+			"Physics": {
+				"offset": [
+					0,
+					1
+				],
+				"density": 1.0
+			}
+		},
+        {
+            "Title": "DefaultThruster",
+            "Position": [
+                0,
+                -1
+            ]
+        }
+    ],
+    "Network": {}
+}

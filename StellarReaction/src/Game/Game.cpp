@@ -251,18 +251,20 @@ void Game::exit()
 /// <summary>
 /// Destroys old universe and makes new one!
 /// </summary>
-/// <param name="stuff">The stuff.</param>
 void Game::loadUniverse(const std::string& stuff)
 {
 	IOComponentData universeData(getCoreIO());
 	universeData.name = "universe";
 	m_spUniverse = sptr<Universe>(new Universe(universeData));
 	m_spUniverse->getUniverseIO().give(&*m_spIO);
+	if(game.getNwBoss().getNWState() == NWState::Client)
+		getUniverse().getUniverseIO().toggleAcceptsLocal(false);
+	else
+		getUniverse().getUniverseIO().toggleAcceptsLocal(true);
 }
 /// <summary>
 /// Initializes the window from a json file with the needed data.
 /// </summary>
-/// <param name="windowFile">name of file</param>
 void Game::loadWindow(const std::string& windowFile)
 {
 	sf::ContextSettings settings;

@@ -33,6 +33,7 @@ enum class Directive
 	/**== MISC. ==**/
 	Use,
 	ShieldToggle,
+	ShowStore,//toggle the store on or off (if there is one near us)
 	Special1,
 	Special2,
 	End,

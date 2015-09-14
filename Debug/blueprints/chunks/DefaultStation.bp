@@ -1,0 +1,105 @@
+{
+    "ClassName": "Chunk",
+    "Title": "DefaultStation",
+	"Copies": null,
+    "Body": {
+        "coords": [
+            40,
+            0
+        ],
+        "rotation": 1,
+        "isDynamic": false,
+        "isBullet": false,
+        "startAwake": true
+    },
+    "Missiles": {
+        "Max": 0,
+        "Value": 0
+    },
+    "Energy": {
+        "Max": 0,
+        "Value": 0
+    },
+    "Ballistic": {
+        "Max": 0,
+        "Value": 0
+    },
+    "Zoom": {
+        "Max": 64,
+        "Value": 1
+    },
+    "Modules": [
+        {
+            "Title": "DefaultCapacitor",
+            "Position": [
+                0,
+                0
+            ]
+        },
+		{
+			"ClassName": "Sensor",
+			"Inherits": "DefaultModule",
+			"IO": {
+				"name": "NONAMEBP",
+				"courierList": [
+					{
+						"message": {
+							"target": "",
+							"command": "setStore",
+							"data": [
+								"string",
+								"store_default"
+							],
+							"delay": 0,
+							"sendValue": false,
+							"sendOverNW": true,
+							"replaceTargetPosition": true
+						},
+						"condition": {
+							"event": "OnEnter",
+							"value": 0,
+							"comparator": "d",
+							"repeatable": true
+						}
+					},
+					{
+						"message": {
+							"target": "",
+							"command": "setStore",
+							"data": [
+								"string",
+								""
+							],
+							"delay": 0,
+							"sendValue": false,
+							"sendOverNW": true,
+							"replaceTargetPosition": true
+						},
+						"condition": {
+							"event": "OnExit",
+							"value": 0,
+							"comparator": "d",
+							"repeatable": true
+						}
+					}
+				]
+			},
+			"Physics": {
+				"offset": [
+					0,
+					0
+				],
+				"size": [
+					7,
+					0
+				],
+				"shape": "circle",
+				"density": 0,
+				"isSensor": true,
+				"colCat": "Trigger",
+				"colMask": "Trigger"
+			}
+		}
+    ],
+    "Network": {}
+}

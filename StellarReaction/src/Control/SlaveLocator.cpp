@@ -70,15 +70,6 @@ Chunk* SlaveLocator::find(int position)
 }
 Chunk* SlaveLocator::findHack(const std::string& rName)
 {
-	auto it = m_nameLookup.find(rName);
-	if(it != m_nameLookup.end())
-	{
-		return m_slavePtrs[it->second];
-	}
-	else
-	{
-		cout << "\nTarget [" << rName << "] was not found." << FILELINE;
-		///ERROR LOG
-		return NULL;
-	}
+	int index = findPos(rName);
+	return find(index);
 }

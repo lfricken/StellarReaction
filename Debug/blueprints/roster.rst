@@ -19,6 +19,7 @@
 		"chunks/CombatShip.bp",
 		"chunks/CombatShip2.bp",
 		"chunks/Raven1.bp",
+		"chunks/DefaultStation.bp",
         "chunks/DefaultChunk.bp"
     ],
     "WeaponList": [

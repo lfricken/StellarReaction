@@ -115,10 +115,13 @@
                 ]
             }
         },
-		
-		
-		
-		
+        {
+            "Title": "DefaultStation",
+			"Coordinates": [
+				30,
+				0
+			]
+        },
         {
             "ClassName": "Chunk",
             "Copies": null,

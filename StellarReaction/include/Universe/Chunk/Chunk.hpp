@@ -28,10 +28,12 @@ public:
 	virtual void prePhysUpdate();
 	virtual void postPhysUpdate();
 
+	void add(const ModuleData& rData);
+
 	const std::string& getName() const;
 
 	void setAim(const b2Vec2& world);//send our aim coordinates
-	void directive(std::map<Directive, bool>& rIssues);//send command to target
+	void directive(std::map<Directive, bool>& rIssues, bool local);//send command to target
 	float get(Request value) const;//return the requested value
 	b2Body* getBodyPtr();
 
@@ -45,9 +47,12 @@ private:
 	Pool<Energy> m_energyPool;
 	Pool<float> m_zoomPool;
 
+	Timer m_timer;
 	int m_slavePosition;
 	BodyComponent m_body;
 	std::vector<sptr<Module> > m_modules;
+
+
 
 	//Evan - sprites for hull, afterburner, afterburner_thrust. need to set anims and anim speed individually
 	sptr<GraphicsComponent> hull;

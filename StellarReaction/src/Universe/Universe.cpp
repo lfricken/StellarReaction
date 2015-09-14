@@ -21,12 +21,11 @@
 #include "BallisticWeapon.hpp"
 #include "ProjectileMan.hpp"
 #include "DecorQuad.hpp"
-
+#include "Convert.hpp"
 
 using namespace std;
 
-//Evan
-#include "Convert.hpp"
+
 
 Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input, this), m_physWorld(b2Vec2(0, 0))
 {
@@ -38,7 +37,7 @@ Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input,
 	m_spProjMan = sptr<ProjectileMan>(new ProjectileMan);
 
 	/**IO**/
-	m_spUniverseIO = sptr<IOManager>(new IOManager(true));
+	m_spUniverseIO = sptr<IOManager>(new IOManager(true, true));
 	m_spUniverseIO->give(&m_io);
 	m_spUniverseIO->give(&game.getLocalPlayer().getIOComp());
 	/**IO**/
@@ -116,7 +115,6 @@ void Universe::toggleDebugDraw()
 /// <summary>
 /// get the time step for the box2d::world
 /// </summary>
-/// <returns></returns>
 float Universe::getTimeStep() const
 {
 	return m_timeStep;
@@ -126,12 +124,18 @@ float Universe::getTimeStep() const
 /// </summary>
 void Universe::prePhysUpdate()
 {
+	static bool hap = false;
+	ThrusterData data;
+	data.fixComp.offset = b2Vec2(1, 6);
 	if(!m_paused)
 	{
 		for(auto it = m_goList.begin(); it != m_goList.end(); ++it)
+		{
 			(*it)->prePhysUpdate();
+		}
 		m_spProjMan->prePhysUpdate();
 	}
+
 }
 void Universe::physUpdate()
 {
@@ -233,10 +237,6 @@ void Universe::loadBlueprints(const std::string& bpDir)//loads blueprints
 /// <summary>
 /// Loads the level.
 /// </summary>
-/// <param name="level">The level.</param>
-/// <param name="localController">The local controller.</param>
-/// <param name="bluePrints">The blue prints.</param>
-/// <param name="rControllerList">The r controller list.</param>
 void Universe::loadLevel(const std::string& levelDir, int localController, const std::string& bluePrints, const std::vector<std::string>& rControllerList, const std::vector<std::string>& rShipTitleList, const std::vector<int>& teams)//loads a level using blueprints
 {
 	loadBlueprints(bluePrints);
@@ -271,7 +271,7 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 	rData.texName = "backgrounds/stars4.png";
 	rData.layer = GraphicsLayer::Background4;
 	data.quadComp = rData;
-	data.dimensions = b2Vec2(width,height);
+	data.dimensions = b2Vec2(width, height);
 	//second nearest
 	DecorQuadData data2;
 	data2.ioComp.name = "decorTest";
@@ -306,7 +306,7 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 	//DecorQuad* t2 = new DecorQuad(data);
 	//t2->setPosition(b2Vec2(-10000, -10000)); //doesn't work
 	//game.getLocalPlayer().getCamera().getView().getSize().x;
-	
+
 
 	int startPosX = game.getLocalPlayer().getCamera().getView().getCenter().x - 20000;
 	int endPosX = game.getLocalPlayer().getCamera().getView().getCenter().x + 20000;
@@ -319,26 +319,28 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 	//for square in screen region, add one of these
 	//one world unit is 256
 	//did the below by hand
-	int tilesX = 11; 
+	int tilesX = 11;
 	int tilesY = 8;
 
 	DecorQuad* temp;
-	for (int i = 0; i < tilesX; i++)
+	for(int i = 0; i < tilesX; i++)
 	{
-		for (int j = 0; j < tilesY; j++)
+		for(int j = 0; j < tilesY; j++)
 		{
 			//nearest 
-			if ( i < 3 && j < 3) {
+			if(i < 3 && j < 3)
+			{
 				//cout << "add at x: " << startPos.x + (i*height) / scale << endl;
 				//cout << "add at y: " << startPos.y + (j*width) / scale << endl;
 				data.initPosition = b2Vec2(startPos.x + (i*height) / scale, startPos.y + (j*width) / scale);
-				data.num_in_layer = b2Vec2(3,3);
+				data.num_in_layer = b2Vec2(3, 3);
 				temp = new DecorQuad(data);
 				add(temp);
 			}
 
 			//second nearest
-			if ( i < 6 && j < 4) {
+			if(i < 6 && j < 4)
+			{
 				data2.initPosition = b2Vec2(startPos.x + (i*height / 2) / scale, startPos.y + (j*width / 2) / scale);
 				data2.num_in_layer = b2Vec2(6, 4);
 				temp = new DecorQuad(data2);
@@ -346,7 +348,8 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 			}
 
 			//third nearest
-			if (i < 9 && j < 6) {
+			if(i < 9 && j < 6)
+			{
 				data3.initPosition = b2Vec2(startPos.x + (i*height / 3) / scale, startPos.y + (j*width / 3) / scale);
 				data3.num_in_layer = b2Vec2(9, 6);
 				temp = new DecorQuad(data3);
@@ -354,7 +357,8 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 			}
 
 			//fourth nearest
-			if (i < 11 && j < 8) {
+			if(i < 11 && j < 8)
+			{
 				data4.initPosition = b2Vec2(startPos.x + (i*height / 4) / scale, startPos.y + (j*width / 4) / scale);
 				data4.num_in_layer = b2Vec2(11, 8);
 				temp = new DecorQuad(data4);
@@ -377,20 +381,11 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 	bg_data.quadComp = rData;
 	bg_data.dimensions = b2Vec2(1200, 1200);
 	int pixelsX = game.getWindow().getDefaultView().getSize().x / 2;
-	int pixelsY = game.getWindow().getDefaultView().getSize().y / 2; 
+	int pixelsY = game.getWindow().getDefaultView().getSize().y / 2;
 	bg_data.initPosition = b2Vec2(pixelsX / static_cast<float>(scale), -pixelsY / static_cast<float>(scale));
 	bg_data.num_in_layer = b2Vec2(100, 100);
 	temp = new DecorQuad(bg_data);
 	add(temp);
-
-	//rData.dimensions = sf::Vector2f(1200, 1200);
-	//rData.center = sf::Vector2f(pixelsX / static_cast<float>(scale), -pixelsY / static_cast<float>(scale));
-	//rData.layer = GraphicsLayer::BackgroundUnmoving1;
-	//rData.animSheetName = "backgrounds/bg1.acfg";
-	//QuadComponent * quad_temp = new QuadComponent(rData);
-
-	//LEON!!!! THERES A BUG!!! 
-	 //textures without animsheet will have the top-left portion of the texture loaded.
 
 	if(!parsedSuccess)
 	{
@@ -456,20 +451,6 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 				add(spCnk->generate());
 			}
 		}
-
-
-		//Evan - load background image
-		if(!root["Background1"].isNull())
-		{
-			//nothing for now
-			//QuadComponentData rData = loadQuad(root["Background1"], QuadComponentData());
-		}
-		else
-		{
-			cout << "Background json entry could not be loaded (check level config file)" << FILELINE;
-			///ERROR LOG
-		}
-
 	}
 
 	int team = 1;

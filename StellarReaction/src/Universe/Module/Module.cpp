@@ -47,7 +47,18 @@ void Module::unpack(sf::Packet& rPacket)
 {
 
 }
+const std::string& Module::getStore() const
+{
+	return m_fix.getStore();
+}
 void Module::input(std::string rCommand, sf::Packet rData)
 {
-	cout << "\nCommand not found in [" << m_io.getName() << "].";
+	if(rCommand == "setStore")
+	{
+		std::string name;
+		rData >> name;
+		m_fix.setStore(name);
+	}
+	else
+		cout << "\nCommand not found in [" << m_io.getName() << "]." << FILELINE;
 }

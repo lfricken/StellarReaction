@@ -22,12 +22,6 @@ Controller::~Controller()
 {
 
 }
-
-
-
-
-
-
 void Controller::setSlave(const std::string& rSlaveName)
 {
 	m_slaveName = rSlaveName;
@@ -37,9 +31,6 @@ const std::string& Controller::getSlaveName() const
 {
 	return m_slaveName;
 }
-
-
-
 IOComponent& Controller::getIOComp()
 {
 	return m_io;
@@ -89,14 +80,15 @@ void Controller::processDirectives()//use our stored directives to send commands
 	processAim();
 	Chunk* temp = game.getUniverse().getSlaveLocator().find(m_slavePosition);
 	if(temp != NULL)
-		temp->directive(m_directives);
+		temp->directive(m_directives, m_local);
 	else
 		cout << "NO CONTROLLER" << FILELINE;
 }
 /// <summary>
 /// true if this controller is controlled locally (this computer)
+/// This is so we can determine whether to ignore outside updates to us
+/// and whether to send this data at all
 /// </summary>
-/// <param name="local">if set to <c>true</c> [local].</param>
 void Controller::toggleLocal(bool local)
 {
 	m_local = local;
@@ -120,6 +112,7 @@ NetworkComponent& Controller::getNWComp()
 }
 void Controller::pack(sf::Packet& rPacket)
 {
+
 	rPacket << static_cast<float32>(m_aim.x);
 	rPacket << static_cast<float32>(m_aim.y);
 	for(int32_t i=0; i<static_cast<int32_t>(Directive::End); ++i)
@@ -132,17 +125,24 @@ void Controller::unpack(sf::Packet& rPacket)
 	if(game.getNwBoss().getNWState() == NWState::Server)
 		m_nw.toggleNewData(true);//if we are the server and we got new data from a client about his control we need to tell the other clients
 
+	/**we need to extract the data no matter what**/
 	bool dir;
 	float32 aimX, aimY;
 	rPacket >> aimX;
 	rPacket >> aimY;
-	setAim(b2Vec2(aimX, aimY));
-	for(int32_t i = 0; i<static_cast<int32_t>(Directive::End); ++i)
+	std::map<Directive, bool> directives;
+	for(int32_t i = 0; i < static_cast<int32_t>(Directive::End); ++i)
 	{
 		rPacket >> dir;
-		if(!m_local)
-			m_directives[static_cast<Directive>(i)] = dir;
+		directives[static_cast<Directive>(i)] = dir;
 	}
+
+	if(!m_local)//if we are locally controlled, we shouldnt unpack that stuff
+	{
+		setAim(b2Vec2(aimX, aimY));
+		m_directives = directives;
+	}
+
 }
 void Controller::input(std::string rCommand, sf::Packet rData)
 {

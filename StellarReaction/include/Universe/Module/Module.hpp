@@ -21,6 +21,7 @@ public:
 	virtual void postPhysUpdate();
 	virtual void directive(std::map<Directive, bool>& rIssues);
 	virtual void setAim(const b2Vec2& rTarget);
+	const std::string& getStore() const;
 
 protected:
 	virtual void input(std::string rCommand, sf::Packet rData);
@@ -46,6 +47,7 @@ struct ModuleData
 {
 	ModuleData() :
 		//type(ModuleType::Broken),
+		cost(1),
 		ioComp(game.getUniverse().getUniverseIO()),
 		nwComp(),
 		fixComp()
@@ -53,6 +55,7 @@ struct ModuleData
 
 	}
 
+	int cost;
 	IOComponentData ioComp;
 	NetworkComponentData nwComp;
 	FixtureComponentData fixComp;

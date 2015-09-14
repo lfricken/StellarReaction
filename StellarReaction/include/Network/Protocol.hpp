@@ -10,10 +10,12 @@ enum class Protocol//indicate which type of message it is
 	/**TCP**/
 	Tcp,
 	LoadLevel,//the server wants us to load a game
-	Handshake,
-	LobbyOption,//switch teams, choose ship
+	Handshake,//client recieves first packet from server
+	ReturnHandshake,//server recieves first packet from client
+	PlayerOption,//switch teams, choose ship
+	PlayerTraits,//values in the player traits
 
-	End,
+	End,//end of protocol, or ignore this packet
 };
 
 #endif // PROTOCOL_HPP
