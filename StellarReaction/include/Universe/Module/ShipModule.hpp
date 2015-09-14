@@ -29,6 +29,22 @@ public:
 	void setHealthState(HealthState newState);
 	virtual void setHealthStateHook(HealthState newState);
 
+	//Evan - module hit animation
+	sptr<GraphicsComponent> hitAnim;
+	sptr<GraphicsComponent> explosionAnim;
+	sptr<GraphicsComponent> explosionAnimSmall;
+	/*sf::SoundBuffer hit_buffer;
+	sf::Sound hit_sound;
+	sf::SoundBuffer explode_buffer1;
+	sf::Sound explode_sound1;
+	sf::SoundBuffer explode_buffer2;
+	sf::Sound explode_sound2;*/
+	bool isExploding;
+	int timer1; //explosion animation timing
+	int timer2;
+	std::vector<b2Vec2> positions;
+	b2Vec2 originalPos;
+
 protected:
 	virtual void input(std::string rCommand, sf::Packet rData);
 	virtual void pack(sf::Packet& rPacket);

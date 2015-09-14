@@ -27,7 +27,7 @@ void IOManager::recieve(const Message& rMessage)
 			m_spNw->toggleNewData(true);
 			m_latest.push_back(rMessage);
 		}
-		else if(m_networked && game.getNwBoss().getNWState == NWState::Server)//we are the host with any info
+		else if(m_networked && game.getNwBoss().getNWState() == NWState::Server)//we are the host with any info
 		{
 			m_spNw->toggleNewData(true);
 			m_latest.push_back(rMessage);

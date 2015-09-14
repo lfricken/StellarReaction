@@ -1,0 +1,13 @@
+{
+    "ClassName": "Turret",
+    "Title": "Raven_Ballistic1",
+    "Inherits": "DefaultShipModule",
+    "StartEmpty": false,
+    "Weapon": {
+        "Title": "Raven_Ballistic1"
+    },
+    "BaseSprite": {
+        "texName": "turret/turret_base.png",
+        "animSheetName": "turret/turret_base.acfg"
+    }
+}

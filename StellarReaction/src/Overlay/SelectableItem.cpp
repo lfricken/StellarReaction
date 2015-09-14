@@ -1,5 +1,6 @@
 #include "SelectableItem.hpp"
 #include "TextureAllocator.hpp"
+#include "Globals.hpp"
 
 using namespace leon;
 
@@ -29,7 +30,7 @@ void SelectableItem::f_initialize(const SelectableItemData& rData, void* contain
 		else
 			m_labels.push_back(sptr<tgui::Label::Ptr>(new tgui::Label::Ptr(*static_cast<tgui::Gui*>(container))));
 
-		(*m_labels.back())->load(it->configFile);
+		(*m_labels.back())->load(contentDir() + it->configFile);
 		(*m_labels.back())->setText(it->text);
 		(*m_labels.back())->setPosition(it->position);
 		(*m_labels.back())->setAutoSize(true);

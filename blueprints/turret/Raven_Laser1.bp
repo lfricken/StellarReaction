@@ -1,0 +1,13 @@
+{
+    "ClassName": "Turret",
+    "Title": "Raven_Laser1",
+    "Inherits": "DefaultShipModule",
+    "StartEmpty": false,
+    "Weapon": {
+        "Title": "Raven_Laser1"
+    },
+    "BaseSprite": {
+        "texName": "turret/turret_base.png",
+        "animSheetName": "turret/turret_base.acfg"
+    }
+}

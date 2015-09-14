@@ -33,7 +33,7 @@ Game::Game()
 {
 	srand(time(NULL));
 
-	loadWindow("window.ini");
+	loadWindow(contentDir() + "window.ini");
 
 	m_sampleClock = 0;
 	m_sampleFreq = 40;
@@ -50,7 +50,7 @@ Game::Game()
 	m_spOverlay = sptr<Overlay>(new Overlay(overlayData));
 	m_spOverlay->loadMenus();
 
-	loadPlayer("settings/GeneralSettings.cfg");
+	loadPlayer(contentDir() + "settings/GeneralSettings.cfg");
 
 	/**== GAME IO COMPONENT ==**/
 	IOComponentData gameData(getCoreIO());
@@ -318,10 +318,6 @@ void Game::loadWindow(const std::string& windowFile)
 		windowData.vSinc = root["vSinc"].asBool();
 		windowData.targetFPS = root["targetFPS"].asInt();
 	}
-
-	/**LOAD DATA FROM WINDOW**/
-	/// if (sf::Shader::isAvailable() && windowData.blurEnabled)
-	///    m_shader.loadFromFile(windowData.motionBlurShader, sf::Shader::Fragment);
 
 
 	settings.antialiasingLevel = windowData.antiAliasLevel;

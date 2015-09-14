@@ -60,12 +60,12 @@ Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp)
 	keyShiftIsdown = false;
 
 	//Evan - afterburner sound
-	buffer.loadFromFile("audio/afterb1.wav");
+	buffer.loadFromFile(contentDir() + "audio/afterb1.wav");
 	afterb_sound.setBuffer(buffer);
 	afterb_sound.setLoop(true);
 	afterb_sound.setVolume(60);
 
-	thrust_buffer.loadFromFile("audio/afterb2.wav");
+	thrust_buffer.loadFromFile(contentDir() + "audio/afterb2.wav");
 	thrust_sound.setBuffer(thrust_buffer);
 	thrust_sound.setLoop(true);
 	thrust_sound.setVolume(100);
