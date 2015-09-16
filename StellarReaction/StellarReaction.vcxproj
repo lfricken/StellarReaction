@@ -401,8 +401,6 @@
     <ClInclude Include="include\Overlay\ShipEditor.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="include\API\SFML\Graphics\Rect.inl" />
     <None Include="include\API\SFML\System\Thread.inl" />
     <None Include="include\API\SFML\System\ThreadLocalPtr.inl" />

@@ -1,5 +1,4 @@
-#ifndef PICTURE_HPP
-#define PICTURE_HPP
+#pragma once
 
 #include "WidgetBase.hpp"
 
@@ -24,12 +23,10 @@ namespace leon
 		virtual ~Picture();
 
 	protected:
+
 	private:
 		void f_initialize(const PictureData& data);
-
-		virtual void f_callback(const tgui::Callback& callback);
 
 		tgui::Picture::Ptr m_pPicture;//pointer to our button in the gui
 	};
 }
-#endif // PICTURE_HPP

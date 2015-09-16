@@ -1,5 +1,4 @@
-#ifndef SELECTABLEITEM_HPP
-#define SELECTABLEITEM_HPP
+#pragma once
 
 #include "Button.hpp"
 
@@ -62,5 +61,3 @@ namespace leon
 		void f_initialize(const SelectableItemData& rData, void* container, bool isContainer);
 	};
 }
-
-#endif // SELECTABLEITEM_HPP

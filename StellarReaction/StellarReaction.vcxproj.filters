@@ -1198,7 +1198,5 @@
     <None Include="include\API\TGUI\SharedWidgetPtr.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
 </Project>

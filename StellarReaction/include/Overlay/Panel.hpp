@@ -1,5 +1,4 @@
-#ifndef PANEL_H
-#define PANEL_H
+#pragma once
 
 #include "WidgetBase.hpp"
 
@@ -31,8 +30,6 @@ namespace leon
 		void add(sptr<WidgetBase> sp_widget);
 
 	protected:
-		void input(const std::string rCommand, sf::Packet rData);
-		virtual void f_callback(const tgui::Callback& callback);
 
 	private:
 		virtual void f_initialize(const PanelData& data);
@@ -42,5 +39,3 @@ namespace leon
 		tgui::ChildWindow::Ptr m_pChildWindow;
 	};
 }
-
-#endif // PANEL_H

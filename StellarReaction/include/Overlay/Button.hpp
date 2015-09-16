@@ -1,5 +1,4 @@
-#ifndef BUTTON_H
-#define BUTTON_H
+#pragma once
 
 #include "WidgetBase.hpp"
 
@@ -32,4 +31,3 @@ namespace leon
 		tgui::Button::Ptr m_pButton;//pointer to our button in the gui
 	};
 }
-#endif // BUTTON_H

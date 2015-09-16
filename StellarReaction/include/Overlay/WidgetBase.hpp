@@ -1,5 +1,4 @@
-#ifndef WIDGETBASE_H
-#define WIDGETBASE_H
+#pragma once
 
 #include "stdafx.hpp"
 #include "Globals.hpp"
@@ -61,13 +60,13 @@ namespace leon
 		virtual bool inputHook(const std::string rCommand, sf::Packet rData);
 		virtual bool callbackHook(const tgui::Callback& callback);
 
-		virtual void mouseEnteredHook();
-		virtual void mouseLeftHook();
-		virtual void mouseClickedHook();
-		virtual void leftMousePressedHook();
-		virtual void leftMouseReleasedHook();
+		virtual void mouseEnteredHook(sf::Packet& rPack);
+		virtual void mouseLeftHook(sf::Packet& rPack);
+		virtual void mouseClickedHook(sf::Packet& rPack);
+		virtual void leftMousePressedHook(sf::Packet& rPack);
+		virtual void leftMouseReleasedHook(sf::Packet& rPack);
 
-		virtual void triggerHook();
+		virtual void triggerHook(sf::Packet& rPack);
 
 	private:
 		void input(const std::string rCommand, sf::Packet rData);
@@ -78,4 +77,3 @@ namespace leon
 		unsigned char m_tempTransparency;
 	};
 }
-#endif // WIDGETBASE_H

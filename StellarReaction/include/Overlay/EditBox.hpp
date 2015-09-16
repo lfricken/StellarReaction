@@ -1,5 +1,4 @@
-#ifndef EDITBOX_H
-#define EDITBOX_H
+#pragma once
 
 #include "WidgetBase.hpp"
 
@@ -27,19 +26,24 @@ namespace leon
 		void setText(const std::string& rText);//removes all text in editbox
 
 	protected:
-		virtual void f_callback(const tgui::Callback& callback);
-		void f_MouseEntered();
-		void f_MouseLeft();
-		void f_LeftMouseClicked();
 		void f_TextChanged();
 		void f_ReturnKeyPressed();
-		virtual void f_trigger();
 
-		void input(const std::string rCommand, sf::Packet rData);
+		/**events HOOKS**/
+		virtual bool inputHook(const std::string rCommand, sf::Packet rData);
+		virtual bool callbackHook(const tgui::Callback& callback);
+
+		virtual void mouseEnteredHook(sf::Packet& rPack);
+		virtual void mouseLeftHook(sf::Packet& rPack);
+		virtual void mouseClickedHook(sf::Packet& rPack);
+		virtual void leftMousePressedHook(sf::Packet& rPack);
+		virtual void leftMouseReleasedHook(sf::Packet& rPack);
+
+		virtual void triggerHook(sf::Packet& rPack);
+
 	private:
 		virtual void f_initialize(const EditBoxData& data);
 
 		tgui::EditBox::Ptr m_pEditBox;//pointer to our editbox inside gui
 	};
 }
-#endif // EDITBOX_H

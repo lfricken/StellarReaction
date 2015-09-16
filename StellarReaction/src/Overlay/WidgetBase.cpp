@@ -15,7 +15,7 @@ void WidgetBase::f_assign(tgui::Widget* pWidget)
 		m_pWidget->hide();
 
 	m_pWidget->setTransparency(m_tempTransparency);
-	m_pWidget->bindCallbackEx(&WidgetBase::f_callback, this, tgui::ClickableWidget::AllClickableWidgetCallbacks);
+	m_pWidget->bindCallbackEx(&WidgetBase::f_callback, this, 4095);
 }
 WidgetBase::~WidgetBase()
 {
@@ -90,9 +90,6 @@ void WidgetBase::input(std::string rCommand, sf::Packet rData)
 		///ERROR
 	}
 }
-
-
-/**PRIVATE**/
 void WidgetBase::f_callback(const tgui::Callback& callback)
 {
 	if(callbackHook(callback))
@@ -122,50 +119,44 @@ void WidgetBase::f_callback(const tgui::Callback& callback)
 }
 void WidgetBase::f_MouseEntered()
 {
-	mouseEnteredHook();
 	sf::Packet pack;
-	pack << m_io.getName();
+	mouseEnteredHook(pack);
 	m_io.event(EventType::MouseEntered, 0, pack);
 }
 void WidgetBase::f_MouseLeft()
 {
-	mouseLeftHook();
 	sf::Packet pack;
-	pack << m_io.getName();
+	mouseLeftHook(pack);
 	m_io.event(EventType::MouseLeft, 0, pack);
 }
 void WidgetBase::f_LeftMouseClicked()
 {
-	mouseClickedHook();
 	sf::Packet pack;
-	pack << m_io.getName();
+	mouseClickedHook(pack);
 	m_io.event(EventType::LeftMouseClicked, 0, pack);
 }
 void WidgetBase::f_LeftMousePressed()
 {
-	leftMousePressedHook();
 	sf::Packet pack;
-	pack << m_io.getName();
+	leftMousePressedHook(pack);
 	m_io.event(EventType::MousePressed, 0, pack);
 }
 void WidgetBase::f_LeftMouseReleased()
 {
-	leftMouseReleasedHook();
 	sf::Packet pack;
-	pack << m_io.getName();
+	leftMouseReleasedHook(pack);
 	m_io.event(EventType::MouseReleased, 0, pack);
 }
 void WidgetBase::f_trigger()
 {
-	triggerHook();
 	sf::Packet pack;
-	pack << m_io.getName();
+	triggerHook(pack);
 	m_io.event(EventType::Triggered, 0, pack);
 }
-
-
-
-/**HOOK FUNCTIONS**/
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// <summary>
+/// Hooks
+/// </summary>
 bool WidgetBase::inputHook(const std::string rCommand, sf::Packet rData)
 {
 	return false;
@@ -174,27 +165,27 @@ bool WidgetBase::callbackHook(const tgui::Callback& callback)
 {
 	return false;
 }
-void WidgetBase::mouseEnteredHook()
+void WidgetBase::mouseEnteredHook(sf::Packet& rPack)
 {
-
+	rPack << m_io.getName();
 }
-void WidgetBase::mouseLeftHook()
+void WidgetBase::mouseLeftHook(sf::Packet& rPack)
 {
-
+	rPack << m_io.getName();
 }
-void WidgetBase::mouseClickedHook()
+void WidgetBase::mouseClickedHook(sf::Packet& rPack)
 {
-
+	rPack << m_io.getName();
 }
-void WidgetBase::leftMousePressedHook()
+void WidgetBase::leftMousePressedHook(sf::Packet& rPack)
 {
-
+	rPack << m_io.getName();
 }
-void WidgetBase::leftMouseReleasedHook()
+void WidgetBase::leftMouseReleasedHook(sf::Packet& rPack)
 {
-
+	rPack << m_io.getName();
 }
-void WidgetBase::triggerHook()
+void WidgetBase::triggerHook(sf::Packet& rPack)
 {
-
+	rPack << m_io.getName();
 }

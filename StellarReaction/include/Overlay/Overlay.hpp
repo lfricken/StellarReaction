@@ -1,5 +1,4 @@
-#ifndef OVERLAY_HPP
-#define OVERLAY_HPP
+#pragma once
 
 #include "stdafx.hpp"
 #include "IOComponent.hpp"
@@ -34,5 +33,3 @@ private:
 	tgui::Gui m_gui;//the TGUI gui that handles most things
 	std::vector<sptr<leon::Panel> > m_panelList;//all the Panels that can get displayed, each item can be active or inactive, if its active, it gets displayed.
 };
-
-#endif // OVERLAY_HPP

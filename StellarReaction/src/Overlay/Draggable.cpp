@@ -18,15 +18,3 @@ void Draggable::f_initialize(const DraggableData& data)
 {
 
 }
-void Draggable::f_LeftMousePressed()
-{
-	std::cout << "\ndrag pressed.";
-}
-void Draggable::f_LeftMouseReleased()
-{
-	std::cout << "\ndrag released.";
-}
-void Draggable::f_MouseLeft()
-{
-	std::cout << "\ndrag mouseleft.";
-}

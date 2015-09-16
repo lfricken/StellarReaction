@@ -48,64 +48,35 @@ void NetworkedSelection::addItems()
 {
 
 }
-
-
-
-/**PRIVATE**/
 void NetworkedSelection::f_GrabInfo(sf::Packet* rPacket)
 {
 
 }
-void NetworkedSelection::f_callback(const tgui::Callback& callback)
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// <summary>
+/// Hooks
+/// </summary>
+void NetworkedSelection::mouseEnteredHook(sf::Packet& rPack)
 {
-	if(callback.trigger == tgui::EditBox::MouseEntered)
-	{
-		f_MouseEntered();
-	}
-	else if(callback.trigger == tgui::EditBox::LeftMouseClicked)
-	{
-		f_LeftMouseClicked();
-	}
-	else if(callback.trigger == tgui::EditBox::MouseLeft)
-	{
-		f_MouseLeft();
-	}
-	else
-	{
-		//cout << FILELINE;
-	}
+	f_GrabInfo(&rPack);
 }
-void NetworkedSelection::f_ItemSelected()
+void NetworkedSelection::mouseLeftHook(sf::Packet& rPack)
 {
-	sf::Packet info;
-	f_GrabInfo(&info);
-	m_io.event(EventType::Selection, 0, info);
+	f_GrabInfo(&rPack);
 }
-void NetworkedSelection::f_MouseEntered()
+void NetworkedSelection::mouseClickedHook(sf::Packet& rPack)
 {
-	sf::Packet info;
-	f_GrabInfo(&info);
-	m_io.event(EventType::MouseEntered, 0, info);
+	f_GrabInfo(&rPack);
 }
-void NetworkedSelection::f_LeftMouseClicked()
+void NetworkedSelection::leftMousePressedHook(sf::Packet& rPack)
 {
-	sf::Packet info;
-	f_GrabInfo(&info);
-	m_io.event(EventType::LeftMouseClicked, 0, info);
+	f_GrabInfo(&rPack);
 }
-void NetworkedSelection::f_MouseLeft()
+void NetworkedSelection::leftMouseReleasedHook(sf::Packet& rPack)
 {
-	sf::Packet info;
-	f_GrabInfo(&info);
-	m_io.event(EventType::MouseLeft, 0, info);
+	f_GrabInfo(&rPack);
 }
-void NetworkedSelection::f_trigger()
+void NetworkedSelection::triggerHook(sf::Packet& rPack)
 {
-	sf::Packet info;
-	f_GrabInfo(&info);
-	m_io.event(EventType::Triggered, 0, info);
-}
-void NetworkedSelection::input(const std::string rCommand, sf::Packet rData)
-{
-	Panel::input(rCommand, rData);
+	f_GrabInfo(&rPack);
 }

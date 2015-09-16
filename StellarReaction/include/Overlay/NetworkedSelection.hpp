@@ -1,5 +1,4 @@
-#ifndef NETWORKEDSELECTION_HPP
-#define NETWORKEDSELECTION_HPP
+#pragma once
 
 #include "Panel.hpp"
 #include "SelectableItem.hpp"
@@ -32,15 +31,17 @@ namespace leon
 		void addItems();
 
 	protected:
-		virtual void f_callback(const tgui::Callback& callback);
-		void f_MouseEntered();
-		void f_MouseLeft();
-		void f_LeftMouseClicked();
-		void f_ItemSelected();
 		void f_GrabInfo(sf::Packet* rPacket);
-		virtual void f_trigger();
 
-		void input(const std::string rCommand, sf::Packet rData);
+		/**events HOOKS**/
+		virtual void mouseEnteredHook(sf::Packet& rPack);
+		virtual void mouseLeftHook(sf::Packet& rPack);
+		virtual void mouseClickedHook(sf::Packet& rPack);
+		virtual void leftMousePressedHook(sf::Packet& rPack);
+		virtual void leftMouseReleasedHook(sf::Packet& rPack);
+
+		virtual void triggerHook(sf::Packet& rPack);
+
 	private:
 		virtual void f_initialize(NetworkedSelectionData& data, void* container, bool isContainer);
 
@@ -48,6 +49,3 @@ namespace leon
 		std::vector<sptr<SelectableItem> > m_items;
 	};
 }
-
-
-#endif // NETWORKEDSELECTION_HPP

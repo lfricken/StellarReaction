@@ -41,11 +41,11 @@ void Chatbox::f_initialize(const ChatboxData& rData)
 	enterPressed.message.reset(rData.ioComp.name, "chat", voidPacket, 0, true);
 	ebd.ioComp.courierList.push_back(enterPressed);
 
-	sf::Packet null;//TODO WHAT IS THIS CONDITION FOR???
-	null << "";
+	sf::Packet clear;//TODO WHAT IS THIS CONDITION FOR???
+	clear << "";
 	Courier enterPressedClear;
 	enterPressedClear.condition.reset(EventType::ReturnKeyPressed, 0, 'd', true);
-	enterPressedClear.message.reset(ebd.ioComp.name, "setText", null, 0.01f, false);
+	enterPressedClear.message.reset(ebd.ioComp.name, "setText", clear, 0.01f, false);
 	ebd.ioComp.courierList.push_back(enterPressedClear);
 
 	m_spEditBox.reset(new leon::EditBox(*m_pChatBox->getParent(), ebd));
