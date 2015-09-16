@@ -291,26 +291,64 @@ float Chunk::get(Request value) const//return the requested value
 		break;
 	}
 }
+/// <summary>
+/// returns the title of the module at that position, otherwise ""
+/// </summary>
+std::string Chunk::hasModuleAt(const b2Vec2 offset) const
+{
+	for(auto it = m_modules.begin(); it != m_modules.end(); ++it)
+		if(offset == (*it)->getOffset())
+			return (*it)->getTitle();
+	return "";
+}
 b2Body* Chunk::getBodyPtr()
 {
 	return m_body.getBodyPtr();
 }
 void Chunk::input(std::string rCommand, sf::Packet rData)
 {
-	if(rCommand == "addModule")
+	if(rCommand == "attachModule")
 	{
 		std::string bpName;
+		int32_t x;
+		int32_t y;
 		rData >> bpName;
-		ModuleData* thing = game.getUniverse().getBlueprints().getModuleSPtr(bpName)->clone();
-		if(thing != NULL)
+		rData >> x;
+		rData >> y;
+
+		ModuleData* pNewModuleData = game.getUniverse().getBlueprints().getModuleSPtr(bpName)->clone();
+		if(pNewModuleData != NULL)
 		{
-			thing->fixComp.offset = b2Vec2(0, 7);
-			add(*thing);
+			pNewModuleData->fixComp.offset = b2Vec2(x, y);
+			add(*pNewModuleData);
 		}
 		else
 		{
-			cout << "\nBlueprint didn't exist.";
+			cout << "\nBlueprint didn't exist." << FILELINE;
 		}
 	}
-	cout << "\nCommand not found in [" << m_io.getName() << "].";
+	else if(rCommand == "detachModule")
+	{
+		int32_t x;
+		int32_t y;
+
+		rData >> x;
+		rData >> y;
+
+		b2Vec2 targetOffset(x, y);//the offset we are looking to remove
+
+		bool found = false;
+		for(auto it = m_modules.begin(); it != m_modules.end(); ++it)
+		{
+			if(targetOffset == (*it)->getOffset())
+			{
+				found = true;
+				m_modules.erase(it);
+				break;
+			}
+		}
+		if(!found)
+			cout << "\nThere was no module at " << x << "," << y << " " << FILELINE;
+	}
+	cout << "\nCommand not found in [" << m_io.getName() << "]." << FILELINE;
 }

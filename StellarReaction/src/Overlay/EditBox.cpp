@@ -111,6 +111,4 @@ void EditBox::input(const std::string rCommand, sf::Packet rData)
 		rData >> text;
 		setText(text);
 	}
-	else
-		WidgetBase::input(rCommand, rData);
 }

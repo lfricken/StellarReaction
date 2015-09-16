@@ -11,6 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Overlay\Draggable.cpp" />
+    <ClCompile Include="src\Overlay\ShipEditor.cpp" />
     <ClCompile Include="src\Headers\Globals.cpp" />
     <ClCompile Include="src\Overlay\SelectableItem.cpp" />
     <ClCompile Include="src\Control\BasePlayerTraits.cpp" />
@@ -133,6 +135,7 @@
     <ClCompile Include="src\Universe\Utility\UniversalContactListener.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Overlay\Draggable.hpp" />
     <ClInclude Include="include\Control\BasePlayerTraits.hpp" />
     <ClInclude Include="include\API\Box2D\Box2D.h" />
     <ClInclude Include="include\API\Box2D\Collision\b2BroadPhase.h" />
@@ -395,8 +398,11 @@
     <ClInclude Include="include\Universe\Utility\UniversalContactListener.hpp" />
     <ClInclude Include="include\Overlay\NetworkedSelection.hpp" />
     <ClInclude Include="include\Overlay\SelectableItem.hpp" />
+    <ClInclude Include="include\Overlay\ShipEditor.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="include\API\SFML\Graphics\Rect.inl" />
     <None Include="include\API\SFML\System\Thread.inl" />
     <None Include="include\API\SFML\System\ThreadLocalPtr.inl" />
@@ -445,6 +451,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <DisableSpecificWarnings>4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ShowIncludes>false</ShowIncludes>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -460,6 +467,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <DisableSpecificWarnings>4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ShowIncludes>false</ShowIncludes>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Connection::Connection(sf::UdpSocket* pSocket, sptr<sf::TcpSocket> spTCPSocket, bool valid) : BasePlayerTraits("default", 0)
+Connection::Connection(sf::UdpSocket* pSocket, sptr<sf::TcpSocket> spTCPSocket, bool valid) : BasePlayerTraits("default")
 {
 	m_valid = valid;
 	m_pUdpSocket = pSocket;

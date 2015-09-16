@@ -557,6 +557,10 @@ void BlueprintLoader::inheritModule(const Json::Value& root, ModuleData* pSMod)/
 	if (!root["Inherits"].isNull())
 		*static_cast<ModuleData*>(pSMod) = *static_cast<const ModuleData*>(getModuleSPtr(root["Inherits"].asString()).get());
 	/**OVERWRITES**/
+	if(!root["Title"].isNull())
+		pSMod->title = root["Title"].asString();
+	if(!root["Name"].isNull())
+		pSMod->name = root["Name"].asString();
 	if (!root["IO"].isNull())
 		pSMod->ioComp = loadIOComp(root["IO"], pSMod->ioComp);
 	if (!root["Physics"].isNull())

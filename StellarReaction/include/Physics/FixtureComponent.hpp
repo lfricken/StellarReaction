@@ -55,6 +55,8 @@ public:
 	b2Body* getBodyPtr();
 	const b2Body* getBodyPtr() const;
 
+	const b2Vec2 getOffset() const;
+
 	void applyForce(const b2Vec2& rForce);
 	void applyForceFixture(const b2Vec2& rForce);
 	void applyTorque(float radiansCCW);
@@ -94,6 +96,7 @@ private:
 	int m_ioPos;
 
 	std::string m_store;
+	b2Vec2 m_offset;
 };
 
 #endif // FIXTURECOMPONENT_HPP

@@ -6,12 +6,13 @@ using namespace std;
 
 FixtureComponent::FixtureComponent(const FixtureComponentData& rData)
 {
+	m_offset = rData.offset;
 	m_ioPos = -1;
 	/**RECTANGLE**/
 	if(rData.shape == leon::Shape::Rectangle)
 	{
 		m_spShape = sptr<b2Shape>(new b2PolygonShape);
-		b2Vec2 offset(rData.offset.x * sizeScalingFactor, rData.offset.y * sizeScalingFactor);
+		b2Vec2 offset(m_offset.x * sizeScalingFactor, m_offset.y * sizeScalingFactor);
 		static_cast<b2PolygonShape*>(m_spShape.get())->SetAsBox(rData.size.x / 2.f * sizeScalingFactor, rData.size.y / 2.f * sizeScalingFactor, offset, 0);
 	}
 	/**CIRCLE**/
@@ -19,7 +20,7 @@ FixtureComponent::FixtureComponent(const FixtureComponentData& rData)
 	{
 		m_spShape = sptr<b2Shape>(new b2CircleShape);
 		b2CircleShape* temp = static_cast<b2CircleShape*>(m_spShape.get());
-		temp->m_p.Set(rData.offset.x * sizeScalingFactor, rData.offset.y * sizeScalingFactor);
+		temp->m_p.Set(m_offset.x * sizeScalingFactor, m_offset.y * sizeScalingFactor);
 		temp->m_radius = rData.size.x / 2.f * sizeScalingFactor;
 	}
 
@@ -53,7 +54,10 @@ void FixtureComponent::endContact(FixtureComponent* pOther)
 	m_endCB(pOther);
 }
 
-
+const b2Vec2 FixtureComponent::getOffset() const
+{
+	return m_offset;
+}
 
 /// <summary>
 /// Finds the center in world coordinates of the fixture

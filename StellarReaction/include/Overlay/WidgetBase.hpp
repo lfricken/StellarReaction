@@ -33,26 +33,46 @@ namespace leon
 		WidgetBase(const WidgetBaseData& rData);
 		virtual ~WidgetBase();
 
-		virtual void enable() final;
-		virtual void disable() final;
-		virtual void show() final;
-		virtual void hide() final;
-
-		virtual void toggleHidden(bool hidden) final;
-		virtual void toggleEnabled(bool enabled) final;
+		void enable();
+		void disable();
+		void show();
+		void hide();
+		
+		void toggleHidden(bool hidden);
+		void toggleEnabled(bool enabled);
 
 	protected:
-		virtual void input(const std::string rCommand, sf::Packet rData);
+		IOComponent m_io;
 		void f_assign(tgui::Widget* pWidget);//must assign m_pWidget to something!
 
-		virtual void f_callback(const tgui::Callback& callback);
-		virtual void f_MouseEntered();
-		virtual void f_MouseLeft();
-		virtual void f_LeftMouseClicked();
-		virtual void f_trigger();
 
-		IOComponent m_io;
+		/**events**/
+		void f_MouseEntered();
+		void f_MouseLeft();
+		void f_LeftMouseClicked();
+		void f_LeftMousePressed();
+		void f_LeftMouseReleased();
+
+		void f_trigger();
+
+
+
+		/**events HOOKS**/
+		virtual bool inputHook(const std::string rCommand, sf::Packet rData);
+		virtual bool callbackHook(const tgui::Callback& callback);
+
+		virtual void mouseEnteredHook();
+		virtual void mouseLeftHook();
+		virtual void mouseClickedHook();
+		virtual void leftMousePressedHook();
+		virtual void leftMouseReleasedHook();
+
+		virtual void triggerHook();
+
 	private:
+		void input(const std::string rCommand, sf::Packet rData);
+		void f_callback(const tgui::Callback& callback);
+
 		bool m_startHidden;
 		tgui::Widget* m_pWidget;
 		unsigned char m_tempTransparency;

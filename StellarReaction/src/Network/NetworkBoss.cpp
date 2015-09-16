@@ -5,6 +5,8 @@
 #include "Player.hpp"
 #include "SlaveLocator.hpp"
 #include "Chunk.hpp"
+#include "BlueprintLoader.hpp"
+#include "Module.hpp"
 
 using namespace std;
 using namespace sf;
@@ -450,17 +452,73 @@ void NetworkBoss::playerOption(sf::Packet& rData, BasePlayerTraits* pFrom)
 	{
 		string bpName;
 		rData >> bpName;
-		int controller = pFrom->getController();
-		Controller* pCon = &game.getUniverse().getControllerFactory().getController(controller);
-		std::string slaveName = pCon->getSlaveName();
+		//see if we can afford it
+		const ModuleData* pMod = game.getUniverse().getBlueprints().getModuleSPtr(bpName).get();
+		if(pMod != NULL)
+		{
+			Money cost = pMod->cost;
+			if(pFrom->getMoney() >= cost)
+			{
+				pFrom->addModule(bpName);
+				pFrom->changeMoney(-cost);//TODO: another generic NetworkBoss update should trigger client to get thier new balance and module lists
+			}
+			cout << "\nHas [" << pFrom->getMoney() << "].";
+			cout << "\nCosted [" << cost << "].";
+			cout << "\nOwns [" << pFrom->getOwnedModuleTitles().size() << "].";
+			
+		}
+		else
+			cout << FILELINE;
+	}
+	else if(command == "attachModule")//a player wants to attach a module from their inventory
+	{
+		string bpName;
+		rData >> bpName;
+		//get the offset for it
+		int32_t x;
+		int32_t y;
+		rData >> x;
+		rData >> y;
+
+		if(pFrom->removeModule(bpName))//if the user had that in their inventory
+		{//then we just removed it, and we should add it to thier ship
+			Controller* pCon = &game.getUniverse().getControllerFactory().getController(pFrom->getController());
+			std::string slaveName = pCon->getSlaveName();
+			Chunk* pTemp = game.getUniverse().getSlaveLocator().findHack(slaveName);
+			int targetPos = pTemp->m_io.getPosition();
+			sf::Packet pack;
+			pack << bpName;
+			pack << x;
+			pack << y;
+			Message attach((unsigned)targetPos, "attachModule", pack, 0, false);
+			attach.sendOverNW(true);
+			game.getUniverse().getUniverseIO().recieve(attach);
+		}
+	}
+	else if(command == "detachModule")//a player wants to detach a module from their inventory
+	{
+		//get the offset for it
+		int32_t x;
+		int32_t y;
+		rData >> x;
+		rData >> y;
+
+		std::string slaveName = game.getUniverse().getControllerFactory().getController(pFrom->getController()).getSlaveName();
 		Chunk* pTemp = game.getUniverse().getSlaveLocator().findHack(slaveName);
-		int targetPos = pTemp->m_io.getPosition();
-		sf::Packet pack;
-		pack << bpName;
-		Message bought((unsigned)targetPos, "addModule", pack, 0, false);
-		bought.sendOverNW(true);
-		game.getUniverse().getUniverseIO().recieve(bought);
-		cout << "\n" << targetPos << bpName;
+		std::string title = pTemp->hasModuleAt(b2Vec2(x, y));
+		if(title != "")//if the user has a module at those coordinates..
+		{
+			int targetPos = pTemp->m_io.getPosition();
+			sf::Packet pack;
+			pack << x;
+			pack << y;
+			Message detach((unsigned)targetPos, "detachModule", pack, 0, false);
+			detach.sendOverNW(true);
+			game.getUniverse().getUniverseIO().recieve(detach);
+			pFrom->addModule(title);//and add it back to their set of owned modules
+		}
+		else
+			cout << FILELINE;
 	}
 	else
 		cout << FILELINE << " [" << command << "].";

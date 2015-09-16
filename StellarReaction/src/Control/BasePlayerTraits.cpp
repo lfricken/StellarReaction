@@ -1,11 +1,11 @@
 #include "BasePlayerTraits.hpp"
 
-BasePlayerTraits::BasePlayerTraits(const std::string& rName, Money startingBalance)
+BasePlayerTraits::BasePlayerTraits(const std::string& rName)
 {
 	m_team = 1;
 	m_shipChoice = "CombatShip";
 	m_name = rName;
-	m_balance = startingBalance;
+	m_balance = 2;
 }
 BasePlayerTraits::~BasePlayerTraits()
 {
@@ -54,4 +54,24 @@ void BasePlayerTraits::setController(int index)
 int BasePlayerTraits::getController() const
 {
 	return m_controller;
+}
+void BasePlayerTraits::addModule(const std::string& newTitle)
+{
+	m_unusedModules.push_back(newTitle);
+}
+bool BasePlayerTraits::removeModule(const std::string& oldTitle)
+{
+	for(auto it = m_unusedModules.begin(); it != m_unusedModules.end(); ++it)
+	{
+		if(*it == oldTitle)
+		{
+			m_unusedModules.erase(it);
+			return true;
+		}
+	}
+	return false;
+}
+const std::vector<std::string>& BasePlayerTraits::getOwnedModuleTitles() const
+{
+	return m_unusedModules;
 }

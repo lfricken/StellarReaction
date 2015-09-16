@@ -1,5 +1,4 @@
-#ifndef CHUNK_HPP
-#define CHUNK_HPP
+#pragma once
 
 #include "GameObject.hpp"
 #include "BodyComponent.hpp"
@@ -36,7 +35,7 @@ public:
 	void directive(std::map<Directive, bool>& rIssues, bool local);//send command to target
 	float get(Request value) const;//return the requested value
 	b2Body* getBodyPtr();
-
+	std::string hasModuleAt(const b2Vec2 offset) const;
 
 protected:
 	virtual void input(std::string rCommand, sf::Packet rData);
@@ -105,6 +104,3 @@ struct ChunkData : public GameObjectData
 		return new ChunkData(*this);
 	}
 };
-
-
-#endif // CHUNK_HPP

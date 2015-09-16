@@ -43,7 +43,7 @@ void Panel::add(sptr<WidgetBase> sp_widget)
 /**IO**/
 void Panel::input(const std::string rCommand, sf::Packet rData)
 {
-	WidgetBase::input(rCommand, rData);
+
 }
 
 

@@ -49,20 +49,12 @@ void Chatbox::f_initialize(const ChatboxData& rData)
 	ebd.ioComp.courierList.push_back(enterPressedClear);
 
 	m_spEditBox.reset(new leon::EditBox(*m_pChatBox->getParent(), ebd));
-
-
-
-	m_pChatBox->bindCallbackEx(&Chatbox::f_callback, this, tgui::ChatBox::AllChatBoxCallbacks);
 }
 void Chatbox::addLine(const std::string& rText)
 {
 	m_pChatBox->addLine(rText);
 }
-void Chatbox::f_callback(const tgui::Callback& callback)
-{
-
-}
-void Chatbox::input(const std::string rCommand, sf::Packet rData)
+bool Chatbox::inputHook(const std::string rCommand, sf::Packet rData)
 {
 	if(rCommand == "chat")
 	{
@@ -75,6 +67,7 @@ void Chatbox::input(const std::string rCommand, sf::Packet rData)
 
 		if(!game.getNwBoss().isClient())//if we are a host, put it locally as well as to clients
 			addLine(m_latest);
+		return true;
 	}
 	else if(rCommand == "addLine")
 	{
@@ -86,19 +79,21 @@ void Chatbox::input(const std::string rCommand, sf::Packet rData)
 
 		if(!game.getNwBoss().isClient())//if we are a host, put it locally as well as to clients
 			addLine(m_latest);
+		return true;
 	}
 	else if(rCommand == "addLineLocal")
 	{
 		std::string line;
 		rData >> line;
 		addLine(line);
+		return true;
 	}
 	else if(rCommand == "clear")
 	{
 		m_pChatBox->removeAllLines();
+		return true;
 	}
-	else
-		WidgetBase::input(rCommand, rData);
+	return false;
 }
 void Chatbox::pack(sf::Packet& rPacket)//give us data to send to the twin in the other world
 {

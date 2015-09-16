@@ -11,7 +11,7 @@
 using namespace std;
 using namespace sf;
 
-Player::Player(const PlayerData& rData) : m_io(rData.ioComp, &Player::input, this), BasePlayerTraits(rData.name, 0)
+Player::Player(const PlayerData& rData) : m_io(rData.ioComp, &Player::input, this), BasePlayerTraits(rData.name)
 {
 	m_hasFocus = true;
 	m_inGuiMode = true;

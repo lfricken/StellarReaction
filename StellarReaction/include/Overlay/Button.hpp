@@ -24,13 +24,7 @@ namespace leon
 		Button(tgui::Container& container, const ButtonData& data);
 		virtual ~Button();
 
-
-
 	protected:
-		virtual void input(const std::string rCommand, sf::Packet rData) final;
-
-		virtual void f_callback(const tgui::Callback& callback);
-		virtual void f_trigger();
 
 	private:
 		virtual void f_initialize(const ButtonData& data);
