@@ -1,4 +1,5 @@
 #include "Button.hpp"
+#include "Player.hpp"
 
 using namespace leon;
 
@@ -21,4 +22,23 @@ void Button::f_initialize(const ButtonData& rData)
 	m_pButton->setPosition(rData.screenCoords);
 	m_pButton->setText(rData.buttonText);
 	m_pButton->setSize(rData.size.x, rData.size.y);
+}
+bool Button::callbackHook(const tgui::Callback& callback)
+{
+	if(callbackHook2(callback))
+	{
+		return true;
+	}
+	else
+	{
+		sf::Vector2f pos = game.getLocalPlayer().getMouseWindowPos();
+		m_pButton->setPosition(pos);
+		// = sf::Mouse::getPosition();
+		std::cout << "\n" << pos.x << ", " << pos.y;
+		return false;
+	}
+}
+bool Button::callbackHook2(const tgui::Callback& callback)
+{
+	return false;
 }

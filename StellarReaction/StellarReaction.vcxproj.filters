@@ -381,6 +381,12 @@
     <ClCompile Include="src\Overlay\Draggable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Overlay\DragComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Overlay\DragUpdater.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\API\Box2D\Box2D.h">
@@ -1173,6 +1179,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Overlay\Draggable.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Overlay\DragComponent.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Overlay\DragUpdater.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

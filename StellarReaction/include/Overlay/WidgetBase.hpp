@@ -11,7 +11,7 @@ namespace leon
 		WidgetBaseData() :
 			startHidden(false),
 			configFile("TGUI/widgets/Black.conf"),
-			screenCoords(game.getWindow().getSize().x / 2, game.getWindow().getSize().y / 2),
+			screenCoords(5, 5),
 			size(128, 64),
 			transparency(255),
 			ioComp(game.getCoreIO())

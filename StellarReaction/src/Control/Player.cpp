@@ -47,6 +47,15 @@ bool Player::isTracking() const
 {
 	return m_tracking;
 }
+const sf::Vector2f& Player::getMouseWindowPos() const
+{
+	return m_mouseWindowPos;
+}
+void Player::setMouseWindowPos(const sf::Vector2f& rPos)
+{
+	sf::Mouse::setPosition(sf::Vector2i(rPos.x, rPos.y), game.getWindow());
+	m_mouseWindowPos = rPos;
+}
 /// <summary>
 /// Indicate which controller our inputs should modify
 /// </summary>
@@ -116,6 +125,8 @@ void Player::getLiveInput()
 		Controller& rController = game.getUniverse().getControllerFactory().getController(m_controller);
 
 	}
+
+	m_mouseWindowPos = game.getWindow().mapPixelToCoords(Mouse::getPosition(game.getWindow()), game.getWindow().getDefaultView());
 
 	rController.updateDirectives(m_directives);
 	rController.setAim(m_aim);

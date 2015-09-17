@@ -109,6 +109,10 @@ public:
 	bool isTracking() const;
 	void setController(int index);
 
+	/**MOUSE**/
+	const sf::Vector2f& getMouseWindowPos() const;
+	void setMouseWindowPos(const sf::Vector2f& rPos);
+
 	/**INPUT**/
 	void getLiveInput();//get direct feed from keyboard and mouse, just gets their states though (up, down, position)
 	void getWindowEvents(sf::RenderWindow& rWindow);//process window events
@@ -125,6 +129,7 @@ protected:
 private:
 
 	b2Vec2 m_aim;//where we are aiming in the world ATM
+	sf::Vector2f m_mouseWindowPos;//where is the players mouse on the screen?
 	std::map<Directive, bool> m_directives;//up, down, rollCW, roll CCW, ect.
 
 	float m_desiredZoom;//for smooth zooming

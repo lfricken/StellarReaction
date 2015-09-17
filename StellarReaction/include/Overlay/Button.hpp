@@ -24,10 +24,11 @@ namespace leon
 		virtual ~Button();
 
 	protected:
+		tgui::Button::Ptr m_pButton;//pointer to our button in the gui
+		virtual bool callbackHook(const tgui::Callback& callback) final;
+		virtual bool callbackHook2(const tgui::Callback& callback);
 
 	private:
 		virtual void f_initialize(const ButtonData& data);
-
-		tgui::Button::Ptr m_pButton;//pointer to our button in the gui
 	};
 }

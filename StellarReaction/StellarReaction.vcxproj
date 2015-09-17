@@ -11,6 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Overlay\DragUpdater.cpp" />
+    <ClCompile Include="src\Overlay\DragComponent.cpp" />
     <ClCompile Include="src\Overlay\Draggable.cpp" />
     <ClCompile Include="src\Overlay\ShipEditor.cpp" />
     <ClCompile Include="src\Headers\Globals.cpp" />
@@ -135,6 +137,8 @@
     <ClCompile Include="src\Universe\Utility\UniversalContactListener.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Overlay\DragUpdater.hpp" />
+    <ClInclude Include="include\Overlay\DragComponent.hpp" />
     <ClInclude Include="include\Overlay\Draggable.hpp" />
     <ClInclude Include="include\Control\BasePlayerTraits.hpp" />
     <ClInclude Include="include\API\Box2D\Box2D.h" />

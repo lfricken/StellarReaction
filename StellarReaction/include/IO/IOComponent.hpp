@@ -39,15 +39,10 @@ public:
 	/// <summary>
 	/// Called when an event happens.
 	/// </summary>
-	/// <param name="type">The type.</param>
-	/// <param name="value">The value.</param>
-	/// <param name="rData">Extra Data about the event.</param>
 	void event(EventType type, int value, const sf::Packet& rData);//EventType occurred, has value, and other data	
 	/// <summary>
 	/// Called when this target recieves a message
 	/// </summary>
-	/// <param name="rCommand">The r command.</param>
-	/// <param name="rData">The r data.</param>
 	void recieve(const std::string& rCommand, const sf::Packet& rData);
 	const std::string& getName() const;
 	int getPosition() const;

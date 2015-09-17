@@ -4,9 +4,11 @@
 
 namespace leon
 {
-	struct ShipEditorData : public PanelData
+	class Draggable;
+
+	struct DraggableSurfaceData : public PanelData
 	{
-		ShipEditorData() :
+		DraggableSurfaceData() :
 			PanelData()
 		{
 
@@ -18,14 +20,18 @@ namespace leon
 	/// <summary>
 	/// Contains draggable items to represent the ship
 	/// </summary>
-	class ShipEditor : public Panel
+	class DraggableSurface : public Panel
 	{
 	public:
-		ShipEditor(tgui::Gui& gui, const ShipEditorData& rData);
-		ShipEditor(tgui::Container& container, const ShipEditorData& rData);
-		~ShipEditor();
+		DraggableSurface(tgui::Gui& gui, const DraggableSurfaceData& rData);
+		DraggableSurface(tgui::Container& container, const DraggableSurfaceData& rData);
+		~DraggableSurface();
 
 	protected:
 	private:
+		void f_initialize(const DraggableSurfaceData& data);
+
+		sf::Vector2f m_gridSize;
+		std::vector<sptr<Draggable> > m_draggables;
 	};
 }

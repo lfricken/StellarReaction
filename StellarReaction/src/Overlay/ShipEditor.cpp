@@ -2,15 +2,19 @@
 
 using namespace leon;
 
-ShipEditor::ShipEditor(tgui::Gui& container, const ShipEditorData& rData) : Panel(container, rData)
+DraggableSurface::DraggableSurface(tgui::Gui& container, const DraggableSurfaceData& rData) : Panel(container, rData)
 {
 
 }
-ShipEditor::ShipEditor(tgui::Container& container, const ShipEditorData& rData) : Panel(container, rData)
+DraggableSurface::DraggableSurface(tgui::Container& container, const DraggableSurfaceData& rData) : Panel(container, rData)
 {
 
 }
-ShipEditor::~ShipEditor()
+DraggableSurface::~DraggableSurface()
 {
 
+}
+void DraggableSurface::f_initialize(const DraggableSurfaceData& rData)
+{
+	m_gridSize = rData.gridSize;
 }
