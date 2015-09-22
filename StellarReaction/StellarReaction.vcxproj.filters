@@ -375,9 +375,6 @@
     <ClCompile Include="src\Headers\Globals.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Overlay\ShipEditor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Overlay\Draggable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -385,6 +382,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Overlay\DragUpdater.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Overlay\DraggableSurface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1175,9 +1175,6 @@
     <ClInclude Include="include\Overlay\SelectableItem.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Overlay\ShipEditor.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\Overlay\Draggable.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1185,6 +1182,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Overlay\DragUpdater.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Overlay\DraggableSurface.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

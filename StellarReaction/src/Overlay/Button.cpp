@@ -30,13 +30,7 @@ bool Button::callbackHook(const tgui::Callback& callback)
 		return true;
 	}
 	else
-	{
-		sf::Vector2f pos = game.getLocalPlayer().getMouseWindowPos();
-		m_pButton->setPosition(pos);
-		// = sf::Mouse::getPosition();
-		std::cout << "\n" << pos.x << ", " << pos.y;
 		return false;
-	}
 }
 bool Button::callbackHook2(const tgui::Callback& callback)
 {

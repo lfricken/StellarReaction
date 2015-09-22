@@ -4,6 +4,7 @@
 #include "TextureAllocator.hpp"
 #include "AnimAlloc.hpp"
 #include "SoundManager.hpp"
+#include "DragUpdater.hpp"
 
 #include "BatchLayers.hpp"
 #include "GraphicsComponentUpdater.hpp"
@@ -32,6 +33,8 @@ using namespace leon;
 Game::Game()
 {
 	srand(time(NULL));
+
+	m_spDragUpdater = sptr<DragUpdater>(new DragUpdater());
 
 	loadWindow(contentDir() + "window.ini");
 
@@ -118,6 +121,10 @@ Universe& Game::getUniverse()
 {
 	return *m_spUniverse;
 }
+DragUpdater& Game::getDragUpdater()
+{
+	return *m_spDragUpdater;
+}
 /// <summary>
 /// Use this to put the player in a new level from anywhere (multiplayer or otherwise)
 /// It will minimize the menu's automatically
@@ -128,7 +135,7 @@ Universe& Game::getUniverse()
 /// <param name="rControllerList">The r controller list.</param>
 void Game::launchGame(const std::string& level, int localController, const std::string& bluePrints, const std::vector<std::string>& rControllerList, const std::vector<std::string>& rShipTitleList, const std::vector<int>& teams)
 {
-	game.loadUniverse("meanginglessString");
+	game.loadUniverse("meaninglessString");
 	game.getUniverse().loadLevel(level, localController, bluePrints, rControllerList, rShipTitleList, teams);
 
 	sf::Packet boolean;
@@ -212,6 +219,7 @@ void Game::run()
 
 
 		/**== WINDOW ==**/
+		getDragUpdater().update(getLocalPlayer().getMouseWindowPos());
 		rWindow.setView(getLocalPlayer().getCamera().getView());
 		getLocalPlayer().getWindowEvents(rWindow);
 		getUniverse().updateDecorationPosition(getLocalPlayer().getCamera().getPosition(), getLocalPlayer().getCamera().getZoom());

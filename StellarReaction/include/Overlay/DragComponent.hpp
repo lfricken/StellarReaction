@@ -15,6 +15,7 @@ namespace leon
 			m_cbFunction = std::bind(func, classPtr, std::placeholders::_1);
 			m_pOwner = pOwner;
 			f_giveThyself();
+			m_isDragging = true;
 		}
 		~DragComponent();
 

@@ -42,7 +42,7 @@ namespace leon
 		virtual void triggerHook(sf::Packet& rPack);
 
 	private:
-		virtual void f_initialize(const EditBoxData& data);
+		void f_initialize(const EditBoxData& data);
 
 		tgui::EditBox::Ptr m_pEditBox;//pointer to our editbox inside gui
 	};

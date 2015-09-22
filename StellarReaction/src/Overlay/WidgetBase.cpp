@@ -52,7 +52,14 @@ void WidgetBase::toggleEnabled(bool enabled)
 	else
 		disable();
 }
-
+void WidgetBase::setPosition(const sf::Vector2f& newPos)
+{
+	m_pWidget->setPosition(newPos);
+}
+const sf::Vector2f& WidgetBase::getPosition() const
+{
+	return m_pWidget->getPosition();
+}
 /**IO**/
 void WidgetBase::input(std::string rCommand, sf::Packet rData)
 {

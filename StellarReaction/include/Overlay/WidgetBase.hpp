@@ -40,6 +40,9 @@ namespace leon
 		void toggleHidden(bool hidden);
 		void toggleEnabled(bool enabled);
 
+		virtual void setPosition(const sf::Vector2f& newPos);
+		virtual const sf::Vector2f& getPosition() const;
+
 	protected:
 		IOComponent m_io;
 		void f_assign(tgui::Widget* pWidget);//must assign m_pWidget to something!

@@ -8,8 +8,11 @@
 #include "EditBox.hpp"
 #include "Chatbox.hpp"
 #include "NetworkedSelection.hpp"
+#include "Draggable.hpp"
+#include "DraggableSurface.hpp"
 
 using namespace std;
+using namespace leon;
 
 Overlay::Overlay(const IOComponentData& rData) : m_gui(game.getWindow()), m_io(rData, &Overlay::input, this)
 {
@@ -52,18 +55,18 @@ void Overlay::loadMenus()
 	mainMenuData.ioComp.name = "main_menu";
 	mainMenuData.backgroundTex = "core/screen_1.png";
 	mainMenuData.screenCoords = sf::Vector2f(0, 0);
-	mainMenuData.size = sf::Vector2f(1920,1080);
+	mainMenuData.size = sf::Vector2f(1920, 1080);
 	leon::Panel* pMain_menu = new leon::Panel(game.getOverlay().getGui(), mainMenuData);
 	/**====TITLE====**/
 	leon::PictureData pictureData;
 	pictureData.texName = "core/main_menu_logo.png";
 	pictureData.screenCoords = sf::Vector2f(20, 20);
-	pictureData.size = sf::Vector2f(847,104);
+	pictureData.size = sf::Vector2f(847, 104);
 	leon::WidgetBase* picture = new leon::Picture(*pMain_menu->getPanelPtr(), pictureData);
 	pMain_menu->add(sptr<leon::WidgetBase>(picture));
 	/**====RESUME====**/
 	leon::ButtonData resumeButtonData;
-	resumeButtonData.size = sf::Vector2f(150,50);
+	resumeButtonData.size = sf::Vector2f(150, 50);
 	resumeButtonData.buttonText = "Resume";
 	resumeButtonData.screenCoords = sf::Vector2f(20, 300);
 
@@ -76,7 +79,7 @@ void Overlay::loadMenus()
 	pMain_menu->add(sptr<leon::WidgetBase>(pResume));
 	/**====HOW TO PLAY====**/
 	leon::ButtonData htpButData;
-	htpButData.size = sf::Vector2f(275,50);
+	htpButData.size = sf::Vector2f(275, 50);
 	htpButData.buttonText = "Multiplayer";
 	htpButData.screenCoords = sf::Vector2f(20, 400);
 	Courier htpMessage;
@@ -87,7 +90,7 @@ void Overlay::loadMenus()
 	pMain_menu->add(sptr<leon::WidgetBase>(pHTP));
 	/**====EXIT====**/
 	leon::ButtonData exitButtonData;
-	exitButtonData.size = sf::Vector2f(100,50);
+	exitButtonData.size = sf::Vector2f(100, 50);
 	exitButtonData.buttonText = "Exit";
 	exitButtonData.screenCoords = sf::Vector2f(20, 600);
 	Courier buttonMessage;
@@ -97,25 +100,26 @@ void Overlay::loadMenus()
 	leon::WidgetBase* pExit = new leon::Button(*pMain_menu->getPanelPtr(), exitButtonData);
 	pMain_menu->add(sptr<leon::WidgetBase>(pExit));
 
+
 	game.getOverlay().addPanel(sptr<leon::Panel>(pMain_menu));
 	/**=========**/
 	/**MAIN MENU**/
 
 
 	/**MULTIPLAYER**/
-	sf::Vector2f multPanelSize = sf::Vector2f(640,480);
+	sf::Vector2f multPanelSize = sf::Vector2f(640, 480);
 	leon::PanelData multiplayerConnect;
 	multiplayerConnect.ioComp.name = "multiplayer_connect";
 	multiplayerConnect.startHidden = true;
 	multiplayerConnect.backgroundColor = sf::Color(50, 50, 50, 128);
-	multiplayerConnect.screenCoords = sf::Vector2f(game.getWindow().getSize().x/2-multPanelSize.x/2,game.getWindow().getSize().y/2-multPanelSize.y/2);
-	multiplayerConnect.size = sf::Vector2f(multPanelSize.x,multPanelSize.y);
+	multiplayerConnect.screenCoords = sf::Vector2f(game.getWindow().getSize().x / 2 - multPanelSize.x / 2, game.getWindow().getSize().y / 2 - multPanelSize.y / 2);
+	multiplayerConnect.size = sf::Vector2f(multPanelSize.x, multPanelSize.y);
 	leon::Panel* pMultMenu = new leon::Panel(*pMain_menu->getPanelPtr(), multiplayerConnect);
 
 	/**JOIN**/
 	leon::ButtonData joinButt;
 	joinButt.ioComp.name = "join_button";
-	joinButt.size = sf::Vector2f(100,50);
+	joinButt.size = sf::Vector2f(100, 50);
 	joinButt.buttonText = "Join";
 	joinButt.screenCoords = sf::Vector2f(5, 5);
 	Courier joinMess;
@@ -125,9 +129,9 @@ void Overlay::loadMenus()
 	pMultMenu->add(sptr<leon::WidgetBase>(new leon::Button(*pMultMenu->getPanelPtr(), joinButt)));
 	/**HOST**/
 	leon::ButtonData hostButt;
-	hostButt.size = sf::Vector2f(100,50);
+	hostButt.size = sf::Vector2f(100, 50);
 	hostButt.buttonText = "Host";
-	hostButt.screenCoords = sf::Vector2f(110,5);
+	hostButt.screenCoords = sf::Vector2f(110, 5);
 	Courier hostMess;
 	hostMess.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
 	hostMess.message.reset("networkboss", "host", voidPacket, 0, false);
@@ -135,9 +139,9 @@ void Overlay::loadMenus()
 	pMultMenu->add(sptr<leon::WidgetBase>(new leon::Button(*pMultMenu->getPanelPtr(), hostButt)));
 	/**PORT**/
 	leon::EditBoxData port;
-	port.size = sf::Vector2f(125,50);
+	port.size = sf::Vector2f(125, 50);
 	port.startingText = "5050";
-	port.screenCoords = sf::Vector2f(215,5);
+	port.screenCoords = sf::Vector2f(215, 5);
 	Courier portMess;
 	portMess.condition.reset(EventType::TextChanged, 0, 'd', true);
 	portMess.message.reset("networkboss", "joinPort", voidPacket, 0, true);
@@ -146,9 +150,9 @@ void Overlay::loadMenus()
 	/**IP**/
 	leon::EditBoxData ipAdd;
 	ipAdd.ioComp.name = "ipaddress_editbox";
-	ipAdd.size = sf::Vector2f(335,50);
+	ipAdd.size = sf::Vector2f(335, 50);
 	ipAdd.startingText = "IP Address";
-	ipAdd.screenCoords = sf::Vector2f(5,60);
+	ipAdd.screenCoords = sf::Vector2f(5, 60);
 	Courier ipAddMess;
 	ipAddMess.condition.reset(EventType::TextChanged, 0, 'd', true);
 	ipAddMess.message.reset("networkboss", "joinIP", voidPacket, 0, true);
@@ -160,21 +164,21 @@ void Overlay::loadMenus()
 
 
 	/**LOBBY**/
-	sf::Vector2f lobbyPanelSize = sf::Vector2f(750,500);
+	sf::Vector2f lobbyPanelSize = sf::Vector2f(750, 500);
 	leon::PanelData lobbyPanel;
 	lobbyPanel.ioComp.name = "lobby";
 	lobbyPanel.startHidden = true;
-	lobbyPanel.backgroundColor = sf::Color(50,50,50,128);
-	lobbyPanel.screenCoords = sf::Vector2f(game.getWindow().getSize().x/2-lobbyPanelSize.x/2,game.getWindow().getSize().y/2-lobbyPanelSize.y/2);
-	lobbyPanel.size = sf::Vector2f(lobbyPanelSize.x,lobbyPanelSize.y);
+	lobbyPanel.backgroundColor = sf::Color(50, 50, 50, 128);
+	lobbyPanel.screenCoords = sf::Vector2f(game.getWindow().getSize().x / 2 - lobbyPanelSize.x / 2, game.getWindow().getSize().y / 2 - lobbyPanelSize.y / 2);
+	lobbyPanel.size = sf::Vector2f(lobbyPanelSize.x, lobbyPanelSize.y);
 	leon::Panel* pLobby = new leon::Panel(*pMain_menu->getPanelPtr(), lobbyPanel);
 
 	/**DISCONNECT**/
 	leon::ButtonData disconnect;
 	disconnect.ioComp.name = "lobby_disconnect";
-	disconnect.size = sf::Vector2f(250,50);
+	disconnect.size = sf::Vector2f(250, 50);
 	disconnect.buttonText = "Disconnect";
-	disconnect.screenCoords = sf::Vector2f(lobbyPanelSize.x-(disconnect.size.x+5), lobbyPanelSize.y-(disconnect.size.y+5));
+	disconnect.screenCoords = sf::Vector2f(lobbyPanelSize.x - (disconnect.size.x + 5), lobbyPanelSize.y - (disconnect.size.y + 5));
 	Courier disconnectMess1;
 	disconnectMess1.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
 	disconnectMess1.message.reset("lobby", "toggleHidden", voidPacket, 0, false);
@@ -191,9 +195,9 @@ void Overlay::loadMenus()
 	/**Launch**/
 	leon::ButtonData launch;
 	launch.ioComp.name = "lobby_launch";
-	launch.size = sf::Vector2f(150,50);
+	launch.size = sf::Vector2f(150, 50);
 	launch.buttonText = "Launch";
-	launch.screenCoords = sf::Vector2f(5, lobbyPanelSize.y-(launch.size.y+5));
+	launch.screenCoords = sf::Vector2f(5, lobbyPanelSize.y - (launch.size.y + 5));
 	Courier launchMess1;
 	launchMess1.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
 	launchMess1.message.reset("networkboss", "launch", voidPacket, 0, false);
@@ -209,8 +213,8 @@ void Overlay::loadMenus()
 	/**CHATBOX**/
 	leon::ChatboxData chatbox;
 	chatbox.ioComp.name = "lobby_chatbox";
-	chatbox.size = sf::Vector2f(400,300);
-	chatbox.screenCoords = sf::Vector2f(3,7);
+	chatbox.size = sf::Vector2f(400, 300);
+	chatbox.screenCoords = sf::Vector2f(3, 7);
 
 	pLobby->add(sptr<leon::WidgetBase>(new leon::Chatbox(*pLobby->getPanelPtr(), chatbox)));
 
@@ -299,7 +303,7 @@ void Overlay::loadMenus()
 
 
 	/**STORE PANEL**/
-	sf::Vector2f storePanelSize = sf::Vector2f(750, 500);
+	sf::Vector2f storePanelSize = sf::Vector2f(850, 700);
 	leon::PanelData storePanelData;
 	storePanelData.ioComp.name = "store_default";
 	storePanelData.startHidden = true;
@@ -339,12 +343,38 @@ void Overlay::loadMenus()
 
 	pStore->add(sptr<leon::WidgetBase>(new leon::NetworkedSelection(*pStore->getPanelPtr(), store)));
 
+	/**SHIP EDITOR**/
+	DraggableSurfaceData surfaceData;
+	surfaceData.screenCoords = sf::Vector2f(200, 0);
+	surfaceData.gridSize = sf::Vector2f(64, 64);
+	surfaceData.size = sf::Vector2f(640, 640);
+	surfaceData.backgroundColor = sf::Color(32, 32, 32, 128);
+
+
+	//DraggableSurface* pSurf = new leon::DraggableSurface(*pStore->getPanelPtr(), surfaceData);
+	DraggableSurface* pSurf = new leon::DraggableSurface(*pMain_menu->getPanelPtr(), surfaceData);
+	//pStore->add(sptr<leon::WidgetBase>(pSurf));
+	pMain_menu->add(sptr<leon::WidgetBase>(pSurf));
+
+	
+
+	/**====DRAGGABLES====**/
+	DraggableData dragData;
+	dragData.size = sf::Vector2f(64, 64);
+
+	dragData.gridPosition = sf::Vector2f(0, 0);
+	pSurf->addDraggable(dragData);
+	dragData.gridPosition = sf::Vector2f(1, 0);
+	pSurf->addDraggable(dragData);
+	dragData.gridPosition = sf::Vector2f(1, 1);
+	pSurf->addDraggable(dragData);
+
 
 	/**Close Store**/
 	leon::ButtonData close;
 	close.ioComp.name = "join_button";
-	close.screenCoords = sf::Vector2f(storePanelSize.x-100, 0);
-	close.size = sf::Vector2f(50, 50);
+	close.screenCoords = sf::Vector2f(storePanelSize.x - 64, 0);
+	close.size = sf::Vector2f(64, 64);
 	close.buttonText = "X";
 	Courier closeMes;
 	closeMes.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
@@ -355,25 +385,28 @@ void Overlay::loadMenus()
 	guiMode.message.reset("local_player", "toggleGuiMode", voidPacket, 0, false);
 	close.ioComp.courierList.push_back(guiMode);
 	pStore->add(sptr<leon::WidgetBase>(new leon::Button(*pStore->getPanelPtr(), close)));
+	
+	
+	game.getOverlay().addPanel(sptr<leon::Panel>(pStore));
 	/**STORE**/
 
 	/**STORE**/
 
 
 	/**MESSAGE**/
-	sf::Vector2f closePanelSize = sf::Vector2f(640,480);
+	sf::Vector2f closePanelSize = sf::Vector2f(640, 480);
 	leon::PanelData messagePanel;
 	messagePanel.ioComp.name = "message_panel";
 	messagePanel.startHidden = true;
 	messagePanel.backgroundColor = sf::Color::Blue;
-	messagePanel.screenCoords = sf::Vector2f(game.getWindow().getSize().x/2-closePanelSize.x/2,game.getWindow().getSize().y/2-closePanelSize.y/2);
-	messagePanel.size = sf::Vector2f(closePanelSize.x,closePanelSize.y);
+	messagePanel.screenCoords = sf::Vector2f(game.getWindow().getSize().x / 2 - closePanelSize.x / 2, game.getWindow().getSize().y / 2 - closePanelSize.y / 2);
+	messagePanel.size = sf::Vector2f(closePanelSize.x, closePanelSize.y);
 	leon::Panel* pMessBox = new leon::Panel(game.getOverlay().getGui(), messagePanel);
 	/**====OK====**/
 	leon::ButtonData closeMessBox;
-	closeMessBox.size = sf::Vector2f(50,50);
+	closeMessBox.size = sf::Vector2f(50, 50);
 	closeMessBox.buttonText = "OK";
-	closeMessBox.screenCoords = sf::Vector2f(closePanelSize.x/2-50/2, closePanelSize.y-(50+5));
+	closeMessBox.screenCoords = sf::Vector2f(closePanelSize.x / 2 - 50 / 2, closePanelSize.y - (50 + 5));
 	Courier closeMess;
 	closeMess.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
 	closeMess.message.reset("message_panel", "toggleHidden", voidPacket, 0, false);
@@ -381,7 +414,6 @@ void Overlay::loadMenus()
 	leon::WidgetBase* pClose = new leon::Button(*pMessBox->getPanelPtr(), closeMessBox);
 	pMessBox->add(sptr<leon::WidgetBase>(pClose));
 	game.getOverlay().addPanel(sptr<leon::Panel>(pMessBox));
-
 }
 void Overlay::toggleMenu(bool show)//display menu, assume gui control, send pause game command
 {

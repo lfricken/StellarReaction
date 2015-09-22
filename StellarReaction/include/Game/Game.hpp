@@ -1,5 +1,4 @@
-#ifndef GAME_HPP
-#define GAME_HPP
+#pragma once
 
 #include "stdafx.hpp"
 
@@ -7,7 +6,6 @@ class Player;
 class Universe;
 class IOComponent;
 
-class Overlay;
 class IOManager;
 class TextureAllocator;
 class AnimAlloc;
@@ -15,8 +13,11 @@ class BatchLayers;
 class GraphicsComponentUpdater;
 class NetworkBoss;
 class SoundManager;
-
-
+namespace leon
+{
+	class Overlay;
+	class DragUpdater;
+}
 class Game
 {
 public:
@@ -27,12 +28,13 @@ public:
 
 	float getTime() const;
 	sf::RenderWindow& getWindow();
-	Overlay& getOverlay();
+	leon::Overlay& getOverlay();
 	IOManager& getCoreIO();
 	NetworkBoss& getNwBoss();
 	TextureAllocator& getTextureAllocator();
 	AnimAlloc& getAnimAlloc();
 	SoundManager& getSound();
+	leon::DragUpdater& getDragUpdater();
 
 
 	Universe& getUniverse();
@@ -54,7 +56,11 @@ private:
 	void loadUniverse(const std::string& stuff);
 
 	/// <summary>
-	/// The Global IO Manager for the game, which controlls all events.
+	/// IO component for global "game"
+	/// </summary>
+	sptr<leon::DragUpdater> m_spDragUpdater;
+	/// <summary>
+	/// The Global IO Manager for the game, which controlls all events (aka not networked or in game related, such as menus).
 	/// </summary>
 	sptr<IOManager> m_spCoreIO;
 	/// <summary>
@@ -76,7 +82,7 @@ private:
 	/// <summary>
 	/// Wrapper for tgui GUI
 	/// </summary>
-	sptr<Overlay> m_spOverlay;
+	sptr<leon::Overlay> m_spOverlay;
 	/// <summary>
 	/// Allocates textures for game.
 	/// </summary>
@@ -94,6 +100,8 @@ private:
 	/// </summary>
 	sptr<IOComponent> m_spIO;
 
+
+
 	double m_targetFPS;
 	/// <summary>
 	/// global clock never paused
@@ -103,5 +111,3 @@ private:
 	mutable int m_sampleClock;
 	mutable int m_sampleFreq;
 };
-
-#endif // GAME_HPP

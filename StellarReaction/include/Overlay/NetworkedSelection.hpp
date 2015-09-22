@@ -43,7 +43,7 @@ namespace leon
 		virtual void triggerHook(sf::Packet& rPack);
 
 	private:
-		virtual void f_initialize(NetworkedSelectionData& data, void* container, bool isContainer);
+		void f_initialize(NetworkedSelectionData& data, void* container, bool isContainer);
 
 		std::string m_command;//command to send when an item has been selected
 		std::vector<sptr<SelectableItem> > m_items;

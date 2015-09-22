@@ -28,14 +28,14 @@ namespace leon
 
 		tgui::Panel::Ptr getPanelPtr() const;
 		void add(sptr<WidgetBase> sp_widget);
+		void clear();
 
 	protected:
-
-	private:
-		virtual void f_initialize(const PanelData& data);
+		tgui::Panel::Ptr m_pPanel;//the gui panel
 		std::vector<sptr<WidgetBase> > m_widgetList;
 
-		tgui::Panel::Ptr m_pPanel;//the gui panel
-		tgui::ChildWindow::Ptr m_pChildWindow;
+	private:
+		void f_initialize(const PanelData& data);
+
 	};
 }

@@ -29,6 +29,6 @@ namespace leon
 		virtual bool callbackHook2(const tgui::Callback& callback);
 
 	private:
-		virtual void f_initialize(const ButtonData& data);
+		void f_initialize(const ButtonData& data);
 	};
 }

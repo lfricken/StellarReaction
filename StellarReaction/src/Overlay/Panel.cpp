@@ -34,3 +34,7 @@ void Panel::add(sptr<WidgetBase> sp_widget)
 {
 	m_widgetList.push_back(sp_widget);
 }
+void Panel::clear()//destroys all draggables
+{
+	m_widgetList.clear();
+}

@@ -14,7 +14,7 @@
     <ClCompile Include="src\Overlay\DragUpdater.cpp" />
     <ClCompile Include="src\Overlay\DragComponent.cpp" />
     <ClCompile Include="src\Overlay\Draggable.cpp" />
-    <ClCompile Include="src\Overlay\ShipEditor.cpp" />
+    <ClCompile Include="src\Overlay\DraggableSurface.cpp" />
     <ClCompile Include="src\Headers\Globals.cpp" />
     <ClCompile Include="src\Overlay\SelectableItem.cpp" />
     <ClCompile Include="src\Control\BasePlayerTraits.cpp" />
@@ -402,7 +402,7 @@
     <ClInclude Include="include\Universe\Utility\UniversalContactListener.hpp" />
     <ClInclude Include="include\Overlay\NetworkedSelection.hpp" />
     <ClInclude Include="include\Overlay\SelectableItem.hpp" />
-    <ClInclude Include="include\Overlay\ShipEditor.hpp" />
+    <ClInclude Include="include\Overlay\DraggableSurface.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\API\SFML\Graphics\Rect.inl" />
