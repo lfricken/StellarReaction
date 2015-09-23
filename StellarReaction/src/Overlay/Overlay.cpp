@@ -313,7 +313,7 @@ void Overlay::loadMenus()
 	leon::Panel* pStore = new leon::Panel(game.getOverlay().getGui(), storePanelData);
 	/**STORE**/
 	leon::NetworkedSelectionData store;
-	store.size = sf::Vector2f(200, 200);
+	store.size = sf::Vector2f(200, 400);
 	store.itemSize = sf::Vector2f(200, 40);
 	store.screenCoords = sf::Vector2f(0, 0);
 	store.backgroundColor = sf::Color(50, 50, 50, 128);
@@ -341,33 +341,67 @@ void Overlay::loadMenus()
 	data2.id = "Razor_Laser1";
 	store.items.push_back(data2);
 
+	data2.labelData.back().text = "10GW Fusion Reactor";
+	data2.id = "DefaultReactor";
+	store.items.push_back(data2);
+
+	data2.labelData.back().text = "Titanium Alloy Plate";
+	data2.id = "DefaultPlating";
+	store.items.push_back(data2);
+
+	data2.labelData.back().text = "100Gigajoule Capacitor";
+	data2.id = "DefaultCapacitor";
+	store.items.push_back(data2);
+
+	data2.labelData.back().text = "Maxus L2 Engine TM";
+	data2.id = "DefaultThruster";
+	store.items.push_back(data2);
+
+	data2.labelData.back().text = "Omni Sensor Array";
+	data2.id = "DefaultRadar";
+	store.items.push_back(data2);
+
 	pStore->add(sptr<leon::WidgetBase>(new leon::NetworkedSelection(*pStore->getPanelPtr(), store)));
 
 	/**SHIP EDITOR**/
 	DraggableSurfaceData surfaceData;
+	surfaceData.ioComp.name = "ship_editor";
 	surfaceData.screenCoords = sf::Vector2f(200, 0);
 	surfaceData.gridSize = sf::Vector2f(64, 64);
 	surfaceData.size = sf::Vector2f(640, 640);
 	surfaceData.backgroundColor = sf::Color(32, 32, 32, 128);
 
 
-	//DraggableSurface* pSurf = new leon::DraggableSurface(*pStore->getPanelPtr(), surfaceData);
-	DraggableSurface* pSurf = new leon::DraggableSurface(*pMain_menu->getPanelPtr(), surfaceData);
-	//pStore->add(sptr<leon::WidgetBase>(pSurf));
-	pMain_menu->add(sptr<leon::WidgetBase>(pSurf));
+	DraggableSurface* pSurf = new leon::DraggableSurface(*pStore->getPanelPtr(), surfaceData);
+	//DraggableSurface* pSurf = new leon::DraggableSurface(*pMain_menu->getPanelPtr(), surfaceData);
+	pStore->add(sptr<leon::WidgetBase>(pSurf));
+	//pMain_menu->add(sptr<leon::WidgetBase>(pSurf));
 
 	
 
 	/**====DRAGGABLES====**/
-	DraggableData dragData;
-	dragData.size = sf::Vector2f(64, 64);
+	//DraggableData dragData;
+	//dragData.size = sf::Vector2f(64, 64);
+	//dragData.metaData = "Razor_Laser1";
 
-	dragData.gridPosition = sf::Vector2f(0, 0);
-	pSurf->addDraggable(dragData);
-	dragData.gridPosition = sf::Vector2f(1, 0);
-	pSurf->addDraggable(dragData);
-	dragData.gridPosition = sf::Vector2f(1, 1);
-	pSurf->addDraggable(dragData);
+	//dragData.gridPosition = sf::Vector2f(0, 0);
+	//pSurf->addDraggable(dragData);
+	//dragData.gridPosition = sf::Vector2f(1, 0);
+	//pSurf->addDraggable(dragData);
+	//dragData.gridPosition = sf::Vector2f(1, 1);
+	//pSurf->addDraggable(dragData);
+
+	/**====RECONSTRUCT SHIP====**/
+	ButtonData reconstructData;
+	reconstructData.screenCoords = sf::Vector2f(20, 480);
+	reconstructData.buttonText = "Reconstruct";
+
+	Courier reconstructButton;
+	reconstructButton.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
+	reconstructButton.message.reset("ship_editor", "sendState", voidPacket, 0, false);
+	reconstructData.ioComp.courierList.push_back(reconstructButton);
+
+	pStore->add(sptr<leon::WidgetBase>(new Button(*pStore->getPanelPtr(), reconstructData)));
 
 
 	/**Close Store**/

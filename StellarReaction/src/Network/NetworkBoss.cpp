@@ -459,16 +459,65 @@ void NetworkBoss::playerOption(sf::Packet& rData, BasePlayerTraits* pFrom)
 			Money cost = pMod->cost;
 			if(pFrom->getMoney() >= cost)
 			{
-				pFrom->addModule(bpName);
+				pFrom->addModule(bpName, b2Vec2(0, 0));
 				pFrom->changeMoney(-cost);//TODO: another generic NetworkBoss update should trigger client to get thier new balance and module lists
 			}
 			cout << "\nHas [" << pFrom->getMoney() << "].";
 			cout << "\nCosted [" << cost << "].";
 			cout << "\nOwns [" << pFrom->getOwnedModuleTitles().size() << "].";
-			
 		}
 		else
 			cout << FILELINE;
+	}
+	else if(command == "rebuild")//a player wants to attach a module from their inventory
+	{
+		string bpName;
+		float x;
+		float y;
+		vector<pair<string, Vector2f> > modules;
+
+		Controller* pCon = &game.getUniverse().getControllerFactory().getController(pFrom->getController());
+		std::string slaveName = pCon->getSlaveName();
+		Chunk* pTemp = game.getUniverse().getSlaveLocator().findHack(slaveName);
+		int targetPos = pTemp->m_io.getPosition();
+
+		Message clean((unsigned)targetPos, "clear", voidPacket, 0, false);
+		clean.sendOverNW(true);
+		game.getUniverse().getUniverseIO().recieve(clean);
+
+		vector<pair<string, b2Vec2> > available = pFrom->getOwnedModuleTitles();
+
+		int num;
+		rData >> num;
+		for(int i = 0; i < num; ++i)
+		{
+			rData >> bpName;
+			rData >> x;
+			rData >> y;
+
+			bool canAdd = false;
+			for(auto it = available.begin(); it != available.end(); ++it)
+			{
+				if(it->first == bpName)
+				{
+					canAdd = true;
+					available.erase(it);
+					break;
+				}
+			}
+
+			if(canAdd)//if the user had that in their inventory
+			{//then we just removed it, and we should add it to thier ship
+				sf::Packet pack;
+				pack << bpName;
+				pack << x;
+				pack << y;
+
+				Message attach((unsigned)targetPos, "attachModule", pack, 0, false);
+				attach.sendOverNW(true);
+				game.getUniverse().getUniverseIO().recieve(attach);
+			}
+		}
 	}
 	else if(command == "attachModule")//a player wants to attach a module from their inventory
 	{
@@ -497,28 +546,28 @@ void NetworkBoss::playerOption(sf::Packet& rData, BasePlayerTraits* pFrom)
 	}
 	else if(command == "detachModule")//a player wants to detach a module from their inventory
 	{
-		//get the offset for it
-		int32_t x;
-		int32_t y;
-		rData >> x;
-		rData >> y;
+		////get the offset for it
+		//int32_t x;
+		//int32_t y;
+		//rData >> x;
+		//rData >> y;
 
-		std::string slaveName = game.getUniverse().getControllerFactory().getController(pFrom->getController()).getSlaveName();
-		Chunk* pTemp = game.getUniverse().getSlaveLocator().findHack(slaveName);
-		std::string title = pTemp->hasModuleAt(b2Vec2(x, y));
-		if(title != "")//if the user has a module at those coordinates..
-		{
-			int targetPos = pTemp->m_io.getPosition();
-			sf::Packet pack;
-			pack << x;
-			pack << y;
-			Message detach((unsigned)targetPos, "detachModule", pack, 0, false);
-			detach.sendOverNW(true);
-			game.getUniverse().getUniverseIO().recieve(detach);
-			pFrom->addModule(title);//and add it back to their set of owned modules
-		}
-		else
-			cout << FILELINE;
+		//std::string slaveName = game.getUniverse().getControllerFactory().getController(pFrom->getController()).getSlaveName();
+		//Chunk* pTemp = game.getUniverse().getSlaveLocator().findHack(slaveName);
+		//std::string title = pTemp->hasModuleAt(b2Vec2(x, y));
+		//if(title != "")//if the user has a module at those coordinates..
+		//{
+		//	int targetPos = pTemp->m_io.getPosition();
+		//	sf::Packet pack;
+		//	pack << x;
+		//	pack << y;
+		//	Message detach((unsigned)targetPos, "detachModule", pack, 0, false);
+		//	detach.sendOverNW(true);
+		//	game.getUniverse().getUniverseIO().recieve(detach);
+		//	pFrom->addModule(title);//and add it back to their set of owned modules
+		//}
+		//else
+		//	cout << FILELINE;
 	}
 	else
 		cout << FILELINE << " [" << command << "].";

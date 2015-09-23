@@ -14,7 +14,7 @@ SelectableItem::SelectableItem(tgui::Container& container, const SelectableItemD
 }
 SelectableItem::~SelectableItem()
 {
-	std::cout << "selectable destr";
+
 }
 void SelectableItem::f_initialize(const SelectableItemData& rData, void* container, bool isContainer)
 {

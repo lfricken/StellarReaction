@@ -93,6 +93,7 @@ public:
 	void processAim() const;
 	void processDirectives();//use our stored directives to send commands
 	void toggleLocal(bool local);
+	bool isLocal() const;
 
 protected:
 	virtual void input(std::string rCommand, sf::Packet rData);

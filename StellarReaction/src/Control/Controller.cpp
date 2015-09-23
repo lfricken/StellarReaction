@@ -144,6 +144,10 @@ void Controller::unpack(sf::Packet& rPacket)
 	}
 
 }
+bool Controller::isLocal() const
+{
+	return m_local;
+}
 void Controller::input(std::string rCommand, sf::Packet rData)
 {
 	sf::Packet data(rData);

@@ -28,6 +28,7 @@ public:
 	virtual void postPhysUpdate();
 
 	void add(const ModuleData& rData);
+	void clear();
 
 	const std::string& getName() const;
 
@@ -39,6 +40,8 @@ public:
 
 protected:
 	virtual void input(std::string rCommand, sf::Packet rData);
+	bool allows(const b2Vec2& rGridPos);
+
 private:
 
 	Pool<Ballistic> m_ballisticPool;
@@ -50,7 +53,7 @@ private:
 	int m_slavePosition;
 	BodyComponent m_body;
 	std::vector<sptr<Module> > m_modules;
-
+	std::vector<b2Vec2> m_validOffsets;
 
 
 	//Evan - sprites for hull, afterburner, afterburner_thrust. need to set anims and anim speed individually
@@ -85,6 +88,8 @@ struct ChunkData : public GameObjectData
 	PoolData<Ballistic> ballisticData;
 	PoolData<Energy> energyData;
 	PoolData<Zoom> zoomData;
+
+	std::vector<b2Vec2> validPos;
 
 	BodyComponentData bodyComp;
 	std::vector<sptr<const ModuleData> > moduleData;

@@ -22,18 +22,20 @@ public:
 	void setName(const std::string& rTitle);
 	const std::string& getName() const;
 
-	void addModule(const std::string& newTitle);
-	bool removeModule(const std::string& oldTitle);//remove module, did it get removed?
-	const std::vector<std::string>& getOwnedModuleTitles() const;
+	virtual void addModule(const std::string& newTitle, const b2Vec2& rPos);
+	virtual bool removeModule(const std::string& oldTitle);//remove module, did it get removed?
+
+	const std::vector<std::pair<std::string, b2Vec2> >& getOwnedModuleTitles() const;
 
 	void setMoney(Money amount);
 	void changeMoney(Money amount);
 	Money getMoney() const;
+
 protected:
 	int m_controller;//which controller do we have, 0, 1, 2, ect.(points to a controller in the list)
-private:
 
-	std::vector<std::string> m_unusedModules;//that aren't on our ship, uses titles
+private:
+	std::vector<std::pair<std::string, b2Vec2> > m_owned;//they exist
 
 	std::string m_shipChoice;
 	std::string m_name;

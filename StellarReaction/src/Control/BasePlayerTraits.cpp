@@ -1,11 +1,16 @@
 #include "BasePlayerTraits.hpp"
+#include "Message.hpp"
+#include "Globals.hpp"
+#include "IOManager.hpp"
+
+using namespace std;
 
 BasePlayerTraits::BasePlayerTraits(const std::string& rName)
 {
 	m_team = 1;
 	m_shipChoice = "CombatShip";
 	m_name = rName;
-	m_balance = 2;
+	m_balance = 20;
 }
 BasePlayerTraits::~BasePlayerTraits()
 {
@@ -55,23 +60,29 @@ int BasePlayerTraits::getController() const
 {
 	return m_controller;
 }
-void BasePlayerTraits::addModule(const std::string& newTitle)
+void BasePlayerTraits::addModule(const std::string& newTitle, const b2Vec2& rPos)
 {
-	m_unusedModules.push_back(newTitle);
+	m_owned.push_back(pair<string, b2Vec2>(newTitle, rPos));
+	sf::Packet pack;
+	pack << newTitle;
+	pack << (int32_t)rPos.x;
+	pack << (int32_t)rPos.y;
+	Message modAdded("ship_editor", "addItem", pack, 0.f, false);
+	game.getCoreIO().recieve(modAdded);
 }
 bool BasePlayerTraits::removeModule(const std::string& oldTitle)
 {
-	for(auto it = m_unusedModules.begin(); it != m_unusedModules.end(); ++it)
+	for(auto it = m_owned.begin(); it != m_owned.end(); ++it)
 	{
-		if(*it == oldTitle)
+		if(it->first == oldTitle)
 		{
-			m_unusedModules.erase(it);
+			m_owned.erase(it);
 			return true;
 		}
 	}
 	return false;
 }
-const std::vector<std::string>& BasePlayerTraits::getOwnedModuleTitles() const
+const std::vector<std::pair<std::string, b2Vec2> >& BasePlayerTraits::getOwnedModuleTitles() const
 {
-	return m_unusedModules;
+	return m_owned;
 }

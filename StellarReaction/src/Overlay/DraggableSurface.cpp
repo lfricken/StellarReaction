@@ -1,5 +1,7 @@
 #include "DraggableSurface.hpp"
 #include "Draggable.hpp"
+#include "ShipModule.hpp"
+#include "BlueprintLoader.hpp"
 
 using namespace leon;
 using namespace std;
@@ -20,9 +22,12 @@ void DraggableSurface::f_initialize(const DraggableSurfaceData& rData)
 {
 	m_gridSize = rData.gridSize;
 }
+void DraggableSurface::setCountedCoordinates(const std::vector<sf::Vector2f>& rCoords)//which coordinates should we return for getElementPositions
+{
+	m_validCoords = rCoords;
+}
 void DraggableSurface::addDraggable(const DraggableData& rData)
 {
-	cout << "\n" << sizeof(std::string);
 	DraggableData copy = rData;
 	copy.gridSize = m_gridSize;
 	copy.myPanelOffset = m_pPanel->getAbsolutePosition();
@@ -30,6 +35,17 @@ void DraggableSurface::addDraggable(const DraggableData& rData)
 	sptr<WidgetBase> spDrag(new Draggable(*this->getPanelPtr(), copy));
 	this->add(spDrag);
 }
+//std::vector<std::pair<std::string, sf::Vector2f> > DraggableSurface::getValidPositions() const
+//{
+//	//vector<std::pair<std::string, sf::Vector2f> > pairing;
+//	//for(auto it = m_widgetList.begin(); it != m_widgetList.end(); ++it)
+//	//{
+//	//	Draggable* pDrag = dynamic_cast<Draggable*>((*it).get());
+//	//	if(std::find(m_validCoords.begin(), m_validCoords.end(), pDrag->getPosition()) != m_validCoords.end())//if it contains
+//	//		pairing.push_back(pair<string, sf::Vector2f>(pDrag->getMetaData(), pDrag->getPosition()));
+//	//}
+//	//return pairing;
+//}
 std::vector<std::pair<std::string, sf::Vector2f> > DraggableSurface::getElementPositions() const
 {
 	vector<std::pair<std::string, sf::Vector2f> > pairing;
@@ -48,11 +64,53 @@ bool DraggableSurface::hasOneAt(const sf::Vector2f& gridPos) const
 			++count;
 	return (count >= 1);
 }
-bool DraggableSurface::connectedGraph() const
+bool DraggableSurface::inputHook(const std::string rCommand, sf::Packet rData)
 {
-	//map<sf::Vector2f, bool> spots;
-	//for(auto it = m_widgetList.begin(); it != m_widgetList.end(); ++it)
-	//	spots[(*it)->getPosition()] = true;
-	return false;
+	if(rCommand == "sendState")
+	{
+		cout << "\nsendState";
 
+		vector<std::pair<string, sf::Vector2f> > modules = this->getElementPositions();
+
+		sf::Packet pack;
+		pack << "rebuild";
+		pack << (int32_t)modules.size();
+
+		for(auto it = modules.begin(); it != modules.end(); ++it)
+		{
+			pack << it->first;
+			float x = (float)((it->second.x / m_gridSize.x) - 5);
+			float y = (float)-((it->second.y / m_gridSize.y) - 5);//negative for 
+			pack << x;
+			pack << y;
+		}
+
+		Message mes("networkboss", "sendTcpToHost", pack, 0, false);
+		game.getCoreIO().recieve(mes);
+
+		return true;
+	}
+	else if(rCommand == "addItem")
+	{
+		string title;
+		int32_t x;
+		int32_t y;
+
+		rData >> title;
+		rData >> x;
+		rData >> y;
+
+		sptr<ShipModuleData> pNewModuleData = sptr<ShipModuleData>(dynamic_cast<ShipModuleData*>(game.getUniverse().getBlueprints().getModuleSPtr(title)->clone()));
+
+		DraggableData draggable;
+		draggable.metaData = title;
+		draggable.icon.texName = pNewModuleData->baseDecor.texName;
+		draggable.gridPosition = sf::Vector2f(x, y);
+
+		this->addDraggable(draggable);
+
+		return true;
+	}
+	else
+		return false;
 }

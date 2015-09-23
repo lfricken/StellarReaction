@@ -2,6 +2,7 @@
     "ClassName": "Thruster",
 	"Name": "Robodine 10-X",
 	"Title": "DefaultThruster",
+	
     "Inherits": "DefaultShipModule",
 	"Force": 100,
 	"Torque": 50,

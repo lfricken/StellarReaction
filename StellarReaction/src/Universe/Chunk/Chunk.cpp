@@ -24,6 +24,14 @@ Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp)
 	myPools.missilePool = &m_missilePool;
 	myPools.energyPool = &m_energyPool;
 
+	m_validOffsets = rData.validPos;
+
+	//TODO: remove this
+	for(float i = -5; i < 5; i+=0.5)
+		for(float j = -5; j < 5; j += 0.5)
+			m_validOffsets.push_back(b2Vec2(i, j));
+
+
 	for(auto it = rData.moduleData.begin(); it != rData.moduleData.end(); ++it)
 		m_modules.push_back(sptr<Module>((*it)->generate(m_body.getBodyPtr(), myPools)));
 
@@ -71,14 +79,23 @@ Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp)
 	thrust_sound.setVolume(100);
 
 }
+bool Chunk::allows(const b2Vec2& rGridPos)
+{
+	return (std::find(m_validOffsets.begin(), m_validOffsets.end(), rGridPos) != m_validOffsets.end());
+}
 void Chunk::add(const ModuleData& rData)
 {
-	PoolCollection myPools;
-	myPools.ballisticPool = &m_ballisticPool;
-	myPools.zoomPool = &m_zoomPool;
-	myPools.missilePool = &m_missilePool;
-	myPools.energyPool = &m_energyPool;
-	m_modules.push_back(sptr<Module>(rData.generate(m_body.getBodyPtr(), myPools)));
+	if(this->allows(rData.fixComp.offset))
+	{
+		PoolCollection myPools;
+		myPools.ballisticPool = &m_ballisticPool;
+		myPools.zoomPool = &m_zoomPool;
+		myPools.missilePool = &m_missilePool;
+		myPools.energyPool = &m_energyPool;
+		m_modules.push_back(sptr<Module>(rData.generate(m_body.getBodyPtr(), myPools)));
+	}
+	else
+		cout << FILELINE;
 }
 Chunk::~Chunk()
 {
@@ -305,22 +322,31 @@ b2Body* Chunk::getBodyPtr()
 {
 	return m_body.getBodyPtr();
 }
+void Chunk::clear()
+{
+	m_modules.clear();
+}
 void Chunk::input(std::string rCommand, sf::Packet rData)
 {
-	if(rCommand == "attachModule")
+	if(rCommand == "clear")
+	{
+		this->clear();
+	}
+	else if(rCommand == "attachModule")
 	{
 		std::string bpName;
-		int32_t x;
-		int32_t y;
+		float x;
+		float y;
+
 		rData >> bpName;
 		rData >> x;
 		rData >> y;
 
-		ModuleData* pNewModuleData = game.getUniverse().getBlueprints().getModuleSPtr(bpName)->clone();
+		sptr<ModuleData> pNewModuleData = sptr<ModuleData>(game.getUniverse().getBlueprints().getModuleSPtr(bpName)->clone());
 		if(pNewModuleData != NULL)
 		{
 			pNewModuleData->fixComp.offset = b2Vec2(x, y);
-			add(*pNewModuleData);
+			this->add(*pNewModuleData);
 		}
 		else
 		{
@@ -329,8 +355,8 @@ void Chunk::input(std::string rCommand, sf::Packet rData)
 	}
 	else if(rCommand == "detachModule")
 	{
-		int32_t x;
-		int32_t y;
+		float x;
+		float y;
 
 		rData >> x;
 		rData >> y;
@@ -350,5 +376,6 @@ void Chunk::input(std::string rCommand, sf::Packet rData)
 		if(!found)
 			cout << "\nThere was no module at " << x << "," << y << " " << FILELINE;
 	}
-	cout << "\nCommand not found in [" << m_io.getName() << "]." << FILELINE;
+	else
+		cout << "\nCommand not found in [" << m_io.getName() << "]." << FILELINE;
 }

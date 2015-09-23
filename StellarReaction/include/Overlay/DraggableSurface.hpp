@@ -30,13 +30,16 @@ namespace leon
 
 		void setCountedCoordinates(const std::vector<sf::Vector2f>& rCoords);//which coordinates should we return for getElementPositions
 		void addDraggable(const DraggableData& rData);
-		void clear();//destroys all draggables
-		std::vector<std::pair<std::string, sf::Vector2f> > getValidPositions() const;
+
+		//std::vector<std::pair<std::string, sf::Vector2f> > getValidPositions() const;
 		std::vector<std::pair<std::string, sf::Vector2f> > getElementPositions() const;
 		bool hasOneAt(const sf::Vector2f& gridPos) const;
-		bool connectedGraph() const;//tells whether the ship is connected
+
 
 	protected:
+		/**events HOOKS**/
+		virtual bool inputHook(const std::string rCommand, sf::Packet rData);
+
 	private:
 		void f_initialize(const DraggableSurfaceData& data);
 

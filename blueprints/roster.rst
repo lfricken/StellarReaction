@@ -13,7 +13,8 @@
 		"turret/Razor_Ballistic1.bp",
 		"plating/DefaultPlating.bp",
 		"turret/Raven_Laser1.bp",
-		"turret/Raven_Ballistic1.bp"
+		"turret/Raven_Ballistic1.bp",
+		"radar/DefaultRadar.bp"
     ],
     "ChunkList": [
 		"chunks/CombatShip.bp",

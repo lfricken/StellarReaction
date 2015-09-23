@@ -43,7 +43,7 @@ FixtureComponent::FixtureComponent(const FixtureComponentData& rData)
 }
 FixtureComponent::~FixtureComponent()
 {
-
+	m_pFixture->GetBody()->DestroyFixture(m_pFixture);
 }
 void FixtureComponent::startContact(FixtureComponent* pOther)
 {
