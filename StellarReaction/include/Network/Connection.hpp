@@ -4,6 +4,7 @@
 #include "stdafx.hpp"
 #include "Protocol.hpp"
 #include "BasePlayerTraits.hpp"
+#include "Message.hpp"
 
 class Connection : public BasePlayerTraits
 {
@@ -22,6 +23,11 @@ public:
 
 	void syncPlayerTraits();
 	void recievePlayerTraits(sf::Packet mes);
+
+	void sendSpecialIo(const Message& mes);
+	void recieveSpecialIo(sf::Packet& mes);
+
+	virtual void addModule(const std::string& newTitle, const b2Vec2& rPos);
 
 protected:
 private:

@@ -1,5 +1,4 @@
-#ifndef BASEPLAYERTRAITS_HPP
-#define BASEPLAYERTRAITS_HPP
+#pragma once
 
 #include "stdafx.hpp"
 #include "Money.hpp"
@@ -33,14 +32,11 @@ public:
 
 protected:
 	int m_controller;//which controller do we have, 0, 1, 2, ect.(points to a controller in the list)
-
-private:
 	std::vector<std::pair<std::string, b2Vec2> > m_owned;//they exist
 
+private:
 	std::string m_shipChoice;
 	std::string m_name;
 	int m_team;
 	Money m_balance;
 };
-
-#endif // BASEPLAYERTRAITS_HPP

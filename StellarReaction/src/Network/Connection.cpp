@@ -1,4 +1,6 @@
 #include "Connection.hpp"
+#include "Globals.hpp"
+#include "Universe.hpp"
 
 using namespace std;
 
@@ -8,7 +10,7 @@ Connection::Connection(sf::UdpSocket* pSocket, sptr<sf::TcpSocket> spTCPSocket, 
 	m_pUdpSocket = pSocket;
 	m_spTcpSocket = spTCPSocket;
 
-	for(int32_t i = 0; i<static_cast<int32_t>(Protocol::End); ++i)
+	for(int32_t i = 0; i < static_cast<int32_t>(Protocol::End); ++i)
 	{
 		m_lastSendRecieve[static_cast<Protocol>(i)].first = 0;
 		m_lastSendRecieve[static_cast<Protocol>(i)].second = 0;
@@ -23,7 +25,7 @@ void Connection::sendUdp(Protocol proto, const sf::Packet& rData)
 {
 	sf::Packet data;
 	prepSend(proto, rData, data);
-	m_pUdpSocket->send(data, m_spTcpSocket->getRemoteAddress(), m_spTcpSocket->getRemotePort()+1);
+	m_pUdpSocket->send(data, m_spTcpSocket->getRemoteAddress(), m_spTcpSocket->getRemotePort() + 1);
 }
 void Connection::sendTcp(Protocol proto, const sf::Packet& rData)
 {
@@ -84,4 +86,72 @@ void Connection::recievePlayerTraits(sf::Packet mes)
 	mes >> money;
 
 	setMoney(money);
+}
+void Connection::addModule(const std::string& newTitle, const b2Vec2& rPos)
+{
+	m_owned.push_back(pair<string, b2Vec2>(newTitle, rPos));
+	sf::Packet pack;
+	pack << newTitle;
+	pack << (int32_t)rPos.x;
+	pack << (int32_t)rPos.y;
+	Message modAdded("ship_editor", "addItem", pack, 0.f, false);
+	sendSpecialIo(modAdded);
+}
+void Connection::sendSpecialIo(const Message& mes)
+{
+	sf::Packet packet;
+
+
+	/**TARGETS**/
+	packet << (int32_t)mes.getTargetPosition();
+	packet << mes.getTargetName();
+	/**COMMAND**/
+	packet << mes.getCommand();
+	/**DATA**/
+	int dataSize = (signed)mes.getData().getDataSize();
+	packet << (int32_t)dataSize;
+	int8_t* pByte = (int8_t*)mes.getData().getData();
+	for(int chard = 0; chard < dataSize; ++chard)
+	{
+		int8_t byte = pByte[chard];
+		packet << byte;
+	}
+	/**DELAY**/
+	packet << mes.getDelay();
+
+
+	this->sendUdp(Protocol::SpecialIoEvent, packet);
+}
+void Connection::recieveSpecialIo(sf::Packet& rPacket)
+{
+		int32_t pos;
+		std::string name;
+		std::string command;
+		int32_t size;
+		int8_t* pData;
+		sf::Packet messageData;
+		float delay;
+
+		/**TARGETS**/
+		rPacket >> pos;
+		rPacket >> name;
+		/**COMMAND**/
+		rPacket >> command;
+
+		/**DATA**/
+		rPacket >> size;
+		pData = new int8_t[size];
+		for(int chard = 0; chard < size; ++chard)
+		{
+			int8_t byte;
+			rPacket >> byte;
+			pData[chard] = byte;
+		}
+		messageData.append(pData, size);
+		/**DELAY**/
+		rPacket >> delay;
+
+
+		game.getUniverse().getUniverseIO().recieve(Message((unsigned int)pos, command, messageData, delay, false));
+		delete pData;
 }

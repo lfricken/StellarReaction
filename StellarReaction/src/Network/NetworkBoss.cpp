@@ -321,6 +321,10 @@ void NetworkBoss::tcpRecieve()
 						}
 						/**SET OUR DATA**/
 					}
+					else if(proto == Protocol::SpecialIoEvent)
+					{
+						m_connections.back()->recieveSpecialIo(data);
+					}
 					else
 						cout << "\n" << FILELINE << " [" << static_cast<int32_t>(proto) << "]";
 				}
@@ -462,9 +466,6 @@ void NetworkBoss::playerOption(sf::Packet& rData, BasePlayerTraits* pFrom)
 				pFrom->addModule(bpName, b2Vec2(0, 0));
 				pFrom->changeMoney(-cost);//TODO: another generic NetworkBoss update should trigger client to get thier new balance and module lists
 			}
-			cout << "\nHas [" << pFrom->getMoney() << "].";
-			cout << "\nCosted [" << cost << "].";
-			cout << "\nOwns [" << pFrom->getOwnedModuleTitles().size() << "].";
 		}
 		else
 			cout << FILELINE;
@@ -518,56 +519,6 @@ void NetworkBoss::playerOption(sf::Packet& rData, BasePlayerTraits* pFrom)
 				game.getUniverse().getUniverseIO().recieve(attach);
 			}
 		}
-	}
-	else if(command == "attachModule")//a player wants to attach a module from their inventory
-	{
-		string bpName;
-		rData >> bpName;
-		//get the offset for it
-		int32_t x;
-		int32_t y;
-		rData >> x;
-		rData >> y;
-
-		if(pFrom->removeModule(bpName))//if the user had that in their inventory
-		{//then we just removed it, and we should add it to thier ship
-			Controller* pCon = &game.getUniverse().getControllerFactory().getController(pFrom->getController());
-			std::string slaveName = pCon->getSlaveName();
-			Chunk* pTemp = game.getUniverse().getSlaveLocator().findHack(slaveName);
-			int targetPos = pTemp->m_io.getPosition();
-			sf::Packet pack;
-			pack << bpName;
-			pack << x;
-			pack << y;
-			Message attach((unsigned)targetPos, "attachModule", pack, 0, false);
-			attach.sendOverNW(true);
-			game.getUniverse().getUniverseIO().recieve(attach);
-		}
-	}
-	else if(command == "detachModule")//a player wants to detach a module from their inventory
-	{
-		////get the offset for it
-		//int32_t x;
-		//int32_t y;
-		//rData >> x;
-		//rData >> y;
-
-		//std::string slaveName = game.getUniverse().getControllerFactory().getController(pFrom->getController()).getSlaveName();
-		//Chunk* pTemp = game.getUniverse().getSlaveLocator().findHack(slaveName);
-		//std::string title = pTemp->hasModuleAt(b2Vec2(x, y));
-		//if(title != "")//if the user has a module at those coordinates..
-		//{
-		//	int targetPos = pTemp->m_io.getPosition();
-		//	sf::Packet pack;
-		//	pack << x;
-		//	pack << y;
-		//	Message detach((unsigned)targetPos, "detachModule", pack, 0, false);
-		//	detach.sendOverNW(true);
-		//	game.getUniverse().getUniverseIO().recieve(detach);
-		//	pFrom->addModule(title);//and add it back to their set of owned modules
-		//}
-		//else
-		//	cout << FILELINE;
 	}
 	else
 		cout << FILELINE << " [" << command << "].";

@@ -14,6 +14,7 @@ enum class Protocol//indicate which type of message it is
 	ReturnHandshake,//server recieves first packet from client
 	PlayerOption,//switch teams, choose ship
 	PlayerTraits,//values in the player traits
+	SpecialIoEvent,//an io message should be sent to 1 person
 
 	End,//end of protocol, or ignore this packet
 };
