@@ -1,3 +1,5 @@
+UniverseLevel IO manager gets its networkComponent in a bad position when the game resets
+
 module purchasing
 projectile storage
 Call Super in input() functions

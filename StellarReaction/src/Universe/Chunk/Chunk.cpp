@@ -35,7 +35,7 @@ Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp)
 	for(auto it = rData.moduleData.begin(); it != rData.moduleData.end(); ++it)
 		m_modules.push_back(sptr<Module>((*it)->generate(m_body.getBodyPtr(), myPools)));
 
-	m_slavePosition = game.getUniverse().getSlaveLocator().give(this);
+	m_slavePosition = m_rParent.getSlaveLocator().give(this);
 
 	//TODO - remove commented code
 	//QuadComponentData baseDecor;
@@ -79,6 +79,10 @@ Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp)
 	thrust_sound.setVolume(100);
 
 }
+Chunk::~Chunk()
+{
+	m_rParent.getSlaveLocator().free(m_slavePosition);
+}
 bool Chunk::allows(const b2Vec2& rGridPos)
 {
 	return (std::find(m_validOffsets.begin(), m_validOffsets.end(), rGridPos) != m_validOffsets.end());
@@ -96,10 +100,6 @@ void Chunk::add(const ModuleData& rData)
 	}
 	else
 		cout << FILELINE;
-}
-Chunk::~Chunk()
-{
-	game.getUniverse().getSlaveLocator().free(m_slavePosition);
 }
 void Chunk::prePhysUpdate()
 {
@@ -342,7 +342,7 @@ void Chunk::input(std::string rCommand, sf::Packet rData)
 		rData >> x;
 		rData >> y;
 
-		sptr<ModuleData> pNewModuleData = sptr<ModuleData>(game.getUniverse().getBlueprints().getModuleSPtr(bpName)->clone());
+		sptr<ModuleData> pNewModuleData = sptr<ModuleData>(m_rParent.getBlueprints().getModuleSPtr(bpName)->clone());
 		if(pNewModuleData != NULL)
 		{
 			pNewModuleData->fixComp.offset = b2Vec2(x, y);

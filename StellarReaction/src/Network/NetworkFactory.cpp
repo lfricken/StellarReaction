@@ -19,6 +19,11 @@ int NetworkFactory::give(NetworkComponent* pComponent)//we recieve a pointer to 
 {
 	int position;
 
+	if(this->m_name == "tcp")
+	{
+
+		cout << m_componentPtrs.size();
+	}
 
 	position = m_componentPtrs.size();
 	m_componentPtrs.resize(m_componentPtrs.size() + 1);//add one

@@ -11,7 +11,10 @@ IOManager::IOManager(bool acceptsLocalMessages, bool networked)
 {
 	m_networked = networked;
 	if(m_networked)
+	{
 		m_spNw = sptr<NetworkComponent>(new NetworkComponent(NetworkComponentData(), &IOManager::pack, &IOManager::unpack, this, game.getNwBoss().getNWFactoryTcp()));
+	}
+
 	m_acceptsLocal = acceptsLocalMessages;
 }
 IOManager::~IOManager()

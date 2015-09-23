@@ -99,9 +99,10 @@ struct ChunkData : public GameObjectData
 	std::vector<QuadComponentData> afterburnerSpriteData;
 	std::vector<QuadComponentData> afterburnerThrustSpriteData;
 
-	virtual Chunk* generate() const
+	virtual Chunk* generate(Universe* pParent) const
 	{
 		ChunkData copy(*this);
+		copy.pParent = pParent;
 		return new Chunk(copy);
 	}
 	virtual ChunkData* clone() const

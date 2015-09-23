@@ -1,5 +1,4 @@
-#ifndef GAMEOBJECT_HPP
-#define GAMEOBJECT_HPP
+#pragma once
 
 #include "Globals.hpp"
 #include "NetworkComponent.hpp"
@@ -8,12 +7,13 @@
 
 struct GameObjectData
 {
-	GameObjectData() :
+	GameObjectData() : 
 		ioComp(game.getUniverse().getUniverseIO()),
 		nwComp()
 	{
-
+		pParent = NULL;
 	}
+	Universe* pParent;
 	IOComponentData ioComp;
 	NetworkComponentData nwComp;
 };
@@ -40,8 +40,7 @@ protected:
 	virtual void pack(sf::Packet& rPacket) final;
 	virtual void unpack(sf::Packet& rPacket) final;
 
+	Universe& m_rParent;
 
 private:
 };
-
-#endif // GAMEOBJECT_HPP

@@ -464,7 +464,7 @@ void NetworkBoss::playerOption(sf::Packet& rData, BasePlayerTraits* pFrom)
 			if(pFrom->getMoney() >= cost)
 			{
 				pFrom->addModule(bpName, b2Vec2(0, 0));
-				pFrom->changeMoney(-cost);//TODO: another generic NetworkBoss update should trigger client to get thier new balance and module lists
+				pFrom->changeMoney(-cost);
 			}
 		}
 		else

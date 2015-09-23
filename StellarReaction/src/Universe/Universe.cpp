@@ -448,7 +448,7 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 					cout << "\n" << FILELINE;
 					///ERROR LOG
 				}
-				add(spCnk->generate());
+				add(spCnk->generate(this));
 			}
 		}
 	}
@@ -461,7 +461,7 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 		spCnk.reset(m_spBPLoader->getChunkSPtr(rShipTitleList[i])->clone());
 		spCnk->bodyComp.coords = m_spawnPoints[team][i];
 		spCnk->ioComp.name = std::to_string(i + 1);
-		add(spCnk->generate());
+		add(spCnk->generate(this));
 	}
 
 	game.getLocalPlayer().loadOverlay("overlayconfig");

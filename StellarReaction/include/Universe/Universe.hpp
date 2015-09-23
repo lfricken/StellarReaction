@@ -101,11 +101,6 @@ private:
 	IOComponent m_io;
 	float m_lastTime;//used for update method//cant use timer because timer references us!
 	bool m_debugDrawEnabled;
-
-
-	/**TIME**/
-
-	/**TIME**/
 };
 
 #endif // UNIVERSE_HPP

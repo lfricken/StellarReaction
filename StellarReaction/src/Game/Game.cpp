@@ -263,6 +263,7 @@ void Game::loadUniverse(const std::string& stuff)
 {
 	IOComponentData universeData(getCoreIO());
 	universeData.name = "universe";
+	m_spUniverse.reset();
 	m_spUniverse = sptr<Universe>(new Universe(universeData));
 	m_spUniverse->getUniverseIO().give(&*m_spIO);
 	if(game.getNwBoss().getNWState() == NWState::Client)
