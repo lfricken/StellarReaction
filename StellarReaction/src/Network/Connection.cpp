@@ -120,7 +120,7 @@ void Connection::sendSpecialIo(const Message& mes)
 	packet << mes.getDelay();
 
 
-	this->sendUdp(Protocol::SpecialIoEvent, packet);
+	this->sendTcp(Protocol::SpecialIoEvent, packet);
 }
 void Connection::recieveSpecialIo(sf::Packet& rPacket)
 {
@@ -151,7 +151,10 @@ void Connection::recieveSpecialIo(sf::Packet& rPacket)
 		/**DELAY**/
 		rPacket >> delay;
 
-
-		game.getUniverse().getUniverseIO().recieve(Message((unsigned int)pos, command, messageData, delay, false));
+		Message mes((unsigned int)pos, command, messageData, delay, false);
+		mes.setName(name);
+		game.getCoreIO().recieve(mes);
+		
+		
 		delete pData;
 }
