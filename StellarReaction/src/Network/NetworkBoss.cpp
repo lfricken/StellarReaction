@@ -470,6 +470,28 @@ void NetworkBoss::playerOption(sf::Packet& rData, BasePlayerTraits* pFrom)
 		else
 			cout << FILELINE;
 	}
+	else if(command == "addModule")
+	{
+		string bpName;
+		float x = 0;
+		float y = 0;
+		rData >> bpName;
+		rData >> x;
+		rData >> y;
+		//see if we can afford it
+		const ModuleData* pMod = game.getUniverse().getBlueprints().getModuleSPtr(bpName).get();
+		if(pMod != NULL)
+		{
+			Money cost = 0;
+			if(pFrom->getMoney() >= cost)
+			{
+				pFrom->addModule(bpName, b2Vec2(x, y));
+				pFrom->changeMoney(-cost);
+			}
+		}
+		else
+			cout << FILELINE;
+	}
 	else if(command == "rebuild")//a player wants to attach a module from their inventory
 	{
 		string bpName;
@@ -497,6 +519,7 @@ void NetworkBoss::playerOption(sf::Packet& rData, BasePlayerTraits* pFrom)
 			rData >> y;
 
 			bool canAdd = false;
+			//can we add this module?
 			for(auto it = available.begin(); it != available.end(); ++it)
 			{
 				if(it->first == bpName)

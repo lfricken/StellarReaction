@@ -4,18 +4,15 @@
 #include "Controller.hpp"
 #include "Overlay.hpp"
 #include "BlueprintLoader.hpp"
-
-//Evan - afterburner animation and sound
 #include "SoundManager.hpp"
-#include <SFML/Audio.hpp>
-
-//Evan - TODO - delete
 #include "Animation.hpp"
 
 using namespace std;
 
 Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp), m_zoomPool(rData.zoomData), m_energyPool(rData.energyData), m_ballisticPool(rData.ballisticData), m_missilePool(rData.missileData)
 {
+	m_wasThrusting = false;
+	m_wasBoosting = false;
 	m_timer.setCountDown(1);
 	m_timer.restartCountDown();
 	PoolCollection myPools;
@@ -26,25 +23,14 @@ Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp)
 
 	m_validOffsets = rData.validPos;
 
-	//TODO: remove this
-	for(float i = -5; i < 5; i+=0.5)
-		for(float j = -5; j < 5; j += 0.5)
-			m_validOffsets.push_back(b2Vec2(i, j));
-
 
 	for(auto it = rData.moduleData.begin(); it != rData.moduleData.end(); ++it)
 		m_modules.push_back(sptr<Module>((*it)->generate(m_body.getBodyPtr(), myPools)));
 
 	m_slavePosition = m_rParent.getSlaveLocator().give(this);
 
-	//TODO - remove commented code
-	//QuadComponentData baseDecor;
-	//baseDecor.texName = "ship1.png";
-	//m_decors.resize(1);
 
-	//Evan -  
-	//add a quadcomponent to m_decors. QuadComponent's are rendered automatically. m_decors will be re-positioned every post-physics-update
-	//Evan - add hull, afterburner and afterburner_thrust
+
 	hull = sptr<GraphicsComponent>(new QuadComponent(rData.hullSpriteData));
 	hull->setPosition(m_body.getPosition());
 	hull->setRotation(m_body.getBodyPtr()->GetAngle());
@@ -60,24 +46,8 @@ Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp)
 		sptr<GraphicsComponent> temp = sptr<GraphicsComponent>(new QuadComponent(*it));
 		temp->setPosition(m_body.getPosition());
 		temp->setRotation(m_body.getBodyPtr()->GetAngle());
-		afterburners_thrust.push_back(temp);
+		afterburners_boost.push_back(temp);
 	}
-
-	//Evan - afterburner animation
-	keyUpIsdown = false;
-	keyShiftIsdown = false;
-
-	//Evan - afterburner sound
-	buffer.loadFromFile(contentDir() + "audio/afterb1.wav");
-	afterb_sound.setBuffer(buffer);
-	afterb_sound.setLoop(true);
-	afterb_sound.setVolume(60);
-
-	thrust_buffer.loadFromFile(contentDir() + "audio/afterb2.wav");
-	thrust_sound.setBuffer(thrust_buffer);
-	thrust_sound.setLoop(true);
-	thrust_sound.setVolume(100);
-
 }
 Chunk::~Chunk()
 {
@@ -122,21 +92,16 @@ void Chunk::postPhysUpdate()
 		(*it)->setPosition(m_body.getPosition());
 		(*it)->setRotation(m_body.getBodyPtr()->GetAngle());
 	}
-	for(auto it = afterburners_thrust.begin(); it != afterburners_thrust.end(); ++it)
+	for(auto it = afterburners_boost.begin(); it != afterburners_boost.end(); ++it)
 	{
 		(*it)->setPosition(m_body.getPosition());
 		(*it)->setRotation(m_body.getBodyPtr()->GetAngle());
 	}
-
-
-
 }
 const std::string& Chunk::getName() const
 {
 	return m_io.getName();
 }
-
-
 void Chunk::setAim(const b2Vec2& world)//send our aim coordinates
 {
 	for(auto it = m_modules.begin(); it != m_modules.end(); ++it)
@@ -169,105 +134,29 @@ void Chunk::directive(std::map<Directive, bool>& rIssues, bool local)//send comm
 		}
 	}
 
-	//Evan - key press 'up' results in afterburner anim
-	//TODO - leon needs to make chunk vars available to thruster module (need to set anim for hull etc)
-	bool upKeyPressed = rIssues[Directive::Up];
-	bool shiftKeyPressed = rIssues[Directive::Boost];
-	if(upKeyPressed)
-	{
-		if(!keyUpIsdown)
-		{
-			hull->getAnimator().setAnimation("AfterBurner", .35f);
-			for(auto it = afterburners.begin(); it != afterburners.end(); ++it)
-			{
-				(*it)->getAnimator().setAnimation("AfterBurner", .20f);
-			}
-		}
-	}
-	else
-	{
-		if(keyUpIsdown)
-		{
-			hull->getAnimator().setAnimation("Default", .20f);
-			for(auto it = afterburners.begin(); it != afterburners.end(); ++it)
-			{
-				(*it)->getAnimator().setAnimation("Default", .20f);
-			}
-		}
-	}
+	bool startThrusting = (rIssues[Directive::Up] && !m_wasThrusting);
+	bool startBoosting = (rIssues[Directive::Up] && rIssues[Directive::Boost] && !m_wasBoosting);
 
-	//Evan - enable thruster anim on shift key press
-	if(shiftKeyPressed && upKeyPressed)
-	{
-		if(!keyShiftIsdown || !keyUpIsdown)
-		{
+	if(startThrusting)
+		for(auto it = afterburners.begin(); it != afterburners.end(); ++it)
+			(*it)->getAnimator().setAnimation("Thrust", 0.20f);
 
-			for(auto it = afterburners.begin(); it != afterburners.end(); ++it)
-			{
-				(*it)->getAnimator().setAnimation("Default", .20f);
-			}
-			for(auto it = afterburners_thrust.begin(); it != afterburners_thrust.end(); ++it)
-			{
-				(*it)->getAnimator().setAnimation("Thrust", .20f);
-			}
-
-			//add velocity to ship - add to thruster anim
-			thrust_sound.play();
-		}
-	}
-	else
-	{
-		if(keyShiftIsdown)
-		{
-
-			for(auto it = afterburners_thrust.begin(); it != afterburners_thrust.end(); ++it)
-			{
-				(*it)->getAnimator().setAnimation("Default", .20f);
-			}
-
-			if(upKeyPressed)
-			{
-				for(auto it = afterburners.begin(); it != afterburners.end(); ++it)
-				{
-					(*it)->getAnimator().setAnimation("AfterBurner", .20f);
-				}
-			}
-			thrust_sound.stop();
-		}
-	}
-
-	//Evan - W key events (afterburner anim and sound)	
-	//= sf::Keyboard::isKeyPressed(sf::Keyboard::W);
-	if(upKeyPressed)
-	{
-		if(!keyUpIsdown)
-		{
-			//start afterburner sound
-			//game.getSound().playSound("afterb1.wav"); // , 100, 15.f, 0.f, new b2Vec2(0, 0), false);
-			afterb_sound.play();
-		}
-	}
-	else
-	{
-		//stop afterburner sound
-		if(keyUpIsdown)
-		{
-			afterb_sound.stop();
-		}
-	}
+	if(startBoosting)
+		for(auto it = afterburners_boost.begin(); it != afterburners_boost.end(); ++it)
+			(*it)->getAnimator().setAnimation("Boost", 0.20f);
 
 
-	//Evan - set keyDown
-	//used to trigger that should only happen once when key is pressed and once when key is released
-	if(upKeyPressed)
-		keyUpIsdown = true;
-	else
-		keyUpIsdown = false;
 
-	if(shiftKeyPressed)
-		keyShiftIsdown = true;
-	else
-		keyShiftIsdown = false;
+	if(!rIssues[Directive::Up])
+		for(auto it = afterburners.begin(); it != afterburners.end(); ++it)
+			(*it)->getAnimator().setAnimation("Default", 1.0f);
+
+	if(!rIssues[Directive::Up] || !rIssues[Directive::Boost])
+		for(auto it = afterburners_boost.begin(); it != afterburners_boost.end(); ++it)
+			(*it)->getAnimator().setAnimation("Default", 1.0f);
+
+	m_wasThrusting = rIssues[Directive::Up];
+	m_wasBoosting = (rIssues[Directive::Up] && rIssues[Directive::Boost]);
 }
 float Chunk::get(Request value) const//return the requested value
 {
@@ -317,6 +206,19 @@ std::string Chunk::hasModuleAt(const b2Vec2 offset) const
 		if(offset == (*it)->getOffset())
 			return (*it)->getTitle();
 	return "";
+}
+/// <summary>
+/// List of module BP names and 
+/// </summary>
+std::vector<std::pair<std::string, b2Vec2> > Chunk::getModules() const
+{
+	std::vector<std::pair<std::string, b2Vec2> > list;
+	for(auto it = m_modules.cbegin(); it != m_modules.cend(); ++it)
+	{
+		cout << "\nChunk: " << (*it)->getOffset().x << (*it)->getOffset().y;
+		list.push_back(std::pair<std::string, b2Vec2>((*it)->getTitle(), b2Vec2((*it)->getOffset())));
+	}
+	return list;
 }
 b2Body* Chunk::getBodyPtr()
 {

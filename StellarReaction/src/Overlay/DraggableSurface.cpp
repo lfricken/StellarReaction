@@ -80,7 +80,7 @@ bool DraggableSurface::inputHook(const std::string rCommand, sf::Packet rData)
 		{
 			pack << it->first;
 			float x = (float)((it->second.x / m_gridSize.x) - 5);
-			float y = (float)-((it->second.y / m_gridSize.y) - 5);//negative for 
+			float y = (float)-((it->second.y / m_gridSize.y) - 5);//negative
 			pack << x;
 			pack << y;
 		}
@@ -93,19 +93,21 @@ bool DraggableSurface::inputHook(const std::string rCommand, sf::Packet rData)
 	else if(rCommand == "addItem")
 	{
 		string title;
-		int32_t x;
-		int32_t y;
+		float x;
+		float y;
 
 		rData >> title;
 		rData >> x;
 		rData >> y;
+
+		cout << "\nAddItem: " << x << y;
 
 		sptr<ShipModuleData> pNewModuleData = sptr<ShipModuleData>(dynamic_cast<ShipModuleData*>(game.getUniverse().getBlueprints().getModuleSPtr(title)->clone()));
 
 		DraggableData draggable;
 		draggable.metaData = title;
 		draggable.icon.texName = pNewModuleData->baseDecor.texName;
-		draggable.gridPosition = sf::Vector2f(x, y);
+		draggable.gridPosition = sf::Vector2f((x + 5), (y + 5));
 
 		this->addDraggable(draggable);
 

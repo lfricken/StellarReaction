@@ -37,13 +37,13 @@ public:
 	float get(Request value) const;//return the requested value
 	b2Body* getBodyPtr();
 	std::string hasModuleAt(const b2Vec2 offset) const;
+	std::vector<std::pair<std::string, b2Vec2> > getModules() const;
 
 protected:
 	virtual void input(std::string rCommand, sf::Packet rData);
 	bool allows(const b2Vec2& rGridPos);
 
 private:
-
 	Pool<Ballistic> m_ballisticPool;
 	Pool<Missiles> m_missilePool;
 	Pool<Energy> m_energyPool;
@@ -58,17 +58,10 @@ private:
 
 	//Evan - sprites for hull, afterburner, afterburner_thrust. need to set anims and anim speed individually
 	sptr<GraphicsComponent> hull;
-	std::vector<sptr<GraphicsComponent>> afterburners;
-	std::vector<sptr<GraphicsComponent>> afterburners_thrust;
-
-	//Evan - keyDown var is for afterb anim and sound
-	bool keyShiftIsdown;
-	bool keyUpIsdown;
-	sf::SoundBuffer buffer;
-	sf::Sound afterb_sound;
-	
-	sf::SoundBuffer thrust_buffer;
-	sf::Sound thrust_sound;
+	bool m_wasThrusting;
+	std::vector<sptr<GraphicsComponent> > afterburners;
+	bool m_wasBoosting;
+	std::vector<sptr<GraphicsComponent> > afterburners_boost;
 };
 
 
@@ -81,6 +74,11 @@ struct ChunkData : public GameObjectData
 		zoomData.startMin = 1;
 		zoomData.startValue = 1;
 		zoomData.startMax = 128;
+
+		//TODO: for accepting
+		for(float i = -5; i < 5; i += 0.5)
+			for(float j = -5; j < 5; j += 0.5)
+				validPos.push_back(b2Vec2(i, j));
 
 	}
 
@@ -98,6 +96,7 @@ struct ChunkData : public GameObjectData
 	QuadComponentData hullSpriteData;
 	std::vector<QuadComponentData> afterburnerSpriteData;
 	std::vector<QuadComponentData> afterburnerThrustSpriteData;
+
 
 	virtual Chunk* generate(Universe* pParent) const
 	{

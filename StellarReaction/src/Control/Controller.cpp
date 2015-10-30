@@ -31,6 +31,10 @@ const std::string& Controller::getSlaveName() const
 {
 	return m_slaveName;
 }
+Chunk* Controller::getSlave() const
+{
+	return game.getUniverse().getSlaveLocator().find(m_slavePosition);
+}
 IOComponent& Controller::getIOComp()
 {
 	return m_io;

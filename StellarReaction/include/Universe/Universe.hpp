@@ -68,6 +68,8 @@ protected:
 	void input(std::string rCommand, sf::Packet rData);
 
 private:
+	void setupBackground();
+
 	/**SLEEP**/
 	std::vector<b2Vec2> m_beds;
 	int m_inc;

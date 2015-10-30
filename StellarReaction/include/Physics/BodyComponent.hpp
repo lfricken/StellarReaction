@@ -12,8 +12,8 @@ struct BodyComponentData
 		isDynamic(true),
 		isBullet(false),
 		startAwake(true),
-		linearDampening(0.5),
-		angularDampening(0.5),
+		linearDampening(1.5),
+		angularDampening(1.5),
 		nwComp()
 	{
 

@@ -38,29 +38,17 @@
         255
     ],
     "StartSound": {
-        "name": "",
-        "vol": 100,
-        "dropOff": 105,
-        "minDist": 5,
-        "relative": false
+        "name": ""
     },
     "ShotSound": {
-        "name": "laser1.wav",
-        "vol": 100,
-        "dropOff": 105,
-        "minDist": 5,
-        "relative": false
+        "name": "laser1.wav"
     },
     "EndSound": {
-        "name": "",
-        "vol": 100,
-        "dropOff": 105,
-        "minDist": 5,
-        "relative": false
+        "name": ""
     },
-    "EnergyConsumption": 20,
-    "Damage": 200,
-    "Shots": 10,
+    "EnergyConsumption": 10,
+    "Damage": 250,
+    "Shots": 6,
 	"WeaponSprite": {
         "texName": "weapons/raven_laser1.png",
         "animSheetName": "weapons/raven_laser1.acfg",

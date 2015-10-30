@@ -2,7 +2,7 @@
     "ClassName": "Reactor",
 	"Title": "DefaultReactor",
     "Inherits": "DefaultShipModule",
-	"EnergyProduction": 20,
+	"EnergyProduction": 10,
     "BaseSprite": {
         "texName": "reactor/reactor_base.png",
         "animSheetName": "reactor/reactor_base.acfg"

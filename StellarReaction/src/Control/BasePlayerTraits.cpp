@@ -65,8 +65,8 @@ void BasePlayerTraits::addModule(const std::string& newTitle, const b2Vec2& rPos
 	m_owned.push_back(pair<string, b2Vec2>(newTitle, rPos));
 	sf::Packet pack;
 	pack << newTitle;
-	pack << (int32_t)rPos.x;
-	pack << (int32_t)rPos.y;
+	pack << (float)rPos.x;
+	pack << (float)rPos.y;
 	Message modAdded("ship_editor", "addItem", pack, 0.f, false);
 	game.getCoreIO().recieve(modAdded);
 }

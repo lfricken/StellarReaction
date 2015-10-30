@@ -7,7 +7,7 @@
 #include "Universe.hpp"
 #include "NetworkComponent.hpp"
 
-class Slave;
+class Chunk;
 
 enum class Directive
 {
@@ -83,6 +83,7 @@ public:
 	/**GETTERS**/
 	const std::string& getPlayerName() const;
 	const std::string& getSlaveName() const;
+	Chunk* getSlave() const;
 	const b2Vec2& getAim() const;
 	float get(Request value);//return the requested value
 	b2Body* getBodyPtr();//return our chunk body if we have one

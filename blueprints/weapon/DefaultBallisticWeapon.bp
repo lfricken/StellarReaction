@@ -3,29 +3,17 @@
     "Title": "DefaultBallisticWeapon",
 
     "StartSound": {
-        "name": "",
-        "vol": 100,
-        "dropOff": 150,
-        "minDist": 5,
-        "relative": false
+        "name": ""
     },
     "ShotSound": {
-        "name": "default.wav",
-        "vol": 100,
-        "dropOff": 150,
-        "minDist": 5,
-        "relative": false
+        "name": "default.wav"
     },
     "EndSound": {
-        "name": "",
-        "vol": 100,
-        "dropOff": 150,
-        "minDist": 5,
-        "relative": false
+        "name": ""
     },
 	"ProjectileName": "DefaultProjectile",
     "EnergyConsumption": 1,
-    "Damage": 1000,
+    "Damage": 400,
     "Shots": 1,
 	"Collisions": 1
 }

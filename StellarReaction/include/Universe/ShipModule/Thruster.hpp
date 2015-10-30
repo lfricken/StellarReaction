@@ -29,6 +29,9 @@ private:
 	float m_force;
 	float m_torque;
 
+	float m_boostThrust;
+	float m_boostCost;
+
 	b2Vec2 m_forceVec;//the force vector this tick?
 	bool m_isCCW;//do we go CCW this tick?
 };
@@ -37,6 +40,8 @@ private:
 struct ThrusterData : public ShipModuleData
 {
 	ThrusterData() :
+		boostThrustMult(3),
+		boostCostMult(40),
 		energyConsumption(5),
 		force(1),
 		torque(1)
@@ -45,6 +50,8 @@ struct ThrusterData : public ShipModuleData
 		baseDecor.animSheetName = "thruster/thruster_base.acfg";
 	}
 
+	float boostThrustMult;
+	float boostCostMult;
 	float energyConsumption;// how much energy per second to consume
 	float force;// strength
 	float torque;// torque

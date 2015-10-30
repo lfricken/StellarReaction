@@ -5,7 +5,7 @@ namespace leon
 {
 	const int volume = 100;
 	const float dist = 5;
-	const int drop = 50;
+	const int drop = 30;
 	const b2Vec2 dPos(1,0);
 }
 
@@ -22,14 +22,19 @@ struct SoundData
 		dropOff = leon::drop;
 		pos = leon::dPos;
 		relative = false;
+		shouldLoop = false;
 	}
 
 	std::string name;
 	int vol;
+
 	float minDist;
 	float dropOff;
-	b2Vec2 pos;
+
 	bool relative;
+	bool shouldLoop;
+
+	b2Vec2 pos;
 };
 
 #endif // SOUNDDATA_HPP

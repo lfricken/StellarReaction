@@ -20,7 +20,9 @@ public:
 	virtual void postPhysUpdate();
 	virtual void directive(std::map<Directive, bool>& rIssues);
 	virtual void setAim(const b2Vec2& rTarget);
-
+	/// <summary>
+	/// What store is the module intersecting?
+	/// </summary>
 	const std::string& getStore() const;
 	const b2Vec2& getOffset() const;
 	const std::string& getTitle() const;

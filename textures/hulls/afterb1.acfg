@@ -19,7 +19,7 @@
         },
         {
             "comment": "this is the state we go into if we start doing something special",
-            "state": "AfterBurner",
+            "state": "Thrust",
             "repeats": true,
             "tileList": [
                 {
@@ -71,30 +71,6 @@
             "tileList": [
                 {
                     "x": 3,
-                    "y": 0,
-                    "t": 1
-                }
-            ]
-        },
-        {
-            "comment": "This is what we do if we have been damaged (classified as <50% health as of 8/14/2014)",
-            "state": "Damaged",
-            "repeats": false,
-            "tileList": [
-                {
-                    "x": 1,
-                    "y": 0,
-                    "t": 1
-                }
-            ]
-        },
-        {
-            "comment": "We have been destroyed",
-            "state": "Destroyed",
-            "repeats": false,
-            "tileList": [
-                {
-                    "x": 2,
                     "y": 0,
                     "t": 1
                 }

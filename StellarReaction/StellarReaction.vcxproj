@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Audio\Sound.cpp" />
     <ClCompile Include="src\Overlay\DragUpdater.cpp" />
     <ClCompile Include="src\Overlay\DragComponent.cpp" />
     <ClCompile Include="src\Overlay\Draggable.cpp" />
@@ -403,6 +404,7 @@
     <ClInclude Include="include\Overlay\NetworkedSelection.hpp" />
     <ClInclude Include="include\Overlay\SelectableItem.hpp" />
     <ClInclude Include="include\Overlay\DraggableSurface.hpp" />
+    <ClInclude Include="include\Audio\Sound.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\API\SFML\Graphics\Rect.inl" />

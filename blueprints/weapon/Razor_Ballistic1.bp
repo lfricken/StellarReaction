@@ -3,29 +3,17 @@
     "Title": "Razor_Ballistic1",
 
     "StartSound": {
-        "name": "",
-        "vol": 100,
-        "dropOff": 150,
-        "minDist": 5,
-        "relative": false
+        "name": ""
     },
     "ShotSound": {
-        "name": "razor_ballistic1.wav",
-        "vol": 100,
-        "dropOff": 150,
-        "minDist": 5,
-        "relative": false
+        "name": "razor_ballistic1.wav"
     },
     "EndSound": {
-        "name": "",
-        "vol": 100,
-        "dropOff": 150,
-        "minDist": 5,
-        "relative": false
+        "name": ""
     },
 	"ProjectileName": "DefaultProjectile",
     "EnergyConsumption": 1,
-    "Damage": 1000,
+    "Damage": 400,
     "Shots": 1,
 	"Collisions": 1,
 	"WeaponSprite": {

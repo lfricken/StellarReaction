@@ -234,32 +234,9 @@ void Universe::loadBlueprints(const std::string& bpDir)//loads blueprints
 {
 	m_spBPLoader->storeRoster(bpDir);
 }
-/// <summary>
-/// Loads the level.
-/// </summary>
-void Universe::loadLevel(const std::string& levelDir, int localController, const std::string& bluePrints, const std::vector<std::string>& rControllerList, const std::vector<std::string>& rShipTitleList, const std::vector<int>& teams)//loads a level using blueprints
+void Universe::setupBackground()
 {
-	loadBlueprints(bluePrints);
-
-	string configFile = "level.lcfg";
-	string modDir = "mods/";
-
-	ifstream level(contentDir() + levelDir + configFile, std::ifstream::binary);
-	Json::Reader reader;
-	Json::Value root;
-	bool parsedSuccess = reader.parse(level, root, false);
-
-
-	//TODO - handle zoom of 100 - note - 'sparkling' happens after zoom 20
-	//TODO - have data know how many it needs to move over
-	//DecorQuadData data;
-	//data.ioComp.name = "decorTest";
-	//data.movementScale = 1;
-	//DecorQuad* t = new DecorQuad(data);
-	//add(t);
-	//data.initPosition = b2Vec2(1, 1);
-
-	float height = 6 * 2400.0f; float width = 6 * 2400.0f; //these have to be floats
+	const float height = 6 * 2400.0f; float width = 6 * 2400.0f; //these have to be floats
 
 	QuadComponentData rData;
 	//nearest
@@ -303,24 +280,20 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 	data4.quadComp = rData;
 	data4.dimensions = b2Vec2(width / 4, height / 4);
 
-	//DecorQuad* t2 = new DecorQuad(data);
-	//t2->setPosition(b2Vec2(-10000, -10000)); //doesn't work
-	//game.getLocalPlayer().getCamera().getView().getSize().x;
 
+	const int startPosX = game.getLocalPlayer().getCamera().getView().getCenter().x - 20000;
+	const int endPosX = game.getLocalPlayer().getCamera().getView().getCenter().x + 20000;
+	const int startPosY = game.getLocalPlayer().getCamera().getView().getCenter().y + 10000;
+	const int endPosY = game.getLocalPlayer().getCamera().getView().getCenter().y - 10000;
 
-	int startPosX = game.getLocalPlayer().getCamera().getView().getCenter().x - 20000;
-	int endPosX = game.getLocalPlayer().getCamera().getView().getCenter().x + 20000;
-	int startPosY = game.getLocalPlayer().getCamera().getView().getCenter().y + 10000;
-	int endPosY = game.getLocalPlayer().getCamera().getView().getCenter().y - 10000;
-	//cout << endl << game.getLocalPlayer().getCamera().getView().getSize().x; //if you want size of camera
 	b2Vec2 startPos = leon::sfTob2(b2Vec2(startPosX, startPosY));
 	b2Vec2 endPos = leon::sfTob2(b2Vec2(endPosX, endPosY));
 
 	//for square in screen region, add one of these
 	//one world unit is 256
 	//did the below by hand
-	int tilesX = 11;
-	int tilesY = 8;
+	const int tilesX = 11;
+	const int tilesY = 8;
 
 	DecorQuad* temp;
 	for(int i = 0; i < tilesX; i++)
@@ -330,14 +303,11 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 			//nearest 
 			if(i < 3 && j < 3)
 			{
-				//cout << "add at x: " << startPos.x + (i*height) / scale << endl;
-				//cout << "add at y: " << startPos.y + (j*width) / scale << endl;
 				data.initPosition = b2Vec2(startPos.x + (i*height) / scale, startPos.y + (j*width) / scale);
 				data.num_in_layer = b2Vec2(3, 3);
 				temp = new DecorQuad(data);
 				add(temp);
 			}
-
 			//second nearest
 			if(i < 6 && j < 4)
 			{
@@ -346,7 +316,6 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 				temp = new DecorQuad(data2);
 				add(temp);
 			}
-
 			//third nearest
 			if(i < 9 && j < 6)
 			{
@@ -355,7 +324,6 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 				temp = new DecorQuad(data3);
 				add(temp);
 			}
-
 			//fourth nearest
 			if(i < 11 && j < 8)
 			{
@@ -364,7 +332,6 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 				temp = new DecorQuad(data4);
 				add(temp);
 			}
-
 		}
 	}
 
@@ -374,18 +341,37 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 	bg_data.movementScale = 0;
 	rData.dimensions.x = 2400;
 	rData.dimensions.y = 1200;
-	//rData.center = sf::Vector2f(600,600);
+
 	rData.texName = "backgrounds/bg6.png";
 	rData.animSheetName = "backgrounds/bg1.acfg";
 	rData.layer = GraphicsLayer::BackgroundUnmoving1;
 	bg_data.quadComp = rData;
 	bg_data.dimensions = b2Vec2(1200, 1200);
-	int pixelsX = game.getWindow().getDefaultView().getSize().x / 2;
-	int pixelsY = game.getWindow().getDefaultView().getSize().y / 2;
+	const int pixelsX = game.getWindow().getDefaultView().getSize().x / 2;
+	const int pixelsY = game.getWindow().getDefaultView().getSize().y / 2;
 	bg_data.initPosition = b2Vec2(pixelsX / static_cast<float>(scale), -pixelsY / static_cast<float>(scale));
 	bg_data.num_in_layer = b2Vec2(100, 100);
 	temp = new DecorQuad(bg_data);
 	add(temp);
+}
+
+/// <summary>
+/// Loads the level.
+/// </summary>
+void Universe::loadLevel(const std::string& levelDir, int localController, const std::string& bluePrints, const std::vector<std::string>& rControllerList, const std::vector<std::string>& rShipTitleList, const std::vector<int>& teams)//loads a level using blueprints
+{
+	loadBlueprints(bluePrints);
+
+	string configFile = "level.lcfg";
+	string modDir = "mods/";
+
+	ifstream level(contentDir() + levelDir + configFile, std::ifstream::binary);
+	Json::Reader reader;
+	Json::Value root;
+	bool parsedSuccess = reader.parse(level, root, false);
+
+
+	setupBackground();
 
 	if(!parsedSuccess)
 	{
@@ -469,6 +455,30 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 	/**CONTROL**/
 	m_spControlFactory->resetControllers(rControllerList);
 	game.getLocalPlayer().setController(localController);
+
+
+	/**LOAD MY CURRENT SHIP INTO STORE**/
+	Controller* pController = &this->getControllerFactory().getController(localController);
+	Chunk* pCnk = pController->getSlave();
+	if(pCnk != NULL)
+	{
+		auto list = pCnk->getModules();
+		for(auto it = list.cbegin(); it != list.cend(); ++it)
+		{
+			cout << "\nUniverse: " << it->second.x << it->second.y;
+			sf::Packet pack;
+			pack << "addModule";
+			pack << it->first;
+			pack << (float)it->second.x;
+			pack << (float)it->second.y;
+
+
+			Message mes("networkboss", "sendTcpToHost", pack, 0, false);
+			game.getCoreIO().recieve(mes);
+		}
+	}
+	else
+		std::cout << "\nNo slave! " << FILELINE;
 }
 void Universe::add(sptr<GameObject> spGO)
 {

@@ -37,6 +37,9 @@ int Health::getMaxHealth() const
 {
 	return getMax();
 }
+/// <summary>
+/// Value between 0 and 1;
+/// </summary>
 float Health::getHealthPercent() const
 {
 	if(getMaxHealth() > 0)
