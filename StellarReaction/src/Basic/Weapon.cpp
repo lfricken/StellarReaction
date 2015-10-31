@@ -17,7 +17,7 @@ Weapon::Weapon(const WeaponData& rData) : m_decor(rData.weaponQuad)
 	m_ballistic = rData.ball;
 	m_missiles = rData.mis;
 
-	m_range = rData.range;
+	m_range = rData.range * sizeScalingFactor;
 	m_damage = rData.damage;
 	m_shots = rData.shots;
 	m_shotsRemain = 0;

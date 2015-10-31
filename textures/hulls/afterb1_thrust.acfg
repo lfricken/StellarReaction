@@ -1,0 +1,93 @@
+{
+    "texTileSize": [
+        800,
+        3000
+    ],
+    "stateList": [
+        {
+            "comment": "The default state is the state we are normally in",
+			"comment2": "the t represents the %of time we will spend on that tile",
+            "state": "Default",
+            "repeats": true,
+            "tileList": [
+				{
+                    "x": 8,
+                    "y": 1,
+                    "t": 1.0
+                }
+            ]
+        },
+        {
+            "comment": "The default state is the state we are normally in",
+			"comment2": "the t represents the %of time we will spend on that tile",
+            "state": "Thrust",
+            "repeats": true,
+            "tileList": [
+				{
+                    "x": 8,
+                    "y": 1,
+                    "t": 1.0
+                }
+            ]
+        },
+        {
+            "comment": "this is the state we go into if we start doing something special",
+            "state": "Boost",
+            "repeats": true,
+            "tileList": [
+                {
+                    "x": 0,
+                    "y": 0,
+                    "t": 0.125
+                },
+                {
+                    "x": 1,
+                    "y": 0,
+                    "t": 0.125
+                },
+                {
+                    "x": 2,
+                    "y": 0,
+                    "t": 0.125
+                },
+                {
+                    "x": 3,
+                    "y": 0,
+                    "t": 0.125
+                },
+                {
+                    "x": 4,
+                    "y": 0,
+                    "t": 0.125
+                },
+                {
+                    "x": 5,
+                    "y": 0,
+                    "t": 0.125
+                },
+                {
+                    "x": 6,
+                    "y": 0,
+                    "t": 0.125
+                },
+                {
+                    "x": 7,
+                    "y": 0,
+                    "t": 0.125
+                }
+            ]
+        },
+        {
+            "comment": "This is the state we go into if we are told to go into a state we dont have (always have this for all acfg files",
+            "state": "Error",
+            "repeats": true,
+            "tileList": [
+                {
+                    "x": 8,
+                    "y": 0,
+                    "t": 1
+                }
+            ]
+        }
+    ]
+}

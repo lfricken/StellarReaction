@@ -1,5 +1,4 @@
-#ifndef WIDGETBASE_H
-#define WIDGETBASE_H
+#pragma once
 
 #include "stdafx.hpp"
 #include "Globals.hpp"
@@ -12,8 +11,9 @@ namespace leon
 		WidgetBaseData() :
 			startHidden(false),
 			configFile("TGUI/widgets/Black.conf"),
-			screenCoords(game.getWindow().getSize().x / 2, game.getWindow().getSize().y / 2),
+			screenCoords(5, 5),
 			size(128, 64),
+			transparency(255),
 			ioComp(game.getCoreIO())
 		{
 		}
@@ -21,6 +21,7 @@ namespace leon
 		std::string configFile;/**TGUI config file**/
 		sf::Vector2f screenCoords;/**upper left corner**/
 		sf::Vector2f size;/**pixels**/
+		unsigned char transparency;
 
 		IOComponentData ioComp;
 	};
@@ -31,28 +32,51 @@ namespace leon
 		WidgetBase(const WidgetBaseData& rData);
 		virtual ~WidgetBase();
 
-		virtual void enable() final;
-		virtual void disable() final;
-		virtual void show() final;
-		virtual void hide() final;
+		void enable();
+		void disable();
+		void show();
+		void hide();
+		
+		void toggleHidden(bool hidden);
+		void toggleEnabled(bool enabled);
 
-		virtual void toggleHidden(bool hidden) final;
-		virtual void toggleEnabled(bool enabled) final;
+		virtual void setPosition(const sf::Vector2f& newPos);
+		virtual const sf::Vector2f& getPosition() const;
 
 	protected:
-		virtual void input(const std::string rCommand, sf::Packet rData);
+		IOComponent m_io;
 		void f_assign(tgui::Widget* pWidget);//must assign m_pWidget to something!
 
-		virtual void f_callback(const tgui::Callback& callback);
-		virtual void f_MouseEntered();
-		virtual void f_MouseLeft();
-		virtual void f_LeftMouseClicked();
-		virtual void f_trigger();
 
-		IOComponent m_io;
+		/**events**/
+		void f_MouseEntered();
+		void f_MouseLeft();
+		void f_LeftMouseClicked();
+		void f_LeftMousePressed();
+		void f_LeftMouseReleased();
+
+		void f_trigger();
+
+
+
+		/**events HOOKS**/
+		virtual bool inputHook(const std::string rCommand, sf::Packet rData);
+		virtual bool callbackHook(const tgui::Callback& callback);
+
+		virtual void mouseEnteredHook(sf::Packet& rPack);
+		virtual void mouseLeftHook(sf::Packet& rPack);
+		virtual void mouseClickedHook(sf::Packet& rPack);
+		virtual void leftMousePressedHook(sf::Packet& rPack);
+		virtual void leftMouseReleasedHook(sf::Packet& rPack);
+
+		virtual void triggerHook(sf::Packet& rPack);
+
 	private:
+		void input(const std::string rCommand, sf::Packet rData);
+		void f_callback(const tgui::Callback& callback);
+
 		bool m_startHidden;
 		tgui::Widget* m_pWidget;
+		unsigned char m_tempTransparency;
 	};
 }
-#endif // WIDGETBASE_H

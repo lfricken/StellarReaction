@@ -1,5 +1,4 @@
-#ifndef BUTTON_H
-#define BUTTON_H
+#pragma once
 
 #include "WidgetBase.hpp"
 
@@ -24,18 +23,12 @@ namespace leon
 		Button(tgui::Container& container, const ButtonData& data);
 		virtual ~Button();
 
-
-
 	protected:
-		virtual void input(const std::string rCommand, sf::Packet rData) final;
-
-		virtual void f_callback(const tgui::Callback& callback);
-		virtual void f_trigger();
+		tgui::Button::Ptr m_pButton;//pointer to our button in the gui
+		virtual bool callbackHook(const tgui::Callback& callback) final;
+		virtual bool callbackHook2(const tgui::Callback& callback);
 
 	private:
-		virtual void f_initialize(const ButtonData& data);
-
-		tgui::Button::Ptr m_pButton;//pointer to our button in the gui
+		void f_initialize(const ButtonData& data);
 	};
 }
-#endif // BUTTON_H

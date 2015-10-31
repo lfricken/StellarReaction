@@ -4,6 +4,7 @@
 #include "TextureAllocator.hpp"
 #include "AnimAlloc.hpp"
 #include "SoundManager.hpp"
+#include "DragUpdater.hpp"
 
 #include "BatchLayers.hpp"
 #include "GraphicsComponentUpdater.hpp"
@@ -33,7 +34,9 @@ Game::Game()
 {
 	srand(time(NULL));
 
-	loadWindow("window.ini");
+	m_spDragUpdater = sptr<DragUpdater>(new DragUpdater());
+
+	loadWindow(contentDir() + "window.ini");
 
 	m_sampleClock = 0;
 	m_sampleFreq = 40;
@@ -50,7 +53,7 @@ Game::Game()
 	m_spOverlay = sptr<Overlay>(new Overlay(overlayData));
 	m_spOverlay->loadMenus();
 
-	loadPlayer("settings/GeneralSettings.cfg");
+	loadPlayer(contentDir() + "settings/GeneralSettings.cfg");
 
 	/**== GAME IO COMPONENT ==**/
 	IOComponentData gameData(getCoreIO());
@@ -118,6 +121,10 @@ Universe& Game::getUniverse()
 {
 	return *m_spUniverse;
 }
+DragUpdater& Game::getDragUpdater()
+{
+	return *m_spDragUpdater;
+}
 /// <summary>
 /// Use this to put the player in a new level from anywhere (multiplayer or otherwise)
 /// It will minimize the menu's automatically
@@ -128,7 +135,7 @@ Universe& Game::getUniverse()
 /// <param name="rControllerList">The r controller list.</param>
 void Game::launchGame(const std::string& level, int localController, const std::string& bluePrints, const std::vector<std::string>& rControllerList, const std::vector<std::string>& rShipTitleList, const std::vector<int>& teams)
 {
-	game.loadUniverse("meanginglessString");
+	game.loadUniverse("meaninglessString");
 	game.getUniverse().loadLevel(level, localController, bluePrints, rControllerList, rShipTitleList, teams);
 
 	sf::Packet boolean;
@@ -181,7 +188,7 @@ void Game::run()
 		frameTime = m_clock.getElapsedTime().asSeconds()-lastTime;
 		lastTime = m_clock.getElapsedTime().asSeconds();
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::F))
-			std::cout << "\nFPS: " << 1.0f/frameTime;
+			std::cout << "\nT: " << frameTime;
 
 
 		/**== IO ==**/
@@ -212,6 +219,7 @@ void Game::run()
 
 
 		/**== WINDOW ==**/
+		getDragUpdater().update(getLocalPlayer().getMouseWindowPos());
 		rWindow.setView(getLocalPlayer().getCamera().getView());
 		getLocalPlayer().getWindowEvents(rWindow);
 		getUniverse().updateDecorationPosition(getLocalPlayer().getCamera().getPosition(), getLocalPlayer().getCamera().getZoom());
@@ -251,18 +259,21 @@ void Game::exit()
 /// <summary>
 /// Destroys old universe and makes new one!
 /// </summary>
-/// <param name="stuff">The stuff.</param>
 void Game::loadUniverse(const std::string& stuff)
 {
 	IOComponentData universeData(getCoreIO());
 	universeData.name = "universe";
+	m_spUniverse.reset();
 	m_spUniverse = sptr<Universe>(new Universe(universeData));
 	m_spUniverse->getUniverseIO().give(&*m_spIO);
+	if(game.getNwBoss().getNWState() == NWState::Client)
+		getUniverse().getUniverseIO().toggleAcceptsLocal(false);
+	else
+		getUniverse().getUniverseIO().toggleAcceptsLocal(true);
 }
 /// <summary>
 /// Initializes the window from a json file with the needed data.
 /// </summary>
-/// <param name="windowFile">name of file</param>
 void Game::loadWindow(const std::string& windowFile)
 {
 	sf::ContextSettings settings;
@@ -316,10 +327,6 @@ void Game::loadWindow(const std::string& windowFile)
 		windowData.vSinc = root["vSinc"].asBool();
 		windowData.targetFPS = root["targetFPS"].asInt();
 	}
-
-	/**LOAD DATA FROM WINDOW**/
-	/// if (sf::Shader::isAvailable() && windowData.blurEnabled)
-	///    m_shader.loadFromFile(windowData.motionBlurShader, sf::Shader::Fragment);
 
 
 	settings.antialiasingLevel = windowData.antiAliasLevel;

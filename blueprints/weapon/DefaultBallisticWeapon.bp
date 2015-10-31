@@ -1,0 +1,19 @@
+{
+    "WeaponType": "Ballistic",
+    "Title": "DefaultBallisticWeapon",
+
+    "StartSound": {
+        "name": ""
+    },
+    "ShotSound": {
+        "name": "default.wav"
+    },
+    "EndSound": {
+        "name": ""
+    },
+	"ProjectileName": "DefaultProjectile",
+    "EnergyConsumption": 1,
+    "Damage": 400,
+    "Shots": 1,
+	"Collisions": 1
+}

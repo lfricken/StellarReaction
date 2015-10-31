@@ -13,8 +13,15 @@ public:
 	void reset(const std::string& rTargetName, const std::string& rCommand, const sf::Packet& rData, float delay, bool replaceData);
 	void reset(unsigned rTargetPosition, const std::string& rCommand, const sf::Packet& rData, float delay, bool replaceData);
 
+	void tryReplaceTargetPos(const sf::Packet& rData);
 	void tryReplaceData(const sf::Packet& rData);
 	void changeDelay(float change);//the m_delay will be changed by that much (used by IOManager)
+
+	void setData(const sf::Packet& rData);
+	void setName(const std::string rName);
+
+	void sendOverNW(bool shouldSend);
+	bool sendOverNW() const;
 
 	unsigned getTargetPosition() const;
 	const std::string& getTargetName() const;
@@ -22,8 +29,11 @@ public:
 	const sf::Packet& getData() const;
 	float getDelay() const;
 
+	bool m_replaceTargetPos;//true if we should replace our data with the data sent by the calling object
+
 protected:
 private:
+	bool m_shouldSendOverNW;//if true, as a client we should send it to our host
 	unsigned m_targetPosition;
 	std::string m_targetName;//the name of our target IOComponent
 	std::string m_command;//the command that we want the target to do

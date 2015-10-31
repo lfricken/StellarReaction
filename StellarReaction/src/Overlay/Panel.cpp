@@ -25,11 +25,7 @@ void Panel::f_initialize(const PanelData& rData)
 	m_pPanel->setBackgroundColor(rData.backgroundColor);
 	if(rData.backgroundTex != "")
 		m_pPanel->setBackgroundTexture(game.getTextureAllocator().request(rData.backgroundTex));
-
-	m_pPanel->bindCallbackEx(&Panel::f_callback, this, tgui::Panel::AllPanelCallbacks);
 }
-
-
 tgui::Panel::Ptr Panel::getPanelPtr() const
 {
 	return m_pPanel;
@@ -38,30 +34,7 @@ void Panel::add(sptr<WidgetBase> sp_widget)
 {
 	m_widgetList.push_back(sp_widget);
 }
-
-
-/**IO**/
-void Panel::input(const std::string rCommand, sf::Packet rData)
+void Panel::clear()//destroys all draggables
 {
-	WidgetBase::input(rCommand, rData);
-}
-
-
-/**PRIVATE**/
-void Panel::f_callback(const tgui::Callback& callback)
-{
-	(void)callback;//shutup the compiler about unused
-	/** EXAMPLE CODE
-	if(true)
-	{
-	    std::vector<tgui::Widget::Ptr>(m_pPanel->getWidgets());
-	    //std::string blab = callback.;
-	    //std::cout << blab;
-	}
-	else
-	{
-	    std::cout << "\nCallback";
-	    std::cout << "(" << callback.mouse.x << "," << callback.mouse.y << ")";
-	}
-	**/
+	m_widgetList.clear();
 }

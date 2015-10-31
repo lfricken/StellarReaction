@@ -4,6 +4,7 @@
 #include "stdafx.hpp"
 #include "Controller.hpp"
 #include "Camera.hpp"
+#include "BasePlayerTraits.hpp"
 
 
 class DecorQuad;
@@ -16,7 +17,6 @@ struct InputConfig
 		down(sf::Keyboard::S),
 		rollCCW(sf::Keyboard::A),
 		rollCW(sf::Keyboard::D),
-		boost(sf::Keyboard::LShift),
 
 		primary(sf::Mouse::Left),
 		secondary(sf::Mouse::Right),
@@ -37,7 +37,10 @@ struct InputConfig
 		cameraUp(sf::Keyboard::Up),
 		cameraDown(sf::Keyboard::Down),
 		cameraLeft(sf::Keyboard::Left),
-		cameraRight(sf::Keyboard::Right)
+		cameraRight(sf::Keyboard::Right),
+
+		boost(sf::Keyboard::LShift),
+		store(sf::Keyboard::B)
 	{}
 
 	sf::Keyboard::Key up;
@@ -66,6 +69,7 @@ struct InputConfig
 	sf::Keyboard::Key cameraRight;
 
 	sf::Keyboard::Key boost;
+	sf::Keyboard::Key store;
 };
 struct PlayerData
 {
@@ -88,20 +92,13 @@ struct PlayerData
 /// Represents the local player on this machine.
 /// This class also handles all user input through it's getLiveInput and getWindowEvents functions
 /// </summary>
-class Player
+class Player : public BasePlayerTraits
 {
 public:
 	Player(const PlayerData& rData);
 	virtual ~Player();
 
 	Camera& getCamera();
-
-	int getTeam() const;
-	void setTeam(int team);
-	void setShipName(const std::string& name);
-	const std::string& getShipName() const;
-	const std::string& getName() const;
-
 
 	const InputConfig& getInCfg() const;
 	IOComponent& getIOComp();	
@@ -111,6 +108,10 @@ public:
 	bool hasFocus() const;
 	bool isTracking() const;
 	void setController(int index);
+
+	/**MOUSE**/
+	const sf::Vector2f& getMouseWindowPos() const;
+	void setMouseWindowPos(const sf::Vector2f& rPos);
 
 	/**INPUT**/
 	void getLiveInput();//get direct feed from keyboard and mouse, just gets their states though (up, down, position)
@@ -126,13 +127,9 @@ protected:
 	void input(std::string rCommand, sf::Packet rData);
 
 private:
-	/**PLAYER DATA**/
-	std::string m_name;
-	std::string m_shipName;
-	int m_team;
 
-	int m_controller;//which controller do we have, 0, 1, 2, ect.(points to a controller in the list)
 	b2Vec2 m_aim;//where we are aiming in the world ATM
+	sf::Vector2f m_mouseWindowPos;//where is the players mouse on the screen?
 	std::map<Directive, bool> m_directives;//up, down, rollCW, roll CCW, ect.
 
 	float m_desiredZoom;//for smooth zooming

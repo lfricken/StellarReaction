@@ -21,12 +21,11 @@
 #include "BallisticWeapon.hpp"
 #include "ProjectileMan.hpp"
 #include "DecorQuad.hpp"
-
+#include "Convert.hpp"
 
 using namespace std;
 
-//Evan
-#include "Convert.hpp"
+
 
 Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input, this), m_physWorld(b2Vec2(0, 0))
 {
@@ -38,7 +37,7 @@ Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input,
 	m_spProjMan = sptr<ProjectileMan>(new ProjectileMan);
 
 	/**IO**/
-	m_spUniverseIO = sptr<IOManager>(new IOManager(true));
+	m_spUniverseIO = sptr<IOManager>(new IOManager(true, true));
 	m_spUniverseIO->give(&m_io);
 	m_spUniverseIO->give(&game.getLocalPlayer().getIOComp());
 	/**IO**/
@@ -116,7 +115,6 @@ void Universe::toggleDebugDraw()
 /// <summary>
 /// get the time step for the box2d::world
 /// </summary>
-/// <returns></returns>
 float Universe::getTimeStep() const
 {
 	return m_timeStep;
@@ -126,12 +124,18 @@ float Universe::getTimeStep() const
 /// </summary>
 void Universe::prePhysUpdate()
 {
+	static bool hap = false;
+	ThrusterData data;
+	data.fixComp.offset = b2Vec2(1, 6);
 	if(!m_paused)
 	{
 		for(auto it = m_goList.begin(); it != m_goList.end(); ++it)
+		{
 			(*it)->prePhysUpdate();
+		}
 		m_spProjMan->prePhysUpdate();
 	}
+
 }
 void Universe::physUpdate()
 {
@@ -230,36 +234,9 @@ void Universe::loadBlueprints(const std::string& bpDir)//loads blueprints
 {
 	m_spBPLoader->storeRoster(bpDir);
 }
-/// <summary>
-/// Loads the level.
-/// </summary>
-/// <param name="level">The level.</param>
-/// <param name="localController">The local controller.</param>
-/// <param name="bluePrints">The blue prints.</param>
-/// <param name="rControllerList">The r controller list.</param>
-void Universe::loadLevel(const std::string& levelDir, int localController, const std::string& bluePrints, const std::vector<std::string>& rControllerList, const std::vector<std::string>& rShipTitleList, const std::vector<int>& teams)//loads a level using blueprints
+void Universe::setupBackground()
 {
-	loadBlueprints(bluePrints);
-
-	string configFile = "level.lcfg";
-	string modDir = "mods/";
-
-	ifstream level(levelDir + configFile, std::ifstream::binary);
-	Json::Reader reader;
-	Json::Value root;
-	bool parsedSuccess = reader.parse(level, root, false);
-
-
-	//TODO - handle zoom of 100 - note - 'sparkling' happens after zoom 20
-	//TODO - have data know how many it needs to move over
-	//DecorQuadData data;
-	//data.ioComp.name = "decorTest";
-	//data.movementScale = 1;
-	//DecorQuad* t = new DecorQuad(data);
-	//add(t);
-	//data.initPosition = b2Vec2(1, 1);
-
-	float height = 6 * 2400.0f; float width = 6 * 2400.0f; //these have to be floats
+	const float height = 6 * 2400.0f; float width = 6 * 2400.0f; //these have to be floats
 
 	QuadComponentData rData;
 	//nearest
@@ -271,7 +248,7 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 	rData.texName = "backgrounds/stars4.png";
 	rData.layer = GraphicsLayer::Background4;
 	data.quadComp = rData;
-	data.dimensions = b2Vec2(width,height);
+	data.dimensions = b2Vec2(width, height);
 	//second nearest
 	DecorQuadData data2;
 	data2.ioComp.name = "decorTest";
@@ -303,64 +280,58 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 	data4.quadComp = rData;
 	data4.dimensions = b2Vec2(width / 4, height / 4);
 
-	//DecorQuad* t2 = new DecorQuad(data);
-	//t2->setPosition(b2Vec2(-10000, -10000)); //doesn't work
-	//game.getLocalPlayer().getCamera().getView().getSize().x;
-	
 
-	int startPosX = game.getLocalPlayer().getCamera().getView().getCenter().x - 20000;
-	int endPosX = game.getLocalPlayer().getCamera().getView().getCenter().x + 20000;
-	int startPosY = game.getLocalPlayer().getCamera().getView().getCenter().y + 10000;
-	int endPosY = game.getLocalPlayer().getCamera().getView().getCenter().y - 10000;
-	//cout << endl << game.getLocalPlayer().getCamera().getView().getSize().x; //if you want size of camera
+	const int startPosX = game.getLocalPlayer().getCamera().getView().getCenter().x - 20000;
+	const int endPosX = game.getLocalPlayer().getCamera().getView().getCenter().x + 20000;
+	const int startPosY = game.getLocalPlayer().getCamera().getView().getCenter().y + 10000;
+	const int endPosY = game.getLocalPlayer().getCamera().getView().getCenter().y - 10000;
+
 	b2Vec2 startPos = leon::sfTob2(b2Vec2(startPosX, startPosY));
 	b2Vec2 endPos = leon::sfTob2(b2Vec2(endPosX, endPosY));
 
 	//for square in screen region, add one of these
 	//one world unit is 256
 	//did the below by hand
-	int tilesX = 11; 
-	int tilesY = 8;
+	const int tilesX = 11;
+	const int tilesY = 8;
 
 	DecorQuad* temp;
-	for (int i = 0; i < tilesX; i++)
+	for(int i = 0; i < tilesX; i++)
 	{
-		for (int j = 0; j < tilesY; j++)
+		for(int j = 0; j < tilesY; j++)
 		{
 			//nearest 
-			if ( i < 3 && j < 3) {
-				//cout << "add at x: " << startPos.x + (i*height) / scale << endl;
-				//cout << "add at y: " << startPos.y + (j*width) / scale << endl;
+			if(i < 3 && j < 3)
+			{
 				data.initPosition = b2Vec2(startPos.x + (i*height) / scale, startPos.y + (j*width) / scale);
-				data.num_in_layer = b2Vec2(3,3);
+				data.num_in_layer = b2Vec2(3, 3);
 				temp = new DecorQuad(data);
 				add(temp);
 			}
-
 			//second nearest
-			if ( i < 6 && j < 4) {
+			if(i < 6 && j < 4)
+			{
 				data2.initPosition = b2Vec2(startPos.x + (i*height / 2) / scale, startPos.y + (j*width / 2) / scale);
 				data2.num_in_layer = b2Vec2(6, 4);
 				temp = new DecorQuad(data2);
 				add(temp);
 			}
-
 			//third nearest
-			if (i < 9 && j < 6) {
+			if(i < 9 && j < 6)
+			{
 				data3.initPosition = b2Vec2(startPos.x + (i*height / 3) / scale, startPos.y + (j*width / 3) / scale);
 				data3.num_in_layer = b2Vec2(9, 6);
 				temp = new DecorQuad(data3);
 				add(temp);
 			}
-
 			//fourth nearest
-			if (i < 11 && j < 8) {
+			if(i < 11 && j < 8)
+			{
 				data4.initPosition = b2Vec2(startPos.x + (i*height / 4) / scale, startPos.y + (j*width / 4) / scale);
 				data4.num_in_layer = b2Vec2(11, 8);
 				temp = new DecorQuad(data4);
 				add(temp);
 			}
-
 		}
 	}
 
@@ -370,27 +341,37 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 	bg_data.movementScale = 0;
 	rData.dimensions.x = 2400;
 	rData.dimensions.y = 1200;
-	//rData.center = sf::Vector2f(600,600);
+
 	rData.texName = "backgrounds/bg6.png";
 	rData.animSheetName = "backgrounds/bg1.acfg";
 	rData.layer = GraphicsLayer::BackgroundUnmoving1;
 	bg_data.quadComp = rData;
 	bg_data.dimensions = b2Vec2(1200, 1200);
-	int pixelsX = game.getWindow().getDefaultView().getSize().x / 2;
-	int pixelsY = game.getWindow().getDefaultView().getSize().y / 2; 
+	const int pixelsX = game.getWindow().getDefaultView().getSize().x / 2;
+	const int pixelsY = game.getWindow().getDefaultView().getSize().y / 2;
 	bg_data.initPosition = b2Vec2(pixelsX / static_cast<float>(scale), -pixelsY / static_cast<float>(scale));
 	bg_data.num_in_layer = b2Vec2(100, 100);
 	temp = new DecorQuad(bg_data);
 	add(temp);
+}
 
-	//rData.dimensions = sf::Vector2f(1200, 1200);
-	//rData.center = sf::Vector2f(pixelsX / static_cast<float>(scale), -pixelsY / static_cast<float>(scale));
-	//rData.layer = GraphicsLayer::BackgroundUnmoving1;
-	//rData.animSheetName = "backgrounds/bg1.acfg";
-	//QuadComponent * quad_temp = new QuadComponent(rData);
+/// <summary>
+/// Loads the level.
+/// </summary>
+void Universe::loadLevel(const std::string& levelDir, int localController, const std::string& bluePrints, const std::vector<std::string>& rControllerList, const std::vector<std::string>& rShipTitleList, const std::vector<int>& teams)//loads a level using blueprints
+{
+	loadBlueprints(bluePrints);
 
-	//LEON!!!! THERES A BUG!!! 
-	 //textures without animsheet will have the top-left portion of the texture loaded.
+	string configFile = "level.lcfg";
+	string modDir = "mods/";
+
+	ifstream level(contentDir() + levelDir + configFile, std::ifstream::binary);
+	Json::Reader reader;
+	Json::Value root;
+	bool parsedSuccess = reader.parse(level, root, false);
+
+
+	setupBackground();
 
 	if(!parsedSuccess)
 	{
@@ -453,23 +434,9 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 					cout << "\n" << FILELINE;
 					///ERROR LOG
 				}
-				add(spCnk->generate());
+				add(spCnk->generate(this));
 			}
 		}
-
-
-		//Evan - load background image
-		if(!root["Background1"].isNull())
-		{
-			//nothing for now
-			//QuadComponentData rData = loadQuad(root["Background1"], QuadComponentData());
-		}
-		else
-		{
-			cout << "Background json entry could not be loaded (check level config file)" << FILELINE;
-			///ERROR LOG
-		}
-
 	}
 
 	int team = 1;
@@ -480,7 +447,7 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 		spCnk.reset(m_spBPLoader->getChunkSPtr(rShipTitleList[i])->clone());
 		spCnk->bodyComp.coords = m_spawnPoints[team][i];
 		spCnk->ioComp.name = std::to_string(i + 1);
-		add(spCnk->generate());
+		add(spCnk->generate(this));
 	}
 
 	game.getLocalPlayer().loadOverlay("overlayconfig");
@@ -488,6 +455,30 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 	/**CONTROL**/
 	m_spControlFactory->resetControllers(rControllerList);
 	game.getLocalPlayer().setController(localController);
+
+
+	/**LOAD MY CURRENT SHIP INTO STORE**/
+	Controller* pController = &this->getControllerFactory().getController(localController);
+	Chunk* pCnk = pController->getSlave();
+	if(pCnk != NULL)
+	{
+		auto list = pCnk->getModules();
+		for(auto it = list.cbegin(); it != list.cend(); ++it)
+		{
+			cout << "\nUniverse: " << it->second.x << it->second.y;
+			sf::Packet pack;
+			pack << "addModule";
+			pack << it->first;
+			pack << (float)it->second.x;
+			pack << (float)it->second.y;
+
+
+			Message mes("networkboss", "sendTcpToHost", pack, 0, false);
+			game.getCoreIO().recieve(mes);
+		}
+	}
+	else
+		std::cout << "\nNo slave! " << FILELINE;
 }
 void Universe::add(sptr<GameObject> spGO)
 {

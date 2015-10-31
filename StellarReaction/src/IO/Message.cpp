@@ -3,14 +3,20 @@
 Message::Message()
 {
 	m_targetPosition = -1;
+	m_replaceTargetPos = false;
+	m_shouldSendOverNW = false;
 }
 Message::Message(const std::string& rTargetName, const std::string& rCommand, const sf::Packet& rData, float delay, bool replaceData)
 {
 	reset(rTargetName, rCommand, rData, delay, replaceData);
+	m_replaceTargetPos = false;
+	m_shouldSendOverNW = false;
 }
 Message::Message(unsigned rTargetPosition, const std::string& rCommand, const sf::Packet& rData, float delay, bool replaceData)
 {
 	reset(rTargetPosition, rCommand, rData, delay, replaceData);
+	m_replaceTargetPos = false;
+	m_shouldSendOverNW = false;
 }
 Message::~Message()
 {
@@ -39,6 +45,16 @@ void Message::tryReplaceData(const sf::Packet& rData)
 	if(m_replaceData)
 		m_data = rData;
 }
+void Message::tryReplaceTargetPos(const sf::Packet& rData)
+{
+	if(m_replaceTargetPos)
+	{
+		sf::Packet copy(rData);
+		int ioPos;
+		copy >> ioPos;
+		m_targetPosition = ioPos;
+	}
+}
 void Message::changeDelay(float change)
 {
 	m_delay += change;
@@ -62,4 +78,20 @@ const sf::Packet& Message::getData() const
 float Message::getDelay() const
 {
 	return m_delay;
+}
+void Message::setData(const sf::Packet& rData)
+{
+	m_data = sf::Packet(rData);
+}
+void Message::setName(const std::string rName)
+{
+	m_targetName = rName;
+}
+void Message::sendOverNW(bool shouldSend)
+{
+	m_shouldSendOverNW = shouldSend;
+}
+bool Message::sendOverNW() const
+{
+	return m_shouldSendOverNW;
 }

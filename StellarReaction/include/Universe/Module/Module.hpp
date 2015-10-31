@@ -1,5 +1,4 @@
-#ifndef MODULE_HPP
-#define MODULE_HPP
+#pragma once
 
 #include "Globals.hpp"
 #include "IOComponent.hpp"
@@ -21,6 +20,13 @@ public:
 	virtual void postPhysUpdate();
 	virtual void directive(std::map<Directive, bool>& rIssues);
 	virtual void setAim(const b2Vec2& rTarget);
+	/// <summary>
+	/// What store is the module intersecting?
+	/// </summary>
+	const std::string& getStore() const;
+	const b2Vec2& getOffset() const;
+	const std::string& getTitle() const;
+	const std::string& getName() const;
 
 protected:
 	virtual void input(std::string rCommand, sf::Packet rData);
@@ -38,6 +44,8 @@ protected:
 	Pool<Energy>* m_pEnergyPool;
 	Pool<float>* m_pZoomPool;
 
+	std::string m_title;//how the game refers to it
+	std::string m_name;//what gets displayed to player
 private:
 };
 
@@ -45,13 +53,19 @@ private:
 struct ModuleData
 {
 	ModuleData() :
-		//type(ModuleType::Broken),
+		title("defaultTitle"),
+		name("defaultName"),
+		cost(1),
 		ioComp(game.getUniverse().getUniverseIO()),
 		nwComp(),
 		fixComp()
 	{
 
 	}
+
+	std::string title;//how the game refers to it
+	std::string name;//what gets displayed to player
+	Money cost;
 
 	IOComponentData ioComp;
 	NetworkComponentData nwComp;
@@ -69,6 +83,3 @@ struct ModuleData
 		return new ModuleData(*this);
 	}
 };
-
-
-#endif // MODULE_HPP

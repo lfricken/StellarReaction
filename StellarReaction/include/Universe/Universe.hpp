@@ -68,6 +68,8 @@ protected:
 	void input(std::string rCommand, sf::Packet rData);
 
 private:
+	void setupBackground();
+
 	/**SLEEP**/
 	std::vector<b2Vec2> m_beds;
 	int m_inc;
@@ -101,11 +103,6 @@ private:
 	IOComponent m_io;
 	float m_lastTime;//used for update method//cant use timer because timer references us!
 	bool m_debugDrawEnabled;
-
-
-	/**TIME**/
-
-	/**TIME**/
 };
 
 #endif // UNIVERSE_HPP

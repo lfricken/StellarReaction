@@ -11,31 +11,15 @@
 using namespace std;
 using namespace sf;
 
-Player::Player(const PlayerData& rData) : m_io(rData.ioComp, &Player::input, this)
+Player::Player(const PlayerData& rData) : m_io(rData.ioComp, &Player::input, this), BasePlayerTraits(rData.name)
 {
-	m_controller = 999999;//by default they have the 0 controller
 	m_hasFocus = true;
 	m_inGuiMode = true;
 	m_tracking = rData.tracking;
-	m_name = rData.name;
-	m_shipName = "CombatShip";
-	m_team = 1;
 }
 Player::~Player()
 {
 	cout << "\nPlayer Destroying...";
-}
-int Player::getTeam() const
-{
-	return m_team;
-}
-void Player::setTeam(int team)
-{
-	m_team = team;
-}
-const std::string& Player::getName() const
-{
-	return m_name;
 }
 Camera& Player::getCamera()
 {
@@ -45,18 +29,9 @@ const InputConfig& Player::getInCfg() const
 {
 	return m_inCfg;
 }
-void Player::setShipName(const std::string& name)
-{
-	m_shipName = name;
-}
-const std::string& Player::getShipName() const
-{
-	return m_shipName;
-}
 /// <summary>
 /// Are the player inputs going to the gui or the controller
 /// </summary>
-/// <returns></returns>
 bool Player::inGuiMode() const//is the player in GUI mode?
 {
 	return m_inGuiMode;
@@ -68,15 +43,22 @@ bool Player::toggleGuiMode(bool isGuiModeOn)
 /// <summary>
 /// Is our camera in tracking mode?
 /// </summary>
-/// <returns></returns>
 bool Player::isTracking() const
 {
 	return m_tracking;
 }
+const sf::Vector2f& Player::getMouseWindowPos() const
+{
+	return m_mouseWindowPos;
+}
+void Player::setMouseWindowPos(const sf::Vector2f& rPos)
+{
+	sf::Mouse::setPosition(sf::Vector2i(rPos.x, rPos.y), game.getWindow());
+	m_mouseWindowPos = rPos;
+}
 /// <summary>
 /// Indicate which controller our inputs should modify
 /// </summary>
-/// <param name="index">The index.</param>
 void Player::setController(int index)
 {
 	game.getUniverse().getControllerFactory().unsetLocal();
@@ -90,6 +72,12 @@ void Player::setController(int index)
 /// </summary>
 void Player::getLiveInput()
 {
+	Controller& rController = game.getUniverse().getControllerFactory().getController(m_controller);
+
+	//default to false
+	for(auto it = m_directives.begin(); it != m_directives.end(); ++it)
+		it->second = false;
+
 	if(!m_inGuiMode && hasFocus())
 	{
 		/**== CAMERA ==**/
@@ -107,35 +95,26 @@ void Player::getLiveInput()
 		/**== KEYBOARD ==**/
 		if(Keyboard::isKeyPressed(m_inCfg.up))
 			m_directives[Directive::Up] = true;
-		else
-			m_directives[Directive::Up] = false;
 		if(Keyboard::isKeyPressed(m_inCfg.down))
 			m_directives[Directive::Down] = true;
-		else
-			m_directives[Directive::Down] = false;
 		if(Keyboard::isKeyPressed(m_inCfg.rollCCW))
 			m_directives[Directive::RollCCW] = true;
-		else
-			m_directives[Directive::RollCCW] = false;
 		if(Keyboard::isKeyPressed(m_inCfg.rollCW))
 			m_directives[Directive::RollCW] = true;
-		else
-			m_directives[Directive::RollCW] = false;
-		//Evan - boost mechanic
 		if (Keyboard::isKeyPressed(m_inCfg.boost))
 			m_directives[Directive::Boost] = true;
-		else
-			m_directives[Directive::Boost] = false;
 
-		/**== MOUSE **/
+
+		/**== SPECIAL ==**/
+		if(Keyboard::isKeyPressed(m_inCfg.store))
+			m_directives[Directive::ShowStore] = true;
+
+
+		/**== MOUSE ==**/
 		if(Mouse::isButtonPressed(m_inCfg.primary))
 			m_directives[Directive::FirePrimary] = true;
-		else
-			m_directives[Directive::FirePrimary] = false;
 		if(Mouse::isButtonPressed(m_inCfg.secondary))
 			m_directives[Directive::FireSecondary] = true;
-		else
-			m_directives[Directive::FireSecondary] = false;
 
 		m_aim = leon::sfTob2(game.getWindow().mapPixelToCoords(Mouse::getPosition(game.getWindow()), m_camera.getView()));
 
@@ -144,21 +123,17 @@ void Player::getLiveInput()
 			cout << "\n(" << m_aim.x << ",\t" << m_aim.y << ")";
 
 		Controller& rController = game.getUniverse().getControllerFactory().getController(m_controller);
-		rController.updateDirectives(m_directives);
-		rController.setAim(m_aim);
+
 	}
-	else if(!hasFocus())
-	{
-		Controller& rController = game.getUniverse().getControllerFactory().getController(m_controller);
-		for(auto it = m_directives.begin(); it != m_directives.end(); ++it)
-			it->second = false;
-		rController.updateDirectives(m_directives);
-	}
+
+	m_mouseWindowPos = game.getWindow().mapPixelToCoords(Mouse::getPosition(game.getWindow()), game.getWindow().getDefaultView());
+
+	rController.updateDirectives(m_directives);
+	rController.setAim(m_aim);
 }
 /// <summary>
-/// Hande window events such as clicks and gui events.
+/// Handle window events such as clicks and gui events.
 /// </summary>
-/// <param name="rWindow">The r window.</param>
 void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 {
 	sf::Event event;

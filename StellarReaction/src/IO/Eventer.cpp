@@ -33,6 +33,7 @@ void Eventer::event(EventType type, int value, const sf::Packet& rData)
 			if(rList[i].condition.evaluate(value))
 			{
 				Message copy(rList[i].message);
+				copy.tryReplaceTargetPos(rData);
 				copy.tryReplaceData(rData);
 				m_rIOManager.recieve(copy);
 

@@ -18,69 +18,25 @@ EditBox::~EditBox()
 void EditBox::f_initialize(const EditBoxData& data)
 {
 	f_assign(m_pEditBox.get());
-	m_pEditBox->load(data.configFile);
+	m_pEditBox->load(contentDir() + data.configFile);
 	m_pEditBox->setPosition(data.screenCoords);
 	m_pEditBox->setText(data.startingText);
 	m_pEditBox->setSize(data.size.x, data.size.y);
-
-	m_pEditBox->bindCallbackEx(&EditBox::f_callback, this, tgui::EditBox::AllEditBoxCallbacks);
 }
-
-
-
-
-/**PRIVATE**/
-void EditBox::f_callback(const tgui::Callback& callback)
+bool EditBox::inputHook(const std::string rCommand, sf::Packet rData)
 {
-	if(callback.trigger == tgui::EditBox::MouseEntered)
+	if(rCommand == "setText")
 	{
-		f_MouseEntered();
+		std::string text;
+		rData >> text;
+		setText(text);
+		return true;
 	}
-	else if(callback.trigger == tgui::EditBox::LeftMouseClicked)
-	{
-		f_LeftMouseClicked();
-	}
-	else if(callback.trigger == tgui::EditBox::MouseLeft)
-	{
-		f_MouseLeft();
-	}
-	else if(callback.trigger == tgui::EditBox::TextChanged)
-	{
-		f_TextChanged();
-	}
-	else if(callback.trigger == tgui::EditBox::ReturnKeyPressed)
-	{
-		f_ReturnKeyPressed();
-	}
-	else
-	{
-		cout << FILELINE;
-	}
+	return false;
 }
 void EditBox::setText(const std::string& rText)
 {
 	m_pEditBox->setText(rText);
-}
-void EditBox::f_MouseEntered()
-{
-	sf::Packet text;
-	std::string stuff = m_pEditBox->getText();
-	text << stuff;
-	m_io.event(EventType::MouseEntered, 0, text);
-}
-void EditBox::f_LeftMouseClicked()
-{
-	sf::Packet text;
-	std::string stuff = m_pEditBox->getText();
-	text << stuff;
-	m_io.event(EventType::LeftMouseClicked, 0, text);
-}
-void EditBox::f_MouseLeft()
-{
-	sf::Packet text;
-	std::string stuff = m_pEditBox->getText();
-	text << stuff;
-	m_io.event(EventType::MouseLeft, 0, text);
 }
 void EditBox::f_TextChanged()
 {
@@ -96,21 +52,48 @@ void EditBox::f_ReturnKeyPressed()
 	text << stuff;
 	m_io.event(EventType::ReturnKeyPressed, 0, text);
 }
-void EditBox::f_trigger()
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// <summary>
+/// Hooks
+/// </summary>
+bool EditBox::callbackHook(const tgui::Callback& callback)
 {
-	sf::Packet text;
-	std::string stuff = m_pEditBox->getText();
-	text << stuff;
-	m_io.event(EventType::Triggered, 0, text);
-}
-void EditBox::input(const std::string rCommand, sf::Packet rData)
-{
-	if(rCommand == "setText")
+	if(callback.trigger == tgui::EditBox::TextChanged)
 	{
-		std::string text;
-		rData >> text;
-		setText(text);
+		f_TextChanged();
+		return true;
+	}
+	else if(callback.trigger == tgui::EditBox::ReturnKeyPressed)
+	{
+		f_ReturnKeyPressed();
+		return true;
 	}
 	else
-		WidgetBase::input(rCommand, rData);
+		return false;
+}
+void EditBox::mouseEnteredHook(sf::Packet& rPack)
+{
+	rPack << m_pEditBox->getText();
+}
+void EditBox::mouseLeftHook(sf::Packet& rPack)
+{
+	rPack << m_pEditBox->getText();
+}
+void EditBox::mouseClickedHook(sf::Packet& rPack)
+{
+	rPack << m_pEditBox->getText();
+}
+void EditBox::leftMousePressedHook(sf::Packet& rPack)
+{
+	rPack << m_pEditBox->getText();
+}
+void EditBox::leftMouseReleasedHook(sf::Packet& rPack)
+{
+	rPack << m_pEditBox->getText();
+}
+void EditBox::triggerHook(sf::Packet& rPack)
+{
+	rPack << m_pEditBox->getText();
 }

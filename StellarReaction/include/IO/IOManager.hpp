@@ -3,6 +3,8 @@
 
 #include "Timer.hpp"
 #include "Courier.hpp"
+
+class NetworkComponent;
 class IOComponent;
 
 /// <summary>
@@ -11,7 +13,7 @@ class IOComponent;
 class IOManager
 {
 public:
-	IOManager(bool acceptsLocalMessages);
+	IOManager(bool acceptsLocalMessages, bool networked = false);
 	virtual ~IOManager();
 
 	/**SEND/RECIEVE MESSAGES**/
@@ -30,14 +32,22 @@ public:
 
 protected:
 private:
-	void f_recieveNetwork(const Message& rMessage);
 	void f_send(const Message& rMessage);
 	bool m_acceptsLocal;//if false, we ignore messages coming to receive function
+
+	void pack(sf::Packet& rPacket);//give us data to send to the twin in the other world
+	void unpack(sf::Packet& rPacket);//process data from our twin
+
+	sptr<NetworkComponent> m_spNw;
+
+	std::vector<Message> m_latest;
 
 	std::vector<Message> m_messageList;
 	std::vector<IOComponent*> m_componentPtrs;//where we keep a pointer to all IOCompontents
 	std::vector<int> m_freeIndexes;//spots where the ptr is null and we can give a position out!
 	std::map<std::string, int> m_nameLookup;//where we lookup the position of an IOComponent after we are told its name
+
+	bool m_networked;
 };
 
 #endif // IOMANAGER_HPP

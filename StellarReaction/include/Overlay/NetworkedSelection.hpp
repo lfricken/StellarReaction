@@ -1,49 +1,51 @@
-#ifndef NETWORKEDSELECTION_HPP
-#define NETWORKEDSELECTION_HPP
+#pragma once
 
-#include "WidgetBase.hpp"
+#include "Panel.hpp"
+#include "SelectableItem.hpp"
 
 namespace leon
 {
-	struct NetworkedSelectionData : public WidgetBaseData
+	struct NetworkedSelectionData : public PanelData
 	{
 		NetworkedSelectionData() :
-			WidgetBaseData(),
-			itemHeight(20),
+			PanelData(),
+			itemSize(100, 40),
 			command("setShip")
 		{
+
 		}
-		int itemHeight;
-		std::string command;
-		std::vector<std::pair<std::string, int> > items;
+
+		sf::Vector2f itemSize;//size of each item
+		std::string command;//what command to send when an item has been clicked
+		std::vector<SelectableItemData> items;
 	};
 
-	class NetworkedSelection : public WidgetBase
+	class NetworkedSelection : public Panel
 	{
 	public:
 		NetworkedSelection(tgui::Gui& gui, const NetworkedSelectionData& rData);
 		NetworkedSelection(tgui::Container& container, const NetworkedSelectionData& rData);
 		virtual ~NetworkedSelection();
 
-		void addItem(const std::string& rText, int id);
-		void addItems(const std::vector<std::pair<std::string, int> >& rTextList);
+		void addItem();
+		void addItems();
 
 	protected:
-		virtual void f_callback(const tgui::Callback& callback);
-		void f_MouseEntered();
-		void f_MouseLeft();
-		void f_LeftMouseClicked();
-		void f_ItemSelected();
 		void f_GrabInfo(sf::Packet* rPacket);
-		virtual void f_trigger();
 
-		void input(const std::string rCommand, sf::Packet rData);
+		/**events HOOKS**/
+		virtual void mouseEnteredHook(sf::Packet& rPack);
+		virtual void mouseLeftHook(sf::Packet& rPack);
+		virtual void mouseClickedHook(sf::Packet& rPack);
+		virtual void leftMousePressedHook(sf::Packet& rPack);
+		virtual void leftMouseReleasedHook(sf::Packet& rPack);
+
+		virtual void triggerHook(sf::Packet& rPack);
+
 	private:
-		virtual void f_initialize(const NetworkedSelectionData& data);
-		tgui::ListBox::Ptr m_pListBox;
-		std::string m_command;
+		void f_initialize(NetworkedSelectionData& data, void* container, bool isContainer);
+
+		std::string m_command;//command to send when an item has been selected
+		std::vector<sptr<SelectableItem> > m_items;
 	};
 }
-
-
-#endif // NETWORKEDSELECTION_HPP

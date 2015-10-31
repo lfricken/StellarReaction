@@ -3,7 +3,12 @@
 
 #include "stdafx.hpp"
 #include "SoundData.hpp"
+#include "Sound.hpp"
 
+namespace leon
+{
+	class Sound;
+}
 /// <summary>
 /// Stored in SoundManger. Each Sound only has a certain number of 
 /// </summary>
@@ -31,6 +36,8 @@ public:
 	void playSound(const SoundData& rSound);
 	void playSound(const std::string& rSoundName, int volume = leon::volume, float minDist = leon::dist, float dropOff = leon::drop, const b2Vec2& rPos = leon::dPos, bool relative = true);
 
+	friend class leon::Sound;
+	
 protected:
 private:
 	/// <summary>
@@ -41,7 +48,7 @@ private:
 	/// <summary>
 	/// Max sounds that can play (don't mess with this)
 	/// </summary>
-	static const int m_numNoises = 128;	
+	static const int m_numNoises = 255;//citation: http://www.sfml-dev.org/tutorials/2.0/audio-sounds.php
 	/// <summary>
 	/// Actual sounds that are playing or have played.
 	/// </summary>

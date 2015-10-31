@@ -1,0 +1,62 @@
+{
+    "WeaponType": "Laser",
+    "Title": "Razor_Laser1",
+    "BeamStart": {
+        "texName": "beam/beam_start.png",
+        "animSheetName": "beam/beam_start.acfg",
+        "layer": "Projectiles",
+        "permanentRot": 0,
+        "dimensions": [
+            256,
+            256
+        ]
+    },
+    "BeamEnd": {
+        "texName": "beam/beam_end.png",
+        "animSheetName": "beam/beam_end.acfg",
+        "layer": "Projectiles",
+        "permanentRot": 0,
+        "dimensions": [
+            256,
+            256
+        ]
+    },
+    "BeamMid": {
+        "texName": "beam/beam_mid.png",
+        "animSheetName": "beam/beam_mid.acfg",
+        "layer": "Projectiles",
+        "permanentRot": 0,
+        "dimensions": [
+            256,
+            256
+        ]
+    },
+    "BeamColor": [
+        0,
+        255,
+        255,
+        255
+    ],
+    "StartSound": {
+        "name": ""
+    },
+    "ShotSound": {
+        "name": "laser1.wav"
+    },
+    "EndSound": {
+        "name": ""
+    },
+    "EnergyConsumption": 10,
+    "Damage": 200,
+    "Shots": 3,
+	"WeaponSprite": {
+        "texName": "weapons/laser3.png",
+        "animSheetName": "weapons/laser3.acfg",
+        "layer": "Projectiles",
+        "permanentRot": -90,
+        "dimensions": [
+            256,
+            256
+        ]
+    }
+}

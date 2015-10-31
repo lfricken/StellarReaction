@@ -7,7 +7,7 @@
 #include "Universe.hpp"
 #include "NetworkComponent.hpp"
 
-class Slave;
+class Chunk;
 
 enum class Directive
 {
@@ -33,6 +33,7 @@ enum class Directive
 	/**== MISC. ==**/
 	Use,
 	ShieldToggle,
+	ShowStore,//toggle the store on or off (if there is one near us)
 	Special1,
 	Special2,
 	End,
@@ -82,6 +83,7 @@ public:
 	/**GETTERS**/
 	const std::string& getPlayerName() const;
 	const std::string& getSlaveName() const;
+	Chunk* getSlave() const;
 	const b2Vec2& getAim() const;
 	float get(Request value);//return the requested value
 	b2Body* getBodyPtr();//return our chunk body if we have one
@@ -92,6 +94,7 @@ public:
 	void processAim() const;
 	void processDirectives();//use our stored directives to send commands
 	void toggleLocal(bool local);
+	bool isLocal() const;
 
 protected:
 	virtual void input(std::string rCommand, sf::Packet rData);

@@ -33,13 +33,16 @@ protected:
 	virtual void input(std::string rCommand, sf::Packet rData);
 	virtual void pack(sf::Packet& rPacket);
 	virtual void unpack(sf::Packet& rPacket);
+	virtual void f_died();
 
 	Health m_health;
 	HealthState m_healthState;
 	bool m_functionsDamaged;
 
 	std::vector<sptr<GraphicsComponent> > m_decors;
-
+	int m_baseDecor;
+	int m_hitDecorIndex;
+	int m_explosionIndex;
 private:
 };
 

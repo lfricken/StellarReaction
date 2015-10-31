@@ -1,0 +1,29 @@
+{
+    "WeaponType": "Ballistic",
+    "Title": "Razor_Ballistic1",
+
+    "StartSound": {
+        "name": ""
+    },
+    "ShotSound": {
+        "name": "razor_ballistic1.wav"
+    },
+    "EndSound": {
+        "name": ""
+    },
+	"ProjectileName": "DefaultProjectile",
+    "EnergyConsumption": 1,
+    "Damage": 400,
+    "Shots": 1,
+	"Collisions": 1,
+	"WeaponSprite": {
+        "texName": "weapons/razor_ballistic1.png",
+        "animSheetName": "weapons/razor_ballistic1.acfg",
+        "layer": "Projectiles",
+        "permanentRot": -90,
+        "dimensions": [
+            256,
+            256
+        ]
+    }
+}

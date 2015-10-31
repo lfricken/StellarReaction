@@ -6,8 +6,11 @@ using namespace std;
 Thruster::Thruster(const ThrusterData& rData) : ShipModule(rData)
 {
 	m_eConsump = rData.energyConsumption;
-	m_force = rData.force;
-	m_torque = rData.torque;
+	m_force = rData.force * sizeScalingFactor;
+	m_torque = rData.torque * sizeScalingFactor * sizeScalingFactor;
+
+	m_boostThrust = rData.boostThrustMult;
+	m_boostCost = rData.boostCostMult;
 
 	m_forceVec = b2Vec2(0,1);
 	m_isCCW = true;
@@ -27,24 +30,27 @@ void Thruster::postPhysUpdate()
 void Thruster::directive(std::map<Directive, bool>& rIssues)
 {
 	if(rIssues[Directive::Up])
-		thrust(b2Vec2(0,1));
+	{
+		if(rIssues[Directive::Boost])
+			thrust(b2Vec2(0, m_boostThrust));
+		else
+			thrust(b2Vec2(0, 1));
+	}
 	if(rIssues[Directive::Down])
 		thrust(b2Vec2(0,-1));
 	if(rIssues[Directive::RollCCW])
 		torque(true);
 	if(rIssues[Directive::RollCW])
 		torque(false);
-
-	//Evan - added boost mechanic
-	if (rIssues[Directive::Boost])
-		thrust(b2Vec2(0, 2));
-
 }
 void Thruster::thrust(const b2Vec2& rDirection)
 {
 	if(functioning())
 	{
 		float eThisStep = m_eConsump*game.getUniverse().getTimeStep();
+
+		if(rDirection.Length() > 1.0f)//if they are boosting at all
+			eThisStep *= m_boostCost;//Boosting costs 10 times as much
 
 		if(eThisStep <= m_pEnergyPool->getValue())
 		{

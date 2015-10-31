@@ -1,5 +1,4 @@
-#ifndef PANEL_H
-#define PANEL_H
+#pragma once
 
 #include "WidgetBase.hpp"
 
@@ -29,18 +28,14 @@ namespace leon
 
 		tgui::Panel::Ptr getPanelPtr() const;
 		void add(sptr<WidgetBase> sp_widget);
+		void clear();
 
 	protected:
-		void input(const std::string rCommand, sf::Packet rData);
-		virtual void f_callback(const tgui::Callback& callback);
-
-	private:
-		virtual void f_initialize(const PanelData& data);
+		tgui::Panel::Ptr m_pPanel;//the gui panel
 		std::vector<sptr<WidgetBase> > m_widgetList;
 
-		tgui::Panel::Ptr m_pPanel;//the gui panel
-		tgui::ChildWindow::Ptr m_pChildWindow;
+	private:
+		void f_initialize(const PanelData& data);
+
 	};
 }
-
-#endif // PANEL_H

@@ -7,6 +7,8 @@
 #include "IOComponent.hpp"
 #include "NetworkFactory.hpp"
 
+class PlayerState;
+
 enum class NWState
 {
 	Local,
@@ -38,6 +40,9 @@ public:
 
 	void messageLobbyLocal(const std::string& rMessage);
 	void messageLobby(const std::string& rMessage);
+	void messagePlayerCount();
+
+
 	bool setRecievePort(unsigned short port);//set receiving port, returns whether the bind was successful
 	bool hasConnections();//are we connected to anyone?
 	Connection* findConnection(const sf::IpAddress& rAdd, unsigned short fromUDPPort);
@@ -62,7 +67,7 @@ public:
 
 
 	/**REDUCTION**/
-	void recieveLobby(sf::Packet& rData, Connection* pFrom);
+	void playerOption(sf::Packet& rData, BasePlayerTraits* pFrom);
 	void recieveLevel(sf::Packet& data);
 	void launchMultiplayerGame();
 
@@ -82,8 +87,8 @@ protected:
 private:
 	IOComponent m_io;
 
-	std::string m_joinIP;//the address to join
-	unsigned short m_joinPort;//the port we will try to join
+	std::string m_remoteIP;//the address we will attempt to join if a client
+	unsigned short m_port;//the port we will try to join if a client, or that we will host on if a client
 	float m_timeOut;//timeout we use for connections
 
 	bool m_nwGameStarted;//has the game started for us yet?

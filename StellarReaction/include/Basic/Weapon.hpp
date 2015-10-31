@@ -23,10 +23,6 @@ public:
 	/// and sets the weapon so it will fire on preShot and postShot.
 	/// returns true if fired
 	/// </summary>
-	/// <param name="pEnergy">Parent pool</param>
-	/// <param name="pBall">Parent pool</param>
-	/// <param name="pMis">Parent pool</param>
-	/// <returns></returns>
 	bool fire(const FixtureComponent& pParent, Pool<Energy>* pEnergy, Pool<Ballistic>* pBall, Pool<Missiles>* pMis);
 	/// <summary>
 	/// Called by our parent module
@@ -42,17 +38,11 @@ public:
 	/// Called before physics update if this weapon should fire this tick
 	/// Overwrite this when making a new weapon.
 	/// </summary>
-	/// <param name="center">The center of the Module we are attached to</param>
-	/// <param name="aim">Aim of Controller</param>
-	/// <param name="radCCW">Angle of Parent Module</param>
 	virtual void preShot(const b2Vec2& center, const b2Vec2& aim, float radCCW) = 0;
 	//// <summary>
 	/// Called after physics update if this weapon fired this tick
 	/// Overwrite this when making a new weapon.
 	/// </summary>
-	/// <param name="center">The center of the Module we are attached to</param>
-	/// <param name="aim">Aim of Controller</param>
-	/// <param name="radCCW">Angle of Parent Module</param>
 	virtual void postShot(const b2Vec2& center, const b2Vec2& aim, float radCCW) = 0;
 protected:
 	b2Body* m_pBody;

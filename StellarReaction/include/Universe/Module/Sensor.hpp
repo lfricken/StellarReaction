@@ -13,7 +13,7 @@ public:
 
 	virtual void prePhysUpdate();
 
-	virtual void entered(FixtureComponent* pOther);//called when a
+	virtual void entered(FixtureComponent* pOther);
 	virtual void exited(FixtureComponent* pOther);
 
 protected:
@@ -22,18 +22,21 @@ protected:
 
 	std::vector<FixtureComponent*> m_guests;
 private:
-
+	bool m_enabled;
 };
 
 
 
 struct SensorData : public ModuleData
 {
-	SensorData()
+	SensorData() :
+		startEnabled(true)
 	{
 		fixComp.isSensor = true;
 		fixComp.density = 0.f;
 	}
+
+	bool startEnabled;
 
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff) const
 	{
