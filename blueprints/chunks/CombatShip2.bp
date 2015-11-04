@@ -119,26 +119,18 @@
             ]
         },
         {
+            "Title": "DefaultRadar",
+            "Position": [
+                0,
+                0
+            ]
+        },
+		{
             "Title": "Razor_Ballistic1",
             "Position": [
                 2,
                 0
             ]
-        },
-		{
-			"ClassName": "Radar",
-			"RadarStrength": 20,
-			"BaseSprite": {
-				"texName": "radar/radar_base.png",
-				"animSheetName": "radar/radar_base.acfg"
-			},
-			"Physics": {
-				"offset": [
-					0,
-					0
-				],
-				"density": 1.0
-			}
 		},
         {
             "Title": "DefaultThruster",

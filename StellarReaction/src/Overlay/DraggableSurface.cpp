@@ -107,7 +107,7 @@ bool DraggableSurface::inputHook(const std::string rCommand, sf::Packet rData)
 		DraggableData draggable;
 		draggable.metaData = title;
 		draggable.icon.texName = pNewModuleData->baseDecor.texName;
-		draggable.gridPosition = sf::Vector2f((x + 5), (y + 5));
+		draggable.gridPosition = sf::Vector2f((x + 5), (-y + 5));
 
 		this->addDraggable(draggable);
 

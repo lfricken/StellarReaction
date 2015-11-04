@@ -114,19 +114,11 @@
             ]
         },
 		{
-			"ClassName": "Radar",
-			"RadarStrength": 20,
-			"BaseSprite": {
-				"texName": "radar/radar_base.png",
-				"animSheetName": "radar/radar_base.acfg"
-			},
-			"Physics": {
-				"offset": [
-					0,
-					1
-				],
-				"density": 1.0
-			}
+            "Title": "DefaultRadar",
+            "Position": [
+                0,
+                1
+            ]
 		},
         {
             "Title": "DefaultThruster",
