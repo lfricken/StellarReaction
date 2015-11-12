@@ -1,11 +1,11 @@
-#ifndef UNIVERSE_HPP
-#define UNIVERSE_HPP
+#pragma once
 
 #include "stdafx.hpp"
 #include "IOComponent.hpp"
 #include "UniversalContactListener.hpp"
 #include "DebugDraw.hpp"
 #include "ControlFactory.hpp"
+#include "Money.hpp"
 
 class BatchLayers;
 class GraphicsComponentUpdater;
@@ -37,6 +37,7 @@ public:
 	void prePhysUpdate();
 	void physUpdate();
 	void postPhysUpdate();
+	void teamMoneyUpdate();
 	void updateDecorationPosition(const b2Vec2& rCameraPos, float zoom);
 
 
@@ -95,6 +96,8 @@ private:
 	sptr<ProjectileMan> m_spProjMan;//manages IO for the game objects
 
 	std::map<int, std::vector<b2Vec2> > m_spawnPoints;//places for people to spawn, int is team
+	std::map<int, Money> m_captures;//how much money does each team get for capture points
+	sptr<Timer> m_spMoneyTimer;//how long to wait for each money gift
 
 	std::vector<sptr<GameObject> > m_goList;//list of game objects that WE need to keep track of
 	std::vector<sptr<Decoration> > m_decorList;//list of decorations
@@ -104,5 +107,3 @@ private:
 	float m_lastTime;//used for update method//cant use timer because timer references us!
 	bool m_debugDrawEnabled;
 };
-
-#endif // UNIVERSE_HPP

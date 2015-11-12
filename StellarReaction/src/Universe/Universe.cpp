@@ -25,10 +25,17 @@
 
 using namespace std;
 
-
-
 Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input, this), m_physWorld(b2Vec2(0, 0))
 {
+	const Money defaultTickMoney = 1;
+	const float moneyTickTime = 2.f;
+	const int minTeam = 1;
+	const int maxTeam = 4;
+
+	m_velocityIterations = 1;
+	m_positionIterations = 1;
+	m_timeStep = 1.0f / 120.0f;///LOAD FROM FILE
+
 	m_spBPLoader = sptr<BlueprintLoader>(new BlueprintLoader);//MUST BE AFTER IO
 	m_spSlaveLocator = sptr<SlaveLocator>(new SlaveLocator);
 	m_spBatchLayers = sptr<BatchLayers>(new BatchLayers);
@@ -42,7 +49,12 @@ Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input,
 	m_spUniverseIO->give(&game.getLocalPlayer().getIOComp());
 	/**IO**/
 
+	//how often are people given capture rewards?
+	m_spMoneyTimer = sptr<Timer>(new Timer(this->getTime()));
+	m_spMoneyTimer->setCountDown(moneyTickTime);
 
+	for(int i = minTeam; i <= maxTeam; ++i)
+		m_captures[i] = defaultTickMoney;
 
 
 	/**PHYControlCS**/
@@ -50,9 +62,7 @@ Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input,
 	m_skippedTime = game.getTime();
 	m_pauseTime = m_skippedTime;
 
-	m_velocityIterations = 1;
-	m_positionIterations = 1;
-	m_timeStep = 1.0f / 120.0f;///LOAD FROM FILE
+
 
 	m_inc = 10;
 	m_currentBed = b2Vec2(-10000, 10000);
@@ -155,6 +165,23 @@ void Universe::postPhysUpdate()
 		for(auto it = m_goList.begin(); it != m_goList.end(); ++it)
 			(*it)->postPhysUpdate();
 		m_spProjMan->postPhysUpdate();
+	}
+}
+/// <summary>
+/// Gives each team the money the get per step (from cap points)
+/// </summary>
+void Universe::teamMoneyUpdate()
+{
+	if(m_spMoneyTimer->isTimeUp())
+	{
+		std::vector<sptr<Connection> > cons = game.getNwBoss().getConnections();
+		for(auto it = cons.begin(); it != cons.end(); ++it)
+		{
+			(*it)->changeMoney(m_captures[(*it)->getTeam()]);
+		}
+		//also give money to host!
+		game.getLocalPlayer().changeMoney(m_captures[game.getLocalPlayer().getTeam()]);
+		m_spMoneyTimer->restartCountDown();
 	}
 }
 void Universe::updateDecorationPosition(const b2Vec2& rCameraPos, float zoom)

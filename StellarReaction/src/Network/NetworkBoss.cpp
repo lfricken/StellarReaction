@@ -101,6 +101,10 @@ NWState NetworkBoss::getNWState() const
 {
 	return m_state;
 }
+std::vector<sptr<Connection> >& NetworkBoss::getConnections()
+{
+	return m_connections;
+}
 Connection* NetworkBoss::findConnection(const sf::IpAddress& remoteAddress, unsigned short remotePort)/**FIND A CONNECTION IF WE HAVE ONE**/
 {
 	for(auto it = m_connections.begin(); it != m_connections.end(); ++it)

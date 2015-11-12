@@ -59,7 +59,7 @@ public:
 	void setLocal();//set us to local mode and ignore nw activity
 	void setServer(unsigned short port, float timeout);//set us to host mode and listen for connections
 
-
+	std::vector<sptr<Connection> >& getConnections();
 
 	/**UPDATE**/
 	void update();
@@ -97,6 +97,8 @@ private:
 
 	sf::TcpListener m_listener;
 	sf::UdpSocket m_udp;
+	//each connection is another player (on server)
+	//does not store the hosts player
 	std::vector<sptr<Connection> > m_connections;
 
 	NetworkFactory m_nwFactoryTcp;

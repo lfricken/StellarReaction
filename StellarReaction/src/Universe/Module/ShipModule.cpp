@@ -37,6 +37,8 @@ ShipModule::ShipModule(const ShipModuleData& rData) : Module(rData), m_health(rD
 	data.layer = GraphicsLayer::ShipAppendagesLower;
 	m_decors.push_back(sptr<GraphicsComponent>(new QuadComponent(data)));
 	m_explosionIndex = m_decors.size() - 1;
+
+	//m_fix.setTeam();
 }
 ShipModule::~ShipModule()
 {

@@ -1,5 +1,4 @@
-#ifndef SENSOR_HPP
-#define SENSOR_HPP
+#pragma once
 
 #include "Module.hpp"
 
@@ -50,7 +49,3 @@ struct SensorData : public ModuleData
 		return new SensorData(*this);
 	}
 };
-
-
-
-#endif // SENSOR_HPP

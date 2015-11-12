@@ -24,13 +24,13 @@ Connection::~Connection()
 void Connection::sendUdp(Protocol proto, const sf::Packet& rData)
 {
 	sf::Packet data;
-	prepSend(proto, rData, data);
+	this->prepSend(proto, rData, data);
 	m_pUdpSocket->send(data, m_spTcpSocket->getRemoteAddress(), m_spTcpSocket->getRemotePort() + 1);
 }
 void Connection::sendTcp(Protocol proto, const sf::Packet& rData)
 {
 	sf::Packet data;
-	prepSend(proto, rData, data);
+	this->prepSend(proto, rData, data);
 	m_status = m_spTcpSocket->send(data);
 }
 void Connection::prepSend(Protocol proto, const sf::Packet& rData, sf::Packet& data)
@@ -75,7 +75,7 @@ void Connection::syncPlayerTraits()
 {
 	sf::Packet message;
 
-	message << static_cast<int32_t>(getMoney());
+	message << static_cast<int32_t>(this->getMoney());
 
 	sendUdp(Protocol::PlayerTraits, message);
 }
@@ -85,7 +85,7 @@ void Connection::recievePlayerTraits(sf::Packet mes)
 
 	mes >> money;
 
-	setMoney(money);
+	this->setMoney(money);
 }
 void Connection::addModule(const std::string& newTitle, const b2Vec2& rPos)
 {
@@ -95,7 +95,7 @@ void Connection::addModule(const std::string& newTitle, const b2Vec2& rPos)
 	pack << (int32_t)rPos.x;
 	pack << (int32_t)rPos.y;
 	Message modAdded("ship_editor", "addItem", pack, 0.f, false);
-	sendSpecialIo(modAdded);
+	this->sendSpecialIo(modAdded);
 }
 void Connection::sendSpecialIo(const Message& mes)
 {

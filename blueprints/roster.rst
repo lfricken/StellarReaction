@@ -14,14 +14,16 @@
 		"plating/DefaultPlating.bp",
 		"turret/Raven_Laser1.bp",
 		"turret/Raven_Ballistic1.bp",
-		"radar/DefaultRadar.bp"
+		"radar/DefaultRadar.bp",
+		"objective/DefaultCaptureArea.bp"
     ],
     "ChunkList": [
 		"chunks/CombatShip.bp",
 		"chunks/CombatShip2.bp",
 		"chunks/Raven1.bp",
 		"chunks/DefaultStation.bp",
-        "chunks/DefaultChunk.bp"
+        "chunks/DefaultChunk.bp",
+        "chunks/DefaultCapture.bp"
     ],
     "WeaponList": [
         "weapon/DefaultWeapon.bp",

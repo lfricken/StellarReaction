@@ -6,17 +6,18 @@ class Timer
 {
 public:
 	Timer();
+	Timer(float time);
 	virtual ~Timer();
 
 	float getTime() const;//time elapsed as seconds since the universe was initialized
-	float getTimeElapsed();//get time elapsed since we last called this function, or the beginning of time
+	float getTimeElapsed();//get time elapsed since we last called this function, or our initialization
 
-	bool isTimeUp() const;//asks whether the timer is up
+	bool isTimeUp() const;//asks whether the timer has counted down enough
 	void setCountDown(float countDown);//sets the countdownTime, default 1.0
 	void restartCountDown();//starts, the current countdown time from whatever it is supposed to be
 protected:
 private:
-	mutable float m_lastElapsedTime;
+	float m_lastElapsedTime;
 
 	float m_countDownTime;
 	mutable float m_lastCountDownTime;

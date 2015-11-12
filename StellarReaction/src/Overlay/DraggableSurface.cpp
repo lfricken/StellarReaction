@@ -79,7 +79,7 @@ bool DraggableSurface::inputHook(const std::string rCommand, sf::Packet rData)
 		for(auto it = modules.begin(); it != modules.end(); ++it)
 		{
 			pack << it->first;
-			float x = (float)((it->second.x / m_gridSize.x) - 5);
+			float x = (float) ((it->second.x / m_gridSize.x) - 5);
 			float y = (float)-((it->second.y / m_gridSize.y) - 5);//negative
 			pack << x;
 			pack << y;
@@ -107,7 +107,7 @@ bool DraggableSurface::inputHook(const std::string rCommand, sf::Packet rData)
 		DraggableData draggable;
 		draggable.metaData = title;
 		draggable.icon.texName = pNewModuleData->baseDecor.texName;
-		draggable.gridPosition = sf::Vector2f((x + 5), (y + 5));
+		draggable.gridPosition = sf::Vector2f((x + 5), (-y + 5));
 
 		this->addDraggable(draggable);
 

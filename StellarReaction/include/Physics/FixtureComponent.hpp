@@ -1,8 +1,8 @@
-#ifndef FIXTURECOMPONENT_HPP
-#define FIXTURECOMPONENT_HPP
+#pragma once
 
 #include "stdafx.hpp"
 #include "CollisionCategory.hpp"
+
 namespace leon
 {
 	enum class Shape
@@ -50,7 +50,10 @@ public:
 	virtual ~FixtureComponent();
 
 	b2Vec2 getCenter() const;
-	float getAngle() const;//RADIANS CCW
+	float getAngle() const;//RADIANS CCW	
+	/// <summary>
+	/// Gets the io position of our owner.
+	/// </summary>
 	int getIOPos() const;
 	b2Body* getBodyPtr();
 	const b2Body* getBodyPtr() const;
@@ -66,6 +69,9 @@ public:
 
 	void setStore(const std::string& rTargetName);
 	const std::string& getStore() const;
+
+	void setTeam(int team);
+	int getTeam() const;
 
 protected:
 private:
@@ -95,8 +101,7 @@ private:
 	b2Fixture* m_pFixture;
 	int m_ioPos;
 
+	int m_team;
 	std::string m_store;
 	b2Vec2 m_offset;
 };
-
-#endif // FIXTURECOMPONENT_HPP

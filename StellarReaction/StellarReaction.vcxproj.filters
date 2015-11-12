@@ -390,6 +390,9 @@
     <ClCompile Include="src\Audio\Sound.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Universe\Module\CaptureArea.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\API\Box2D\Box2D.h">
@@ -1191,6 +1194,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Audio\Sound.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Universe\Module\CaptureArea.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

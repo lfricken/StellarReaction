@@ -10,6 +10,13 @@ Timer::Timer()
 	m_countDownTime = 1.f;
 	m_countDownTimeRemain = 0.f;
 }
+Timer::Timer(float time)
+{
+	m_lastElapsedTime = time;
+	m_lastCountDownTime = time;
+	m_countDownTime = 1.f;
+	m_countDownTimeRemain = 0.f;
+}
 Timer::~Timer()
 {
 
