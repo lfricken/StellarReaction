@@ -65,7 +65,7 @@ struct ModuleData
 
 	std::string title;//how the game refers to it
 	std::string name;//what gets displayed to player
-	Money cost;
+	Money cost;//how much does this cost?
 
 	IOComponentData ioComp;
 	NetworkComponentData nwComp;

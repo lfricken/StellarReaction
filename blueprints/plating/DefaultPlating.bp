@@ -8,5 +8,6 @@
 	},
 	"Defense": {
 		"Armor": 80
-	}
+	},
+	"Cost": 10
 }

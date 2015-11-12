@@ -14,6 +14,7 @@
 #include "LaserWeapon.hpp"
 #include "BallisticWeapon.hpp"
 #include "Projectile.hpp"
+#include "CaptureArea.hpp"
 
 using namespace std;
 
@@ -438,6 +439,21 @@ sptr<const ModuleData> BlueprintLoader::loadModule(const Json::Value& root)//ret
 		inheritModule(root, pSMod);
 		spMod.reset(pSMod);
 	}
+	else if(root["ClassName"].asString() == "CaptureArea")
+	{
+		CaptureAreaData* pSMod = new CaptureAreaData;
+		copyModule<CaptureAreaData>(root, pSMod);
+		inheritModule(root, pSMod);
+
+		if(!root["Value"].isNull())
+			pSMod->value = root["Value"].asInt();
+		if(!root["CaptureTime"].isNull())
+			pSMod->captureTime = root["CaptureTime"].asInt();
+		if(!root["CapturePercent"].isNull())
+			pSMod->capturePercent = root["CapturePercent"].asFloat();
+
+		spMod.reset(pSMod);
+	}
 	else if(root["ClassName"].asString() == "ShipModule")
 	{
 		ShipModuleData* pSMod = new ShipModuleData;
@@ -571,6 +587,8 @@ void BlueprintLoader::inheritModule(const Json::Value& root, ModuleData* pSMod)/
 		pSMod->fixComp = loadFixComp(root["Physics"], pSMod->fixComp);
 	if(!root["Network"].isNull())
 		pSMod->nwComp = loadNWComp(root["Network"], pSMod->nwComp);
+	if(!root["Cost"].isNull())
+		pSMod->cost = root["Cost"].asInt();
 }
 /**====================**/
 /**LOAD MULTI PART DATA**/
@@ -783,7 +801,6 @@ FixtureComponentData BlueprintLoader::loadFixComp(const Json::Value& root, const
 NetworkComponentData BlueprintLoader::loadNWComp(const Json::Value& root, const NetworkComponentData& orig)
 {
 	NetworkComponentData data(orig);
-
 
 	return data;
 }

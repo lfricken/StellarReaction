@@ -73,13 +73,12 @@ void BasePlayerTraits::addModule(const std::string& newTitle, const b2Vec2& rPos
 bool BasePlayerTraits::removeModule(const std::string& oldTitle)
 {
 	for(auto it = m_owned.begin(); it != m_owned.end(); ++it)
-	{
 		if(it->first == oldTitle)
 		{
 			m_owned.erase(it);
 			return true;
 		}
-	}
+
 	return false;
 }
 const std::vector<std::pair<std::string, b2Vec2> >& BasePlayerTraits::getOwnedModuleTitles() const

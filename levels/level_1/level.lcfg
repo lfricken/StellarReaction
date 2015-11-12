@@ -123,6 +123,13 @@
 			]
         },
         {
+            "Title": "DefaultCapture",
+			"Coordinates": [
+				30,
+				30
+			]
+        },
+        {
             "ClassName": "Chunk",
             "Copies": null,
             "IO": {

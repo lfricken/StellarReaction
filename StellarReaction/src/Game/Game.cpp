@@ -189,7 +189,8 @@ void Game::run()
 		lastTime = m_clock.getElapsedTime().asSeconds();
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::F))
 			std::cout << "\nT: " << frameTime;
-
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::M))
+			std::cout << "\nM: " << game.getLocalPlayer().getMoney();
 
 		/**== IO ==**/
 		getCoreIO().update(frameTime);
@@ -212,6 +213,8 @@ void Game::run()
 			physTickTimeRemaining -= timeStep;
 		}
 
+		/**REWARDS**/
+		getUniverse().teamMoneyUpdate();
 
 		/**NETWORK**/
 		if(m_spNetworkBoss->getNWState() != NWState::Local)

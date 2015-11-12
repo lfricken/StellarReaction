@@ -79,7 +79,7 @@ bool DraggableSurface::inputHook(const std::string rCommand, sf::Packet rData)
 		for(auto it = modules.begin(); it != modules.end(); ++it)
 		{
 			pack << it->first;
-			float x = (float)((it->second.x / m_gridSize.x) - 5);
+			float x = (float) ((it->second.x / m_gridSize.x) - 5);
 			float y = (float)-((it->second.y / m_gridSize.y) - 5);//negative
 			pack << x;
 			pack << y;

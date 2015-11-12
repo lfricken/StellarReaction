@@ -1,0 +1,23 @@
+{
+    "ClassName": "CaptureArea",
+	"Title": "DefaultCaptureArea",
+    "Inherits": "DefaultModule",
+	"Physics": {
+		"offset": [
+			0,
+			0
+		],
+		"size": [
+			8,
+			0
+		],
+		"shape": "circle",
+		"density": 0,
+		"isSensor": true,
+		"colCat": "Trigger",
+		"colMask": "Trigger"
+	},
+	"Value": 99,
+	"CaptureTime": 5,
+	"CapturePercent": 0.80
+}

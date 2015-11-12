@@ -6,6 +6,7 @@ using namespace std;
 
 FixtureComponent::FixtureComponent(const FixtureComponentData& rData)
 {
+	m_team = 1;
 	m_offset = rData.offset;
 	m_ioPos = -1;
 	/**RECTANGLE**/
@@ -58,7 +59,6 @@ const b2Vec2 FixtureComponent::getOffset() const
 {
 	return m_offset;
 }
-
 /// <summary>
 /// Finds the center in world coordinates of the fixture
 /// </summary>
@@ -109,12 +109,6 @@ void FixtureComponent::setIOPos(int ioPos)
 {
 	m_ioPos = ioPos;
 }
-
-
-
-
-
-
 /// <summary>
 /// Applies force to center of body(Newtons)
 /// </summary>
@@ -139,11 +133,6 @@ void FixtureComponent::applyTorque(float radiansCCW)//applies torque to body(New
 	if(!game.getUniverse().isPaused())
 		m_pFixture->GetBody()->ApplyTorque(radiansCCW, true);
 }
-
-
-
-
-
 void FixtureComponent::setCategory(Category cat)
 {
 	b2Filter filter = m_pFixture->GetFilterData();
@@ -156,7 +145,6 @@ void FixtureComponent::setMask(Mask mask)
 	filter.maskBits = static_cast<uint16_t>(mask);
 	m_pFixture->SetFilterData(filter);
 }
-
 void FixtureComponent::setStore(const std::string& rTargetName)
 {
 	m_store = rTargetName;
@@ -164,4 +152,12 @@ void FixtureComponent::setStore(const std::string& rTargetName)
 const std::string& FixtureComponent::getStore() const
 {
 	return m_store;
+}
+void FixtureComponent::setTeam(int team)
+{
+	m_team = team;
+}
+int FixtureComponent::getTeam() const
+{
+	return m_team;
 }
