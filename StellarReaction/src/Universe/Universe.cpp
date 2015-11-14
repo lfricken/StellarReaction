@@ -28,7 +28,7 @@ using namespace std;
 Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input, this), m_physWorld(b2Vec2(0, 0))
 {
 	const Money defaultTickMoney = 1;
-	const float moneyTickTime = 2.f;
+	const float moneyTickTime = 5.f;
 	const int minTeam = 1;
 	const int maxTeam = 4;
 
@@ -146,6 +146,10 @@ void Universe::prePhysUpdate()
 		m_spProjMan->prePhysUpdate();
 	}
 
+}
+void Universe::changeTeamMoney(int team, Money money)
+{
+	this->m_captures[team] += money;
 }
 void Universe::physUpdate()
 {
