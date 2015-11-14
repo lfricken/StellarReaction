@@ -57,7 +57,6 @@ void SoundManager::playSound(const std::string& rSoundName, int volume, float mi
 		itBuffer = m_buffers.find(rSoundName);
 	}
 
-
 	/**It's been loaded, find a noise to play it in**/
 	for(int i = 0; i < m_numNoises; ++i)
 		if(m_noises[i].m_sound.getStatus() == sf::Sound::Stopped)
@@ -77,4 +76,6 @@ void SoundManager::playSound(const std::string& rSoundName, int volume, float mi
 			return;
 		}
 	cout << "\nSounds are full, trying [" << rSoundName << "] " << FILELINE;
+
+
 }

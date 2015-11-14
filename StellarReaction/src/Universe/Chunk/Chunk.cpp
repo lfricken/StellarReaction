@@ -153,14 +153,14 @@ void Chunk::directive(std::map<Directive, bool>& rIssues, bool local)//send comm
 	{
 		for (auto it = afterburners.begin(); it != afterburners.end(); ++it)
 			(*it)->getAnimator().setAnimation("Thrust", 0.20f);
-		thrust_sound.play();
+		game.getSound().playSound("afterb1.wav", 100, 20, 20, getBodyPtr()->GetWorldCenter(), true);
 	}
 
 	if (startBoosting)
 	{
 		for (auto it = afterburners_boost.begin(); it != afterburners_boost.end(); ++it)
 			(*it)->getAnimator().setAnimation("Boost", 0.20f);
-		boost_sound.play();
+		game.getSound().playSound("afterb2.wav", 60, 20, 20, getBodyPtr()->GetWorldCenter(), true);
 	}
 
 
@@ -180,6 +180,7 @@ void Chunk::directive(std::map<Directive, bool>& rIssues, bool local)//send comm
 
 	m_wasThrusting = rIssues[Directive::Up];
 	m_wasBoosting = (rIssues[Directive::Up] && rIssues[Directive::Boost]);
+
 }
 float Chunk::get(Request value) const//return the requested value
 {
