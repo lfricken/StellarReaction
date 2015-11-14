@@ -172,17 +172,18 @@ void Universe::postPhysUpdate()
 /// </summary>
 void Universe::teamMoneyUpdate()
 {
-	if(m_spMoneyTimer->isTimeUp())
-	{
-		std::vector<sptr<Connection> > cons = game.getNwBoss().getConnections();
-		for(auto it = cons.begin(); it != cons.end(); ++it)
+	if(game.getNwBoss().getNWState() == NWState::Server)
+		if(m_spMoneyTimer->isTimeUp())
 		{
-			(*it)->changeMoney(m_captures[(*it)->getTeam()]);
+			std::vector<sptr<Connection> > cons = game.getNwBoss().getConnections();
+			for(auto it = cons.begin(); it != cons.end(); ++it)
+			{
+				(*it)->changeMoney(m_captures[(*it)->getTeam()]);
+			}
+			//also give money to host!
+			game.getLocalPlayer().changeMoney(m_captures[game.getLocalPlayer().getTeam()]);
+			m_spMoneyTimer->restartCountDown();
 		}
-		//also give money to host!
-		game.getLocalPlayer().changeMoney(m_captures[game.getLocalPlayer().getTeam()]);
-		m_spMoneyTimer->restartCountDown();
-	}
 }
 void Universe::updateDecorationPosition(const b2Vec2& rCameraPos, float zoom)
 {
