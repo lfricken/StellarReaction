@@ -1,6 +1,8 @@
 #include "Connection.hpp"
 #include "Globals.hpp"
 #include "Universe.hpp"
+#include "Player.hpp"
+#include "Game.hpp"
 
 using namespace std;
 
@@ -85,7 +87,7 @@ void Connection::recievePlayerTraits(sf::Packet mes)
 
 	mes >> money;
 
-	this->setMoney(money);
+	game.getLocalPlayer().setMoney(money);
 }
 void Connection::addModule(const std::string& newTitle, const b2Vec2& rPos)
 {
