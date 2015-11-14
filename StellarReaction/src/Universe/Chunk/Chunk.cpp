@@ -48,6 +48,17 @@ Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp)
 		temp->setRotation(m_body.getBodyPtr()->GetAngle());
 		afterburners_boost.push_back(temp);
 	}
+
+	//Evan - afterburner sound
+	thrust_buffer.loadFromFile(contentDir() + "audio/afterb1.wav");
+	thrust_sound.setBuffer(thrust_buffer);
+	thrust_sound.setLoop(true);
+	thrust_sound.setVolume(60);
+
+	boost_buffer.loadFromFile(contentDir() + "audio/afterb2.wav");
+	boost_sound.setBuffer(boost_buffer);
+	boost_sound.setLoop(true);
+	boost_sound.setVolume(100);
 }
 Chunk::~Chunk()
 {
@@ -137,23 +148,35 @@ void Chunk::directive(std::map<Directive, bool>& rIssues, bool local)//send comm
 	bool startThrusting = (rIssues[Directive::Up] && !m_wasThrusting);
 	bool startBoosting = (rIssues[Directive::Up] && rIssues[Directive::Boost] && !m_wasBoosting);
 
-	if(startThrusting)
-		for(auto it = afterburners.begin(); it != afterburners.end(); ++it)
+
+	if (startThrusting)
+	{
+		for (auto it = afterburners.begin(); it != afterburners.end(); ++it)
 			(*it)->getAnimator().setAnimation("Thrust", 0.20f);
+		thrust_sound.play();
+	}
 
-	if(startBoosting)
-		for(auto it = afterburners_boost.begin(); it != afterburners_boost.end(); ++it)
+	if (startBoosting)
+	{
+		for (auto it = afterburners_boost.begin(); it != afterburners_boost.end(); ++it)
 			(*it)->getAnimator().setAnimation("Boost", 0.20f);
+		boost_sound.play();
+	}
 
 
-
-	if(!rIssues[Directive::Up])
-		for(auto it = afterburners.begin(); it != afterburners.end(); ++it)
+	if (!rIssues[Directive::Up])
+	{
+		for (auto it = afterburners.begin(); it != afterburners.end(); ++it)
 			(*it)->getAnimator().setAnimation("Default", 1.0f);
+		thrust_sound.stop();
+	}
 
-	if(!rIssues[Directive::Up] || !rIssues[Directive::Boost])
+	if (!rIssues[Directive::Up] || !rIssues[Directive::Boost])
+	{
 		for(auto it = afterburners_boost.begin(); it != afterburners_boost.end(); ++it)
 			(*it)->getAnimator().setAnimation("Default", 1.0f);
+		boost_sound.stop();
+	}
 
 	m_wasThrusting = rIssues[Directive::Up];
 	m_wasBoosting = (rIssues[Directive::Up] && rIssues[Directive::Boost]);

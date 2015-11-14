@@ -62,6 +62,12 @@ private:
 	std::vector<sptr<GraphicsComponent> > afterburners;
 	bool m_wasBoosting;
 	std::vector<sptr<GraphicsComponent> > afterburners_boost;
+
+	//Evan - afterburner sound effects test
+	sf::SoundBuffer thrust_buffer;
+	sf::Sound thrust_sound;
+	sf::SoundBuffer boost_buffer;
+	sf::Sound boost_sound;
 };
 
 
