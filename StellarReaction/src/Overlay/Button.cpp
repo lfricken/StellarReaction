@@ -3,11 +3,11 @@
 
 using namespace leon;
 
-Button::Button(tgui::Gui& gui, const ButtonData& rData) : WidgetBase(rData), m_pButton(gui)
+Button::Button(tgui::Gui& gui, const ButtonData& rData) : WidgetBase(gui, rData), m_pButton(gui)
 {
 	f_initialize(rData);
 }
-Button::Button(tgui::Container& container, const ButtonData& rData = ButtonData()) : WidgetBase(rData), m_pButton(container)
+Button::Button(tgui::Container& container, const ButtonData& rData = ButtonData()) : WidgetBase(container, rData), m_pButton(container)
 {
 	f_initialize(rData);
 }

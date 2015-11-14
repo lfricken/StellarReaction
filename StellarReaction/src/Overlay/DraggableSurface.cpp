@@ -113,6 +113,12 @@ bool DraggableSurface::inputHook(const std::string rCommand, sf::Packet rData)
 
 		return true;
 	}
+	else if(rCommand == "clear")
+	{
+		m_widgetList.clear();
+
+		return true;
+	}
 	else
 		return false;
 }

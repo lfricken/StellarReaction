@@ -483,6 +483,8 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 	m_spControlFactory->resetControllers(rControllerList);
 	game.getLocalPlayer().setController(localController);
 
+	Message mes("ship_editor", "clear", voidPacket, 0, false);
+	game.getCoreIO().recieve(mes);
 
 	/**LOAD MY CURRENT SHIP INTO STORE**/
 	Controller* pController = &this->getControllerFactory().getController(localController);
