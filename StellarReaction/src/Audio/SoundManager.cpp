@@ -79,3 +79,10 @@ void SoundManager::playSound(const std::string& rSoundName, int volume, float mi
 
 
 }
+
+void SoundManager::stopSound(const std::string& rSoundName)
+{
+	//loop through noises? find if done? need specific reference somehow though
+	//can I make a noise reference somehow?
+	 //implement playSound with noise
+}
