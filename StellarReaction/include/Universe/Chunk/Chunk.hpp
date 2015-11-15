@@ -62,6 +62,9 @@ private:
 	std::vector<sptr<GraphicsComponent> > afterburners;
 	bool m_wasBoosting;
 	std::vector<sptr<GraphicsComponent> > afterburners_boost;
+
+	int m_thrustNoiseIndex;
+	int m_boostNoiseIndex;
 };
 
 

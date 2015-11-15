@@ -49,6 +49,8 @@ Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp)
 		afterburners_boost.push_back(temp);
 	}
 
+	m_thrustNoiseIndex = -1;
+	m_boostNoiseIndex = -1;
 	m_body.setTeam(rData.team);
 }
 Chunk::~Chunk()
@@ -139,26 +141,39 @@ void Chunk::directive(std::map<Directive, bool>& rIssues, bool local)//send comm
 	bool startThrusting = (rIssues[Directive::Up] && !m_wasThrusting);
 	bool startBoosting = (rIssues[Directive::Up] && rIssues[Directive::Boost] && !m_wasBoosting);
 
-	if(startThrusting)
-		for(auto it = afterburners.begin(); it != afterburners.end(); ++it)
+
+	if (startThrusting)
+	{
+		for (auto it = afterburners.begin(); it != afterburners.end(); ++it)
 			(*it)->getAnimator().setAnimation("Thrust", 0.20f);
+		m_thrustNoiseIndex = game.getSound().playSound("afterb1.wav", 60, 20, 20, getBodyPtr()->GetWorldCenter(), true, true);
+	}
 
-	if(startBoosting)
-		for(auto it = afterburners_boost.begin(); it != afterburners_boost.end(); ++it)
+	if (startBoosting)
+	{
+		for (auto it = afterburners_boost.begin(); it != afterburners_boost.end(); ++it)
 			(*it)->getAnimator().setAnimation("Boost", 0.20f);
+		m_boostNoiseIndex = game.getSound().playSound("afterb2.wav", 100, 20, 20, getBodyPtr()->GetWorldCenter(), true, true);
+	}
 
 
-
-	if(!rIssues[Directive::Up])
-		for(auto it = afterburners.begin(); it != afterburners.end(); ++it)
+	if (!rIssues[Directive::Up])
+	{
+		for (auto it = afterburners.begin(); it != afterburners.end(); ++it)
 			(*it)->getAnimator().setAnimation("Default", 1.0f);
+		m_thrustNoiseIndex = game.getSound().stopSound(m_thrustNoiseIndex);
+	}
 
-	if(!rIssues[Directive::Up] || !rIssues[Directive::Boost])
+	if (!rIssues[Directive::Up] || !rIssues[Directive::Boost])
+	{
 		for(auto it = afterburners_boost.begin(); it != afterburners_boost.end(); ++it)
 			(*it)->getAnimator().setAnimation("Default", 1.0f);
+		m_boostNoiseIndex = game.getSound().stopSound(m_boostNoiseIndex);
+	}
 
 	m_wasThrusting = rIssues[Directive::Up];
 	m_wasBoosting = (rIssues[Directive::Up] && rIssues[Directive::Boost]);
+
 }
 float Chunk::get(Request value) const//return the requested value
 {
