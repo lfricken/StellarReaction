@@ -6,7 +6,6 @@ using namespace std;
 
 FixtureComponent::FixtureComponent(const FixtureComponentData& rData)
 {
-	m_team = 1;
 	m_offset = rData.offset;
 	m_ioPos = -1;
 	/**RECTANGLE**/
@@ -152,12 +151,4 @@ void FixtureComponent::setStore(const std::string& rTargetName)
 const std::string& FixtureComponent::getStore() const
 {
 	return m_store;
-}
-void FixtureComponent::setTeam(int team)
-{
-	m_team = team;
-}
-int FixtureComponent::getTeam() const
-{
-	return m_team;
 }

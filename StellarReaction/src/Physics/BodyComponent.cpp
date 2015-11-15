@@ -119,4 +119,12 @@ void BodyComponent::wake(const b2Vec2& rCoords, float radiansCCW, const b2Vec2& 
 	m_pBody->SetLinearVelocity(rVel);
 	m_pBody->SetAngularVelocity(angularVel);
 }
+void BodyComponent::setTeam(int team)
+{
+	m_team = team;
+}
+int BodyComponent::getTeam() const
+{
+	return m_team;
+}
 

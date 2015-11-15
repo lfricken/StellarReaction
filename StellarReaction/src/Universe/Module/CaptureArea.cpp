@@ -1,4 +1,6 @@
 #include "CaptureArea.hpp"
+#include "BodyComponent.hpp"
+#include "FixtureComponent.hpp"
 
 CaptureArea::CaptureArea(const CaptureAreaData& rData) : Sensor(rData)
 {
@@ -23,7 +25,8 @@ void CaptureArea::prePhysUpdate()
 
 	for(auto it = m_guests.cbegin(); it != m_guests.cend(); ++it)
 	{
-		int thisTeam = (*it)->getTeam();
+		void* p = (*it)->getBodyPtr()->GetUserData();
+		int thisTeam = static_cast<BodyComponent*>(p)->getTeam();
 		if(team == -1 || team == thisTeam)
 			team = thisTeam;
 		else

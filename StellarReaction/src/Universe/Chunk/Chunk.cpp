@@ -48,6 +48,8 @@ Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp)
 		temp->setRotation(m_body.getBodyPtr()->GetAngle());
 		afterburners_boost.push_back(temp);
 	}
+
+	m_body.setTeam(rData.team);
 }
 Chunk::~Chunk()
 {
