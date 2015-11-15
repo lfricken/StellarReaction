@@ -3,11 +3,11 @@
 
 using namespace leon;
 
-Picture::Picture(tgui::Gui& rGui, const PictureData& rData) : WidgetBase(rData), m_pPicture(rGui)
+Picture::Picture(tgui::Gui& rGui, const PictureData& rData) : WidgetBase(rGui, rData), m_pPicture(rGui)
 {
 	f_initialize(rData);
 }
-Picture::Picture(tgui::Container& rContainer, const PictureData& rData) : WidgetBase(rData), m_pPicture(rContainer)
+Picture::Picture(tgui::Container& rContainer, const PictureData& rData) : WidgetBase(rContainer, rData), m_pPicture(rContainer)
 {
 	f_initialize(rData);
 }

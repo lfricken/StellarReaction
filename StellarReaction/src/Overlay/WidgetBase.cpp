@@ -3,10 +3,19 @@
 using namespace leon;
 using namespace std;
 
-WidgetBase::WidgetBase(const WidgetBaseData& rData) : m_io(rData.ioComp, &leon::WidgetBase::input, this)
+WidgetBase::WidgetBase(tgui::Gui& gui, const WidgetBaseData& rData) : m_io(rData.ioComp, &leon::WidgetBase::input, this)
 {
 	m_startHidden = rData.startHidden;
 	m_tempTransparency = rData.transparency;
+	pCon = NULL;
+	pGui = &gui;
+}
+WidgetBase::WidgetBase(tgui::Container& rContainer, const WidgetBaseData& rData) : m_io(rData.ioComp, &leon::WidgetBase::input, this)
+{
+	m_startHidden = rData.startHidden;
+	m_tempTransparency = rData.transparency;
+	pCon = &rContainer;
+	pGui = NULL;
 }
 void WidgetBase::f_assign(tgui::Widget* pWidget)
 {
@@ -19,7 +28,8 @@ void WidgetBase::f_assign(tgui::Widget* pWidget)
 }
 WidgetBase::~WidgetBase()
 {
-
+	if(pCon != NULL)
+		pCon->remove(m_pWidget);
 }
 void WidgetBase::enable()
 {

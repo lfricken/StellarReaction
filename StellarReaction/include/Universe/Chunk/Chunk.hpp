@@ -63,11 +63,6 @@ private:
 	bool m_wasBoosting;
 	std::vector<sptr<GraphicsComponent> > afterburners_boost;
 
-	//Evan - afterburner sound effects test //TODO - delete
-	/*sf::SoundBuffer thrust_buffer;
-	sf::Sound thrust_sound;
-	sf::SoundBuffer boost_buffer;
-	sf::Sound boost_sound;*/
 	int m_thrustNoiseIndex;
 	int m_boostNoiseIndex;
 };
@@ -77,7 +72,8 @@ struct ChunkData : public GameObjectData
 {
 	ChunkData() :
 		GameObjectData(),
-		bodyComp()
+		bodyComp(),
+		team(-784)
 	{
 		zoomData.startMin = 1;
 		zoomData.startValue = 1;
@@ -97,6 +93,7 @@ struct ChunkData : public GameObjectData
 
 	std::vector<b2Vec2> validPos;
 
+	int team;
 	BodyComponentData bodyComp;
 	std::vector<sptr<const ModuleData> > moduleData;
 

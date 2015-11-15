@@ -418,6 +418,7 @@ void NetworkBoss::updateConnections()
 				--i;
 			}
 		}
+		//server only
 		else if(counter >= frequency && getNWState() == NWState::Server && m_connections[i]->validated())
 		{
 			m_connections[i]->syncPlayerTraits();

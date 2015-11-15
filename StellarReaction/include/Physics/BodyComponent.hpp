@@ -44,6 +44,8 @@ public:
 	void wake();
 	void wake(const b2Vec2& rCoords, float radiansCCW, const b2Vec2& rVel, float angularVel);
 
+	void setTeam(int team);
+	int getTeam() const;
 
 protected:
 	virtual void pack(sf::Packet& rPacket);
@@ -56,6 +58,8 @@ private:
 
 	b2Vec2 m_oldPos;//used for sleep
 	float m_oldAngle;//used for sleep
+
+	int m_team;
 };
 
 #endif // BODYCOMPONENT_HPP

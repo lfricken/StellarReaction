@@ -49,18 +49,9 @@ Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp)
 		afterburners_boost.push_back(temp);
 	}
 
-	//Evan - afterburner sound //TODO - remove
-	/*thrust_buffer.loadFromFile(contentDir() + "audio/afterb1.wav");
-	thrust_sound.setBuffer(thrust_buffer);
-	thrust_sound.setLoop(true);
-	thrust_sound.setVolume(60);
-
-	boost_buffer.loadFromFile(contentDir() + "audio/afterb2.wav");
-	boost_sound.setBuffer(boost_buffer);
-	boost_sound.setLoop(true);
-	boost_sound.setVolume(100);*/
 	m_thrustNoiseIndex = -1;
 	m_boostNoiseIndex = -1;
+	m_body.setTeam(rData.team);
 }
 Chunk::~Chunk()
 {

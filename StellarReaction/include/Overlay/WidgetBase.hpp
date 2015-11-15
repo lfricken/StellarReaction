@@ -29,7 +29,8 @@ namespace leon
 	class WidgetBase
 	{
 	public:
-		WidgetBase(const WidgetBaseData& rData);
+		WidgetBase(tgui::Gui& gui, const WidgetBaseData& rData);
+		WidgetBase(tgui::Container& rContainer, const WidgetBaseData& rData);
 		virtual ~WidgetBase();
 
 		void enable();
@@ -78,5 +79,8 @@ namespace leon
 		bool m_startHidden;
 		tgui::Widget* m_pWidget;
 		unsigned char m_tempTransparency;
+
+		tgui::Container* pCon;
+		tgui::Gui* pGui;
 	};
 }

@@ -28,7 +28,7 @@ using namespace std;
 Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input, this), m_physWorld(b2Vec2(0, 0))
 {
 	const Money defaultTickMoney = 1;
-	const float moneyTickTime = 2.f;
+	const float moneyTickTime = 5.f;
 	const int minTeam = 1;
 	const int maxTeam = 4;
 
@@ -147,6 +147,10 @@ void Universe::prePhysUpdate()
 	}
 
 }
+void Universe::changeTeamMoney(int team, Money money)
+{
+	this->m_captures[team] += money;
+}
 void Universe::physUpdate()
 {
 	if(!m_paused)
@@ -172,17 +176,18 @@ void Universe::postPhysUpdate()
 /// </summary>
 void Universe::teamMoneyUpdate()
 {
-	if(m_spMoneyTimer->isTimeUp())
-	{
-		std::vector<sptr<Connection> > cons = game.getNwBoss().getConnections();
-		for(auto it = cons.begin(); it != cons.end(); ++it)
+	if(game.getNwBoss().getNWState() == NWState::Server)
+		if(m_spMoneyTimer->isTimeUp())
 		{
-			(*it)->changeMoney(m_captures[(*it)->getTeam()]);
+			std::vector<sptr<Connection> > cons = game.getNwBoss().getConnections();
+			for(auto it = cons.begin(); it != cons.end(); ++it)
+			{
+				(*it)->changeMoney(m_captures[(*it)->getTeam()]);
+			}
+			//also give money to host!
+			game.getLocalPlayer().changeMoney(m_captures[game.getLocalPlayer().getTeam()]);
+			m_spMoneyTimer->restartCountDown();
 		}
-		//also give money to host!
-		game.getLocalPlayer().changeMoney(m_captures[game.getLocalPlayer().getTeam()]);
-		m_spMoneyTimer->restartCountDown();
-	}
 }
 void Universe::updateDecorationPosition(const b2Vec2& rCameraPos, float zoom)
 {
@@ -474,6 +479,7 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 		spCnk.reset(m_spBPLoader->getChunkSPtr(rShipTitleList[i])->clone());
 		spCnk->bodyComp.coords = m_spawnPoints[team][i];
 		spCnk->ioComp.name = std::to_string(i + 1);
+		spCnk->team = team;
 		add(spCnk->generate(this));
 	}
 
@@ -483,6 +489,8 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 	m_spControlFactory->resetControllers(rControllerList);
 	game.getLocalPlayer().setController(localController);
 
+	Message mes("ship_editor", "clear", voidPacket, 0, false);
+	game.getCoreIO().recieve(mes);
 
 	/**LOAD MY CURRENT SHIP INTO STORE**/
 	Controller* pController = &this->getControllerFactory().getController(localController);

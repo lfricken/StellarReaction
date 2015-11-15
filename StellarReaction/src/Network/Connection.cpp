@@ -1,6 +1,8 @@
 #include "Connection.hpp"
 #include "Globals.hpp"
 #include "Universe.hpp"
+#include "Player.hpp"
+#include "Game.hpp"
 
 using namespace std;
 
@@ -85,15 +87,15 @@ void Connection::recievePlayerTraits(sf::Packet mes)
 
 	mes >> money;
 
-	this->setMoney(money);
+	game.getLocalPlayer().setMoney(money);
 }
 void Connection::addModule(const std::string& newTitle, const b2Vec2& rPos)
 {
 	m_owned.push_back(pair<string, b2Vec2>(newTitle, rPos));
 	sf::Packet pack;
 	pack << newTitle;
-	pack << (int32_t)rPos.x;
-	pack << (int32_t)rPos.y;
+	pack << (float)rPos.x;
+	pack << (float)rPos.y;
 	Message modAdded("ship_editor", "addItem", pack, 0.f, false);
 	this->sendSpecialIo(modAdded);
 }

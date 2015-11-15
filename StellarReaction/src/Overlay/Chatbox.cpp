@@ -6,11 +6,11 @@
 using namespace leon;
 using namespace std;
 
-Chatbox::Chatbox(tgui::Gui& gui, const ChatboxData& rData) : WidgetBase(rData), m_pChatBox(gui), m_nw(rData.nwCompData, &Chatbox::pack, &Chatbox::unpack, this, game.getNwBoss().getNWFactoryTcp())
+Chatbox::Chatbox(tgui::Gui& gui, const ChatboxData& rData) : WidgetBase(gui, rData), m_pChatBox(gui), m_nw(rData.nwCompData, &Chatbox::pack, &Chatbox::unpack, this, game.getNwBoss().getNWFactoryTcp())
 {
 	f_initialize(rData);
 }
-Chatbox::Chatbox(tgui::Container& container, const ChatboxData& rData = ChatboxData()) : WidgetBase(rData), m_pChatBox(container), m_nw(rData.nwCompData, &Chatbox::pack, &Chatbox::unpack, this, game.getNwBoss().getNWFactoryTcp())
+Chatbox::Chatbox(tgui::Container& container, const ChatboxData& rData = ChatboxData()) : WidgetBase(container, rData), m_pChatBox(container), m_nw(rData.nwCompData, &Chatbox::pack, &Chatbox::unpack, this, game.getNwBoss().getNWFactoryTcp())
 {
 	f_initialize(rData);
 }

@@ -70,9 +70,6 @@ public:
 	void setStore(const std::string& rTargetName);
 	const std::string& getStore() const;
 
-	void setTeam(int team);
-	int getTeam() const;
-
 protected:
 private:
 	friend class UniversalContactListener;
@@ -101,7 +98,6 @@ private:
 	b2Fixture* m_pFixture;
 	int m_ioPos;
 
-	int m_team;
 	std::string m_store;
 	b2Vec2 m_offset;
 };

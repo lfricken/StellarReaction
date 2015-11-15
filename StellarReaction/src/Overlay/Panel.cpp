@@ -5,11 +5,11 @@
 using namespace leon;
 using namespace std;
 
-Panel::Panel(tgui::Gui& gui, const PanelData& rData) : WidgetBase(rData), m_pPanel(gui, rData.ioComp.name)
+Panel::Panel(tgui::Gui& gui, const PanelData& rData) : WidgetBase(gui, rData), m_pPanel(gui, rData.ioComp.name)
 {
 	f_initialize(rData);
 }
-Panel::Panel(tgui::Container& container, const PanelData& rData) : WidgetBase(rData), m_pPanel(container, rData.ioComp.name)
+Panel::Panel(tgui::Container& container, const PanelData& rData) : WidgetBase(container, rData), m_pPanel(container, rData.ioComp.name)
 {
 	f_initialize(rData);
 }
