@@ -53,7 +53,6 @@ void FixtureComponent::endContact(FixtureComponent* pOther)
 {
 	m_endCB(pOther);
 }
-
 const b2Vec2 FixtureComponent::getOffset() const
 {
 	return m_offset;

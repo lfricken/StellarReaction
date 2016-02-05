@@ -6,9 +6,10 @@
 
 struct RayData
 {
-	b2Fixture* pFixture;
-	b2Vec2 point;
-	float fraction;
+	b2Fixture* pFixture;//fixture we collided with
+	b2Vec2 point;//point of collision
+	float fraction;//fraction of initial endpoint distance, 1 to 2 with a collision of 3 would be a fraction of 2
+	//1 to 2 with endpoint 1.5 is a fraction of 0.5 (except all in 2d not 1d)
 };
 
 class RayCastCallback : public b2RayCastCallback
