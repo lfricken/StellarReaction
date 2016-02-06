@@ -25,7 +25,8 @@ struct Noise
 };
 
 /// <summary>
-/// Plays all sounds in game
+/// Plays all sounds in game.
+/// We need a sound manager because there are a max number of sounds. So we want to prevent going over a certain number.
 /// </summary>
 class SoundManager
 {

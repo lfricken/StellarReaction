@@ -68,7 +68,10 @@ struct ControllerData
 	std::string slaveName;
 };
 
-
+/// <summary>
+/// A controller sends commands to ships.
+/// A local players commands are sent to a designated controller, who's state is updated between games.
+/// </summary>
 class Controller
 {
 public:
@@ -77,24 +80,24 @@ public:
 
 	/**== SETTERS ==**/
 	void setPlayerName(const std::string& rPlayerName);
-	void setSlave(const std::string& rSlaveName);
+	void setSlave(const std::string& rSlaveName);//designate a name for us to control
 	void setAim(const b2Vec2& world);//send our aim coordinates
 
 	/**GETTERS**/
 	const std::string& getPlayerName() const;
-	const std::string& getSlaveName() const;
-	Chunk* getSlave() const;
-	const b2Vec2& getAim() const;
-	float get(Request value);//return the requested value
+	const std::string& getSlaveName() const;//what's the name of the ship are we controlling
+	Chunk* getSlave() const;//get the pointer to the ship this controller controls
+	const b2Vec2& getAim() const;//where is this controller aiming?
+	float get(Request value);//gives feedback from the thing we are controlling
 	b2Body* getBodyPtr();//return our chunk body if we have one
 	NetworkComponent& getNWComp();
 	IOComponent& getIOComp();
 
-	void updateDirectives(const std::map<Directive, bool>& rDirs);
-	void processAim() const;
+	void updateDirectives(const std::map<Directive, bool>& rDirs);//set our state
+	void processAim() const;//use our stored aim to send commands
 	void processDirectives();//use our stored directives to send commands
-	void toggleLocal(bool local);
-	bool isLocal() const;
+	void toggleLocal(bool local);//true or false whether this controller is locally controlled
+	bool isLocal() const;//are we a locally controlled controller?
 
 protected:
 	virtual void input(std::string rCommand, sf::Packet rData);

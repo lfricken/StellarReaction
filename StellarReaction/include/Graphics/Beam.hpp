@@ -13,9 +13,11 @@ struct BeamData : public QuadComponentData
 		texName = "beam/beam_mid.png";
 		animSheetName = "beam/beam_mid.acfg";
 		layer = GraphicsLayer::Projectiles;
+
 		start.texName = "beam/beam_start.png";
 		start.animSheetName = "beam/beam_start.acfg";
 		start.layer = GraphicsLayer::Effects;
+
 		end.texName = "beam/beam_end.png";
 		end.animSheetName = "beam/beam_end.acfg";
 		end.layer = GraphicsLayer::Effects;
@@ -24,7 +26,11 @@ struct BeamData : public QuadComponentData
 	QuadComponentData start;
 	QuadComponentData end;
 };
-
+/// <summary>
+/// Beam is a special type of GraphicsComponent made
+/// easier for drawing lasers, they have a texture,
+/// as well as start and endpoint textures
+/// </summary>
 class Beam : protected QuadComponent
 {
 public:

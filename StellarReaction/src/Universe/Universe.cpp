@@ -281,6 +281,7 @@ void Universe::setupBackground()
 	rData.layer = GraphicsLayer::Background4;
 	data.quadComp = rData;
 	data.dimensions = b2Vec2(width, height);
+	data.repeats = true;
 	//second nearest
 	DecorQuadData data2;
 	data2.ioComp.name = "decorTest";
@@ -291,6 +292,7 @@ void Universe::setupBackground()
 	rData.layer = GraphicsLayer::Background3;
 	data2.quadComp = rData;
 	data2.dimensions = b2Vec2(width / 2, height / 2);
+	data2.repeats = true;
 	//third nearest
 	DecorQuadData data3;
 	data3.ioComp.name = "decorTest";
@@ -301,6 +303,7 @@ void Universe::setupBackground()
 	rData.layer = GraphicsLayer::Background2;
 	data3.quadComp = rData;
 	data3.dimensions = b2Vec2(width / 3, height / 3);
+	data3.repeats = true;
 	//fourth nearest
 	DecorQuadData data4;
 	data4.ioComp.name = "decorTest";
@@ -311,6 +314,7 @@ void Universe::setupBackground()
 	rData.layer = GraphicsLayer::Background1;
 	data4.quadComp = rData;
 	data4.dimensions = b2Vec2(width / 4, height / 4);
+	data4.repeats = true;
 
 
 	const int startPosX = game.getLocalPlayer().getCamera().getView().getCenter().x - 20000;
@@ -373,6 +377,7 @@ void Universe::setupBackground()
 	bg_data.movementScale = 0;
 	rData.dimensions.x = 2400;
 	rData.dimensions.y = 1200;
+	rData.center = sf::Vector2f(200, 300);
 
 	rData.texName = "backgrounds/bg6.png";
 	rData.animSheetName = "backgrounds/bg1.acfg";
@@ -382,6 +387,7 @@ void Universe::setupBackground()
 	const int pixelsX = game.getWindow().getDefaultView().getSize().x / 2;
 	const int pixelsY = game.getWindow().getDefaultView().getSize().y / 2;
 	bg_data.initPosition = b2Vec2(pixelsX / static_cast<float>(scale), -pixelsY / static_cast<float>(scale));
+	bg_data.initPosition = b2Vec2(0, 0);
 	bg_data.num_in_layer = b2Vec2(100, 100);
 	temp = new DecorQuad(bg_data);
 	add(temp);

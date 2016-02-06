@@ -3,6 +3,10 @@
 
 #include "stdafx.hpp"
 
+/// <summary>
+/// Controls the order that an item is drawn to screen, 0 is 
+/// drawn lowest, everything after is drawn on top of each subsequent layer
+/// </summary>
 enum class GraphicsLayer
 {
 	BackgroundUnmoving1 = 0,

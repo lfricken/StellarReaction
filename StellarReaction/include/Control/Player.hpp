@@ -10,6 +10,10 @@
 class DecorQuad;
 class LinearMeter;
 
+/// <summary>
+/// Default key configurations.
+/// This system would allow loading and saving of key configurations.
+/// </summary>
 struct InputConfig
 {
 	InputConfig() :
@@ -91,6 +95,7 @@ struct PlayerData
 /// <summary>
 /// Represents the local player on this machine.
 /// This class also handles all user input through it's getLiveInput and getWindowEvents functions
+/// those commands are then sent to a controller
 /// </summary>
 class Player : public BasePlayerTraits
 {

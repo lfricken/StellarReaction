@@ -8,7 +8,7 @@ typedef float Ballistic;
 typedef float Zoom;
 
 
-
+///Generic type for common values
 template <typename T>
 struct PoolData
 {

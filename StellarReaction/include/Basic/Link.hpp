@@ -3,7 +3,7 @@
 
 #include "stdafx.hpp"
 
-
+//TODO THIS FILE SEEMS TO BE GARBAGE LEFT OVER
 
 /**takes care of all your linking needs**/
 /**getLinker() function should return reference, not pointer**/

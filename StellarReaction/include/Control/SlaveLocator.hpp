@@ -5,18 +5,21 @@
 
 class Chunk;
 
+/// <summary>
+/// This class holds pointers to all the chunks
+/// </summary>
 class SlaveLocator
 {
 public:
 	SlaveLocator();
 	virtual ~SlaveLocator();
 
-	int give(Chunk* pSlave);//we recieve a pointer to a component and we store it and remember the name and position
+	int give(Chunk* pSlave);//we recieve a pointer to a component and we store it and remember the name and position (return position)
 	void free(int position);//don't adjust the list, just mark the node as null and offer it as a position to future customers
-	int findPos(const std::string& slaveTarget);
+	int findPos(const std::string& slaveTarget);//-1 if it can't be found
 	Chunk* find(int position);
 
-	Chunk* findHack(const std::string& rName);///what is this???
+	Chunk* findHack(const std::string& rName);//TODO Rename; returns chunk pointer by name
 
 protected:
 private:

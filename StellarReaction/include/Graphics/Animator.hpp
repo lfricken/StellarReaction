@@ -8,6 +8,9 @@ class AnimAlloc;
 struct AnimSet;
 struct Animation;
 
+/// <summary>
+/// Controls animation of Graphics Components
+/// </summary>
 class Animator
 {
 public:

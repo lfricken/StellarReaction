@@ -4,6 +4,9 @@
 #include "Weapon.hpp"
 struct BallisticWeaponData;
 
+/// <summary>
+/// Fires a physical projectile to do something (like damage)
+/// </summary>
 class BallisticWeapon : public Weapon
 {
 public:
@@ -30,7 +33,7 @@ struct BallisticWeaponData : public WeaponData
 	{
 		weaponQuad.animSheetName = "weapons/ballistic1.acfg";
 		weaponQuad.texName = "weapons/ballistic1.png";
-		ener = 1;///SHOULD BE CONSUMING BALLISTIC, THIS IS JUST FOR TESTING
+		ener = 1;///TODO SHOULD BE CONSUMING BALLISTIC ONLY, THIS IS JUST FOR TESTING
 		ball = 0;
 		mis = 0;
 		damage = 500;
@@ -43,7 +46,7 @@ struct BallisticWeaponData : public WeaponData
 
 	std::string projName;//the bp name of the projectile we fire, to be passed to projectileMan
 	float velocity;//m/s (blocks per second)
-	float radCCWps;//rotation rate Radians CCW per second
+	float radCCWps;//rotation rate of the projectile Radians CCW per second
 
 	virtual Weapon* generate() const
 	{

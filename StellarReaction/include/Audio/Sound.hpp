@@ -5,7 +5,11 @@
 struct SoundData;
 
 namespace leon
-{
+{	
+	/// <summary>
+	/// A class to make an instance of for a class. When you want to play a sound, use this.
+	/// TODO
+	/// </summary>
 	class Sound
 	{
 	public:

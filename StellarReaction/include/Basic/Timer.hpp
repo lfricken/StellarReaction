@@ -1,7 +1,12 @@
 #ifndef TIMER_H
 #define TIMER_H
 
-/**purpose: simple knowledge of how long it has been since a time was last requested from this timer**/
+/// <summary>
+/// Timer for in game items, NOT FOR GUI.
+/// The reason is that pausing the game pauses these timers.
+/// Use this for weapons, animations.
+/// If the "Pause" function should effect your item use this
+/// </summary>
 class Timer
 {
 public:

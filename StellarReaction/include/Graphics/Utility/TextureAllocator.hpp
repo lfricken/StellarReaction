@@ -3,6 +3,11 @@
 
 #include "stdafx.hpp"
 
+/// <summary>
+/// Loads textures once and keeps the only copy
+/// so we don't have to waste memory with 1 texture copied repeatedly
+/// (this works since nothing modifies the texture, just how it is drawn)
+/// </summary>
 class TextureAllocator
 {
 public:

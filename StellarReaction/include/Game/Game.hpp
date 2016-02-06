@@ -18,6 +18,11 @@ namespace leon
 	class Overlay;
 	class DragUpdater;
 }
+
+/// <summary>
+/// Game is global access point for state
+/// ultimately holds everything
+/// </summary>
 class Game
 {
 public:

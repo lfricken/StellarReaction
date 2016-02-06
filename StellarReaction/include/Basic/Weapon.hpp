@@ -12,6 +12,7 @@ class FixtureComponent;
 
 /// <summary>
 /// Base Class for all weapon types.
+/// Derived weapons override only preshot and postshot
 /// </summary>
 class Weapon
 {
@@ -19,9 +20,9 @@ public:
 	Weapon(const WeaponData& rData);
 	virtual ~Weapon();
 	/// <summary>
-	/// for when the controller wants to fire. This activates and consumes energy and ammo,
+	/// called when the controller wants to fire. This activates and consumes any ammo,
 	/// and sets the weapon so it will fire on preShot and postShot.
-	/// returns true if fired
+	/// returns true if we will fire
 	/// </summary>
 	bool fire(const FixtureComponent& pParent, Pool<Energy>* pEnergy, Pool<Ballistic>* pBall, Pool<Missiles>* pMis);
 	/// <summary>
@@ -36,12 +37,14 @@ public:
 	void postPhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 radCCW, b2Body* pBody);
 	//// <summary>
 	/// Called before physics update if this weapon should fire this tick
+	/// Look at laser and projectile weapon.
 	/// Overwrite this when making a new weapon.
 	/// </summary>
 	virtual void preShot(const b2Vec2& center, const b2Vec2& aim, float radCCW) = 0;
 	//// <summary>
 	/// Called after physics update if this weapon fired this tick
 	/// Overwrite this when making a new weapon.
+	/// Look at laser and projectile weapon.
 	/// </summary>
 	virtual void postShot(const b2Vec2& center, const b2Vec2& aim, float radCCW) = 0;
 protected:
@@ -50,7 +53,8 @@ protected:
 	int m_shots;//how many shots we do upon each fire command
 	int m_damage;
 	float m_range;
-	int m_collisions;//how many collisions should we do
+	int m_collisions;//how many collisions should we do? MODULE PENETRATION LOGIC
+	//TODO m_collisions is not used in the laser weapon type
 
 	/// <summary>
 	/// Damages the specified fixture (which has a module)

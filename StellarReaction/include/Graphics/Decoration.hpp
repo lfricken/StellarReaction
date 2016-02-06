@@ -31,6 +31,7 @@ public:
 
 	//Evan
 	b2Vec2 velocity;
+	bool m_repeats;
 	Timer velocityTimer;
 	b2Vec2 dimensions;
 	b2Vec2 num_in_layer;
@@ -54,17 +55,24 @@ struct DecorationData
 {
 	DecorationData() :
 		ioComp(game.getUniverse().getUniverseIO()),
-		initPosition(b2Vec2(0,0)),
-		movementScale(0.5),
+		initPosition(0,0),
+		velocity(0,0),
+		repeats(false),
+		movementScale(0),
 		isAbsoluteSize(false)
 	{
 
 	}
 
 	IOComponentData ioComp;
-	float movementScale;
+	float movementScale;//a stationary target-planar object wouldn't follow the camera, so it would have a
+	//movement scale of 0
+	//an object far from the target would follow the camera, and have a movement scale <=1
+	//an object closer than the target would speed past the camera, and have a movment scale >1
 	bool isAbsoluteSize;
 	b2Vec2 initPosition;
+	b2Vec2 velocity;
+	bool repeats;
 
 	virtual Decoration* generate() const = 0;
 	virtual DecorationData* clone() const = 0;

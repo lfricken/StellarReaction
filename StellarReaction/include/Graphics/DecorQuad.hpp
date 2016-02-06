@@ -8,7 +8,7 @@ class GraphicsComponent;
 struct DecorQuadData;
 
 /// <summary>
-/// Child decoration type.Implements a specific type of graphic for GraphicsComponent (a quad component)
+/// Child decoration type. Implements a specific type of graphic for GraphicsComponent (a quad component)
 /// </summary>
 class DecorQuad : public Decoration
 {

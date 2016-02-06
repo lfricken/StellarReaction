@@ -4,13 +4,19 @@
 #include "stdafx.hpp"
 #include "TextureAllocator.hpp"
 
+/// <summary>
+/// For a particular texture, a pointer to our verts
+/// </summary>
 struct QuadData
 {
 	int firstElement;//marks the first vertex element that we own
 	sf::VertexArray* vertexList;//list of all vertices for this textures
 };
 
-
+/// <summary>
+/// Holds a pointer to a texture and a list of vertices
+/// By having all the vertices for a texture in an array, it becomes much faster to draw them
+/// </summary>
 struct Batch
 {
 	const sf::Texture* pTexture;
@@ -18,7 +24,9 @@ struct Batch
 };
 
 
-//stores all quads for drawing of all graphics objects
+/// <summary>
+/// Stores Batches for each texture requested
+/// </summary>
 class QuadBatchContainer : public sf::Drawable
 {
 public:

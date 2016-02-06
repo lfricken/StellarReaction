@@ -12,20 +12,16 @@ using namespace std;
 
 Decoration::Decoration(const DecorationData& rData, GraphicsComponent* pGfx) : m_io(rData.ioComp, &Decoration::input, this)
 {
-
-
 	m_gfx = pGfx;
 	m_initPosition = rData.initPosition;
 	setPosition(rData.initPosition);
 	m_movementScale = rData.movementScale;
 
 	//Evan
-	velocity = b2Vec2(.25f, .25f);
+	velocity = rData.velocity;
 	velocityTimer.getTimeElapsed();
-	dimensions = b2Vec2(rData.dimensions);
 	num_in_layer = b2Vec2(rData.num_in_layer);
-
-	//m_isAbsoluteSize = rData.isAbsoluteSize;
+	m_repeats = rData.repeats;
 }
 Decoration::~Decoration()
 {
@@ -87,6 +83,7 @@ void Decoration::setScale(float scale)
 }
 void Decoration::updateScaledPosition(const b2Vec2& rCameraCenter)
 {
+
 	if(m_movementScale == 0.0f)
 	{
 		setPosition(m_initPosition);
@@ -98,31 +95,34 @@ void Decoration::updateScaledPosition(const b2Vec2& rCameraCenter)
 	b2Vec2 deltaV(velocity.x * time / m_movementScale * sizeScalingFactor, velocity.y * time / m_movementScale * sizeScalingFactor);
 	m_initPosition += deltaV;
 
-	//Evan - check for wrap around
-	//int max_x = 33600; //got manually via cout
-	//int max_y = 16800;
-	int max_x = 80 * sizeScalingFactor; //got manually via cout
-	int max_y = 60 * sizeScalingFactor;
-	//cout << endl << "cam y: " << game.getLocalPlayer().getCamera().getView().getSize().y;
+	if(m_repeats)
+	{
+		//Evan - check for wrap around
+		//int max_x = 33600; //got manually via cout
+		//int max_y = 16800;
+		int max_x = 80 * sizeScalingFactor; //got manually via cout
+		int max_y = 60 * sizeScalingFactor;
+		//cout << endl << "cam y: " << game.getLocalPlayer().getCamera().getView().getSize().y;
 
-	//below lines are magic
-	if(m_initPosition.x + rCameraCenter.x * m_movementScale > (rCameraCenter.x) + (max_x))
-	{
-		m_initPosition.x -= (dimensions.x / scale)*num_in_layer.x;
+		//this logic should be in another class, not the default decoration
+		//below lines are magic
+		if(m_initPosition.x + rCameraCenter.x * m_movementScale > (rCameraCenter.x) + (max_x))
+		{
+			m_initPosition.x -= (dimensions.x / scale)*num_in_layer.x;
+		}
+		else if(m_initPosition.x + rCameraCenter.x * m_movementScale < (rCameraCenter.x) - (max_x))
+		{
+			m_initPosition.x += (dimensions.x / scale)*num_in_layer.x;
+		}
+		if(m_initPosition.y + rCameraCenter.y * m_movementScale >(rCameraCenter.y + (max_y)))
+		{
+			m_initPosition.y -= (dimensions.y / scale)*num_in_layer.y;
+		}
+		else if(m_initPosition.y + rCameraCenter.y * m_movementScale < (rCameraCenter.y - (max_y)))
+		{
+			m_initPosition.y += (dimensions.y / scale)*num_in_layer.y;
+		}
 	}
-	else if(m_initPosition.x + rCameraCenter.x * m_movementScale < (rCameraCenter.x) - (max_x))
-	{
-		m_initPosition.x += (dimensions.x / scale)*num_in_layer.x;
-	}
-	if(m_initPosition.y + rCameraCenter.y * m_movementScale >(rCameraCenter.y + (max_y)))
-	{
-		m_initPosition.y -= (dimensions.y / scale)*num_in_layer.y;
-	}
-	else if(m_initPosition.y + rCameraCenter.y * m_movementScale < (rCameraCenter.y - (max_y)))
-	{
-		m_initPosition.y += (dimensions.y / scale)*num_in_layer.y;
-	}
-
 
 	setPosition(m_initPosition + b2Vec2(rCameraCenter.x*m_movementScale, rCameraCenter.y*m_movementScale));
 }

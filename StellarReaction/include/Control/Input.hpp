@@ -2,6 +2,9 @@
 #define INPUT_HPP
 
 
+/// <summary>
+/// TODO seems like a garbage class
+/// </summary>
 class Input
 {
     public:

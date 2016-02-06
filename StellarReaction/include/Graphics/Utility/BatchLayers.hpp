@@ -4,6 +4,11 @@
 #include "QuadBatchContainer.hpp"
 #include "GraphicsLayer.hpp"
 
+/// <summary>
+/// allows more than one layer of drawing. So all the Textures of one layer get drawn
+/// then the next layer, etc.
+/// To control layering, examine GraphicsLayer.hpp
+/// </summary>
 class BatchLayers
 {
 public:
