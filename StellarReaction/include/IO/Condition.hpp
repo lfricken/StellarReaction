@@ -3,6 +3,12 @@
 
 #include "EventTypes.hpp"
 
+/// <summary>
+/// determines whether a value 
+/// 
+/// 
+/// TODO This is unnecessarily complex, dont use function pointers
+/// </summary>
 class Condition
 {
 public:
@@ -22,7 +28,7 @@ private:
 
 	bool f_greaterThan(int value) const;
 	bool f_lessThan(int value) const;
-	bool f_equals(int value) const;
+	bool f_equals(int value) const;+
 	bool f_notEquals(int value) const;
 	bool f_change(int value) const;
 

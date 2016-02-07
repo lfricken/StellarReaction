@@ -97,12 +97,9 @@ void Decoration::updateScaledPosition(const b2Vec2& rCameraCenter)
 
 	if(m_repeats)
 	{
-		//Evan - check for wrap around
-		//int max_x = 33600; //got manually via cout
-		//int max_y = 16800;
-		int max_x = 80 * sizeScalingFactor; //got manually via cout
+		int max_x = 80 * sizeScalingFactor;
 		int max_y = 60 * sizeScalingFactor;
-		//cout << endl << "cam y: " << game.getLocalPlayer().getCamera().getView().getSize().y;
+
 
 		//this logic should be in another class, not the default decoration
 		//below lines are magic

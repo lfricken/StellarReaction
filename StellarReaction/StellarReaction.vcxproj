@@ -359,7 +359,6 @@
     <ClInclude Include="include\Graphics\Utility\TextureAllocator.hpp" />
     <ClInclude Include="include\Headers\Convert.hpp" />
     <ClInclude Include="include\Headers\Globals.hpp" />
-    <ClInclude Include="include\Headers\Rotation.hpp" />
     <ClInclude Include="include\Headers\stdafx.hpp" />
     <ClInclude Include="include\IO\Condition.hpp" />
     <ClInclude Include="include\IO\Courier.hpp" />

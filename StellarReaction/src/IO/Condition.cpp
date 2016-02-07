@@ -6,18 +6,16 @@ using namespace std;
 
 Condition::Condition()
 {
-	///this shouldn't be the defualt condition
-	m_eventType = EventType::None;
-	m_value = 0;
-	m_comparison = '<';
-	m_isRepeatable = false;
-	f_setComparisonFunction(m_comparison);
+	reset(EventType::None, 0, '<', false);
 }
 Condition::Condition(EventType type, int value, char comparison, bool repeatable)
 {
 	reset(type, value, comparison, repeatable);
 }
-Condition::~Condition() {}
+Condition::~Condition()
+{
+
+}
 void Condition::reset(EventType type, int value, char comparison, bool repeatable)
 {
 	m_eventType = type;
@@ -26,12 +24,6 @@ void Condition::reset(EventType type, int value, char comparison, bool repeatabl
 	m_isRepeatable = repeatable;
 	f_setComparisonFunction(comparison);
 }
-
-
-
-
-
-
 EventType Condition::getEventType() const
 {
 	return m_eventType;
@@ -44,12 +36,6 @@ bool Condition::isRepeatable() const
 {
 	return m_isRepeatable;
 }
-
-
-
-
-
-
 bool Condition::evaluate(int value) const
 {
 	return (*this.*m_evaluationFunction)(value);
@@ -73,11 +59,6 @@ void Condition::f_setComparisonFunction(char op)
 		///ERROR LOG
 	}
 }
-
-
-
-
-
 
 
 bool Condition::f_greaterThan(int value) const

@@ -5,7 +5,8 @@
 #include "Condition.hpp"
 
 /// <summary>
-/// This is the standard definition 
+/// A condition for when to send a message
+/// The message to send
 /// </summary>
 struct Courier
 {

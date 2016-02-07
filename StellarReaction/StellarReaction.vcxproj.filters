@@ -1037,9 +1037,6 @@
     <ClInclude Include="include\Headers\Globals.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Headers\Rotation.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\Headers\stdafx.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

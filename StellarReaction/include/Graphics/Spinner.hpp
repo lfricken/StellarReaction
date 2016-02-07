@@ -13,11 +13,13 @@ struct SpinnerData : public QuadComponentData
 
 	}
 	float rate;//degrees CCW/s
-	bool randomRot;//will we spawn with a random rotation?
-	bool startOn;
+	bool randomRot;//will we spawn with a random initial rotation?
+	bool startOn;//starts rotating
 };
 
-
+/// <summary>
+/// Used for things that should rotate steadily
+/// </summary>
 class Spinner : public QuadComponent
 {
 public:

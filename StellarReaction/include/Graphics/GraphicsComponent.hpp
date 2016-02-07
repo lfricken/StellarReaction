@@ -27,7 +27,9 @@ struct GraphicsComponentData
 	GraphicsLayer layer;
 	sf::Color color;
 };
-
+/// <summary>
+/// Base type for all game related graphics
+/// </summary>
 class GraphicsComponent
 {
 public:

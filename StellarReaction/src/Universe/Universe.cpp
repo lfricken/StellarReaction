@@ -282,6 +282,7 @@ void Universe::setupBackground()
 	data.quadComp = rData;
 	data.dimensions = b2Vec2(width, height);
 	data.repeats = true;
+	data.velocity = b2Vec2(0.25, 0.25);
 	//second nearest
 	DecorQuadData data2;
 	data2.ioComp.name = "decorTest";
@@ -293,6 +294,7 @@ void Universe::setupBackground()
 	data2.quadComp = rData;
 	data2.dimensions = b2Vec2(width / 2, height / 2);
 	data2.repeats = true;
+	data2.velocity = b2Vec2(0.25, 0.25);
 	//third nearest
 	DecorQuadData data3;
 	data3.ioComp.name = "decorTest";
@@ -304,6 +306,7 @@ void Universe::setupBackground()
 	data3.quadComp = rData;
 	data3.dimensions = b2Vec2(width / 3, height / 3);
 	data3.repeats = true;
+	data3.velocity = b2Vec2(0.25, 0.25);
 	//fourth nearest
 	DecorQuadData data4;
 	data4.ioComp.name = "decorTest";
@@ -315,6 +318,7 @@ void Universe::setupBackground()
 	data4.quadComp = rData;
 	data4.dimensions = b2Vec2(width / 4, height / 4);
 	data4.repeats = true;
+	data4.velocity = b2Vec2(0.25, 0.25);
 
 
 	const int startPosX = game.getLocalPlayer().getCamera().getView().getCenter().x - 20000;
@@ -406,6 +410,7 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 	ifstream level(contentDir() + levelDir + configFile, std::ifstream::binary);
 	Json::Reader reader;
 	Json::Value root;
+
 	bool parsedSuccess = reader.parse(level, root, false);
 
 

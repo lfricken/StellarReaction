@@ -14,14 +14,15 @@ struct QuadComponentData : public GraphicsComponentData
 
 };
 
-
+/// <summary>
+/// Generic display type
+/// </summary>
 class QuadComponent : public GraphicsComponent
 {
 public:
 	QuadComponent(const QuadComponentData& rData);
 	virtual ~QuadComponent();
 
-	///void setAnimation();
 	virtual void postUpdate();
 
 protected:

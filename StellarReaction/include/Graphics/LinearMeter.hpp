@@ -13,7 +13,9 @@ struct LinearMeterData : public QuadComponentData
 
 };
 
-
+/// <summary>
+/// Something conveinent for using as a meter (for gui)
+/// </summary>
 class LinearMeter : public QuadComponent
 {
 public:
