@@ -22,12 +22,19 @@ struct IOComponentData
 };
 
 /// <summary>
-/// A class can be given to allow it to send messages to other IOComponents on other objects
+/// A class can be given this to allow it to send messages to other IOComponents on other objects
 /// </summary>
 class IOComponent
 {
 public:
 
+	
+	/// <summary>
+	/// Takes a function to call when an message has been sent to us, such as "damage"
+	/// </summary>
+	/// <param name="rData">The r data.</param>
+	/// <param name="func">The function.</param>
+	/// <param name="classPtr">The class PTR.</param>
 	template <typename T>
 	IOComponent(const IOComponentData& rData, void (T::*func)(std::string, sf::Packet), T* const classPtr) : m_rManager(*rData.pMyManager), m_name(rData.name), m_eventer(m_rManager)
 	{
@@ -44,8 +51,8 @@ public:
 	/// Called when this target recieves a message
 	/// </summary>
 	void recieve(const std::string& rCommand, const sf::Packet& rData);
-	const std::string& getName() const;
-	int getPosition() const;
+	const std::string& getName() const;//name of this
+	int getPosition() const;//position of this io component in the list.
 
 protected:
 private:

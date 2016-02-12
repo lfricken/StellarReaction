@@ -6,7 +6,9 @@
 class Controller;
 class NetworkFactory;
 
-/**Creates Controllers and holds them**/
+/// <summary>
+/// Holds the controllers
+/// </summary>
 class ControlFactory
 {
 public:

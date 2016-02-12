@@ -18,6 +18,7 @@ public:
 	void add(const std::vector<Courier>& rCourierList);//store the Courriers so we can event on them later		
 	/// <summary>
 	/// called when an event happens, and we check to see if any of our conditions are met
+	/// if they are met, we send the corresponding message
 	/// </summary>
 	void event(EventType type, int value, const sf::Packet& rData);
 

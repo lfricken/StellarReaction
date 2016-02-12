@@ -3,6 +3,14 @@
 
 #include "stdafx.hpp"
 
+/// <summary>
+/// Message which is sent to IOComponents
+/// Contains a target, either a name or an IOComponent Position,
+/// a command, which the object uses to determine what the intended action was
+/// a data packet for any additional data to be sent with the action
+/// a delay, so the message may not be recieved immediately
+/// a boolean to determine whether the data packet should contain Run Time Information <--use false unless you know what you are doing
+/// </summary>
 class Message
 {
 public:

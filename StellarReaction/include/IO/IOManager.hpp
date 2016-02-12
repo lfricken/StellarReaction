@@ -9,6 +9,7 @@ class IOComponent;
 
 /// <summary>
 /// Controlls the sending of Messages throughout the program
+/// and stores all the io components in a list
 /// </summary>
 class IOManager
 {

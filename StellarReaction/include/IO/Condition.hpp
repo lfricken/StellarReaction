@@ -4,10 +4,10 @@
 #include "EventTypes.hpp"
 
 /// <summary>
-/// determines whether a value 
+/// determines whether a value should trigger something
 /// 
 /// 
-/// TODO This is unnecessarily complex, dont use function pointers
+/// TODO This is unnecessarily complex, dont use function pointers, just some if's
 /// </summary>
 class Condition
 {

@@ -11,6 +11,7 @@ Connection::Connection(sf::UdpSocket* pSocket, sptr<sf::TcpSocket> spTCPSocket, 
 	m_valid = valid;
 	m_pUdpSocket = pSocket;
 	m_spTcpSocket = spTCPSocket;
+	m_status = sf::Socket::Status::Done;//TODO, Determine what m_status should be initialized to, and whether it is even used
 
 	for(int32_t i = 0; i < static_cast<int32_t>(Protocol::End); ++i)
 	{
@@ -41,7 +42,7 @@ void Connection::prepSend(Protocol proto, const sf::Packet& rData, sf::Packet& d
 	data << ++m_lastSendRecieve[proto].first;
 	data.append(rData.getData(), rData.getDataSize());
 }
-Protocol Connection::recievePacket(sf::Packet& rData)//what do we do with this packet?, if End, then the packet should be ignored
+Protocol Connection::recievePacket(sf::Packet& rData)
 {
 	Protocol proto;
 
@@ -51,7 +52,7 @@ Protocol Connection::recievePacket(sf::Packet& rData)//what do we do with this p
 	rData >> sendID;
 	proto = static_cast<Protocol>(proto32);
 
-	if(sendID <= m_lastSendRecieve[proto].second)//if this sendID is old...
+	if(sendID <= m_lastSendRecieve[proto].second)//if this sendID is old, we should disregard it
 		return Protocol::End;
 
 	m_lastSendRecieve[proto].second = sendID;
@@ -89,6 +90,13 @@ void Connection::recievePlayerTraits(sf::Packet mes)
 
 	game.getLocalPlayer().setMoney(money);
 }
+/// <summary>
+/// this is a client connection on the server
+/// the server has determined that a module should be added to this clients list of useable modules
+/// the server will now send a packet to the client
+/// </summary>
+/// <param name="newTitle">The new title.</param>
+/// <param name="rPos">The r position.</param>
 void Connection::addModule(const std::string& newTitle, const b2Vec2& rPos)
 {
 	m_owned.push_back(pair<string, b2Vec2>(newTitle, rPos));

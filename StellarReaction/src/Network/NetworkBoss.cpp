@@ -431,6 +431,8 @@ void NetworkBoss::updateConnections()
 }
 /// <summary>
 /// server being given player information
+/// pFrom is the target player. This could be us, in which case we are a BasePlayerTrait,
+/// or it could be a Connection, representing a client
 /// </summary>
 void NetworkBoss::playerOption(sf::Packet& rData, BasePlayerTraits* pFrom)
 {
@@ -461,21 +463,21 @@ void NetworkBoss::playerOption(sf::Packet& rData, BasePlayerTraits* pFrom)
 	{
 		string bpName;
 		rData >> bpName;
-		//see if we can afford it
+
 		const ModuleData* pMod = game.getUniverse().getBlueprints().getModuleSPtr(bpName).get();
 		if(pMod != NULL)
 		{
-			Money cost = pMod->cost;
+			Money cost = pMod->cost;//see if we can afford it
 			if(pFrom->getMoney() >= cost)
 			{
-				pFrom->addModule(bpName, b2Vec2(0, 0));
+				pFrom->addModule(bpName, b2Vec2(0, 0));//tell whoever this command came from to add a module to their gui
 				pFrom->changeMoney(-cost);
 			}
 		}
 		else
 			cout << FILELINE;
 	}
-	else if(command == "addModule")
+	else if(command == "addModule")//explicitly adds a module to pFrom
 	{
 		string bpName;
 		float x = 0;
@@ -483,16 +485,11 @@ void NetworkBoss::playerOption(sf::Packet& rData, BasePlayerTraits* pFrom)
 		rData >> bpName;
 		rData >> x;
 		rData >> y;
-		//see if we can afford it
 		const ModuleData* pMod = game.getUniverse().getBlueprints().getModuleSPtr(bpName).get();
 		if(pMod != NULL)
 		{
-			Money cost = 0;
-			if(pFrom->getMoney() >= cost)
-			{
-				pFrom->addModule(bpName, b2Vec2(x, y));
-				pFrom->changeMoney(-cost);
-			}
+			pFrom->addModule(bpName, b2Vec2(x, y));//tell whoever this command came from to add a module to their gui
+			//just assume they already paid for it, or aquired it otherwise
 		}
 		else
 			cout << FILELINE;

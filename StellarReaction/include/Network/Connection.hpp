@@ -6,6 +6,9 @@
 #include "BasePlayerTraits.hpp"
 #include "Message.hpp"
 
+/// <summary>
+/// A connection to another player, 1 is used by client, 1 for each client used by server
+/// </summary>
 class Connection : public BasePlayerTraits
 {
 public:
@@ -14,18 +17,18 @@ public:
 
 	void sendUdp(Protocol proto, const sf::Packet& rData);//send data via a udp packet
 	void sendTcp(Protocol proto, const sf::Packet& rData);//send data via a tcp packet
-	Protocol recievePacket(sf::Packet& rData);//what do we do with this packet?, if End, then the packet should be ignored
+	Protocol recievePacket(sf::Packet& rData);//this connection sent us a packet, return what we should do with it
 
 	sf::TcpSocket& getTcpSocket();
-	sf::Socket::Status getStatus() const;
-	bool validated() const;//did we get validated
-	void setValid();
+	sf::Socket::Status getStatus() const;//status of tcp socket
+	bool validated() const;//was this connection established?
+	void setValid();//make our conection valid
 
-	void syncPlayerTraits();
-	void recievePlayerTraits(sf::Packet mes);
+	void syncPlayerTraits();//keeps clients updated to their money status (possibly other things)
+	void recievePlayerTraits(sf::Packet mes);//keeps clients updated to their money status (possibly other things)
 
-	void sendSpecialIo(const Message& mes);
-	void recieveSpecialIo(sf::Packet& mes);
+	void sendSpecialIo(const Message& mes);//called when an IOComponent message is sent across the network
+	void recieveSpecialIo(sf::Packet& mes);//called when an IOComponent message is sent across the network
 
 	virtual void addModule(const std::string& newTitle, const b2Vec2& rPos);
 

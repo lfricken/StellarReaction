@@ -1052,9 +1052,6 @@
     <ClInclude Include="include\IO\EventTypes.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\IO\IOBase.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\IO\IOComponent.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

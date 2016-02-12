@@ -3,6 +3,9 @@
 
 #include "stdafx.hpp"
 
+/// <summary>
+/// A list of event types, as well as the value they are intended to check for
+/// </summary>
 enum class EventType
 {
 	/**UNIVERSE**/

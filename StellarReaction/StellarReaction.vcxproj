@@ -364,7 +364,6 @@
     <ClInclude Include="include\IO\Courier.hpp" />
     <ClInclude Include="include\IO\Eventer.hpp" />
     <ClInclude Include="include\IO\EventTypes.hpp" />
-    <ClInclude Include="include\IO\IOBase.hpp" />
     <ClInclude Include="include\IO\IOComponent.hpp" />
     <ClInclude Include="include\IO\IOManager.hpp" />
     <ClInclude Include="include\IO\Message.hpp" />

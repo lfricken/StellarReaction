@@ -3,6 +3,9 @@
 
 #include "stdafx.hpp"
 
+/// <summary>
+/// The player camera, there is only one
+/// </summary>
 class Camera
 {
 public:
