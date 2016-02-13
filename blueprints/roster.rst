@@ -28,13 +28,16 @@
     "WeaponList": [
         "weapon/DefaultWeapon.bp",
 		"weapon/DefaultBallisticWeapon.bp",
+		"weapon/DefaultMissileWeapon.bp",
 		"weapon/Razor_Laser1.bp",
 		"weapon/Razor_Ballistic1.bp",
 		"weapon/Raven_Laser1.bp",
 		"weapon/Raven_Ballistic1.bp"
+
 		
     ],
 	"ProjectileList": [
-		"projectiles/DefaultProjectile.bp"
+		"projectiles/DefaultProjectile.bp",
+		"projectiles/DefaultMissile.bp"
     ]
 }

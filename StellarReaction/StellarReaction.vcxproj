@@ -11,6 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Universe\Module\Missile.cpp" />
+    <ClCompile Include="src\Basic\MissileWeapon.cpp" />
     <ClCompile Include="src\Universe\Module\CaptureArea.cpp" />
     <ClCompile Include="src\Audio\Sound.cpp" />
     <ClCompile Include="src\Overlay\DragUpdater.cpp" />
@@ -403,6 +405,8 @@
     <ClInclude Include="include\Overlay\SelectableItem.hpp" />
     <ClInclude Include="include\Overlay\DraggableSurface.hpp" />
     <ClInclude Include="include\Audio\Sound.hpp" />
+    <ClInclude Include="include\Basic\MissileWeapon.hpp" />
+    <ClInclude Include="include\Universe\Chunk\Missile.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\API\SFML\Graphics\Rect.inl" />

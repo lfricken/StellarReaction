@@ -4,7 +4,7 @@
     "Inherits": "DefaultShipModule",
     "StartEmpty": false,
     "Weapon": {
-        "Title": "Razor_Ballistic1"
+        "Title": "DefaultMissileWeapon"
     },
     "BaseSprite": {
         "texName": "turret/turret_base.png",
