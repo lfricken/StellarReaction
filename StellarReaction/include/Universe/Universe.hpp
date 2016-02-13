@@ -73,6 +73,11 @@ protected:
 	void input(std::string rCommand, sf::Packet rData);
 
 private:
+
+	//TODO
+	void spawnChunk(int x, int y);
+
+
 	void setupBackground();
 
 	/**SLEEP**/
