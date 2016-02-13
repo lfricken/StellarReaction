@@ -40,9 +40,9 @@ protected:
 	bool m_functionsDamaged;
 
 	std::vector<sptr<GraphicsComponent> > m_decors;
-	int m_baseDecor;
-	int m_hitDecorIndex;
-	int m_explosionIndex;
+	int m_baseDecor;//index in m_decors where the module sprite is
+	int m_hitDecorIndex;//index in m_decors where the hit sprite is
+	int m_explosionIndex;//index in m_decors where the exposion sprite is
 private:
 };
 

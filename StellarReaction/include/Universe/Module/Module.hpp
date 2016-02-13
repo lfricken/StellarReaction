@@ -36,7 +36,7 @@ protected:
 	virtual void endContactCB(FixtureComponent* pOther);
 
 	IOComponent m_io;
-	NetworkComponent m_nw;
+	NetworkComponent m_nw;//TODO this maybe shouldn't be here
 	FixtureComponent m_fix;
 
 	Pool<Missiles>* m_pMissilePool;

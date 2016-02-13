@@ -23,7 +23,12 @@ public:
 	virtual ~LinearMeter();
 
 	void postUpdate();//used to override texCoords
-
+	
+	/// <summary>
+	/// as percent approaches 1, the initial y read position of the texture increases to 1*height
+	/// this means at 1, the texture is being read 1 tile below the start tile
+	/// </summary>
+	/// <param name="per">The per.</param>
 	void setPercent(float per);// 0-1
 
 protected:

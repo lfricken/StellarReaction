@@ -25,8 +25,8 @@ public:
 protected:
 private:
 	sptr<NetworkFactory> m_spNWFactory;
-	std::vector<sptr<Controller> > m_spControlList;
-	sptr<Controller> m_spBackupController;
+	std::vector<sptr<Controller> > m_spControlList;//list of all controllers
+	sptr<Controller> m_spBackupController;//if we need to return a reference to a controller, but none exist, we give this one
 };
 
 #endif // ControlFACTORY_HPP

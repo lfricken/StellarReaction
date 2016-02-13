@@ -9,6 +9,9 @@
 
 class Chunk;
 
+/// <summary>
+/// Commands a controller can send to a Chunk
+/// </summary>
 enum class Directive
 {
 	/**== MOVEMENT ==**/
@@ -38,6 +41,9 @@ enum class Directive
 	Special2,
 	End,
 };
+/// <summary>
+/// Data a controller can request from a chunk (to display via gui, or control zoom etc)
+/// </summary>
 enum class Request
 {
 	Zoom,
@@ -71,6 +77,7 @@ struct ControllerData
 /// <summary>
 /// A controller sends commands to ships.
 /// A local players commands are sent to a designated controller, who's state is updated between games.
+/// Chunks are then also synced
 /// </summary>
 class Controller
 {

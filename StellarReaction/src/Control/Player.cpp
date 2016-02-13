@@ -214,7 +214,7 @@ void Player::updateView()
 		}
 
 		m_energyMeterFill->setPercent(val/maxVal);
-		if(val/maxVal < 0.1f)
+		if(val/maxVal < 0.1f)//if energy less than 10 percent
 		{
 			string com = "setAnimation";
 			sf::Packet dat;

@@ -105,28 +105,30 @@ public:
 
 	Camera& getCamera();
 
-	const InputConfig& getInCfg() const;
-	IOComponent& getIOComp();	
-	bool inGuiMode() const;
-	bool toggleGuiMode(bool isGuiModeOn);
-	bool toggleFocus(bool isWindowFocused);
-	bool hasFocus() const;
-	bool isTracking() const;
-	void setController(int index);
+	const InputConfig& getInCfg() const;//returns keyboard input configuration
+	IOComponent& getIOComp();
+	bool inGuiMode() const;//does keyboard and mouse input go to GUI, or game
+	bool toggleGuiMode(bool isGuiModeOn);//does keyboard and mouse input go to GUI, or game
+	bool toggleFocus(bool isWindowFocused);//toggle focus of application window
+	bool hasFocus() const;//Does the application window have operating system focus
+	bool isTracking() const;//is our camera tracking our target?
+	void setController(int index);//which controller does this player control
 
 	/**MOUSE**/
-	const sf::Vector2f& getMouseWindowPos() const;
-	void setMouseWindowPos(const sf::Vector2f& rPos);
+	const sf::Vector2f& getMouseWindowPos() const;//window coordinates
+	void setMouseWindowPos(const sf::Vector2f& rPos);//window coordinates
 
 	/**INPUT**/
-	void getLiveInput();//get direct feed from keyboard and mouse, just gets their states though (up, down, position)
-	void getWindowEvents(sf::RenderWindow& rWindow);//process window events
+	void getLiveInput();//get direct feed from keyboard and mouse, just gets their states though (not events) (up, down, position of mouse)
+	void getWindowEvents(sf::RenderWindow& rWindow);//process window events, such as mouse down and key down events
 
 
 	void updateView();
-	void loadOverlay(const std::string& rOverlay);
+	void loadOverlay(const std::string& rOverlay);//loads the game HUD (NOT A GUI)
 
-	void universeDestroyed();///this is messed up!, this is not how this should be!
+	//this tells the player that the universe no longer exists, meaning the sprites
+	//for the HUD need to be destroyed.
+	void universeDestroyed();
 
 protected:
 	void input(std::string rCommand, sf::Packet rData);

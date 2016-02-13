@@ -30,6 +30,13 @@ public:
 	void sendSpecialIo(const Message& mes);//called when an IOComponent message is sent across the network
 	void recieveSpecialIo(sf::Packet& mes);//called when an IOComponent message is sent across the network
 
+	/// <summary>
+	/// this is a client connection on the server
+	/// the server has determined that a module should be added to this clients list of useable modules
+	/// the server will now send a packet to the client
+	/// </summary>
+	/// <param name="newTitle">The new title.</param>
+	/// <param name="rPos">The r position.</param>
 	virtual void addModule(const std::string& newTitle, const b2Vec2& rPos);
 
 protected:

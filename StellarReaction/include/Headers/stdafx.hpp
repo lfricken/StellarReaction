@@ -37,14 +37,14 @@
 
 #include "JSON/json.h"/**JSON**/
 
-using std::shared_ptr;
-
-//using std::sptr;
-
-using std::weak_ptr;
 
 template<typename T>
 using sptr = std::shared_ptr<T>;
+
+template<typename T>
+using wptr = std::weak_ptr;
+
+
 
 #endif // STFAFX_H
 

@@ -9,6 +9,9 @@
 
 class PlayerState;
 
+/// <summary>
+/// What state is the NetworkBoss (us) in?
+/// </summary>
 enum class NWState
 {
 	Local,
@@ -21,7 +24,7 @@ struct NetworkBossData
 	NetworkBossData() :
 		ioComp(game.getCoreIO())
 	{
-		ioComp.name = "networkboss";
+		ioComp.name = "networkboss";//how to send io messages to network boss
 	}
 
 	IOComponentData ioComp;
@@ -38,8 +41,8 @@ public:
 	NetworkFactory& getNWFactory();
 	NetworkFactory& getNWFactoryTcp();
 
-	void messageLobbyLocal(const std::string& rMessage);
-	void messageLobby(const std::string& rMessage);
+	void messageLobbyLocal(const std::string& rMessage);//message only the local lobby
+	void messageLobby(const std::string& rMessage);//message everyone
 	void messagePlayerCount();
 
 

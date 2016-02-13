@@ -29,7 +29,7 @@ void ProjectileModule::setPayload(int damage, const FixtureComponent* pParent, i
 	m_currentCollisions = 0;
 	m_maxCollisions = collisions;
 	m_freeThisProjectile = false;
-	m_pParent = pParent->getBodyPtr();
+	m_pParent = pParent->getBodyPtr();//make sure the module we damage isn't from our own ship!
 }
 void ProjectileModule::postPhysUpdate()
 {

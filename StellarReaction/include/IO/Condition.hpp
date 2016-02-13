@@ -18,10 +18,10 @@ public:
 	void reset(EventType type, int value, char comparison, bool repeatable);
 
 
-	EventType getEventType() const;
+	EventType getEventType() const;//what type of event is this condition for?
 	bool evaluate(int value) const;//returns true if in value satisfies the condition
-	char getComparison() const;
-	bool isRepeatable() const;
+	char getComparison() const;//what type of comparison of values does this condition do?
+	bool isRepeatable() const;//can this condition be triggered only once?
 
 private:
 	typedef bool (Condition::*ComparisonFunction)(int) const;

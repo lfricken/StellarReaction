@@ -45,7 +45,7 @@ namespace leon
 
 		NetworkComponent m_nw;
 		std::string m_latest;//the latest line that we tried to enter
-		tgui::ChatBox::Ptr m_pChatBox;
-		sptr<EditBox> m_spEditBox;
+		tgui::ChatBox::Ptr m_pChatBox;//the box where it shows up
+		sptr<EditBox> m_spEditBox;//the box for entering info
 	};
 }

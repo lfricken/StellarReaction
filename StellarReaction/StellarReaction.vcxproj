@@ -78,7 +78,6 @@
     <ClCompile Include="src\Control\Camera.cpp" />
     <ClCompile Include="src\Control\ControlFactory.cpp" />
     <ClCompile Include="src\Control\Controller.cpp" />
-    <ClCompile Include="src\Control\Input.cpp" />
     <ClCompile Include="src\Control\Player.cpp" />
     <ClCompile Include="src\Control\SlaveLocator.cpp" />
     <ClCompile Include="src\Game\Game.cpp" />
@@ -337,7 +336,6 @@
     <ClInclude Include="include\Control\Camera.hpp" />
     <ClInclude Include="include\Control\ControlFactory.hpp" />
     <ClInclude Include="include\Control\Controller.hpp" />
-    <ClInclude Include="include\Control\Input.hpp" />
     <ClInclude Include="include\Control\Money.hpp" />
     <ClInclude Include="include\Control\Player.hpp" />
     <ClInclude Include="include\Control\SlaveLocator.hpp" />

@@ -111,7 +111,11 @@ private:
 	/// <summary>
 	/// global clock never paused
 	/// </summary>
-	sf::Clock m_clock;
+	sf::Clock m_clock;	
+	/// <summary>
+	/// hold data to stop calling the clock 1000's of times per 
+	/// frame (which takes a lot of cpu time for some reason)
+	/// </summary>
 	mutable float m_lastTime;
 	mutable int m_sampleClock;
 	mutable int m_sampleFreq;

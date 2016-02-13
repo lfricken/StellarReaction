@@ -45,9 +45,6 @@
     <ClCompile Include="src\Control\Controller.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Control\Input.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Control\Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -972,9 +969,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Control\Controller.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Control\Input.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Control\Player.hpp">

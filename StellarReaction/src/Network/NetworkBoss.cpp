@@ -74,7 +74,7 @@ void NetworkBoss::messagePlayerCount()
 		messageLobby(std::to_string(m_connections.size() + 1) + " players total.");
 }
 /// <summary>
-/// anyone send a message to our local lobby (only our computer)
+/// anyone send a message to their local lobby (only our computer)
 /// </summary>
 void NetworkBoss::messageLobbyLocal(const std::string& rMessage)
 {

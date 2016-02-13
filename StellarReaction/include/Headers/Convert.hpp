@@ -22,6 +22,12 @@ namespace leon
 	{
 		return (180.0f*value)/pi;
 	}
+
+
+
+	/// <summary>
+	/// Distance formula
+	/// </summary>
 	template<typename T>
 	inline float Dist(const T& p1, const T& p2)
 	{
