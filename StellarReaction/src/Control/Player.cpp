@@ -108,6 +108,8 @@ void Player::getLiveInput()
 		/**== SPECIAL ==**/
 		if(Keyboard::isKeyPressed(m_inCfg.store))
 			m_directives[Directive::ShowStore] = true;
+		if(Keyboard::isKeyPressed(m_inCfg.Stealth))
+			m_directives[Directive::Stealth] = true;
 
 
 		/**== MOUSE ==**/
