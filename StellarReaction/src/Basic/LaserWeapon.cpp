@@ -23,7 +23,7 @@ LaserWeapon::~LaserWeapon()
 /// <param name="center">The center.</param>
 /// <param name="aim">The aim.</param>
 /// <param name="radCCW">The RAD CCW.</param>
-void LaserWeapon::preShot(const b2Vec2& center, const b2Vec2& aim, float radCCW)
+void LaserWeapon::preShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation)
 {
 	m_ray.setIgnoreBody(m_pBody);
 
@@ -37,7 +37,7 @@ void LaserWeapon::preShot(const b2Vec2& center, const b2Vec2& aim, float radCCW)
 /// <param name="center">The center.</param>
 /// <param name="aim">The aim.</param>
 /// <param name="radCCW">The RAD CCW.</param>
-void LaserWeapon::postShot(const b2Vec2& center, const b2Vec2& aim, float radCCW)
+void LaserWeapon::postShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation)
 {
 	RayData data = m_ray.getLatest();
 	m_ray.reset();

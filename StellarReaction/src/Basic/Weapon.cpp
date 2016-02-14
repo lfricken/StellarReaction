@@ -55,7 +55,7 @@ bool Weapon::fire(const FixtureComponent& pParent, Pool<Energy>* pEnergy, Pool<B
 	else
 		return false;
 }
-void Weapon::prePhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 radCCW, b2Body* pBody)//we are checking whether we should take a shot
+void Weapon::prePhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation)//we are checking whether we should take a shot
 {
 	m_pBody = pBody;
 
@@ -67,10 +67,10 @@ void Weapon::prePhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 radC
 		m_shotTimer.restartCountDown();
 		m_shotThisTick = true;
 
-		preShot(center, aim, radCCW);
+		preShot(center, aim, radCCW, module_orientation);
 	}
 }
-void Weapon::postPhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 radCCW, b2Body* pBody)//we are determining our next shot
+void Weapon::postPhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation)//we are determining our next shot
 {
 	m_pBody = pBody;
 	m_decor.setRotation(radCCW);
@@ -79,7 +79,7 @@ void Weapon::postPhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 rad
 	if(m_shotThisTick)
 	{
 		m_shotThisTick = false;
-		postShot(center, aim, radCCW);
+		postShot(center, aim, radCCW, module_orientation);
 
 		if(m_shotsRemain == 0)
 		{

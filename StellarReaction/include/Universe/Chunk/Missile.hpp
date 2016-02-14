@@ -3,6 +3,7 @@
 #include "Projectile.hpp"
 
 struct MissileData;
+class Chunk;
 
 class Missile : public Projectile
 {
@@ -10,8 +11,9 @@ public:
 	Missile(const MissileData& rData);
 	virtual ~Missile();
 
-	void missileLaunch();
-
+	void missileLaunch(b2Vec2 rStart, Chunk* target, float radCCW, int init_velocity, int acceleration, int max_velocity, int damage, const FixtureComponent* pParent, int collisions);
+	void prePhysUpdate();
+	void postPhysUpdate();
 protected:
 
 private:

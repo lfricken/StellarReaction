@@ -25,8 +25,8 @@ private:
 	sptr<Weapon> m_spWep;
 	int m_shotsRemain;//shots remaining in this volley
 
-	b2Vec2 m_lastAim;
-	float32 m_lastAngle;
+	b2Vec2 m_lastAim; //current aim of controller
+	float32 m_lastAngle;//used to preserve the orientation of a broken turret
 };
 
 
