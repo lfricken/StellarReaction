@@ -73,6 +73,10 @@ const sf::Vector2f& GraphicsComponent::getOffset() const
 {
 	return m_offset;
 }
+const sf::Color GraphicsComponent::getColor() const
+{
+	return m_color;
+}
 
 
 

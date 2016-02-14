@@ -43,11 +43,12 @@ struct RadarData : public ShipModuleData
 
 	float zoomAddition;//how much more we can zoom with this module active
 
-	virtual Module* generate(b2Body* pBody, PoolCollection stuff) const
+	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{
 		RadarData copy(*this);
 		copy.pools = stuff;
 		copy.fixComp.pBody = pBody;
+		copy.chunkParent = parent;
 		return new Radar(copy);
 	}
 	virtual ModuleData* clone() const

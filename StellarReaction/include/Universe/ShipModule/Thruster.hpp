@@ -56,11 +56,12 @@ struct ThrusterData : public ShipModuleData
 	float force;// strength
 	float torque;// torque
 
-	virtual Module* generate(b2Body* pBody, PoolCollection stuff) const
+	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{
 		ThrusterData copy(*this);
 		copy.pools = stuff;
 		copy.fixComp.pBody = pBody;
+		copy.chunkParent = parent;
 		return new Thruster(copy);
 	}
 	virtual ModuleData* clone() const

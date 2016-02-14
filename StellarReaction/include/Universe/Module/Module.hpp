@@ -6,6 +6,7 @@
 #include "FixtureComponent.hpp"
 #include "Universe.hpp"
 #include "Pool.hpp"
+#include "Chunk.hpp"
 
 enum class Directive;
 struct ModuleData;
@@ -46,6 +47,7 @@ protected:
 
 	std::string m_title;//how the game refers to it
 	std::string m_name;//what gets displayed to player
+	Chunk* m_parentChunk;
 private:
 };
 
@@ -58,11 +60,13 @@ struct ModuleData
 		cost(1),
 		ioComp(game.getUniverse().getUniverseIO()),
 		nwComp(),
-		fixComp()
+		fixComp(),
+		chunkParent(NULL)
 	{
 
 	}
 
+	Chunk* chunkParent;
 	std::string title;//how the game refers to it
 	std::string name;//what gets displayed to player
 	Money cost;//how much does this cost?
@@ -72,7 +76,7 @@ struct ModuleData
 	FixtureComponentData fixComp;
 	PoolCollection pools;
 
-	virtual Module* generate(b2Body* pBody, PoolCollection stuff) const
+	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{
 		std::cout << FILELINE;
 		return NULL;

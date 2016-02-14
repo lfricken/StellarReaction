@@ -64,7 +64,7 @@ struct ShipModuleData : public ModuleData
 	HealthState initHealthState;
 	bool functionsDamaged;//does this module still function when damaged?
 
-	virtual Module* generate(b2Body* pBody, PoolCollection stuff) const
+	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{
 		std::cout << FILELINE;
 		return NULL;

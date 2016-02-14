@@ -11,8 +11,11 @@ public:
 	Plating(const PlatingData& rData);
 	virtual ~Plating();
 
+	void directive(std::map<Directive, bool>& rIssues);
+
 protected:
 private:
+	void stealthOn();
 };
 
 
@@ -25,11 +28,12 @@ struct PlatingData : public ShipModuleData
 		baseDecor.animSheetName = "radar/radar_base.acfg";
 	}
 
-	virtual Module* generate(b2Body* pBody, PoolCollection stuff) const
+	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{
 		PlatingData copy(*this);
 		copy.pools = stuff;
 		copy.fixComp.pBody = pBody;
+		copy.chunkParent = parent;
 		return new Plating(copy);
 	}
 	virtual ModuleData* clone() const

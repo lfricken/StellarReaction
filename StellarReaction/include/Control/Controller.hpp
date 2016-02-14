@@ -40,6 +40,7 @@ enum class Directive
 	Special1,
 	Special2,
 	End,
+	Stealth,
 };
 /// <summary>
 /// Data a controller can request from a chunk (to display via gui, or control zoom etc)

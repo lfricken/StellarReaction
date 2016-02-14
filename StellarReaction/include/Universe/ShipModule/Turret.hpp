@@ -43,11 +43,12 @@ struct TurretData : public ShipModuleData
 	bool startEmpty;
 	sptr<const WeaponData> startWep;
 
-	virtual Module* generate(b2Body* pBody, PoolCollection stuff) const
+	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{
 		TurretData copy(*this);
 		copy.pools = stuff;
 		copy.fixComp.pBody = pBody;
+		copy.chunkParent = parent;
 		return new Turret(copy);
 	}
 	virtual ModuleData* clone() const
