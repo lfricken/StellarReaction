@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StellarReaction", "StellarReaction\StellarReaction.vcxproj", "{B53D049C-4F44-4469-B0AB-328FEEE2DEF4}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StellarReactionTest", "StellarReactionTest\StellarReactionTest.vcxproj", "{9D9D3FC0-C819-4163-B667-C72B7D428968}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{B53D049C-4F44-4469-B0AB-328FEEE2DEF4}.Debug|Win32.Build.0 = Debug|Win32
 		{B53D049C-4F44-4469-B0AB-328FEEE2DEF4}.Release|Win32.ActiveCfg = Release|Win32
 		{B53D049C-4F44-4469-B0AB-328FEEE2DEF4}.Release|Win32.Build.0 = Release|Win32
+		{9D9D3FC0-C819-4163-B667-C72B7D428968}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9D9D3FC0-C819-4163-B667-C72B7D428968}.Debug|Win32.Build.0 = Debug|Win32
+		{9D9D3FC0-C819-4163-B667-C72B7D428968}.Release|Win32.ActiveCfg = Release|Win32
+		{9D9D3FC0-C819-4163-B667-C72B7D428968}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
