@@ -1,0 +1,61 @@
+{
+    "ClassName": "Missile",
+    "Title": "DefaultMissile",
+	"Copies": null,
+    "Body": {
+        "coords": [
+            0,
+            0
+        ],
+        "rotation": 0,
+        "isDynamic": true,
+        "isBullet": true,
+        "startAwake": true
+    },
+    "Missiles": {
+        "Max": 0,
+        "Value": 0
+    },
+    "Energy": {
+        "Max": 0,
+        "Value": 0
+    },
+    "Ballistic": {
+        "Max": 0,
+        "Value": 0
+    },
+    "Zoom": {
+        "Max": 2,
+        "Value": 1
+    },
+    "Modules": [
+		{
+			"ClassName": "Projectile",
+			"BaseSprite": {
+				"texName": "projectile/ballistic1.png",
+				"animSheetName": "projectile/ballistic1.acfg",
+				"dimensions": [
+					512,
+					64
+				]
+			},
+			"Physics": {
+				"offset": [
+					0,
+					0
+				],
+				"shape": "rectangle",
+				"size": [
+					0.5,
+					0.125
+				],
+				"Physics": {
+					"colCat": "Projectile",
+					"colMask": "Projectile"	
+				},
+				"density": 1.0,
+				"isSensor": true
+			}
+		}
+    ]
+}

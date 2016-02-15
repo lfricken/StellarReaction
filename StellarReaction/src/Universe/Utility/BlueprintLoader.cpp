@@ -14,7 +14,9 @@
 #include "LaserWeapon.hpp"
 #include "BallisticWeapon.hpp"
 #include "Projectile.hpp"
+#include "Missile.hpp"
 #include "CaptureArea.hpp"
+#include "MissileWeapon.hpp"
 
 using namespace std;
 
@@ -322,9 +324,27 @@ sptr<const ProjectileData> BlueprintLoader::loadProjectile(const Json::Value& ro
 
 		spPrj.reset(pPrj);
 	}
+	else if(root["ClassName"].asString() == "Missile")
+	{
+		MissileData* pPrj = new MissileData;
+
+		if(!root["Copies"].isNull())
+			*pPrj = *dynamic_cast<const MissileData*>(getProjectileSPtr(root["Copies"].asString()).get());
+
+		pPrj->title = root["Title"].asString();
+
+		if(!root["Body"].isNull())
+			pPrj->body = loadBodyComp(root["Body"], pPrj->body);
+
+		if(!root["Modules"].isNull())
+			insertModuleData(root["Modules"], pPrj->moduleData);
+
+		spPrj.reset(pPrj);
+	}
 	else
 	{
 		cout << "\n" << FILELINE;
+		cout << "\n" << root["ClassName"].asString();
 		///ERROR LOG
 	}
 	return spPrj;
@@ -364,6 +384,18 @@ sptr<const WeaponData> BlueprintLoader::loadWeapon(const Json::Value& root)//ret
 		BallisticWeaponData* pWep = new BallisticWeaponData;
 		if(!root["Copies"].isNull())
 			*pWep = *dynamic_cast<const BallisticWeaponData*>(getWeaponSPtr(root["Copies"].asString()).get());
+
+		if(!root["ProjectileName"].isNull())
+			pWep->projName = root["ProjectileName"].asString();
+
+		inheritWeapon(root, pWep);
+		spWep.reset(pWep);
+	}
+	else if(root["WeaponType"].asString() == "Missile")
+	{
+		MissileWeaponData* pWep = new MissileWeaponData;
+		if(!root["Copies"].isNull())
+			*pWep = *dynamic_cast<const MissileWeaponData*>(getWeaponSPtr(root["Copies"].asString()).get());
 
 		if(!root["ProjectileName"].isNull())
 			pWep->projName = root["ProjectileName"].asString();

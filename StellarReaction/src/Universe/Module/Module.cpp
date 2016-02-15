@@ -37,7 +37,14 @@ void Module::setAim(const b2Vec2& rTarget)
 }
 void Module::startContactCB(FixtureComponent* pOther)
 {
-
+	int damage = 2;
+	int m_damage = 0;
+	FixtureComponent& rComp = *pOther;
+	sf::Packet packet;
+	packet << m_damage;
+	Message mess;
+	mess.reset(rComp.getIOPos(), "damage", packet, 0.f, false);
+	game.getUniverse().getUniverseIO().recieve(mess);
 }
 void Module::endContactCB(FixtureComponent* pOther)
 {

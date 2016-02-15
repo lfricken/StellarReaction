@@ -1,0 +1,19 @@
+{
+    "WeaponType": "Missile",
+    "Title": "DefaultMissileWeapon",
+
+    "StartSound": {
+        "name": ""
+    },
+    "ShotSound": {
+        "name": "default.wav"
+    },
+    "EndSound": {
+        "name": ""
+    },
+	"ProjectileName": "DefaultMissile",
+    "EnergyConsumption": 1,
+    "Damage": 2,
+    "Shots": 1,
+	"Collisions": 1
+}

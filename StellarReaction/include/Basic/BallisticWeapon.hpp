@@ -32,7 +32,7 @@ struct BallisticWeaponData : public WeaponData
 		projName("DefaultProjectile")
 	{
 		weaponQuad.animSheetName = "weapons/ballistic1.acfg";
-		weaponQuad.texName = "weapons/ballistic1.png";
+		weaponQuad.texName = "weapons/missile1.png";
 		ener = 1;///TODO SHOULD BE CONSUMING BALLISTIC ONLY, THIS IS JUST FOR TESTING
 		ball = 0;
 		mis = 0;

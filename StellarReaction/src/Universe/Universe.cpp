@@ -561,3 +561,12 @@ void Universe::input(std::string rCommand, sf::Packet rData)
 		cout << m_io.getName() << ":[" << rCommand << "] not found." << FILELINE;
 	}
 }
+
+
+/*
+	
+*/
+void Universe::spawnChunk(int x, int y)
+{
+	//TODO
+}
