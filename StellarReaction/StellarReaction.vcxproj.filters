@@ -390,6 +390,9 @@
     <ClCompile Include="src\Universe\Module\CaptureArea.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Universe\ShipModule\Stealth.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\API\Box2D\Box2D.h">
@@ -1185,6 +1188,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Universe\Module\CaptureArea.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Universe\ShipModule\Stealth.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
