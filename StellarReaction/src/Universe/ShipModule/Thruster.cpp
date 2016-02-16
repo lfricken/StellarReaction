@@ -42,6 +42,11 @@ void Thruster::directive(std::map<Directive, bool>& rIssues)
 		torque(true);
 	if(rIssues[Directive::RollCW])
 		torque(false);
+	if (rIssues[Directive::Stealth])
+	{
+		//turn on stealth mode
+		stealthOn();
+	}
 }
 void Thruster::thrust(const b2Vec2& rDirection)
 {

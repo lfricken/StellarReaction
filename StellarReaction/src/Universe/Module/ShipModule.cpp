@@ -151,3 +151,19 @@ void ShipModule::f_died()
 	sound.pos = center;
 	game.getSound().playSound(sound);
 }
+
+void ShipModule::stealthOn()
+{
+	setAlpha(m_parentChunk->getHull());
+	for (auto it = m_decors.begin(); it != m_decors.end(); ++it)
+	{
+		setAlpha(*it);
+	}
+}
+
+void ShipModule::setAlpha(sptr<GraphicsComponent> sprite)
+{
+	sf::Color color = sprite->getColor();
+	//TODO: Make a constant for the alpha value of 50
+	sprite->setColor(sf::Color(color.r, color.g, color.b, 50));
+}

@@ -61,6 +61,10 @@ sptr<GraphicsComponent> Chunk::getHull() const
 {
 	return hull;
 }
+std::vector<sptr<Module>> Chunk::getModuleList() const
+{
+	return m_modules;
+}
 bool Chunk::allows(const b2Vec2& rGridPos)
 {
 	return (std::find(m_validOffsets.begin(), m_validOffsets.end(), rGridPos) != m_validOffsets.end());
