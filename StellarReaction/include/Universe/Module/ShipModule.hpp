@@ -28,13 +28,13 @@ public:
 	bool functioning();//does this module still do its function
 	void setHealthState(HealthState newState);
 	virtual void setHealthStateHook(HealthState newState);
+	virtual void stealthOn(bool toggle);
 
 protected:
 	virtual void input(std::string rCommand, sf::Packet rData);
 	virtual void pack(sf::Packet& rPacket);
 	virtual void unpack(sf::Packet& rPacket);
 	virtual void f_died();
-	virtual void stealthOn(bool toggle);
 	virtual void setAlpha(sptr<GraphicsComponent> sprite);
 
 	Health m_health;

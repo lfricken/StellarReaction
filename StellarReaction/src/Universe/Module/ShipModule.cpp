@@ -154,11 +154,7 @@ void ShipModule::f_died()
 
 void ShipModule::stealthOn(bool toggle)
 {
-	setAlpha(m_parentChunk->getHull());
-	for (auto it = m_decors.begin(); it != m_decors.end(); ++it)
-	{
-		setAlpha(*it);
-	}
+	setAlpha(m_decors[m_baseDecor]);
 }
 
 void ShipModule::setAlpha(sptr<GraphicsComponent> sprite)

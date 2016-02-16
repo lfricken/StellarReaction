@@ -42,11 +42,6 @@ void Turret::directive(std::map<Directive, bool>& rIssues)
 			{
 
 			}
-	if (rIssues[Directive::Stealth])
-	{
-		//turn on stealth mode
-		//stealthOn();
-	}
 }
 void Turret::setWep(sptr<const WeaponData> spWep)
 {
@@ -60,4 +55,13 @@ void Turret::removeWep()
 void Turret::setAim(const b2Vec2& rTarget)
 {
 	m_lastAim = rTarget;
+}
+void Turret::stealthOn(bool toggle)
+{
+	ShipModule::stealthOn(toggle);
+	//TODO: Figure out how to setAlpha for a QuadComponent. Works fine for a GraphicsComponent. Also, should we 
+	// put this functionality in the Weapon class (would duplicate code) or here (would require any future module that has
+	// a weapon sprite to duplicate this code).
+	//sptr<GraphicsComponent> weaponSprite = dynamic_cast<sptr<GraphicsComponent>> (m_spWep->getDecor());
+	//setAlpha(weaponSprite);
 }

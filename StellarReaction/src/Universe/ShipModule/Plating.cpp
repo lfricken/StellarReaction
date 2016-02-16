@@ -16,7 +16,11 @@ void Plating::directive(map<Directive, bool>& rIssues)
 {
 	if (rIssues[Directive::Stealth])
 	{
-		//turn on stealth mode
-		stealthOn(true);
+		setAlpha(m_parentChunk->getHull());
+		std::vector<sptr<Module>> moduleList = m_parentChunk->getModuleList();
+		for (auto it = moduleList.begin(); it != moduleList.end(); ++it)
+		{
+			(*it)->stealthOn(true);
+		}
 	}
 }
