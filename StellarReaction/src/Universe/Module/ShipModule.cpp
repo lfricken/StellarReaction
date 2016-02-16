@@ -152,7 +152,7 @@ void ShipModule::f_died()
 	game.getSound().playSound(sound);
 }
 
-void ShipModule::stealthOn()
+void ShipModule::stealthOn(bool toggle)
 {
 	setAlpha(m_parentChunk->getHull());
 	for (auto it = m_decors.begin(); it != m_decors.end(); ++it)

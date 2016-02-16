@@ -45,7 +45,7 @@ void Turret::directive(std::map<Directive, bool>& rIssues)
 	if (rIssues[Directive::Stealth])
 	{
 		//turn on stealth mode
-		stealthOn();
+		//stealthOn();
 	}
 }
 void Turret::setWep(sptr<const WeaponData> spWep)

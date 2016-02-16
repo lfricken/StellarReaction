@@ -74,6 +74,10 @@ const std::string& Module::getName() const
 {
 	return m_name;
 }
+void Module::stealthOn(bool toggle)
+{
+
+}
 void Module::input(std::string rCommand, sf::Packet rData)
 {
 	if(rCommand == "setStore")

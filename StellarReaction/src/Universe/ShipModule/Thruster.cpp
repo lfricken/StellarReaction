@@ -45,7 +45,7 @@ void Thruster::directive(std::map<Directive, bool>& rIssues)
 	if (rIssues[Directive::Stealth])
 	{
 		//turn on stealth mode
-		stealthOn();
+		//stealthOn();
 	}
 }
 void Thruster::thrust(const b2Vec2& rDirection)

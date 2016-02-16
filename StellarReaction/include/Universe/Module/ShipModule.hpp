@@ -34,7 +34,7 @@ protected:
 	virtual void pack(sf::Packet& rPacket);
 	virtual void unpack(sf::Packet& rPacket);
 	virtual void f_died();
-	virtual void stealthOn();
+	virtual void stealthOn(bool toggle);
 	virtual void setAlpha(sptr<GraphicsComponent> sprite);
 
 	Health m_health;
