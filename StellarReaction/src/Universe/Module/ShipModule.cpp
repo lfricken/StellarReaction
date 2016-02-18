@@ -154,12 +154,12 @@ void ShipModule::f_died()
 
 void ShipModule::stealthOn(bool toggle)
 {
-	setAlpha(m_decors[m_baseDecor]);
+	setAlpha(*m_decors[m_baseDecor]);
 }
 
-void ShipModule::setAlpha(sptr<GraphicsComponent> sprite)
+void ShipModule::setAlpha(GraphicsComponent& sprite)
 {
-	sf::Color color = sprite->getColor();
+	sf::Color color = sprite.getColor();
 	//TODO: Make a constant for the alpha value of 50
-	sprite->setColor(sf::Color(color.r, color.g, color.b, 50));
+	sprite.setColor(sf::Color(color.r, color.g, color.b, 50));
 }
