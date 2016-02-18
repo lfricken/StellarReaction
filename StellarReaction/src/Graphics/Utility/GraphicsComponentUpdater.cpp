@@ -20,7 +20,7 @@ void GraphicsComponentUpdater::free(GraphicsComponent* pTarget)
 {
 	auto it = m_targets.begin();
 
-	for(; it!=m_targets.end() - 1; ++it)
+	for(; it!=m_targets.end(); ++it)
 		if(pTarget == *it)
 			break;
 

@@ -98,7 +98,7 @@ void Weapon::damage(b2Fixture* pFix, int damage)
 	game.getUniverse().getUniverseIO().recieve(mess);
 }
 
-QuadComponent Weapon::getDecor()
+QuadComponent* Weapon::getDecor()
 {
-	return m_decor;
+	return &m_decor;
 }
