@@ -11,6 +11,8 @@ public:
 	Stealth(const StealthData& rData);
 	virtual ~Stealth();
 
+	virtual void postPhysUpdate();
+
 	void directive(std::map<Directive, bool>& rIssues);
 
 protected:

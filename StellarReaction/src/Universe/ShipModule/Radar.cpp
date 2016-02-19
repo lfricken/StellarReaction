@@ -37,5 +37,8 @@ void Radar::setHealthStateHook(HealthState newState)
 void Radar::stealthOn(bool toggle)
 {
 	ShipModule::stealthOn(toggle);
-	m_decors[m_dishIndex]->setAlpha(50);
+	if (toggle)
+		m_decors[m_dishIndex]->setAlpha(50);
+	else
+		m_decors[m_dishIndex]->setAlpha(255);
 }

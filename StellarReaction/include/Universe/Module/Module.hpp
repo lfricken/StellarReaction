@@ -46,6 +46,8 @@ protected:
 	Pool<Energy>* m_pEnergyPool;
 	Pool<float>* m_pZoomPool;
 
+	Timer m_stealthTimer; //timer used to turn stealth mode off;
+
 	std::string m_title;//how the game refers to it
 	std::string m_name;//what gets displayed to player
 	Chunk* m_parentChunk;
