@@ -139,6 +139,15 @@ void ShipModule::setHealthStateHook(HealthState newState)
 {
 
 }
+
+int getControlGroup() const{
+	return m_controlGroup;
+}
+
+void setControlGroup(int control_group) {
+	m_controlGroup = control_group;
+}
+
 void ShipModule::f_died()
 {
 	b2Vec2 center = m_fix.getCenter();
