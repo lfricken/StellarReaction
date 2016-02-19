@@ -43,6 +43,7 @@ public:
 	void setColor(sf::Color);
 	Animator& getAnimator();
 	void setScale(float scale);
+	void setAlpha(int alphaValue);
 
 	/**GETTERS**/
 	const b2Vec2& getPosition() const;

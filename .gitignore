@@ -12,3 +12,5 @@
 *.db
 *.db
 StellarReactionTest/Debug/StellarReactionTest.pch
+*.coverage
+*.ipch

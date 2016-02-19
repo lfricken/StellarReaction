@@ -12,11 +12,20 @@ public:
 	virtual ~Stealth();
 
 	void directive(std::map<Directive, bool>& rIssues);
+
+protected:
+private:
 };
 
-struct StealthData : ShipModuleData 
+
+struct StealthData : public ShipModuleData
 {
-	int duration;
+	StealthData() :
+		ShipModuleData()
+	{
+		baseDecor.texName = "radar/radar_base.png";
+		baseDecor.animSheetName = "radar/radar_base.acfg";
+	}
 
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{
@@ -32,4 +41,5 @@ struct StealthData : ShipModuleData
 	}
 };
 
-#endif //STEALTH_HPP
+
+#endif // STEALTH_HPP

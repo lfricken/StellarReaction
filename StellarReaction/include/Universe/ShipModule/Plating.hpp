@@ -11,8 +11,6 @@ public:
 	Plating(const PlatingData& rData);
 	virtual ~Plating();
 
-	void directive(std::map<Directive, bool>& rIssues);
-
 protected:
 private:
 };

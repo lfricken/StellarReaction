@@ -59,5 +59,5 @@ void Turret::setAim(const b2Vec2& rTarget)
 void Turret::stealthOn(bool toggle)
 {
 	ShipModule::stealthOn(toggle);
-	setAlpha(*m_spWep->getDecor());
+	m_spWep->getDecor()->setAlpha(50);
 }
