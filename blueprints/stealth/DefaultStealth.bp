@@ -1,0 +1,9 @@
+{
+    "ClassName": "Stealth",
+	"Title": "DefaultStealth",
+    "Inherits": "DefaultShipModule",
+	"BaseSprite": {
+		"texName": "plating/plating_base.png",
+		"animSheetName": "plating/plating_base.acfg"
+	}
+}

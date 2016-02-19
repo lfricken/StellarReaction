@@ -15,6 +15,7 @@
 		"turret/Raven_Laser1.bp",
 		"turret/Raven_Ballistic1.bp",
 		"radar/DefaultRadar.bp",
+    "stealth/DefaultStealth.bp",
 		"objective/DefaultCaptureArea.bp"
     ],
     "ChunkList": [
@@ -34,7 +35,7 @@
 		"weapon/Raven_Laser1.bp",
 		"weapon/Raven_Ballistic1.bp"
 
-		
+
     ],
 	"ProjectileList": [
 		"projectiles/DefaultProjectile.bp",
