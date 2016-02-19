@@ -17,17 +17,22 @@ public:
 
 protected:
 private:
+	float m_eConsump;
+	bool out_of_energy;
 };
 
 
 struct StealthData : public ShipModuleData
 {
 	StealthData() :
-		ShipModuleData()
+		ShipModuleData(),
+		energyConsumption(5)
 	{
 		baseDecor.texName = "radar/radar_base.png";
 		baseDecor.animSheetName = "radar/radar_base.acfg";
 	}
+
+	float energyConsumption;
 
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{

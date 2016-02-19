@@ -586,6 +586,9 @@ sptr<const ModuleData> BlueprintLoader::loadModule(const Json::Value& root)//ret
 	{
 		StealthData* pSMod = new StealthData;
 		copyModule<StealthData>(root, pSMod);
+
+		if (!root["EnergyConsumption"].isNull())
+			pSMod->energyConsumption = root["EnergyConsumption"].asFloat();
 		
 		inheritShipModule(root, pSMod);
 		spMod.reset(pSMod);
