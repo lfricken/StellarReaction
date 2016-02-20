@@ -36,8 +36,8 @@ void Turret::postPhysUpdate()
 }
 void Turret::directive(std::map<Directive, bool>& rIssues)
 {
-	std::cout<<"Active Control Group: " << game.getLocalPlayer().getActiveControlGroup() << "\n Turret Control Group: " << m_controlGroup << std::endl;
-	if(rIssues[Directive::FirePrimary] && game.getLocalPlayer().getActiveControlGroup() == m_controlGroup)
+	//std::cout<<"Active Control Group: " << game.getLocalPlayer().getActiveControlGroup() << "\n Turret Control Group: " << m_controlGroup << std::endl;
+	if(rIssues[Directive::FirePrimary]) //&& game.getLocalPlayer().getActiveControlGroup() == m_controlGroup)
 		if(m_spWep && functioning())//if we have a weapon
 			if(m_spWep->fire(m_fix, m_pEnergyPool, m_pBallisticPool, m_pMissilePool))//if we successfully fired
 			{

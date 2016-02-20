@@ -28,14 +28,9 @@ public:
 	bool functioning();//does this module still do its function
 	void setHealthState(HealthState newState);
 	virtual void setHealthStateHook(HealthState newState);
-<<<<<<< HEAD
 	virtual void stealthOn(bool toggle);
-
-=======
 	int getControlGroup() const;
 	void setControlGroup(int control_group);
-	
->>>>>>> ModuleControls
 protected:
 	virtual void input(std::string rCommand, sf::Packet rData);
 	virtual void pack(sf::Packet& rPacket);
