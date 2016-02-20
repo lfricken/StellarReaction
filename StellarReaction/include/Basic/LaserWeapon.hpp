@@ -13,8 +13,8 @@ public:
 	LaserWeapon(const LaserWeaponData& rData);
 	virtual ~LaserWeapon();
 
-	void preShot(const b2Vec2& center, const b2Vec2& aim, float radCCW);
-	void postShot(const b2Vec2& center, const b2Vec2& aim, float radCCW);
+	void preShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation);
+	void postShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation);
 protected:
 	RayCastCallback m_ray;
 	int m_beamWidth;

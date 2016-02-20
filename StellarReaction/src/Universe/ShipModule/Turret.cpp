@@ -20,7 +20,7 @@ void Turret::prePhysUpdate()
 		m_lastAngle -= m_fix.getAngle();
 	}
 	if(m_spWep)
-		m_spWep->prePhysUpdate(m_fix.getCenter(), m_lastAim, m_lastAngle+m_fix.getAngle(), m_fix.getBodyPtr());
+		m_spWep->prePhysUpdate(m_fix.getCenter(), m_lastAim, m_lastAngle+m_fix.getAngle(), m_fix.getBodyPtr(), m_fix.getAngle());
 	ShipModule::prePhysUpdate();
 }
 void Turret::postPhysUpdate()
@@ -31,7 +31,7 @@ void Turret::postPhysUpdate()
 		m_lastAngle -= m_fix.getAngle();
 	}
 	if(m_spWep)
-		m_spWep->postPhysUpdate(m_fix.getCenter(), m_lastAim, m_lastAngle+m_fix.getAngle(), m_fix.getBodyPtr());
+		m_spWep->postPhysUpdate(m_fix.getCenter(), m_lastAim, m_lastAngle+m_fix.getAngle(), m_fix.getBodyPtr(), m_fix.getAngle());
 	ShipModule::postPhysUpdate();
 }
 void Turret::directive(std::map<Directive, bool>& rIssues)

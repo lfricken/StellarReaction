@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Universe\Module\Missile.cpp" />
+    <ClCompile Include="src\Universe\Chunk\Missile.cpp" />
     <ClCompile Include="src\Basic\MissileWeapon.cpp" />
     <ClCompile Include="src\Universe\Module\CaptureArea.cpp" />
     <ClCompile Include="src\Audio\Sound.cpp" />

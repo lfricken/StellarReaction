@@ -13,8 +13,8 @@ public:
 	BallisticWeapon(const BallisticWeaponData& rData);
 	virtual ~BallisticWeapon();
 
-	void preShot(const b2Vec2& center, const b2Vec2& aim, float radCCW);
-	void postShot(const b2Vec2& center, const b2Vec2& aim, float radCCW);
+	void preShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation);
+	void postShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation);
 protected:
 
 	float m_projLifetime;

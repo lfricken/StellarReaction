@@ -29,25 +29,28 @@ public:
 	/// Called by our parent module
 	/// </summary>
 	/// <param name="pBody">The parent body.</param>
-	void prePhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 radCCW, b2Body* pBody);
+	void prePhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation);
 	/// <summary>
 	/// Called by our parent module
 	/// </summary>
 	/// <param name="pBody">The parent body.</param>
-	void postPhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 radCCW, b2Body* pBody);
+	void postPhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation);
 	//// <summary>
 	/// Called before physics update if this weapon should fire this tick
 	/// Look at laser and projectile weapon.
 	/// Overwrite this when making a new weapon.
 	/// </summary>
-	virtual void preShot(const b2Vec2& center, const b2Vec2& aim, float radCCW) = 0;
+	virtual void preShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation) = 0;
 	//// <summary>
 	/// Called after physics update if this weapon fired this tick
 	/// Overwrite this when making a new weapon.
 	/// Look at laser and projectile weapon.
 	/// </summary>
-	virtual void postShot(const b2Vec2& center, const b2Vec2& aim, float radCCW) = 0;
+
+	
+	virtual void postShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation) = 0;
 	QuadComponent* getDecor();
+
 protected:
 	b2Body* m_pBody;
 	const FixtureComponent* m_pTempParent;

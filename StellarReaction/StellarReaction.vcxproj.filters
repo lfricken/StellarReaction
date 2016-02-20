@@ -393,7 +393,7 @@
     <ClCompile Include="src\Basic\MissileWeapon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Universe\Module\Missile.cpp">
+    <ClCompile Include="src\Universe\Chunk\Missile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Universe\ShipModule\Stealth.cpp">

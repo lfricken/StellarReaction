@@ -12,13 +12,15 @@ public:
 	MissileWeapon(const MissileWeaponData& rData);
 	virtual ~MissileWeapon();
 
-	void preShot(const b2Vec2& center, const b2Vec2& aim, float radCCW);
-	void postShot(const b2Vec2& center, const b2Vec2& aim, float radCCW);
+	void preShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation);
+	void postShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation);
 protected:
-
 	float m_projLifetime;
 	std::string m_projName;//bp name of projectile
 	float m_velocity;//velocity of projectiles
+	float m_acceleration;
+	int m_max_velocity;
+	int m_init_velocity;
 private:
 };
 
