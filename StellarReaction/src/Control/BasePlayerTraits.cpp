@@ -11,6 +11,7 @@ BasePlayerTraits::BasePlayerTraits(const std::string& rName)
 	m_shipChoice = "CombatShip";
 	m_name = rName;
 	m_balance = 20;
+	m_activeControlGroup = 1;
 }
 BasePlayerTraits::~BasePlayerTraits()
 {
@@ -51,6 +52,12 @@ void BasePlayerTraits::changeMoney(Money amount)
 Money BasePlayerTraits::getMoney() const
 {
 	return m_balance;
+}
+void BasePlayerTraits::setActiveControlGroup(int control_group){
+	m_activeControlGroup = control_group;
+}
+int BasePlayerTraits::getActiveControlGroup() const {
+	return m_activeControlGroup;
 }
 void BasePlayerTraits::setController(int index)
 {

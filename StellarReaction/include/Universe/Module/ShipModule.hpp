@@ -28,8 +28,14 @@ public:
 	bool functioning();//does this module still do its function
 	void setHealthState(HealthState newState);
 	virtual void setHealthStateHook(HealthState newState);
+<<<<<<< HEAD
 	virtual void stealthOn(bool toggle);
 
+=======
+	int getControlGroup() const;
+	void setControlGroup(int control_group);
+	
+>>>>>>> ModuleControls
 protected:
 	virtual void input(std::string rCommand, sf::Packet rData);
 	virtual void pack(sf::Packet& rPacket);
@@ -44,6 +50,8 @@ protected:
 	int m_baseDecor;//index in m_decors where the module sprite is
 	int m_hitDecorIndex;//index in m_decors where the hit sprite is
 	int m_explosionIndex;//index in m_decors where the exposion sprite is
+
+	int m_controlGroup;
 private:
 };
 
