@@ -41,9 +41,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>..\StellarReaction\include\Universe\Utility;..\StellarReaction\include\Universe\ShipModule;..\StellarReaction\include\Universe\Module;..\StellarReaction\include\Universe\Chunk;..\StellarReaction\include\Graphics\Utility;..\StellarReaction\include\Universe;..\StellarReaction\include\Physics;..\StellarReaction\include\Overlay;..\StellarReaction\include\Network;..\StellarReaction\include\IO;..\StellarReaction\include\Headers;..\StellarReaction\include\Graphics;..\StellarReaction\include\Game;..\StellarReaction\include\Control;..\StellarReaction\include\Basic;..\StellarReaction\include\Audio;..\StellarReaction\include\API;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>..\StellarReaction\include\Universe\Utility;..\StellarReaction\include\Universe\ShipModule;..\StellarReaction\include\Universe\Module;..\StellarReaction\include\Universe\Chunk;..\StellarReaction\include\Graphics\Utility;..\StellarReaction\include\Universe;..\StellarReaction\include\Physics;..\StellarReaction\include\Overlay;..\StellarReaction\include\Network;..\StellarReaction\include\IO;..\StellarReaction\include\Headers;..\StellarReaction\include\Graphics;..\StellarReaction\include\Game;..\StellarReaction\include\Control;..\StellarReaction\include\Basic;..\StellarReaction\include\Audio;..\StellarReaction\include\API;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -57,7 +59,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>lib/gtestd.lib;lib/gtest_main-mdd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>lib/gtestd.lib;lib/gtest_main-mdd.lib;sfml-main-d.lib;sfml-system-d.lib;sfml-window-d.lib;sfml-audio-d.lib;sfml-graphics-d.lib;sfml-network-d.lib;tgui-d.lib;Box2D_static_debug.lib;jsoncpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\StellarReaction\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "gtest/gtest.h"
-//#include "Stealth.hpp"
+#include "Stealth.hpp"
 
 class StealthTest : public ::testing::Test
 {
