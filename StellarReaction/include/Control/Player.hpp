@@ -28,6 +28,10 @@ struct InputConfig
 		nextWeapon(sf::Keyboard::E),
 		prevWeapon(sf::Keyboard::Q),
 
+		cgroup_1(sf::Keyboard::Num1),
+		cgroup_2(sf::Keyboard::Num2),
+		cgroup_3(sf::Keyboard::Num3),
+		cgroup_4(sf::Keyboard::Num4),
 
 		stealth(sf::Keyboard::Space),
 		special_2(sf::Keyboard::R),
@@ -57,6 +61,11 @@ struct InputConfig
 
 	sf::Keyboard::Key nextWeapon;
 	sf::Keyboard::Key prevWeapon;
+
+	sf::Keyboard::Key cgroup_1;
+	sf::Keyboard::Key cgroup_2;
+	sf::Keyboard::Key cgroup_3;
+	sf::Keyboard::Key cgroup_4;
 
 	sf::Keyboard::Key stealth;
 	sf::Keyboard::Key special_2;

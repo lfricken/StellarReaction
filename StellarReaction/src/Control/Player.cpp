@@ -105,7 +105,14 @@ void Player::getLiveInput()
 			m_directives[Directive::Boost] = true;
 		if (Keyboard::isKeyPressed(m_inCfg.stealth))
 			m_directives[Directive::Stealth] = true;
-
+		if (Keyboard::isKeyPressed(m_inCfg.cgroup_1))
+			setActiveControlGroup(1);
+		if (Keyboard::isKeyPressed(m_inCfg.cgroup_2))
+			setActiveControlGroup(2);
+		if (Keyboard::isKeyPressed(m_inCfg.cgroup_3))
+			setActiveControlGroup(3);
+		if (Keyboard::isKeyPressed(m_inCfg.cgroup_4))
+			setActiveControlGroup(4);
 
 		/**== SPECIAL ==**/
 		if(Keyboard::isKeyPressed(m_inCfg.store))
