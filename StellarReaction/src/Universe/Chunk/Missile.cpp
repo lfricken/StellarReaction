@@ -55,7 +55,6 @@ void Missile::prePhysUpdate()
 			if(diffAngle > pi)
 				diffAngle -= 2 * pi;
 
-			cout << endl << diffAngle;
 
 			if(diffAngle < -pi / 8.f)
 				diffAngle = -pi / 8.f;
