@@ -36,6 +36,7 @@ public:
 	void directive(std::map<Directive, bool>& rIssues, bool local);//send command to target
 	float get(Request value) const;//return the requested value
 	b2Body* getBodyPtr();
+	BodyComponent& getBodyComponent();
 	std::string hasModuleAt(const b2Vec2 offset) const;
 	std::vector<std::pair<std::string, b2Vec2> > getModules() const;
 

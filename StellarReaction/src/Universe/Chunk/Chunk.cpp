@@ -61,6 +61,10 @@ bool Chunk::allows(const b2Vec2& rGridPos)
 {
 	return (std::find(m_validOffsets.begin(), m_validOffsets.end(), rGridPos) != m_validOffsets.end());
 }
+BodyComponent& Chunk::getBodyComponent()
+{
+	return m_body;
+}
 void Chunk::add(const ModuleData& rData)
 {
 	if(this->allows(rData.fixComp.offset))

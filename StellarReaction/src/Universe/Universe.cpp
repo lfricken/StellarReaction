@@ -171,6 +171,27 @@ void Universe::postPhysUpdate()
 		m_spProjMan->postPhysUpdate();
 	}
 }
+BodyComponent* Universe::getNearestBody(const b2Vec2& target)
+{
+	float prevDist = -1;
+	BodyComponent* closest = NULL;
+	for(auto it = m_goList.begin(); it != m_goList.end(); ++it)
+	{
+		GameObject* p = it->get();
+		Chunk* object = dynamic_cast<Chunk*>(p);
+		if(object != NULL)
+		{
+			b2Vec2 dif = target - object->getBodyPtr()->GetPosition();
+			float dist = dif.Length();
+			if(dist < prevDist || prevDist == -1)
+			{
+				prevDist = dist;
+				closest = &object->getBodyComponent();
+			}
+		}
+	}
+	return closest;
+}
 /// <summary>
 /// Gives each team the money the get per step (from cap points)
 /// </summary>

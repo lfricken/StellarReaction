@@ -22,7 +22,18 @@ namespace leon
 	{
 		return (180.0f*value)/pi;
 	}
+	template<typename T>
+	inline float normRad(T value)
+	{
+		float pi2 = 2.f * pi;
+		while(value > pi2)
+			value -= pi2;
 
+		while(value < 0.f)
+			value += pi2;
+
+		return value;
+	}
 
 
 	/// <summary>

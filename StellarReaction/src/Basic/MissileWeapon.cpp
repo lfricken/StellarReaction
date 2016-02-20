@@ -9,9 +9,9 @@ MissileWeapon::MissileWeapon(const MissileWeaponData& rData) : Weapon(rData)
 {
 	m_projName = rData.projName;
 
-	m_acceleration = 2;
+	m_acceleration = 20;
 	m_max_velocity = 70;
-	m_init_velocity = 15;
+	m_init_velocity = 2;
 
 	m_velocity = rData.velocity * sizeScalingFactor;
 	m_projLifetime = rData.range * sizeScalingFactor / m_velocity;
@@ -25,7 +25,7 @@ void MissileWeapon::preShot(const b2Vec2& center, const b2Vec2& aim, float radCC
 	/**Fire projectiles**/
 	Projectile* pProj = game.getUniverse().getProjMan().getProjectile(m_projName);
 
-	Chunk* target = NULL;
+	BodyComponent* target = game.getUniverse().getNearestBody(aim);
 	dynamic_cast<Missile*>(pProj)->missileLaunch(center, target, module_orientation, m_init_velocity, m_acceleration, m_max_velocity, m_damage / m_shots, m_pTempParent, m_collisions);
 
 }
