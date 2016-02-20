@@ -6,6 +6,9 @@
 		
 		}
 	],
+	"HazardFields": [
+		[0,0]
+	],
 	"SpawnPoints": [
 		{
 			"Team": 1,

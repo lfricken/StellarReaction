@@ -7,6 +7,8 @@
 #include "ControlFactory.hpp"
 #include "Money.hpp"
 
+#include "Hazard\HazardField.hpp"
+
 class BatchLayers;
 class GraphicsComponentUpdater;
 class IOManager;
@@ -75,6 +77,7 @@ protected:
 	void input(std::string rCommand, sf::Packet rData);
 
 private:
+	std::vector <HazardField> hazardFields;
 
 	//TODO
 	void spawnChunk(int x, int y);

@@ -399,6 +399,9 @@
     <ClCompile Include="src\Universe\ShipModule\Stealth.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Universe\Hazard\HazardField.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\API\Box2D\Box2D.h">
@@ -1203,6 +1206,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Universe\ShipModule\Stealth.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Universe\Hazard\HazardField.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

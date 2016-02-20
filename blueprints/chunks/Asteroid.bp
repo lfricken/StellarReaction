@@ -1,0 +1,94 @@
+{
+    "ClassName": "Chunk",
+    "Title": "Asteroid",
+	"Copies": null,
+    "IO": {
+        "name": "BPCHUNKNAME",
+        "courierList": []
+    },
+    "Body": {
+        "coords": [
+            0,
+            0
+        ],
+        "rotation": 0,
+        "isDynamic": true,
+        "isBullet": false,
+        "startAwake": true
+    },
+    "Missiles": {
+        "Max": 0,
+        "Value": 0
+    },
+    "Energy": {
+        "Max": 0,
+        "Value": 0
+    },
+    "Ballistic": {
+        "Max": 0,
+        "Value": 0
+    },
+    "Zoom": {
+        "Max": 64,
+        "Value": 1
+    },
+	"Hull_Sprite": {
+		"dimensions": [276, 270],
+		"center": [0,0],
+		"texName": "hazards/redsquare.png",
+		"layer": "ShipHull"
+	},
+	"Afterburner_Sprites": [
+		{
+			"dimensions": [200, 600],
+			"center": [-240, 965],
+			"texName": "hulls/afterb1.png",
+			"animSheetName": "hulls/afterb1.acfg",
+			"layer": "ShipModules",
+			"permanentRot": -2
+		},
+		{
+			"dimensions": [200, 600],
+			"center": [240, 965],
+			"texName": "hulls/afterb1.png",
+			"animSheetName": "hulls/afterb1.acfg",
+			"layer": "ShipModules",
+			"permanentRot": 2
+		}
+	],
+	"Afterburner_Thrust_Sprites": [
+		{
+			"dimensions": [200, 1400],
+			"center": [-240, 1280],
+			"texName": "hulls/afterb1.png",
+			"animSheetName": "hulls/afterb1_thrust.acfg",
+			"layer": "ShipModules",
+			"permanentRot": -2
+		},
+		{
+			"dimensions": [200, 1400],
+			"center": [240, 1280],
+			"texName": "hulls/afterb1.png",
+			"animSheetName": "hulls/afterb1_thrust.acfg",
+			"layer": "ShipModules",
+			"permanentRot": 2
+		}
+	],
+    "Modules": [
+        {
+            "Title": "DefaultThruster",
+            "Position": [
+                0,
+                -1
+            ]
+        },
+		{
+            "Title": "DefaultPlating",
+            "Position": [
+                0,
+                1
+            ]
+        }
+    ],
+    "Network": {}
+}

@@ -144,7 +144,13 @@ void Universe::prePhysUpdate()
 			(*it)->prePhysUpdate();
 		}
 		m_spProjMan->prePhysUpdate();
+
+		for (auto it = hazardFields.begin(); it != hazardFields.end(); ++it){
+			it->update();
+		}
+
 	}
+
 
 }
 void Universe::changeTeamMoney(int team, Money money)
@@ -458,6 +464,17 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 		{
 			cout << FILELINE;
 		}
+		if (!root["HazardFields"].isNull()){
+			const Json::Value spawnList = root["HazardFields"];
+			for (auto it = spawnList.begin(); it != spawnList.end(); ++it)
+			{
+				const Json::Value points = (*it);
+
+				HazardField newHazard = HazardField(this, b2Vec2(points[0].asFloat(), points[1].asFloat()));
+				hazardFields.push_back(newHazard);
+			}
+		}
+
 		if(!root["SpawnPoints"].isNull())
 		{
 			const Json::Value spawnList = root["SpawnPoints"];
