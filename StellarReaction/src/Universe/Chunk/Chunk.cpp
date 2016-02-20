@@ -25,7 +25,7 @@ Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp)
 
 
 	for(auto it = rData.moduleData.begin(); it != rData.moduleData.end(); ++it)
-		m_modules.push_back(sptr<Module>((*it)->generate(m_body.getBodyPtr(), myPools)));
+		m_modules.push_back(sptr<Module>((*it)->generate(m_body.getBodyPtr(), myPools, this)));
 
 	m_slavePosition = m_rParent.getSlaveLocator().give(this);
 
@@ -57,9 +57,21 @@ Chunk::~Chunk()
 {
 	m_rParent.getSlaveLocator().free(m_slavePosition);
 }
+sptr<GraphicsComponent> Chunk::getHull() const
+{
+	return hull;
+}
+std::vector<sptr<Module>> Chunk::getModuleList() const
+{
+	return m_modules;
+}
 bool Chunk::allows(const b2Vec2& rGridPos)
 {
 	return (std::find(m_validOffsets.begin(), m_validOffsets.end(), rGridPos) != m_validOffsets.end());
+}
+BodyComponent& Chunk::getBodyComponent()
+{
+	return m_body;
 }
 void Chunk::add(const ModuleData& rData)
 {
@@ -70,7 +82,7 @@ void Chunk::add(const ModuleData& rData)
 		myPools.zoomPool = &m_zoomPool;
 		myPools.missilePool = &m_missilePool;
 		myPools.energyPool = &m_energyPool;
-		m_modules.push_back(sptr<Module>(rData.generate(m_body.getBodyPtr(), myPools)));
+		m_modules.push_back(sptr<Module>(rData.generate(m_body.getBodyPtr(), myPools, this)));
 	}
 	else
 		cout << FILELINE;

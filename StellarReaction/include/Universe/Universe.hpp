@@ -17,6 +17,7 @@ class BlueprintLoader;
 class Decoration;
 class ControlFactory;
 class ProjectileMan;
+class BodyComponent;
 
 /// <summary>
 /// A new one is instantiated when you relaunch the game
@@ -51,6 +52,7 @@ public:
 	void togglePause();
 	bool isPaused();
 	void toggleDebugDraw();
+	BodyComponent* getNearestBody(const b2Vec2& target);
 
 	b2Vec2 getBed();//give a position to sleep at
 	void addBed(const b2Vec2& rBed);//someone gave a bed back to us!	

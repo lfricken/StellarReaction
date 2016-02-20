@@ -6,6 +6,7 @@ using namespace std;
 
 Module::Module(const ModuleData& rData) : m_io(rData.ioComp, &Module::input, this), m_nw(rData.nwComp, &Module::pack, &Module::unpack, this, game.getNwBoss().getNWFactory()), m_fix(rData.fixComp)
 {
+	m_parentChunk = rData.chunkParent;
 	m_title = rData.title;
 	m_name = rData.name;
 
@@ -72,6 +73,10 @@ const std::string& Module::getTitle() const
 const std::string& Module::getName() const
 {
 	return m_name;
+}
+void Module::stealthOn(bool toggle)
+{
+
 }
 void Module::input(std::string rCommand, sf::Packet rData)
 {

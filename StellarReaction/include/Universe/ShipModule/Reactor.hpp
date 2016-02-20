@@ -32,11 +32,12 @@ struct ReactorData : public ShipModuleData
 
 	Energy rate;// J/s
 
-	virtual Module* generate(b2Body* pBody, PoolCollection stuff) const
+	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{
 		ReactorData copy(*this);
 		copy.pools = stuff;
 		copy.fixComp.pBody = pBody;
+		copy.chunkParent = parent;
 		return new Reactor(copy);
 	}
 	virtual ModuleData* clone() const

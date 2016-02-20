@@ -393,7 +393,10 @@
     <ClCompile Include="src\Basic\MissileWeapon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Universe\Module\Missile.cpp">
+    <ClCompile Include="src\Universe\Chunk\Missile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Universe\ShipModule\Stealth.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1197,6 +1200,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Universe\Chunk\Missile.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Universe\ShipModule\Stealth.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

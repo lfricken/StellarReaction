@@ -10,6 +10,7 @@
 #include "Radar.hpp"
 #include "Plating.hpp"
 #include "Turret.hpp"
+#include "Stealth.hpp"
 #include "ProjectileModule.hpp"
 #include "LaserWeapon.hpp"
 #include "BallisticWeapon.hpp"
@@ -579,6 +580,17 @@ sptr<const ModuleData> BlueprintLoader::loadModule(const Json::Value& root)//ret
 			pSMod->baseDecor = loadQuad(root["BaseSprite"], pSMod->baseDecor);
 
 		inheritModule(root, pSMod);
+		spMod.reset(pSMod);
+	}
+	else if (root["ClassName"].asString() == "Stealth")
+	{
+		StealthData* pSMod = new StealthData;
+		copyModule<StealthData>(root, pSMod);
+
+		if (!root["EnergyConsumption"].isNull())
+			pSMod->energyConsumption = root["EnergyConsumption"].asFloat();
+		
+		inheritShipModule(root, pSMod);
 		spMod.reset(pSMod);
 	}
 	else

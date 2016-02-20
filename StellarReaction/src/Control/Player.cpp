@@ -103,6 +103,8 @@ void Player::getLiveInput()
 			m_directives[Directive::RollCW] = true;
 		if (Keyboard::isKeyPressed(m_inCfg.boost))
 			m_directives[Directive::Boost] = true;
+		if (Keyboard::isKeyPressed(m_inCfg.stealth))
+			m_directives[Directive::Stealth] = true;
 
 
 		/**== SPECIAL ==**/

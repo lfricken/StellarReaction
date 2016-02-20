@@ -28,7 +28,9 @@ public:
 	bool functioning();//does this module still do its function
 	void setHealthState(HealthState newState);
 	virtual void setHealthStateHook(HealthState newState);
-
+	virtual void stealthOn(bool toggle);
+	int getControlGroup() const;
+	void setControlGroup(int control_group);
 protected:
 	virtual void input(std::string rCommand, sf::Packet rData);
 	virtual void pack(sf::Packet& rPacket);
@@ -43,6 +45,8 @@ protected:
 	int m_baseDecor;//index in m_decors where the module sprite is
 	int m_hitDecorIndex;//index in m_decors where the hit sprite is
 	int m_explosionIndex;//index in m_decors where the exposion sprite is
+
+	int m_controlGroup;
 private:
 };
 
@@ -64,7 +68,7 @@ struct ShipModuleData : public ModuleData
 	HealthState initHealthState;
 	bool functionsDamaged;//does this module still function when damaged?
 
-	virtual Module* generate(b2Body* pBody, PoolCollection stuff) const
+	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{
 		std::cout << FILELINE;
 		return NULL;

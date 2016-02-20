@@ -19,14 +19,15 @@ public:
 	void postPhysUpdate() final;
 	virtual void setAim(const b2Vec2& rTarget);
 	virtual void directive(std::map<Directive, bool>& rIssues);
+	virtual void stealthOn(bool toggle);
 
 protected:
 private:
 	sptr<Weapon> m_spWep;
 	int m_shotsRemain;//shots remaining in this volley
 
-	b2Vec2 m_lastAim;
-	float32 m_lastAngle;
+	b2Vec2 m_lastAim; //current aim of controller
+	float32 m_lastAngle;//used to preserve the orientation of a broken turret
 };
 
 
@@ -43,11 +44,12 @@ struct TurretData : public ShipModuleData
 	bool startEmpty;
 	sptr<const WeaponData> startWep;
 
-	virtual Module* generate(b2Body* pBody, PoolCollection stuff) const
+	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{
 		TurretData copy(*this);
 		copy.pools = stuff;
 		copy.fixComp.pBody = pBody;
+		copy.chunkParent = parent;
 		return new Turret(copy);
 	}
 	virtual ModuleData* clone() const
