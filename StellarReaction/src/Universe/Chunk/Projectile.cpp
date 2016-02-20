@@ -15,7 +15,7 @@ Projectile::Projectile(const ProjectileData& rData) : m_body(rData.body), m_ener
 	myPools.energyPool = &m_energyPool;
 
 	for(auto it = rData.moduleData.begin(); it != rData.moduleData.end(); ++it)
-		m_modules.push_back(sptr<ProjectileModule>(dynamic_cast<ProjectileModule*>((*it)->generate(m_body.getBodyPtr(), myPools))));
+		m_modules.push_back(sptr<ProjectileModule>(dynamic_cast<ProjectileModule*>((*it)->generate(m_body.getBodyPtr(), myPools, NULL))));
 }
 Projectile::~Projectile()
 {

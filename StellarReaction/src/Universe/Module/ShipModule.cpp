@@ -151,3 +151,11 @@ void ShipModule::f_died()
 	sound.pos = center;
 	game.getSound().playSound(sound);
 }
+
+void ShipModule::stealthOn(bool toggle)
+{
+	if (toggle)
+		m_decors[m_baseDecor]->setAlpha(50);
+	else
+		m_decors[m_baseDecor]->setAlpha(255);
+}

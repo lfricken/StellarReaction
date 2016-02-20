@@ -34,11 +34,12 @@ struct CapacitorData : ShipModuleData
 
 	float storage;
 
-	virtual Module* generate(b2Body* pBody, PoolCollection stuff) const
+	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{
 		CapacitorData copy(*this);
 		copy.pools = stuff;
 		copy.fixComp.pBody = pBody;
+		copy.chunkParent = parent;
 		return new Capacitor(copy);
 	}
 	virtual ModuleData* clone() const

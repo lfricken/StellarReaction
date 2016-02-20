@@ -47,6 +47,7 @@ public:
 	/// Look at laser and projectile weapon.
 	/// </summary>
 	virtual void postShot(const b2Vec2& center, const b2Vec2& aim, float radCCW) = 0;
+	QuadComponent* getDecor();
 protected:
 	b2Body* m_pBody;
 	const FixtureComponent* m_pTempParent;

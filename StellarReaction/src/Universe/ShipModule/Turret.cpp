@@ -42,7 +42,6 @@ void Turret::directive(std::map<Directive, bool>& rIssues)
 			{
 
 			}
-
 }
 void Turret::setWep(sptr<const WeaponData> spWep)
 {
@@ -56,4 +55,12 @@ void Turret::removeWep()
 void Turret::setAim(const b2Vec2& rTarget)
 {
 	m_lastAim = rTarget;
+}
+void Turret::stealthOn(bool toggle)
+{
+	ShipModule::stealthOn(toggle);
+	if (toggle)
+		m_spWep->getDecor()->setAlpha(50);
+	else 
+		m_spWep->getDecor()->setAlpha(255);
 }

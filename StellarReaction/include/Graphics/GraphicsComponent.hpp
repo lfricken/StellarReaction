@@ -43,11 +43,13 @@ public:
 	void setColor(sf::Color);
 	Animator& getAnimator();
 	void setScale(float scale);
+	void setAlpha(int alphaValue);
 
 	/**GETTERS**/
 	const b2Vec2& getPosition() const;
 	float getRotation() const;
 	const sf::Vector2f& getOffset() const;
+	const sf::Color getColor() const;
 
 	/**UPDATE**/
 	void update();

@@ -53,6 +53,11 @@ void GraphicsComponent::setColor(sf::Color color)
 	for(int i = 0; i < m_numVerts; ++i)
 		(*m_pVerts)[i + m_startVert].color = color;//make them transparent so they can no longer be seen
 }
+void GraphicsComponent::setAlpha(int alphaValue)
+{
+	sf::Color curColor = m_color;
+	setColor(sf::Color(curColor.r, curColor.g, curColor.b, alphaValue));
+}
 
 
 Animator& GraphicsComponent::getAnimator()
@@ -72,6 +77,10 @@ float GraphicsComponent::getRotation() const
 const sf::Vector2f& GraphicsComponent::getOffset() const
 {
 	return m_offset;
+}
+const sf::Color GraphicsComponent::getColor() const
+{
+	return m_color;
 }
 
 

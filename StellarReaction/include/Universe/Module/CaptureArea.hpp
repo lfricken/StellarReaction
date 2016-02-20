@@ -41,11 +41,12 @@ struct CaptureAreaData : public SensorData
 	float captureTime;
 	float capturePercent;
 
-	virtual Module* generate(b2Body* pBody, PoolCollection stuff) const
+	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{
 		CaptureAreaData copy(*this);
 		copy.pools = stuff;
 		copy.fixComp.pBody = pBody;
+		copy.chunkParent = parent;
 		return new CaptureArea(copy);
 	}
 	virtual ModuleData* clone() const

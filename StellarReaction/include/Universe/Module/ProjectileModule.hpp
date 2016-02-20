@@ -51,11 +51,12 @@ struct ProjectileModuleData : public SensorData
 
 	QuadComponentData baseDecor;
 
-	virtual Module* generate(b2Body* pBody, PoolCollection stuff) const
+	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{
 		ProjectileModuleData copy(*this);
 		copy.pools = stuff;
 		copy.fixComp.pBody = pBody;
+		copy.chunkParent = parent;
 		return new ProjectileModule(copy);
 	}
 	virtual ModuleData* clone() const

@@ -138,6 +138,13 @@
                 0,
                 -1
             ]
+        },
+        {
+            "Title": "DefaultStealth",
+            "Position": [
+                3,
+                0
+            ]
         }
     ],
     "Network": {}
