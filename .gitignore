@@ -14,3 +14,7 @@
 StellarReactionTest/Debug/StellarReactionTest.pch
 *.coverage
 *.ipch
+
+
+# Mac
+.DS_Store
