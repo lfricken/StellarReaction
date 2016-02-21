@@ -35,6 +35,7 @@ void Missile::prePhysUpdate()
 	Projectile::prePhysUpdate();
 	b2Body& bod = *m_body.getBodyPtr();
 	b2Vec2 vel = bod.GetLinearVelocity();
+
 	float totalVelocity = vel.Length();
 	float velAngle = leon::normRad(atan2(vel.y, vel.x));
 
@@ -46,9 +47,17 @@ void Missile::prePhysUpdate()
 		if(m_pTarget != NULL)
 		{
 			b2Body& tBod = *m_pTarget->getBodyPtr();
+			b2Vec2 targetVel = tBod.GetLinearVelocity();
 			b2Vec2 targetPos = tBod.GetPosition();
 			b2Vec2 diff = targetPos - ourPos;
 
+			float dist = diff.Length();
+			float eta = 3 * dist / m_maxVelocity;
+
+			targetPos.x = targetPos.x + targetVel.x * eta;
+			targetPos.y = targetPos.y + targetVel.y * eta;
+
+			diff = targetPos - ourPos;
 
 			float targetAngle = leon::normRad(atan2(diff.y, diff.x));//angle of target
 			float diffAngle = leon::normRad(targetAngle - velAngle);//between velocity and target
@@ -56,19 +65,23 @@ void Missile::prePhysUpdate()
 				diffAngle -= 2 * pi;
 
 
-			if(diffAngle < -pi / 8.f)
-				diffAngle = -pi / 8.f;
-			else if(diffAngle > pi / 8.f)
-				diffAngle = pi / 8.f;
+			if(diffAngle < -pi / 5.f)
+				diffAngle = -pi / 5.f;
+			else if(diffAngle > pi / 5.f)
+				diffAngle = pi / 5.f;
 
-			float objectiveAngle = leon::normRad(diffAngle + targetAngle);
+			float objectiveAngle = leon::normRad(diffAngle + targetAngle);//objective angle is what we want to face right now
 
 			float diffObjectiveAngle = leon::normRad(objectiveAngle - ourAngle);
 
 			if(diffObjectiveAngle > pi)
 				diffObjectiveAngle -= 2 * pi;
 
-			float torque = 0.04*bod.GetMass()*diffObjectiveAngle;
+			int mod = 1;
+			if(diffObjectiveAngle < 0)
+				mod = -1;
+
+			float torque = 0.09*bod.GetMass()*mod;
 
 			bod.ApplyTorque(torque, true);
 

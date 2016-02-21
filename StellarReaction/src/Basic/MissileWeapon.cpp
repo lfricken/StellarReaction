@@ -9,7 +9,7 @@ MissileWeapon::MissileWeapon(const MissileWeaponData& rData) : Weapon(rData)
 {
 	m_projName = rData.projName;
 
-	m_acceleration = 20;
+	m_acceleration = 30;
 	m_max_velocity = 70;
 	m_init_velocity = 2;
 
