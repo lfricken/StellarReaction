@@ -188,7 +188,7 @@ void Game::run()
 		frameTime = m_clock.getElapsedTime().asSeconds()-lastTime;
 		lastTime = m_clock.getElapsedTime().asSeconds();
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::F))
-			std::cout << "\nT: " << frameTime;
+			std::cout << "\nFPS: " << 1/frameTime;
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::M))
 			std::cout << "\nM: " << game.getLocalPlayer().getMoney();
 
