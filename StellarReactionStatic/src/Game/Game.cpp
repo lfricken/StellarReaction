@@ -43,6 +43,7 @@ Game::Game()
 	m_lastTime = 0;
 
 	m_spSound = sptr<SoundManager>(new SoundManager);
+	sf::Listener::setDirection(0, 0, -1);//make sure all sounds are heard with the listener looking at the screen
 	m_spAnimAlloc = sptr<AnimAlloc>(new AnimAlloc);
 	m_spCoreIO = sptr<IOManager>(new IOManager(true));
 
@@ -162,95 +163,135 @@ float Game::getTime() const
 		m_lastTime = m_clock.getElapsedTime().asSeconds();
 	}
 	return m_lastTime;
-	
+
+}
+void Game::runTicks(int ticks)
+{
+	if(game.getUniverse().isPaused())
+		game.getUniverse().togglePause();
+
+	RenderWindow& rWindow = *m_spWindow;
+	float frameTime = 0;
+	float lastTime = m_clock.getElapsedTime().asSeconds() - m_estimatedFrameTime;
+
+	for(; ticks > 0; --ticks)
+	{
+		frameTime = m_clock.getElapsedTime().asSeconds() - lastTime;
+		lastTime = m_clock.getElapsedTime().asSeconds();
+		tick(frameTime);
+	}
+
+	if(!game.getUniverse().isPaused())
+		game.getUniverse().togglePause();
+}
+void Game::runTime(float time)
+{
+	if(game.getUniverse().isPaused())
+		game.getUniverse().togglePause();
+
+	RenderWindow& rWindow = *m_spWindow;
+	float frameTime = 0;
+	float lastTime = m_clock.getElapsedTime().asSeconds() - m_estimatedFrameTime;
+
+	for(; time > 0; time -= frameTime)
+	{
+		frameTime = m_clock.getElapsedTime().asSeconds() - lastTime;
+		lastTime = m_clock.getElapsedTime().asSeconds();
+		tick(frameTime);
+	}
+
+	if(!game.getUniverse().isPaused())
+		game.getUniverse().togglePause();
 }
 /// <summary>
 /// Contains Main Game Loop
 /// </summary>
 void Game::run()
 {
-	sf::Listener::setDirection(0, 0, -1);//make sure all sounds are heard with the listener looking at the screen
-
 	RenderWindow& rWindow = *m_spWindow;
-	sf::View defaultView;
-	defaultView.setCenter(rWindow.getSize().x/2, rWindow.getSize().y/2);
-	defaultView.setSize(sf::Vector2f(rWindow.getSize()));
-
-	/**== FRAMERATE ==**/
-	float lastTime = 0;
 	float frameTime = 0;
+	float lastTime = m_clock.getElapsedTime().asSeconds();
 
-	float timeStep = getUniverse().getTimeStep();
-	float physTickTimeRemaining = 0;
 	while(rWindow.isOpen())
 	{
-		/**== FRAMERATE ==**/
-		frameTime = m_clock.getElapsedTime().asSeconds()-lastTime;
+		frameTime = m_clock.getElapsedTime().asSeconds() - lastTime;
 		lastTime = m_clock.getElapsedTime().asSeconds();
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::F))
-			std::cout << "\nFPS: " << 1/frameTime;
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::M))
-			std::cout << "\nM: " << game.getLocalPlayer().getMoney();
-
-		/**== IO ==**/
-		getCoreIO().update(frameTime);
-		getUniverse().getUniverseIO().update(frameTime);
-
-
-		/**== PHYSICS ==**/
-		physTickTimeRemaining += frameTime;
-		while(physTickTimeRemaining >= timeStep)
-		{
-			getUniverse().prePhysUpdate();
-			getUniverse().physUpdate();
-
-			getLocalPlayer().updateView();
-			rWindow.setView(getLocalPlayer().getCamera().getView());
-			getLocalPlayer().getLiveInput();
-			getUniverse().getControllerFactory().processAllDirectives();
-
-			getUniverse().postPhysUpdate();
-			physTickTimeRemaining -= timeStep;
-		}
-
-		/**REWARDS**/
-		getUniverse().teamMoneyUpdate();
-
-		/**NETWORK**/
-		if(m_spNetworkBoss->getNWState() != NWState::Local)
-			m_spNetworkBoss->update();
-
-
-		/**== WINDOW ==**/
-		getDragUpdater().update(getLocalPlayer().getMouseWindowPos());
-		rWindow.setView(getLocalPlayer().getCamera().getView());
-		getLocalPlayer().getWindowEvents(rWindow);
-		getUniverse().updateDecorationPosition(getLocalPlayer().getCamera().getPosition(), getLocalPlayer().getCamera().getZoom());
-		getUniverse().getGfxUpdater().update();//update graphics components
-
-
-
-		/**== DRAW UNIVERSE ==**/
-		rWindow.clear(sf::Color::Black);
-
-		rWindow.setView(defaultView);
-		getUniverse().getBatchLayers().drawBackground(rWindow);
-
-		rWindow.setView(getLocalPlayer().getCamera().getView());
-		if(getUniverse().debugDraw())
-			getUniverse().getWorld().DrawDebugData();
-		else
-			getUniverse().getBatchLayers().drawWorld(rWindow);
-
-
-		/**== DRAW GUI/OVERLAYS ==**/
-		rWindow.setView(defaultView);
-		getUniverse().getBatchLayers().drawOverlay(rWindow);
-		m_spOverlay->getGui().draw();
-
-		/**== DISPLAY ==**/
-		rWindow.display();
+		tick(frameTime);
 	}
+}
+void Game::tick(float frameTime)
+{
+	RenderWindow& rWindow = *m_spWindow;
+
+	static float physTickTimeRemaining = 0;
+	static const float timeStep = getUniverse().getTimeStep();
+	static const sf::View defaultView(Vector2f(rWindow.getSize().x / 2, rWindow.getSize().y / 2), Vector2f(rWindow.getSize()));
+
+
+	/**== FRAMERATE ==**/
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::F))
+		std::cout << "\nFPS: " << 1 / frameTime;
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::M))
+		std::cout << "\nM: " << game.getLocalPlayer().getMoney();
+
+	/**== IO ==**/
+	getCoreIO().update(frameTime);
+	getUniverse().getUniverseIO().update(frameTime);
+
+
+	/**== PHYSICS ==**/
+	physTickTimeRemaining += frameTime;
+	while(physTickTimeRemaining >= timeStep)
+	{
+		getUniverse().prePhysUpdate();
+		getUniverse().physUpdate();
+
+		getLocalPlayer().updateView();
+		rWindow.setView(getLocalPlayer().getCamera().getView());
+		getLocalPlayer().getLiveInput();
+		getUniverse().getControllerFactory().processAllDirectives();
+
+		getUniverse().postPhysUpdate();
+		physTickTimeRemaining -= timeStep;
+	}
+
+	/**REWARDS**/
+	getUniverse().teamMoneyUpdate();
+
+	/**NETWORK**/
+	if(m_spNetworkBoss->getNWState() != NWState::Local)
+		m_spNetworkBoss->update();
+
+
+	/**== WINDOW ==**/
+	getDragUpdater().update(getLocalPlayer().getMouseWindowPos());
+	rWindow.setView(getLocalPlayer().getCamera().getView());
+	getLocalPlayer().getWindowEvents(rWindow);
+	getUniverse().updateDecorationPosition(getLocalPlayer().getCamera().getPosition(), getLocalPlayer().getCamera().getZoom());
+	getUniverse().getGfxUpdater().update();//update graphics components
+
+
+
+	/**== DRAW UNIVERSE ==**/
+	rWindow.clear(sf::Color::Black);
+
+	rWindow.setView(defaultView);
+	getUniverse().getBatchLayers().drawBackground(rWindow);
+
+	rWindow.setView(getLocalPlayer().getCamera().getView());
+	if(getUniverse().debugDraw())
+		getUniverse().getWorld().DrawDebugData();
+	else
+		getUniverse().getBatchLayers().drawWorld(rWindow);
+
+
+	/**== DRAW GUI/OVERLAYS ==**/
+	rWindow.setView(defaultView);
+	getUniverse().getBatchLayers().drawOverlay(rWindow);
+	m_spOverlay->getGui().draw();
+
+	/**== DISPLAY ==**/
+	rWindow.display();
 }
 /// <summary>
 /// Literally exits the game.

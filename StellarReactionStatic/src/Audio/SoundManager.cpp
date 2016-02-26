@@ -68,7 +68,7 @@ int SoundManager::playSound(const std::string& rSoundName, int volume, float min
 			m_noises[i].m_sound.setMinDistance(minDist);
 			m_noises[i].m_sound.setRelativeToListener(relative);
 			m_noises[i].m_sound.setAttenuation(dropOff);
-			m_noises[i].m_sound.setVolume(volume);
+			m_noises[i].m_sound.setVolume((float)volume);
 			m_noises[i].m_sound.setPosition(rPos.x, 0.f, 0.f);//TODO rPos.y
 			m_noises[i].m_sound.setLoop(looping);
 			m_noises[i].m_sound.play();

@@ -49,13 +49,17 @@ public:
 
 
 
-	void run();//runs the game loop
+	void run();//runs the game on a loop
+	void runTicks(int ticks);//run game for a certain number of ticks
+	void runTime(float time);//run the game for a certain amount of time
+
 	void exit();
 
 protected:
 	void input(std::string rCommand, sf::Packet rData);
 
 private:
+	void tick(float frameTime);//increment the game loop one step, telling it that frameTime has passed
 	void loadPlayer(const std::string& rFileName);
 	void loadWindow(const std::string& windowFile);
 	void loadUniverse(const std::string& stuff);
@@ -105,7 +109,7 @@ private:
 	/// </summary>
 	sptr<IOComponent> m_spIO;
 
-
+	const float m_estimatedFrameTime = (1.f / 60.f);
 
 	double m_targetFPS;
 	/// <summary>
