@@ -56,7 +56,7 @@ private:
 	int m_slavePosition;
 	BodyComponent m_body;
 	std::vector<sptr<Module> > m_modules;
-	std::vector<b2Vec2> m_validOffsets;
+	std::vector<b2Vec2> m_validOffsets;//positions where a module can be added
 
 
 	//Evan - sprites for hull, afterburner, afterburner_thrust. need to set anims and anim speed individually
@@ -76,13 +76,13 @@ struct ChunkData : public GameObjectData
 	ChunkData() :
 		GameObjectData(),
 		bodyComp(),
-		team(-784)
+		team(-784)//this value so an unititalized team member team value is distinct
 	{
 		zoomData.startMin = 1;
 		zoomData.startValue = 1;
 		zoomData.startMax = 128;
 
-		//TODO: for accepting
+		//TODO: for 
 		for(float i = -5; i < 5; i += 0.5)
 			for(float j = -5; j < 5; j += 0.5)
 				validPos.push_back(b2Vec2(i, j));
@@ -94,7 +94,7 @@ struct ChunkData : public GameObjectData
 	PoolData<Energy> energyData;
 	PoolData<Zoom> zoomData;
 
-	std::vector<b2Vec2> validPos;
+	std::vector<b2Vec2> validPos;//positions where a module can be added
 
 	int team;
 	BodyComponentData bodyComp;
@@ -116,4 +116,7 @@ struct ChunkData : public GameObjectData
 	{
 		return new ChunkData(*this);
 	}
+	virtual void loadJson(const Json::Value& root);
+private:
+	void loadModules(const Json::Value& root);
 };

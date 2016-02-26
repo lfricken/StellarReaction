@@ -19,6 +19,8 @@ struct IOComponentData
 	std::string name;//the name we are located by
 	std::vector<Courier> courierList;//list of couriers to event on
 	IOManager* pMyManager;//pointer to our manager (to send a ptr to us to and for sending messages
+
+	virtual void loadJson(const Json::Value& root);
 };
 
 /// <summary>

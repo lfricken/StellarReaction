@@ -33,9 +33,9 @@
         "Value": 1
     },
 	"Hull_Sprite": {
-		"dimensions": [276, 270],
+		"dimensions": [256, 256],
 		"center": [0,0],
-		"texName": "hazards/redsquare.png",
+		"texName": "default.png",
 		"layer": "ShipHull"
 	},
 	"Afterburner_Sprites": [

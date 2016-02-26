@@ -24,7 +24,7 @@ void HazardField::update()
 		b2Vec2 displacement = b2Vec2(rand() % 5, rand() % 5);
 		b2Vec2 velocity = b2Vec2((rand() % 10 - 5), (rand() % 10 - 5));
 
-		ChunkData* p = universe->getBlueprints().getChunkSPtr("Asteroids")->clone();
+		ChunkData* p = universe->getBlueprints().getChunkSPtr("Asteroid")->clone();
 
 		p->bodyComp.coords = origin + displacement;
 

@@ -11,7 +11,7 @@ struct QuadComponentData : public GraphicsComponentData
 	{
 
 	}
-
+	virtual void loadJson(const Json::Value& root);
 };
 
 /// <summary>

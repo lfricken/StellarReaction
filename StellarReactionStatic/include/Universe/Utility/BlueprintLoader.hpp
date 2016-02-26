@@ -48,15 +48,14 @@ public:
 	/**===================**/
 	/**LOAD SPECIFIC FILES**/
 
-
+	sptr<const ModuleData> loadModule(const Json::Value& root);
 
 	/**LOAD MULTI PART DATA**/
 	/**====================**/
-	sptr<const ChunkData> loadChunk(const Json::Value& root);
+	sptr<ChunkData> loadChunk(const Json::Value& root);
 	sptr<const ProjectileData> loadProjectile(const Json::Value& root);
 protected:
 private:
-	sptr<const ModuleData> loadModule(const Json::Value& root);
 	void inheritShipModule(const Json::Value& root, ShipModuleData* pSMod);
 	void inheritModule(const Json::Value& root, ModuleData* pSMod);
 	template <typename T>

@@ -231,72 +231,15 @@ void BlueprintLoader::storeWeapon(const std::string& rFile)
 
 /**LOAD MULTI PART DATA**/
 /**====================**/
-sptr<const ChunkData> BlueprintLoader::loadChunk(const Json::Value& root)//returns data based on the Json stuff you pass
+sptr<ChunkData> BlueprintLoader::loadChunk(const Json::Value& root)//returns data based on the Json stuff you pass
 {
-	sptr<const ChunkData> spCnk;
+	sptr<ChunkData> spCnk(new ChunkData);
 
 	if(root["ClassName"].asString() == "Chunk")
-	{
-		ChunkData* pCnk = new ChunkData;
-
-		if(!root["Copies"].isNull())
-			*pCnk = *dynamic_cast<const ChunkData*>(getChunkSPtr(root["Copies"].asString()).get());
-
-		if(!root["IO"].isNull())
-			pCnk->ioComp = loadIOComp(root["IO"], pCnk->ioComp);
-		if(!root["Network"].isNull())
-			pCnk->nwComp = loadNWComp(root["Network"], pCnk->nwComp);
-		if(!root["Body"].isNull())
-			pCnk->bodyComp = loadBodyComp(root["Body"], pCnk->bodyComp);
-		if(!root["Missiles"].isNull())
-			pCnk->missileData = loadPool<Missiles>(root["Missiles"], pCnk->missileData);
-		if(!root["Ballistic"].isNull())
-			pCnk->ballisticData = loadPool<Ballistic>(root["Ballistic"], pCnk->ballisticData);
-		if(!root["Energy"].isNull())
-			pCnk->energyData = loadPool<Energy>(root["Energy"], pCnk->energyData);
-		if(!root["Zoom"].isNull())
-			pCnk->zoomData = loadPool<float>(root["Zoom"], pCnk->zoomData);
-
-		//TODO - remove
-		//check hull sprite
-		//if (!root["Hull_Sprite"].isNull())
-		//{
-		//	for (auto it = root["Hull_Sprite"].begin(); it != root["Hull_Sprite"].end(); ++it)
-		//	{
-		//		pCnk->hullData.push_back(loadQuad(*it, QuadComponentData()));
-		//	}
-		//}
-
-		//Evan - load hull sprite, afterburner and afterburner_thrust anims
-		if(!root["Hull_Sprite"].isNull())
-		{
-			pCnk->hullSpriteData = loadQuad(root["Hull_Sprite"], QuadComponentData());
-		}
-		if(!root["Afterburner_Sprites"].isNull())
-		{
-			for(auto it = root["Afterburner_Sprites"].begin(); it != root["Afterburner_Sprites"].end(); ++it)
-			{
-				pCnk->afterburnerSpriteData.push_back(loadQuad(*it, QuadComponentData()));
-			}
-		}
-		if(!root["Afterburner_Thrust_Sprites"].isNull())
-		{
-			for(auto it = root["Afterburner_Thrust_Sprites"].begin(); it != root["Afterburner_Thrust_Sprites"].end(); ++it)
-			{
-				pCnk->afterburnerThrustSpriteData.push_back(loadQuad(*it, QuadComponentData()));
-			}
-		}
-
-		if(!root["Modules"].isNull())
-			insertModuleData(root["Modules"], pCnk->moduleData);
-
-		spCnk.reset(pCnk);
-	}
+		spCnk->loadJson(root);
 	else
-	{
 		cout << "\n" << FILELINE;
-		///ERROR LOG
-	}
+
 	return spCnk;
 }
 

@@ -127,4 +127,21 @@ int BodyComponent::getTeam() const
 {
 	return m_team;
 }
+void BodyComponentData::loadJson(const Json::Value& root)
+{
+	if(!root["coords"].isNull())
+	{
+		coords.x = root["coords"][0].asFloat();
+		coords.y = root["coords"][1].asFloat();
+	}
+	if(!root["rotation"].isNull())
+		rotation = root["rotation"].asFloat();
+	if(!root["isDynamic"].isNull())
+		isDynamic = root["isDynamic"].asBool();
+	if(!root["isBullet"].isNull())
+		isBullet = root["isBullet"].asBool();
+	if(!root["startAwake"].isNull())
+		startAwake = root["startAwake"].asBool();
+}
+
 

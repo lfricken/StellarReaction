@@ -10,6 +10,8 @@ struct NetworkComponentData
 	{
 
 	}
+
+	virtual void loadJson(const Json::Value& root);
 };
 
 

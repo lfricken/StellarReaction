@@ -40,3 +40,28 @@ void QuadComponent::postUpdate()
 {
 	
 }
+void QuadComponentData::loadJson(const Json::Value& root)
+{
+	if(!root["dimensions"].isNull())
+	{
+		dimensions.x = root["dimensions"][0].asInt();
+		dimensions.y = root["dimensions"][1].asInt();
+	}
+
+	if(!root["permanentRot"].isNull())
+		permanentRot = root["permanentRot"].asFloat();
+
+	if(!root["center"].isNull())
+	{
+		center.x = root["center"][0].asInt();
+		center.y = root["center"][1].asInt();
+	}
+
+	if(!root["texName"].isNull())
+		texName = root["texName"].asString();
+	if(!root["animSheetName"].isNull())
+		animSheetName = root["animSheetName"].asString();
+	if(!root["layer"].isNull())
+		layer = ChooseLayer(root["layer"].asString());
+}
+
