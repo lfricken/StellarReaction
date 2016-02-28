@@ -177,6 +177,10 @@ void Universe::postPhysUpdate()
 		m_spProjMan->postPhysUpdate();
 	}
 }
+std::vector<sptr<GameObject> > Universe::getgoList()
+{
+	return m_goList;
+}
 BodyComponent* Universe::getNearestBody(const b2Vec2& target)
 {
 	float prevDist = -1;

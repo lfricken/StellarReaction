@@ -7,6 +7,7 @@
 #include "Convert.hpp"
 #include "DecorQuad.hpp"
 #include "LinearMeter.hpp"
+#include "Chunk.hpp"
 
 using namespace std;
 using namespace sf;
@@ -266,9 +267,24 @@ void Player::loadOverlay(const std::string& rOverlay)
 	datawarn.quadComp.layer = GraphicsLayer::Overlay;
 	DecorQuad* pDang = new DecorQuad(datawarn);
 	pDang->setPosition(emeterPos+b2Vec2(0.f, -0.4f));
+	Controller& rController = game.getUniverse().getControllerFactory().getController(m_controller);
+	b2Body* pBody = rController.getBodyPtr();
 
-
-
+	for (auto it = game.getUniverse().getgoList().begin(); it != game.getUniverse().getgoList().end(); ++it)
+	{
+		BodyComponent* closest = NULL;
+		GameObject* p = it->get();
+		Chunk* object = dynamic_cast<Chunk*>(p);
+		if (object != NULL)
+		{
+			b2Vec2 dif = pBody->GetPosition() - object->getBodyPtr()->GetPosition();
+			float dist = dif.Length();
+			if (dist < 700)
+			{
+				closest = &object->getBodyComponent();
+			}
+		}
+	}
 
 	m_energyMeter = sptr<DecorQuad>(pDQuad);
 	m_energyMeterFill = sptr<LinearMeter>(pFill);
