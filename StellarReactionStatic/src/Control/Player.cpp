@@ -53,7 +53,7 @@ const sf::Vector2f& Player::getMouseWindowPos() const
 }
 void Player::setMouseWindowPos(const sf::Vector2f& rPos)
 {
-	sf::Mouse::setPosition(sf::Vector2i(rPos.x, rPos.y), game.getWindow());
+	sf::Mouse::setPosition(sf::Vector2i((int)rPos.x, (int)rPos.y), game.getWindow());
 	m_mouseWindowPos = rPos;
 }
 /// <summary>
@@ -179,9 +179,9 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 			{
 				int change = -event.mouseWheel.delta;
 				if(change < 0)
-					m_camera.setZoom(m_camera.getZoom()*0.8);
+					m_camera.setZoom(m_camera.getZoom()*0.8f);
 				else
-					m_camera.setZoom(m_camera.getZoom()*1.2);
+					m_camera.setZoom(m_camera.getZoom()*1.2f);
 			}
 			b2Body* pBody = rController.getBodyPtr();//make sure we arent over zoomed!
 			if(pBody != NULL)

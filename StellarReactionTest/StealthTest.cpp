@@ -1,8 +1,9 @@
 #include "stdafx.h"
 #include "gtest/gtest.h"
 #include "Stealth.hpp"
+#include "Universe.hpp"
 
-Game game;
+//Game game;
 
 class StealthTest : public ::testing::Test
 {
@@ -20,6 +21,5 @@ protected:
 
 TEST(StealthTest, stealthActive)
 {
-	game.run();//TODO write a version of game run that takes a time parameter so we can run it for a certain amount of time, then pause
-	EXPECT_EQ(1.0, 1.0);
+	EXPECT_EQ(true, true);
 }
