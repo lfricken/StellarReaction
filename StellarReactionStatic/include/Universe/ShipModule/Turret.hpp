@@ -19,7 +19,7 @@ public:
 	void postPhysUpdate() final;
 	virtual void setAim(const b2Vec2& rTarget);
 	virtual void directive(std::map<Directive, bool>& rIssues);
-	virtual void stealthOn(bool toggle);
+	virtual void toggleStealth(bool toggle);
 
 protected:
 private:

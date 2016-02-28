@@ -28,7 +28,7 @@ public:
 	const b2Vec2& getOffset() const;
 	const std::string& getTitle() const;
 	const std::string& getName() const;
-	virtual void stealthOn(bool toggle);
+	virtual void toggleStealth(bool toggle);
 
 protected:
 	virtual void input(std::string rCommand, sf::Packet rData);

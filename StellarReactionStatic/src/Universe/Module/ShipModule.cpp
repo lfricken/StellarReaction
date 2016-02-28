@@ -162,10 +162,10 @@ void ShipModule::f_died()
 	game.getSound().playSound(sound);
 }
 
-void ShipModule::stealthOn(bool toggle)
+void ShipModule::toggleStealth(bool toggle)
 {
 	if (toggle)
-		m_decors[m_baseDecor]->setAlpha(50);
+		m_decors[m_baseDecor]->setAlpha(alpha_stealth_on);
 	else
-		m_decors[m_baseDecor]->setAlpha(255);
+		m_decors[m_baseDecor]->setAlpha(alpha_stealth_off);
 }

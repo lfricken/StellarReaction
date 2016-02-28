@@ -5,7 +5,6 @@
 #include "QuadComponent.hpp"
 #include "Health.hpp"
 
-
 enum class HealthState
 {
 	Nominal,//the module should work all the way!
@@ -28,7 +27,7 @@ public:
 	bool functioning();//does this module still do its function
 	void setHealthState(HealthState newState);
 	virtual void setHealthStateHook(HealthState newState);
-	virtual void stealthOn(bool toggle);
+	virtual void toggleStealth(bool toggle);
 	int getControlGroup() const;
 	void setControlGroup(int control_group);
 protected:
@@ -47,6 +46,8 @@ protected:
 	int m_explosionIndex;//index in m_decors where the exposion sprite is
 
 	int m_controlGroup;
+	const int alpha_stealth_on = 50;
+	const int alpha_stealth_off = 255;
 private:
 };
 

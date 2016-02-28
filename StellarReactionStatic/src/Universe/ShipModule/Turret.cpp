@@ -57,11 +57,11 @@ void Turret::setAim(const b2Vec2& rTarget)
 {
 	m_lastAim = rTarget;
 }
-void Turret::stealthOn(bool toggle)
+void Turret::toggleStealth(bool toggle)
 {
-	ShipModule::stealthOn(toggle);
+	ShipModule::toggleStealth(toggle);
 	if (toggle)
-		m_spWep->getDecor()->setAlpha(50);
+		m_spWep->getDecor()->setAlpha(alpha_stealth_on);
 	else 
-		m_spWep->getDecor()->setAlpha(255);
+		m_spWep->getDecor()->setAlpha(alpha_stealth_off);
 }

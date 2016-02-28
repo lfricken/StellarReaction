@@ -19,6 +19,7 @@ protected:
 private:
 	float m_eConsump;
 	bool out_of_energy;
+	const float stealth_duration = 5.0;
 };
 
 

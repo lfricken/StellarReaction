@@ -13,7 +13,7 @@ public:
 	virtual ~Radar();
 
 	virtual void setHealthStateHook(HealthState newState);
-	virtual void stealthOn(bool toggle);
+	virtual void toggleStealth(bool toggle);
 
 protected:
 private:

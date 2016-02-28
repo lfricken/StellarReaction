@@ -74,7 +74,7 @@ const std::string& Module::getName() const
 {
 	return m_name;
 }
-void Module::stealthOn(bool toggle)
+void Module::toggleStealth(bool toggle)
 {
 
 }
