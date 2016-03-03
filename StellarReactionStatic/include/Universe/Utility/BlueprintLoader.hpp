@@ -74,7 +74,6 @@ private:
 
 
 	/**UNNAMED THINGS**/
-	void insertModuleData(const Json::Value& root, std::vector<sptr<const ModuleData> >& rModData);
 	void insertWeaponData(const Json::Value& root, sptr<const WeaponData>& rModData);
 
 

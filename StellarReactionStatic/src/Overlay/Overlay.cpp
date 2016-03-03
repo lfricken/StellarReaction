@@ -302,6 +302,7 @@ void Overlay::loadMenus()
 	/**LOBBY**/
 
 
+
 	/**STORE PANEL**/
 	sf::Vector2f storePanelSize = sf::Vector2f(850, 700);
 	leon::PanelData storePanelData;
@@ -459,14 +460,18 @@ void Overlay::toggleMenu(bool show)//display menu, assume gui control, send paus
 	hideMenu << (!show);
 	sf::Packet pause;
 	pause << (show);
+	sf::Packet hideHUD;
+	hideHUD << (show);
 
 	Message mes1("main_menu", "setHidden", hideMenu, 0, false);
 	Message mes2("local_player", "setGuiMode", guiMode, 0, false);
 	Message mes3("universe", "setPause", pause, 0, false);
+	Message mes4("hud_panel", "setHidden", hideHUD, 0, false);
 
 	game.getCoreIO().recieve(mes1);
 	game.getCoreIO().recieve(mes2);
 	game.getCoreIO().recieve(mes3);
+	game.getCoreIO().recieve(mes4);
 }
 void Overlay::input(const std::string rCommand, sf::Packet rData)
 {

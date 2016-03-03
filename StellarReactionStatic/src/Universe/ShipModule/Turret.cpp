@@ -2,6 +2,8 @@
 #include "Game.hpp"
 #include "Player.hpp"
 #include "Controller.hpp"
+#include "Game.hpp"
+#include "BlueprintLoader.hpp"
 
 Turret::Turret(const TurretData& rData) : ShipModule(rData)
 {
@@ -65,3 +67,17 @@ void Turret::stealthOn(bool toggle)
 	else 
 		m_spWep->getDecor()->setAlpha(255);
 }
+void TurretData::loadJson(const Json::Value& root)
+{
+	if(!root["Copies"].isNull())
+		*this = *dynamic_cast<const TurretData*>(game.getUniverse().getBlueprints().getChunkSPtr(root["Copies"].asString()).get());
+
+	if(!root["StartEmpty"].isNull())
+		startEmpty = root["StartEmpty"].asBool();
+	if(!root["Weapon"].isNull())
+		startWep = game.getUniverse().getBlueprints().getWeaponSPtr(root["Weapon"]["Title"].asString());
+
+	ShipModuleData::loadJson(root);
+}
+Register(ModuleData, TurretData);
+

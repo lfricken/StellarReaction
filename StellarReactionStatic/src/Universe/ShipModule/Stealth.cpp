@@ -3,6 +3,7 @@
 
 using namespace std;
 
+Register(ModuleData, StealthData);
 Stealth::Stealth(const StealthData& rData) : ShipModule(rData)
 {
 	m_eConsump = rData.energyConsumption;
@@ -62,3 +63,12 @@ void Stealth::directive(map<Directive, bool>& rIssues)
 		}
 	}
 }
+void StealthData::loadJson(const Json::Value& root)
+{
+	if(!root["EnergyConsumption"].isNull())
+		energyConsumption = root["EnergyConsumption"].asFloat();
+
+	ShipModuleData::loadJson(root);
+}
+
+

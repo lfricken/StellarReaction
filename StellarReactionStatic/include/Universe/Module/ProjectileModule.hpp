@@ -63,6 +63,10 @@ struct ProjectileModuleData : public SensorData
 	{
 		return new ProjectileModuleData(*this);
 	}
+	virtual void loadJson(const Json::Value& root);
+
+	MyType(ModuleData, ProjectileModuleData);
 };
+
 
 #endif // PROJECTILEMODULE_HPP

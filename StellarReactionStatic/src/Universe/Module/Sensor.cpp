@@ -2,6 +2,7 @@
 
 using namespace std;
 
+Register(ModuleData, SensorData);
 Sensor::Sensor(const SensorData& rData) : Module(rData)
 {
 	m_enabled = rData.startEnabled;
@@ -68,4 +69,8 @@ void Sensor::entered(FixtureComponent* pOther)
 void Sensor::exited(FixtureComponent* pOther)
 {
 
+}
+void SensorData::loadJson(const Json::Value& root)
+{
+	ModuleData::loadJson(root);
 }

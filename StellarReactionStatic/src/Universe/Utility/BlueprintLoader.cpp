@@ -220,82 +220,68 @@ void BlueprintLoader::storeWeapon(const std::string& rFile)
 		///ERROR LOG
 	}
 }
-/**===================**/
-/**LOAD SPECIFIC FILES**/
 
 
 
-
-
-
-
-/**LOAD MULTI PART DATA**/
-/**====================**/
+//LOADING =====================================
 sptr<ChunkData> BlueprintLoader::loadChunk(const Json::Value& root)//returns data based on the Json stuff you pass
 {
-	sptr<ChunkData> spCnk(new ChunkData);
+	sptr<ChunkData> spMod;
+	const std::string title = root["ClassName"].asString();
+	const ChunkData* instance = Deduce<ChunkData>::from(title);
 
-	if(root["ClassName"].asString() == "Chunk")
-		spCnk->loadJson(root);
+	if(instance != NULL)//we derived it!
+	{
+		ChunkData* data = instance->clone();
+		data->loadJson(root);
+		spMod.reset(data);
+	}
 	else
-		cout << "\n" << FILELINE;
+		cout << "\n" << "Couldn't Find [" << title << "]" << FILELINE;
 
-	return spCnk;
+	return spMod;
 }
-
-
-/// <summary>
-/// Take a json projectile and load it.
-/// </summary>
 sptr<const ProjectileData> BlueprintLoader::loadProjectile(const Json::Value& root)
 {
-	sptr<const ProjectileData> spPrj;
+	sptr<const ProjectileData> spMod;
+	const std::string title = root["ClassName"].asString();
+	const ProjectileData* instance = Deduce<ProjectileData>::from(title);
 
-	if(root["ClassName"].asString() == "Projectile")
+	if(instance != NULL)//we derived it!
 	{
-		ProjectileData* pPrj = new ProjectileData;
-
-		if(!root["Copies"].isNull())
-			*pPrj = *dynamic_cast<const ProjectileData*>(getProjectileSPtr(root["Copies"].asString()).get());
-
-		pPrj->title = root["Title"].asString();
-
-		if(!root["Body"].isNull())
-			pPrj->body = loadBodyComp(root["Body"], pPrj->body);
-
-		if(!root["Modules"].isNull())
-			insertModuleData(root["Modules"], pPrj->moduleData);
-
-		spPrj.reset(pPrj);
-	}
-	else if(root["ClassName"].asString() == "Missile")
-	{
-		MissileData* pPrj = new MissileData;
-
-		if(!root["Copies"].isNull())
-			*pPrj = *dynamic_cast<const MissileData*>(getProjectileSPtr(root["Copies"].asString()).get());
-
-		pPrj->title = root["Title"].asString();
-
-		if(!root["Body"].isNull())
-			pPrj->body = loadBodyComp(root["Body"], pPrj->body);
-
-		if(!root["Modules"].isNull())
-			insertModuleData(root["Modules"], pPrj->moduleData);
-
-		spPrj.reset(pPrj);
+		ProjectileData* data = instance->clone();
+		data->loadJson(root);
+		spMod.reset(data);
 	}
 	else
+		cout << "\n" << "Couldn't Find [" << title << "]" << FILELINE;
+
+	return spMod;
+}
+sptr<const ModuleData> BlueprintLoader::loadModule(const Json::Value& root)
+{
+	sptr<const ModuleData> spMod;
+	const std::string title = root["ClassName"].asString();
+	const ModuleData* instance = Deduce<ModuleData>::from(title);
+
+	if(instance != NULL)//we derived it!
 	{
-		cout << "\n" << FILELINE;
-		cout << "\n" << root["ClassName"].asString();
-		///ERROR LOG
+		ModuleData* data = instance->clone();
+		data->loadJson(root);
+		spMod.reset(data);
 	}
-	return spPrj;
+	else
+		cout << "\n" << "Couldn't Find [" << title << "]" << FILELINE;
+
+	return spMod;
 }
 
 
 
+
+//STILL BADD===========================================
+//STILL BADD===========================================
+//STILL BADD===========================================
 sptr<const WeaponData> BlueprintLoader::loadWeapon(const Json::Value& root)//returns a weapon
 {
 	sptr<const WeaponData> spWep;
@@ -394,191 +380,6 @@ void BlueprintLoader::inheritWeapon(const Json::Value& root, WeaponData* pWep)
 
 
 
-sptr<const ModuleData> BlueprintLoader::loadModule(const Json::Value& root)//returns Data based on the Json stuff you pass it FOR ACTUAL MODULES
-{
-	sptr<const ModuleData> spMod;
-
-	/**=================**/
-	/**==== MODULES ====**/
-	/**=================**/
-	if(root["ClassName"].asString() == "Module")
-	{
-		ModuleData* pSMod = new ModuleData;
-		copyModule<ModuleData>(root, pSMod);
-		inheritModule(root, pSMod);
-		spMod.reset(pSMod);
-	}
-	else if(root["ClassName"].asString() == "Sensor")
-	{
-		SensorData* pSMod = new SensorData;
-		copyModule<SensorData>(root, pSMod);
-		inheritModule(root, pSMod);
-		spMod.reset(pSMod);
-	}
-	else if(root["ClassName"].asString() == "CaptureArea")
-	{
-		CaptureAreaData* pSMod = new CaptureAreaData;
-		copyModule<CaptureAreaData>(root, pSMod);
-		inheritModule(root, pSMod);
-
-		if(!root["Value"].isNull())
-			pSMod->value = root["Value"].asInt();
-		if(!root["CaptureTime"].isNull())
-			pSMod->captureTime = root["CaptureTime"].asInt();
-		if(!root["CapturePercent"].isNull())
-			pSMod->capturePercent = root["CapturePercent"].asFloat();
-
-		spMod.reset(pSMod);
-	}
-	else if(root["ClassName"].asString() == "ShipModule")
-	{
-		ShipModuleData* pSMod = new ShipModuleData;
-		inheritModule(root, pSMod);
-		spMod.reset(pSMod);
-	}
-
-
-	/**======================**/
-	/**==== SHIP MODULES ====**/
-	/**======================**/
-	else if(root["ClassName"].asString() == "Turret")
-	{
-		TurretData* pSMod = new TurretData;
-		copyModule<TurretData>(root, pSMod);
-
-		if(!root["StartEmpty"].isNull())
-			pSMod->startEmpty = root["StartEmpty"].asBool();
-		if(!root["Weapon"].isNull())
-			insertWeaponData(root["Weapon"], pSMod->startWep);
-
-		inheritShipModule(root, pSMod);
-		spMod.reset(pSMod);
-	}
-	else if(root["ClassName"].asString() == "Plating")
-	{
-		PlatingData* pSMod = new PlatingData;
-		copyModule<PlatingData>(root, pSMod);
-
-		inheritShipModule(root, pSMod);
-		spMod.reset(pSMod);
-	}
-	else if(root["ClassName"].asString() == "Radar")
-	{
-		RadarData* pSMod = new RadarData;
-		copyModule<RadarData>(root, pSMod);
-
-		if(!root["RadarStrength"].isNull())
-			pSMod->zoomAddition = root["RadarStrength"].asFloat();
-
-		inheritShipModule(root, pSMod);
-		spMod.reset(pSMod);
-	}
-	else if(root["ClassName"].asString() == "Thruster")
-	{
-		ThrusterData* pSMod = new ThrusterData;
-		copyModule<ThrusterData>(root, pSMod);
-
-		if(!root["Force"].isNull())
-			pSMod->force = root["Force"].asFloat();
-		if(!root["Torque"].isNull())
-			pSMod->torque = root["Torque"].asFloat();
-		if(!root["EnergyConsumption"].isNull())
-			pSMod->energyConsumption = root["EnergyConsumption"].asFloat();
-		if(!root["BoostThrustMultiplier"].isNull())
-			pSMod->boostThrustMult = root["BoostThrustMultiplier"].asFloat();
-		if(!root["BoostCostMultiplier"].isNull())
-			pSMod->boostCostMult = root["BoostCostMultiplier"].asFloat();
-
-		inheritShipModule(root, pSMod);
-		spMod.reset(pSMod);
-	}
-	else if(root["ClassName"].asString() == "Capacitor")
-	{
-		CapacitorData* pSMod = new CapacitorData;
-		copyModule<CapacitorData>(root, pSMod);
-
-		if(!root["EnergyCapacity"].isNull())
-			pSMod->storage = root["EnergyCapacity"].asFloat();
-
-		inheritShipModule(root, pSMod);
-		spMod.reset(pSMod);
-	}
-	else if(root["ClassName"].asString() == "Reactor")
-	{
-		ReactorData* pSMod = new ReactorData;
-		copyModule<ReactorData>(root, pSMod);
-
-		if(!root["EnergyProduction"].isNull())
-			pSMod->rate = root["EnergyProduction"].asFloat();
-
-		inheritShipModule(root, pSMod);
-		spMod.reset(pSMod);
-	}
-	else if(root["ClassName"].asString() == "Projectile")
-	{
-		ProjectileModuleData* pSMod = new ProjectileModuleData;
-		copyModule<ProjectileModuleData>(root, pSMod);
-
-		if(!root["BaseSprite"].isNull())
-			pSMod->baseDecor = loadQuad(root["BaseSprite"], pSMod->baseDecor);
-
-		inheritModule(root, pSMod);
-		spMod.reset(pSMod);
-	}
-	else if (root["ClassName"].asString() == "Stealth")
-	{
-		StealthData* pSMod = new StealthData;
-		copyModule<StealthData>(root, pSMod);
-
-		if (!root["EnergyConsumption"].isNull())
-			pSMod->energyConsumption = root["EnergyConsumption"].asFloat();
-		
-		inheritShipModule(root, pSMod);
-		spMod.reset(pSMod);
-	}
-	else
-	{
-		cout << "\n" << "Couldn't Find [" << root["ClassName"].asString() << "]" << FILELINE;
-		///ERROR LOG
-	}
-
-	return spMod;
-}
-void BlueprintLoader::inheritShipModule(const Json::Value& root, ShipModuleData* pSMod)//do things that they all have in common
-{
-	/**INHERIT**/
-	if(!root["Inherits"].isNull())
-		*static_cast<ShipModuleData*>(pSMod) = *static_cast<const ShipModuleData*>(getModuleSPtr(root["Inherits"].asString()).get());
-
-	/**OVERWRITES**/
-	if(!root["Defense"].isNull())
-		pSMod->health = loadHealth(root["Defense"], pSMod->health);
-	if(!root["BaseSprite"].isNull())
-		pSMod->baseDecor = loadQuad(root["BaseSprite"], pSMod->baseDecor);
-
-	/**ParentData**/
-	inheritModule(root, pSMod);
-}
-void BlueprintLoader::inheritModule(const Json::Value& root, ModuleData* pSMod)//do things that they all have in common
-{
-	if(!root["Inherits"].isNull())
-		*static_cast<ModuleData*>(pSMod) = *static_cast<const ModuleData*>(getModuleSPtr(root["Inherits"].asString()).get());
-	/**OVERWRITES**/
-	if(!root["Title"].isNull())
-		pSMod->title = root["Title"].asString();
-	if(!root["Name"].isNull())
-		pSMod->name = root["Name"].asString();
-	if(!root["IO"].isNull())
-		pSMod->ioComp = loadIOComp(root["IO"], pSMod->ioComp);
-	if(!root["Physics"].isNull())
-		pSMod->fixComp = loadFixComp(root["Physics"], pSMod->fixComp);
-	if(!root["Network"].isNull())
-		pSMod->nwComp = loadNWComp(root["Network"], pSMod->nwComp);
-	if(!root["Cost"].isNull())
-		pSMod->cost = root["Cost"].asInt();
-}
-/**====================**/
-/**LOAD MULTI PART DATA**/
 
 
 
@@ -592,54 +393,6 @@ void BlueprintLoader::inheritModule(const Json::Value& root, ModuleData* pSMod)/
 
 
 
-/// <summary>
-/// Load a list of modules. Even if they are inlined
-/// </summary>
-void BlueprintLoader::insertModuleData(const Json::Value& root, std::vector<sptr<const ModuleData> >& rModData)
-{
-	sptr<ModuleData> spMod;
-	for(auto it = root.begin(); it != root.end(); ++it)
-	{
-		if(!(*it)["Title"].isNull() && (*it)["ClassName"].isNull())//from title
-		{
-			spMod.reset(getModuleSPtr((*it)["Title"].asString())->clone());
-
-			spMod->fixComp.offset.x = (*it)["Position"][0].asFloat();
-			spMod->fixComp.offset.y = (*it)["Position"][1].asFloat();
-		}
-		else if(!(*it)["ClassName"].isNull())//from inline
-		{
-			spMod.reset(loadModule(*it)->clone());
-		}
-		else
-		{
-			cout << "\n" << FILELINE;
-			///ERROR LOG
-		}
-
-		rModData.push_back(spMod);
-	}
-}
-void BlueprintLoader::insertWeaponData(const Json::Value& root, sptr<const WeaponData>& rModData)
-{
-	sptr<WeaponData> spWep;
-
-	if(!root["Title"].isNull() && root["WeaponType"].isNull())
-	{
-		spWep.reset(getWeaponSPtr(root["Title"].asString())->clone());
-	}
-	else if(!root["WeaponType"].isNull())
-	{
-		spWep.reset(loadWeapon(root)->clone());
-	}
-	else
-	{
-		cout << "\n" << FILELINE;
-		///ERROR LOG
-	}
-
-	rModData = spWep;
-}
 
 
 
@@ -649,8 +402,26 @@ void BlueprintLoader::insertWeaponData(const Json::Value& root, sptr<const Weapo
 
 
 
-/**LOAD ControlMPLE DATA**///data that doesnt inherit or anything
-/**================**/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 sf::Color BlueprintLoader::loadColor(const Json::Value& root)
 {
 	sf::Color color;
@@ -677,117 +448,6 @@ BodyComponentData BlueprintLoader::loadBodyComp(const Json::Value& root, const B
 		data.isBullet = root["isBullet"].asBool();
 	if(!root["startAwake"].isNull())
 		data.startAwake = root["startAwake"].asBool();
-
-	return data;
-}
-IOComponentData BlueprintLoader::loadIOComp(const Json::Value& root, const IOComponentData& orig)
-{
-	IOComponentData data(orig);
-
-	if(!root["name"].isNull())
-		data.name = root["name"].asString();
-
-	if(!root["courierList"].isNull())
-	{
-		const Json::Value courierList = root["courierList"];
-		for(auto it = courierList.begin(); it != courierList.end(); ++it)
-		{
-			Courier c;
-
-			string target = (*it)["message"]["target"].asString();
-			string command = (*it)["message"]["command"].asString();
-
-			sf::Packet packData;
-			const Json::Value dataList = (*it)["message"]["data"];
-			if(dataList.size() % 2 == 0)//if it's divisible by two
-				for(auto it = dataList.begin(); it != dataList.end(); ++it)
-				{
-					string type = it->asString();
-
-					++it;
-					if(type == "bool")
-						packData << it->asBool();
-					if(type == "int")
-						packData << it->asInt();
-					if(type == "float")
-						packData << it->asFloat();
-					if(type == "string")
-						packData << it->asString();
-				}
-			else
-			{
-				cout << "\n" << FILELINE;
-				///ERROR LOG
-			}
-
-			float delay = (*it)["message"]["delay"].asFloat();
-			bool sendValue = (*it)["message"]["sendValue"].asBool();
-			bool sendOverNW = (*it)["message"]["sendOverNW"].asBool();
-			c.message.m_replaceTargetPos = (*it)["message"]["replaceTargetPosition"].asBool();
-			c.message.reset(target, command, packData, delay, sendValue);
-			c.message.sendOverNW(sendOverNW);
-
-
-			EventType event = ChooseEvent((*it)["condition"]["event"].asString());
-			int value = (*it)["condition"]["value"].asInt();
-			char comp = (*it)["condition"]["comparator"].asString()[0];
-			bool repeatable = (*it)["condition"]["repeatable"].asBool();
-			c.condition.reset(event, value, comp, repeatable);
-
-			data.courierList.push_back(c);
-		}
-	}
-
-	return data;
-}
-FixtureComponentData BlueprintLoader::loadFixComp(const Json::Value& root, const FixtureComponentData& orig)
-{
-	FixtureComponentData data(orig);
-	if(!root["offset"].isNull())
-	{
-		data.offset.x = root["offset"][0].asFloat();
-		data.offset.y = root["offset"][1].asFloat();
-	}
-
-	if(!root["shape"].isNull())
-	{
-		string temp = root["shape"].asString();
-		if(temp == "rectangle")
-			data.shape = leon::Shape::Rectangle;
-		else if(temp == "circle")
-			data.shape = leon::Shape::Circle;
-		else
-		{
-			cout << "\n" << FILELINE;
-			data.shape = leon::Shape::Circle;
-		}
-	}
-
-	if(!root["size"].isNull())
-	{
-		data.size.x = root["size"][0].asFloat();
-		data.size.y = root["size"][1].asFloat();
-	}
-
-	if(!root["density"].isNull())
-		data.density = root["density"].asFloat();
-	if(!root["friction"].isNull())
-		data.friction = root["friction"].asFloat();
-	if(!root["restitution"].isNull())
-		data.restitution = root["restitution"].asFloat();
-	if(!root["isSensor"].isNull())
-		data.isSensor = root["isSensor"].asBool();
-
-	if(!root["colCat"].isNull())
-		data.colCategory = ChooseCategory(root["colCat"].asString());
-	if(!root["colMask"].isNull())
-		data.colMask = ChooseMask(root["colMask"].asString());
-
-	return data;
-}
-NetworkComponentData BlueprintLoader::loadNWComp(const Json::Value& root, const NetworkComponentData& orig)
-{
-	NetworkComponentData data(orig);
 
 	return data;
 }

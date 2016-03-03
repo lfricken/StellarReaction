@@ -56,6 +56,10 @@ struct TurretData : public ShipModuleData
 	{
 		return new TurretData(*this);
 	}
+	virtual void loadJson(const Json::Value& root);
+
+	MyType(ModuleData, TurretData);
 };
+
 
 #endif // TURRET_HPP

@@ -40,4 +40,7 @@ struct MissileData : ProjectileData
 	{
 		return new MissileData(*this);
 	}
+
+	virtual void loadJson(const Json::Value& root);
+	MyType(ProjectileData, MissileData);
 };

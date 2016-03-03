@@ -56,7 +56,11 @@ struct RadarData : public ShipModuleData
 	{
 		return new RadarData(*this);
 	}
+	virtual void loadJson(const Json::Value& root);
+
+	MyType(ModuleData, RadarData);
 };
+
 
 
 #endif // RADAR_HPP

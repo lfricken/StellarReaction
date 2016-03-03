@@ -207,6 +207,7 @@
     <ClInclude Include="include\Audio\SoundData.hpp" />
     <ClInclude Include="include\Audio\SoundManager.hpp" />
     <ClInclude Include="include\Basic\BallisticWeapon.hpp" />
+    <ClInclude Include="include\Basic\ClassRegister.hpp" />
     <ClInclude Include="include\Basic\Health.hpp" />
     <ClInclude Include="include\Basic\LaserWeapon.hpp" />
     <ClInclude Include="include\Basic\Link.hpp" />

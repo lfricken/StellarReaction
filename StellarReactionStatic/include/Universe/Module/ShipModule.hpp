@@ -78,6 +78,9 @@ struct ShipModuleData : public ModuleData
 		std::cout << FILELINE;
 		return NULL;
 	}
+	virtual void loadJson(const Json::Value& root);
+
+	MyType(ModuleData, ShipModuleData);
 };
 
 

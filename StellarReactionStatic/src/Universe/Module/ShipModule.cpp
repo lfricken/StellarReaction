@@ -3,6 +3,7 @@
 
 using namespace std;
 
+Register(ModuleData, ShipModuleData);
 ShipModule::ShipModule(const ShipModuleData& rData) : Module(rData), m_health(rData.health)
 {
 	m_decors.push_back(sptr<GraphicsComponent>(new QuadComponent(rData.baseDecor)));
@@ -168,4 +169,13 @@ void ShipModule::stealthOn(bool toggle)
 		m_decors[m_baseDecor]->setAlpha(50);
 	else
 		m_decors[m_baseDecor]->setAlpha(255);
+}
+void ShipModuleData::loadJson(const Json::Value& root)
+{
+	if(!root["Defense"].isNull())
+		health.loadJson<Health>(root["Defense"]);
+	if(!root["BaseSprite"].isNull())
+		baseDecor.loadJson(root["BaseSprite"]);
+
+	ModuleData::loadJson(root);
 }

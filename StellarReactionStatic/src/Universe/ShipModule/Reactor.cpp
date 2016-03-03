@@ -1,5 +1,6 @@
 #include "Reactor.hpp"
 
+Register(ModuleData, ReactorData);
 Reactor::Reactor(const ReactorData& rData) : ShipModule(rData)
 {
 	m_rate = rData.rate;
@@ -18,3 +19,11 @@ void Reactor::postPhysUpdate()
 		m_pEnergyPool->changeValue(game.getUniverse().getTimeStep()*m_rate);
 	ShipModule::postPhysUpdate();
 }
+void ReactorData::loadJson(const Json::Value& root)
+{
+	if(!root["EnergyProduction"].isNull())
+		rate = root["EnergyProduction"].asFloat();
+
+	ShipModuleData::loadJson(root);
+}
+

@@ -1,5 +1,6 @@
 #include "Radar.hpp"
 
+Register(ModuleData, RadarData);
 Radar::Radar(const RadarData& rData) : ShipModule(rData)
 {
 	m_dishIndex = m_decors.size();
@@ -42,3 +43,12 @@ void Radar::stealthOn(bool toggle)
 	else
 		m_decors[m_dishIndex]->setAlpha(255);
 }
+void RadarData::loadJson(const Json::Value& root)
+{
+	if(!root["RadarStrength"].isNull())
+		zoomAddition = root["RadarStrength"].asFloat();
+
+	ShipModuleData::loadJson(root);
+}
+
+

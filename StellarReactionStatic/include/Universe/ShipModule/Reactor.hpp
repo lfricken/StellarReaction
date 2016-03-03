@@ -44,7 +44,11 @@ struct ReactorData : public ShipModuleData
 	{
 		return new ReactorData(*this);
 	}
+	virtual void loadJson(const Json::Value& root);
+
+	MyType(ModuleData, ReactorData);
 };
+
 
 
 #endif // REACTOR_HPP

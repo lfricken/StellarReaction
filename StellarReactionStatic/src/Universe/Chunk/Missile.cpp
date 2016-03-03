@@ -3,6 +3,7 @@
 
 using namespace std;
 
+Register(ProjectileData, MissileData);
 Missile::Missile(const MissileData& rData) : Projectile(rData)
 {
 	m_pTarget = NULL;
@@ -96,8 +97,14 @@ void Missile::prePhysUpdate()
 
 
 }
-
 void Missile::postPhysUpdate()
 {
 	Projectile::postPhysUpdate();
 }
+void MissileData::loadJson(const Json::Value& root)
+{
+
+	ProjectileData::loadJson(root);
+}
+
+

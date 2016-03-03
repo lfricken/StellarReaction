@@ -2,6 +2,7 @@
 
 using namespace std;
 
+Register(ModuleData, ProjectileModuleData);
 ProjectileModule::ProjectileModule(const ProjectileModuleData& rData) : Sensor(rData)
 {
 	m_freeThisProjectile = false;
@@ -71,4 +72,11 @@ void ProjectileModule::damage(FixtureComponent* pFix, int damage)
 	Message mess;
 	mess.reset(rComp.getIOPos(), "damage", packet, 0.f, false);
 	game.getUniverse().getUniverseIO().recieve(mess);
+}
+void ProjectileModuleData::loadJson(const Json::Value& root)
+{
+	if(!root["BaseSprite"].isNull())
+		baseDecor.loadJson(root["BaseSprite"]);
+
+	SensorData::loadJson(root);
 }

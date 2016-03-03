@@ -46,6 +46,10 @@ struct CapacitorData : ShipModuleData
 	{
 		return new CapacitorData(*this);
 	}
+	virtual void loadJson(const Json::Value& root);
+
+	MyType(ModuleData, CapacitorData);
 };
+
 
 #endif // CAPACITOR_HPP
