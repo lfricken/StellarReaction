@@ -608,3 +608,8 @@ void Universe::spawnChunk(int x, int y)
 {
 	//TODO
 }
+
+std::vector<sptr<GameObject> > Universe::getgoList()
+{
+	return m_goList;
+}

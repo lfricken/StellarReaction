@@ -32,6 +32,8 @@ public:
 	virtual void prePhysUpdate() = 0;//called just before physics step (do extra physics)
 	virtual void postPhysUpdate() = 0;//called just after physics step (do corrections, or graphics stuff)
 
+	virtual int getScore() = 0;
+
 	IOComponent m_io;
 	NetworkComponent m_nw;
 
@@ -41,6 +43,8 @@ protected:
 	virtual void unpack(sf::Packet& rPacket) final;
 
 	Universe& m_rParent;
+	int m_score;
+
 
 private:
 };

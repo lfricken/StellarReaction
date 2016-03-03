@@ -73,6 +73,10 @@ BodyComponent& Chunk::getBodyComponent()
 {
 	return m_body;
 }
+int Chunk::getScore()
+{
+	return m_score;
+}
 void Chunk::add(const ModuleData& rData)
 {
 	if(this->allows(rData.fixComp.offset))
@@ -185,7 +189,6 @@ void Chunk::directive(std::map<Directive, bool>& rIssues, bool local)//send comm
 
 	m_wasThrusting = rIssues[Directive::Up];
 	m_wasBoosting = (rIssues[Directive::Up] && rIssues[Directive::Boost]);
-
 }
 float Chunk::get(Request value) const//return the requested value
 {

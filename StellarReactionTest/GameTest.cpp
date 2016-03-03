@@ -30,6 +30,18 @@ TEST(GameTest, runTime)
 	EXPECT_EQ(true, game.getUniverse().isPaused());
 }
 
+TEST(GameTest, runLoop)
+{
+	game.runTime(30.0f);
+	Universe uni = game.getUniverse();
+	std::vector<sptr<GameObject>> objectList = uni.getgoList();
+	for (auto it = objectList.begin(); it != objectList.end(); ++it)
+	{
+		int score = (*it)->getScore();
+		EXPECT_EQ(0, score);
+	}
+}
+
 
 
 

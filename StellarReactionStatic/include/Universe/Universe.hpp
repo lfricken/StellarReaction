@@ -65,6 +65,8 @@ public:
 	void add(sptr<Decoration> pDec);
 	void add(Decoration* pDec);
 
+	std::vector<sptr<GameObject> > getgoList();
+
 
 	float m_pauseTime;
 	float m_skippedTime;

@@ -42,6 +42,8 @@ public:
 	sptr<GraphicsComponent> getHull() const;
 	std::vector<sptr<Module>> getModuleList() const;
 
+	int getScore();
+
 protected:
 	virtual void input(std::string rCommand, sf::Packet rData);
 	bool allows(const b2Vec2& rGridPos);
