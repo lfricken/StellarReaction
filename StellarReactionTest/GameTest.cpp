@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "gtest/gtest.h"
-#include "Stealth.hpp"
 #include "Universe.hpp"
 
 Game game;
@@ -41,7 +40,4 @@ TEST(GameTest, runLoop)
 		EXPECT_EQ(0, score);
 	}
 }
-
-
-
 
