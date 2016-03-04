@@ -22,6 +22,7 @@
 #include "ProjectileMan.hpp"
 #include "DecorQuad.hpp"
 #include "Convert.hpp"
+#include "Scoreboard.hpp"
 
 using namespace std;
 
@@ -62,7 +63,8 @@ Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input,
 	m_skippedTime = game.getTime();
 	m_pauseTime = m_skippedTime;
 
-
+	ScoreboardData s;
+	m_scoreboard = Scoreboard(s); 
 
 	m_inc = 10;
 	m_currentBed = b2Vec2(-10000, 10000);
@@ -113,6 +115,11 @@ GraphicsComponentUpdater& Universe::getGfxUpdater()
 IOManager& Universe::getUniverseIO()
 {
 	return *m_spUniverseIO;
+}
+
+Scoreboard& Universe::getScoreboard()
+{
+	return m_scoreboard;
 }
 
 /// <summary>

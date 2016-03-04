@@ -8,7 +8,7 @@ TEST(ScoreboardTest, testGameType)
         game.runTime(10.0f);
         Universe uni = game.getUniverse();
         Scoreboard score = uni.getScoreboard();
-        EXPECT_EQ(GameType::Deathmatch, score.getGameType);
+        EXPECT_EQ(GameType::Deathmatch, score.getGameType());
 }
 
 TEST(ScoreboardTest, testScoreMap)

@@ -6,7 +6,7 @@
 #include "DebugDraw.hpp"
 #include "ControlFactory.hpp"
 #include "Money.hpp"
-
+#include "Scoreboard.hpp"
 #include "Hazard\HazardField.hpp"
 
 class BatchLayers;
@@ -20,6 +20,7 @@ class Decoration;
 class ControlFactory;
 class ProjectileMan;
 class BodyComponent;
+class Scoreboard;
 
 /// <summary>
 /// A new one is instantiated when you relaunch the game
@@ -38,6 +39,7 @@ public:
 	ProjectileMan& getProjMan();
 	b2World& getWorld();
 	BlueprintLoader& getBlueprints();
+	Scoreboard& getScoreboard();
 
 	float getTimeStep() const;
 	void prePhysUpdate();
@@ -84,6 +86,7 @@ private:
 	//TODO
 	void spawnChunk(int x, int y);
 
+	Scoreboard m_scoreboard;
 
 	void setupBackground();
 
