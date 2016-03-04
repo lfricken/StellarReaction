@@ -1241,6 +1241,9 @@
     <ClCompile Include="src\Universe\Utility\UniversalContactListener.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Game\Scoreboard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="include\API\SFML\Audio\SoundFileFactory.inl">

@@ -2,7 +2,8 @@
 #define SCOREBOARD_HPP
 
 #include "Timer.hpp"
-
+#include "Universe.hpp"
+#include <map>
 
 struct ScoreboardData;
 struct PlayerScore;
@@ -16,7 +17,7 @@ enum class GameType
 class Scoreboard
 {
 public:
-	
+	Scoreboard();
 	Scoreboard(ScoreboardData& data);
 	~Scoreboard();
 	void updateScoreboard(ScoreboardData& data);
@@ -25,8 +26,8 @@ public:
 	std::map<std::string, PlayerScore> getScoreMap();
 	Timer getTimer();
 protected:
-	virtual void pack(sf::Packet& rPacket);
-	virtual void unpack(sf::Packet& rPacket);
+	/*virtual void pack(sf::Packet& rPacket);
+	virtual void unpack(sf::Packet& rPacket);*/
 private:
 	GameType m_gameType;
 	std::map<std::string, PlayerScore> m_scoreMap;

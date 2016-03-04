@@ -86,8 +86,6 @@ private:
 	//TODO
 	void spawnChunk(int x, int y);
 
-	Scoreboard m_scoreboard;
-
 	void setupBackground();
 
 	/**SLEEP**/
@@ -106,6 +104,7 @@ private:
 	b2World m_physWorld;
 	/**PHYSICS**/
 
+	sptr<Scoreboard> m_scoreboard;
 	sptr<ControlFactory> m_spControlFactory;
 	sptr<BlueprintLoader> m_spBPLoader;
 	sptr<SlaveLocator> m_spSlaveLocator;//list of all slaves

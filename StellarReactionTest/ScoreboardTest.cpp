@@ -1,14 +1,16 @@
-#include "stdafc.h"
+#include "stdafx.h"
 #include "gtest/gtest.h"
 #include "Universe.hpp"
 #include "Scoreboard.hpp"
 
+Game game;
+
 TEST(ScoreboardTest, testGameType)
 {
-        game.runTime(10.0f);
-        Universe uni = game.getUniverse();
-        Scoreboard score = uni.getScoreboard();
-        EXPECT_EQ(GameType::Deathmatch, score.getGameType());
+    game.runTime(10.0f);
+    Universe uni = game.getUniverse();
+    Scoreboard score = uni.getScoreboard();
+    EXPECT_EQ(GameType::Deathmatch, score.getGameType());
 }
 
 TEST(ScoreboardTest, testScoreMap)

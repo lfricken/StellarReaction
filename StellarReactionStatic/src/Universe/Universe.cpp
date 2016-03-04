@@ -64,7 +64,7 @@ Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input,
 	m_pauseTime = m_skippedTime;
 
 	ScoreboardData s;
-	m_scoreboard = Scoreboard(s); 
+	m_scoreboard = sptr<Scoreboard>(new Scoreboard(s));
 
 	m_inc = 10;
 	m_currentBed = b2Vec2(-10000, 10000);
@@ -119,7 +119,7 @@ IOManager& Universe::getUniverseIO()
 
 Scoreboard& Universe::getScoreboard()
 {
-	return m_scoreboard;
+	return *m_scoreboard;
 }
 
 /// <summary>
