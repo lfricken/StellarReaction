@@ -43,6 +43,7 @@ public:
 	std::vector<sptr<Module>> getModuleList() const;
 
 	int getScore();
+	void increaseScore();
 
 protected:
 	virtual void input(std::string rCommand, sf::Packet rData);

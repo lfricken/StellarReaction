@@ -232,6 +232,19 @@ void Player::updateView()
 			m_energyDanger->input(com, dat);
 		}
 
+		int score = rController.get(Request::Score);
+		static int oldScore = -1;
+		
+		if (score != oldScore)
+		{
+			oldScore = score;
+			string scoreString = to_string(oldScore);
+
+			Packet scorePack;
+			scorePack << scoreString;
+			Message setHudScore("hud_score", "setText", scorePack, 0, false);
+			game.getCoreIO().recieve(setHudScore);
+		}
 
 	}
 }

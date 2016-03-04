@@ -15,6 +15,18 @@ Button::~Button()
 {
 
 }
+bool Button::inputHook(const std::string rCommand, sf::Packet rData)
+{
+	if (rCommand == "setText")
+	{
+		std::string text;
+		rData >> text;
+		m_pButton->setText(text);
+		return true;
+	}
+	else
+		return false;
+}
 void Button::f_initialize(const ButtonData& rData)
 {
 	f_assign(m_pButton.get());

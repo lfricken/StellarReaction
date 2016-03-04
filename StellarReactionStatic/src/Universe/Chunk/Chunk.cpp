@@ -77,6 +77,10 @@ int Chunk::getScore()
 {
 	return m_score;
 }
+void Chunk::increaseScore()
+{
+	m_score++;
+}
 void Chunk::add(const ModuleData& rData)
 {
 	if(this->allows(rData.fixComp.offset))
@@ -224,6 +228,9 @@ float Chunk::get(Request value) const//return the requested value
 	case(Request::MaxMissiles) :
 		return m_missilePool.getMax();
 		break;
+
+	case(Request::Score) :
+		return m_score;
 	default:
 		return 0.f;
 		break;

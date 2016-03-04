@@ -23,6 +23,8 @@ namespace leon
 		Button(tgui::Container& container, const ButtonData& data);
 		virtual ~Button();
 
+		virtual bool inputHook(const std::string rCommand, sf::Packet rData);
+
 	protected:
 		tgui::Button::Ptr m_pButton;//pointer to our button in the gui
 		virtual bool callbackHook(const tgui::Callback& callback) final;

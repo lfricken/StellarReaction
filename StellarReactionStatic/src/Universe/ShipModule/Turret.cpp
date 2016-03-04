@@ -41,7 +41,7 @@ void Turret::directive(std::map<Directive, bool>& rIssues)
 		if(m_spWep && functioning())//if we have a weapon
 			if(m_spWep->fire(m_fix, m_pEnergyPool, m_pBallisticPool, m_pMissilePool))//if we successfully fired
 			{
-
+				m_parentChunk->increaseScore();	
 			}
 }
 void Turret::setWep(sptr<const WeaponData> spWep)

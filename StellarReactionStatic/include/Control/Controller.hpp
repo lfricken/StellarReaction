@@ -58,6 +58,8 @@ enum class Request
 
 	Missiles,
 	MaxMissiles,
+
+	Score,
 };
 
 
