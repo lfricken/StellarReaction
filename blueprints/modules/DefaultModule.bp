@@ -1,5 +1,5 @@
 {
-    "ClassName": "Module",
+    "ClassName": "ModuleData",
     "Title": "DefaultModule",
     "IO": {
         "name": "NONAMEBP",

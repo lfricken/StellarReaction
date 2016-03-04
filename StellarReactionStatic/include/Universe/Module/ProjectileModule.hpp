@@ -68,5 +68,4 @@ struct ProjectileModuleData : public SensorData
 	MyType(ModuleData, ProjectileModuleData);
 };
 
-
 #endif // PROJECTILEMODULE_HPP

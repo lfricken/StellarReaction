@@ -75,8 +75,7 @@ struct ShipModuleData : public ModuleData
 	}
 	virtual ModuleData* clone() const
 	{
-		std::cout << FILELINE;
-		return NULL;
+		return new ShipModuleData(*this);
 	}
 	virtual void loadJson(const Json::Value& root);
 

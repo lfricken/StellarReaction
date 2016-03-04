@@ -23,7 +23,7 @@ using namespace std;
 
 BlueprintLoader::BlueprintLoader()
 {
-
+	//StealthData data;
 }
 BlueprintLoader::~BlueprintLoader()
 {

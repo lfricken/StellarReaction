@@ -1,5 +1,5 @@
 {
-    "ClassName": "Turret",
+    "ClassName": "TurretData",
     "Title": "Raven_Ballistic1",
     "Inherits": "DefaultShipModule",
     "StartEmpty": false,

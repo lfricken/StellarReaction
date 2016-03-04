@@ -1,5 +1,5 @@
 {
-    "ClassName": "Chunk",
+    "ClassName": "ChunkData",
     "Title": "Asteroid",
 	"Copies": null,
     "IO": {

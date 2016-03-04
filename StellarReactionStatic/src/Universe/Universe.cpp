@@ -135,8 +135,7 @@ float Universe::getTimeStep() const
 void Universe::prePhysUpdate()
 {
 	static bool hap = false;
-	ThrusterData data;
-	data.fixComp.offset = b2Vec2(1, 6);
+
 	if(!m_paused)
 	{
 		for(auto it = m_goList.begin(); it != m_goList.end(); ++it)
@@ -148,10 +147,7 @@ void Universe::prePhysUpdate()
 		for (auto it = hazardFields.begin(); it != hazardFields.end(); ++it){
 			it->update();
 		}
-
 	}
-
-
 }
 void Universe::changeTeamMoney(int team, Money money)
 {

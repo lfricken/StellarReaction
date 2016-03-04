@@ -1,5 +1,5 @@
 {
-    "ClassName": "Capacitor",
+    "ClassName": "CapacitorData",
 	"Title": "DefaultCapacitor",
     "Inherits": "DefaultShipModule",
 	"EnergyCapacity": 100,

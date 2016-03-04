@@ -1,5 +1,5 @@
 {
-    "ClassName": "CaptureArea",
+    "ClassName": "CaptureAreaData",
 	"Title": "DefaultCaptureArea",
     "Inherits": "DefaultModule",
 	"Physics": {

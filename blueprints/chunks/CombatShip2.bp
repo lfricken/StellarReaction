@@ -1,5 +1,5 @@
 {
-    "ClassName": "Chunk",
+    "ClassName": "ChunkData",
     "Title": "CombatShip2",
 	"Copies": null,
     "IO": {
