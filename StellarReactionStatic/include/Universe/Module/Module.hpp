@@ -30,7 +30,10 @@ public:
 	const std::string& getTitle() const;
 	const std::string& getName() const;
 	virtual void toggleStealth(bool toggle);
+
 	virtual void healToMax();
+
+	const FixtureComponent& getFixtureComponent();
 
 protected:
 	virtual void input(std::string rCommand, sf::Packet rData);

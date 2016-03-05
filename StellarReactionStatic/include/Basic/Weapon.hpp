@@ -60,7 +60,7 @@ protected:
 	float m_range;
 	int m_collisions;//how many collisions should we do? MODULE PENETRATION LOGIC
 	//TODO m_collisions is not used in the laser weapon type
-
+	std::string m_parentName;
 	/// <summary>
 	/// Damages the specified fixture (which has a module)
 	/// </summary>
@@ -98,7 +98,9 @@ struct WeaponData
 		shotDelay(0.09f),
 		fireDelay(1.5f),
 		collisions(3),
-		range(45.f)
+		range(45.f),
+
+		parentName("")
 	{
 		weaponQuad.animSheetName = "weapons/laser1.acfg";
 		weaponQuad.texName = "weapons/laser1.png";
@@ -119,6 +121,8 @@ struct WeaponData
 	float fireDelay;//reload time
 	int collisions;//TODO works for projectiles atm, but not lasers
 	float range;//how far can this shoot
+
+	std::string parentName; //controller of weapon
 
 	QuadComponentData weaponQuad;
 

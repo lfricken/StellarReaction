@@ -63,6 +63,9 @@ Game::Game()
 
 	loadUniverse("RANDOMTEXT");//TODO RANDOMTEXT
 	m_spUniverse->togglePause(true);
+
+	ScoreboardData scoreData  = ScoreboardData();
+	m_spScoreboard = sptr<Scoreboard>(new Scoreboard(scoreData));
 }
 Game::~Game()
 {
@@ -125,6 +128,11 @@ Universe& Game::getUniverse()
 DragUpdater& Game::getDragUpdater()
 {
 	return *m_spDragUpdater;
+}
+
+Scoreboard& Game::getScoreboard()
+{
+	return *m_spScoreboard;
 }
 /// <summary>
 /// Use this to put the player in a new level from anywhere (multiplayer or otherwise)

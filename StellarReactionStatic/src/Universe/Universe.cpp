@@ -62,8 +62,6 @@ Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input,
 	m_skippedTime = game.getTime();
 	m_pauseTime = m_skippedTime;
 
-
-
 	m_inc = 10;
 	m_currentBed = b2Vec2(-10000, 10000);
 
@@ -113,6 +111,11 @@ GraphicsComponentUpdater& Universe::getGfxUpdater()
 IOManager& Universe::getUniverseIO()
 {
 	return *m_spUniverseIO;
+}
+
+Scoreboard& Universe::getScoreboard()
+{
+	return *m_scoreboard;
 }
 
 /// <summary>
@@ -622,8 +625,11 @@ void Universe::spawnChunk(int x, int y)
 {
 	//TODO
 }
-
 std::vector<sptr<GameObject>> Universe::getDebris()
 {
 	return m_shipDebris;
+}
+std::vector<sptr<GameObject> > Universe::getgoList()
+{
+	return m_goList;
 }

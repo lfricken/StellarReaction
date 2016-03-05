@@ -224,6 +224,7 @@
     <ClInclude Include="include\Control\Player.hpp" />
     <ClInclude Include="include\Control\SlaveLocator.hpp" />
     <ClInclude Include="include\Game\Game.hpp" />
+    <ClInclude Include="include\Game\Scoreboard.hpp" />
     <ClInclude Include="include\Graphics\Animator.hpp" />
     <ClInclude Include="include\Graphics\Beam.hpp" />
     <ClInclude Include="include\Graphics\Decoration.hpp" />
@@ -362,6 +363,7 @@
     <ClCompile Include="src\Control\Player.cpp" />
     <ClCompile Include="src\Control\SlaveLocator.cpp" />
     <ClCompile Include="src\Game\Game.cpp" />
+    <ClCompile Include="src\Game\Scoreboard.cpp" />
     <ClCompile Include="src\Graphics\Animator.cpp" />
     <ClCompile Include="src\Graphics\Beam.cpp" />
     <ClCompile Include="src\Graphics\Decoration.cpp" />

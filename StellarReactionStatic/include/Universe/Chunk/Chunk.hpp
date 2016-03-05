@@ -48,6 +48,8 @@ public:
 	void setStealth(bool stealthToggle);
 	bool isStealth();
 
+	int getScore();
+	void increaseScore();
 
 protected:
 	virtual void input(std::string rCommand, sf::Packet rData);

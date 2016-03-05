@@ -46,7 +46,6 @@ tgui::Gui& Overlay::getGui()
 void Overlay::loadMenus()
 {
 
-
 	/**MAIN MENU**/
 	/**=========**/
 	sf::Packet voidPacket;
@@ -201,12 +200,15 @@ void Overlay::loadMenus()
 	Courier launchMess1;
 	launchMess1.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
 	launchMess1.message.reset("networkboss", "launch", voidPacket, 0, false);
+	Courier launchMess2;
+	launchMess2.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
+	launchMess2.message.reset("hud_panel", "toggleHidden", voidPacket, 0, false);
 
 	///launch game
 	///send data to clients
 
 	launch.ioComp.courierList.push_back(launchMess1);
-
+	launch.ioComp.courierList.push_back(launchMess2);
 
 	pLobby->add(sptr<leon::WidgetBase>(new leon::Button(*pLobby->getPanelPtr(), launch)));
 
@@ -426,6 +428,30 @@ void Overlay::loadMenus()
 	/**STORE**/
 
 	/**STORE**/
+
+	/**HUD**/
+	/**HUD**/
+
+	/**PANEL**/
+	sf::Vector2f textPanelSize = sf::Vector2f(200, 100);
+	leon::PanelData hudPanelData;
+	hudPanelData.ioComp.name = "hud_panel";
+	hudPanelData.startHidden = true;
+	hudPanelData.backgroundColor = sf::Color(50, 50, 50, 0);
+	hudPanelData.screenCoords = sf::Vector2f(200, 20);
+	hudPanelData.size = sf::Vector2f(textPanelSize.x, textPanelSize.y);
+	leon::Panel* pHudPanel = new leon::Panel(game.getOverlay().getGui(), hudPanelData);
+
+	/**SCORE**/
+	leon::ButtonData hudScore;
+	hudScore.ioComp.name = "hud_score";
+	hudScore.size = sf::Vector2f(200, 50);
+	hudScore.buttonText = "";
+	hudScore.transparency = 50;
+	hudScore.screenCoords = sf::Vector2f(0, 0);
+	pLobby->add(sptr<leon::WidgetBase>(new leon::Button(*pHudPanel->getPanelPtr(), hudScore)));
+	/**HUD**/
+	/**HUD**/
 
 
 	/**MESSAGE**/

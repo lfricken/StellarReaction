@@ -242,6 +242,26 @@ void Player::updateView()
 
 		std::vector<sptr<GameObject> > goList = game.getUniverse().getgoList();
 
+		int score = rController.get(Request::Score);
+		static int oldScore = -1;
+		
+		if (score != oldScore)
+		{
+			oldScore = score;
+			string scoreString = to_string(oldScore);
+
+			if (oldScore == 10)
+			{
+				scoreString = "You Win";
+				game.getUniverse().togglePause();
+			}
+
+			Packet scorePack;
+			scorePack << scoreString;
+			Message setHudScore("hud_score", "setText", scorePack, 0, false);
+			game.getCoreIO().recieve(setHudScore);
+		}
+
 		int index = 0;
 		float offset_x = 2.40;
 		float offset_y = -1.20;

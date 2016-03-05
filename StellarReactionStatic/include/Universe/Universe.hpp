@@ -6,7 +6,7 @@
 #include "DebugDraw.hpp"
 #include "ControlFactory.hpp"
 #include "Money.hpp"
-
+#include "Scoreboard.hpp"
 #include "Hazard\HazardField.hpp"
 
 class BatchLayers;
@@ -20,6 +20,7 @@ class Decoration;
 class ControlFactory;
 class ProjectileMan;
 class BodyComponent;
+class Scoreboard;
 
 /// <summary>
 /// A new one is instantiated when you relaunch the game
@@ -38,6 +39,7 @@ public:
 	ProjectileMan& getProjMan();
 	b2World& getWorld();
 	BlueprintLoader& getBlueprints();
+	Scoreboard& getScoreboard();
 
 	float getTimeStep() const;
 	void prePhysUpdate();
@@ -69,6 +71,8 @@ public:
 
 	std::vector<sptr<GameObject> > getgoList();
 
+	std::vector<sptr<GameObject> > getgoList();
+
 
 	float m_pauseTime;
 	float m_skippedTime;
@@ -85,7 +89,6 @@ private:
 
 	//TODO
 	void spawnChunk(int x, int y);
-
 
 	void setupBackground();
 
@@ -105,6 +108,7 @@ private:
 	b2World m_physWorld;
 	/**PHYSICS**/
 
+	sptr<Scoreboard> m_scoreboard;
 	sptr<ControlFactory> m_spControlFactory;
 	sptr<BlueprintLoader> m_spBPLoader;
 	sptr<SlaveLocator> m_spSlaveLocator;//list of all slaves

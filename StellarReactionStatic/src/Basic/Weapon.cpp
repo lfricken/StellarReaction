@@ -92,7 +92,7 @@ void Weapon::damage(b2Fixture* pFix, int damage)
 {
 	FixtureComponent& rComp = *static_cast<FixtureComponent*>(pFix->GetUserData());
 	sf::Packet packet;
-	packet << (m_damage / m_shots);
+	packet << (m_damage / m_shots) << m_pTempParent->getIOPos();
 	Message mess;
 	mess.reset(rComp.getIOPos(), "damage", packet, 0.f, false);
 	game.getUniverse().getUniverseIO().recieve(mess);
