@@ -57,4 +57,8 @@ struct MissileWeaponData : public WeaponData
 	{
 		return new MissileWeaponData(*this);
 	}
+
+	virtual void loadJson(const Json::Value& root);
+
+	MyType(WeaponData, MissileWeaponData);
 };

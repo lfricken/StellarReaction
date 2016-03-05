@@ -3,6 +3,7 @@
 
 using namespace std;
 
+
 ShipModule::ShipModule(const ShipModuleData& rData) : Module(rData), m_health(rData.health)
 {
 	m_decors.push_back(sptr<GraphicsComponent>(new QuadComponent(rData.baseDecor)));
@@ -169,7 +170,6 @@ void ShipModule::toggleStealth(bool toggle)
 	else
 		m_decors[m_baseDecor]->setAlpha(alpha_stealth_off);
 }
-
 void ShipModule::healToMax()
 {
 	m_health.heal(m_health.getMaxHealth());
@@ -181,4 +181,13 @@ void ShipModule::damage(int dam)
 	m_health.damage(dam);
 	m_healthState = HealthState::Broken;
 	
+}
+void ShipModuleData::loadJson(const Json::Value& root)
+{
+	if(!root["Defense"].isNull())
+		health.loadJson<Health>(root["Defense"]);
+	if(!root["BaseSprite"].isNull())
+		baseDecor.loadJson(root["BaseSprite"]);
+
+	ModuleData::loadJson(root);
 }

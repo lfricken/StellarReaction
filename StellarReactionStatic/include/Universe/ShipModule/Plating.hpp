@@ -37,7 +37,11 @@ struct PlatingData : public ShipModuleData
 	{
 		return new PlatingData(*this);
 	}
+	virtual void loadJson(const Json::Value& root);
+
+	MyType(ModuleData, PlatingData);
 };
+
 
 
 #endif // PLATING_HPP

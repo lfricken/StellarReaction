@@ -25,8 +25,14 @@ Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp)
 
 	m_validOffsets = rData.validPos;
 
-
+	std::vector<sptr<ModuleData> > thisData;
 	for(auto it = rData.moduleData.begin(); it != rData.moduleData.end(); ++it)
+		thisData.push_back(sptr<ModuleData>((*it)->clone()));
+
+	for(auto it = thisData.begin(); it != thisData.end(); ++it)
+		(*it)->ioComp.pMyManager = rData.ioComp.pMyManager;
+
+	for(auto it = thisData.begin(); it != thisData.end(); ++it)
 		m_modules.push_back(sptr<Module>((*it)->generate(m_body.getBodyPtr(), myPools, this)));
 
 	m_slavePosition = m_rParent.getSlaveLocator().give(this);
@@ -164,29 +170,29 @@ void Chunk::directive(std::map<Directive, bool>& rIssues, bool local)//send comm
 	bool startBoosting = (rIssues[Directive::Up] && rIssues[Directive::Boost] && !m_wasBoosting);
 
 
-	if (startThrusting)
+	if(startThrusting)
 	{
-		for (auto it = afterburners.begin(); it != afterburners.end(); ++it)
+		for(auto it = afterburners.begin(); it != afterburners.end(); ++it)
 			(*it)->getAnimator().setAnimation("Thrust", 0.20f);
 		m_thrustNoiseIndex = game.getSound().playSound("afterb1.wav", 60, 20, 20, getBodyPtr()->GetWorldCenter(), true, true);
 	}
 
-	if (startBoosting)
+	if(startBoosting)
 	{
-		for (auto it = afterburners_boost.begin(); it != afterburners_boost.end(); ++it)
+		for(auto it = afterburners_boost.begin(); it != afterburners_boost.end(); ++it)
 			(*it)->getAnimator().setAnimation("Boost", 0.20f);
 		m_boostNoiseIndex = game.getSound().playSound("afterb2.wav", 100, 20, 20, getBodyPtr()->GetWorldCenter(), true, true);
 	}
 
 
-	if (!rIssues[Directive::Up])
+	if(!rIssues[Directive::Up])
 	{
-		for (auto it = afterburners.begin(); it != afterburners.end(); ++it)
+		for(auto it = afterburners.begin(); it != afterburners.end(); ++it)
 			(*it)->getAnimator().setAnimation("Default", 1.0f);
 		m_thrustNoiseIndex = game.getSound().stopSound(m_thrustNoiseIndex);
 	}
 
-	if (!rIssues[Directive::Up] || !rIssues[Directive::Boost])
+	if(!rIssues[Directive::Up] || !rIssues[Directive::Boost])
 	{
 		for(auto it = afterburners_boost.begin(); it != afterburners_boost.end(); ++it)
 			(*it)->getAnimator().setAnimation("Default", 1.0f);
@@ -320,3 +326,70 @@ void Chunk::input(std::string rCommand, sf::Packet rData)
 	else
 		cout << "\nCommand not found in [" << m_io.getName() << "]." << FILELINE;
 }
+void ChunkData::loadJson(const Json::Value& root)
+{
+	if(!root["Copies"].isNull())
+		*this = *dynamic_cast<const ChunkData*>(game.getUniverse().getBlueprints().getChunkSPtr(root["Copies"].asString()).get());
+
+	if(!root["IO"].isNull())
+		ioComp.loadJson(root["IO"]);
+	if(!root["Network"].isNull())
+		nwComp.loadJson(root["Network"]);
+	if(!root["Body"].isNull())
+		bodyComp.loadJson(root["Body"]);
+	if(!root["Missiles"].isNull())
+		missileData.loadJson<Missiles>(root["Missiles"]);
+	if(!root["Ballistic"].isNull())
+		ballisticData.loadJson<Ballistic>(root["Ballistic"]);
+	if(!root["Energy"].isNull())
+		energyData.loadJson<Energy>(root["Energy"]);
+	if(!root["Zoom"].isNull())
+		zoomData.loadJson<Zoom>(root["Zoom"]);
+
+	if(!root["Hull_Sprite"].isNull())
+		hullSpriteData.loadJson(root["Hull_Sprite"]);
+
+	if(!root["Afterburner_Sprites"].isNull())
+		for(auto it = root["Afterburner_Sprites"].begin(); it != root["Afterburner_Sprites"].end(); ++it)
+		{
+			QuadComponentData quad;
+			quad.loadJson(*it);
+			afterburnerSpriteData.push_back(quad);
+		}
+
+	if(!root["Afterburner_Thrust_Sprites"].isNull())
+		for(auto it = root["Afterburner_Thrust_Sprites"].begin(); it != root["Afterburner_Thrust_Sprites"].end(); ++it)
+		{
+			QuadComponentData quad;
+			quad.loadJson(*it);
+			afterburnerThrustSpriteData.push_back(quad);
+		}
+
+	if(!root["Modules"].isNull())
+	{
+		sptr<ModuleData> spMod;
+		for(auto it = root["Modules"].begin(); it != root["Modules"].end(); ++it)
+		{
+			if(!(*it)["Title"].isNull() && (*it)["ClassName"].isNull())//from title
+			{
+				string title = (*it)["Title"].asString();
+				spMod.reset(game.getUniverse().getBlueprints().getModuleSPtr(title)->clone());
+
+				spMod->fixComp.offset.x = (*it)["Position"][0].asFloat();
+				spMod->fixComp.offset.y = (*it)["Position"][1].asFloat();
+			}
+			else if(!(*it)["ClassName"].isNull())//from inline
+			{
+				spMod.reset(game.getUniverse().getBlueprints().loadModule(*it)->clone());
+			}
+			else
+			{
+				cout << "\n" << FILELINE;
+				///ERROR LOG
+			}
+
+			moduleData.push_back(spMod);
+		}
+	}
+}
+

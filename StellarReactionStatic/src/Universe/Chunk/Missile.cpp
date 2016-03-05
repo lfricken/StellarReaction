@@ -3,6 +3,7 @@
 
 using namespace std;
 
+
 Missile::Missile(const MissileData& rData) : Projectile(rData)
 {
 	m_pTarget = NULL;
@@ -39,43 +40,23 @@ void Missile::prePhysUpdate()
 	float totalVelocity = vel.Length();
 	float velAngle = leon::normRad(atan2(vel.y, vel.x));
 
-	b2Vec2 ourPos = bod.GetPosition();
 	float ourAngle = leon::normRad(bod.GetAngle());
 
 	if(totalVelocity < m_maxVelocity)
 	{
 		if(m_pTarget != NULL)
 		{
-			b2Body& tBod = *m_pTarget->getBodyPtr();
-			b2Vec2 targetVel = tBod.GetLinearVelocity();
-			b2Vec2 targetPos = tBod.GetPosition();
-			b2Vec2 diff = targetPos - ourPos;
-
-			float dist = diff.Length();
-			float eta = 3 * dist / m_maxVelocity;
-
-			targetPos.x = targetPos.x + targetVel.x * eta;
-			targetPos.y = targetPos.y + targetVel.y * eta;
-
-			diff = targetPos - ourPos;
+			b2Vec2 diff = getTargetPos();
 
 			float targetAngle = leon::normRad(atan2(diff.y, diff.x));//angle of target
 			float diffAngle = leon::normRad(targetAngle - velAngle);//between velocity and target
-			if(diffAngle > pi)
-				diffAngle -= 2 * pi;
 
-
-			if(diffAngle < -pi / 5.f)
-				diffAngle = -pi / 5.f;
-			else if(diffAngle > pi / 5.f)
-				diffAngle = pi / 5.f;
-
+			normalizeAngle(diffAngle);
+			minimizeAngle(diffAngle);
 			float objectiveAngle = leon::normRad(diffAngle + targetAngle);//objective angle is what we want to face right now
-
 			float diffObjectiveAngle = leon::normRad(objectiveAngle - ourAngle);
 
-			if(diffObjectiveAngle > pi)
-				diffObjectiveAngle -= 2 * pi;
+			normalizeAngle(diffObjectiveAngle);
 
 			int mod = 1;
 			if(diffObjectiveAngle < 0)
@@ -93,11 +74,44 @@ void Missile::prePhysUpdate()
 
 		bod.ApplyForceToCenter(direction, true);
 	}
-
-
 }
+void Missile::minimizeAngle(float& angle)
+{
+	if(angle < -pi / 5.f)
+		angle = -pi / 5.f;
+	else if(angle > pi / 5.f)
+		angle = pi / 5.f;
+}
+void Missile::normalizeAngle(float& diffObjectiveAngle)
+{
+	if(diffObjectiveAngle > pi)
+		diffObjectiveAngle -= 2 * pi;
+}
+b2Vec2 Missile::getTargetPos()
+{
+	b2Body& bod = *m_body.getBodyPtr();
+	b2Vec2 ourPos = bod.GetPosition();
+	b2Body& tBod = *m_pTarget->getBodyPtr();
+	b2Vec2 targetVel = tBod.GetLinearVelocity();
+	b2Vec2 targetPos = tBod.GetPosition();
+	b2Vec2 diff = targetPos - ourPos;
 
+	float dist = diff.Length();
+	float eta = 3 * dist / m_maxVelocity;
+
+	targetPos.x = targetPos.x + targetVel.x * eta;
+	targetPos.y = targetPos.y + targetVel.y * eta;
+
+	return targetPos - ourPos;
+}
 void Missile::postPhysUpdate()
 {
 	Projectile::postPhysUpdate();
 }
+void MissileData::loadJson(const Json::Value& root)
+{
+
+	ProjectileData::loadJson(root);
+}
+
+

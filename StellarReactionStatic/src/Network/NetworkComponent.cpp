@@ -22,3 +22,7 @@ void NetworkComponent::unpack(sf::Packet& rPacket)
 {
 	m_unpackFunction(rPacket);
 }
+void NetworkComponentData::loadJson(const Json::Value& root)
+{
+
+}

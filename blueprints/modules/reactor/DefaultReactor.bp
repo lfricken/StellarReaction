@@ -1,5 +1,5 @@
 {
-    "ClassName": "Reactor",
+    "ClassName": "ReactorData",
 	"Title": "DefaultReactor",
     "Inherits": "DefaultShipModule",
 	"EnergyProduction": 10,

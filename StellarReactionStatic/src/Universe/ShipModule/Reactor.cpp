@@ -29,6 +29,7 @@ void Reactor::postPhysUpdate()
 	}
 	ShipModule::postPhysUpdate();
 }
+
 void Reactor::directive(map<Directive, bool>& rIssues)
 {
 	if (rIssues[Directive::Respawn])
@@ -78,4 +79,11 @@ void Reactor::respawn(){
 	{
 		(*it)->healToMax();
 	}
+}
+void ReactorData::loadJson(const Json::Value& root)
+{
+	if(!root["EnergyProduction"].isNull())
+		rate = root["EnergyProduction"].asFloat();
+
+	ShipModuleData::loadJson(root);
 }

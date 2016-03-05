@@ -33,3 +33,11 @@ void MissileWeapon::postShot(const b2Vec2& center, const b2Vec2& aim, float radC
 {
 
 }
+void MissileWeaponData::loadJson(const Json::Value& root)
+{
+	WeaponData::loadJson(root);
+
+	if(!root["ProjectileName"].isNull())
+		projName = root["ProjectileName"].asString();
+}
+

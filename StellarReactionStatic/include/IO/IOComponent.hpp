@@ -19,6 +19,8 @@ struct IOComponentData
 	std::string name;//the name we are located by
 	std::vector<Courier> courierList;//list of couriers to event on
 	IOManager* pMyManager;//pointer to our manager (to send a ptr to us to and for sending messages
+
+	virtual void loadJson(const Json::Value& root);
 };
 
 /// <summary>
@@ -36,10 +38,10 @@ public:
 	/// <param name="func">The function.</param>
 	/// <param name="classPtr">The class PTR.</param>
 	template <typename T>
-	IOComponent(const IOComponentData& rData, void (T::*func)(std::string, sf::Packet), T* const classPtr) : m_rManager(*rData.pMyManager), m_name(rData.name), m_eventer(m_rManager)
+	IOComponent(const IOComponentData& rData, void (T::*func)(std::string, sf::Packet), T* const classPtr) : m_pManager(rData.pMyManager), m_name(rData.name), m_eventer(*m_pManager)
 	{
 		m_cbFunction = std::bind(func, classPtr, std::placeholders::_1, std::placeholders::_2);
-		m_ioManPosition = m_rManager.give(this);
+		m_ioManPosition = m_pManager->give(this);
 		m_eventer.add(rData.courierList);
 	}
 	virtual ~IOComponent();
@@ -56,7 +58,7 @@ public:
 
 protected:
 private:
-	IOManager& m_rManager;//a convienent reference to our manager
+	IOManager* m_pManager;//a convienent reference to our manager
 	std::string m_name;//our IO name
 	int m_ioManPosition;//position of us in the io manager
 

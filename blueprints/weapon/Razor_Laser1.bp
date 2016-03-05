@@ -1,5 +1,5 @@
 {
-    "WeaponType": "Laser",
+    "ClassName": "LaserWeaponData",
     "Title": "Razor_Laser1",
     "BeamStart": {
         "texName": "beam/beam_start.png",
@@ -58,5 +58,6 @@
             256,
             256
         ]
-    }
+    },
+	"Collisions": 2
 }

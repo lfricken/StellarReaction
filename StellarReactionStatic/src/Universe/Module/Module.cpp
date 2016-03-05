@@ -4,6 +4,7 @@
 
 using namespace std;
 
+
 Module::Module(const ModuleData& rData) : m_io(rData.ioComp, &Module::input, this), m_nw(rData.nwComp, &Module::pack, &Module::unpack, this, game.getNwBoss().getNWFactory()), m_fix(rData.fixComp)
 {
 	m_parentChunk = rData.chunkParent;
@@ -91,5 +92,20 @@ void Module::input(std::string rCommand, sf::Packet rData)
 		m_fix.setStore(name);
 	}
 	else
-		cout << "\nCommand not found in [" << m_io.getName() << "]." << FILELINE;
+		cout << "\nCommand [" << rCommand << "] not found in [" << m_io.getName() << "]." << FILELINE;
+}
+void ModuleData::loadJson(const Json::Value& root)
+{
+	if(!root["Title"].isNull())
+		title = root["Title"].asString();
+	if(!root["Name"].isNull())
+		name = root["Name"].asString();
+	if(!root["IO"].isNull())
+		ioComp.loadJson(root["IO"]);
+	if(!root["Physics"].isNull())
+		fixComp.loadJson(root["Physics"]);
+	if(!root["Network"].isNull())
+		nwComp.loadJson(root["Network"]);
+	if(!root["Cost"].isNull())
+		cost = root["Cost"].asInt();
 }

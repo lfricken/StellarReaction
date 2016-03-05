@@ -47,7 +47,11 @@ struct StealthData : public ShipModuleData
 	{
 		return new StealthData(*this);
 	}
+	virtual void loadJson(const Json::Value& root);
+
+	MyType(ModuleData, StealthData);
 };
+
 
 
 #endif // STEALTH_HPP

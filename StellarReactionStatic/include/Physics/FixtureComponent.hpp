@@ -40,6 +40,8 @@ struct FixtureComponentData
 
 	Category colCategory;//what are we?
 	Mask colMask;//what do we collide with
+
+	void loadJson(const Json::Value& root);
 };
 
 

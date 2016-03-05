@@ -1,5 +1,5 @@
 {
-    "ClassName": "Projectile",
+    "ClassName": "ProjectileData",
     "Title": "DefaultProjectile",
 	"Copies": null,
     "Body": {
@@ -30,32 +30,11 @@
     },
     "Modules": [
 		{
-			"ClassName": "Projectile",
-			"BaseSprite": {
-				"texName": "projectile/ballistic1.png",
-				"animSheetName": "projectile/ballistic1.acfg",
-				"dimensions": [
-					128,
-					32
-				]
-			},
-			"Physics": {
-				"offset": [
-					0,
-					0
-				],
-				"shape": "rectangle",
-				"size": [
-					0.5,
-					0.125
-				],
-				"Physics": {
-					"colCat": "Projectile",
-					"colMask": "Projectile"	
-				},
-				"density": 1.0,
-				"isSensor": true
-			}
+			"Title": "ProjectileModuleData",
+			"Position": [
+				0,
+				0
+			]
 		}
     ]
 }

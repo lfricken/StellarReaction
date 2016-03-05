@@ -1,7 +1,12 @@
 {
-    "ClassName": "Chunk",
+    "ClassName": "ChunkData",
     "Title": "DefaultCapture",
 	"Copies": null,
+    "IO": {
+        "name": "BPCHUNKNAME",
+        "courierList": [
+        ]
+    },
     "Body": {
         "coords": [
             0,

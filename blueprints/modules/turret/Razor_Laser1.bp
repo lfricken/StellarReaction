@@ -1,10 +1,10 @@
 {
-    "ClassName": "Turret",
-    "Title": "BallisticTurret",
+    "ClassName": "TurretData",
+    "Title": "Razor_Laser1",
     "Inherits": "DefaultShipModule",
     "StartEmpty": false,
     "Weapon": {
-        "Title": "DefaultBallisticWeapon"
+        "Title": "Razor_Laser1"
     },
     "BaseSprite": {
         "texName": "turret/turret_base.png",

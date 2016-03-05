@@ -50,6 +50,10 @@ struct LaserWeaponData : public WeaponData
 	{
 		return new LaserWeaponData(*this);
 	}
+
+	virtual void loadJson(const Json::Value& root);
+
+	MyType(WeaponData, LaserWeaponData);
 };
 
 #endif // LASERWEAPON_HPP

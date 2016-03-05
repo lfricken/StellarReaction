@@ -1,5 +1,5 @@
 {
-    "WeaponType": "Missile",
+    "ClassName": "MissileWeaponData",
     "Title": "DefaultMissileWeapon",
 
     "StartSound": {
@@ -15,5 +15,5 @@
     "EnergyConsumption": 1,
     "Damage": 2,
     "Shots": 1,
-	"Collisions": 1
+	"Collisions": 2
 }
