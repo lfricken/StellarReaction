@@ -46,7 +46,11 @@ string getCurrentPath()
 
 	string pathString = string(path);
 
-	return pathString;
+	// Get rid of \\Debug
+	size_t debugString = pathString.find("\\Debug");
+
+	// We want the \\ so +2 of the index given by \\Debug
+	return pathString.substr(0, debugString + 1);
 }
 
 /// <summary>
@@ -61,7 +65,7 @@ boolean isBluePrint(string fileName)
 
 string convertPath(string original, const string& rDir)
 {
-	size_t relative = original.find("StellarReaction\\blueprints") + string("StellarReaction\\blueprints").size() + 2;
+	size_t relative = original.find("StellarReaction\\blueprints") + string("StellarReaction\\blueprints").size() + 1;
 
 	string relativePath = contentDir() + rDir + original.substr(relative, original.size());
 
@@ -132,7 +136,15 @@ vector<string> getBluePrints(string startPath, const string& rDir)
 
 vector<string> getRoster(string extension, const string& rDir)
 {
-	string fullpath = "C:\\Users\\leon\\Desktop\\Projects\\StellarReaction\\blueprints\\" + extension;//getCurrentPath() + "..\\" + "blueprints\\" + extension;
+	string fullpath = getCurrentPath() + rDir + extension;//getCurrentPath() + "..\\" + "blueprints\\" + extension;
+	// Replace all / with \\ 
+	string::size_type n = 0;
+
+	while ((n = fullpath.find("/", n)) != string::npos)
+	{
+		fullpath.replace(n, 1, "\\");
+		n += 1;
+	}
 
 	return getBluePrints(fullpath, rDir);
 }
