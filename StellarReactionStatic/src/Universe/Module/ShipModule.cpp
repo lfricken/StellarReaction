@@ -74,7 +74,7 @@ void ShipModule::input(std::string rCommand, sf::Packet rData)
 	if(rCommand == "damage")
 	{
 		int val;
-		string cause;
+		int cause;
 		rData >> val >> cause;
 
 

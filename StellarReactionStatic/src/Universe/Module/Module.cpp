@@ -74,6 +74,10 @@ const std::string& Module::getName() const
 {
 	return m_name;
 }
+const FixtureComponent& Module::getFixtureComponent()
+{
+	return m_fix;
+}
 void Module::toggleStealth(bool toggle)
 {
 

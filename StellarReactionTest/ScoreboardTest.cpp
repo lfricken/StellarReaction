@@ -2,22 +2,63 @@
 #include "gtest/gtest.h"
 #include "Universe.hpp"
 #include "Scoreboard.hpp"
+#include "Game.hpp"
+#include "Stealth.hpp"
 
-Game game;
-
-TEST(ScoreboardTest, testGameType)
+TEST(ScoreboardTest, initalScores)
 {
-    game.runTime(10.0f);
-    Universe uni = game.getUniverse();
-    Scoreboard score = uni.getScoreboard();
-    EXPECT_EQ(GameType::Deathmatch, score.getGameType());
+	ChunkData* testChunkData = new ChunkData();
+	testChunkData->pParent = &game.getUniverse();
+
+	//create TurretData
+	StealthData* testModuleData = new StealthData();
+	testChunkData->moduleData.push_back(sptr<ModuleData>(testModuleData));
+
+	//create Chunk
+	Chunk* testChunk = new Chunk(*testChunkData);
+
+	//Add chunk to universe
+	game.getUniverse().add(testChunk);
+	game.runTicks(1);
+
+	int initialScore = testChunk->getScore();
+	EXPECT_EQ(0, initialScore);
 }
 
-TEST(ScoreboardTest, testScoreMap)
+TEST(ScoreboardTest, increaseScore)
 {
-	game.runTime(10.0f);
-	Universe uni = game.getUniverse();
-	Scoreboard score = uni.getScoreboard();
-	std::map<std::string, PlayerScore> emptyMap = std::map<std::string, PlayerScore>();
-	EXPECT_EQ(emptyMap , score.getScoreMap());
-} 
+	/*
+	1. Create chunkdata
+	2. Create reactorData
+	3. Add reactorData to chunkData
+	4. Create chunk with chunkdata
+	5. Create reactor with reactorData
+	*/
+
+	//create chunkData
+	ChunkData* testChunkData = new ChunkData();
+	testChunkData->pParent = &game.getUniverse();
+
+	//create TurretData
+	StealthData* testModuleData = new StealthData();
+	testChunkData->moduleData.push_back(sptr<ModuleData>(testModuleData));
+
+	//create Chunk
+	Chunk* testChunk = new Chunk(*testChunkData);
+
+	//Add chunk to universe
+	game.getUniverse().add(testChunk);
+	//game.getUniverse().getBlueprints().storeRoster("blueprints/");
+	//game.getUniverse().getBlueprints().storeChunk("Asteroid.bp");
+
+	sf::Packet packet;
+	packet << 1000 << testChunk->getModuleList()[0]->getFixtureComponent().getIOPos();
+	Message mess;
+	mess.reset(testChunk->getModuleList()[0]->getFixtureComponent().getIOPos() , "damage", packet, 0.f, false);
+	game.getUniverse().getUniverseIO().recieve(mess);
+
+	game.runTicks(1);
+
+	int score = testChunk->getScore();
+	EXPECT_EQ(1, score);
+}

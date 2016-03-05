@@ -240,6 +240,12 @@ void Player::updateView()
 			oldScore = score;
 			string scoreString = to_string(oldScore);
 
+			if (oldScore == 10)
+			{
+				scoreString = "You Win";
+				game.getUniverse().togglePause();
+			}
+
 			Packet scorePack;
 			scorePack << scoreString;
 			Message setHudScore("hud_score", "setText", scorePack, 0, false);
