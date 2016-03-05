@@ -74,7 +74,8 @@ void ShipModule::input(std::string rCommand, sf::Packet rData)
 	if(rCommand == "damage")
 	{
 		int val;
-		rData >> val;
+		string cause;
+		rData >> val >> cause;
 
 
 		m_health.damage(val);
@@ -86,6 +87,10 @@ void ShipModule::input(std::string rCommand, sf::Packet rData)
 		if(m_health.isDead())
 		{
 			setHealthState(HealthState::Broken);
+			sf::Packet pack;
+			pack << 1;
+			Message mess(cause, "increase_score", pack, 0.0f, false);
+			game.getUniverse().getUniverseIO().recieve(mess);
 		}
 		else if(m_health.getHealthPercent() < damagedPercent)
 		{
@@ -95,13 +100,20 @@ void ShipModule::input(std::string rCommand, sf::Packet rData)
 	else if(rCommand == "heal")
 	{
 		int val;
-		rData >> val;
+		string cause;
+		rData >> val >> cause;
 
 
 		m_health.heal(val);
 		m_io.event(EventType::Health, m_health.getHealth(), voidPacket);
 		if(m_health.getHealthPercent() >= damagedPercent)
 			setHealthState(HealthState::Nominal);
+	}
+	else if (rCommand == "increase_score")
+	{
+		int val;
+		rData >> val;
+		this->m_parentChunk->increaseScore();
 	}
 	else
 		Module::input(rCommand, rData);

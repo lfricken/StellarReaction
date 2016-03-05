@@ -64,7 +64,7 @@ Game::Game()
 	loadUniverse("RANDOMTEXT");//TODO RANDOMTEXT
 	m_spUniverse->togglePause(true);
 
-	ScoreboardData scoreData = ScoreboardData();
+	ScoreboardData scoreData  = ScoreboardData();
 	m_spScoreboard = sptr<Scoreboard>(new Scoreboard(scoreData));
 }
 Game::~Game()
