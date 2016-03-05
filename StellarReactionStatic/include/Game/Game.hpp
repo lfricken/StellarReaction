@@ -13,6 +13,8 @@ class BatchLayers;
 class GraphicsComponentUpdater;
 class NetworkBoss;
 class SoundManager;
+class Scoreboard;
+
 namespace leon
 {
 	class Overlay;
@@ -40,7 +42,7 @@ public:
 	AnimAlloc& getAnimAlloc();
 	SoundManager& getSound();
 	leon::DragUpdater& getDragUpdater();
-
+	Scoreboard& getScoreboard();
 
 	Universe& getUniverse();
 	/**should go in UNIVERSE to be reset upon game reload**/	
@@ -108,6 +110,8 @@ private:
 	/// IO component for global "game"
 	/// </summary>
 	sptr<IOComponent> m_spIO;
+
+	sptr<Scoreboard> m_spScoreboard;
 
 	const float m_estimatedFrameTime = (1.f / 60.f);
 

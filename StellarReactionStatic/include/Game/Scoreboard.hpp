@@ -2,7 +2,6 @@
 #define SCOREBOARD_HPP
 
 #include "Timer.hpp"
-#include "Universe.hpp"
 #include <map>
 
 struct ScoreboardData;
@@ -17,8 +16,7 @@ enum class GameType
 class Scoreboard
 {
 public:
-	Scoreboard();
-	Scoreboard(ScoreboardData& data);
+	Scoreboard(const ScoreboardData& data);
 	~Scoreboard();
 	void updateScoreboard(ScoreboardData& data);
 	void setTimer(float time);

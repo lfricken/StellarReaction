@@ -1,10 +1,6 @@
 #include "Scoreboard.hpp"
 
-Scoreboard::Scoreboard()
-{
-
-}
-Scoreboard::Scoreboard(ScoreboardData& rData) : m_gameType(rData.gameType), m_scoreMap(rData.scoreMap), m_gameTimer(rData.gameTimer)
+Scoreboard::Scoreboard(const ScoreboardData& rData) : m_gameType(rData.gameType), m_scoreMap(rData.scoreMap), m_gameTimer(rData.gameTimer)
 {
 }
 

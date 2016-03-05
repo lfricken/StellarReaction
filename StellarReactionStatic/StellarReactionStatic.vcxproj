@@ -222,6 +222,7 @@
     <ClInclude Include="include\Control\Player.hpp" />
     <ClInclude Include="include\Control\SlaveLocator.hpp" />
     <ClInclude Include="include\Game\Game.hpp" />
+    <ClInclude Include="include\Game\Scoreboard.hpp" />
     <ClInclude Include="include\Graphics\Animator.hpp" />
     <ClInclude Include="include\Graphics\Beam.hpp" />
     <ClInclude Include="include\Graphics\Decoration.hpp" />
