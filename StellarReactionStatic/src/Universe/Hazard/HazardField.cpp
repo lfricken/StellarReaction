@@ -17,28 +17,19 @@ HazardField::HazardField(Universe* universe, b2Vec2 origin){
 
 void HazardField::update()
 {
-	
-
 	if (timer.isTimeUp()){
 		std::cout << "Inserting asteroid!" << std::endl;
 		b2Vec2 displacement = b2Vec2(rand() % 5, rand() % 5);
 		b2Vec2 velocity = b2Vec2((rand() % 10 - 5), (rand() % 10 - 5));
-
+		//Get the asteroid's blueprint
 		ChunkData* p = universe->getBlueprints().getChunkSPtr("Asteroids")->clone();
-
+		//Move asteroid to a random location
 		p->bodyComp.coords = origin + displacement;
-
 		Chunk* asteroid = p->generate(universe);
-
 		//To move :
 		asteroid->getBodyPtr()->SetLinearVelocity(velocity);
-
 		universe->add(asteroid);
-
 		timer.restartCountDown();
 	}
-
-
-
 
 }
