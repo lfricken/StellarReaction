@@ -140,6 +140,8 @@ public:
 	//for the HUD need to be destroyed.
 	void universeDestroyed();
 
+	int radarsize();
+
 protected:
 	void input(std::string rCommand, sf::Packet rData);
 
@@ -163,6 +165,8 @@ private:
 	bool m_inGuiMode;//true if we are in GUI mode
 	bool m_tracking;
 	bool m_hasFocus;
+
+	int m_radarsize;
 
 	IOComponent m_io;
 };
