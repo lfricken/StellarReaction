@@ -48,5 +48,6 @@
     },
     "EnergyConsumption": 10,
     "Damage": 200,
-    "Shots": 10
+    "Shots": 10,
+	"Collisions": 2
 }

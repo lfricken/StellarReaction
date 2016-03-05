@@ -13,7 +13,7 @@ ProjectileModule::ProjectileModule(const ProjectileModuleData& rData) : Sensor(r
 	m_decors.back()->setRotation(m_fix.getAngle());
 	m_pParent = NULL;
 	m_currentCollisions = 0;
-	m_maxCollisions = 1;
+	m_maxCollisions = 2;
 	m_damage = 0;
 }
 ProjectileModule::~ProjectileModule()
