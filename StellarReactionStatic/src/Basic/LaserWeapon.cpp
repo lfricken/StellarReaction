@@ -71,10 +71,10 @@ void LaserWeaponData::loadJson(const Json::Value& root)
 	if(!root["ShowTime"].isNull())
 		showTime = root["ShowTime"].asFloat();
 	if(!root["BeamStart"].isNull())
-		beamComp.loadJson(root["BeamStart"]);
+		beamComp.start.loadJson(root["BeamStart"]);
 	if(!root["BeamEnd"].isNull())
-		beamComp.loadJson(root["BeamEnd"]);
+		beamComp.end.loadJson(root["BeamEnd"]);
 	if(!root["BeamMid"].isNull())
-		static_cast<QuadComponentData>(beamComp).loadJson(root["BeamMid"]);
+		beamComp.loadJson(root["BeamMid"]);
 
 }

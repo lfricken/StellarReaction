@@ -362,7 +362,8 @@ void ChunkData::loadJson(const Json::Value& root)
 		{
 			if(!(*it)["Title"].isNull() && (*it)["ClassName"].isNull())//from title
 			{
-				spMod.reset(game.getUniverse().getBlueprints().getModuleSPtr((*it)["Title"].asString())->clone());
+				string title = (*it)["Title"].asString();
+				spMod.reset(game.getUniverse().getBlueprints().getModuleSPtr(title)->clone());
 
 				spMod->fixComp.offset.x = (*it)["Position"][0].asFloat();
 				spMod->fixComp.offset.y = (*it)["Position"][1].asFloat();

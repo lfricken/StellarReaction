@@ -3,7 +3,7 @@
     "Title": "CombatShip",
 	"Copies": null,
     "IO": {
-        "name": "BPCHUNKNAME",
+        "name": "CombatShip",
         "courierList": []
     },
     "Body": {

@@ -19,6 +19,8 @@ public:
 	virtual void exited(FixtureComponent* pOther);
 	virtual bool shouldTerminate() const;
 
+	virtual void input(std::string rCommand, sf::Packet rData);
+
 protected:
 	bool m_freeThisProjectile;
 	int m_damage;

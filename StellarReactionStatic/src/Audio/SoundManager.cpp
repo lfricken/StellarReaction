@@ -75,7 +75,7 @@ int SoundManager::playSound(const std::string& rSoundName, int volume, float min
 			sf::Vector3f d = sf::Listener::getDirection();
 			sf::Vector3f p = sf::Listener::getPosition();
 
-			cout << "\nSound index: [" << i << "] " << FILELINE;
+	//		cout << "\nSound index: [" << i << "] " << FILELINE;
 
 			return i;
 		}

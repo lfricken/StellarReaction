@@ -88,7 +88,7 @@ void Module::input(std::string rCommand, sf::Packet rData)
 		m_fix.setStore(name);
 	}
 	else
-		cout << "\nCommand not found in [" << m_io.getName() << "]." << FILELINE;
+		cout << "\nCommand [" << rCommand << "] not found in [" << m_io.getName() << "]." << FILELINE;
 }
 void ModuleData::loadJson(const Json::Value& root)
 {

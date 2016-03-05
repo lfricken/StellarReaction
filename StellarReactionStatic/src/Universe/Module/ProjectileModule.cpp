@@ -82,3 +82,13 @@ void ProjectileModuleData::loadJson(const Json::Value& root)
 
 	SensorData::loadJson(root);
 }
+
+void ProjectileModule::input(std::string rCommand, sf::Packet rData)
+{
+	if(rCommand == "damage")
+	{
+
+	}
+	else
+		Module::input(rCommand, rData);
+}
