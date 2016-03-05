@@ -148,6 +148,10 @@ void Universe::prePhysUpdate()
 		for (auto it = hazardFields.begin(); it != hazardFields.end(); ++it){
 			it->update();
 		}
+		
+		for (auto it = m_shipDebris.begin(); it != m_shipDebris.end(); ++it){
+			(*it)->prePhysUpdate();
+		}
 
 	}
 
@@ -173,6 +177,8 @@ void Universe::postPhysUpdate()
 	if(!m_paused)
 	{
 		for(auto it = m_goList.begin(); it != m_goList.end(); ++it)
+			(*it)->postPhysUpdate();
+		for (auto it = m_shipDebris.begin(); it != m_shipDebris.end(); ++it)
 			(*it)->postPhysUpdate();
 		m_spProjMan->postPhysUpdate();
 	}
@@ -571,6 +577,14 @@ void Universe::add(sptr<GameObject> spGO)
 void Universe::add(GameObject* pGO)
 {
 	add(sptr<GameObject>(pGO));
+}
+void Universe::addDebris(GameObject* pGO)
+{
+	m_shipDebris.push_back(sptr<GameObject>(pGO));
+}
+void Universe::clearDebris()
+{
+	m_shipDebris.clear();
 }
 void Universe::add(sptr<Decoration> pDec)
 {

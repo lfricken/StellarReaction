@@ -41,6 +41,8 @@ public:
 	std::vector<std::pair<std::string, b2Vec2> > getModules() const;
 	sptr<GraphicsComponent> getHull() const;
 	std::vector<sptr<Module>> getModuleList() const;
+	int incDeaths();
+	b2Vec2 getSpawn();
 
 protected:
 	virtual void input(std::string rCommand, sf::Packet rData);
@@ -57,7 +59,7 @@ private:
 	BodyComponent m_body;
 	std::vector<sptr<Module> > m_modules;
 	std::vector<b2Vec2> m_validOffsets;
-
+	b2Vec2 m_spawnPoint;//location of spawn
 
 	//Evan - sprites for hull, afterburner, afterburner_thrust. need to set anims and anim speed individually
 	sptr<GraphicsComponent> hull;
@@ -68,6 +70,7 @@ private:
 
 	int m_thrustNoiseIndex;
 	int m_boostNoiseIndex;
+	int m_deaths;
 };
 
 
