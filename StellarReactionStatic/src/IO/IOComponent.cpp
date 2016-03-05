@@ -1,11 +1,12 @@
 #include "IOComponent.hpp"
 #include "Globals.hpp"
+#include "Universe.hpp"
 
 using namespace std;
 
 IOComponent::~IOComponent()
 {
-	m_rManager.free(m_ioManPosition);
+	m_pManager->free(m_ioManPosition);
 }
 void IOComponent::event(EventType type, int value, const sf::Packet& rData)
 {
@@ -25,6 +26,8 @@ int IOComponent::getPosition() const
 }
 void IOComponentData::loadJson(const Json::Value& root)
 {
+	pMyManager = &game.getUniverse().getUniverseIO();
+
 	if(!root["name"].isNull())
 		name = root["name"].asString();
 	if(!root["courierList"].isNull())

@@ -1,6 +1,6 @@
 #include "Plating.hpp"
 
-Register(ModuleData, PlatingData);
+
 Plating::Plating(const PlatingData& rData) : ShipModule(rData)
 {
 

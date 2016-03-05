@@ -19,6 +19,13 @@
 #include "CaptureArea.hpp"
 #include "MissileWeapon.hpp"
 
+
+#include "ModuleRegistration.hpp"
+#include "WeaponRegistration.hpp"
+#include "ChunkRegistration.hpp"
+#include "ProjectileRegistration.hpp"
+
+
 using namespace std;
 
 BlueprintLoader::BlueprintLoader()
@@ -276,151 +283,23 @@ sptr<const ModuleData> BlueprintLoader::loadModule(const Json::Value& root)
 	return spMod;
 }
 
-
-
-
-//STILL BADD===========================================
-//STILL BADD===========================================
-//STILL BADD===========================================
 sptr<const WeaponData> BlueprintLoader::loadWeapon(const Json::Value& root)//returns a weapon
 {
-	sptr<const WeaponData> spWep;
+	sptr<WeaponData> spMod;
+	const std::string title = root["ClassName"].asString();
+	const WeaponData* instance = Deduce<WeaponData>::from(title);
 
-	if(root["WeaponType"].asString() == "Laser")
+	if(instance != NULL)//we derived it!
 	{
-		LaserWeaponData* pWep = new LaserWeaponData;
-		if(!root["Copies"].isNull())
-			*pWep = *dynamic_cast<const LaserWeaponData*>(getWeaponSPtr(root["Copies"].asString()).get());
-
-		if(!root["BeamWidth"].isNull())
-			pWep->beamWidth = root["BeamWidth"].asInt();
-		if(!root["BeamColor"].isNull())
-			pWep->beamColor = loadColor(root["BeamColor"]);
-		if(!root["ShowTime"].isNull())
-			pWep->showTime = root["ShowTime"].asFloat();
-		if(!root["BeamStart"].isNull())
-			pWep->beamComp.start = loadQuad(root["BeamStart"], pWep->beamComp.start);
-		if(!root["BeamEnd"].isNull())
-			pWep->beamComp.end = loadQuad(root["BeamEnd"], pWep->beamComp.end);
-		if(!root["BeamMid"].isNull())
-			static_cast<QuadComponentData>(pWep->beamComp) = loadQuad(root["BeamMid"], pWep->beamComp);
-
-
-		inheritWeapon(root, pWep);
-		spWep.reset(pWep);
-	}
-	else if(root["WeaponType"].asString() == "Ballistic")
-	{
-		BallisticWeaponData* pWep = new BallisticWeaponData;
-		if(!root["Copies"].isNull())
-			*pWep = *dynamic_cast<const BallisticWeaponData*>(getWeaponSPtr(root["Copies"].asString()).get());
-
-		if(!root["ProjectileName"].isNull())
-			pWep->projName = root["ProjectileName"].asString();
-
-		inheritWeapon(root, pWep);
-		spWep.reset(pWep);
-	}
-	else if(root["WeaponType"].asString() == "Missile")
-	{
-		MissileWeaponData* pWep = new MissileWeaponData;
-		if(!root["Copies"].isNull())
-			*pWep = *dynamic_cast<const MissileWeaponData*>(getWeaponSPtr(root["Copies"].asString()).get());
-
-		if(!root["ProjectileName"].isNull())
-			pWep->projName = root["ProjectileName"].asString();
-
-		inheritWeapon(root, pWep);
-		spWep.reset(pWep);
+		WeaponData* data = instance->clone();
+		data->loadJson(root);
+		spMod.reset(data);
 	}
 	else
-	{
-		cout << "\n" << FILELINE;
-		///ERROR LOG
-	}
+		cout << "\n" << "Couldn't Find [" << title << "]" << FILELINE;
 
-	return spWep;
+	return spMod;
 }
-void BlueprintLoader::inheritWeapon(const Json::Value& root, WeaponData* pWep)
-{
-	if(!root["EnergyConsumption"].isNull())
-		pWep->ener = root["EnergyConsumption"].asFloat();
-	if(!root["BallisticConsumption"].isNull())
-		pWep->ball = root["BallisticConsumption"].asFloat();
-
-	if(!root["Shots"].isNull())
-		pWep->shots = root["Shots"].asInt();
-	if(!root["Damage"].isNull())
-		pWep->damage = root["Damage"].asInt();
-
-	if(!root["StartSound"].isNull())
-		pWep->startSound = loadSound(root["StartSound"], pWep->startSound);
-	if(!root["ShotSound"].isNull())
-		pWep->shotSound = loadSound(root["ShotSound"], pWep->shotSound);
-	if(!root["EndSound"].isNull())
-		pWep->endSound = loadSound(root["EndSound"], pWep->endSound);
-
-	if(!root["ShotDelay"].isNull())
-		pWep->shotDelay = root["ShotFrequency"].asFloat();
-	if(!root["ReloadTime"].isNull())
-		pWep->fireDelay = root["ReloadTime"].asFloat();
-
-	if(!root["Range"].isNull())
-		pWep->range = root["Range"].asFloat();
-
-	if(!root["Collisions"].isNull())
-		pWep->collisions = root["Collisions"].asInt();
-
-	if(!root["WeaponSprite"].isNull())
-		pWep->weaponQuad = loadQuad(root["WeaponSprite"], pWep->weaponQuad);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 sf::Color BlueprintLoader::loadColor(const Json::Value& root)
 {
@@ -430,85 +309,4 @@ sf::Color BlueprintLoader::loadColor(const Json::Value& root)
 	color.b = root[2].asInt();
 	color.a = root[3].asInt();
 	return color;
-}
-BodyComponentData BlueprintLoader::loadBodyComp(const Json::Value& root, const BodyComponentData& orig)
-{
-	BodyComponentData data(orig);
-
-	if(!root["coords"].isNull())
-	{
-		data.coords.x = root["coords"][0].asFloat();
-		data.coords.y = root["coords"][1].asFloat();
-	}
-	if(!root["rotation"].isNull())
-		data.rotation = root["rotation"].asFloat();
-	if(!root["isDynamic"].isNull())
-		data.isDynamic = root["isDynamic"].asBool();
-	if(!root["isBullet"].isNull())
-		data.isBullet = root["isBullet"].asBool();
-	if(!root["startAwake"].isNull())
-		data.startAwake = root["startAwake"].asBool();
-
-	return data;
-}
-HealthData BlueprintLoader::loadHealth(const Json::Value& root, const HealthData& orig)
-{
-	HealthData data(orig);
-
-	if(!root["MaxHealth"].isNull())
-		data.startMax = root["MaxHealth"].asInt();
-	if(!root["Health"].isNull())
-		data.startValue = root["Health"].asInt();
-	if(!root["Armor"].isNull())
-		data.armor = root["Armor"].asInt();
-
-	return data;
-}
-/// <summary>
-/// TODO USE INHERIT FUNCTION DO INHERIT GRAPHICSCOMPONENT data
-/// </summary>
-QuadComponentData BlueprintLoader::loadQuad(const Json::Value& root, const QuadComponentData& orig)
-{
-	QuadComponentData data(orig);
-
-	if(!root["dimensions"].isNull())
-	{
-		data.dimensions.x = root["dimensions"][0].asInt();
-		data.dimensions.y = root["dimensions"][1].asInt();
-	}
-
-	if(!root["permanentRot"].isNull())
-		data.permanentRot = root["permanentRot"].asFloat();
-
-	if(!root["center"].isNull())
-	{
-		data.center.x = root["center"][0].asInt();
-		data.center.y = root["center"][1].asInt();
-	}
-
-	if(!root["texName"].isNull())
-		data.texName = root["texName"].asString();
-	if(!root["animSheetName"].isNull())
-		data.animSheetName = root["animSheetName"].asString();
-	if(!root["layer"].isNull())
-		data.layer = ChooseLayer(root["layer"].asString());
-
-	return data;
-}
-SoundData BlueprintLoader::loadSound(const Json::Value& root, const SoundData& orig)
-{
-	SoundData data(orig);
-
-	if(!root["name"].isNull())
-		data.name = root["name"].asString();
-	if(!root["vol"].isNull())
-		data.vol = root["vol"].asInt();
-	if(!root["dropOff"].isNull())
-		data.dropOff = root["dropOff"].asFloat();
-	if(!root["minDist"].isNull())
-		data.minDist = root["minDist"].asFloat();
-	if(!root["relative"].isNull())
-		data.relative = root["relative"].asBool();
-
-	return data;
 }

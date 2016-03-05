@@ -1,6 +1,6 @@
 #include "Radar.hpp"
 
-Register(ModuleData, RadarData);
+
 Radar::Radar(const RadarData& rData) : ShipModule(rData)
 {
 	m_dishIndex = m_decors.size();

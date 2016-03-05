@@ -1,6 +1,6 @@
 {
-    "ClassName": "ProjectileModule",
-	"Title": "ProjectileModule",
+    "ClassName": "ProjectileModuleData",
+	"Title": "ProjectileModuleData",
 	"BaseSprite": {
 		"texName": "projectile/ballistic1.png",
 		"animSheetName": "projectile/ballistic1.acfg",

@@ -3,7 +3,6 @@
 
 using namespace std;
 
-Register(ModuleData, StealthData);
 Stealth::Stealth(const StealthData& rData) : ShipModule(rData)
 {
 	m_eConsump = rData.energyConsumption;

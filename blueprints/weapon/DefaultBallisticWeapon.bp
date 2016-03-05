@@ -1,5 +1,5 @@
 {
-    "WeaponType": "Ballistic",
+    "ClassName": "BallisticWeaponData",
     "Title": "DefaultBallisticWeapon",
 
     "StartSound": {

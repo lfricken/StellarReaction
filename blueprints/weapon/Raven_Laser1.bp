@@ -1,5 +1,5 @@
 {
-    "WeaponType": "Laser",
+    "ClassName": "LaserWeaponData",
     "Title": "Raven_Laser1",
     "BeamStart": {
         "texName": "beam/beam_start.png",

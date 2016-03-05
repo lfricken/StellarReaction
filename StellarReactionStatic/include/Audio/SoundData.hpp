@@ -35,6 +35,20 @@ struct SoundData
 	bool shouldLoop;
 
 	b2Vec2 pos;
+
+	virtual void loadJson(const Json::Value& root)
+	{
+		if(!root["name"].isNull())
+			name = root["name"].asString();
+		if(!root["vol"].isNull())
+			vol = root["vol"].asInt();
+		if(!root["dropOff"].isNull())
+			dropOff = root["dropOff"].asFloat();
+		if(!root["minDist"].isNull())
+			minDist = root["minDist"].asFloat();
+		if(!root["relative"].isNull())
+			relative = root["relative"].asBool();
+	}
 };
 
 #endif // SOUNDDATA_HPP

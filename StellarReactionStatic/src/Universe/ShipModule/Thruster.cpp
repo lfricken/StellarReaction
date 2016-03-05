@@ -3,7 +3,6 @@
 
 using namespace std;
 
-Register(ModuleData, ThrusterData);
 Thruster::Thruster(const ThrusterData& rData) : ShipModule(rData)
 {
 	m_eConsump = rData.energyConsumption;

@@ -1,6 +1,5 @@
 #include "Reactor.hpp"
 
-Register(ModuleData, ReactorData);
 Reactor::Reactor(const ReactorData& rData) : ShipModule(rData)
 {
 	m_rate = rData.rate;

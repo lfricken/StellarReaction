@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Register(ModuleData, ProjectileModuleData);
+
 
 
 ProjectileModule::ProjectileModule(const ProjectileModuleData& rData) : Sensor(rData)

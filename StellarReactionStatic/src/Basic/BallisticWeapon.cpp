@@ -30,3 +30,10 @@ void BallisticWeapon::postShot(const b2Vec2& center, const b2Vec2& aim, float ra
 {
 
 }
+void BallisticWeaponData::loadJson(const Json::Value& root)
+{
+	WeaponData::loadJson(root);
+
+	if(!root["ProjectileName"].isNull())
+		projName = root["ProjectileName"].asString();
+}

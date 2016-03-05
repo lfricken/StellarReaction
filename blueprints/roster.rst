@@ -16,6 +16,7 @@
 		"modules/turret/Raven_Ballistic1.bp",
 		"modules/radar/DefaultRadar.bp",
 		"modules/stealth/DefaultStealth.bp",
+		"modules/ProjectileModule.bp",
 		"modules/objective/DefaultCaptureArea.bp"
     ],
     "ChunkList": [

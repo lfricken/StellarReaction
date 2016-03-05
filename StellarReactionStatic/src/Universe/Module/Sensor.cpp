@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Register(ModuleData, SensorData);
+
 Sensor::Sensor(const SensorData& rData) : Module(rData)
 {
 	m_enabled = rData.startEnabled;

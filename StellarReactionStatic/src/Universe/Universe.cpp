@@ -504,7 +504,7 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 				}
 				else if(!(*it)["ClassName"].isNull())
 				{
-					spCnk.reset(m_spBPLoader->loadChunk(*it)->clone());
+					//spCnk.reset(m_spBPLoader->loadChunk(*it)->clone()); LOAD CHUNK IS NOLONGER VALID, INLINING THINGS NEEDS REVIEW
 				}
 				else
 				{

@@ -6,6 +6,7 @@
 #include "QuadComponent.hpp"
 #include "Globals.hpp"
 #include "SoundData.hpp"
+#include "ClassRegister.hpp"
 
 struct WeaponData;
 class FixtureComponent;
@@ -133,6 +134,10 @@ struct WeaponData
 		std::cout << FILELINE;
 		return new WeaponData(*this);
 	}
+
+	virtual void loadJson(const Json::Value& root);
+
+	MyType(WeaponData, WeaponData);
 };
 
 #endif // WEAPON_HPP

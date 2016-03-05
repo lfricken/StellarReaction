@@ -5,7 +5,6 @@
 
 using namespace std;
 
-Register(ProjectileData, ProjectileData);
 Projectile::Projectile(const ProjectileData& rData) : m_body(rData.body), m_energyPool(rData.energyData), m_ballisticPool(rData.ballisticData), m_missilePool(rData.missileData), m_zoomPool(rData.zoomData)
 {
 	m_inPlay = false;
@@ -17,7 +16,15 @@ Projectile::Projectile(const ProjectileData& rData) : m_body(rData.body), m_ener
 	myPools.missilePool = &m_missilePool;
 	myPools.energyPool = &m_energyPool;
 
+
+	std::vector<sptr<ModuleData> > thisData;
 	for(auto it = rData.moduleData.begin(); it != rData.moduleData.end(); ++it)
+		thisData.push_back(sptr<ModuleData>((*it)->clone()));
+
+	for(auto it = thisData.begin(); it != thisData.end(); ++it)
+		(*it)->ioComp.pMyManager = &game.getUniverse().getUniverseIO();
+
+	for(auto it = thisData.begin(); it != thisData.end(); ++it)
 		m_modules.push_back(sptr<ProjectileModule>(dynamic_cast<ProjectileModule*>((*it)->generate(m_body.getBodyPtr(), myPools, NULL))));
 }
 Projectile::~Projectile()
@@ -74,6 +81,9 @@ const std::string& Projectile::getTitle() const
 }
 void ProjectileData::loadJson(const Json::Value& root)
 {
+	if(!root["Title"].isNull())
+		title = root["Title"].asString();
+
 	if(!root["Body"].isNull())
 		body.loadJson(root["Body"]);
 

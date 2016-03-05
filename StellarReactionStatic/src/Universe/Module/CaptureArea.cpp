@@ -2,7 +2,7 @@
 #include "BodyComponent.hpp"
 #include "FixtureComponent.hpp"
 
-Register(ModuleData, CaptureAreaData);
+
 CaptureArea::CaptureArea(const CaptureAreaData& rData) : Sensor(rData)
 {
 	m_progress = 0;

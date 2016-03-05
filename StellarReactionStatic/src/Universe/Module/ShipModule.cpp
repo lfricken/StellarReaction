@@ -3,7 +3,7 @@
 
 using namespace std;
 
-Register(ModuleData, ShipModuleData);
+
 ShipModule::ShipModule(const ShipModuleData& rData) : Module(rData), m_health(rData.health)
 {
 	m_decors.push_back(sptr<GraphicsComponent>(new QuadComponent(rData.baseDecor)));

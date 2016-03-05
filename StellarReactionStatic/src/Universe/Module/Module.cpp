@@ -5,7 +5,6 @@
 using namespace std;
 
 
-Register(ModuleData, ModuleData);
 Module::Module(const ModuleData& rData) : m_io(rData.ioComp, &Module::input, this), m_nw(rData.nwComp, &Module::pack, &Module::unpack, this, game.getNwBoss().getNWFactory()), m_fix(rData.fixComp)
 {
 	m_parentChunk = rData.chunkParent;

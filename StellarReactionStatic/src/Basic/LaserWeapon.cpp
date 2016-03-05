@@ -3,6 +3,7 @@
 #include "Universe.hpp"
 #include "Globals.hpp"
 #include "FixtureComponent.hpp"
+#include "BlueprintLoader.hpp"
 
 using namespace std;
 
@@ -57,4 +58,23 @@ void LaserWeapon::postShot(const b2Vec2& center, const b2Vec2& aim, float radCCW
 	m_beam.setStart(center);
 	m_beam.setEnd(end);
 	m_beam.activate(m_showTime, m_beamWidth, m_beamColor);
+}
+
+void LaserWeaponData::loadJson(const Json::Value& root)
+{
+	WeaponData::loadJson(root);
+
+	if(!root["BeamWidth"].isNull())
+		beamWidth = root["BeamWidth"].asInt();
+	if(!root["BeamColor"].isNull())
+		beamColor = BlueprintLoader::loadColor(root["BeamColor"]);
+	if(!root["ShowTime"].isNull())
+		showTime = root["ShowTime"].asFloat();
+	if(!root["BeamStart"].isNull())
+		beamComp.loadJson(root["BeamStart"]);
+	if(!root["BeamEnd"].isNull())
+		beamComp.loadJson(root["BeamEnd"]);
+	if(!root["BeamMid"].isNull())
+		static_cast<QuadComponentData>(beamComp).loadJson(root["BeamMid"]);
+
 }

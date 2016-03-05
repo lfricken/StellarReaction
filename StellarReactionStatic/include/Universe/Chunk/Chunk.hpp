@@ -3,7 +3,7 @@
 #include "GameObject.hpp"
 #include "BodyComponent.hpp"
 #include "Pool.hpp"
-
+#include "ClassRegister.hpp"
 #include "QuadComponent.hpp"
 
 struct ChunkData;
@@ -119,4 +119,5 @@ struct ChunkData : public GameObjectData
 	virtual void loadJson(const Json::Value& root);
 private:
 	void loadModules(const Json::Value& root);
+	MyType(ChunkData, ChunkData);
 };

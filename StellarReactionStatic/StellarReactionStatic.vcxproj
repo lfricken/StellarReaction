@@ -215,6 +215,7 @@
     <ClInclude Include="include\Basic\Pool.hpp" />
     <ClInclude Include="include\Basic\Timer.hpp" />
     <ClInclude Include="include\Basic\Weapon.hpp" />
+    <ClInclude Include="include\Basic\WeaponRegistration.hpp" />
     <ClInclude Include="include\Control\BasePlayerTraits.hpp" />
     <ClInclude Include="include\Control\Camera.hpp" />
     <ClInclude Include="include\Control\ControlFactory.hpp" />
@@ -270,11 +271,14 @@
     <ClInclude Include="include\Physics\CollisionCategory.hpp" />
     <ClInclude Include="include\Physics\FixtureComponent.hpp" />
     <ClInclude Include="include\Universe\Chunk\Chunk.hpp" />
+    <ClInclude Include="include\Universe\Chunk\ChunkRegistration.hpp" />
     <ClInclude Include="include\Universe\Chunk\Missile.hpp" />
     <ClInclude Include="include\Universe\Chunk\Projectile.hpp" />
+    <ClInclude Include="include\Universe\Chunk\ProjectileRegistration.hpp" />
     <ClInclude Include="include\Universe\Hazard\HazardField.hpp" />
     <ClInclude Include="include\Universe\Module\CaptureArea.hpp" />
     <ClInclude Include="include\Universe\Module\Module.hpp" />
+    <ClInclude Include="include\Universe\Module\ModuleRegistration.hpp" />
     <ClInclude Include="include\Universe\Module\ProjectileModule.hpp" />
     <ClInclude Include="include\Universe\Module\Sensor.hpp" />
     <ClInclude Include="include\Universe\Module\ShipModule.hpp" />

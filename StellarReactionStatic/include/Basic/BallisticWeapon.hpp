@@ -56,6 +56,10 @@ struct BallisticWeaponData : public WeaponData
 	{
 		return new BallisticWeaponData(*this);
 	}
+
+	virtual void loadJson(const Json::Value& root);
+
+	MyType(WeaponData, BallisticWeaponData);
 };
 
 #endif // BALLISTICWEAPON_HPP

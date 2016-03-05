@@ -2,6 +2,11 @@
     "ClassName": "ChunkData",
     "Title": "DefaultStation",
 	"Copies": null,
+    "IO": {
+        "name": "BPCHUNKNAME",
+        "courierList": [
+        ]
+    },
     "Body": {
         "coords": [
             0,

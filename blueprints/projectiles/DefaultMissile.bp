@@ -30,7 +30,7 @@
     },
     "Modules": [
 			{
-			"Title": "ProjectileModule",
+			"Title": "ProjectileModuleData",
 			"Position": [
 				0,
 				0

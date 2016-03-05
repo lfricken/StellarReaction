@@ -54,6 +54,9 @@ public:
 	/**====================**/
 	sptr<ChunkData> loadChunk(const Json::Value& root);
 	sptr<const ProjectileData> loadProjectile(const Json::Value& root);
+
+
+	static sf::Color loadColor(const Json::Value& root);
 protected:
 private:
 	void inheritShipModule(const Json::Value& root, ShipModuleData* pSMod);
@@ -81,7 +84,7 @@ private:
 
 	/**LOAD ControlMPLE DATA**///data that doesnt inherit or anything
 	/**================**/
-	sf::Color loadColor(const Json::Value& root);
+
 	BodyComponentData loadBodyComp(const Json::Value& root, const BodyComponentData& orig);
 	IOComponentData loadIOComp(const Json::Value& root, const IOComponentData& orig);
 	FixtureComponentData loadFixComp(const Json::Value& root, const FixtureComponentData& orig);

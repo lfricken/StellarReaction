@@ -32,4 +32,3 @@ void CapacitorData::loadJson(const Json::Value& root)
 
 	ShipModuleData::loadJson(root);
 }
-Register(ModuleData, CapacitorData);

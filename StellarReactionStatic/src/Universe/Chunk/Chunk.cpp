@@ -23,8 +23,14 @@ Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp)
 
 	m_validOffsets = rData.validPos;
 
-
+	std::vector<sptr<ModuleData> > thisData;
 	for(auto it = rData.moduleData.begin(); it != rData.moduleData.end(); ++it)
+		thisData.push_back(sptr<ModuleData>((*it)->clone()));
+
+	for(auto it = thisData.begin(); it != thisData.end(); ++it)
+		(*it)->ioComp.pMyManager = rData.ioComp.pMyManager;
+
+	for(auto it = thisData.begin(); it != thisData.end(); ++it)
 		m_modules.push_back(sptr<Module>((*it)->generate(m_body.getBodyPtr(), myPools, this)));
 
 	m_slavePosition = m_rParent.getSlaveLocator().give(this);
