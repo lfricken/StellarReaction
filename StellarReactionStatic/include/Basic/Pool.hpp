@@ -1,6 +1,7 @@
 #ifndef POOL_HPP
 #define POOL_HPP
 
+#include "JSON/json.h"/**JSON**/
 
 typedef int Missiles;
 typedef float Energy;
@@ -23,6 +24,15 @@ struct PoolData
 	T startMax;
 	T startMin;
 	T startValue;
+
+	template <typename T>
+	void loadJson(const Json::Value& root)
+	{
+		if(!root["Max"].isNull())
+			startMax = root["Max"].asInt();
+		if(!root["Value"].isNull())
+			startValue = root["Value"].asInt();
+	}
 };
 
 

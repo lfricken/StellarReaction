@@ -53,4 +53,8 @@ struct CaptureAreaData : public SensorData
 	{
 		return new CaptureAreaData(*this);
 	}
+	virtual void loadJson(const Json::Value& root);
+
+	MyType(ModuleData, CaptureAreaData);
 };
+

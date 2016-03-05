@@ -19,6 +19,8 @@ public:
 	virtual void exited(FixtureComponent* pOther);
 	virtual bool shouldTerminate() const;
 
+	virtual void input(std::string rCommand, sf::Packet rData);
+
 protected:
 	bool m_freeThisProjectile;
 	int m_damage;
@@ -63,6 +65,9 @@ struct ProjectileModuleData : public SensorData
 	{
 		return new ProjectileModuleData(*this);
 	}
+	virtual void loadJson(const Json::Value& root);
+
+	MyType(ModuleData, ProjectileModuleData);
 };
 
 #endif // PROJECTILEMODULE_HPP

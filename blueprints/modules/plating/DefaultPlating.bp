@@ -1,5 +1,5 @@
 {
-    "ClassName": "Plating",
+    "ClassName": "PlatingData",
 	"Title": "DefaultPlating",
     "Inherits": "DefaultShipModule",
 	"BaseSprite": {

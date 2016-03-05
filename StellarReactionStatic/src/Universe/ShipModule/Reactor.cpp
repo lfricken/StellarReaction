@@ -29,6 +29,7 @@ void Reactor::postPhysUpdate()
 	}
 	ShipModule::postPhysUpdate();
 }
+
 void Reactor::directive(map<Directive, bool>& rIssues)
 {
 	if (rIssues[Directive::Respawn])
@@ -48,10 +49,10 @@ void Reactor::respawn(){
 		m_debrisTimer.restartCountDown();
 	}
 	//create debris
-	for (int i = 0; i<3; i++)
+	/*for (int i = 0; i<3; i++)
 	{
 		Universe* uni = &game.getUniverse();
-		ChunkData* p = uni->getBlueprints().getChunkSPtr("Asteroids")->clone();
+		ChunkData* p = uni->getBlueprints().getChunkSPtr("Asteroid")->clone();
 		b2Vec2 velocity = b2Vec2((rand() % 30 - 15), (rand() % 30 - 15));
 		b2Vec2 displacement = b2Vec2(rand() % 6 - 3, rand() % 6 - 3);
 		p->bodyComp.coords = ship->GetPosition()+ displacement;
@@ -63,7 +64,7 @@ void Reactor::respawn(){
 		bod->SetLinearDamping(0.f);
 		uni->addDebris(debris);
 		m_debrisList.push_back(debris);
-	}
+	}*/
 	//move ship to spawn point, orient toward origin
 	b2Vec2 displacement = b2Vec2(rand() % 10 - 5, rand() % 10 - 5);
 	b2Vec2 spawn = m_parentChunk->getSpawn() + displacement;
@@ -78,4 +79,11 @@ void Reactor::respawn(){
 	{
 		(*it)->healToMax();
 	}
+}
+void ReactorData::loadJson(const Json::Value& root)
+{
+	if(!root["EnergyProduction"].isNull())
+		rate = root["EnergyProduction"].asFloat();
+
+	ShipModuleData::loadJson(root);
 }

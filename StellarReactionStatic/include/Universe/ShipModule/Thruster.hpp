@@ -68,6 +68,10 @@ struct ThrusterData : public ShipModuleData
 	{
 		return new ThrusterData(*this);
 	}
+	virtual void loadJson(const Json::Value& root);
+
+	MyType(ModuleData, ThrusterData);
 };
+
 
 #endif // THRUSTER_HPP

@@ -15,6 +15,9 @@ public:
 	void prePhysUpdate();
 	void postPhysUpdate();
 protected:
+	b2Vec2 getTargetPos();
+	void minimizeAngle(float& angle);
+	void normalizeAngle(float& angle);
 	BodyComponent* m_pTarget;
 	float m_acceleration;
 	float m_maxVelocity;
@@ -40,4 +43,7 @@ struct MissileData : ProjectileData
 	{
 		return new MissileData(*this);
 	}
+
+	virtual void loadJson(const Json::Value& root);
+	MyType(ProjectileData, MissileData);
 };

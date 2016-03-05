@@ -48,15 +48,17 @@ public:
 	/**===================**/
 	/**LOAD SPECIFIC FILES**/
 
-
+	sptr<const ModuleData> loadModule(const Json::Value& root);
 
 	/**LOAD MULTI PART DATA**/
 	/**====================**/
-	sptr<const ChunkData> loadChunk(const Json::Value& root);
+	sptr<ChunkData> loadChunk(const Json::Value& root);
 	sptr<const ProjectileData> loadProjectile(const Json::Value& root);
+
+
+	static sf::Color loadColor(const Json::Value& root);
 protected:
 private:
-	sptr<const ModuleData> loadModule(const Json::Value& root);
 	void inheritShipModule(const Json::Value& root, ShipModuleData* pSMod);
 	void inheritModule(const Json::Value& root, ModuleData* pSMod);
 	template <typename T>
@@ -75,7 +77,6 @@ private:
 
 
 	/**UNNAMED THINGS**/
-	void insertModuleData(const Json::Value& root, std::vector<sptr<const ModuleData> >& rModData);
 	void insertWeaponData(const Json::Value& root, sptr<const WeaponData>& rModData);
 
 
@@ -83,7 +84,7 @@ private:
 
 	/**LOAD ControlMPLE DATA**///data that doesnt inherit or anything
 	/**================**/
-	sf::Color loadColor(const Json::Value& root);
+
 	BodyComponentData loadBodyComp(const Json::Value& root, const BodyComponentData& orig);
 	IOComponentData loadIOComp(const Json::Value& root, const IOComponentData& orig);
 	FixtureComponentData loadFixComp(const Json::Value& root, const FixtureComponentData& orig);

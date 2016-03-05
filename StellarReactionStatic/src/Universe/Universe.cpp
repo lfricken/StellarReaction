@@ -135,8 +135,7 @@ float Universe::getTimeStep() const
 void Universe::prePhysUpdate()
 {
 	static bool hap = false;
-	ThrusterData data;
-	data.fixComp.offset = b2Vec2(1, 6);
+
 	if(!m_paused)
 	{
 		for(auto it = m_goList.begin(); it != m_goList.end(); ++it)
@@ -152,10 +151,7 @@ void Universe::prePhysUpdate()
 		for (auto it = m_shipDebris.begin(); it != m_shipDebris.end(); ++it){
 			(*it)->prePhysUpdate();
 		}
-
 	}
-
-
 }
 void Universe::changeTeamMoney(int team, Money money)
 {
@@ -514,7 +510,7 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 				}
 				else if(!(*it)["ClassName"].isNull())
 				{
-					spCnk.reset(m_spBPLoader->loadChunk(*it)->clone());
+					//spCnk.reset(m_spBPLoader->loadChunk(*it)->clone()); LOAD CHUNK IS NOLONGER VALID, INLINING THINGS NEEDS REVIEW
 				}
 				else
 				{

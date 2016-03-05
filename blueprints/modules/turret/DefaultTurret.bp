@@ -1,5 +1,5 @@
 {
-    "ClassName": "Turret",
+    "ClassName": "TurretData",
     "Title": "DefaultTurret",
     "Inherits": "DefaultShipModule",
     "StartEmpty": false,

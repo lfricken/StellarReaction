@@ -233,8 +233,6 @@ void Player::updateView()
 			dat << 2.f;
 			m_energyDanger->input(com, dat);
 		}
-
-
 	}
 }
 IOComponent& Player::getIOComp()

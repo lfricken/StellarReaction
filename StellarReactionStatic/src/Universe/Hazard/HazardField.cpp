@@ -24,6 +24,8 @@ void HazardField::update()
 		//Get the asteroid's blueprint
 		ChunkData* p = universe->getBlueprints().getChunkSPtr("Asteroids")->clone();
 		//Move asteroid to a random location
+
+
 		p->bodyComp.coords = origin + displacement;
 		Chunk* asteroid = p->generate(universe);
 		//To move :

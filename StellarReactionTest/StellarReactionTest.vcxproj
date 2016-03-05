@@ -91,6 +91,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BlueprintLoaderTest.cpp" />
     <ClCompile Include="GameTest.cpp" />
     <ClCompile Include="ReactorTest.cpp" />
     <ClCompile Include="stdafx.cpp">

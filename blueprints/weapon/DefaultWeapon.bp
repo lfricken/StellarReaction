@@ -1,5 +1,5 @@
 {
-    "WeaponType": "Laser",
+    "ClassName": "LaserWeaponData",
     "Title": "DefaultWeapon",
     "BeamStart": {
         "texName": "beam/beam_start.png",
@@ -48,5 +48,6 @@
     },
     "EnergyConsumption": 10,
     "Damage": 200,
-    "Shots": 10
+    "Shots": 10,
+	"Collisions": 2
 }

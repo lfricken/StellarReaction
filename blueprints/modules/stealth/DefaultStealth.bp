@@ -1,5 +1,5 @@
 {
-    "ClassName": "Stealth",
+    "ClassName": "StealthData",
 	"Title": "DefaultStealth",
     "Inherits": "DefaultShipModule",
   "EnergyConsumption": 20,

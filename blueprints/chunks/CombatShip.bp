@@ -1,9 +1,9 @@
 {
-    "ClassName": "Chunk",
+    "ClassName": "ChunkData",
     "Title": "CombatShip",
 	"Copies": null,
     "IO": {
-        "name": "BPCHUNKNAME",
+        "name": "CombatShip",
         "courierList": []
     },
     "Body": {
@@ -72,7 +72,7 @@
             ]
         },
         {
-            "Title": "Razor_Laser1",
+            "Title": "Raven_Ballistic1",
             "Position": [
                 1,
                 -1

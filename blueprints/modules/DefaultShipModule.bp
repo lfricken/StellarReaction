@@ -1,5 +1,5 @@
 {
-    "ClassName": "ShipModule",
+    "ClassName": "ShipModuleData",
     "Title": "DefaultShipModule",
     "Inherits": "DefaultModule",
     "BaseSprite": {

@@ -85,3 +85,20 @@ void Thruster::torque(bool CCW)
 		}
 	}
 }
+void ThrusterData::loadJson(const Json::Value& root)
+{
+	if(!root["Force"].isNull())
+		force = root["Force"].asFloat();
+	if(!root["Torque"].isNull())
+		torque = root["Torque"].asFloat();
+	if(!root["EnergyConsumption"].isNull())
+		energyConsumption = root["EnergyConsumption"].asFloat();
+	if(!root["BoostThrustMultiplier"].isNull())
+		boostThrustMult = root["BoostThrustMultiplier"].asFloat();
+	if(!root["BoostCostMultiplier"].isNull())
+		boostCostMult = root["BoostCostMultiplier"].asFloat();
+
+	ShipModuleData::loadJson(root);
+}
+
+

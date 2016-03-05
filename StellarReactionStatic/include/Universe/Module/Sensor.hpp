@@ -49,4 +49,7 @@ struct SensorData : public ModuleData
 	{
 		return new SensorData(*this);
 	}
+	virtual void loadJson(const Json::Value& root);
+
+	MyType(ModuleData, SensorData);
 };

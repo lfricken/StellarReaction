@@ -70,6 +70,10 @@ struct ProjectileData
 	{
 		return new ProjectileData(*this);
 	}
+
+	virtual void loadJson(const Json::Value& root);
+
+	MyType(ProjectileData, ProjectileData);
 };
 
 #endif // PROJECTILE_HPP

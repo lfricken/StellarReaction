@@ -2,6 +2,9 @@
 
 using namespace std;
 
+
+
+
 ProjectileModule::ProjectileModule(const ProjectileModuleData& rData) : Sensor(rData)
 {
 	m_freeThisProjectile = false;
@@ -10,7 +13,7 @@ ProjectileModule::ProjectileModule(const ProjectileModuleData& rData) : Sensor(r
 	m_decors.back()->setRotation(m_fix.getAngle());
 	m_pParent = NULL;
 	m_currentCollisions = 0;
-	m_maxCollisions = 1;
+	m_maxCollisions = 2;
 	m_damage = 0;
 }
 ProjectileModule::~ProjectileModule()
@@ -71,4 +74,21 @@ void ProjectileModule::damage(FixtureComponent* pFix, int damage)
 	Message mess;
 	mess.reset(rComp.getIOPos(), "damage", packet, 0.f, false);
 	game.getUniverse().getUniverseIO().recieve(mess);
+}
+void ProjectileModuleData::loadJson(const Json::Value& root)
+{
+	if(!root["BaseSprite"].isNull())
+		baseDecor.loadJson(root["BaseSprite"]);
+
+	SensorData::loadJson(root);
+}
+
+void ProjectileModule::input(std::string rCommand, sf::Packet rData)
+{
+	if(rCommand == "damage")
+	{
+
+	}
+	else
+		Module::input(rCommand, rData);
 }

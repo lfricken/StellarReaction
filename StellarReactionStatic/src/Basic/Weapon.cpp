@@ -102,3 +102,37 @@ QuadComponent* Weapon::getDecor()
 {
 	return &m_decor;
 }
+void WeaponData::loadJson(const Json::Value& root)
+{
+	if(!root["EnergyConsumption"].isNull())
+		ener = root["EnergyConsumption"].asFloat();
+	if(!root["BallisticConsumption"].isNull())
+		ball = root["BallisticConsumption"].asFloat();
+
+	if(!root["Shots"].isNull())
+		shots = root["Shots"].asInt();
+	if(!root["Damage"].isNull())
+		damage = root["Damage"].asInt();
+
+	if(!root["StartSound"].isNull())
+		startSound.loadJson(root["StartSound"]);
+	if(!root["ShotSound"].isNull())
+		shotSound.loadJson(root["ShotSound"]);
+	if(!root["EndSound"].isNull())
+		endSound.loadJson(root["EndSound"]);
+
+	if(!root["ShotDelay"].isNull())
+		shotDelay = root["ShotFrequency"].asFloat();
+	if(!root["ReloadTime"].isNull())
+		fireDelay = root["ReloadTime"].asFloat();
+
+	if(!root["Range"].isNull())
+		range = root["Range"].asFloat();
+
+	if(!root["Collisions"].isNull())
+		collisions = root["Collisions"].asInt();
+
+	if(!root["WeaponSprite"].isNull())
+		weaponQuad.loadJson(root["WeaponSprite"]);
+}
+

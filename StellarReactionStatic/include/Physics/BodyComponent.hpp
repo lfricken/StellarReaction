@@ -26,6 +26,8 @@ struct BodyComponentData
 	float linearDampening;
 	float angularDampening;
 	NetworkComponentData nwComp;
+
+	virtual void loadJson(const Json::Value& root);
 };
 
 
