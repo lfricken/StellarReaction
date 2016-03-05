@@ -71,7 +71,6 @@ public:
 
 	std::vector<sptr<GameObject> > getgoList();
 
-	std::vector<sptr<GameObject> > getgoList();
 
 
 	float m_pauseTime;
