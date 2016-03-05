@@ -36,8 +36,3 @@ TEST(MiniMapTest, minimap)
 
 	//EXPECT_EQ(game.getLocalPlayer().radarsize(), game.getUniverse().getgoList().size());
 }
-TEST(MiniMapTest, minimap2)
-{
-	game.runTime(0.3f);
-	EXPECT_EQ(true, game.getUniverse().isPaused());
-}
