@@ -9,6 +9,7 @@
 
 class DecorQuad;
 class LinearMeter;
+class Minimap;
 
 /// <summary>
 /// Default key configurations.
@@ -155,6 +156,7 @@ private:
 	sptr<DecorQuad> m_energyMeter;
 	sptr<DecorQuad> m_energyDanger;
 	sptr<LinearMeter> m_energyMeterFill;
+	sptr<Minimap> m_minimap;
 
 	Camera m_camera;//players camera
 	InputConfig m_inCfg;

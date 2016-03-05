@@ -7,6 +7,7 @@
 #include "Convert.hpp"
 #include "DecorQuad.hpp"
 #include "LinearMeter.hpp"
+#include "Minimap.hpp"
 #include "Chunk.hpp"
 
 using namespace std;
@@ -233,7 +234,29 @@ void Player::updateView()
 			m_energyDanger->input(com, dat);
 		}
 
+		std::vector<sptr<GameObject> > goList = game.getUniverse().getgoList();
 
+		int index = 0;
+		float offset_x = 0.5;
+		float offset_y = -0.5;
+		for (auto it = goList.begin(); it != goList.end(); ++it)
+		{
+			GameObject* p = it->get();
+			Chunk* object = dynamic_cast<Chunk*>(p);
+			if (object != NULL)
+			{
+				b2Vec2 dif = pBody->GetPosition() - object->getBodyPtr()->GetPosition();
+				float dist = dif.Length();
+				if (dist < 50)
+				{
+					dif *= -0.005f;
+					m_minimap->setDot(b2Vec2(offset_x, offset_y) + dif, index);
+					index++;
+				}
+			}
+		}
+		m_minimap->cleanMap(index);
+		index = 0;
 	}
 }
 IOComponent& Player::getIOComp()
@@ -250,6 +273,11 @@ void Player::loadOverlay(const std::string& rOverlay)
 	LinearMeter* pFill = new LinearMeter(fillData);
 	pFill->setPosition(emeterPos);
 
+	MinimapData mapData;
+	mapData.controller = m_controller;
+	mapData.layer = GraphicsLayer::OverlayMiddle;
+	Minimap* pMap = new Minimap(mapData);
+	pMap->setPosition(b2Vec2(0.5f, -0.5f));
 
 	DecorQuadData data;
 	data.quadComp.dimensions = sf::Vector2f(32,128);
@@ -267,29 +295,11 @@ void Player::loadOverlay(const std::string& rOverlay)
 	datawarn.quadComp.layer = GraphicsLayer::Overlay;
 	DecorQuad* pDang = new DecorQuad(datawarn);
 	pDang->setPosition(emeterPos+b2Vec2(0.f, -0.4f));
-	Controller& rController = game.getUniverse().getControllerFactory().getController(m_controller);
-	b2Body* pBody = rController.getBodyPtr();
-
-	for (auto it = game.getUniverse().getgoList().begin(); it != game.getUniverse().getgoList().end(); ++it)
-	{
-		BodyComponent* closest = NULL;
-		GameObject* p = it->get();
-		Chunk* object = dynamic_cast<Chunk*>(p);
-		if (object != NULL)
-		{
-			b2Vec2 dif = pBody->GetPosition() - object->getBodyPtr()->GetPosition();
-			float dist = dif.Length();
-			if (dist < 700)
-			{
-				closest = &object->getBodyComponent();
-			}
-		}
-	}
 
 	m_energyMeter = sptr<DecorQuad>(pDQuad);
 	m_energyMeterFill = sptr<LinearMeter>(pFill);
 	m_energyDanger = sptr<DecorQuad>(pDang);
-
+	m_minimap = sptr<Minimap>(pMap);
 
 }
 void Player::universeDestroyed()
