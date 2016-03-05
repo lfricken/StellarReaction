@@ -14,9 +14,14 @@ public:
 	virtual void prePhysUpdate();
 	virtual void postPhysUpdate();
 
+	void directive(std::map<Directive, bool>& rIssues);
+	void respawn();
+
 protected:
 private:
 	Energy m_rate;//energy per second
+	Timer m_debrisTimer;
+	std::vector<Chunk*> m_debrisList;
 };
 
 
