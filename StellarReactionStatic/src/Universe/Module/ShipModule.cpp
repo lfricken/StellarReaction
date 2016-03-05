@@ -175,3 +175,10 @@ void ShipModule::healToMax()
 	m_health.heal(m_health.getMaxHealth());
 	setHealthState(HealthState::Nominal);
 }
+
+void ShipModule::damage(int dam)
+{
+	m_health.damage(dam);
+	m_healthState = HealthState::Broken;
+	
+}

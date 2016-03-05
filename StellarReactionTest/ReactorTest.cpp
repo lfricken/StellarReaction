@@ -12,22 +12,81 @@ using namespace std;
 TEST(ReactorTest, shipMovesOnDeath)
 {
 	/*
-	sptr<ChunkData> cd(new ChunkData());
-	sptr<ModuleData> rd(new ReactorData());
-	ASSERT_TRUE(cd);
-	ASSERT_TRUE(rd);
-	cd->moduleData.push_back(rd);
+		1. Create chunkdata
+		2. Create reactorData
+		3. Add reactorData to chunkData
+		4. Create chunk with chunkdata
+		5. Create reactor with reactorData
+	*/
 
+	//create chunkData
+	ChunkData* testChunkData = new ChunkData();
+	testChunkData->pParent = &game.getUniverse();
 
-	Chunk* c = new Chunk(*cd);
-	int x = 5;
-	//rd->chunkParent = c;
+	//create ReactorData
+	ReactorData* testReactorData = new ReactorData();
+	testChunkData->moduleData.push_back(sptr<ModuleData>(testReactorData));
 
-	//Reactor* r = new Reactor(*dynamic_cast<ReactorData*>(&*rd));
+	//create Chunk
+	Chunk* testChunk = new Chunk(*testChunkData);
+
+	//Add chunk to universe
+	game.getUniverse().add(testChunk);
 	
 
-	Universe* uni = &game.getUniverse();
-	BlueprintLoader* bpl = &uni->getBlueprints();
-	bpl->storeChunk("TestReactor.bp");
-	bpl->storeChunk("TestChunk.bp");*/
+	//Get the location, move the chunk away from origin
+	b2Body* chunkBodyPtr= testChunk->getBodyPtr();
+	chunkBodyPtr->SetTransform(b2Vec2(20, 20), 0.5);
+	b2Vec2 origPos = chunkBodyPtr->GetPosition();
+
+	//Damage the reactor, hopefully killing it
+	dynamic_cast<ShipModule*>(testChunk->getModuleList()[0].get())->damage(1000);
+
+
+	game.runTicks(1);
+	b2Vec2 afterDeathPos = testChunk->getBodyPtr()->GetPosition();
+	ASSERT_NE(origPos.x, afterDeathPos.x);
+	ASSERT_GT(afterDeathPos.x, -8);
+	ASSERT_LT(afterDeathPos.x, 8);
+
 }
+
+TEST(ReactorTest, shipHealsOnDeath)
+{
+	/*
+	1. Create chunkdata
+	2. Create reactorData
+	3. Add reactorData to chunkData
+	4. Create chunk with chunkdata
+	5. Create reactor with reactorData
+	*/
+
+	//create chunkData
+	ChunkData* testChunkData = new ChunkData();
+	testChunkData->pParent = &game.getUniverse();
+
+	//create ReactorData
+	ReactorData* testReactorData = new ReactorData();
+	testChunkData->moduleData.push_back(sptr<ModuleData>(testReactorData));
+
+	//create Chunk
+	Chunk* testChunk = new Chunk(*testChunkData);
+
+	//Add chunk to universe
+	game.getUniverse().add(testChunk);
+
+
+	//Get the location, move the chunk away from origin
+	b2Body* chunkBodyPtr = testChunk->getBodyPtr();
+	chunkBodyPtr->SetTransform(b2Vec2(20, 20), 0.5);
+	b2Vec2 origPos = chunkBodyPtr->GetPosition();
+
+	//Damage the reactor, hopefully killing it
+	dynamic_cast<ShipModule*>(testChunk->getModuleList()[0].get())->damage(1000);
+
+	game.runTicks(1);
+
+	ASSERT_TRUE(dynamic_cast<ShipModule*>(testChunk->getModuleList()[0].get())->functioning());
+
+}
+
