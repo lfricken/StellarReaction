@@ -229,6 +229,7 @@
     <ClInclude Include="include\Graphics\Decoration.hpp" />
     <ClInclude Include="include\Graphics\DecorQuad.hpp" />
     <ClInclude Include="include\Graphics\GraphicsComponent.hpp" />
+    <ClInclude Include="include\Graphics\Minimap.hpp" />
     <ClInclude Include="include\Graphics\LinearMeter.hpp" />
     <ClInclude Include="include\Graphics\QuadComponent.hpp" />
     <ClInclude Include="include\Graphics\Spinner.hpp" />
@@ -369,6 +370,7 @@
     <ClCompile Include="src\Graphics\GraphicsLayer.cpp" />
     <ClCompile Include="src\Graphics\LinearMeter.cpp" />
     <ClCompile Include="src\Graphics\QuadComponent.cpp" />
+    <ClCompile Include="src\Graphics\Minimap.cpp" />
     <ClCompile Include="src\Graphics\Spinner.cpp" />
     <ClCompile Include="src\Graphics\Utility\AnimAlloc.cpp" />
     <ClCompile Include="src\Graphics\Utility\BatchLayers.cpp" />

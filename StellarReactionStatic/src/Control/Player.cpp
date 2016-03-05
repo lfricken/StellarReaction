@@ -7,6 +7,8 @@
 #include "Convert.hpp"
 #include "DecorQuad.hpp"
 #include "LinearMeter.hpp"
+#include "Minimap.hpp"
+#include "Chunk.hpp"
 
 using namespace std;
 using namespace sf;
@@ -46,6 +48,10 @@ bool Player::toggleGuiMode(bool isGuiModeOn)
 bool Player::isTracking() const
 {
 	return m_tracking;
+}
+int Player::radarsize()
+{
+	return m_radarsize;
 }
 const sf::Vector2f& Player::getMouseWindowPos() const
 {
@@ -233,6 +239,32 @@ void Player::updateView()
 			dat << 2.f;
 			m_energyDanger->input(com, dat);
 		}
+
+		std::vector<sptr<GameObject> > goList = game.getUniverse().getgoList();
+
+		int index = 0;
+		float offset_x = 2.40;
+		float offset_y = -1.20;
+		m_radarsize = 0;
+		for (auto it = goList.begin(); it != goList.end(); ++it)
+		{
+			m_radarsize++;
+			GameObject* p = it->get();
+			Chunk* object = dynamic_cast<Chunk*>(p);
+			if (object != NULL && !object->isStealth())
+			{
+				b2Vec2 dif = pBody->GetPosition() - object->getBodyPtr()->GetPosition();
+				float dist = dif.Length();
+				if (dist < 50)
+				{
+					dif *= -0.005f;
+					m_minimap->setDot(b2Vec2(offset_x, offset_y) + dif, index);
+					index++;
+				}
+			}
+		}
+		m_minimap->cleanMap(index);
+		index = 0;
 	}
 }
 IOComponent& Player::getIOComp()
@@ -249,6 +281,11 @@ void Player::loadOverlay(const std::string& rOverlay)
 	LinearMeter* pFill = new LinearMeter(fillData);
 	pFill->setPosition(emeterPos);
 
+	MinimapData mapData;
+	mapData.controller = m_controller;
+	mapData.layer = GraphicsLayer::OverlayMiddle;
+	Minimap* pMap = new Minimap(mapData);
+	pMap->setPosition(b2Vec2(2.4f, -1.2f));
 
 	DecorQuadData data;
 	data.quadComp.dimensions = sf::Vector2f(32,128);
@@ -267,13 +304,10 @@ void Player::loadOverlay(const std::string& rOverlay)
 	DecorQuad* pDang = new DecorQuad(datawarn);
 	pDang->setPosition(emeterPos+b2Vec2(0.f, -0.4f));
 
-
-
-
 	m_energyMeter = sptr<DecorQuad>(pDQuad);
 	m_energyMeterFill = sptr<LinearMeter>(pFill);
 	m_energyDanger = sptr<DecorQuad>(pDang);
-
+	m_minimap = sptr<Minimap>(pMap);
 
 }
 void Player::universeDestroyed()
@@ -281,6 +315,7 @@ void Player::universeDestroyed()
 	m_energyMeter.reset();
 	m_energyMeterFill.reset();
 	m_energyDanger.reset();
+	m_minimap.reset();
 }
 bool Player::toggleFocus(bool isWindowFocused)
 {

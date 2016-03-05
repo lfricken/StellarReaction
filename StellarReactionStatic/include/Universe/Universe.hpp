@@ -67,6 +67,8 @@ public:
 	void addDebris(GameObject* pGO);
 	void clearDebris();
 
+	std::vector<sptr<GameObject> > getgoList();
+
 
 	float m_pauseTime;
 	float m_skippedTime;

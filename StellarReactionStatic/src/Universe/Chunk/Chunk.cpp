@@ -15,6 +15,7 @@ Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp)
 	m_deaths = 0;
 	m_wasThrusting = false;
 	m_wasBoosting = false;
+	m_stealth = false;
 	m_timer.setCountDown(1);
 	m_timer.restartCountDown();
 	PoolCollection myPools;
@@ -65,6 +66,7 @@ Chunk::~Chunk()
 {
 	m_rParent.getSlaveLocator().free(m_slavePosition);
 }
+
 int Chunk::incDeaths()
 {
 	return m_deaths++;
@@ -72,6 +74,14 @@ int Chunk::incDeaths()
 b2Vec2 Chunk::getSpawn()
 {
 	return m_spawnPoint;
+}
+void Chunk::setStealth(bool stealthToggle)
+{
+	m_stealth = stealthToggle;
+}
+bool Chunk::isStealth()
+{
+	return m_stealth;
 }
 sptr<GraphicsComponent> Chunk::getHull() const
 {
