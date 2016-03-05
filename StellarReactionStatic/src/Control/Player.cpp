@@ -49,6 +49,10 @@ bool Player::isTracking() const
 {
 	return m_tracking;
 }
+int Player::radarsize()
+{
+	return m_radarsize;
+}
 const sf::Vector2f& Player::getMouseWindowPos() const
 {
 	return m_mouseWindowPos;
@@ -237,13 +241,15 @@ void Player::updateView()
 		std::vector<sptr<GameObject> > goList = game.getUniverse().getgoList();
 
 		int index = 0;
-		float offset_x = 0.5;
-		float offset_y = -0.5;
+		float offset_x = 2.40;
+		float offset_y = -1.20;
+		m_radarsize = 0;
 		for (auto it = goList.begin(); it != goList.end(); ++it)
 		{
+			m_radarsize++;
 			GameObject* p = it->get();
 			Chunk* object = dynamic_cast<Chunk*>(p);
-			if (object != NULL)
+			if (object != NULL && !object->isStealth())
 			{
 				b2Vec2 dif = pBody->GetPosition() - object->getBodyPtr()->GetPosition();
 				float dist = dif.Length();
@@ -277,7 +283,7 @@ void Player::loadOverlay(const std::string& rOverlay)
 	mapData.controller = m_controller;
 	mapData.layer = GraphicsLayer::OverlayMiddle;
 	Minimap* pMap = new Minimap(mapData);
-	pMap->setPosition(b2Vec2(0.5f, -0.5f));
+	pMap->setPosition(b2Vec2(2.4f, -1.2f));
 
 	DecorQuadData data;
 	data.quadComp.dimensions = sf::Vector2f(32,128);
@@ -307,6 +313,7 @@ void Player::universeDestroyed()
 	m_energyMeter.reset();
 	m_energyMeterFill.reset();
 	m_energyDanger.reset();
+	m_minimap.reset();
 }
 bool Player::toggleFocus(bool isWindowFocused)
 {

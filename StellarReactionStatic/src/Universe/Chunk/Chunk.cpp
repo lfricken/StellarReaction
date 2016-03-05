@@ -13,6 +13,7 @@ Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp)
 {
 	m_wasThrusting = false;
 	m_wasBoosting = false;
+	m_stealth = false;
 	m_timer.setCountDown(1);
 	m_timer.restartCountDown();
 	PoolCollection myPools;
@@ -56,6 +57,14 @@ Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp)
 Chunk::~Chunk()
 {
 	m_rParent.getSlaveLocator().free(m_slavePosition);
+}
+void Chunk::setStealth(bool stealthToggle)
+{
+	m_stealth = stealthToggle;
+}
+bool Chunk::isStealth()
+{
+	return m_stealth;
 }
 sptr<GraphicsComponent> Chunk::getHull() const
 {

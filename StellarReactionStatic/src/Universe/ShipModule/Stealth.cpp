@@ -18,6 +18,7 @@ void Stealth::postPhysUpdate()
 	{
 		m_parentChunk->getHull()->setAlpha(255);
 		std::vector<sptr<Module>> moduleList = m_parentChunk->getModuleList();
+		m_parentChunk->setStealth(false);
 		for (auto it = moduleList.begin(); it != moduleList.end(); ++it)
 		{
 			(*it)->stealthOn(false);
@@ -38,6 +39,7 @@ void Stealth::postPhysUpdate()
 			out_of_energy = true;
 			m_parentChunk->getHull()->setAlpha(255);
 			std::vector<sptr<Module>> moduleList = m_parentChunk->getModuleList();
+			m_parentChunk->setStealth(false);
 			for (auto it = moduleList.begin(); it != moduleList.end(); ++it)
 			{
 				(*it)->stealthOn(false);
@@ -56,6 +58,7 @@ void Stealth::directive(map<Directive, bool>& rIssues)
 			m_stealthTimer.restartCountDown();
 		m_parentChunk->getHull()->setAlpha(50);
 		std::vector<sptr<Module>> moduleList = m_parentChunk->getModuleList();
+		m_parentChunk->setStealth(true);
 		for (auto it = moduleList.begin(); it != moduleList.end(); ++it)
 		{
 			(*it)->stealthOn(true);

@@ -10,11 +10,14 @@ struct MinimapData : public QuadComponentData
 		QuadComponentData()
 	{
 		texName = "default.png";
+		color = sf::Color::Black;
 	}
 
 	int controller;
 
 };
+
+class DecorQuad;
 
 /// <summary>
 /// Something conveinent for using as a meter (for gui)

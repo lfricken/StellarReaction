@@ -41,6 +41,8 @@ public:
 	std::vector<std::pair<std::string, b2Vec2> > getModules() const;
 	sptr<GraphicsComponent> getHull() const;
 	std::vector<sptr<Module>> getModuleList() const;
+	void setStealth(bool stealthToggle);
+	bool isStealth();
 
 protected:
 	virtual void input(std::string rCommand, sf::Packet rData);
@@ -65,6 +67,8 @@ private:
 	std::vector<sptr<GraphicsComponent> > afterburners;
 	bool m_wasBoosting;
 	std::vector<sptr<GraphicsComponent> > afterburners_boost;
+
+	bool m_stealth;
 
 	int m_thrustNoiseIndex;
 	int m_boostNoiseIndex;
