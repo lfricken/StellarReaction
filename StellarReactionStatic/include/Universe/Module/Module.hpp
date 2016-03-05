@@ -29,6 +29,7 @@ public:
 	const std::string& getTitle() const;
 	const std::string& getName() const;
 	virtual void stealthOn(bool toggle);
+	virtual void healToMax();
 
 protected:
 	virtual void input(std::string rCommand, sf::Packet rData);

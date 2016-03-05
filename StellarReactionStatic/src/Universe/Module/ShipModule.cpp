@@ -169,3 +169,9 @@ void ShipModule::stealthOn(bool toggle)
 	else
 		m_decors[m_baseDecor]->setAlpha(255);
 }
+
+void ShipModule::healToMax()
+{
+	m_health.heal(m_health.getMaxHealth());
+	setHealthState(HealthState::Nominal);
+}

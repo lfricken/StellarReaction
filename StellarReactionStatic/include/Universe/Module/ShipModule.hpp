@@ -31,6 +31,7 @@ public:
 	virtual void stealthOn(bool toggle);
 	int getControlGroup() const;
 	void setControlGroup(int control_group);
+	virtual void healToMax();
 protected:
 	virtual void input(std::string rCommand, sf::Packet rData);
 	virtual void pack(sf::Packet& rPacket);

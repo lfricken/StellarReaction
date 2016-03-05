@@ -78,6 +78,9 @@ void Module::stealthOn(bool toggle)
 {
 
 }
+void Module::healToMax(){
+
+}
 void Module::input(std::string rCommand, sf::Packet rData)
 {
 	if(rCommand == "setStore")
