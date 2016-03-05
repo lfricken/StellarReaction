@@ -234,7 +234,7 @@ sptr<const WeaponData> BlueprintLoader::getWeaponSPtr(const std::string& rBPName
 	{
 		cout << "\nCouldnt find [" << rBPName << "]." << FILELINE;
 		///ERROR LOG
-		return m_wepBP.begin()->second;
+		return sptr<const WeaponData>(NULL);
 	}
 }
 /**===============**/
