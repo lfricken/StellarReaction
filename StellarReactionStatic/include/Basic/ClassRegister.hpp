@@ -3,7 +3,7 @@
 #define MyType(BASE, TYPE) \
 	static Registerer<BASE, TYPE> reg
 
-#define Register(BASE, TYPE) \
+#define RegisterClass(BASE, TYPE) \
 	Registerer<BASE, TYPE> TYPE::reg(#TYPE)
 
 template<class B>

@@ -19,23 +19,23 @@
 
 
 
-Register(ModuleData, TurretData);
-Register(ModuleData, CapacitorData);
+RegisterClass(ModuleData, TurretData);
+RegisterClass(ModuleData, CapacitorData);
 
-Register(ModuleData, ShipModuleData);
-Register(ModuleData, PlatingData);
+RegisterClass(ModuleData, ShipModuleData);
+RegisterClass(ModuleData, PlatingData);
 
-Register(ModuleData, RadarData);
-Register(ModuleData, ReactorData);
+RegisterClass(ModuleData, RadarData);
+RegisterClass(ModuleData, ReactorData);
 
-Register(ModuleData, ModuleData);
-Register(ModuleData, ProjectileModuleData);
+RegisterClass(ModuleData, ModuleData);
+RegisterClass(ModuleData, ProjectileModuleData);
 
-Register(ModuleData, ThrusterData);
-Register(ModuleData, StealthData);
+RegisterClass(ModuleData, ThrusterData);
+RegisterClass(ModuleData, StealthData);
 
-Register(ModuleData, CaptureAreaData);
-Register(ModuleData, SensorData);
+RegisterClass(ModuleData, CaptureAreaData);
+RegisterClass(ModuleData, SensorData);
 
 
 

@@ -3,8 +3,8 @@
 #include "Missile.hpp"
 
 
-Register(ProjectileData, ProjectileData);
-Register(ProjectileData, MissileData);
+RegisterClass(ProjectileData, ProjectileData);
+RegisterClass(ProjectileData, MissileData);
 
 
 

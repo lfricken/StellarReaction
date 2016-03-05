@@ -6,10 +6,10 @@
 #include "Weapon.hpp"
 
 
-Register(WeaponData, WeaponData);
-Register(WeaponData, BallisticWeaponData);
-Register(WeaponData, MissileWeaponData);
-Register(WeaponData, LaserWeaponData);
+RegisterClass(WeaponData, WeaponData);
+RegisterClass(WeaponData, BallisticWeaponData);
+RegisterClass(WeaponData, MissileWeaponData);
+RegisterClass(WeaponData, LaserWeaponData);
 
 
 

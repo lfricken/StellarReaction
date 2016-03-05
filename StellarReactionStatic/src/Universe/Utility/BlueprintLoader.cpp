@@ -25,8 +25,143 @@
 #include "ChunkRegistration.hpp"
 #include "ProjectileRegistration.hpp"
 
+#undef RegisterClass
+
+#include <Windows.h>
+
+
+
+// IterateFiles.cpp : Defines the entry point for the console application.
+//
+
+
+
 
 using namespace std;
+
+string getCurrentPath()
+{
+	char path[_MAX_PATH];
+	_fullpath(path, ".\\", _MAX_PATH);
+
+	string pathString = string(path);
+
+	return pathString;
+}
+
+/// <summary>
+/// Input a filename to validate whether or not it's a blueprint file.
+/// </summary>
+boolean isBluePrint(string fileName)
+{
+	string extension = fileName.substr(fileName.find_last_of(".") + 1);
+
+	return strcmp(extension.c_str(), "bp") == 0;
+}
+
+string convertPath(string original, const string& rDir)
+{
+	size_t relative = original.find("StellarReaction\\blueprints") + string("StellarReaction\\blueprints").size() + 2;
+
+	string relativePath = contentDir() + rDir + original.substr(relative, original.size());
+
+	string::size_type n = 0;
+
+	while((n = relativePath.find("\\", n)) != string::npos)
+	{
+		relativePath.replace(n, 1, "/");
+		n += 1;
+	}
+
+	return relativePath;
+}
+
+/// <summary>
+/// Heavily inspired by https://jbarkes.wordpress.com/2009/12/09/iterate-directories-files-in-c/
+///
+/// Iterates through a given folder and retrieves all th
+/// </summary>
+vector<string> getBluePrints(string startPath, const string& rDir)
+{
+	vector<string> blueprints = vector<string>();
+
+	HANDLE hFind = INVALID_HANDLE_VALUE;
+	WIN32_FIND_DATAA fData;
+	string path;
+	string filePath;
+
+	stack<string> folders;
+	folders.push(startPath);
+
+	while(!folders.empty())
+	{
+		path = folders.top() + "\\" + "*";
+		folders.pop();
+
+		hFind = FindFirstFileA(path.c_str(), &fData);
+
+
+		// As long as the root folder is not invalid, go crazy.
+		if(hFind != INVALID_HANDLE_VALUE)
+		{
+			// As long as there are more files/folders, keep iterating.
+			while(FindNextFileA(hFind, &fData) != 0)
+			{
+				// First get rid of the folders that are a reference to itself or a higher node (ie .\ and ..\)
+				if(strcmp(fData.cFileName, ".") != 0 && strcmp(fData.cFileName, "..") != 0)
+				{
+					filePath = path.substr(0, path.size() - 1) + fData.cFileName;
+					// If the current "File" is actually a folder, add it to the stack of folders to be iterated later.
+					if(fData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+					{
+						folders.push(filePath);
+					}
+					// If the file has a .bp extension, add to blueprints.
+					else if(isBluePrint(fData.cFileName))
+					{
+						string bp = convertPath(filePath, rDir);
+						blueprints.push_back(bp);
+					}
+				}
+			}
+		}
+	}
+
+	return blueprints;
+}
+
+vector<string> getRoster(string extension, const string& rDir)
+{
+	string fullpath = "C:\\Users\\leon\\Desktop\\Projects\\StellarReaction\\blueprints\\" + extension;//getCurrentPath() + "..\\" + "blueprints\\" + extension;
+
+	return getBluePrints(fullpath, rDir);
+}
+
+
+
+void BlueprintLoader::storeRoster(const std::string& rDir)
+{
+	vector<string> weapons = getRoster("weapon", rDir);
+	vector<string> modules = getRoster("modules", rDir);
+	vector<string> chunks = getRoster("chunks", rDir);
+	vector<string> projectiles = getRoster("projectiles", rDir);
+
+	for(auto it = weapons.begin(); it != weapons.end(); ++it)
+		storeWeapon(*it);
+
+	for(auto it = modules.begin(); it != modules.end(); ++it)
+		storeModule(*it);
+
+	for(auto it = chunks.begin(); it != chunks.end(); ++it)
+		storeChunk(*it);
+
+	for(auto it = projectiles.begin(); it != projectiles.end(); ++it)
+		storeProjectile(*it);
+}
+
+
+
+
 
 BlueprintLoader::BlueprintLoader()
 {
@@ -92,69 +227,6 @@ sptr<const WeaponData> BlueprintLoader::getWeaponSPtr(const std::string& rBPName
 }
 /**===============**/
 /**GET A BLUEPRINT**/
-
-
-
-
-
-
-/**=================ROSTER====================**/
-/**===========================================**/
-void BlueprintLoader::storeRoster(const std::string& rDir)
-{
-	std::string directory = contentDir() + rDir;
-	std::ifstream roster(directory + "roster.rst", std::ifstream::binary);
-
-	Json::Reader readerRoster;
-	Json::Value rootRoster;
-	bool parsedSuccess = readerRoster.parse(roster, rootRoster, false);
-
-	if(parsedSuccess)
-	{
-
-		const Json::Value weaponList = rootRoster["WeaponList"];
-		for(auto it = weaponList.begin(); it != weaponList.end(); ++it)
-		{
-			std::string file = (directory + it->asString());
-			storeWeapon(file);
-		}
-
-		const Json::Value bpList = rootRoster["ModuleList"];
-		for(auto it = bpList.begin(); it != bpList.end(); ++it)
-		{
-			std::string file = (directory + it->asString());
-			storeModule(file);
-		}
-
-		const Json::Value chunkList = rootRoster["ChunkList"];
-		for(auto it = chunkList.begin(); it != chunkList.end(); ++it)
-		{
-			std::string file = (directory + it->asString());
-			storeChunk(file);
-		}
-
-		const Json::Value prjList = rootRoster["ProjectileList"];
-		for(auto it = prjList.begin(); it != prjList.end(); ++it)
-		{
-			std::string file = (directory + it->asString());
-			storeProjectile(file);
-		}
-
-	}
-	else
-	{
-		cout << "Couldn't Parse [" << directory + "roster.rst" << "]" << FILELINE;
-		///ERRORLOG
-	}
-}
-/**===========================================**/
-/**=================ROSTER====================**/
-
-
-
-
-
-
 
 /**LOAD SPECIFIC FILES**/
 /**===================**/

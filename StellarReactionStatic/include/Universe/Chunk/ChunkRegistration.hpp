@@ -2,4 +2,4 @@
 
 #include "Chunk.hpp"
 
-Register(ChunkData, ChunkData);
+RegisterClass(ChunkData, ChunkData);
