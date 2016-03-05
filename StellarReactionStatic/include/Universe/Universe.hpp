@@ -72,7 +72,7 @@ public:
 	float m_skippedTime;
 	bool m_paused;
 
-
+	std::vector<sptr<GameObject>> getDebris();
 protected:
 	void loadBlueprints(const std::string& bluePrints);//loads blueprints
 

@@ -622,3 +622,8 @@ void Universe::spawnChunk(int x, int y)
 {
 	//TODO
 }
+
+std::vector<sptr<GameObject>> Universe::getDebris()
+{
+	return m_shipDebris;
+}
