@@ -181,17 +181,16 @@ void ShipModule::toggleStealth(bool toggle)
 	else
 		m_decors[m_baseDecor]->setAlpha(alpha_stealth_off);
 }
+
 void ShipModule::healToMax()
 {
-	m_health.heal(m_health.getMaxHealth());
-	setHealthState(HealthState::Nominal);
+	sf::Packet packet;
+	packet << m_health.getMaxHealth() << m_fix.getIOPos();
+	Message mess;
+	mess.reset(m_fix.getIOPos(), "heal", packet, 0.f, false);
+	game.getUniverse().getUniverseIO().recieve(mess);
 }
 
-void ShipModule::damage(int dam)
-{
-	m_health.damage(dam);
-	m_healthState = HealthState::Broken;
-}
 void ShipModuleData::loadJson(const Json::Value& root)
 {
 	if(!root["Defense"].isNull())

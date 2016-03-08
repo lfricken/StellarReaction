@@ -32,7 +32,6 @@ public:
 	void setControlGroup(int control_group);
 	virtual void healToMax();
 
-	virtual void damage(int dam);
 protected:
 	virtual void input(std::string rCommand, sf::Packet rData);
 	virtual void pack(sf::Packet& rPacket);

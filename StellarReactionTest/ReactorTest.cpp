@@ -41,11 +41,15 @@ TEST(ReactorTest, shipMovesOnDeath)
 	chunkBodyPtr->SetTransform(b2Vec2(20, 20), 0.5);
 	b2Vec2 origPos = chunkBodyPtr->GetPosition();
 
-	//Damage the reactor, hopefully killing it
-	dynamic_cast<ShipModule*>(testChunk->getModuleList()[0].get())->damage(1000);
+	//destroy the reactor
+	sf::Packet packet;
+	packet << 1000 << testChunk->getModuleList()[0]->getFixtureComponent().getIOPos();
+	Message mess;
+	mess.reset(testChunk->getModuleList()[0]->getFixtureComponent().getIOPos(), "damage", packet, 0.f, false);
+	game.getUniverse().getUniverseIO().recieve(mess);
 
 
-	game.runTicks(1);
+	game.runTicks(30);
 	b2Vec2 afterDeathPos = testChunk->getBodyPtr()->GetPosition();
 	ASSERT_NE(origPos.x, afterDeathPos.x);
 	ASSERT_GT(afterDeathPos.x, -8);
@@ -83,10 +87,14 @@ TEST(ReactorTest, shipHealsOnDeath)
 	chunkBodyPtr->SetTransform(b2Vec2(20, 20), 0.5);
 	b2Vec2 origPos = chunkBodyPtr->GetPosition();
 
-	//Damage the reactor, hopefully killing it
-	dynamic_cast<ShipModule*>(testChunk->getModuleList()[0].get())->damage(1000);
+	//destroy the reactor
+	sf::Packet packet;
+	packet << 1000 << testChunk->getModuleList()[0]->getFixtureComponent().getIOPos();
+	Message mess;
+	mess.reset(testChunk->getModuleList()[0]->getFixtureComponent().getIOPos(), "damage", packet, 0.f, false);
+	game.getUniverse().getUniverseIO().recieve(mess);
 
-	game.runTicks(1);
+	game.runTicks(30);
 
 	ASSERT_TRUE(dynamic_cast<ShipModule*>(testChunk->getModuleList()[0].get())->isFunctioning());
 
