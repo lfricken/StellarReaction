@@ -9,7 +9,7 @@ DebugDraw::DebugDraw()
 {
 	sf::Color outline(255,0,60,255);
 	sf::Color fillC(0,0,255,64);
-	int thickness = -2;
+	float thickness = -2.f;
 
 	m_convex.setFillColor(fillC);
 	m_convex.setOutlineColor(outline);

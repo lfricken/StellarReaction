@@ -7,9 +7,9 @@
 
 enum class HealthState
 {
-	Nominal,//the module should work all the way!
+	Nominal,//the module is healthy and works
 	Damaged,//the module is damaged and may not work
-	Broken,//the module is severely damaged and almost certainly doesnt work
+	Broken,//the module is severely damaged and does not work
 };
 
 

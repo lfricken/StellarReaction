@@ -66,7 +66,7 @@ void Reactor::respawn(){
 		m_debrisList.push_back(debris);
 	}*/
 	//move ship to spawn point, orient toward origin
-	b2Vec2 displacement = b2Vec2(rand() % 10 - 5, rand() % 10 - 5);
+	b2Vec2 displacement = b2Vec2(static_cast<float>(rand() % 10 - 5), static_cast<float>(rand() % 10 - 5));
 	b2Vec2 spawn = m_parentChunk->getSpawn() + displacement;
 	float angle = atan2(spawn.y, spawn.x) + (pi/2.f);
 	ship->SetTransform(spawn, angle);

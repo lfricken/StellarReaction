@@ -6,7 +6,7 @@ using namespace std;
 
 Condition::Condition()
 {
-	reset(EventType::None, 0, '<', false);
+	reset(EventType::None, 0, '=', false);//default
 }
 Condition::Condition(EventType type, int value, char comparison, bool repeatable)
 {
@@ -20,9 +20,8 @@ void Condition::reset(EventType type, int value, char comparison, bool repeatabl
 {
 	m_eventType = type;
 	m_value = value;
-	m_comparison = comparison;
+	m_op = comparison;
 	m_isRepeatable = repeatable;
-	f_setComparisonFunction(comparison);
 }
 EventType Condition::getEventType() const
 {
@@ -30,55 +29,42 @@ EventType Condition::getEventType() const
 }
 char Condition::getComparison() const
 {
-	return m_comparison;
+	return m_op;
 }
 bool Condition::isRepeatable() const
 {
 	return m_isRepeatable;
 }
+/// <summary>
+/// 
+/// > value is greater
+/// < value is less than
+/// = value is equal to
+/// ! value is not equal to
+/// d value changed (delta)
+/// 
+/// </summary>
+/// <param name="value">new value</param>
+/// <returns></returns>
 bool Condition::evaluate(int value) const
 {
-	return (*this.*m_evaluationFunction)(value);
-}
-void Condition::f_setComparisonFunction(char op)
-{
-	if (op == '>')
-		m_evaluationFunction = &Condition::f_greaterThan;
-	else if (op == '<')
-		m_evaluationFunction = &Condition::f_lessThan;
-	else if (op == '=')
-		m_evaluationFunction = &Condition::f_equals;
-	else if (op == '!')
-		m_evaluationFunction = &Condition::f_notEquals;
-	else if (op == 'd')
-		m_evaluationFunction = &Condition::f_change;
-	else
-	{
-		std::cout << "\nERROR: " << FILELINE;
-		m_evaluationFunction = &Condition::f_equals;//default to equals
-		///ERROR LOG
-	}
+	if(m_op == '>')
+		return value > m_value;
+	if(m_op == '<')
+		return value > m_value;
+	if(m_op == '=')
+		return value == m_value;
+	if(m_op == '!')
+		return value != m_value;
+	if(m_op == 'd')
+		return true;
+
+	return false;
 }
 
 
-bool Condition::f_greaterThan(int value) const
-{
-	return (value > m_value);
-}
-bool Condition::f_lessThan(int value) const
-{
-	return (value < m_value);
-}
-bool Condition::f_equals(int value) const
-{
-	return (value == m_value);
-}
-bool Condition::f_notEquals(int value) const
-{
-	return (value != m_value);
-}
-bool Condition::f_change(int value) const
-{
-	(void)value;//shutup the compiler about unused
-	return true;
-}
+
+
+
+
+

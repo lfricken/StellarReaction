@@ -83,7 +83,7 @@ void ShipModule::input(std::string rCommand, sf::Packet rData)
 		m_io.event(EventType::Health, m_health.getHealth(), voidPacket);
 
 		m_decors[m_hitDecorIndex]->getAnimator().setAnimation("Hit", 0.20f);
-		m_decors[m_hitDecorIndex]->setColor(sf::Color(255, 255 * m_health.getHealthPercent(), 0, 255));
+		m_decors[m_hitDecorIndex]->setColor(sf::Color(255, static_cast<char>(255.f * m_health.getHealthPercent()), 0, 255));
 
 		if(m_health.isDead())
 		{
@@ -197,7 +197,7 @@ void ShipModule::damage(int dam)
 void ShipModuleData::loadJson(const Json::Value& root)
 {
 	if(!root["Defense"].isNull())
-		health.loadJson<Health>(root["Defense"]);
+		health.loadJson(root["Defense"]);
 	if(!root["BaseSprite"].isNull())
 		baseDecor.loadJson(root["BaseSprite"]);
 

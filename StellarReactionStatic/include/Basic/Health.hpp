@@ -15,6 +15,8 @@ struct HealthData : public PoolData<int>
 	}
 
 	int armor;//how much damage is subtracted
+
+	virtual void loadJson(const Json::Value& root);
 };
 
 class Health : private Pool<int>

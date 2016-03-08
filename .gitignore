@@ -20,3 +20,4 @@ StellarReactionTest/Debug/StellarReactionTest.pch
 
 # Mac
 .DS_Store
+*.cache
