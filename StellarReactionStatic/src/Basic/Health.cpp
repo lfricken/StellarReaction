@@ -51,3 +51,10 @@ int Health::getArmor() const
 {
 	return m_armor;
 }
+void HealthData::loadJson(const Json::Value& root)
+{
+	PoolData::loadJson<int>(root);
+
+	if(!root["Armor"].isNull())
+		armor = static_cast<int>(root["Armor"].asFloat());
+}

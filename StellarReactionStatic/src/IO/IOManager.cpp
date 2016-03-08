@@ -118,14 +118,12 @@ void IOManager::f_send(const Message& rMessage)
 				m_componentPtrs[it->second]->recieve(rMessage.getCommand(), rMessage.getData());
 			else
 			{
-				cout << "\nHe's dead Jim. [" << rMessage.getTargetName() << "]." << FILELINE;
-				///ERROR LOG
+				cout << "\nTarget: [" << rMessage.getTargetName() << "] died. " << FILELINE;
 			}
 		}
 		else
 		{
-			cout << "\nTarget [" << rMessage.getTargetName() << "] was not found." << FILELINE;
-			///ERROR LOG
+			cout << "\nTarget: [" << rMessage.getTargetName() << "] was not found. " << FILELINE;
 		}
 	}
 	else if(pos >= 0 && pos < (signed)m_componentPtrs.size())
@@ -135,8 +133,9 @@ void IOManager::f_send(const Message& rMessage)
 	}
 	else
 	{
-		cout << "\nTarget [" << rMessage.getTargetName() << "][" << pos << "]." << FILELINE;
-		///ERROR LOG
+		cout << "\nBad Target: [" << rMessage.getTargetName() << "]:[" << pos << "] with";
+		cout << "\nCommand: [" << rMessage.getCommand() << "]. ";
+		cout << FILELINE;
 	}
 }
 void IOManager::pack(sf::Packet& rPacket)//give us data to send to the twin in the other world

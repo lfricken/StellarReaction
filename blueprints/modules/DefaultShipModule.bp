@@ -17,8 +17,8 @@
         "layer": "ShipModules"
     },
     "Defense": {
-        "MaxHealth": 1000,
-        "Health": 1000,
+        "Max": 1000,
+        "Value": 1000,
         "Armor": 0
     },
     "Physics": {

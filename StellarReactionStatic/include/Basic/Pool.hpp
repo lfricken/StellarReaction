@@ -29,9 +29,11 @@ struct PoolData
 	void loadJson(const Json::Value& root)
 	{
 		if(!root["Max"].isNull())
-			startMax = root["Max"].asInt();
+			startMax = static_cast<T>(root["Max"].asFloat());
+		if(!root["Min"].isNull())
+			startMin = static_cast<T>(root["Min"].asFloat());
 		if(!root["Value"].isNull())
-			startValue = root["Value"].asInt();
+			startValue = static_cast<T>(root["Value"].asFloat());
 	}
 };
 
@@ -116,7 +118,7 @@ struct PoolCollection
 	Pool<Ballistic>* ballisticPool;
 	Pool<Missiles>* missilePool;
 	Pool<Energy>* energyPool;
-	Pool<float>* zoomPool;
+	Pool<Zoom>* zoomPool;
 };
 
 #endif // POOL_HPP

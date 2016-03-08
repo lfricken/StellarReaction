@@ -62,7 +62,7 @@ void Missile::prePhysUpdate()
 			if(diffObjectiveAngle < 0)
 				mod = -1;
 
-			float torque = 0.09*bod.GetMass()*mod;
+			float torque = 0.09f*bod.GetMass()*mod;
 
 			bod.ApplyTorque(torque, true);
 

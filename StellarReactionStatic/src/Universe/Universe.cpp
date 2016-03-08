@@ -353,10 +353,10 @@ void Universe::setupBackground()
 	data4.velocity = b2Vec2(0.25, 0.25);
 
 
-	const int startPosX = game.getLocalPlayer().getCamera().getView().getCenter().x - 20000;
-	const int endPosX = game.getLocalPlayer().getCamera().getView().getCenter().x + 20000;
-	const int startPosY = game.getLocalPlayer().getCamera().getView().getCenter().y + 10000;
-	const int endPosY = game.getLocalPlayer().getCamera().getView().getCenter().y - 10000;
+	const float startPosX = game.getLocalPlayer().getCamera().getView().getCenter().x - 20000;
+	const float endPosX = game.getLocalPlayer().getCamera().getView().getCenter().x + 20000;
+	const float startPosY = game.getLocalPlayer().getCamera().getView().getCenter().y + 10000;
+	const float endPosY = game.getLocalPlayer().getCamera().getView().getCenter().y - 10000;
 
 	b2Vec2 startPos = leon::sfTob2(b2Vec2(startPosX, startPosY));
 	b2Vec2 endPos = leon::sfTob2(b2Vec2(endPosX, endPosY));
@@ -420,8 +420,8 @@ void Universe::setupBackground()
 	rData.layer = GraphicsLayer::BackgroundUnmoving1;
 	bg_data.quadComp = rData;
 	bg_data.dimensions = b2Vec2(1200, 1200);
-	const int pixelsX = game.getWindow().getDefaultView().getSize().x / 2;
-	const int pixelsY = game.getWindow().getDefaultView().getSize().y / 2;
+	const float pixelsX = game.getWindow().getDefaultView().getSize().x / 2.f;
+	const float pixelsY = game.getWindow().getDefaultView().getSize().y / 2.f;
 	bg_data.initPosition = b2Vec2(pixelsX / static_cast<float>(scale), -pixelsY / static_cast<float>(scale));
 	bg_data.initPosition = b2Vec2(0, 0);
 	bg_data.num_in_layer = b2Vec2(100, 100);
