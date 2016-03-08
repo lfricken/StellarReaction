@@ -4,10 +4,7 @@
 #include "EventTypes.hpp"
 
 /// <summary>
-/// determines whether a value should trigger something
-/// 
-/// 
-/// TODO This is unnecessarily complex, dont use function pointers, just some if's
+/// Determines whether a value should trigger a message to be sent.
 /// </summary>
 class Condition
 {
@@ -17,28 +14,18 @@ public:
 	~Condition();
 	void reset(EventType type, int value, char comparison, bool repeatable);
 
+	bool evaluate(int value) const;//returns true if value satisfies the condition
 
-	EventType getEventType() const;//what type of event is this condition for?
-	bool evaluate(int value) const;//returns true if in value satisfies the condition
+	EventType getEventType() const;//What type of event are we for?
 	char getComparison() const;//what type of comparison of values does this condition do?
 	bool isRepeatable() const;//can this condition be triggered only once?
 
 private:
-	typedef bool (Condition::*ComparisonFunction)(int) const;
-
-	bool f_greaterThan(int value) const;
-	bool f_lessThan(int value) const;
-	bool f_equals(int value) const;
-	bool f_notEquals(int value) const;
-	bool f_change(int value) const;
-
-	void f_setComparisonFunction(char op);
-	ComparisonFunction m_evaluationFunction;
 
 	EventType m_eventType;//type of event that we should check on
-	int m_value;//in case its a numerical value, we can put it in here when this is created
-	char m_comparison;//character type used to compare, so it could be >, <, or =
-	bool m_isRepeatable;//used by the Eventer to decide whether to keep this Courier after it got activated once
+	int m_value;//value to compare to (if (newHealth) m_op (m_value)) send message
+	char m_op;//operator to determine whether the condition occurs. See cpp for posibilities.
+	bool m_isRepeatable;//if this condition sends a message, should we allow it to happen again?
 };
 
 #endif // CONDITION_HPP
