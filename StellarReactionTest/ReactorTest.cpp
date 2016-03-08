@@ -88,7 +88,7 @@ TEST(ReactorTest, shipHealsOnDeath)
 
 	game.runTicks(1);
 
-	ASSERT_TRUE(dynamic_cast<ShipModule*>(testChunk->getModuleList()[0].get())->functioning());
+	ASSERT_TRUE(dynamic_cast<ShipModule*>(testChunk->getModuleList()[0].get())->isFunctioning());
 
 }
 

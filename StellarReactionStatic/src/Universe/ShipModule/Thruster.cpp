@@ -45,7 +45,7 @@ void Thruster::directive(std::map<Directive, bool>& rIssues)
 }
 void Thruster::thrust(const b2Vec2& rDirection)
 {
-	if(functioning())
+	if(isFunctioning())
 	{
 		float eThisStep = m_eConsump*game.getUniverse().getTimeStep();
 
@@ -71,7 +71,7 @@ void Thruster::thrust(const b2Vec2& rDirection)
 }
 void Thruster::torque(bool CCW)
 {
-	if(functioning())
+	if(isFunctioning())
 	{
 		float eThisStep = m_eConsump*game.getUniverse().getTimeStep();
 

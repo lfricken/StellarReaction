@@ -24,7 +24,7 @@ public:
 	virtual void prePhysUpdate();
 	virtual void postPhysUpdate();
 
-	bool functioning();//does this module still do its function
+	bool isFunctioning();//should this module still work?
 	void setHealthState(HealthState newState);
 	virtual void setHealthStateHook(HealthState newState);
 	virtual void toggleStealth(bool toggle);

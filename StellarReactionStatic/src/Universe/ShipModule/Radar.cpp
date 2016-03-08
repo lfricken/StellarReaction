@@ -18,17 +18,17 @@ Radar::~Radar()
 }
 void Radar::setHealthStateHook(HealthState newState)
 {
-	if(!functioning())
+	if(!isFunctioning())
 		static_cast<Spinner*>(m_decors[m_dishIndex].get())->toggleOn(false);
 	else
 		static_cast<Spinner*>(m_decors[m_dishIndex].get())->toggleOn(true);
 
-	if(m_hasContributed && !functioning())
+	if(m_hasContributed && !isFunctioning())
 	{
 		m_pZoomPool->changeValue(-m_zoom);
 		m_hasContributed = false;
 	}
-	else if(!m_hasContributed && functioning())
+	else if(!m_hasContributed && isFunctioning())
 	{
 		m_pZoomPool->changeValue(m_zoom);
 		m_hasContributed = true;

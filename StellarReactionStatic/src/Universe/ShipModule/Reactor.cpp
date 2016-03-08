@@ -18,7 +18,7 @@ void Reactor::prePhysUpdate()
 }
 void Reactor::postPhysUpdate()
 {
-	if(functioning())
+	if(isFunctioning())
 		m_pEnergyPool->changeValue(game.getUniverse().getTimeStep()*m_rate);
 	else
 		respawn();

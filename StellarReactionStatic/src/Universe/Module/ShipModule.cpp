@@ -78,7 +78,6 @@ void ShipModule::input(std::string rCommand, sf::Packet rData)
 		int cause;
 		rData >> val >> cause;
 
-
 		m_health.damage(val);
 		m_io.event(EventType::Health, m_health.getHealth(), voidPacket);
 
@@ -101,7 +100,7 @@ void ShipModule::input(std::string rCommand, sf::Packet rData)
 	else if(rCommand == "heal")
 	{
 		int val;
-		string cause;
+		int cause;
 		rData >> val >> cause;
 
 
@@ -119,7 +118,7 @@ void ShipModule::input(std::string rCommand, sf::Packet rData)
 	else
 		Module::input(rCommand, rData);
 }
-bool ShipModule::functioning()//does this module still do its function
+bool ShipModule::isFunctioning()//does this module still do its function
 {
 	if(m_healthState == HealthState::Nominal)
 		return true;
@@ -192,7 +191,6 @@ void ShipModule::damage(int dam)
 {
 	m_health.damage(dam);
 	m_healthState = HealthState::Broken;
-	
 }
 void ShipModuleData::loadJson(const Json::Value& root)
 {

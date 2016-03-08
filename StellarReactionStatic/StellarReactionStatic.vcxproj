@@ -210,7 +210,6 @@
     <ClInclude Include="include\Basic\ClassRegister.hpp" />
     <ClInclude Include="include\Basic\Health.hpp" />
     <ClInclude Include="include\Basic\LaserWeapon.hpp" />
-    <ClInclude Include="include\Basic\Link.hpp" />
     <ClInclude Include="include\Basic\MissileWeapon.hpp" />
     <ClInclude Include="include\Basic\Pool.hpp" />
     <ClInclude Include="include\Basic\Timer.hpp" />
@@ -351,7 +350,6 @@
     <ClCompile Include="src\Basic\BallisticWeapon.cpp" />
     <ClCompile Include="src\Basic\Health.cpp" />
     <ClCompile Include="src\Basic\LaserWeapon.cpp" />
-    <ClCompile Include="src\Basic\Link.cpp" />
     <ClCompile Include="src\Basic\MissileWeapon.cpp" />
     <ClCompile Include="src\Basic\Pool.cpp" />
     <ClCompile Include="src\Basic\Timer.cpp" />

@@ -609,9 +609,6 @@
     <ClInclude Include="include\Basic\LaserWeapon.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Basic\Link.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\Basic\MissileWeapon.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1029,9 +1026,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Basic\LaserWeapon.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Basic\Link.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Basic\MissileWeapon.cpp">
