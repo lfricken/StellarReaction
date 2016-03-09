@@ -1,6 +1,7 @@
 #pragma once
 
 #include "stdafx.hpp"
+#include "Globals.hpp"
 
 struct ModuleData;
 struct ProjectileData;
@@ -13,26 +14,63 @@ public:
 	BlueprintLoader();
 	virtual ~BlueprintLoader();
 
-	void storeRoster(const std::string& rDir);
+	void loadBlueprints(const std::string& rDir);
 
 	sptr<const ModuleData> getModuleSPtr(const std::string& rBPName) const;
 	sptr<const ChunkData> getChunkSPtr(const std::string& rBPName) const;
 	sptr<const WeaponData> getWeaponSPtr(const std::string& rBPName) const;
 	sptr<const ProjectileData> getProjectileSPtr(const std::string& rBPName) const;
 
-	void storeModule(const std::string& rFile);
-	void storeChunk(const std::string& rFile);
-	void storeWeapon(const std::string& rFile);
-	void storeProjectile(const std::string& rFile);
-
-	sptr<ChunkData> loadChunk(const Json::Value& root);
-	sptr<const ProjectileData> loadProjectile(const Json::Value& root);
-	sptr<const WeaponData> loadWeapon(const Json::Value& root);
-	sptr<const ModuleData> loadModule(const Json::Value& root);
-
 	static sf::Color loadColor(const Json::Value& root);
 protected:
 private:
+
+	template <typename T>
+	void storeData(const std::string& rFile, std::map<std::string, sptr<const T> >& blueprints)//load that blueprint
+	{
+		std::ifstream stream(rFile, std::ifstream::binary);
+		Json::Reader reader;
+		Json::Value root;
+		bool parsedSuccess = reader.parse(stream, root, false);
+
+		if(parsedSuccess)
+		{
+			blueprints[root["Title"].asString()] = loadData<T>(root);
+		}
+		else
+			cout << "\n" << FILELINE;
+	}
+	template <typename T>
+	sptr<const T> loadData(const Json::Value& root)
+	{
+		sptr<const T> spMod;
+		const std::string title = root["ClassName"].asString();
+		const T* instance = Deduce<T>::from(title);
+
+		if(instance != NULL)//we derived it!
+		{
+			T* data = instance->clone();
+			data->loadJson(root);
+			spMod.reset(data);
+		}
+		else
+			cout << "\n" << "Couldn't Find [" << title << "]" << FILELINE;
+
+		return spMod;
+	}
+	template <typename T>
+	sptr<const T> getData(const std::string& rBPName, const std::map<std::string, sptr<const T> >& blueprints) const
+	{
+		auto it = blueprints.find(rBPName);
+
+		if(it != blueprints.end())
+			return it->second;
+		else
+		{
+			cout << "\nCouldnt find [" << rBPName << "]." << FILELINE;
+			return blueprints.begin()->second;
+		}
+	}
 
 	std::map<std::string, sptr<const ModuleData> > m_modBP;
 	std::map<std::string, sptr<const WeaponData> > m_wepBP;

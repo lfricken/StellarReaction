@@ -395,7 +395,7 @@ void ChunkData::loadJson(const Json::Value& root)
 			}
 			else if(!(*it)["ClassName"].isNull())//from inline
 			{
-				spMod.reset(game.getUniverse().getBlueprints().loadModule(*it)->clone());
+			//inlining	spMod.reset(game.getUniverse().getBlueprints().loadModule(*it)->clone());
 			}
 			else
 			{

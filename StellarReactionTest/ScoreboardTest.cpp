@@ -51,7 +51,7 @@ TEST(ScoreboardTest, increaseScore)
 
 	//Add chunk to universe
 	game.getUniverse().add(testChunk);
-	//game.getUniverse().getBlueprints().storeRoster("blueprints/");
+	//game.getUniverse().getBlueprints().loadBlueprints("blueprints/");
 	//game.getUniverse().getBlueprints().storeChunk("Asteroid.bp");
 
 	sf::Packet packet;

@@ -35,7 +35,7 @@ TEST(ReactorTest, shipMovesOnDeath)
 
 	//Add chunk to universe
 	game.getUniverse().add(testChunk);
-//	game.getUniverse().getBlueprints().storeRoster("C:\\Users\\leon\\Desktop\\Projects\\StellarReaction\\blueprints/");
+//	game.getUniverse().getBlueprints().loadBlueprints( BAD BAD BAD"C:\\Users\\leon\\Desktop\\Projects\\StellarReaction\\blueprints/");
 
 
 
@@ -83,7 +83,7 @@ TEST(ReactorTest, shipHealsOnDeath)
 
 	//Add chunk to universe
 	game.getUniverse().add(testChunk);
-	//game.getUniverse().getBlueprints().storeRoster("blueprints/");
+	//game.getUniverse().getBlueprints().loadBlueprints("blueprints/");
 
 	//Get the location, move the chunk away from origin
 	b2Body* chunkBodyPtr = testChunk->getBodyPtr();
@@ -126,7 +126,7 @@ TEST(ReactorTest, shipHealsOnDeath)
 //
 //	//Add chunk to universe
 //	game.getUniverse().add(testChunk);
-//	//game.getUniverse().getBlueprints().storeRoster("blueprints/");
+//	//game.getUniverse().getBlueprints().loadBlueprints("blueprints/");
 //
 //	//Get the location, move the chunk away from origin
 //	b2Body* chunkBodyPtr = testChunk->getBodyPtr();

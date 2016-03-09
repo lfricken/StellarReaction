@@ -296,7 +296,7 @@ void Universe::addBed(const b2Vec2& rBed)//someone gave a bed back to us!
 }
 void Universe::loadBlueprints(const std::string& bpDir)//loads blueprints
 {
-	m_spBPLoader->storeRoster(bpDir);
+	m_spBPLoader->loadBlueprints(bpDir);
 }
 void Universe::setupBackground()
 {
@@ -462,7 +462,7 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 			const Json::Value bpList = root["AdditionalBlueprints"];
 			for(auto it = bpList.begin(); it != bpList.end(); ++it)
 			{
-				m_spBPLoader->storeRoster(modDir + it->asString());
+				m_spBPLoader->loadBlueprints(modDir + it->asString());
 			}
 		}
 		else
