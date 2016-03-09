@@ -23,7 +23,7 @@
 #include "Beam.hpp"
 #include "RayCastCallback.hpp"
 #include "Projectile.hpp"
-
+#include "Directory.hpp"
 
 using namespace std;
 using namespace sf;
@@ -32,7 +32,7 @@ using namespace leon;
 
 Game::Game()
 {
-	srand(time(NULL));
+	srand(static_cast<unsigned int>(time(NULL)));
 
 	m_spDragUpdater = sptr<DragUpdater>(new DragUpdater());
 
@@ -63,6 +63,8 @@ Game::Game()
 
 	loadUniverse("RANDOMTEXT");//TODO RANDOMTEXT
 	m_spUniverse->togglePause(true);
+
+	m_spDir = sptr<Directory>(new Directory("../"));
 
 	ScoreboardData scoreData  = ScoreboardData();
 	m_spScoreboard = sptr<Scoreboard>(new Scoreboard(scoreData));
@@ -129,7 +131,10 @@ DragUpdater& Game::getDragUpdater()
 {
 	return *m_spDragUpdater;
 }
-
+const Directory& Game::getDir() const
+{
+	return *m_spDir;
+}
 Scoreboard& Game::getScoreboard()
 {
 	return *m_spScoreboard;

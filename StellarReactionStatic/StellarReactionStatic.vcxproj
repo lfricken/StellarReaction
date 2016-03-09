@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Game\Directory.hpp" />
     <ClInclude Include="include\API\Box2D\Box2D.h" />
     <ClInclude Include="include\API\Box2D\Collision\b2BroadPhase.h" />
     <ClInclude Include="include\API\Box2D\Collision\b2Collision.h" />
@@ -299,6 +300,7 @@
     <ClInclude Include="include\Universe\Utility\UniversalContactListener.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Game\Directory.cpp" />
     <ClCompile Include="include\API\Box2D\Collision\b2BroadPhase.cpp" />
     <ClCompile Include="include\API\Box2D\Collision\b2CollideCircle.cpp" />
     <ClCompile Include="include\API\Box2D\Collision\b2CollideEdge.cpp" />

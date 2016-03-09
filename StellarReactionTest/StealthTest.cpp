@@ -3,6 +3,7 @@
 #include "Stealth.hpp"
 #include "Universe.hpp"
 
+extern Game game;
 
 
 class StealthTest : public ::testing::Test

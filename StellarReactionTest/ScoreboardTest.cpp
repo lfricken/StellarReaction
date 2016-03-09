@@ -5,6 +5,9 @@
 #include "Game.hpp"
 #include "Stealth.hpp"
 
+extern Game game;
+
+
 TEST(ScoreboardTest, initalScores)
 {
 	ChunkData* testChunkData = new ChunkData();

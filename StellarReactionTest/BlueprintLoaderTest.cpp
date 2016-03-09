@@ -5,7 +5,7 @@
 #include "BlueprintLoader.hpp"
 #include "Weapon.hpp"
 
-//Game game;
+extern Game game;
 
 class BlueprintLoaderTest : public ::testing::Test
 {
@@ -27,11 +27,11 @@ TEST(BlueprintLoaderTest, loadBlueprint)
 	game.getUniverse().getBlueprints().storeWeapon("../StellarReactionTest/testblueprints/test_weapon_blueprint.bp");
 	const WeaponData* const p = game.getUniverse().getBlueprints().getWeaponSPtr("test_blueprint").get();
 
+	ASSERT_TRUE(p);
+
 	EXPECT_EQ(p->damage, 400);
 	EXPECT_EQ(p->collisions, 5);
 	EXPECT_EQ(p->shots, 1);
-
-	ASSERT_TRUE(p);
 }
 
 

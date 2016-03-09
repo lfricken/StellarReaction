@@ -1,162 +1,28 @@
 #include "BlueprintLoader.hpp"
 
-#include "Module.hpp"
-#include "ShipModule.hpp"
-#include "Thruster.hpp"
-#include "Capacitor.hpp"
-#include "Reactor.hpp"
-#include "Chunk.hpp"
-#include "Sensor.hpp"
-#include "Radar.hpp"
-#include "Plating.hpp"
-#include "Turret.hpp"
-#include "Stealth.hpp"
-#include "ProjectileModule.hpp"
-#include "LaserWeapon.hpp"
-#include "BallisticWeapon.hpp"
-#include "Projectile.hpp"
-#include "Missile.hpp"
-#include "CaptureArea.hpp"
-#include "MissileWeapon.hpp"
-
+#include "Directory.hpp"
 
 #include "ModuleRegistration.hpp"
 #include "WeaponRegistration.hpp"
 #include "ChunkRegistration.hpp"
 #include "ProjectileRegistration.hpp"
 
-#undef RegisterClass
-
-#include <Windows.h>
-
-
-
-// IterateFiles.cpp : Defines the entry point for the console application.
-//
-
-
-
-
 using namespace std;
 
-string getCurrentPath()
+BlueprintLoader::BlueprintLoader()
 {
-	char path[_MAX_PATH];
-	_fullpath(path, ".\\", _MAX_PATH);
 
-	string pathString = string(path);
-
-	// Get rid of \\Debug
-	size_t debugString = pathString.find("\\Debug");
-
-	// We want the \\ so +2 of the index given by \\Debug
-	return pathString.substr(0, debugString + 1);
 }
-
-/// <summary>
-/// Input a filename to validate whether or not it's a blueprint file.
-/// </summary>
-boolean isBluePrint(string fileName)
+BlueprintLoader::~BlueprintLoader()
 {
-	string extension = fileName.substr(fileName.find_last_of(".") + 1);
 
-	return strcmp(extension.c_str(), "bp") == 0;
 }
-
-string convertPath(string original, const string& rDir)
-{
-	size_t relative = original.find("StellarReaction\\blueprints") + string("StellarReaction\\blueprints").size() + 1;
-
-	string relativePath = contentDir() + rDir + original.substr(relative, original.size());
-
-	string::size_type n = 0;
-
-	while((n = relativePath.find("\\", n)) != string::npos)
-	{
-		relativePath.replace(n, 1, "/");
-		n += 1;
-	}
-
-	return relativePath;
-}
-
-/// <summary>
-/// Heavily inspired by https://jbarkes.wordpress.com/2009/12/09/iterate-directories-files-in-c/
-///
-/// Iterates through a given folder and retrieves all th
-/// </summary>
-vector<string> getBluePrints(string startPath, const string& rDir)
-{
-	vector<string> blueprints = vector<string>();
-
-	HANDLE hFind = INVALID_HANDLE_VALUE;
-	WIN32_FIND_DATAA fData;
-	string path;
-	string filePath;
-
-	stack<string> folders;
-	folders.push(startPath);
-
-	while(!folders.empty())
-	{
-		path = folders.top() + "\\" + "*";
-		folders.pop();
-
-		hFind = FindFirstFileA(path.c_str(), &fData);
-
-
-		// As long as the root folder is not invalid, go crazy.
-		if(hFind != INVALID_HANDLE_VALUE)
-		{
-			// As long as there are more files/folders, keep iterating.
-			while(FindNextFileA(hFind, &fData) != 0)
-			{
-				// First get rid of the folders that are a reference to itself or a higher node (ie .\ and ..\)
-				if(strcmp(fData.cFileName, ".") != 0 && strcmp(fData.cFileName, "..") != 0)
-				{
-					filePath = path.substr(0, path.size() - 1) + fData.cFileName;
-					// If the current "File" is actually a folder, add it to the stack of folders to be iterated later.
-					if(fData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-					{
-						folders.push(filePath);
-					}
-					// If the file has a .bp extension, add to blueprints.
-					else if(isBluePrint(fData.cFileName))
-					{
-						string bp = convertPath(filePath, rDir);
-						blueprints.push_back(bp);
-					}
-				}
-			}
-		}
-	}
-
-	return blueprints;
-}
-
-vector<string> getRoster(string extension, const string& rDir)
-{
-	string fullpath = getCurrentPath() + rDir + extension;//getCurrentPath() + "..\\" + "blueprints\\" + extension;
-	// Replace all / with \\ 
-	string::size_type n = 0;
-
-	while ((n = fullpath.find("/", n)) != string::npos)
-	{
-		fullpath.replace(n, 1, "\\");
-		n += 1;
-	}
-
-	return getBluePrints(fullpath, rDir);
-}
-
-
-
 void BlueprintLoader::storeRoster(const std::string& rDir)
 {
-	vector<string> weapons = getRoster("weapon", rDir);
-	vector<string> modules = getRoster("modules", rDir);
-	vector<string> chunks = getRoster("chunks", rDir);
-	vector<string> projectiles = getRoster("projectiles", rDir);
+	vector<string> weapons = game.getDir().getAllFiles(rDir + "weapons", ".bp");
+	vector<string> modules = game.getDir().getAllFiles(rDir + "modules", ".bp");
+	vector<string> chunks = game.getDir().getAllFiles(rDir + "chunks", ".bp");
+	vector<string> projectiles = game.getDir().getAllFiles(rDir + "projectiles", ".bp");
 
 	for(auto it = weapons.begin(); it != weapons.end(); ++it)
 		storeWeapon(*it);
@@ -170,21 +36,6 @@ void BlueprintLoader::storeRoster(const std::string& rDir)
 	for(auto it = projectiles.begin(); it != projectiles.end(); ++it)
 		storeProjectile(*it);
 }
-
-
-
-
-
-BlueprintLoader::BlueprintLoader()
-{
-	//StealthData data;
-}
-BlueprintLoader::~BlueprintLoader()
-{
-
-}
-/**GET A BLUEPRINT**/
-/**===============**/
 sptr<const ChunkData> BlueprintLoader::getChunkSPtr(const std::string& rBPName) const
 {
 	auto it = m_cnkBP.find(rBPName);
@@ -237,11 +88,6 @@ sptr<const WeaponData> BlueprintLoader::getWeaponSPtr(const std::string& rBPName
 		return sptr<const WeaponData>(NULL);
 	}
 }
-/**===============**/
-/**GET A BLUEPRINT**/
-
-/**LOAD SPECIFIC FILES**/
-/**===================**/
 void BlueprintLoader::storeModule(const std::string& rFile)//load that blueprint
 {
 	std::ifstream stream(rFile, std::ifstream::binary);
@@ -311,10 +157,6 @@ void BlueprintLoader::storeWeapon(const std::string& rFile)
 		///ERROR LOG
 	}
 }
-
-
-
-//LOADING =====================================
 sptr<ChunkData> BlueprintLoader::loadChunk(const Json::Value& root)//returns data based on the Json stuff you pass
 {
 	sptr<ChunkData> spMod;
@@ -366,7 +208,6 @@ sptr<const ModuleData> BlueprintLoader::loadModule(const Json::Value& root)
 
 	return spMod;
 }
-
 sptr<const WeaponData> BlueprintLoader::loadWeapon(const Json::Value& root)//returns a weapon
 {
 	sptr<WeaponData> spMod;
@@ -384,7 +225,6 @@ sptr<const WeaponData> BlueprintLoader::loadWeapon(const Json::Value& root)//ret
 
 	return spMod;
 }
-
 sf::Color BlueprintLoader::loadColor(const Json::Value& root)
 {
 	sf::Color color;

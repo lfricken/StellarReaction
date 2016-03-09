@@ -14,6 +14,7 @@ class GraphicsComponentUpdater;
 class NetworkBoss;
 class SoundManager;
 class Scoreboard;
+class Directory;
 
 namespace leon
 {
@@ -45,6 +46,7 @@ public:
 	Scoreboard& getScoreboard();
 
 	Universe& getUniverse();
+	const Directory& getDir() const;
 	/**should go in UNIVERSE to be reset upon game reload**/	
 
 	void launchGame(const std::string& level, int localController, const std::string& bluePrints, const std::vector<std::string>& rControllerList, const std::vector<std::string>& rShipTitleList, const std::vector<int>& teams);
@@ -109,7 +111,11 @@ private:
 	/// <summary>
 	/// IO component for global "game"
 	/// </summary>
-	sptr<IOComponent> m_spIO;
+	sptr<IOComponent> m_spIO;	
+	/// <summary>
+	/// Directory handler
+	/// </summary>
+	sptr<const Directory> m_spDir;
 
 	sptr<Scoreboard> m_spScoreboard;
 

@@ -9,6 +9,9 @@
 
 using namespace std;
 
+extern Game game;
+
+
 TEST(ReactorTest, shipMovesOnDeath)
 {
 	/*
