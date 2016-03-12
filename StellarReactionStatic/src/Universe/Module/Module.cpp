@@ -95,6 +95,7 @@ void Module::input(std::string rCommand, sf::Packet rData)
 		rData >> name;
 		m_fix.setStore(name);
 	}
+	if(rCommand == "damage"){}//dont spam console!
 	else
 		cout << "\nCommand [" << rCommand << "] not found in [" << m_io.getName() << "]." << FILELINE;
 }

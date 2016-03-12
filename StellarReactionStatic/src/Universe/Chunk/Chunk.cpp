@@ -225,38 +225,33 @@ float Chunk::get(Request value) const//return the requested value
 	switch(value)
 	{
 	case(Request::Zoom) :
-		return m_zoomPool.getValue();
-		break;
+		return static_cast<float>(m_zoomPool.getValue());
 	case(Request::MaxZoom) :
-		return m_zoomPool.getMax();
-		break;
+		return static_cast<float>(m_zoomPool.getMax());
 
 
 	case(Request::Energy) :
-		return m_energyPool.getValue();
-		break;
+		return static_cast<float>(m_energyPool.getValue());
 	case(Request::MaxEnergy) :
-		return m_energyPool.getMax();
-		break;
+		return static_cast<float>(m_energyPool.getMax());
 
 
 	case(Request::Ballistics) :
-		return m_ballisticPool.getValue();
-		break;
+		return static_cast<float>(m_ballisticPool.getValue());
 	case(Request::MaxBallistics) :
-		return m_ballisticPool.getMax();
-		break;
+		return static_cast<float>(m_ballisticPool.getMax());
 
 
 	case(Request::Missiles) :
-		return m_missilePool.getValue();
-		break;
+		return static_cast<float>(m_missilePool.getValue());
 	case(Request::MaxMissiles) :
-		return m_missilePool.getMax();
-		break;
+		return static_cast<float>(m_missilePool.getMax());
+
 
 	case(Request::Score) :
-		return m_score;
+		return static_cast<float>(m_score);
+
+
 	default:
 		return 0.f;
 		break;
@@ -400,7 +395,7 @@ void ChunkData::loadJson(const Json::Value& root)
 			}
 			else if(!(*it)["ClassName"].isNull())//from inline
 			{
-				spMod.reset(game.getUniverse().getBlueprints().loadModule(*it)->clone());
+			//inlining	spMod.reset(game.getUniverse().getBlueprints().loadModule(*it)->clone());
 			}
 			else
 			{

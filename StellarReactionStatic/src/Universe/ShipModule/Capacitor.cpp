@@ -14,12 +14,12 @@ Capacitor::~Capacitor()
 }
 void Capacitor::setHealthStateHook(HealthState newState)
 {
-	if(m_hasContributed && !functioning())
+	if(m_hasContributed && !isFunctioning())
 	{
 		m_pEnergyPool->changeMax(-m_storage);
 		m_hasContributed = false;
 	}
-	else if(!m_hasContributed && functioning())
+	else if(!m_hasContributed && isFunctioning())
 	{
 		m_pEnergyPool->changeMax(m_storage);
 		m_hasContributed = true;

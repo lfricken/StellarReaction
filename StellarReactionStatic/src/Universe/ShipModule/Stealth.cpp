@@ -11,7 +11,6 @@ Stealth::~Stealth()
 {
 
 }
-
 void Stealth::postPhysUpdate()
 {
 	if (m_stealthTimer.isTimeUp())
@@ -46,9 +45,8 @@ void Stealth::postPhysUpdate()
 			}
 		}
 	}
-
+	ShipModule::postPhysUpdate();
 }
-
 void Stealth::directive(map<Directive, bool>& rIssues)
 {
 	if (rIssues[Directive::Stealth])

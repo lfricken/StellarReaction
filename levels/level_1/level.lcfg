@@ -1,5 +1,5 @@
 {
-    "com_BLUEPRINTS": "Additional directories to find more blueprints in. Default always loaded.",
+    "AdditionalBlueprints:comment": "Additional directories to find more blueprints in. Default always loaded.",
     "AdditionalBlueprints": [],
 	"Decorations": [
 		{

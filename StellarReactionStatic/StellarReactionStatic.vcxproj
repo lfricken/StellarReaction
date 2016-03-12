@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Game\Directory.hpp" />
     <ClInclude Include="include\API\Box2D\Box2D.h" />
     <ClInclude Include="include\API\Box2D\Collision\b2BroadPhase.h" />
     <ClInclude Include="include\API\Box2D\Collision\b2Collision.h" />
@@ -210,7 +211,6 @@
     <ClInclude Include="include\Basic\ClassRegister.hpp" />
     <ClInclude Include="include\Basic\Health.hpp" />
     <ClInclude Include="include\Basic\LaserWeapon.hpp" />
-    <ClInclude Include="include\Basic\Link.hpp" />
     <ClInclude Include="include\Basic\MissileWeapon.hpp" />
     <ClInclude Include="include\Basic\Pool.hpp" />
     <ClInclude Include="include\Basic\Timer.hpp" />
@@ -300,6 +300,7 @@
     <ClInclude Include="include\Universe\Utility\UniversalContactListener.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Game\Directory.cpp" />
     <ClCompile Include="include\API\Box2D\Collision\b2BroadPhase.cpp" />
     <ClCompile Include="include\API\Box2D\Collision\b2CollideCircle.cpp" />
     <ClCompile Include="include\API\Box2D\Collision\b2CollideEdge.cpp" />
@@ -351,7 +352,6 @@
     <ClCompile Include="src\Basic\BallisticWeapon.cpp" />
     <ClCompile Include="src\Basic\Health.cpp" />
     <ClCompile Include="src\Basic\LaserWeapon.cpp" />
-    <ClCompile Include="src\Basic\Link.cpp" />
     <ClCompile Include="src\Basic\MissileWeapon.cpp" />
     <ClCompile Include="src\Basic\Pool.cpp" />
     <ClCompile Include="src\Basic\Timer.cpp" />
@@ -487,7 +487,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\StellarReactionStatic\include\Universe\Utility;..\StellarReactionStatic\include\Universe\ShipModule;..\StellarReactionStatic\include\Universe\Module;..\StellarReactionStatic\include\Universe\Chunk;..\StellarReactionStatic\include\Graphics\Utility;..\StellarReactionStatic\include\Universe;..\StellarReactionStatic\include\Physics;..\StellarReactionStatic\include\Overlay;..\StellarReactionStatic\include\Network;..\StellarReactionStatic\include\IO;..\StellarReactionStatic\include\Headers;..\StellarReactionStatic\include\Graphics;..\StellarReactionStatic\include\Game;..\StellarReactionStatic\include\Control;..\StellarReactionStatic\include\Basic;..\StellarReactionStatic\include\Audio;..\StellarReactionStatic\include\API</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\StellarReactionStatic\include\Universe\Utility;..\StellarReactionStatic\include\Universe\ShipModule;..\StellarReactionStatic\include\Universe\Module;..\StellarReactionStatic\include\Universe\Chunk;..\StellarReactionStatic\include\Graphics\Utility;..\StellarReactionStatic\include\Universe;..\StellarReactionStatic\include\Physics;..\StellarReactionStatic\include\Overlay;..\StellarReactionStatic\include\Network;..\StellarReactionStatic\include\IO;..\StellarReactionStatic\include\Headers;..\StellarReactionStatic\include\Graphics;..\StellarReactionStatic\include\Game;..\StellarReactionStatic\include\Control;..\StellarReactionStatic\include\Basic;..\StellarReactionStatic\include\Audio;..\StellarReactionStatic\include\Universe\Hazard;..\StellarReactionStatic\include\API</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -504,7 +504,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\StellarReactionStatic\include\Universe\Utility;..\StellarReactionStatic\include\Universe\ShipModule;..\StellarReactionStatic\include\Universe\Module;..\StellarReactionStatic\include\Universe\Chunk;..\StellarReactionStatic\include\Graphics\Utility;..\StellarReactionStatic\include\Universe;..\StellarReactionStatic\include\Physics;..\StellarReactionStatic\include\Overlay;..\StellarReactionStatic\include\Network;..\StellarReactionStatic\include\IO;..\StellarReactionStatic\include\Headers;..\StellarReactionStatic\include\Graphics;..\StellarReactionStatic\include\Game;..\StellarReactionStatic\include\Control;..\StellarReactionStatic\include\Basic;..\StellarReactionStatic\include\Audio;..\StellarReactionStatic\include\API</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\StellarReactionStatic\include\Universe\Utility;..\StellarReactionStatic\include\Universe\ShipModule;..\StellarReactionStatic\include\Universe\Module;..\StellarReactionStatic\include\Universe\Chunk;..\StellarReactionStatic\include\Graphics\Utility;..\StellarReactionStatic\include\Universe;..\StellarReactionStatic\include\Physics;..\StellarReactionStatic\include\Overlay;..\StellarReactionStatic\include\Network;..\StellarReactionStatic\include\IO;..\StellarReactionStatic\include\Headers;..\StellarReactionStatic\include\Graphics;..\StellarReactionStatic\include\Game;..\StellarReactionStatic\include\Control;..\StellarReactionStatic\include\Basic;..\StellarReactionStatic\include\Audio;..\StellarReactionStatic\include\Universe\Hazard;..\StellarReactionStatic\include\API</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

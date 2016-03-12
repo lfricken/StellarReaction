@@ -73,7 +73,7 @@ void CaptureAreaData::loadJson(const Json::Value& root)
 	if(!root["Value"].isNull())
 		value = root["Value"].asInt();
 	if(!root["CaptureTime"].isNull())
-		captureTime = root["CaptureTime"].asInt();
+		captureTime = root["CaptureTime"].asFloat();
 	if(!root["CapturePercent"].isNull())
 		capturePercent = root["CapturePercent"].asFloat();
 

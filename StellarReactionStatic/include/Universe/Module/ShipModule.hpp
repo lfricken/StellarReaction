@@ -7,9 +7,9 @@
 
 enum class HealthState
 {
-	Nominal,//the module should work all the way!
+	Nominal,//the module is healthy and works
 	Damaged,//the module is damaged and may not work
-	Broken,//the module is severely damaged and almost certainly doesnt work
+	Broken,//the module is severely damaged and does not work
 };
 
 
@@ -24,7 +24,7 @@ public:
 	virtual void prePhysUpdate();
 	virtual void postPhysUpdate();
 
-	bool functioning();//does this module still do its function
+	bool isFunctioning();//should this module still work?
 	void setHealthState(HealthState newState);
 	virtual void setHealthStateHook(HealthState newState);
 	virtual void toggleStealth(bool toggle);
@@ -32,7 +32,6 @@ public:
 	void setControlGroup(int control_group);
 	virtual void healToMax();
 
-	virtual void damage(int dam);
 protected:
 	virtual void input(std::string rCommand, sf::Packet rData);
 	virtual void pack(sf::Packet& rPacket);

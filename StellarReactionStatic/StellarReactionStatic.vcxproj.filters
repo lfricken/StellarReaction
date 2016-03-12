@@ -609,9 +609,6 @@
     <ClInclude Include="include\Basic\LaserWeapon.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Basic\Link.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\Basic\MissileWeapon.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -876,6 +873,9 @@
     <ClInclude Include="include\Game\Scoreboard.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Game\Directory.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="include\API\Box2D\Collision\b2BroadPhase.cpp">
@@ -1029,9 +1029,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Basic\LaserWeapon.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Basic\Link.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Basic\MissileWeapon.cpp">
@@ -1266,6 +1263,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Game\Scoreboard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Directory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

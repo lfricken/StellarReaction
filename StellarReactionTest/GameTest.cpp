@@ -4,7 +4,7 @@
 #include "Universe.hpp"
 #include "Turret.hpp"
 
-Game game;
+extern Game game;
 
 class GameTest : public ::testing::Test
 {
@@ -22,11 +22,11 @@ protected:
 
 TEST(GameTest, runTicks)
 {
-	//game.runTicks(10);
-	//EXPECT_EQ(true, game.getUniverse().isPaused());
+	game.runTicks(10);
+	EXPECT_EQ(true, game.getUniverse().isPaused());
 }
 TEST(GameTest, runTime)
 {
-	//game.runTime(0.3f);
-	//EXPECT_EQ(true, game.getUniverse().isPaused());
+	game.runTime(0.3f);
+	EXPECT_EQ(true, game.getUniverse().isPaused());
 }

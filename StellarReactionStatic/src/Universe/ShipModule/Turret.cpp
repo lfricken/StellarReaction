@@ -17,7 +17,7 @@ Turret::~Turret()
 }
 void Turret::prePhysUpdate()
 {
-	if(functioning())
+	if(isFunctioning())
 	{
 		m_lastAngle = atan2(m_lastAim.y-m_fix.getCenter().y, m_lastAim.x-m_fix.getCenter().x);
 		m_lastAngle -= m_fix.getAngle();
@@ -28,7 +28,7 @@ void Turret::prePhysUpdate()
 }
 void Turret::postPhysUpdate()
 {
-	if(functioning())
+	if(isFunctioning())
 	{
 		m_lastAngle = atan2(m_lastAim.y-m_fix.getCenter().y, m_lastAim.x-m_fix.getCenter().x);
 		m_lastAngle -= m_fix.getAngle();
@@ -40,7 +40,7 @@ void Turret::postPhysUpdate()
 void Turret::directive(std::map<Directive, bool>& rIssues)
 {
 	if(rIssues[Directive::FirePrimary] && game.getLocalPlayer().getActiveControlGroup() == m_controlGroup)
-		if(m_spWep && functioning())//if we have a weapon
+		if(m_spWep && isFunctioning())//if we have a weapon
 			if(m_spWep->fire(m_fix, m_pEnergyPool, m_pBallisticPool, m_pMissilePool))//if we successfully fired
 			{
 				//m_parentChunk->increaseScore();	

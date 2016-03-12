@@ -78,12 +78,11 @@ void ShipModule::input(std::string rCommand, sf::Packet rData)
 		int cause;
 		rData >> val >> cause;
 
-
 		m_health.damage(val);
 		m_io.event(EventType::Health, m_health.getHealth(), voidPacket);
 
 		m_decors[m_hitDecorIndex]->getAnimator().setAnimation("Hit", 0.20f);
-		m_decors[m_hitDecorIndex]->setColor(sf::Color(255, 255 * m_health.getHealthPercent(), 0, 255));
+		m_decors[m_hitDecorIndex]->setColor(sf::Color(255, static_cast<char>(255.f * m_health.getHealthPercent()), 0, 255));
 
 		if(m_health.isDead())
 		{
@@ -101,7 +100,7 @@ void ShipModule::input(std::string rCommand, sf::Packet rData)
 	else if(rCommand == "heal")
 	{
 		int val;
-		string cause;
+		int cause;
 		rData >> val >> cause;
 
 
@@ -119,7 +118,7 @@ void ShipModule::input(std::string rCommand, sf::Packet rData)
 	else
 		Module::input(rCommand, rData);
 }
-bool ShipModule::functioning()//does this module still do its function
+bool ShipModule::isFunctioning()//does this module still do its function
 {
 	if(m_healthState == HealthState::Nominal)
 		return true;
@@ -182,22 +181,20 @@ void ShipModule::toggleStealth(bool toggle)
 	else
 		m_decors[m_baseDecor]->setAlpha(alpha_stealth_off);
 }
+
 void ShipModule::healToMax()
 {
-	m_health.heal(m_health.getMaxHealth());
-	setHealthState(HealthState::Nominal);
+	sf::Packet packet;
+	packet << m_health.getMaxHealth() << m_fix.getIOPos();
+	Message mess;
+	mess.reset(m_fix.getIOPos(), "heal", packet, 0.f, false);
+	game.getUniverse().getUniverseIO().recieve(mess);
 }
 
-void ShipModule::damage(int dam)
-{
-	m_health.damage(dam);
-	m_healthState = HealthState::Broken;
-	
-}
 void ShipModuleData::loadJson(const Json::Value& root)
 {
 	if(!root["Defense"].isNull())
-		health.loadJson<Health>(root["Defense"]);
+		health.loadJson(root["Defense"]);
 	if(!root["BaseSprite"].isNull())
 		baseDecor.loadJson(root["BaseSprite"]);
 

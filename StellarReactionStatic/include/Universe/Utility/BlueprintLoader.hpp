@@ -1,19 +1,8 @@
-#ifndef BLUEPRINTLOADER_HPP
-#define BLUEPRINTLOADER_HPP
+#pragma once
 
 #include "stdafx.hpp"
+#include "Globals.hpp"
 
-#include "IOComponent.hpp"
-#include "QuadComponent.hpp"
-#include "Spinner.hpp"
-#include "FixtureComponent.hpp"
-#include "NetworkComponent.hpp"
-#include "BodyComponent.hpp"
-#include "Health.hpp"
-#include "SoundData.hpp"
-
-
-struct ShipModuleData;
 struct ModuleData;
 struct ProjectileData;
 struct ChunkData;
@@ -25,94 +14,66 @@ public:
 	BlueprintLoader();
 	virtual ~BlueprintLoader();
 
+	void loadBlueprints(const std::string& rDir);
 
-	/**GET A BLUEPRINT**/
-	/**===============**/
 	sptr<const ModuleData> getModuleSPtr(const std::string& rBPName) const;
 	sptr<const ChunkData> getChunkSPtr(const std::string& rBPName) const;
 	sptr<const WeaponData> getWeaponSPtr(const std::string& rBPName) const;
 	sptr<const ProjectileData> getProjectileSPtr(const std::string& rBPName) const;
-	/**===============**/
-	/**GET A BLUEPRINT**/
-
-
-	void storeRoster(const std::string& rDir);//load the roster blueprints into memory
-
-
-	/**LOAD SPECIFIC FILES**/
-	/**===================**/
-	void storeModule(const std::string& rFile);
-	void storeChunk(const std::string& rFile);
-	void storeWeapon(const std::string& rFile);
-	void storeProjectile(const std::string& rFile);
-	/**===================**/
-	/**LOAD SPECIFIC FILES**/
-
-	sptr<const ModuleData> loadModule(const Json::Value& root);
-
-	/**LOAD MULTI PART DATA**/
-	/**====================**/
-	sptr<ChunkData> loadChunk(const Json::Value& root);
-	sptr<const ProjectileData> loadProjectile(const Json::Value& root);
-
 
 	static sf::Color loadColor(const Json::Value& root);
 protected:
 private:
-	void inheritShipModule(const Json::Value& root, ShipModuleData* pSMod);
-	void inheritModule(const Json::Value& root, ModuleData* pSMod);
-	template <typename T>
-	void copyModule(const Json::Value& root, T* pSMod)
-	{
-		if(!root["Copies"].isNull())
-			*pSMod = *dynamic_cast<const T*>(getModuleSPtr(root["Copies"].asString()).get());
-	}
-
-	sptr<const WeaponData> loadWeapon(const Json::Value& root);
-	void inheritWeapon(const Json::Value& root, WeaponData* pWep);
-	/**====================**/
-	/**LOAD MULTI PART DATA**/
-
-
-
-
-	/**UNNAMED THINGS**/
-	void insertWeaponData(const Json::Value& root, sptr<const WeaponData>& rModData);
-
-
-
-
-	/**LOAD ControlMPLE DATA**///data that doesnt inherit or anything
-	/**================**/
-
-	BodyComponentData loadBodyComp(const Json::Value& root, const BodyComponentData& orig);
-	IOComponentData loadIOComp(const Json::Value& root, const IOComponentData& orig);
-	FixtureComponentData loadFixComp(const Json::Value& root, const FixtureComponentData& orig);
-	NetworkComponentData loadNWComp(const Json::Value& root, const NetworkComponentData& orig);
-	HealthData loadHealth(const Json::Value& root, const HealthData& orig);
-	QuadComponentData loadQuad(const Json::Value& root, const QuadComponentData& orig);
-	SoundData loadSound(const Json::Value& root, const SoundData& orig);
 
 	template <typename T>
-	PoolData<T> loadPool(const Json::Value& root, const PoolData<T>& orig)
+	void storeData(const std::string& rFile, std::map<std::string, sptr<const T> >& blueprints)//load that blueprint
 	{
-		PoolData<T> data(orig);
+		std::ifstream stream(rFile, std::ifstream::binary);
+		Json::Reader reader;
+		Json::Value root;
+		bool parsedSuccess = reader.parse(stream, root, false);
 
-		if(!root["Max"].isNull())
-			data.startMax = root["Max"].asInt();
-		if(!root["Value"].isNull())
-			data.startValue = root["Value"].asInt();
-
-		return data;
+		if(parsedSuccess)
+		{
+			blueprints[root["Title"].asString()] = loadData<T>(root);
+		}
+		else
+			cout << "\n" << FILELINE;
 	}
-	/**================**/
-	/**LOAD ControlMPLE DATA**///data that doesnt inherit or anything
+	template <typename T>
+	sptr<const T> loadData(const Json::Value& root)
+	{
+		sptr<const T> spMod;
+		const std::string title = root["ClassName"].asString();
+		const T* instance = Deduce<T>::from(title);
 
+		if(instance != NULL)//we derived it!
+		{
+			T* data = instance->clone();
+			data->loadJson(root);
+			spMod.reset(data);
+		}
+		else
+			cout << "\n" << "Couldn't Find [" << title << "]" << FILELINE;
+
+		return spMod;
+	}
+	template <typename T>
+	sptr<const T> getData(const std::string& rBPName, const std::map<std::string, sptr<const T> >& blueprints) const
+	{
+		auto it = blueprints.find(rBPName);
+
+		if(it != blueprints.end())
+			return it->second;
+		else
+		{
+			cout << "\nCouldnt find [" << rBPName << "]." << FILELINE;
+			return blueprints.begin()->second;
+		}
+	}
 
 	std::map<std::string, sptr<const ModuleData> > m_modBP;
 	std::map<std::string, sptr<const WeaponData> > m_wepBP;
 	std::map<std::string, sptr<const ChunkData> > m_cnkBP;
 	std::map<std::string, sptr<const ProjectileData> > m_prjBP;
 };
-
-#endif // BLUEPRINTLOADER_HPP
