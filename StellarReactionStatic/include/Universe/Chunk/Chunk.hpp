@@ -41,6 +41,7 @@ public:
 	std::vector<std::pair<std::string, b2Vec2> > getModules() const;
 	sptr<GraphicsComponent> getHull() const;
 	std::vector<sptr<Module>> getModuleList() const;
+	float getRadius();
 
 	int incDeaths();
 	b2Vec2 getSpawn();

@@ -133,6 +133,13 @@
                 3,
                 0
             ]
+        },
+		{
+            "Title": "DefaultTeleport",
+            "Position": [
+                -2,
+                0
+            ]
         }
     ],
     "Network": {}
