@@ -279,11 +279,13 @@
     <ClInclude Include="include\Universe\Chunk\ProjectileRegistration.hpp" />
     <ClInclude Include="include\Universe\Hazard\HazardField.hpp" />
     <ClInclude Include="include\Universe\Module\CaptureArea.hpp" />
+    <ClInclude Include="include\Universe\Module\GravityField.hpp" />
     <ClInclude Include="include\Universe\Module\Module.hpp" />
     <ClInclude Include="include\Universe\Module\ModuleRegistration.hpp" />
     <ClInclude Include="include\Universe\Module\ProjectileModule.hpp" />
     <ClInclude Include="include\Universe\Module\Sensor.hpp" />
     <ClInclude Include="include\Universe\Module\ShipModule.hpp" />
+    <ClInclude Include="include\Universe\Module\TriggerSensor.hpp" />
     <ClInclude Include="include\Universe\ShipModule\Capacitor.hpp" />
     <ClInclude Include="include\Universe\ShipModule\Plating.hpp" />
     <ClInclude Include="include\Universe\ShipModule\Radar.hpp" />
@@ -413,10 +415,12 @@
     <ClCompile Include="src\Universe\Chunk\Projectile.cpp" />
     <ClCompile Include="src\Universe\Hazard\HazardField.cpp" />
     <ClCompile Include="src\Universe\Module\CaptureArea.cpp" />
+    <ClCompile Include="src\Universe\Module\GravityField.cpp" />
     <ClCompile Include="src\Universe\Module\Module.cpp" />
     <ClCompile Include="src\Universe\Module\ProjectileModule.cpp" />
     <ClCompile Include="src\Universe\Module\Sensor.cpp" />
     <ClCompile Include="src\Universe\Module\ShipModule.cpp" />
+    <ClCompile Include="src\Universe\Module\TriggerSensor.cpp" />
     <ClCompile Include="src\Universe\ShipModule\Capacitor.cpp" />
     <ClCompile Include="src\Universe\ShipModule\Plating.cpp" />
     <ClCompile Include="src\Universe\ShipModule\Radar.cpp" />

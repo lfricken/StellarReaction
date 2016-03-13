@@ -879,6 +879,12 @@
     <ClInclude Include="include\Control\SlaveLocator.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Universe\Module\GravityField.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Universe\Module\TriggerSensor.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="include\API\Box2D\Collision\b2BroadPhase.cpp">
@@ -1272,6 +1278,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Universe\ShipModule\Teleport.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Universe\Module\GravityField.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Universe\Module\TriggerSensor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

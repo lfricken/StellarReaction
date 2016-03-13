@@ -14,6 +14,8 @@
 #include "Thruster.hpp"
 #include "Stealth.hpp"
 #include "Teleport.hpp"
+#include "GravityField.hpp"
+#include "TriggerSensor.hpp"
 
 #include "Capacitor.hpp"
 #include "Module.hpp"
@@ -36,6 +38,8 @@ RegisterClass(ModuleData, ThrusterData);
 RegisterClass(ModuleData, StealthData);
 RegisterClass(ModuleData, TeleportData);
 
+RegisterClass(ModuleData, TriggerSensorData);
+RegisterClass(ModuleData, GravityFieldData);
 RegisterClass(ModuleData, CaptureAreaData);
 RegisterClass(ModuleData, SensorData);
 
