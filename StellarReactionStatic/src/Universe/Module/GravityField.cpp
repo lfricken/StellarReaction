@@ -21,13 +21,14 @@ void GravityField::prePhysUpdate()
 
 		b2Vec2 direction = myPos - targetPos;
 		float sqLen = direction.LengthSquared();
+		direction.Normalize();
 		if ( (sqLen > 2)) {
-			direction.Normalize();
 			direction *= m_mass*bod->GetMass() / (sqLen);
 			bod->ApplyForceToCenter(direction, true);
 		}
 		else {
-			bod->SetLinearVelocity(b2Vec2_zero);
+			direction *= 50;
+			bod->ApplyForceToCenter(direction, true);
 		}
 	}
 

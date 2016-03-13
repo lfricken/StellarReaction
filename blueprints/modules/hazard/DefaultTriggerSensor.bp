@@ -8,7 +8,7 @@
 			0
 		],
 		"size": [
-			30,
+			50,
 			0
 		],
 		"shape": "circle",
@@ -17,5 +17,6 @@
 		"colCat": "Trigger",
 		"colMask": "Trigger"
 	},
-	"Damage": 1
+	"Damage": 100,
+  "Period": 1
 }

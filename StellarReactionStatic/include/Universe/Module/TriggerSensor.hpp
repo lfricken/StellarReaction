@@ -14,6 +14,7 @@ public:
 
 protected:
 	float m_damage;
+	float m_period;
 	Timer m_damageTimer;
 private:
 };
@@ -21,12 +22,14 @@ private:
 struct TriggerSensorData : public SensorData
 {
 	TriggerSensorData() :
-		dmg(50)
+		dmg(50),
+		period(3)
 	{
 
 	}
 
 	float dmg;
+	float period;
 
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{
