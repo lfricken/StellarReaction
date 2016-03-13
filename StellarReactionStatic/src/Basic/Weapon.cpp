@@ -20,6 +20,7 @@ Weapon::Weapon(const WeaponData& rData) : m_decor(rData.weaponQuad)
 	m_range = rData.range * sizeScalingFactor;
 	m_damage = rData.damage;
 	m_shots = rData.shots;
+	m_shotsInSpread = rData.shotsInSpread;
 	m_shotsRemain = 0;
 	m_collisions = rData.collisions;
 
@@ -67,7 +68,13 @@ void Weapon::prePhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 radC
 		m_shotTimer.restartCountDown();
 		m_shotThisTick = true;
 
-		preShot(center, aim, radCCW, module_orientation);
+		int i;
+		for (i = 0; i < m_shotsInSpread; i++) {
+			b2Vec2 newAim(aim.x + i, aim.y + i);
+			preShot(center, newAim, radCCW, module_orientation);
+		}
+
+		//preShot(center, aim, radCCW, module_orientation);
 	}
 }
 void Weapon::postPhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation)//we are determining our next shot
@@ -79,7 +86,13 @@ void Weapon::postPhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 rad
 	if(m_shotThisTick)
 	{
 		m_shotThisTick = false;
-		postShot(center, aim, radCCW, module_orientation);
+
+		int i;
+		for (i = 0; i < m_shotsInSpread; i++) {
+			b2Vec2 newAim(aim.x + i, aim.y + i);
+			postShot(center, newAim, radCCW, module_orientation);
+		}
+		//postShot(center, aim, radCCW, module_orientation);
 
 		if(m_shotsRemain == 0)
 		{
@@ -111,6 +124,8 @@ void WeaponData::loadJson(const Json::Value& root)
 
 	if(!root["Shots"].isNull())
 		shots = root["Shots"].asInt();
+	if (!root["ShotsInSpread"].isNull())
+		shotsInSpread = root["ShotsInSpread"].asInt();
 	if(!root["Damage"].isNull())
 		damage = root["Damage"].asInt();
 

@@ -56,6 +56,7 @@ protected:
 	b2Body* m_pBody;
 	const FixtureComponent* m_pTempParent;
 	int m_shots;//how many shots we do upon each fire command
+	int m_shotsInSpread; //how many shots per spread
 	int m_damage;
 	float m_range;
 	int m_collisions;//how many collisions should we do? MODULE PENETRATION LOGIC
@@ -93,6 +94,7 @@ struct WeaponData
 		mis(0),
 
 		shots(5),
+		shotsInSpread(1),
 		damage(50),
 
 		shotDelay(0.09f),
@@ -116,6 +118,7 @@ struct WeaponData
 
 	int shots;//how many shots per fire
 	int damage;//damage we do per shot
+	int shotsInSpread;// if this weapon is a shotgun, how many shots in its spread
 
 	float shotDelay;//how much time between shots
 	float fireDelay;//reload time
