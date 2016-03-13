@@ -262,6 +262,7 @@ void Game::tick(float frameTime)
 		getLocalPlayer().updateView();
 		rWindow.setView(getLocalPlayer().getCamera().getView());
 		getLocalPlayer().getLiveInput();
+		getUniverse().updateShipAI();
 		getUniverse().getControllerFactory().processAllDirectives();
 
 		getUniverse().postPhysUpdate();

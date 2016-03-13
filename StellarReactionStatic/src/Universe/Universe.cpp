@@ -117,7 +117,11 @@ Scoreboard& Universe::getScoreboard()
 {
 	return *m_scoreboard;
 }
-
+void Universe::updateShipAI()
+{
+	for(auto it = m_shipAI.begin(); it != m_shipAI.end; ++it)
+		(*it)->updateDecision();
+}
 /// <summary>
 /// If true, we only draw box2d things on screen.
 /// </summary>

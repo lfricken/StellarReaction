@@ -8,6 +8,7 @@
 #include "Money.hpp"
 #include "Scoreboard.hpp"
 #include "Hazard\HazardField.hpp"
+#include "ShipAI.hpp"
 
 class BatchLayers;
 class GraphicsComponentUpdater;
@@ -47,6 +48,7 @@ public:
 	void postPhysUpdate();
 	void teamMoneyUpdate();
 	void updateDecorationPosition(const b2Vec2& rCameraPos, float zoom);
+	void updateShipAI();
 
 	void changeTeamMoney(int team, Money money);
 
@@ -122,6 +124,7 @@ private:
 
 	std::vector<sptr<GameObject> > m_goList;//list of game objects that WE need to keep track of
 	std::vector<sptr<GameObject>> m_shipDebris;//game object to add after iteration
+	std::vector<sptr<ShipAI> > m_shipAI;
 
 	std::vector<sptr<Decoration> > m_decorList;//list of decorations for the world
 
