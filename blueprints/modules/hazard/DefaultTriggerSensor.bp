@@ -17,6 +17,7 @@
 		"colCat": "Trigger",
 		"colMask": "Trigger"
 	},
-	"Damage": 100,
-  "Period": 1
+	"MaxDamage": 30,
+	"MinDamage": 7,
+	"Period": 0.33
 }

@@ -5,7 +5,8 @@
 
 TriggerSensor::TriggerSensor(const TriggerSensorData& rData) : Sensor(rData)
 {
-	m_damage = rData.dmg;
+	m_maxDamage = rData.max_dmg;
+	m_minDamage = rData.min_dmg;
 	m_period = rData.period;
 }
 TriggerSensor::~TriggerSensor()
@@ -24,10 +25,12 @@ void TriggerSensor::prePhysUpdate()
 			b2Vec2 direction = myPos - targetPos;
 			float sqLen = direction.LengthSquared();
 			int damageAmount;
-			if (sqLen > 2)
-				damageAmount = (m_damage / (sqLen))*game.getUniverse().getTimeStep();
+			if (sqLen > 4)
+				damageAmount = (m_maxDamage / (sqLen));
 			else
-				damageAmount = m_damage;
+				damageAmount = m_maxDamage;
+			if (damageAmount < m_minDamage)
+				damageAmount = m_minDamage;
 			sf::Packet packet;
 			packet << damageAmount << this->getFixtureComponent().getIOPos();
 			Message mess;
@@ -41,8 +44,10 @@ void TriggerSensor::prePhysUpdate()
 }
 void TriggerSensorData::loadJson(const Json::Value& root)
 {
-	if (!root["Damage"].isNull())
-		dmg = root["Damage"].asFloat();
+	if (!root["MaxDamage"].isNull())
+		max_dmg = root["MaxDamage"].asFloat();
+	if (!root["MinDamage"].isNull())
+		min_dmg = root["MinDamage"].asFloat();
 	if (!root["Period"].isNull())
 		period = root["Period"].asFloat();
 	SensorData::loadJson(root);

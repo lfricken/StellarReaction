@@ -13,7 +13,8 @@ public:
 	virtual void prePhysUpdate();
 
 protected:
-	float m_damage;
+	float m_minDamage;
+	float m_maxDamage;
 	float m_period;
 	Timer m_damageTimer;
 private:
@@ -22,13 +23,15 @@ private:
 struct TriggerSensorData : public SensorData
 {
 	TriggerSensorData() :
-		dmg(50),
+		min_dmg(10),
+		max_dmg(100),
 		period(3)
 	{
 
 	}
 
-	float dmg;
+	float max_dmg;
+	float min_dmg;
 	float period;
 
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
