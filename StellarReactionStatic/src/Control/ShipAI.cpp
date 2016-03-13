@@ -1,7 +1,7 @@
 #include "ShipAI.hpp"
 
 
-ShipAI::ShipAI()
+ShipAI::ShipAI() : BasePlayerTraits("ai")
 {
 
 }

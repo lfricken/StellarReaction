@@ -119,7 +119,7 @@ Scoreboard& Universe::getScoreboard()
 }
 void Universe::updateShipAI()
 {
-	for(auto it = m_shipAI.begin(); it != m_shipAI.end; ++it)
+	for(auto it = m_shipAI.begin(); it != m_shipAI.end(); ++it)
 		(*it)->updateDecision();
 }
 /// <summary>
@@ -448,6 +448,10 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 	Json::Value root;
 
 	bool parsedSuccess = reader.parse(level, root, false);
+
+	//SHIP AI TODO
+	m_shipAI.push_back(sptr<ShipAI>(new ShipAI));
+	m_shipAI.back()->setController(rControllerList.size()-1);
 
 
 	setupBackground();

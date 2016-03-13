@@ -1,9 +1,9 @@
 #pragma once
 
+#include "BasePlayerTraits.hpp"
 
 
-
-class ShipAI
+class ShipAI : public BasePlayerTraits
 {
 public:
 	ShipAI();

@@ -238,7 +238,7 @@ void Game::tick(float frameTime)
 
 	static float physTickTimeRemaining = 0;
 	static const float timeStep = getUniverse().getTimeStep();
-	static const sf::View defaultView(Vector2f(rWindow.getSize().x / 2, rWindow.getSize().y / 2), Vector2f(rWindow.getSize()));
+	static const sf::View defaultView(Vector2f((float)(rWindow.getSize().x / 2), (float)(rWindow.getSize().y / 2)), Vector2f((float)rWindow.getSize().x, (float)rWindow.getSize().y));
 
 
 	/**== FRAMERATE ==**/
