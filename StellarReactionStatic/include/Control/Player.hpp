@@ -35,13 +35,14 @@ struct InputConfig
 		cgroup_4(sf::Keyboard::Num4),
 
 		stealth(sf::Keyboard::Space),
+		shield(sf::Keyboard::V),
+
 		special_2(sf::Keyboard::R),
 		special_3(sf::Keyboard::F),
 		special_4(sf::Keyboard::C),
 		special_5(sf::Keyboard::X),
 		special_6(sf::Keyboard::Z),
 		special_7(sf::Keyboard::LShift),
-
 
 		cameraUp(sf::Keyboard::Up),
 		cameraDown(sf::Keyboard::Down),
@@ -69,6 +70,8 @@ struct InputConfig
 	sf::Keyboard::Key cgroup_4;
 
 	sf::Keyboard::Key stealth;
+	sf::Keyboard::Key shield;
+
 	sf::Keyboard::Key special_2;
 	sf::Keyboard::Key special_3;
 	sf::Keyboard::Key special_4;

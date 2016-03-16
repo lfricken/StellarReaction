@@ -2,8 +2,10 @@
 #define SHIELD_HPP
 
 #include "ShipModule.hpp"
+#include "Sensor.hpp"
 
 struct ShieldData;
+struct ShieldComponent;
 
 class Shield : public ShipModule
 {
@@ -11,9 +13,11 @@ public:
 	Shield(const ShieldData& rData);
 	virtual ~Shield();
 
+
+
 	//virtual void postPhysUpdate();
 
-	//void directive(std::map<Directive, bool>& rIssues);
+	void directive(std::map<Directive, bool>& rIssues);
 
 protected:
 private:
@@ -22,12 +26,17 @@ private:
 	const float consump_per_hit = 2.0;
 };
 
+struct ShieldComponent : public Sensor
+{
+
+};
+
 struct ShieldData : public ShipModuleData
 {
 	ShieldData() : ShipModuleData(), energyConsumption(5)
 	{
 		baseDecor.texName = "shield/shield.png";
-		baseDecor.animSheetName = "shield/shield_base.acfg";
+		baseDecor.animSheetName = "shield/shield.acfg";
 	}
 
 	float energyConsumption;

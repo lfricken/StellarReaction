@@ -113,6 +113,10 @@ void Player::getLiveInput()
 			m_directives[Directive::Stealth] = true;
 		if (Keyboard::isKeyPressed(Keyboard::K))
 			m_directives[Directive::Respawn] = true;
+
+		if (Keyboard::isKeyPressed(m_inCfg.shield))
+			m_directives[Directive::ShieldToggle] = true;
+
 		if (Keyboard::isKeyPressed(m_inCfg.cgroup_1))
 			setActiveControlGroup(1);
 		if (Keyboard::isKeyPressed(m_inCfg.cgroup_2))
