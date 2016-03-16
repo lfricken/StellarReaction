@@ -2,7 +2,7 @@
     "ClassName": "StealthData",
 	"Title": "DefaultStealth",
     "Inherits": "DefaultShipModule",
-  "EnergyConsumption": 20,
+  	"EnergyConsumption": 20,
 	"BaseSprite": {
 		"texName": "plating/plating_base.png",
 		"animSheetName": "plating/plating_base.acfg"
