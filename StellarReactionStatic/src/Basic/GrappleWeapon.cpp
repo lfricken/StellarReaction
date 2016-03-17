@@ -7,7 +7,7 @@
 
 using namespace std;
 
-GrappleWeapon::GrappleWeapon(const GrappleWeaponData& rData) : LaserWeapon(rData), m_beam(rData.beamComp)
+GrappleWeapon::GrappleWeapon(const GrappleWeaponData& rData) : LaserWeapon(rData)
 {
 
 }
