@@ -59,6 +59,7 @@ public:
 	bool isPaused();
 	void toggleDebugDraw();
 	BodyComponent* getNearestBody(const b2Vec2& target);
+	Chunk* getNearestChunk(const b2Vec2& target, const Chunk* me);
 
 	b2Vec2 getBed();//give a position to sleep at
 	void addBed(const b2Vec2& rBed);//someone gave a bed back to us!	
