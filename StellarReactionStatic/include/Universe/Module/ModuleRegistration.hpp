@@ -40,7 +40,7 @@ RegisterClass(ModuleData, CaptureAreaData);
 RegisterClass(ModuleData, SensorData);
 
 RegisterClass(ModuleData, ShieldData);
-
+RegisterClass(ModuleData, ShieldComponentData);
 
 
 
