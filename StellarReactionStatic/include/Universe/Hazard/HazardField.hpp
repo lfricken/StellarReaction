@@ -16,4 +16,5 @@ private:
 	Timer timer;
 	b2Vec2 origin;
 	Universe* universe;
+	bool spawned;
 };

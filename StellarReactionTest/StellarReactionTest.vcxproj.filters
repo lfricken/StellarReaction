@@ -45,9 +45,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MinimapTest.cpp">
-     <Filter>Source Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ScoreboardTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlackHoleTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TeleportTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

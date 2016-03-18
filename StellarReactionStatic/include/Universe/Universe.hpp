@@ -56,6 +56,7 @@ public:
 	void togglePause();
 	bool isPaused();
 	void toggleDebugDraw();
+	GameObject* getNearestChunkExcept(const b2Vec2& target, const b2Body* exception);
 	BodyComponent* getNearestBody(const b2Vec2& target);
 
 	b2Vec2 getBed();//give a position to sleep at
@@ -70,7 +71,7 @@ public:
 	void clearDebris();
 
 	std::vector<sptr<GameObject> > getgoList();
-
+	bool isClear(b2Vec2 position, float radius, const b2Body* exception);
 
 
 	float m_pauseTime;
