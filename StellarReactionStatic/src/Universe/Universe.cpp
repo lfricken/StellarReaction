@@ -227,7 +227,7 @@ Chunk* Universe::getNearestChunk(const b2Vec2& target, const Chunk* me)
 		}
 	}
 	return closest;
-=======
+}
 BodyComponent* Universe::getNearestBody(const b2Vec2& target)
 {
 	return &(dynamic_cast<Chunk*>(getNearestChunkExcept(target, NULL))->getBodyComponent());
