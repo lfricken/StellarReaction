@@ -23,7 +23,7 @@ GrappleWeapon::~GrappleWeapon()
 /// <param name="radCCW">The RAD CCW.</param>
 void GrappleWeapon::preShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation)
 {
-	
+	LaserWeapon::preShot(center, aim, radCCW, module_orientation);
 }
 /// <summary>
 /// after physics calculation, we know who we hit, so we send a damage packet
@@ -66,5 +66,5 @@ void GrappleWeapon::grappleTo(const b2Fixture& otherShip)
 }
 void GrappleWeaponData::loadJson(const Json::Value& root)
 {
-
+	LaserWeaponData::loadJson(root);
 }
