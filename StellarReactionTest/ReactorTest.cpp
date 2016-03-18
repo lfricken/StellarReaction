@@ -46,17 +46,17 @@ TEST(ReactorTest, shipMovesOnDeath)
 
 	//destroy the reactor
 	sf::Packet packet;
-	packet << 1000 << testChunk->getModuleList()[0]->getFixtureComponent().getIOPos();
+	packet << 2000 << testChunk->getModuleList()[0]->getFixtureComponent().getIOPos();
 	Message mess;
 	mess.reset(testChunk->getModuleList()[0]->getFixtureComponent().getIOPos(), "damage", packet, 0.f, false);
 	game.getUniverse().getUniverseIO().recieve(mess);
 
 
-	game.runTicks(30);
+	game.runTicks(60);
 	b2Vec2 afterDeathPos = testChunk->getBodyPtr()->GetPosition();
 	ASSERT_NE(origPos.x, afterDeathPos.x);
-	ASSERT_GT(afterDeathPos.x, -8);
-	ASSERT_LT(afterDeathPos.x, 8);
+	ASSERT_GT(afterDeathPos.x, -9);
+	ASSERT_LT(afterDeathPos.x, 9);
 
 }
 
@@ -135,7 +135,7 @@ TEST(ReactorTest, debrisShouldDisappearAfter3Seconds)
 
 	//destroy the reactor
 	sf::Packet packet;
-	packet << 1000 << testChunk->getModuleList()[0]->getFixtureComponent().getIOPos();
+	packet << 2000 << testChunk->getModuleList()[0]->getFixtureComponent().getIOPos();
 	Message mess;
 	mess.reset(testChunk->getModuleList()[0]->getFixtureComponent().getIOPos(), "damage", packet, 0.f, false);
 	game.getUniverse().getUniverseIO().recieve(mess);
