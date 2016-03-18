@@ -68,13 +68,19 @@ void Weapon::prePhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 radC
 		m_shotTimer.restartCountDown();
 		m_shotThisTick = true;
 
-		int i;
-		for (i = 0; i < m_shotsInSpread; i++) {
-			b2Vec2 newAim(aim.x + i, aim.y + i);
-			preShot(center, newAim, radCCW, module_orientation);
+		if (m_shotsInSpread == 1)
+			preShot(center, aim, radCCW, module_orientation);
+		else {
+			int i;
+			for (i = 0; i < m_shotsInSpread; i++) {
+				float new_y = ((float)rand()) / RAND_MAX;
+				float new_x = (-1 * aim.y * new_y) / aim.x;
+				b2Vec2 perp(new_x, new_y);
+				b2Vec2 newAim = aim + perp;
+				preShot(center, newAim, radCCW, module_orientation);
+			}
 		}
 
-		//preShot(center, aim, radCCW, module_orientation);
 	}
 }
 void Weapon::postPhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation)//we are determining our next shot
@@ -87,12 +93,18 @@ void Weapon::postPhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 rad
 	{
 		m_shotThisTick = false;
 
-		int i;
-		for (i = 0; i < m_shotsInSpread; i++) {
-			b2Vec2 newAim(aim.x + i, aim.y + i);
-			postShot(center, newAim, radCCW, module_orientation);
+		if (m_shotsInSpread == 1)
+			postShot(center, aim, radCCW, module_orientation);
+		else {
+			int i;
+			for (i = 0; i < m_shotsInSpread; i++) {
+				float new_y = ((float)rand()) / RAND_MAX;
+				float new_x = (-1 * aim.y * new_y) / aim.x;
+				b2Vec2 perp(new_x, new_y);
+				b2Vec2 newAim = aim + perp;
+				postShot(center, newAim, radCCW, module_orientation);
+			}
 		}
-		//postShot(center, aim, radCCW, module_orientation);
 
 		if(m_shotsRemain == 0)
 		{
