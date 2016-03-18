@@ -70,9 +70,9 @@ void ProjectileModule::damage(FixtureComponent* pFix, int damage)
 {
 	FixtureComponent& rComp = *pFix;
 	sf::Packet packet;
-	packet << m_damage;
+	packet << m_damage << m_fix.getIOPos();
 	Message mess;
-	mess.reset(rComp.getIOPos(), "damage", packet, 0.f, false);
+	mess.reset(pFix->getIOPos(), "damage", packet, 0.f, false);
 	game.getUniverse().getUniverseIO().recieve(mess);
 }
 void ProjectileModuleData::loadJson(const Json::Value& root)
@@ -88,6 +88,10 @@ void ProjectileModule::input(std::string rCommand, sf::Packet rData)
 	if(rCommand == "damage")
 	{
 
+	}
+	else if(rCommand == "hitShield")
+	{
+		m_freeThisProjectile = true;
 	}
 	else
 		Module::input(rCommand, rData);

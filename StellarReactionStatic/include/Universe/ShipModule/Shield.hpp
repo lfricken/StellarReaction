@@ -15,6 +15,8 @@ public:
 
 	virtual void entered(FixtureComponent* pOther);
 	virtual void exited(FixtureComponent* pOther);
+protected:
+	virtual void input(std::string rCommand, sf::Packet rData);
 };
 
 struct ShieldComponentData : public SensorData
@@ -22,8 +24,11 @@ struct ShieldComponentData : public SensorData
 	ShieldComponentData() :
 		SensorData()
 	{
+		title = "ShieldComponent";
 		fixComp.isSensor = true;
 		fixComp.shape = leon::Shape::Rectangle;
+		fixComp.colCategory = Category::ShipForceField;
+		fixComp.colMask = Mask::ShipForceField;
 		fixComp.density = 0.f;
 	}
 
@@ -60,20 +65,22 @@ private:
 	bool out_of_energy;
 	const float consump_per_hit = 2.0;
 
-	float radius = 10.0;
-
 	ShieldComponent* shield;
 };
 
 struct ShieldData : public ShipModuleData
 {
-	ShieldData() : ShipModuleData(), energyConsumption(5)
+	ShieldData() : 
+		ShipModuleData(),
+		energyConsumption(5),
+		radius(10)
 	{
 		baseDecor.texName = "shield/shield.png";
 		baseDecor.animSheetName = "shield/shield.acfg";
 	}
 
 	float energyConsumption;
+	float radius;
 
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{
