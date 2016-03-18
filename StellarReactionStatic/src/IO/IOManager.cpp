@@ -133,9 +133,9 @@ void IOManager::f_send(const Message& rMessage)
 	}
 	else
 	{
-		cout << "\nBad Target: [" << rMessage.getTargetName() << "]:[" << pos << "] with";
-		cout << "\nCommand: [" << rMessage.getCommand() << "]. ";
-		cout << FILELINE;
+		//cout << "\nBad Target: [" << rMessage.getTargetName() << "]:[" << pos << "] with";
+		//cout << "\nCommand: [" << rMessage.getCommand() << "]. ";
+		//cout << FILELINE;
 	}
 }
 void IOManager::pack(sf::Packet& rPacket)//give us data to send to the twin in the other world

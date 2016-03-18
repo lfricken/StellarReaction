@@ -22,10 +22,12 @@ public:
 	Controller& getController(int index);
 	NetworkFactory& getNWFactory();
 
+	std::vector<sptr<Controller> > m_spControlList;//list of all controllers
+
+
 protected:
 private:
 	sptr<NetworkFactory> m_spNWFactory;
-	std::vector<sptr<Controller> > m_spControlList;//list of all controllers
 	sptr<Controller> m_spBackupController;//if we need to return a reference to a controller, but none exist, we give this one
 };
 

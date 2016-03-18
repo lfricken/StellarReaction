@@ -8,6 +8,7 @@
 #include "Money.hpp"
 #include "Scoreboard.hpp"
 #include "Hazard\HazardField.hpp"
+#include "ShipAI.hpp"
 
 class BatchLayers;
 class GraphicsComponentUpdater;
@@ -47,6 +48,7 @@ public:
 	void postPhysUpdate();
 	void teamMoneyUpdate();
 	void updateDecorationPosition(const b2Vec2& rCameraPos, float zoom);
+	void updateShipAI();
 
 	void changeTeamMoney(int team, Money money);
 
@@ -58,6 +60,7 @@ public:
 	void toggleDebugDraw();
 	GameObject* getNearestChunkExcept(const b2Vec2& target, const b2Body* exception);
 	BodyComponent* getNearestBody(const b2Vec2& target);
+	Chunk* getNearestChunk(const b2Vec2& target, const Chunk* me);
 
 	b2Vec2 getBed();//give a position to sleep at
 	void addBed(const b2Vec2& rBed);//someone gave a bed back to us!	
@@ -123,6 +126,7 @@ private:
 
 	std::vector<sptr<GameObject> > m_goList;//list of game objects that WE need to keep track of
 	std::vector<sptr<GameObject>> m_shipDebris;//game object to add after iteration
+	std::vector<sptr<ShipAI> > m_shipAI;
 
 	std::vector<sptr<Decoration> > m_decorList;//list of decorations for the world
 

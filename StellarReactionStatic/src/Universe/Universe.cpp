@@ -117,7 +117,11 @@ Scoreboard& Universe::getScoreboard()
 {
 	return *m_scoreboard;
 }
-
+void Universe::updateShipAI()
+{
+	for(auto it = m_shipAI.begin(); it != m_shipAI.end(); ++it)
+		(*it)->updateDecision();
+}
 /// <summary>
 /// If true, we only draw box2d things on screen.
 /// </summary>
@@ -203,6 +207,27 @@ GameObject* Universe::getNearestChunkExcept(const b2Vec2& target, const b2Body* 
 	}
 	return closest;
 }
+Chunk* Universe::getNearestChunk(const b2Vec2& target, const Chunk* me)
+{
+	float prevDist = -1;
+	Chunk* closest = NULL;
+	for(auto it = m_goList.begin(); it != m_goList.end(); ++it)
+	{
+		GameObject* p = it->get();
+		Chunk* object = dynamic_cast<Chunk*>(p);
+		if(object != NULL && object != me)
+		{
+			b2Vec2 dif = target - object->getBodyPtr()->GetPosition();
+			float dist = dif.Length();
+			if(dist < prevDist || prevDist == -1)
+			{
+				prevDist = dist;
+				closest = object;
+			}
+		}
+	}
+	return closest;
+=======
 BodyComponent* Universe::getNearestBody(const b2Vec2& target)
 {
 	return &(dynamic_cast<Chunk*>(getNearestChunkExcept(target, NULL))->getBodyComponent());
@@ -448,6 +473,10 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 	Json::Value root;
 
 	bool parsedSuccess = reader.parse(level, root, false);
+
+	//SHIP AI TODO
+	m_shipAI.push_back(sptr<ShipAI>(new ShipAI));
+	m_shipAI.back()->setController(rControllerList.size()-1);
 
 
 	setupBackground();
