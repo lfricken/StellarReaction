@@ -58,6 +58,7 @@ public:
 	void togglePause();
 	bool isPaused();
 	void toggleDebugDraw();
+	GameObject* getNearestChunkExcept(const b2Vec2& target, const b2Body* exception);
 	BodyComponent* getNearestBody(const b2Vec2& target);
 	Chunk* getNearestChunk(const b2Vec2& target, const Chunk* me);
 
@@ -73,7 +74,7 @@ public:
 	void clearDebris();
 
 	std::vector<sptr<GameObject> > getgoList();
-
+	bool isClear(b2Vec2 position, float radius, const b2Body* exception);
 
 
 	float m_pauseTime;

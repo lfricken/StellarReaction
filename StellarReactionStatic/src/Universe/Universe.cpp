@@ -186,22 +186,22 @@ void Universe::postPhysUpdate()
 		m_spProjMan->postPhysUpdate();
 	}
 }
-BodyComponent* Universe::getNearestBody(const b2Vec2& target)
+GameObject* Universe::getNearestChunkExcept(const b2Vec2& target, const b2Body* exception)
 {
 	float prevDist = -1;
-	BodyComponent* closest = NULL;
-	for(auto it = m_goList.begin(); it != m_goList.end(); ++it)
+	Chunk* closest = NULL;
+	for (auto it = m_goList.begin(); it != m_goList.end(); ++it)
 	{
 		GameObject* p = it->get();
 		Chunk* object = dynamic_cast<Chunk*>(p);
-		if(object != NULL)
+		if (object != NULL && object->getBodyPtr() != exception)
 		{
 			b2Vec2 dif = target - object->getBodyPtr()->GetPosition();
 			float dist = dif.Length();
-			if(dist < prevDist || prevDist == -1)
+			if (dist < prevDist || prevDist == -1)
 			{
 				prevDist = dist;
-				closest = &object->getBodyComponent();
+				closest = object;
 			}
 		}
 	}
@@ -227,6 +227,10 @@ Chunk* Universe::getNearestChunk(const b2Vec2& target, const Chunk* me)
 		}
 	}
 	return closest;
+=======
+BodyComponent* Universe::getNearestBody(const b2Vec2& target)
+{
+	return &(dynamic_cast<Chunk*>(getNearestChunkExcept(target, NULL))->getBodyComponent());
 }
 /// <summary>
 /// Gives each team the money the get per step (from cap points)
@@ -657,4 +661,14 @@ std::vector<sptr<GameObject>> Universe::getDebris()
 std::vector<sptr<GameObject> > Universe::getgoList()
 {
 	return m_goList;
+}
+
+bool Universe::isClear(b2Vec2 position, float radius, const b2Body* exception)
+{
+	Chunk* nearest = dynamic_cast<Chunk*>(getNearestChunkExcept(position, exception));
+	float nearestRad = nearest->getRadius();
+	float dist = (nearest->getBodyPtr()->GetPosition() - position).Length();
+	if (dist < (nearestRad + radius))
+		return false;
+	return true;
 }

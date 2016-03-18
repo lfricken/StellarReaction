@@ -1,0 +1,12 @@
+{
+    "ClassName": "TeleportData",
+	"Title": "DefaultTeleport",
+    "Inherits": "DefaultShipModule",
+  "EnergyConsumption": 20,
+  "TeleportRange": 20,
+  "TeleportCooldown": 10,
+	"BaseSprite": {
+		"texName": "plating/plating_base.png",
+		"animSheetName": "plating/plating_base.acfg"
+	}
+}

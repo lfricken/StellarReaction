@@ -91,6 +91,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BlackHoleTest.cpp" />
     <ClCompile Include="BlueprintLoaderTest.cpp" />
     <ClCompile Include="GameTest.cpp" />
     <ClCompile Include="ReactorTest.cpp" />
@@ -102,6 +103,7 @@
     </ClCompile>
     <ClCompile Include="StealthTest.cpp" />
     <ClCompile Include="StellarReactionTest.cpp" />
+    <ClCompile Include="TeleportTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\StellarReaction\StellarReaction.vcxproj">

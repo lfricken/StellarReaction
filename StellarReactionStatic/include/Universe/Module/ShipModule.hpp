@@ -21,6 +21,8 @@ public:
 	ShipModule(const ShipModuleData& rData);
 	virtual ~ShipModule() = 0;
 
+	const Health getHealth();
+
 	virtual void prePhysUpdate();
 	virtual void postPhysUpdate();
 
