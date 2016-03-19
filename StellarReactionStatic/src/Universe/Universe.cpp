@@ -141,15 +141,6 @@ float Universe::getTimeStep() const
 /// </summary>
 void Universe::prePhysUpdate()
 {
-	static bool spawnedHazards = false;
-	if(!spawnedHazards)
-	{
-		for(auto it = hazardFields.begin(); it != hazardFields.end(); ++it)
-			(**it).spawn();
-		spawnedHazards = true;
-	}
-
-
 	if(!m_paused)
 	{
 		for(auto it = m_goList.begin(); it != m_goList.end(); ++it)
@@ -508,15 +499,6 @@ void Universe::loadLevel(const std::string& levelName, int localController, cons
 		}
 		else
 			cout << "\nAdditional Blueprints Null";
-		/**HAZARD FIELDS**/
-		if(!root["HazardFields"].isNull())
-		{
-			const Json::Value spawnList = root["HazardFields"];
-			for(auto it = spawnList.begin(); it != spawnList.end(); ++it)
-				hazardFields.push_back(sptr<HazardField>(new HazardField(this, *it)));
-		}
-		else
-			cout << "\nHazard Field Null";
 		/**SPAWN POINT**/
 		if(!root["SpawnPoints"].isNull())
 		{
@@ -559,6 +541,15 @@ void Universe::loadLevel(const std::string& levelName, int localController, cons
 				add(spCnk->generate(this));
 			}
 		}
+		/**HAZARD FIELDS**/
+		if(!root["HazardFields"].isNull())
+		{
+			const Json::Value spawnList = root["HazardFields"];
+			for(auto it = spawnList.begin(); it != spawnList.end(); ++it)
+				hazardFields.push_back(sptr<HazardField>(new HazardField(this, *it)));
+		}
+		else
+			cout << "\nHazard Field Null";
 	}
 
 	int team = 1;
@@ -604,6 +595,9 @@ void Universe::loadLevel(const std::string& levelName, int localController, cons
 	}
 	else
 		std::cout << "\nNo slave! " << FILELINE;
+
+	for(auto it = hazardFields.begin(); it != hazardFields.end(); ++it)
+		(**it).spawn();
 }
 void Universe::add(sptr<GameObject> spGO)
 {

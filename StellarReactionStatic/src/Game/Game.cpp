@@ -24,6 +24,7 @@
 #include "RayCastCallback.hpp"
 #include "Projectile.hpp"
 #include "Directory.hpp"
+#include "Random.hpp"
 
 using namespace std;
 using namespace sf;
@@ -33,7 +34,7 @@ using namespace leon;
 Game::Game()
 {
 	srand(static_cast<unsigned int>(time(NULL)));
-	//gen;
+	Random::seed();
 
 	m_spDragUpdater = sptr<DragUpdater>(new DragUpdater());
 

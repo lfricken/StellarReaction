@@ -7,14 +7,14 @@
 	"HazardFields": [{
 		"HazardName": "Asteroid",
 		"NumHazards": 4,
-		"Radius": 5,
-		"OriginX": 0,
-		"OriginY": 0
+		"Radius": 10,
+		"OriginX": 20,
+		"OriginY": 40
 	}, {
 		"HazardName": "Asteroid",
 		"NumHazards": 4,
-		"Radius": 5,
-		"OriginX": 0,
+		"Radius": 10,
+		"OriginX": 90,
 		"OriginY": 0
 	}],
 	"SpawnPoints": [{

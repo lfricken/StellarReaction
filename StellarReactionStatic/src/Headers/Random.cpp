@@ -1,19 +1,25 @@
 #include "Random.hpp"
 
+#include <time.h>
 
-Random::Random()
+std::default_random_engine Random::gen;
+std::uniform_int_distribution<int> Random::ints;
+std::uniform_real_distribution<float> Random::floats;
+
+void Random::seed()
 {
-
-}
-Random::~Random()
-{
-
+	gen.seed(static_cast<unsigned int>(time(NULL)));
 }
 int Random::getRandom(int minInclusive, int maxInclusive)
 {
-	return 0;
+	std::uniform_int_distribution<int>::param_type range(minInclusive, maxInclusive);
+	ints.param(range);
+	return ints(gen);
 }
 float Random::getRandom(float minInclusive, float maxExclusive)
 {
-	return 0.f;
+	std::uniform_real_distribution<float>::param_type range(minInclusive, maxExclusive);
+	floats.param(range);
+	return floats(gen);
 }
+
