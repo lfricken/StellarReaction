@@ -144,7 +144,7 @@ TEST(ReactorTest, debrisShouldDisappearAfter3Seconds)
 
 	EXPECT_FALSE(game.getUniverse().getDebris().empty());
 
-	game.runTime(3.5);
+	game.runTime(3.7);
 
 	ASSERT_TRUE(game.getUniverse().getDebris().empty());
 	
