@@ -2,19 +2,25 @@
 
 #include "stdafx.hpp"
 #include "Timer.hpp"
+#include "IOComponent.hpp"
 
 class Universe;
 
-class HazardField {
+class HazardField
+{
 
 public:
-	HazardField(Universe* universe, b2Vec2 origin);
+	HazardField(Universe* universe, const Json::Value& root);
 
-	void update();
+	void spawn();
+
+	void input(std::string command, sf::Packet data);
 private:
+	Universe* m_pUniverse;
+	std::string m_hazardName;
+	int m_numHazards;
+	float m_radius;
+	b2Vec2 m_origin;
 
-	Timer timer;
-	b2Vec2 origin;
-	Universe* universe;
-	bool spawned;
+	IOComponent m_io;
 };

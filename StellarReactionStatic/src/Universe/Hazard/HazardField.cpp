@@ -5,40 +5,42 @@
 #include "Universe.hpp"
 #include "BlueprintLoader.hpp"
 
-HazardField::HazardField(Universe* universe, b2Vec2 origin)
+HazardField::HazardField(Universe* universe, const Json::Value& root) : m_io(IOComponentData(game.getUniverse().getUniverseIO()), &HazardField::input, this)
 {
-	this->universe = universe;
-	this->origin = origin;
+	m_pUniverse = universe;
 
-	timer.setCountDown(5.0);
-	timer.getTimeElapsed();
-	spawned = false;
+	//if(root
+
+	//m_hazardName = hazardName;
+	//m_numHazards = numHazards;
+	//m_radius = radius;
+	//m_origin = origin;
 }
-void HazardField::update()
+void HazardField::spawn()
 {
+	for(int i = 0; i < m_numHazards; ++i)
+	{
 
-	//if(timer.isTimeUp())
-	//{
-	//	b2Vec2 displacement = b2Vec2(static_cast<float>(rand() % 5), static_cast<float>(rand() % 5));
-	//	b2Vec2 velocity = b2Vec2(static_cast<float>(rand() % 10 - 5), static_cast<float>(rand() % 10 - 5));
-	//	//Get the asteroid's blueprint
-	//	ChunkData* p = universe->getBlueprints().getChunkSPtr("Asteroid")->clone();
-	//	//Move asteroid to a random location
+		//float randX = 
+		//float randY = 
+
+		//b2Vec2 pos = m_origin + b2Vec2(static_cast<float>(rand() % 5), static_cast<float>(rand() % 5));
 
 
-	//	p->bodyComp.coords = origin + displacement;
-	//	Chunk* asteroid = p->generate(universe);
-	//	//To move :
-	//	asteroid->getBodyPtr()->SetLinearVelocity(velocity);
-	//	universe->add(asteroid);
-	//	timer.restartCountDown();
-		if (!spawned){
-			ChunkData* p = universe->getBlueprints().getChunkSPtr("DefaultBlackHole")->clone();
-			p->bodyComp.coords = b2Vec2(30, -30);
-			Chunk* hole = p->generate(universe);
-			universe->add(hole);
-			spawned = true;
-		}
-	//}
+	}
+}
+void HazardField::input(std::string command, sf::Packet data)
+{
+	if(command == "createHazard")
+	{
+		float32 x;
+		float32 y;
+		data >> x >> y;
 
+		sptr<ChunkData> data(m_pUniverse->getBlueprints().getChunkSPtr(m_hazardName)->clone());
+		data->bodyComp.coords = b2Vec2(x, y);
+
+		Chunk* asteroid = data->generate(m_pUniverse);
+		m_pUniverse->add(asteroid);
+	}
 }

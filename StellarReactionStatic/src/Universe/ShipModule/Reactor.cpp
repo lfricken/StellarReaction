@@ -51,6 +51,7 @@ void Reactor::respawn(){
 	//create debris
 	for (int i = 0; i<3; i++)
 	{
+		//TODOD, fix strange numbers, use Random
 		Universe* uni = &game.getUniverse();
 		ChunkData* p = uni->getBlueprints().getChunkSPtr("Asteroid")->clone();
 		b2Vec2 velocity = b2Vec2((rand() % 30 - 15), (rand() % 30 - 15));

@@ -64,7 +64,7 @@ public:
 
 	b2Vec2 getBed();//give a position to sleep at
 	void addBed(const b2Vec2& rBed);//someone gave a bed back to us!	
-	void loadLevel(const std::string& level, int localController, const std::string& bluePrints, const std::vector<std::string>& rControllerList, const std::vector<std::string>& rShipTitleList, const std::vector<int>& teams);//loads a level using blueprints
+	void loadLevel(const std::string& level, int localController, const std::vector<std::string>& rControllerList, const std::vector<std::string>& rShipTitleList, const std::vector<int>& teams);//loads a level using blueprints
 
 	void add(sptr<GameObject> spGO);
 	void add(GameObject* pGO);
@@ -88,7 +88,7 @@ protected:
 	void input(std::string rCommand, sf::Packet rData);
 
 private:
-	std::vector <HazardField> hazardFields;
+	std::vector<sptr<HazardField>> hazardFields;
 
 	//TODO
 	void spawnChunk(int x, int y);

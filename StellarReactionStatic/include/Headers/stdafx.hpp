@@ -35,16 +35,19 @@
 
 #include <Box2D/Box2D.h>/**BOX2D**/
 
-#include "JSON/json.h"/**JSON**/
+#include <JSON/json.h>/**JSON**/
 
 
 template<typename T>
 using sptr = std::shared_ptr<T>;
 
 template<typename T>
-using wptr = std::weak_ptr<T>;
+using wp = std::weak_ptr<T>;
 
+template<typename T>
+using List = std::vector<T>;
 
+using Vec2 = b2Vec2;
 
 #endif // STFAFX_H
 

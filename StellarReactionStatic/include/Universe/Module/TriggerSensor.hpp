@@ -13,8 +13,8 @@ public:
 	virtual void prePhysUpdate();
 
 protected:
-	float m_minDamage;
-	float m_maxDamage;
+	int m_minDamage;
+	int m_maxDamage;
 	float m_period;
 	Timer m_damageTimer;
 private:
