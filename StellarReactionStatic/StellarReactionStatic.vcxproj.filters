@@ -855,6 +855,9 @@
     <ClInclude Include="include\Game\Directory.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="include\Universe\ShipModule\Shield.hpp">
+=======
     <ClInclude Include="include\Basic\GrappleWeapon.hpp">
     <ClInclude Include="include\Control\ShipAI.hpp">
     <ClInclude Include="include\Universe\ShipModule\Teleport.hpp">
@@ -885,6 +888,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Universe\Module\TriggerSensor.hpp">
+>>>>>>> refs/remotes/origin/master
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1279,8 +1283,15 @@
     <ClCompile Include="src\Game\Directory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Universe\ShipModule\Shield.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\Basic\GrappleWeapon.cpp">
+		<Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\Control\ShipAI.cpp">
+		<Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\Universe\ShipModule\Teleport.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

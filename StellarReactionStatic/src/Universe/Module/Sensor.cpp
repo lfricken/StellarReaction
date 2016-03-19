@@ -74,3 +74,15 @@ void SensorData::loadJson(const Json::Value& root)
 {
 	ModuleData::loadJson(root);
 }
+void Sensor::enable()
+{
+	m_enabled = true;
+}
+void Sensor::disable()
+{
+	m_enabled = false;
+}
+bool Sensor::isEnabled()
+{
+	return m_enabled;
+}

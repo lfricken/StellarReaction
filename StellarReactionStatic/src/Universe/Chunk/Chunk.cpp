@@ -6,6 +6,7 @@
 #include "BlueprintLoader.hpp"
 #include "SoundManager.hpp"
 #include "Animation.hpp"
+#include "ShipModule.hpp"
 
 using namespace std;
 
@@ -275,8 +276,11 @@ std::vector<std::pair<std::string, b2Vec2> > Chunk::getModules() const
 	std::vector<std::pair<std::string, b2Vec2> > list;
 	for(auto it = m_modules.cbegin(); it != m_modules.cend(); ++it)
 	{
-		cout << "\nChunk: " << (*it)->getOffset().x << (*it)->getOffset().y;
-		list.push_back(std::pair<std::string, b2Vec2>((*it)->getTitle(), b2Vec2((*it)->getOffset())));
+		if(dynamic_cast<ShipModule*>(it->get()) != NULL)//make sure it's not a strange item, like a ShieldComponent
+		{
+			cout << "\nChunk: " << (*it)->getOffset().x << (*it)->getOffset().y;
+			list.push_back(std::pair<std::string, b2Vec2>((*it)->getTitle(), b2Vec2((*it)->getOffset())));
+		}
 	}
 	return list;
 }

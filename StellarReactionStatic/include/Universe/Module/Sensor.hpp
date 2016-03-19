@@ -15,6 +15,10 @@ public:
 	virtual void entered(FixtureComponent* pOther);
 	virtual void exited(FixtureComponent* pOther);
 
+	void enable();
+	void disable();
+	bool isEnabled();
+
 protected:
 	void startContactCB(FixtureComponent* pOther) final;
 	void endContactCB(FixtureComponent* pOther) final;

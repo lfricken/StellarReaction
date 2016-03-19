@@ -20,6 +20,8 @@
 #include "Capacitor.hpp"
 #include "Module.hpp"
 
+#include "Shield.hpp"
+
 
 
 RegisterClass(ModuleData, TurretData);
@@ -43,7 +45,8 @@ RegisterClass(ModuleData, GravityFieldData);
 RegisterClass(ModuleData, CaptureAreaData);
 RegisterClass(ModuleData, SensorData);
 
-
+RegisterClass(ModuleData, ShieldData);
+RegisterClass(ModuleData, ShieldComponentData);
 
 
 

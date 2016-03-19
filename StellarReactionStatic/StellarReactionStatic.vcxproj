@@ -291,6 +291,7 @@
     <ClInclude Include="include\Universe\ShipModule\Plating.hpp" />
     <ClInclude Include="include\Universe\ShipModule\Radar.hpp" />
     <ClInclude Include="include\Universe\ShipModule\Reactor.hpp" />
+    <ClInclude Include="include\Universe\ShipModule\Shield.hpp" />
     <ClInclude Include="include\Universe\ShipModule\Stealth.hpp" />
     <ClInclude Include="include\Universe\ShipModule\Teleport.hpp" />
     <ClInclude Include="include\Universe\ShipModule\Thruster.hpp" />
@@ -429,6 +430,7 @@
     <ClCompile Include="src\Universe\ShipModule\Plating.cpp" />
     <ClCompile Include="src\Universe\ShipModule\Radar.cpp" />
     <ClCompile Include="src\Universe\ShipModule\Reactor.cpp" />
+    <ClCompile Include="src\Universe\ShipModule\Shield.cpp" />
     <ClCompile Include="src\Universe\ShipModule\Stealth.cpp" />
     <ClCompile Include="src\Universe\ShipModule\Teleport.cpp" />
     <ClCompile Include="src\Universe\ShipModule\Thruster.cpp" />

@@ -5,7 +5,7 @@
 
 
 /// <summary>
-/// asdf
+/// What are we?
 /// </summary>
 enum class Category
 {
