@@ -1,0 +1,53 @@
+{
+    "ClassName": "ChunkData",
+    "Title": "DefaultBlackHole",
+	"Copies": null,
+    "IO": {
+        "name": "BPCHUNKNAME",
+        "courierList": [
+        ]
+    },
+    "Body": {
+        "coords": [
+            0,
+            0
+        ],
+        "rotation": 1,
+        "isDynamic": false,
+        "isBullet": false,
+        "startAwake": true
+    },
+    "Missiles": {
+        "Max": 0,
+        "Value": 0
+    },
+    "Energy": {
+        "Max": 0,
+        "Value": 0
+    },
+    "Ballistic": {
+        "Max": 0,
+        "Value": 0
+    },
+    "Zoom": {
+        "Max": 64,
+        "Value": 1
+    },
+    "Modules": [
+        {
+            "Title": "DefaultGravityField",
+            "Position": [
+                0,
+                0
+            ]
+        },
+		{
+            "Title": "DefaultTriggerSensor",
+            "Position": [
+                0,
+                0
+            ]
+        }
+    ],
+    "Network": {}
+}

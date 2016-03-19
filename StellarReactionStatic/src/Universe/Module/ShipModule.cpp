@@ -46,6 +46,10 @@ ShipModule::~ShipModule()
 {
 
 }
+const Health ShipModule::getHealth()
+{
+	return m_health;
+}
 void ShipModule::prePhysUpdate()
 {
 

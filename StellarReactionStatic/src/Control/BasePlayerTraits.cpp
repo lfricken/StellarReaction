@@ -12,6 +12,7 @@ BasePlayerTraits::BasePlayerTraits(const std::string& rName)
 	m_name = rName;
 	m_balance = 20;
 	m_activeControlGroup = 1;
+	m_controller = -1;
 }
 BasePlayerTraits::~BasePlayerTraits()
 {

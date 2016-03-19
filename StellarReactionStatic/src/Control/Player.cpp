@@ -27,6 +27,9 @@ Camera& Player::getCamera()
 {
 	return m_camera;
 }
+b2Vec2 Player::getMouseInWorld(){
+	return m_aim;
+}
 const InputConfig& Player::getInCfg() const
 {
 	return m_inCfg;
@@ -111,6 +114,8 @@ void Player::getLiveInput()
 			m_directives[Directive::Boost] = true;
 		if (Keyboard::isKeyPressed(m_inCfg.stealth))
 			m_directives[Directive::Stealth] = true;
+		if (Keyboard::isKeyPressed(m_inCfg.teleport))
+			m_directives[Directive::Teleport] = true;
 		if (Keyboard::isKeyPressed(Keyboard::K))
 			m_directives[Directive::Respawn] = true;
 		if (Keyboard::isKeyPressed(m_inCfg.cgroup_1))

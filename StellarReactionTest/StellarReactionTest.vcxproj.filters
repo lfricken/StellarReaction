@@ -51,6 +51,13 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GrappleWeaponTest.cpp">
+    <ClCompile Include="BlackHoleTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TeleportTest.cpp">
+	      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShipAITest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
