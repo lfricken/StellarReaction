@@ -2,7 +2,8 @@
     "ClassName": "ShieldData",
 	"Title": "DefaultShield",
     "Inherits": "DefaultShipModule",
-  	"EnergyConsumption": 1,
+    "ShieldRadius": 20,
+  	"EnergyConsumption": 2,
 	"BaseSprite": {
 		"texName": "shield/shield.png",
 		"animSheetName": "shield/shield.acfg"

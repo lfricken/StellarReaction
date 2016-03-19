@@ -45,11 +45,17 @@ Shield::Shield(const ShieldData& rData) : ShipModule(rData)
 
 	ShieldComponentData newShield;
 	newShield.fixComp.shape = leon::Shape::Circle;
-	newShield.fixComp.size.x = 10;
+	newShield.fixComp.size.x = rData.radius;
 	newShield.fixComp.offset = rData.fixComp.offset;
 	this->m_parentChunk->add(newShield);
 
 	shield = dynamic_cast<ShieldComponent*>(this->m_parentChunk->getModuleList().back().get());
+}
+
+Shield::prePhysUpdate()
+{
+	if(out_of_energy)
+		m_enabled = false;
 }
 
 Shield::~Shield() {}
@@ -66,6 +72,13 @@ void ShieldData::loadJson(const Json::Value& root)
 {
 	if(!root["EnergyConsumption"].isNull())
 		energyConsumption = root["EnergyConsumption"].asFloat();
+	if(!root["ShieldRadius"]).isNull())
+		radius = root["ShieldRadius"].asFloat();
 
 	ShipModuleData::loadJson(root);
+}
+
+void Shield::f_died()
+{
+	m_enabled = false;
 }

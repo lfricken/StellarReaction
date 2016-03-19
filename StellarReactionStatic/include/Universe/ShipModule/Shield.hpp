@@ -13,6 +13,8 @@ public:
 	ShieldComponent(const ShieldComponentData& rData);
 	virtual ~ShieldComponent();
 
+	void prePhysUpdate(); 
+
 	virtual void entered(FixtureComponent* pOther);
 	virtual void exited(FixtureComponent* pOther);
 protected:
@@ -60,6 +62,7 @@ public:
 	void directive(std::map<Directive, bool>& rIssues);
 
 protected:
+	void f_died();
 private:
 	float m_eConsump;
 	bool out_of_energy;
