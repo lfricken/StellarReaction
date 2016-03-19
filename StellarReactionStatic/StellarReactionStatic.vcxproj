@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Basic\GrappleWeapon.hpp" />
     <ClInclude Include="include\Game\Directory.hpp" />
     <ClInclude Include="include\API\Box2D\Box2D.h" />
     <ClInclude Include="include\API\Box2D\Collision\b2BroadPhase.h" />
@@ -279,17 +280,20 @@
     <ClInclude Include="include\Universe\Chunk\ProjectileRegistration.hpp" />
     <ClInclude Include="include\Universe\Hazard\HazardField.hpp" />
     <ClInclude Include="include\Universe\Module\CaptureArea.hpp" />
+    <ClInclude Include="include\Universe\Module\GravityField.hpp" />
     <ClInclude Include="include\Universe\Module\Module.hpp" />
     <ClInclude Include="include\Universe\Module\ModuleRegistration.hpp" />
     <ClInclude Include="include\Universe\Module\ProjectileModule.hpp" />
     <ClInclude Include="include\Universe\Module\Sensor.hpp" />
     <ClInclude Include="include\Universe\Module\ShipModule.hpp" />
+    <ClInclude Include="include\Universe\Module\TriggerSensor.hpp" />
     <ClInclude Include="include\Universe\ShipModule\Capacitor.hpp" />
     <ClInclude Include="include\Universe\ShipModule\Plating.hpp" />
     <ClInclude Include="include\Universe\ShipModule\Radar.hpp" />
     <ClInclude Include="include\Universe\ShipModule\Reactor.hpp" />
     <ClInclude Include="include\Universe\ShipModule\Shield.hpp" />
     <ClInclude Include="include\Universe\ShipModule\Stealth.hpp" />
+    <ClInclude Include="include\Universe\ShipModule\Teleport.hpp" />
     <ClInclude Include="include\Universe\ShipModule\Thruster.hpp" />
     <ClInclude Include="include\Universe\ShipModule\Turret.hpp" />
     <ClInclude Include="include\Universe\Universe.hpp" />
@@ -299,8 +303,11 @@
     <ClInclude Include="include\Universe\Utility\ProjectileMan.hpp" />
     <ClInclude Include="include\Universe\Utility\RayCastCallback.hpp" />
     <ClInclude Include="include\Universe\Utility\UniversalContactListener.hpp" />
+    <ClInclude Include="include\Control\ShipAI.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Basic\GrappleWeapon.cpp" />
+    <ClCompile Include="src\Control\ShipAI.cpp" />
     <ClCompile Include="src\Game\Directory.cpp" />
     <ClCompile Include="include\API\Box2D\Collision\b2BroadPhase.cpp" />
     <ClCompile Include="include\API\Box2D\Collision\b2CollideCircle.cpp" />
@@ -413,16 +420,19 @@
     <ClCompile Include="src\Universe\Chunk\Projectile.cpp" />
     <ClCompile Include="src\Universe\Hazard\HazardField.cpp" />
     <ClCompile Include="src\Universe\Module\CaptureArea.cpp" />
+    <ClCompile Include="src\Universe\Module\GravityField.cpp" />
     <ClCompile Include="src\Universe\Module\Module.cpp" />
     <ClCompile Include="src\Universe\Module\ProjectileModule.cpp" />
     <ClCompile Include="src\Universe\Module\Sensor.cpp" />
     <ClCompile Include="src\Universe\Module\ShipModule.cpp" />
+    <ClCompile Include="src\Universe\Module\TriggerSensor.cpp" />
     <ClCompile Include="src\Universe\ShipModule\Capacitor.cpp" />
     <ClCompile Include="src\Universe\ShipModule\Plating.cpp" />
     <ClCompile Include="src\Universe\ShipModule\Radar.cpp" />
     <ClCompile Include="src\Universe\ShipModule\Reactor.cpp" />
     <ClCompile Include="src\Universe\ShipModule\Shield.cpp" />
     <ClCompile Include="src\Universe\ShipModule\Stealth.cpp" />
+    <ClCompile Include="src\Universe\ShipModule\Teleport.cpp" />
     <ClCompile Include="src\Universe\ShipModule\Thruster.cpp" />
     <ClCompile Include="src\Universe\ShipModule\Turret.cpp" />
     <ClCompile Include="src\Universe\Universe.cpp" />

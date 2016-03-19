@@ -36,6 +36,7 @@ enum class Directive
 	/**== MISC. ==**/
 	Use,
 	Stealth,
+	Teleport,
 	Respawn,
 	ShieldToggle,
 	ShowStore,//toggle the store on or off (if there is one near us)

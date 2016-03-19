@@ -411,4 +411,16 @@ void ChunkData::loadJson(const Json::Value& root)
 		}
 	}
 }
+float Chunk::getRadius()
+{
+	b2Vec2 max = b2Vec2_zero;
+	for (auto it = m_modules.cbegin(); it != m_modules.cend(); ++it)
+	{
+		if (max.Length() < b2Vec2((*it)->getOffset()).Length()){
+			max = b2Vec2((*it)->getOffset());
+		}
+	}
+
+	return max.Length();
+}
 

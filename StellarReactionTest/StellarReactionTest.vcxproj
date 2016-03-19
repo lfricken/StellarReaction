@@ -91,17 +91,21 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BlackHoleTest.cpp" />
     <ClCompile Include="BlueprintLoaderTest.cpp" />
     <ClCompile Include="GameTest.cpp" />
+    <ClCompile Include="GrappleWeaponTest.cpp" />
     <ClCompile Include="ReactorTest.cpp" />
     <ClCompile Include="MinimapTest.cpp" />
     <ClCompile Include="ScoreboardTest.cpp" />
+    <ClCompile Include="ShipAITest.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="StealthTest.cpp" />
     <ClCompile Include="StellarReactionTest.cpp" />
+    <ClCompile Include="TeleportTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\StellarReaction\StellarReaction.vcxproj">

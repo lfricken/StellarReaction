@@ -596,16 +596,17 @@ void NetworkBoss::launchMultiplayerGame()
 
 	data << level;
 	data << blueprints;
-	data << static_cast<int32_t>(m_connections.size() + 1);//number of controllers
+	data << static_cast<int32_t>(m_connections.size() + 1 + 1);//number of controllers +1 for AI +1 for host
 
 	//host
 	data << "1";
 	data << game.getLocalPlayer().getShipChoice();
 	data << game.getLocalPlayer().getTeam();
+
 	//for clients
 	for(int32_t i = 0; i < (signed)m_connections.size(); ++i)
 	{
-		string slaveName = std::to_string(i + 1 + 1);
+		string slaveName = std::to_string(i + 1 + 1);//+1 for host, +1 for index offset
 		string shipName = m_connections[i]->getShipChoice();
 		int team = m_connections[i]->getTeam();
 		cout << "\nSlave:[" << slaveName << "] title:[" << shipName << "].";
@@ -613,6 +614,16 @@ void NetworkBoss::launchMultiplayerGame()
 		data << shipName;
 		data << team;
 	}
+
+	//for ai TODO REFACTOR
+	string aiSlaveName = std::to_string(m_connections.size() + 1 + 1);
+	string aiShipName = "CombatShip2";
+	int aiTeam = game.getLocalPlayer().getTeam();
+	data << aiSlaveName;
+	data << aiShipName;
+	data << aiTeam;
+
+
 
 	int32_t controller = 0;
 	sf::Packet hostData(data);

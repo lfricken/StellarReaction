@@ -35,7 +35,7 @@ void ControlFactory::unsetLocal()
 }
 Controller& ControlFactory::getController(int index)
 {
-	if((signed)m_spControlList.size() > index)
+	if((signed)m_spControlList.size() > index && index >= 0)
 		return *m_spControlList[index];
 	else
 	{

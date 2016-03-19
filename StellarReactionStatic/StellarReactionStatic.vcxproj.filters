@@ -621,27 +621,6 @@
     <ClInclude Include="include\Basic\Weapon.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Control\BasePlayerTraits.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Control\Camera.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Control\ControlFactory.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Control\Controller.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Control\Money.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Control\Player.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Control\SlaveLocator.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\Game\Game.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -876,7 +855,40 @@
     <ClInclude Include="include\Game\Directory.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="include\Universe\ShipModule\Shield.hpp">
+=======
+    <ClInclude Include="include\Basic\GrappleWeapon.hpp">
+    <ClInclude Include="include\Control\ShipAI.hpp">
+    <ClInclude Include="include\Universe\ShipModule\Teleport.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Control\BasePlayerTraits.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Control\Camera.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Control\ControlFactory.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Control\Controller.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Control\Money.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Control\Player.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Control\SlaveLocator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Universe\Module\GravityField.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Universe\Module\TriggerSensor.hpp">
+>>>>>>> refs/remotes/origin/master
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1272,6 +1284,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Universe\ShipModule\Shield.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Basic\GrappleWeapon.cpp">
+		<Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Control\ShipAI.cpp">
+		<Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Universe\ShipModule\Teleport.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Universe\Module\GravityField.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Universe\Module\TriggerSensor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

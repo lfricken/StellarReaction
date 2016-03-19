@@ -117,7 +117,11 @@ Scoreboard& Universe::getScoreboard()
 {
 	return *m_scoreboard;
 }
-
+void Universe::updateShipAI()
+{
+	for(auto it = m_shipAI.begin(); it != m_shipAI.end(); ++it)
+		(*it)->updateDecision();
+}
 /// <summary>
 /// If true, we only draw box2d things on screen.
 /// </summary>
@@ -182,26 +186,51 @@ void Universe::postPhysUpdate()
 		m_spProjMan->postPhysUpdate();
 	}
 }
-BodyComponent* Universe::getNearestBody(const b2Vec2& target)
+GameObject* Universe::getNearestChunkExcept(const b2Vec2& target, const b2Body* exception)
 {
 	float prevDist = -1;
-	BodyComponent* closest = NULL;
+	Chunk* closest = NULL;
+	for (auto it = m_goList.begin(); it != m_goList.end(); ++it)
+	{
+		GameObject* p = it->get();
+		Chunk* object = dynamic_cast<Chunk*>(p);
+		if (object != NULL && object->getBodyPtr() != exception)
+		{
+			b2Vec2 dif = target - object->getBodyPtr()->GetPosition();
+			float dist = dif.Length();
+			if (dist < prevDist || prevDist == -1)
+			{
+				prevDist = dist;
+				closest = object;
+			}
+		}
+	}
+	return closest;
+}
+Chunk* Universe::getNearestChunk(const b2Vec2& target, const Chunk* me)
+{
+	float prevDist = -1;
+	Chunk* closest = NULL;
 	for(auto it = m_goList.begin(); it != m_goList.end(); ++it)
 	{
 		GameObject* p = it->get();
 		Chunk* object = dynamic_cast<Chunk*>(p);
-		if(object != NULL)
+		if(object != NULL && object != me)
 		{
 			b2Vec2 dif = target - object->getBodyPtr()->GetPosition();
 			float dist = dif.Length();
 			if(dist < prevDist || prevDist == -1)
 			{
 				prevDist = dist;
-				closest = &object->getBodyComponent();
+				closest = object;
 			}
 		}
 	}
 	return closest;
+}
+BodyComponent* Universe::getNearestBody(const b2Vec2& target)
+{
+	return &(dynamic_cast<Chunk*>(getNearestChunkExcept(target, NULL))->getBodyComponent());
 }
 /// <summary>
 /// Gives each team the money the get per step (from cap points)
@@ -445,6 +474,10 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 
 	bool parsedSuccess = reader.parse(level, root, false);
 
+	//SHIP AI TODO
+	m_shipAI.push_back(sptr<ShipAI>(new ShipAI));
+	m_shipAI.back()->setController(rControllerList.size()-1);
+
 
 	setupBackground();
 
@@ -628,4 +661,14 @@ std::vector<sptr<GameObject>> Universe::getDebris()
 std::vector<sptr<GameObject> > Universe::getgoList()
 {
 	return m_goList;
+}
+
+bool Universe::isClear(b2Vec2 position, float radius, const b2Body* exception)
+{
+	Chunk* nearest = dynamic_cast<Chunk*>(getNearestChunkExcept(position, exception));
+	float nearestRad = nearest->getRadius();
+	float dist = (nearest->getBodyPtr()->GetPosition() - position).Length();
+	if (dist < (nearestRad + radius))
+		return false;
+	return true;
 }

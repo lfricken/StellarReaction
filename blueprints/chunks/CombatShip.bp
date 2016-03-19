@@ -113,6 +113,13 @@
                 0
             ]
         },
+        {
+            "Title": "GrappleTurret",
+            "Position": [
+                2,
+                -1
+            ]
+        },
 		{
             "Title": "DefaultRadar",
             "Position": [
@@ -131,6 +138,13 @@
             "Title": "DefaultStealth",
             "Position": [
                 3,
+                0
+            ]
+        },
+		{
+            "Title": "DefaultTeleport",
+            "Position": [
+                -2,
                 0
             ]
         }

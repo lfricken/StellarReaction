@@ -38,7 +38,7 @@ struct InputConfig
 		shield(sf::Keyboard::V),
 
 		special_2(sf::Keyboard::R),
-		special_3(sf::Keyboard::F),
+		teleport(sf::Keyboard::F),
 		special_4(sf::Keyboard::C),
 		special_5(sf::Keyboard::X),
 		special_6(sf::Keyboard::Z),
@@ -73,7 +73,7 @@ struct InputConfig
 	sf::Keyboard::Key shield;
 
 	sf::Keyboard::Key special_2;
-	sf::Keyboard::Key special_3;
+	sf::Keyboard::Key teleport;
 	sf::Keyboard::Key special_4;
 	sf::Keyboard::Key special_5;
 	sf::Keyboard::Key special_6;
@@ -130,6 +130,7 @@ public:
 	/**MOUSE**/
 	const sf::Vector2f& getMouseWindowPos() const;//window coordinates
 	void setMouseWindowPos(const sf::Vector2f& rPos);//window coordinates
+	b2Vec2 getMouseInWorld();
 
 	/**INPUT**/
 	void getLiveInput();//get direct feed from keyboard and mouse, just gets their states though (not events) (up, down, position of mouse)
