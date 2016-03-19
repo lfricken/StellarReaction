@@ -855,6 +855,7 @@
     <ClInclude Include="include\Game\Directory.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Basic\GrappleWeapon.hpp">
     <ClInclude Include="include\Control\ShipAI.hpp">
     <ClInclude Include="include\Universe\ShipModule\Teleport.hpp">
       <Filter>Header Files</Filter>
@@ -1278,6 +1279,7 @@
     <ClCompile Include="src\Game\Directory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Basic\GrappleWeapon.cpp">
     <ClCompile Include="src\Control\ShipAI.cpp">
     <ClCompile Include="src\Universe\ShipModule\Teleport.cpp">
       <Filter>Source Files</Filter>

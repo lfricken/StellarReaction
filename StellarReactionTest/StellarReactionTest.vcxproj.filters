@@ -50,6 +50,7 @@
     <ClCompile Include="ScoreboardTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GrappleWeaponTest.cpp">
     <ClCompile Include="BlackHoleTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
