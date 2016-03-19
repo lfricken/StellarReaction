@@ -13,8 +13,6 @@ public:
 	ShieldComponent(const ShieldComponentData& rData);
 	virtual ~ShieldComponent();
 
-	void prePhysUpdate(); 
-
 	virtual void entered(FixtureComponent* pOther);
 	virtual void exited(FixtureComponent* pOther);
 protected:
@@ -61,9 +59,13 @@ public:
 
 	void directive(std::map<Directive, bool>& rIssues);
 
+	virtual void prePhysUpdate();
+
 protected:
-	void f_died();
+
 private:
+
+	
 	float m_eConsump;
 	bool out_of_energy;
 	const float consump_per_hit = 2.0;
@@ -75,15 +77,15 @@ struct ShieldData : public ShipModuleData
 {
 	ShieldData() : 
 		ShipModuleData(),
-		energyConsumption(5),
+		energyConsumption(1),
 		radius(10)
 	{
 		baseDecor.texName = "shield/shield.png";
 		baseDecor.animSheetName = "shield/shield.acfg";
 	}
 
-	float energyConsumption;
-	float radius;
+	float energyConsumption;//energy consumed per second
+	float radius;//how big the shield is
 
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{

@@ -19,26 +19,26 @@ void ShieldComponent::exited(FixtureComponent* pOther)
 }
 void ShieldComponent::input(std::string rCommand, sf::Packet rData)
 {
-	if(rCommand == "damage")
+	if(isEnabled())
 	{
-		int val;
-		int cause;
-		rData >> val >> cause;
+		if(rCommand == "damage")
+		{
+			int val;
+			int cause;
+			rData >> val >> cause;
 
-		Message mes(cause, "hitShield", voidPacket, 0, false);
-		game.getUniverse().getUniverseIO().recieve(mes);
+			Message mes(cause, "hitShield", voidPacket, 0, false);
+			game.getUniverse().getUniverseIO().recieve(mes);
+		}
+		else
+			Sensor::input(rCommand, rData);
 	}
-	else
-		Sensor::input(rCommand, rData);
 }
 void ShieldComponentData::loadJson(const Json::Value& root)
 {
 	SensorData::loadJson(root);
 }
 
-/*
-From this line and below pertains to the Shield module.
-*/
 Shield::Shield(const ShieldData& rData) : ShipModule(rData)
 {
 	m_eConsump = rData.energyConsumption;
@@ -51,15 +51,24 @@ Shield::Shield(const ShieldData& rData) : ShipModule(rData)
 
 	shield = dynamic_cast<ShieldComponent*>(this->m_parentChunk->getModuleList().back().get());
 }
-
-Shield::prePhysUpdate()
+Shield::~Shield()
 {
-	if(out_of_energy)
-		m_enabled = false;
+
 }
+void Shield::prePhysUpdate()
+{
+	ShipModule::prePhysUpdate();
 
-Shield::~Shield() {}
-
+	Energy thisTickConsumption = 0;//calculate energy consumption TODO
+	if(!isFunctioning() || m_pEnergyPool->getValue() < thisTickConsumption)
+	{
+		shield->disable();
+	}
+	if(shield->isEnabled())
+	{
+		//consume this tick//calculate energy consumption TODO
+	}
+}
 void Shield::directive(map<Directive, bool>& rIssues)
 {
 	if(rIssues[Directive::ShieldToggle])
@@ -67,18 +76,12 @@ void Shield::directive(map<Directive, bool>& rIssues)
 		cout << "Shield pressed." << endl;
 	}
 }
-
 void ShieldData::loadJson(const Json::Value& root)
 {
 	if(!root["EnergyConsumption"].isNull())
 		energyConsumption = root["EnergyConsumption"].asFloat();
-	if(!root["ShieldRadius"]).isNull())
+	if(!root["ShieldRadius"].isNull())
 		radius = root["ShieldRadius"].asFloat();
 
 	ShipModuleData::loadJson(root);
-}
-
-void Shield::f_died()
-{
-	m_enabled = false;
 }
