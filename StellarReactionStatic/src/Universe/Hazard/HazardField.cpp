@@ -32,13 +32,13 @@ void HazardField::update()
 	//	asteroid->getBodyPtr()->SetLinearVelocity(velocity);
 	//	universe->add(asteroid);
 	//	timer.restartCountDown();
-	//	if (!spawned){
-	//		ChunkData* p = universe->getBlueprints().getChunkSPtr("DefaultBlackHole")->clone();
-	//		p->bodyComp.coords = b2Vec2(30, -30);
-	//		Chunk* hole = p->generate(universe);
-	//		universe->add(hole);
-	//		spawned = true;
-	//	}
+		if (!spawned){
+			ChunkData* p = universe->getBlueprints().getChunkSPtr("DefaultBlackHole")->clone();
+			p->bodyComp.coords = b2Vec2(30, -30);
+			Chunk* hole = p->generate(universe);
+			universe->add(hole);
+			spawned = true;
+		}
 	//}
 
 }
