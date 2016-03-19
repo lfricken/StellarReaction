@@ -64,6 +64,9 @@ void Shield::prePhysUpdate()
 	{
 		shield->disable();
 	}
+	else
+		shield->enable();
+
 	if(shield->isEnabled())
 	{
 		m_pEnergyPool->changeValue(-thisTickConsumption);
