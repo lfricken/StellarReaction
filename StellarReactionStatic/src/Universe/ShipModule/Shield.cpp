@@ -59,13 +59,14 @@ void Shield::prePhysUpdate()
 {
 	ShipModule::prePhysUpdate();
 
-	Energy thisTickConsumption = 0;//calculate energy consumption TODO
+	Energy thisTickConsumption = m_eConsump*game.getUniverse().getTimeStep();//calculate energy consumption TODO
 	if(!isFunctioning() || m_pEnergyPool->getValue() < thisTickConsumption)
 	{
 		shield->disable();
 	}
 	if(shield->isEnabled())
 	{
+		m_pEnergyPool->changeValue(-thisTickConsumption);
 		//consume this tick//calculate energy consumption TODO
 	}
 }
