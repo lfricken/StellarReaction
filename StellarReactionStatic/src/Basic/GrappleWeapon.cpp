@@ -4,12 +4,14 @@
 #include "Globals.hpp"
 #include "FixtureComponent.hpp"
 #include "BlueprintLoader.hpp"
+#include "Weapon.hpp"
 
 using namespace std;
 
 GrappleWeapon::GrappleWeapon(const GrappleWeaponData& rData) : LaserWeapon(rData)
 {
-
+	m_time.setCountDown(3.0);
+	target = NULL;
 }
 GrappleWeapon::~GrappleWeapon()
 {
@@ -40,7 +42,8 @@ void GrappleWeapon::postShot(const b2Vec2& center, const b2Vec2& aim, float radC
 	if (data.pFixture != NULL)
 	{
 		end = data.point;
-		grappleTo(*data.pFixture);
+		target = static_cast<FixtureComponent*>(data.pFixture->GetUserData());
+		m_time.restartCountDown();
 	}
 	else
 	{
@@ -53,16 +56,31 @@ void GrappleWeapon::postShot(const b2Vec2& center, const b2Vec2& aim, float radC
 	m_beam.activate(m_showTime, m_beamWidth, m_beamColor);
 }
 
-void GrappleWeapon::grappleTo(const b2Fixture& otherShip)
+void GrappleWeapon::postPhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation)
 {
-	b2Vec2 targetPos = otherShip.GetBody()->GetPosition();
-	// move our ship to targetPos
-	b2Vec2 ourPos = m_pBody->GetPosition();
-	b2Vec2 appliedForce = (targetPos - ourPos);
-	float mag = sqrt(pow((targetPos.x - ourPos.x), 2) + pow((targetPos.y - ourPos.y), 2));
-	appliedForce.Normalize();
-	appliedForce *= mag * 50;
-	m_pBody->ApplyForceToCenter(appliedForce, true);
+	LaserWeapon::postPhysUpdate(center, aim, radCCW, pBody, module_orientation);
+	if (!m_time.isTimeUp())
+	{
+		grappleTo();
+	}
+	//else
+		//target = NULL;
+}
+
+void GrappleWeapon::grappleTo()
+{
+	if (target != NULL)
+	{
+		b2Vec2 targetPos = target->getBodyPtr()->GetPosition();
+		// move our ship to targetPos
+		b2Vec2 ourPos = m_pBody->GetPosition();
+		b2Vec2 appliedForce = (targetPos - ourPos);
+		float mag = sqrt(pow((targetPos.x - ourPos.x), 2) + pow((targetPos.y - ourPos.y), 2));
+		appliedForce.Normalize();
+		appliedForce *= mag * 5;
+		m_pBody->ApplyForceToCenter(appliedForce, true);
+		target->getBodyPtr()->ApplyForceToCenter(b2Vec2(-appliedForce.x, -appliedForce.y), true);
+	}
 }
 void GrappleWeaponData::loadJson(const Json::Value& root)
 {

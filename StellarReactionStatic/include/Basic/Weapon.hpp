@@ -30,12 +30,12 @@ public:
 	/// Called by our parent module
 	/// </summary>
 	/// <param name="pBody">The parent body.</param>
-	void prePhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation);
+	virtual void prePhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation);
 	/// <summary>
 	/// Called by our parent module
 	/// </summary>
 	/// <param name="pBody">The parent body.</param>
-	void postPhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation);
+	virtual void postPhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation);
 	//// <summary>
 	/// Called before physics update if this weapon should fire this tick
 	/// Look at laser and projectile weapon.
@@ -94,7 +94,7 @@ struct WeaponData
 		mis(0),
 
 		shots(5),
-		shotsInSpread(1),
+		shotsInSpread(6),
 		damage(50),
 
 		shotDelay(0.09f),
