@@ -1,6 +1,6 @@
 {
     "ClassName": "LaserWeaponData",
-    "Title": "Raven_Laser1",
+    "title": "Raven_Laser1",
     "BeamStart": {
         "texName": "beam/beam_start.png",
         "animSheetName": "beam/beam_start.acfg",

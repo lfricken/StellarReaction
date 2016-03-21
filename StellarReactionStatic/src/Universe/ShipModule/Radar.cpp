@@ -1,5 +1,11 @@
 #include "Radar.hpp"
 
+void RadarData::loadJson(const Json::Value& root)
+{
+	GETJSON(zoomAddition);
+
+	ShipModuleData::loadJson(root);
+}
 
 Radar::Radar(const RadarData& rData) : ShipModule(rData)
 {
@@ -43,12 +49,5 @@ void Radar::toggleStealth(bool toggle)
 	else
 
 		m_decors[m_dishIndex]->setAlpha(alpha_stealth_off);
-}
-void RadarData::loadJson(const Json::Value& root)
-{
-	if(!root["RadarStrength"].isNull())
-		zoomAddition = root["RadarStrength"].asFloat();
-
-	ShipModuleData::loadJson(root);
 }
 

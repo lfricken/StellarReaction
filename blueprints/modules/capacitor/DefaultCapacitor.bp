@@ -1,9 +1,9 @@
 {
     "ClassName": "CapacitorData",
-	"Title": "DefaultCapacitor",
+	"title": "DefaultCapacitor",
     "Inherits": "DefaultShipModule",
-	"EnergyCapacity": 100,
-    "BaseSprite": {
+	"storage": 100,
+    "baseDecor": {
         "texName": "capacitor/capacitor_base.png",
         "animSheetName": "capacitor/capacitor_base.acfg"
     }

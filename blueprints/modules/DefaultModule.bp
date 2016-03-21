@@ -1,11 +1,11 @@
 {
     "ClassName": "ModuleData",
-    "Title": "DefaultModule",
-    "IO": {
+    "title": "DefaultModule",
+    "ioComp": {
         "name": "NONAMEBP",
         "courierList": []
     },
-    "Physics": {
+    "fixComp": {
         "offset": [
             0,
             0
@@ -20,5 +20,5 @@
         "restitution": 0.2,
         "isSensor": false
     },
-    "Network": {}
+    "nwComp": {}
 }

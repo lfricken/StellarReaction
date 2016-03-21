@@ -1,6 +1,6 @@
 {
     "ClassName": "BallisticWeaponData",
-    "Title": "Razor_Ballistic1",
+    "title": "Razor_Ballistic1",
 
     "StartSound": {
         "name": ""

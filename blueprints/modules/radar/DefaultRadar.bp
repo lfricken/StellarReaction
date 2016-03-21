@@ -1,11 +1,10 @@
 {
     "ClassName": "RadarData",
 	"Name": "Sensor thing",
-	"Title": "DefaultRadar",
-	
+	"title": "DefaultRadar",
     "Inherits": "DefaultShipModule",
-	"RadarStrength": 20,
-	"BaseSprite": {
+	"zoomAddition": 20,
+	"baseDecor": {
 		"texName": "radar/radar_base.png",
 		"animSheetName": "radar/radar_base.acfg"
 	}

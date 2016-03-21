@@ -1,6 +1,6 @@
 {
     "ClassName": "ChunkData",
-    "Title": "Raven1",
+    "title": "Raven1",
 	"Copies": null,
     "IO": {
         "name": "BPCHUNKNAME",
@@ -77,70 +77,70 @@
 	],
     "Modules": [
         {
-            "Title": "DefaultReactor",
+            "title": "DefaultReactor",
             "Position": [
                 0,
                 2
             ]
         },
         {
-            "Title": "Raven_Laser1",
+            "title": "Raven_Laser1",
             "Position": [
                 0,
                 1
             ]
         },
         {
-            "Title": "Raven_Laser1",
+            "title": "Raven_Laser1",
             "Position": [
                 -2,
                 0
             ]
         },
         {
-            "Title": "DefaultPlating",
+            "title": "DefaultPlating",
             "Position": [
                 0,
                 3
             ]
         },
         {
-            "Title": "DefaultPlating",
+            "title": "DefaultPlating",
             "Position": [
                 -1,
                 0
             ]
         },
         {
-            "Title": "DefaultCapacitor",
+            "title": "DefaultCapacitor",
             "Position": [
                 1,
                 0
             ]
         },
         {
-            "Title": "Raven_Ballistic1",
+            "title": "Raven_Ballistic1",
             "Position": [
                 2,
                 0
             ]
         },
 		{
-            "Title": "DefaultRadar",
+            "title": "DefaultRadar",
             "Position": [
                 0,
                 0
             ]
 		},
         {
-            "Title": "DefaultThruster",
+            "title": "DefaultThruster",
             "Position": [
                 0,
                 -1
             ]
         },
         {
-            "Title": "DefaultStealth",
+            "title": "DefaultStealth",
             "Position": [
                 3,
                 0

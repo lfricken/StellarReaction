@@ -34,14 +34,12 @@ private:
 struct TurretData : public ShipModuleData
 {
 	TurretData() :
-		ShipModuleData(),
-		startEmpty(false)//should we start with no weapon
+		ShipModuleData()
 	{
 		baseDecor.texName = "turret/turret_base.png";
 		baseDecor.animSheetName = "turret/turret_base.acfg";
 	}
 
-	bool startEmpty;
 	sptr<const WeaponData> startWep;
 
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const

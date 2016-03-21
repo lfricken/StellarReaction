@@ -1,8 +1,8 @@
 {
     "ClassName": "CaptureAreaData",
-	"Title": "DefaultCaptureArea",
+	"title": "DefaultCaptureArea",
     "Inherits": "DefaultModule",
-	"Physics": {
+	"fixComp": {
 		"offset": [
 			0,
 			0
@@ -17,7 +17,7 @@
 		"colCat": "Trigger",
 		"colMask": "Trigger"
 	},
-	"Value": 10,
-	"CaptureTime": 5,
-	"CapturePercent": 0.80
+	"value": 10,
+	"captureTime": 5,
+	"capturePercent": 0.80
 }

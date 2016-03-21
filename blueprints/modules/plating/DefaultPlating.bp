@@ -1,13 +1,13 @@
 {
     "ClassName": "PlatingData",
-	"Title": "DefaultPlating",
+	"title": "DefaultPlating",
     "Inherits": "DefaultShipModule",
-	"BaseSprite": {
+	"baseDecor": {
 		"texName": "plating/plating_base.png",
 		"animSheetName": "plating/plating_base.acfg"
 	},
-	"Defense": {
+	"health": {
 		"Armor": 80
 	},
-	"Cost": 10
+	"cost": 10
 }

@@ -1,8 +1,8 @@
 {
     "ClassName": "GravityFieldData",
-	"Title": "DefaultGravityField",
+	"title": "DefaultGravityField",
     "Inherits": "DefaultModule",
-	"Physics": {
+	"fixComp": {
 		"offset": [
 			0,
 			0
@@ -17,5 +17,5 @@
 		"colCat": "Trigger",
 		"colMask": "Trigger"
 	},
-	"Mass" : 50
+	"mass" : 50
 }

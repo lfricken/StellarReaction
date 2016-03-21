@@ -1,6 +1,6 @@
 {
     "ClassName": "LaserWeaponData",
-    "Title": "DefaultWeapon",
+    "title": "DefaultWeapon",
     "BeamStart": {
         "texName": "beam/beam_start.png",
         "animSheetName": "beam/beam_start.acfg",

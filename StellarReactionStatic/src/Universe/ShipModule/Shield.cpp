@@ -3,9 +3,10 @@
 
 using namespace std;
 
-/*
-From this line and to the second block comments pertains to the ShieldComponent SENSOR.
-*/
+void ShieldComponentData::loadJson(const Json::Value& root)
+{
+	SensorData::loadJson(root);
+}
 ShieldComponent::ShieldComponent(const ShieldComponentData& rData) : Sensor(rData)
 {
 	m_pParentShieldModule = rData.pParentShieldModule;
@@ -31,11 +32,19 @@ void ShieldComponent::input(std::string rCommand, sf::Packet rData)
 {
 
 }
-void ShieldComponentData::loadJson(const Json::Value& root)
-{
-	SensorData::loadJson(root);
-}
 
+
+
+
+void ShieldData::loadJson(const Json::Value& root)
+{
+	GETJSON(energyPerSecond);
+	GETJSON(energyPerHit);
+	GETJSON(radius);
+	GETJSON(toggleFrequency);
+
+	ShipModuleData::loadJson(root);
+}
 Shield::Shield(const ShieldData& rData) : ShipModule(rData)
 {
 	m_energyPerSecond = rData.energyPerSecond;
@@ -79,17 +88,4 @@ void Shield::directive(map<Directive, bool>& rIssues)
 			m_pShield->toggleEnabled(!m_pShield->isEnabled());
 		}
 	}
-}
-void ShieldData::loadJson(const Json::Value& root)
-{
-	if(!root["EnergyPerSecond"].isNull())
-		energyPerSecond = root["EnergyPerSecond"].asFloat();
-	if(!root["EnergyPerHit"].isNull())
-		energyPerHit = root["EnergyPerHit"].asFloat();
-	if(!root["ShieldDiameter"].isNull())
-		radius = root["ShieldDiameter"].asFloat();
-	if(!root["ToggleFrequency"].isNull())
-		toggleFrequency = root["ToggleFrequency"].asFloat();
-
-	ShipModuleData::loadJson(root);
 }

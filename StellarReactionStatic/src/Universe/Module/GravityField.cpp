@@ -3,6 +3,11 @@
 #include "FixtureComponent.hpp"
 
 
+void GravityFieldData::loadJson(const Json::Value& root)
+{
+	GETJSON(mass);
+	SensorData::loadJson(root);
+}
 GravityField::GravityField(const GravityFieldData& rData) : Sensor(rData)
 {
 	m_mass = rData.mass;
@@ -32,10 +37,4 @@ void GravityField::prePhysUpdate()
 		}
 	}
 
-}
-void GravityFieldData::loadJson(const Json::Value& root)
-{
-	if (!root["Mass"].isNull())
-		mass = root["Mass"].asFloat();
-	SensorData::loadJson(root);
 }

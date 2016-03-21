@@ -5,6 +5,39 @@
 
 using namespace std;
 
+
+void ProjectileData::loadJson(const Json::Value& root)
+{
+	GETJSON(title);
+
+	LOADJSON(body);
+
+	if(!root["Modules"].isNull())
+	{
+		sptr<ModuleData> spMod;
+		for(auto it = root["Modules"].begin(); it != root["Modules"].end(); ++it)
+		{
+			if(!(*it)["title"].isNull() && (*it)["ClassName"].isNull())//from title
+			{
+				spMod.reset(game.getUniverse().getBlueprints().getModuleSPtr((*it)["title"].asString())->clone());
+
+				spMod->fixComp.offset.x = (*it)["Position"][0].asFloat();
+				spMod->fixComp.offset.y = (*it)["Position"][1].asFloat();
+			}
+			else if(!(*it)["ClassName"].isNull())//from inline
+			{
+				//inlining		spMod.reset(game.getUniverse().getBlueprints().loadModule(*it)->clone());
+			}
+			else
+			{
+				cout << "\n" << FILELINE;
+				///ERROR LOG
+			}
+
+			moduleData.push_back(spMod);
+		}
+	}
+}
 Projectile::Projectile(const ProjectileData& rData) : m_body(rData.body), m_energyPool(rData.energyData), m_ballisticPool(rData.ballisticData), m_missilePool(rData.missileData), m_zoomPool(rData.zoomData)
 {
 	m_inPlay = false;
@@ -78,40 +111,6 @@ void Projectile::postPhysUpdate()
 const std::string& Projectile::getTitle() const
 {
 	return m_title;
-}
-void ProjectileData::loadJson(const Json::Value& root)
-{
-	if(!root["Title"].isNull())
-		title = root["Title"].asString();
-
-	if(!root["Body"].isNull())
-		body.loadJson(root["Body"]);
-
-	if(!root["Modules"].isNull())
-	{
-		sptr<ModuleData> spMod;
-		for(auto it = root["Modules"].begin(); it != root["Modules"].end(); ++it)
-		{
-			if(!(*it)["Title"].isNull() && (*it)["ClassName"].isNull())//from title
-			{
-				spMod.reset(game.getUniverse().getBlueprints().getModuleSPtr((*it)["Title"].asString())->clone());
-
-				spMod->fixComp.offset.x = (*it)["Position"][0].asFloat();
-				spMod->fixComp.offset.y = (*it)["Position"][1].asFloat();
-			}
-			else if(!(*it)["ClassName"].isNull())//from inline
-			{
-				//inlining		spMod.reset(game.getUniverse().getBlueprints().loadModule(*it)->clone());
-			}
-			else
-			{
-				cout << "\n" << FILELINE;
-				///ERROR LOG
-			}
-
-			moduleData.push_back(spMod);
-		}
-	}
 }
 
 

@@ -1,8 +1,8 @@
 {
     "ClassName": "ProjectileData",
-    "Title": "DefaultProjectile",
+    "title": "DefaultProjectile",
 	"Copies": null,
-    "Body": {
+    "body": {
         "coords": [
             0,
             0
@@ -30,7 +30,7 @@
     },
     "Modules": [
 		{
-			"Title": "ProjectileModuleData",
+			"title": "ProjectileModuleData",
 			"Position": [
 				0,
 				0

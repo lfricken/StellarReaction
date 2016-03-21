@@ -5,9 +5,17 @@
 #include "Game.hpp"
 #include "BlueprintLoader.hpp"
 
+
+void TurretData::loadJson(const Json::Value& root)
+{
+	if(!root["startWep"].isNull())
+		startWep = game.getUniverse().getBlueprints().getWeaponSPtr(root["startWep"].asString());
+
+	ShipModuleData::loadJson(root);
+}
 Turret::Turret(const TurretData& rData) : ShipModule(rData)
 {
-	if(!rData.startEmpty)
+	if(rData.startWep)
 		setWep(rData.startWep);
 	m_lastAngle = 0;
 }
@@ -66,18 +74,6 @@ void Turret::toggleStealth(bool toggle)
 		m_spWep->getDecor()->setAlpha(alpha_stealth_on);
 	else 
 		m_spWep->getDecor()->setAlpha(alpha_stealth_off);
-}
-void TurretData::loadJson(const Json::Value& root)
-{
-	if(!root["Copies"].isNull())
-		*this = *dynamic_cast<const TurretData*>(game.getUniverse().getBlueprints().getChunkSPtr(root["Copies"].asString()).get());
-
-	if(!root["StartEmpty"].isNull())
-		startEmpty = root["StartEmpty"].asBool();
-	if(!root["Weapon"].isNull())
-		startWep = game.getUniverse().getBlueprints().getWeaponSPtr(root["Weapon"]["Title"].asString());
-
-	ShipModuleData::loadJson(root);
 }
 
 

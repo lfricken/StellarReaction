@@ -1,6 +1,6 @@
 {
     "ClassName": "GrappleWeaponData",
-    "Title": "DefaultGrappleWeapon",
+    "title": "DefaultGrappleWeapon",
     "BeamStart": {
         "texName": "beam/beam_start.png",
         "animSheetName": "beam/beam_start.acfg",

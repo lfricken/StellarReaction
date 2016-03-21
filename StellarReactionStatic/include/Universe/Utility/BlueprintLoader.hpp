@@ -25,6 +25,9 @@ public:
 protected:
 private:
 
+	/** IMPORTANT NOTE:
+	/** Changing this file doesn't always trigger a recompile, you may need to manually do it!
+	**/
 	template <typename T>
 	void storeData(const std::string& rFile, std::map<std::string, sptr<const T> >& blueprints)//load that blueprint
 	{
@@ -34,11 +37,9 @@ private:
 		bool parsedSuccess = reader.parse(stream, root, false);
 
 		if(parsedSuccess)
-		{
-			blueprints[root["Title"].asString()] = loadData<T>(root);
-		}
+			blueprints[root["title"].asString()] = loadData<T>(root);
 		else
-			cout << "\n" << FILELINE;
+			std::cout << "\n" << FILELINE;
 	}
 	template <typename T>
 	sptr<const T> loadData(const Json::Value& root)
@@ -54,7 +55,7 @@ private:
 			spMod.reset(data);
 		}
 		else
-			cout << "\n" << "Couldn't Find [" << title << "]" << FILELINE;
+			std::cout << "\n" << "Couldn't Find [" << title << "]" << FILELINE;
 
 		return spMod;
 	}
@@ -67,7 +68,7 @@ private:
 			return it->second;
 		else
 		{
-			cout << "\nCouldnt find [" << rBPName << "]." << FILELINE;
+			std::cout << "\nCouldnt find [" << rBPName << "]." << FILELINE;
 			return blueprints.begin()->second;
 		}
 	}

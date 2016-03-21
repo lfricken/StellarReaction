@@ -3,6 +3,14 @@
 #include "FixtureComponent.hpp"
 
 
+void CaptureAreaData::loadJson(const Json::Value& root)
+{
+	GETJSON(value);
+	GETJSON(captureTime);
+	GETJSON(capturePercent);
+
+	SensorData::loadJson(root);
+}
 CaptureArea::CaptureArea(const CaptureAreaData& rData) : Sensor(rData)
 {
 	m_progress = 0;
@@ -68,14 +76,4 @@ void CaptureArea::prePhysUpdate()
 
 	m_oldProgress = m_progress;
 }
-void CaptureAreaData::loadJson(const Json::Value& root)
-{
-	if(!root["Value"].isNull())
-		value = root["Value"].asInt();
-	if(!root["CaptureTime"].isNull())
-		captureTime = root["CaptureTime"].asFloat();
-	if(!root["CapturePercent"].isNull())
-		capturePercent = root["CapturePercent"].asFloat();
 
-	SensorData::loadJson(root);
-}

@@ -34,9 +34,12 @@ struct SoundData
 	{
 		GETJSON(name);
 		GETJSON(volume);
+
 		GETJSON(dropOff);
 		GETJSON(minDist);
+
 		GETJSON(relative);
+		GETJSON(shouldLoop);
 	}
 };
 

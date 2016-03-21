@@ -1,12 +1,9 @@
 {
     "ClassName": "TurretData",
-    "Title": "BallisticTurret",
+    "title": "BallisticTurret",
     "Inherits": "DefaultShipModule",
-    "StartEmpty": false,
-    "Weapon": {
-        "Title": "DefaultBallisticWeapon"
-    },
-    "BaseSprite": {
+    "startWep": "DefaultBallisticWeapon",
+    "baseDecor": {
         "texName": "turret/turret_base.png",
         "animSheetName": "turret/turret_base.acfg"
     }

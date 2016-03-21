@@ -23,15 +23,15 @@ private:
 struct TriggerSensorData : public SensorData
 {
 	TriggerSensorData() :
-		min_dmg(10),
-		max_dmg(100),
+		minDamage(10),
+		maxDamage(100),
 		period(3)
 	{
 
 	}
 
-	float max_dmg;
-	float min_dmg;
+	float maxDamage;
+	float minDamage;
 	float period;
 
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const

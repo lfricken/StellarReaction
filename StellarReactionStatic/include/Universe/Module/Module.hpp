@@ -8,6 +8,7 @@
 #include "Pool.hpp"
 #include "Chunk.hpp"
 #include "ClassRegister.hpp"
+#include "JSON.hpp"
 
 enum class Directive;
 struct ModuleData;

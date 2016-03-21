@@ -5,6 +5,9 @@
 #define GETJSON(VARNAME) \
 	 VARNAME = JSON::get(root, #VARNAME, VARNAME);
 
+#define LOADJSON(BASEVAR) \
+	 if(!root[#BASEVAR].isNull()) BASEVAR.loadJson(root[#BASEVAR]);
+
 class JSON
 {
 public:

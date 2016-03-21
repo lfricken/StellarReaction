@@ -1,8 +1,8 @@
 {
     "ClassName": "ShipModuleData",
-    "Title": "DefaultShipModule",
+    "title": "DefaultShipModule",
     "Inherits": "DefaultModule",
-    "BaseSprite": {
+    "baseDecor": {
         "dimensions": [
             256,
             256
@@ -16,12 +16,13 @@
         "animSheetName": "default.acfg",
         "layer": "ShipModules"
     },
-    "Defense": {
+    "health": {
         "Max": 1000,
+		"Min": 0,
         "Value": 1000,
         "Armor": 0
     },
-    "Physics": {
+    "fixComp": {
 		"colCat": "ShipModule",
 		"colMask": "ShipModule"	
 	}

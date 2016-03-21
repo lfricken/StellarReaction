@@ -2,11 +2,17 @@
 #include "BodyComponent.hpp"
 #include "FixtureComponent.hpp"
 
-
+void TriggerSensorData::loadJson(const Json::Value& root)
+{
+	GETJSON(maxDamage);
+	GETJSON(minDamage);
+	GETJSON(period);
+	SensorData::loadJson(root);
+}
 TriggerSensor::TriggerSensor(const TriggerSensorData& rData) : Sensor(rData)
 {
-	m_maxDamage = rData.max_dmg;
-	m_minDamage = rData.min_dmg;
+	m_maxDamage = rData.maxDamage;
+	m_minDamage = rData.minDamage;
 	m_period = rData.period;
 }
 TriggerSensor::~TriggerSensor()
@@ -42,13 +48,4 @@ void TriggerSensor::prePhysUpdate()
 	}
 
 }
-void TriggerSensorData::loadJson(const Json::Value& root)
-{
-	if (!root["MaxDamage"].isNull())
-		max_dmg = root["MaxDamage"].asFloat();
-	if (!root["MinDamage"].isNull())
-		min_dmg = root["MinDamage"].asFloat();
-	if (!root["Period"].isNull())
-		period = root["Period"].asFloat();
-	SensorData::loadJson(root);
-}
+

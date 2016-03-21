@@ -1,8 +1,8 @@
 {
     "ClassName": "ProjectileData",
-    "Title": "DefaultAOE",
+    "title": "DefaultAOE",
 	"Copies": null,
-    "Body": {
+    "body": {
         "coords": [
             0,
             0
@@ -30,7 +30,7 @@
     },
     "Modules": [
 		{
-			"Title": "AOEProjectileModule",
+			"title": "AOEProjectileModule",
 			"Position": [
 				0,
 				0

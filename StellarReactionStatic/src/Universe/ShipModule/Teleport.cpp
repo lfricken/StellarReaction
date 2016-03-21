@@ -1,15 +1,23 @@
 #include "Teleport.hpp"
 #include "Controller.hpp"
 #include "Player.hpp"
+#include "JSON.hpp"
 
 using namespace std;
 
+void TeleportData::loadJson(const Json::Value& root)
+{
+	GETJSON(energyConsumption);
+	GETJSON(teleRange);
+	GETJSON(teleCooldown);
+	ShipModuleData::loadJson(root);
+}
 Teleport::Teleport(const TeleportData& rData) : ShipModule(rData)
 {
 	m_eConsump = rData.energyConsumption;
 	m_teleRange = rData.teleRange;
-	m_teleCD = rData.teleCD;
-	m_teleTimer.setCountDown(m_teleCD);
+	m_teleCooldown = rData.teleCooldown;
+	m_teleTimer.setCountDown(m_teleCooldown);
 }
 Teleport::~Teleport()
 {
@@ -54,15 +62,4 @@ void Teleport::directive(map<Directive, bool>& rIssues)
 		}
 	}
 }
-void TeleportData::loadJson(const Json::Value& root)
-{
-	if(!root["EnergyConsumption"].isNull())
-		energyConsumption = root["EnergyConsumption"].asFloat();
-	if(!root["TeleportRange"].isNull())
-		teleRange = root["TeleportRange"].asFloat();
-	if(!root["TeleportCooldown"].isNull())
-		teleCD = root["TeleportCooldown"].asFloat();
-	ShipModuleData::loadJson(root);
-}
-
 

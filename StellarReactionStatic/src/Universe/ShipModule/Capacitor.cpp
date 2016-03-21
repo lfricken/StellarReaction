@@ -1,5 +1,12 @@
 #include "Capacitor.hpp"
 
+
+void CapacitorData::loadJson(const Json::Value& root)
+{
+	GETJSON(storage);
+
+	ShipModuleData::loadJson(root);
+}
 Capacitor::Capacitor(const CapacitorData& rData) : ShipModule(rData)
 {
 	m_storage = rData.storage;
@@ -24,11 +31,4 @@ void Capacitor::setHealthStateHook(HealthState newState)
 		m_pEnergyPool->changeMax(m_storage);
 		m_hasContributed = true;
 	}
-}
-void CapacitorData::loadJson(const Json::Value& root)
-{
-	if(!root["EnergyCapacity"].isNull())
-		storage = root["EnergyCapacity"].asFloat();
-
-	ShipModuleData::loadJson(root);
 }

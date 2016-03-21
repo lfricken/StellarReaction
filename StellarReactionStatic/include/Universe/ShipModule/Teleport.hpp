@@ -19,7 +19,7 @@ protected:
 private:
 	float m_eConsump;
 	float m_teleRange;
-	float m_teleCD;
+	float m_teleCooldown;
 	Timer m_teleTimer;
 };
 
@@ -30,7 +30,7 @@ struct TeleportData : public ShipModuleData
 		ShipModuleData(),
 		energyConsumption(5),
 		teleRange(15),
-		teleCD(20)
+		teleCooldown(20)
 	{
 		baseDecor.texName = "radar/radar_base.png";
 		baseDecor.animSheetName = "radar/radar_base.acfg";
@@ -38,7 +38,7 @@ struct TeleportData : public ShipModuleData
 
 	float energyConsumption;
 	float teleRange;
-	float teleCD;
+	float teleCooldown;
 
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{

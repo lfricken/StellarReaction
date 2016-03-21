@@ -4,7 +4,12 @@ using namespace std;
 
 
 
+void ProjectileModuleData::loadJson(const Json::Value& root)
+{
+	LOADJSON(baseDecor);
 
+	SensorData::loadJson(root);
+}
 ProjectileModule::ProjectileModule(const ProjectileModuleData& rData) : Sensor(rData)
 {
 	m_freeThisProjectile = false;
@@ -75,14 +80,6 @@ void ProjectileModule::damage(FixtureComponent* pFix, int damage)
 	mess.reset(pFix->getIOPos(), "damage", packet, 0.f, false);
 	game.getUniverse().getUniverseIO().recieve(mess);
 }
-void ProjectileModuleData::loadJson(const Json::Value& root)
-{
-	if(!root["BaseSprite"].isNull())
-		baseDecor.loadJson(root["BaseSprite"]);
-
-	SensorData::loadJson(root);
-}
-
 void ProjectileModule::input(std::string rCommand, sf::Packet rData)
 {
 	if(rCommand == "damage")

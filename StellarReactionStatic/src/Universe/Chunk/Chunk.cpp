@@ -389,9 +389,9 @@ void ChunkData::loadJson(const Json::Value& root)
 		sptr<ModuleData> spMod;
 		for(auto it = root["Modules"].begin(); it != root["Modules"].end(); ++it)
 		{
-			if(!(*it)["Title"].isNull() && (*it)["ClassName"].isNull())//from title
+			if(!(*it)["title"].isNull() && (*it)["ClassName"].isNull())//from title
 			{
-				string title = (*it)["Title"].asString();
+				string title = (*it)["title"].asString();
 				spMod.reset(game.getUniverse().getBlueprints().getModuleSPtr(title)->clone());
 
 				spMod->fixComp.offset.x = (*it)["Position"][0].asFloat();

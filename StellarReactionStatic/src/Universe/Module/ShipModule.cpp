@@ -3,6 +3,13 @@
 
 using namespace std;
 
+void ShipModuleData::loadJson(const Json::Value& root)
+{
+	LOADJSON(health);
+	LOADJSON(baseDecor);
+
+	ModuleData::loadJson(root);
+}
 
 ShipModule::ShipModule(const ShipModuleData& rData) : Module(rData), m_health(rData.health)
 {
@@ -160,15 +167,12 @@ void ShipModule::setHealthStateHook(HealthState newState)
 {
 
 }
-
 int ShipModule::getControlGroup() const{
 	return m_controlGroup;
 }
-
 void ShipModule::setControlGroup(int control_group) {
 	m_controlGroup = control_group;
 }
-
 void ShipModule::f_died()
 {
 	b2Vec2 center = m_fix.getCenter();
@@ -182,7 +186,6 @@ void ShipModule::f_died()
 	sound.pos = center;
 	game.getSound().playSound(sound);
 }
-
 void ShipModule::toggleStealth(bool toggle)
 {
 	if (toggle)
@@ -190,7 +193,6 @@ void ShipModule::toggleStealth(bool toggle)
 	else
 		m_decors[m_baseDecor]->setAlpha(alpha_stealth_off);
 }
-
 void ShipModule::healToMax()
 {
 	sf::Packet packet;
@@ -199,16 +201,5 @@ void ShipModule::healToMax()
 	mess.reset(m_fix.getIOPos(), "heal", packet, 0.f, false);
 	game.getUniverse().getUniverseIO().recieve(mess);
 }
-
-void ShipModuleData::loadJson(const Json::Value& root)
-{
-	if(!root["Defense"].isNull())
-		health.loadJson(root["Defense"]);
-	if(!root["BaseSprite"].isNull())
-		baseDecor.loadJson(root["BaseSprite"]);
-
-	ModuleData::loadJson(root);
-}
-
 
 

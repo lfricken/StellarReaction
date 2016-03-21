@@ -1,6 +1,6 @@
 {
     "ClassName": "ChunkData",
-    "Title": "DefaultStation",
+    "title": "DefaultStation",
 	"Copies": null,
     "IO": {
         "name": "BPCHUNKNAME",
@@ -35,7 +35,7 @@
     },
     "Modules": [
         {
-            "Title": "DefaultCapacitor",
+            "title": "DefaultCapacitor",
             "Position": [
                 0,
                 0

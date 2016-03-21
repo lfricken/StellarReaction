@@ -1,6 +1,6 @@
 {
     "ClassName": "MissileWeaponData",
-    "Title": "DefaultMissileWeapon",
+    "title": "DefaultMissileWeapon",
 
     "StartSound": {
         "name": ""

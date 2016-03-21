@@ -1,9 +1,49 @@
 #include "FixtureComponent.hpp"
 #include "Globals.hpp"
 #include "Universe.hpp"
+#include "JSON.hpp"
 
 using namespace std;
 
+
+void FixtureComponentData::loadJson(const Json::Value& root)
+{
+	if(!root["offset"].isNull())
+	{
+		offset.x = root["offset"][0].asFloat();
+		offset.y = root["offset"][1].asFloat();
+	}
+
+	if(!root["shape"].isNull())
+	{
+		string temp = root["shape"].asString();
+		if(temp == "rectangle")
+			shape = leon::Shape::Rectangle;
+		else if(temp == "circle")
+			shape = leon::Shape::Circle;
+		else
+		{
+			cout << "\n" << FILELINE;
+			shape = leon::Shape::Circle;
+		}
+	}
+
+	if(!root["size"].isNull())
+	{
+		size.x = root["size"][0].asFloat();
+		size.y = root["size"][1].asFloat();
+	}
+
+	GETJSON(density);
+	GETJSON(friction);
+	GETJSON(restitution);
+	GETJSON(isSensor);
+
+	if(!root["colCat"].isNull())
+		colCategory = ChooseCategory(root["colCat"].asString());
+	if(!root["colMask"].isNull())
+		colMask = ChooseMask(root["colMask"].asString());
+}
 FixtureComponent::FixtureComponent(const FixtureComponentData& rData)
 {
 	m_offset = rData.offset;
@@ -155,46 +195,3 @@ bool FixtureComponent::isSensor() const
 {
 	return m_pFixture->IsSensor();
 }
-void FixtureComponentData::loadJson(const Json::Value& root)
-{
-	if(!root["offset"].isNull())
-	{
-		offset.x = root["offset"][0].asFloat();
-		offset.y = root["offset"][1].asFloat();
-	}
-
-	if(!root["shape"].isNull())
-	{
-		string temp = root["shape"].asString();
-		if(temp == "rectangle")
-			shape = leon::Shape::Rectangle;
-		else if(temp == "circle")
-			shape = leon::Shape::Circle;
-		else
-		{
-			cout << "\n" << FILELINE;
-			shape = leon::Shape::Circle;
-		}
-	}
-
-	if(!root["size"].isNull())
-	{
-		size.x = root["size"][0].asFloat();
-		size.y = root["size"][1].asFloat();
-	}
-
-	if(!root["density"].isNull())
-		density = root["density"].asFloat();
-	if(!root["friction"].isNull())
-		friction = root["friction"].asFloat();
-	if(!root["restitution"].isNull())
-		restitution = root["restitution"].asFloat();
-	if(!root["isSensor"].isNull())
-		isSensor = root["isSensor"].asBool();
-
-	if(!root["colCat"].isNull())
-		colCategory = ChooseCategory(root["colCat"].asString());
-	if(!root["colMask"].isNull())
-		colMask = ChooseMask(root["colMask"].asString());
-}
-

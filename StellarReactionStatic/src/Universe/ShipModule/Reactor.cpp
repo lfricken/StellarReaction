@@ -4,6 +4,12 @@
 
 using namespace std;
 
+void ReactorData::loadJson(const Json::Value& root)
+{
+	GETJSON(rate);
+
+	ShipModuleData::loadJson(root);
+}
 Reactor::Reactor(const ReactorData& rData) : ShipModule(rData)
 {
 	m_rate = rData.rate;
@@ -29,7 +35,6 @@ void Reactor::postPhysUpdate()
 	}
 	ShipModule::postPhysUpdate();
 }
-
 void Reactor::directive(map<Directive, bool>& rIssues)
 {
 	if(rIssues[Directive::Respawn])
@@ -37,7 +42,6 @@ void Reactor::directive(map<Directive, bool>& rIssues)
 		respawn();
 	}
 }
-
 void Reactor::respawn()
 {
 	//now do ship manipulation
@@ -81,11 +85,4 @@ void Reactor::respawn()
 	{
 		(*it)->healToMax();
 	}
-}
-void ReactorData::loadJson(const Json::Value& root)
-{
-	if(!root["EnergyProduction"].isNull())
-		rate = root["EnergyProduction"].asFloat();
-
-	ShipModuleData::loadJson(root);
 }

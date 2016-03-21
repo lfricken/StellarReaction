@@ -1,6 +1,6 @@
 {
     "ClassName": "ChunkData",
-    "Title": "CombatShip",
+    "title": "CombatShip",
 	"Copies": null,
     "IO": {
         "name": "CombatShip",
@@ -58,91 +58,91 @@
 	],
     "Modules": [
         {
-            "Title": "DefaultReactor",
+            "title": "DefaultReactor",
             "Position": [
                 1,
                 1
             ]
         },
         {
-            "Title": "Razor_Laser1",
+            "title": "Razor_Laser1",
             "Position": [
                 0,
                 0
             ]
         },
         {
-            "Title": "Raven_Ballistic1",
+            "title": "Raven_Ballistic1",
             "Position": [
                 1,
                 -1
             ]
         },
         {
-            "Title": "DefaultPlating",
+            "title": "DefaultPlating",
             "Position": [
                 -1,
                 1
             ]
         },
         {
-            "Title": "DefaultPlating",
+            "title": "DefaultPlating",
             "Position": [
                 -1,
                 0
             ]
         },
         {
-            "Title": "DefaultShield",
+            "title": "DefaultShield",
             "Position": [
                 -1,
                 -1
             ]
         },
         {
-            "Title": "DefaultCapacitor",
+            "title": "DefaultCapacitor",
             "Position": [
                 1,
                 0
             ]
         },
         {
-            "Title": "Razor_Ballistic1",
+            "title": "Razor_Ballistic1",
             "Position": [
                 2,
                 0
             ]
         },
         {
-            "Title": "GrappleTurret",
+            "title": "GrappleTurret",
             "Position": [
                 2,
                 -1
             ]
         },
 		{
-            "Title": "DefaultRadar",
+            "title": "DefaultRadar",
             "Position": [
                 0,
                 1
             ]
 		},
         {
-            "Title": "DefaultThruster",
+            "title": "DefaultThruster",
             "Position": [
                 0,
                 -1
             ]
         },
         {
-            "Title": "DefaultStealth",
+            "title": "DefaultStealth",
             "Position": [
                 3,
                 0
             ]
         },
 		{
-            "Title": "DefaultTeleport",
+            "title": "DefaultTeleport",
             "Position": [
                 -2,
                 0

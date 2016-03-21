@@ -12,10 +12,6 @@ Category ChooseCategory(const std::string& rChoice)
 		return Category::ShipModuleBroke;
 	else if(rChoice == "ShipForceField")
 		return Category::ShipForceField;
-	else if(rChoice == "Actor")
-		return Category::Actor;
-	else if(rChoice == "Item")
-		return Category::Item;
 	else if(rChoice == "Trigger")
 		return Category::Trigger;
 	else if(rChoice == "All")

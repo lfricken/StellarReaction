@@ -1,8 +1,8 @@
 {
     "ClassName": "TriggerSensorData",
-	"Title": "DefaultTriggerSensor",
+	"title": "DefaultTriggerSensor",
     "Inherits": "DefaultModule",
-	"Physics": {
+	"fixComp": {
 		"offset": [
 			0,
 			0
@@ -17,7 +17,7 @@
 		"colCat": "Trigger",
 		"colMask": "Trigger"
 	},
-	"MaxDamage": 30,
-	"MinDamage": 7,
-	"Period": 0.33
+	"maxDamage": 30,
+	"minDamage": 7,
+	"period": 0.33
 }
