@@ -51,6 +51,7 @@ public:
 	FixtureComponent(const FixtureComponentData& rData);
 	virtual ~FixtureComponent();
 
+	bool isSensor() const;
 	b2Vec2 getCenter() const;
 	float getAngle() const;//RADIANS CCW	
 	/// <summary>

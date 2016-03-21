@@ -47,7 +47,7 @@ void ProjectileModule::postPhysUpdate()
 /// </summary>
 void ProjectileModule::entered(FixtureComponent* pOther)
 {
-	if(pOther->getBodyPtr() != m_pParent && m_currentCollisions < m_maxCollisions)
+	if(pOther->getBodyPtr() != m_pParent && m_currentCollisions < m_maxCollisions && !pOther->isSensor())
 	{
 		damage(pOther, m_damage);
 		++m_currentCollisions;

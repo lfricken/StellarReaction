@@ -2,7 +2,7 @@
     "ClassName": "ShieldData",
 	"Title": "DefaultShield",
     "Inherits": "DefaultShipModule",
-    "ShieldRadius": 20,
+    "ShieldDiameter": 5,
   	"EnergyConsumption": 2,
 	"BaseSprite": {
 		"texName": "shield/shield.png",

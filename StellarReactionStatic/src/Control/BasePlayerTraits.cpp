@@ -54,10 +54,12 @@ Money BasePlayerTraits::getMoney() const
 {
 	return m_balance;
 }
-void BasePlayerTraits::setActiveControlGroup(int control_group){
+void BasePlayerTraits::setActiveControlGroup(int control_group)
+{
 	m_activeControlGroup = control_group;
 }
-int BasePlayerTraits::getActiveControlGroup() const {
+int BasePlayerTraits::getActiveControlGroup() const
+{
 	return m_activeControlGroup;
 }
 void BasePlayerTraits::setController(int index)

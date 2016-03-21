@@ -6,12 +6,22 @@ using namespace std;
 /*
 From this line and to the second block comments pertains to the ShieldComponent SENSOR.
 */
-ShieldComponent::ShieldComponent(const ShieldComponentData& rData) : Sensor(rData) {}
-ShieldComponent::~ShieldComponent() {}
-
+ShieldComponent::ShieldComponent(const ShieldComponentData& rData) : Sensor(rData)
+{
+	m_pParentShieldModule = rData.pParentShieldModule;
+}
 void ShieldComponent::entered(FixtureComponent* pOther)
 {
-
+	if(m_pParentShieldModule->hitConsumption())
+	{
+		sf::Packet cause;
+		int32_t ioPos = m_io.getPosition();
+		cause << ioPos;
+		Message mes(pOther->getIOPos(), "hitShield", cause, 0, false);
+		game.getUniverse().getUniverseIO().recieve(mes);
+	}
+	else
+		this->toggleEnabled(false);
 }
 void ShieldComponent::exited(FixtureComponent* pOther)
 {
@@ -19,20 +29,7 @@ void ShieldComponent::exited(FixtureComponent* pOther)
 }
 void ShieldComponent::input(std::string rCommand, sf::Packet rData)
 {
-	if(isEnabled())
-	{
-		if(rCommand == "damage")
-		{
-			int val;
-			int cause;
-			rData >> val >> cause;
 
-			Message mes(cause, "hitShield", voidPacket, 0, false);
-			game.getUniverse().getUniverseIO().recieve(mes);
-		}
-		else
-			Sensor::input(rCommand, rData);
-	}
 }
 void ShieldComponentData::loadJson(const Json::Value& root)
 {
@@ -41,51 +38,58 @@ void ShieldComponentData::loadJson(const Json::Value& root)
 
 Shield::Shield(const ShieldData& rData) : ShipModule(rData)
 {
-	m_eConsump = rData.energyConsumption;
+	m_energyPerSecond = rData.energyPerSecond;
+	m_energyPerHit = rData.energyPerHit;
+	m_toggleTimer.setCountDown(rData.toggleFrequency);
+	m_toggleTimer.restartCountDown();
 
 	ShieldComponentData newShield;
+	newShield.pParentShieldModule = this;
+	newShield.startEnabled = false;
 	newShield.fixComp.shape = leon::Shape::Circle;
 	newShield.fixComp.size.x = rData.radius;
 	newShield.fixComp.offset = rData.fixComp.offset;
 	this->m_parentChunk->add(newShield);
 
-	shield = dynamic_cast<ShieldComponent*>(this->m_parentChunk->getModuleList().back().get());
-}
-Shield::~Shield()
-{
-
+	m_pShield = dynamic_cast<ShieldComponent*>(this->m_parentChunk->getModuleList().back().get());
 }
 void Shield::prePhysUpdate()
 {
 	ShipModule::prePhysUpdate();
 
-	Energy thisTickConsumption = m_eConsump*game.getUniverse().getTimeStep();//calculate energy consumption TODO
+	Energy thisTickConsumption = m_energyPerSecond*m_consumptionTimer.getTimeElapsed();
 	if(!isFunctioning() || m_pEnergyPool->getValue() < thisTickConsumption)
-	{
-		shield->disable();
-	}
-	else
-		shield->enable();
+		m_pShield->toggleEnabled(false);
 
-	if(shield->isEnabled())
-	{
+	if(m_pShield->isEnabled())
 		m_pEnergyPool->changeValue(-thisTickConsumption);
-		//consume this tick//calculate energy consumption TODO
-	}
+}
+bool Shield::hitConsumption()
+{
+	m_pEnergyPool->changeValue(-m_energyPerHit);
+	return (m_pEnergyPool->getValue() > m_energyPerHit);
 }
 void Shield::directive(map<Directive, bool>& rIssues)
 {
-	if(rIssues[Directive::ShieldToggle])
+	if(rIssues[Directive::Shield])
 	{
-		cout << "Shield pressed." << endl;
+		if(m_toggleTimer.isTimeUp())
+		{
+			m_toggleTimer.restartCountDown();
+			m_pShield->toggleEnabled(!m_pShield->isEnabled());
+		}
 	}
 }
 void ShieldData::loadJson(const Json::Value& root)
 {
-	if(!root["EnergyConsumption"].isNull())
-		energyConsumption = root["EnergyConsumption"].asFloat();
-	if(!root["ShieldRadius"].isNull())
-		radius = root["ShieldRadius"].asFloat();
+	if(!root["EnergyPerSecond"].isNull())
+		energyPerSecond = root["EnergyPerSecond"].asFloat();
+	if(!root["EnergyPerHit"].isNull())
+		energyPerHit = root["EnergyPerHit"].asFloat();
+	if(!root["ShieldDiameter"].isNull())
+		radius = root["ShieldDiameter"].asFloat();
+	if(!root["ToggleFrequency"].isNull())
+		toggleFrequency = root["ToggleFrequency"].asFloat();
 
 	ShipModuleData::loadJson(root);
 }

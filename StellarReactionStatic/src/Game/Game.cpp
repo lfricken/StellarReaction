@@ -241,10 +241,10 @@ void Game::tick(float frameTime)
 
 
 	/**== FRAMERATE ==**/
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::F))
-		std::cout << "\nFPS: " << 1 / frameTime;
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::M))
-		std::cout << "\nM: " << game.getLocalPlayer().getMoney();
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad4))
+		std::cout << "\nFPS: " << 1.f / frameTime;
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad5))
+		std::cout << "\nLocal Player Money: " << game.getLocalPlayer().getMoney();
 
 	/**== IO ==**/
 	getCoreIO().update(frameTime);

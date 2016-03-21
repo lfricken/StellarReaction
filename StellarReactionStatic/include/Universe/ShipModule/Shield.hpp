@@ -4,6 +4,7 @@
 #include "ShipModule.hpp"
 #include "Sensor.hpp"
 
+class Shield;
 struct ShieldData;
 struct ShieldComponentData;
 
@@ -11,12 +12,12 @@ class ShieldComponent : public Sensor
 {
 public:
 	ShieldComponent(const ShieldComponentData& rData);
-	virtual ~ShieldComponent();
 
 	virtual void entered(FixtureComponent* pOther);
 	virtual void exited(FixtureComponent* pOther);
 protected:
 	virtual void input(std::string rCommand, sf::Packet rData);
+	Shield* m_pParentShieldModule;
 };
 
 struct ShieldComponentData : public SensorData
@@ -30,9 +31,13 @@ struct ShieldComponentData : public SensorData
 		fixComp.colCategory = Category::ShipForceField;
 		fixComp.colMask = Mask::ShipForceField;
 		fixComp.density = 0.f;
+
+		startEnabled = false;
 	}
 
-	bool startEnabled;
+
+	Shield* pParentShieldModule;
+
 
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{
@@ -55,37 +60,43 @@ class Shield : public ShipModule
 {
 public:
 	Shield(const ShieldData& rData);
-	virtual ~Shield();
 
 	void directive(std::map<Directive, bool>& rIssues);
 
 	virtual void prePhysUpdate();
+	bool hitConsumption();
 
 protected:
 
 private:
-
+	Timer m_toggleTimer;
+	Timer m_consumptionTimer;
 	
-	float m_eConsump;
-	bool out_of_energy;
-	const float consump_per_hit = 2.0;
+	float m_energyPerSecond;
+	float m_energyPerHit;
 
-	ShieldComponent* shield;
+	ShieldComponent* m_pShield;
 };
 
 struct ShieldData : public ShipModuleData
 {
 	ShieldData() : 
 		ShipModuleData(),
-		energyConsumption(1),
-		radius(10)
+		energyPerSecond(5),
+		energyPerHit(1),
+		radius(5),
+		toggleFrequency(1)
 	{
 		baseDecor.texName = "shield/shield.png";
 		baseDecor.animSheetName = "shield/shield.acfg";
 	}
 
-	float energyConsumption;//energy consumed per second
+
+	float energyPerSecond;//energy consumed per second
+	float energyPerHit;//energy consumed per hit
 	float radius;//how big the shield is
+	float toggleFrequency;//how frequently we can turn it on or off
+
 
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{
@@ -100,7 +111,6 @@ struct ShieldData : public ShipModuleData
 		return new ShieldData(*this);
 	}
 	virtual void loadJson(const Json::Value& root);
-
 	MyType(ModuleData, ShieldData);
 };
 

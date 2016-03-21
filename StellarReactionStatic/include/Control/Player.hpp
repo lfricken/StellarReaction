@@ -18,75 +18,64 @@ class Minimap;
 struct InputConfig
 {
 	InputConfig() :
+		/**MOVEMENT**/
 		up(sf::Keyboard::W),
 		down(sf::Keyboard::S),
 		rollCCW(sf::Keyboard::A),
 		rollCW(sf::Keyboard::D),
 
+		/**SPECIAL**/
+		stealth(sf::Keyboard::Q),
+		shield(sf::Keyboard::Space),
+		teleport(sf::Keyboard::E),
+		boost(sf::Keyboard::LShift),
+
+		/**WEAPON**/
 		primary(sf::Mouse::Left),
 		secondary(sf::Mouse::Right),
-
-		nextWeapon(sf::Keyboard::E),
-		prevWeapon(sf::Keyboard::Q),
 
 		cgroup_1(sf::Keyboard::Num1),
 		cgroup_2(sf::Keyboard::Num2),
 		cgroup_3(sf::Keyboard::Num3),
 		cgroup_4(sf::Keyboard::Num4),
 
-		stealth(sf::Keyboard::Space),
-		shield(sf::Keyboard::V),
-
-		special_2(sf::Keyboard::R),
-		teleport(sf::Keyboard::F),
-		special_4(sf::Keyboard::C),
-		special_5(sf::Keyboard::X),
-		special_6(sf::Keyboard::Z),
-		special_7(sf::Keyboard::LShift),
+		/**OTHER**/
+		store(sf::Keyboard::B),
 
 		cameraUp(sf::Keyboard::Up),
 		cameraDown(sf::Keyboard::Down),
 		cameraLeft(sf::Keyboard::Left),
-		cameraRight(sf::Keyboard::Right),
-
-		boost(sf::Keyboard::LShift),
-		store(sf::Keyboard::B)
+		cameraRight(sf::Keyboard::Right)
 	{}
 
+	/**MOVEMENT**/
 	sf::Keyboard::Key up;
 	sf::Keyboard::Key down;
 	sf::Keyboard::Key rollCCW;
 	sf::Keyboard::Key rollCW;
 
+	/**SPECIAL**/
+	sf::Keyboard::Key stealth;
+	sf::Keyboard::Key shield;
+	sf::Keyboard::Key teleport;
+	sf::Keyboard::Key boost;
+
+	/**WEAPON**/
 	sf::Mouse::Button primary;
 	sf::Mouse::Button secondary;
-
-	sf::Keyboard::Key nextWeapon;
-	sf::Keyboard::Key prevWeapon;
 
 	sf::Keyboard::Key cgroup_1;
 	sf::Keyboard::Key cgroup_2;
 	sf::Keyboard::Key cgroup_3;
 	sf::Keyboard::Key cgroup_4;
 
-	sf::Keyboard::Key stealth;
-	sf::Keyboard::Key shield;
-
-	sf::Keyboard::Key special_2;
-	sf::Keyboard::Key teleport;
-	sf::Keyboard::Key special_4;
-	sf::Keyboard::Key special_5;
-	sf::Keyboard::Key special_6;
-	sf::Keyboard::Key special_7;
-
+	/**OTHER**/
+	sf::Keyboard::Key store;
 
 	sf::Keyboard::Key cameraUp;
 	sf::Keyboard::Key cameraDown;
 	sf::Keyboard::Key cameraLeft;
 	sf::Keyboard::Key cameraRight;
-
-	sf::Keyboard::Key boost;
-	sf::Keyboard::Key store;
 };
 struct PlayerData
 {

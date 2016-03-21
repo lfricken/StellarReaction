@@ -151,6 +151,10 @@ const std::string& FixtureComponent::getStore() const
 {
 	return m_store;
 }
+bool FixtureComponent::isSensor() const
+{
+	return m_pFixture->IsSensor();
+}
 void FixtureComponentData::loadJson(const Json::Value& root)
 {
 	if(!root["offset"].isNull())

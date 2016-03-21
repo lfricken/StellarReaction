@@ -14,34 +14,25 @@ class Chunk;
 /// </summary>
 enum class Directive
 {
-	/**== MOVEMENT ==**/
+	/**MOVEMENT**/
 	Up,
 	Down,
-	Left,
-	Right,
-	RollCCW,//roll left
-	RollCW,//roll right
-	//Evan - boost button
-	Boost,
-
+	RollCCW,
+	RollCW,
 
 	/**== COMBAT ==**/
 	FirePrimary,
 	FireSecondary,
 
-	NextWeapon,
-	PrevWeapon,
-	Reload,
-
 	/**== MISC. ==**/
-	Use,
 	Stealth,
 	Teleport,
+	Shield,
+	Boost,
+
 	Respawn,
-	ShieldToggle,
 	ShowStore,//toggle the store on or off (if there is one near us)
-	Special1,
-	Special2,
+
 	End,
 };
 /// <summary>

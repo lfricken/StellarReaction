@@ -2,7 +2,10 @@
 
 using namespace std;
 
-
+void SensorData::loadJson(const Json::Value& root)
+{
+	ModuleData::loadJson(root);
+}
 Sensor::Sensor(const SensorData& rData) : Module(rData)
 {
 	m_enabled = rData.startEnabled;
@@ -20,7 +23,7 @@ void Sensor::startContactCB(FixtureComponent* pOther)
 	//add to our list
 	m_guests.push_back(pOther);
 
-	if(m_enabled)
+	if(isEnabled())
 	{
 		sf::Packet enter;
 		enter << pOther->getIOPos();
@@ -43,7 +46,7 @@ void Sensor::endContactCB(FixtureComponent* pOther)
 			break;
 		}
 
-	if(m_enabled)
+	if(isEnabled())
 	{
 		sf::Packet exit;
 		exit << pOther->getIOPos();
@@ -70,19 +73,12 @@ void Sensor::exited(FixtureComponent* pOther)
 {
 
 }
-void SensorData::loadJson(const Json::Value& root)
+void Sensor::toggleEnabled(bool enabled)
 {
-	ModuleData::loadJson(root);
+	m_enabled = enabled;
 }
-void Sensor::enable()
-{
-	m_enabled = true;
-}
-void Sensor::disable()
-{
-	m_enabled = false;
-}
-bool Sensor::isEnabled()
+bool Sensor::isEnabled() const
 {
 	return m_enabled;
 }
+

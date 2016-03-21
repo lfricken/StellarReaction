@@ -120,7 +120,7 @@ void Player::getLiveInput()
 			m_directives[Directive::Respawn] = true;
 
 		if (Keyboard::isKeyPressed(m_inCfg.shield))
-			m_directives[Directive::ShieldToggle] = true;
+			m_directives[Directive::Shield] = true;
 
 		if (Keyboard::isKeyPressed(m_inCfg.cgroup_1))
 			setActiveControlGroup(1);
@@ -145,7 +145,7 @@ void Player::getLiveInput()
 		m_aim = leon::sfTob2(game.getWindow().mapPixelToCoords(Mouse::getPosition(game.getWindow()), m_camera.getView()));
 
 		/**== DEVELOPER ==**/
-		if(Keyboard::isKeyPressed(Keyboard::G))
+		if(Keyboard::isKeyPressed(Keyboard::Numpad3))
 			cout << "\n(" << m_aim.x << ",\t" << m_aim.y << ")";
 
 		Controller& rController = game.getUniverse().getControllerFactory().getController(m_controller);
@@ -212,11 +212,11 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 			/**== DEVELOPER OPTIONS ==**/
 			if(event.type == Event::KeyPressed)
 			{
-				if(event.key.code == Keyboard::O)
+				if(event.key.code == Keyboard::Numpad0)
 					game.getUniverse().toggleDebugDraw();
-				if(event.key.code == Keyboard::T)
+				if(event.key.code == Keyboard::Numpad1)
 					m_tracking = !m_tracking;
-				if(event.key.code == Keyboard::P)
+				if(event.key.code == Keyboard::Numpad2)
 					game.getUniverse().togglePause();
 			}
 		}
