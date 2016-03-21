@@ -19,7 +19,7 @@ SoundManager::~SoundManager()
 /// </summary>
 void SoundManager::playSound(const SoundData& rSound)
 {
-	playSound(rSound.name, rSound.vol, rSound.minDist, rSound.dropOff, rSound.pos, rSound.relative);
+	playSound(rSound.name, rSound.volume, rSound.minDist, rSound.dropOff, rSound.pos, rSound.relative);
 }
 /// <summary>
 /// Plays the sound.

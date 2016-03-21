@@ -1,13 +1,7 @@
 #ifndef SOUNDDATA_HPP
 #define SOUNDDATA_HPP
 
-namespace leon
-{
-	const int volume = 100;
-	const float dist = 5;
-	const int drop = 30;
-	const b2Vec2 dPos(1,0);
-}
+#include "JSON.hpp"
 
 /// <summary>
 /// Used to pass to SoundManager to play a sound with these settings.
@@ -17,16 +11,16 @@ struct SoundData
 	SoundData()
 	{
 		name = "";
-		vol = leon::volume;
-		minDist = leon::dist;
-		dropOff = leon::drop;
-		pos = leon::dPos;
+		volume = 100;
+		minDist = 5;
+		dropOff = 30;
+		pos = b2Vec2(1,0);
 		relative = false;
 		shouldLoop = false;
 	}
 
 	std::string name;
-	int vol;
+	int volume;
 
 	float minDist;
 	float dropOff;
@@ -38,16 +32,11 @@ struct SoundData
 
 	virtual void loadJson(const Json::Value& root)
 	{
-		if(!root["name"].isNull())
-			name = root["name"].asString();
-		if(!root["vol"].isNull())
-			vol = root["vol"].asInt();
-		if(!root["dropOff"].isNull())
-			dropOff = root["dropOff"].asFloat();
-		if(!root["minDist"].isNull())
-			minDist = root["minDist"].asFloat();
-		if(!root["relative"].isNull())
-			relative = root["relative"].asBool();
+		GETJSON(name);
+		GETJSON(volume);
+		GETJSON(dropOff);
+		GETJSON(minDist);
+		GETJSON(relative);
 	}
 };
 

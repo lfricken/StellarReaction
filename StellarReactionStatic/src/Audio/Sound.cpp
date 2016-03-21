@@ -8,7 +8,7 @@ using namespace leon;
 Sound::Sound(const SoundData& rData)
 {
 	m_soundName = rData.name;
-	m_volume = rData.vol;
+	m_volume = rData.volume;
 	m_shouldLoop = rData.shouldLoop;
 	m_dropOff = rData.dropOff;
 	m_minDist = rData.minDist;

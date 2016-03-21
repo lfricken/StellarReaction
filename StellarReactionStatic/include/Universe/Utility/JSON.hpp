@@ -2,6 +2,9 @@
 
 #include "stdafx.hpp"
 
+#define GETJSON(VARNAME) \
+	 VARNAME = JSON::get(root, #VARNAME, VARNAME);
+
 class JSON
 {
 public:

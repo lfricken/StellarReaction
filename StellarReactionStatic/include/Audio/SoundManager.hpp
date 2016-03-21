@@ -35,7 +35,7 @@ public:
 	virtual ~SoundManager();
 
 	void playSound(const SoundData& rSound);
-	int playSound(const std::string& rSoundName, int volume = leon::volume, float minDist = leon::dist, float dropOff = leon::drop, const b2Vec2& rPos = leon::dPos, bool relative = true, bool looping = false);
+	int playSound(const std::string& rSoundName, int volume = 100, float minDist = 5, float dropOff = 20, const b2Vec2& rPos = b2Vec2(1,0), bool relative = true, bool looping = false);
 
 	int stopSound(int noiseIndex);
 
