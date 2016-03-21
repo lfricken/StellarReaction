@@ -24,6 +24,7 @@
 #include "RayCastCallback.hpp"
 #include "Projectile.hpp"
 #include "Directory.hpp"
+#include "Random.hpp"
 
 using namespace std;
 using namespace sf;
@@ -32,8 +33,6 @@ using namespace leon;
 
 Game::Game()
 {
-	srand(static_cast<unsigned int>(time(NULL)));
-
 	m_spDragUpdater = sptr<DragUpdater>(new DragUpdater());
 
 	loadWindow(contentDir() + "window.ini");
@@ -64,7 +63,7 @@ Game::Game()
 	loadUniverse("RANDOMTEXT");//TODO RANDOMTEXT
 	m_spUniverse->togglePause(true);
 
-	m_spDir = sptr<Directory>(new Directory("../"));
+	m_spDir = sptr<Directory>(new Directory(contentDir()));
 
 	ScoreboardData scoreData  = ScoreboardData();
 	m_spScoreboard = sptr<Scoreboard>(new Scoreboard(scoreData));
@@ -147,10 +146,10 @@ Scoreboard& Game::getScoreboard()
 /// <param name="localController">The local controller.</param>
 /// <param name="bluePrints">The blue prints.</param>
 /// <param name="rControllerList">The r controller list.</param>
-void Game::launchGame(const std::string& level, int localController, const std::string& bluePrints, const std::vector<std::string>& rControllerList, const std::vector<std::string>& rShipTitleList, const std::vector<int>& teams)
+void Game::launchGame(const std::string& level, int localController, const std::vector<std::string>& rControllerList, const std::vector<std::string>& rShipTitleList, const std::vector<int>& teams)
 {
 	game.loadUniverse("meaninglessString");
-	game.getUniverse().loadLevel(level, localController, bluePrints, rControllerList, rShipTitleList, teams);
+	game.getUniverse().loadLevel(level, localController, rControllerList, rShipTitleList, teams);
 
 	sf::Packet boolean;
 	boolean << false;

@@ -141,8 +141,6 @@ float Universe::getTimeStep() const
 /// </summary>
 void Universe::prePhysUpdate()
 {
-	static bool hap = false;
-
 	if(!m_paused)
 	{
 		for(auto it = m_goList.begin(); it != m_goList.end(); ++it)
@@ -151,11 +149,8 @@ void Universe::prePhysUpdate()
 		}
 		m_spProjMan->prePhysUpdate();
 
-		for (auto it = hazardFields.begin(); it != hazardFields.end(); ++it){
-			it->update();
-		}
-		
-		for (auto it = m_shipDebris.begin(); it != m_shipDebris.end(); ++it){
+		for(auto it = m_shipDebris.begin(); it != m_shipDebris.end(); ++it)
+		{
 			(*it)->prePhysUpdate();
 		}
 	}
@@ -181,7 +176,7 @@ void Universe::postPhysUpdate()
 	{
 		for(auto it = m_goList.begin(); it != m_goList.end(); ++it)
 			(*it)->postPhysUpdate();
-		for (auto it = m_shipDebris.begin(); it != m_shipDebris.end(); ++it)
+		for(auto it = m_shipDebris.begin(); it != m_shipDebris.end(); ++it)
 			(*it)->postPhysUpdate();
 		m_spProjMan->postPhysUpdate();
 	}
@@ -190,15 +185,15 @@ GameObject* Universe::getNearestChunkExcept(const b2Vec2& target, const b2Body* 
 {
 	float prevDist = -1;
 	Chunk* closest = NULL;
-	for (auto it = m_goList.begin(); it != m_goList.end(); ++it)
+	for(auto it = m_goList.begin(); it != m_goList.end(); ++it)
 	{
 		GameObject* p = it->get();
 		Chunk* object = dynamic_cast<Chunk*>(p);
-		if (object != NULL && object->getBodyPtr() != exception)
+		if(object != NULL && object->getBodyPtr() != exception)
 		{
 			b2Vec2 dif = target - object->getBodyPtr()->GetPosition();
 			float dist = dif.Length();
-			if (dist < prevDist || prevDist == -1)
+			if(dist < prevDist || prevDist == -1)
 			{
 				prevDist = dist;
 				closest = object;
@@ -461,14 +456,18 @@ void Universe::setupBackground()
 /// <summary>
 /// Loads the level.
 /// </summary>
-void Universe::loadLevel(const std::string& levelDir, int localController, const std::string& bluePrints, const std::vector<std::string>& rControllerList, const std::vector<std::string>& rShipTitleList, const std::vector<int>& teams)//loads a level using blueprints
+void Universe::loadLevel(const std::string& levelName, int localController, const std::vector<std::string>& rControllerList, const std::vector<std::string>& rShipTitleList, const std::vector<int>& teams)//loads a level using blueprints
 {
-	loadBlueprints(bluePrints);
+	loadBlueprints("blueprints/");
 
-	string configFile = "level.lcfg";
+	string levelFile = "level.lcfg";
+	string levelFolder = "levels";
+
+	string thisLevelFolder = contentDir() + levelFolder + "/" + levelName + "/";
+
 	string modDir = "mods/";
 
-	ifstream level(contentDir() + levelDir + configFile, std::ifstream::binary);
+	ifstream level(thisLevelFolder + levelFile, std::ifstream::binary);
 	Json::Reader reader;
 	Json::Value root;
 
@@ -476,14 +475,14 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 
 	//SHIP AI TODO
 	m_shipAI.push_back(sptr<ShipAI>(new ShipAI));
-	m_shipAI.back()->setController(rControllerList.size()-1);
+	m_shipAI.back()->setController(rControllerList.size() - 1);
 
 
 	setupBackground();
 
 	if(!parsedSuccess)
 	{
-		cout << "\nProblem Parsing [" << levelDir + configFile << "].";
+		cout << "\nProblem Parsing [" << thisLevelFolder + levelFile << "].";
 		///error log
 		return;
 	}
@@ -495,24 +494,12 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 			const Json::Value bpList = root["AdditionalBlueprints"];
 			for(auto it = bpList.begin(); it != bpList.end(); ++it)
 			{
-				m_spBPLoader->loadBlueprints(modDir + it->asString());
+				m_spBPLoader->loadBlueprints(thisLevelFolder + it->asString());
 			}
 		}
 		else
-		{
-			cout << FILELINE;
-		}
-		if (!root["HazardFields"].isNull()){
-			const Json::Value spawnList = root["HazardFields"];
-			for (auto it = spawnList.begin(); it != spawnList.end(); ++it)
-			{
-				const Json::Value points = (*it);
-
-				HazardField newHazard = HazardField(this, b2Vec2(points[0].asFloat(), points[1].asFloat()));
-				hazardFields.push_back(newHazard);
-			}
-		}
-
+			cout << "\nAdditional Blueprints Null";
+		/**SPAWN POINT**/
 		if(!root["SpawnPoints"].isNull())
 		{
 			const Json::Value spawnList = root["SpawnPoints"];
@@ -528,9 +515,7 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 			}
 		}
 		else
-		{
-			cout << FILELINE;
-		}
+			cout << "\nSpawn Points Null";
 		/**CHUNKS**/
 		sptr<ChunkData> spCnk;
 		if(!root["Chunks"].isNull())
@@ -556,6 +541,15 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 				add(spCnk->generate(this));
 			}
 		}
+		/**HAZARD FIELDS**/
+		if(!root["HazardFields"].isNull())
+		{
+			const Json::Value spawnList = root["HazardFields"];
+			for(auto it = spawnList.begin(); it != spawnList.end(); ++it)
+				hazardFields.push_back(sptr<HazardField>(new HazardField(this, *it)));
+		}
+		else
+			cout << "\nHazard Field Null";
 	}
 
 	int team = 1;
@@ -601,6 +595,9 @@ void Universe::loadLevel(const std::string& levelDir, int localController, const
 	}
 	else
 		std::cout << "\nNo slave! " << FILELINE;
+
+	for(auto it = hazardFields.begin(); it != hazardFields.end(); ++it)
+		(**it).spawn();
 }
 void Universe::add(sptr<GameObject> spGO)
 {
@@ -648,7 +645,7 @@ void Universe::input(std::string rCommand, sf::Packet rData)
 
 
 /*
-	
+
 */
 void Universe::spawnChunk(int x, int y)
 {
@@ -668,7 +665,7 @@ bool Universe::isClear(b2Vec2 position, float radius, const b2Body* exception)
 	Chunk* nearest = dynamic_cast<Chunk*>(getNearestChunkExcept(position, exception));
 	float nearestRad = nearest->getRadius();
 	float dist = (nearest->getBodyPtr()->GetPosition() - position).Length();
-	if (dist < (nearestRad + radius))
+	if(dist < (nearestRad + radius))
 		return false;
 	return true;
 }

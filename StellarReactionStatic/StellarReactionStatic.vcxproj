@@ -304,8 +304,12 @@
     <ClInclude Include="include\Universe\Utility\RayCastCallback.hpp" />
     <ClInclude Include="include\Universe\Utility\UniversalContactListener.hpp" />
     <ClInclude Include="include\Control\ShipAI.hpp" />
+    <ClInclude Include="include\Headers\Random.hpp" />
+    <ClInclude Include="include\Universe\Utility\JSON.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Universe\Utility\JSON.cpp" />
+    <ClCompile Include="src\Headers\Random.cpp" />
     <ClCompile Include="src\Basic\GrappleWeapon.cpp" />
     <ClCompile Include="src\Control\ShipAI.cpp" />
     <ClCompile Include="src\Game\Directory.cpp" />

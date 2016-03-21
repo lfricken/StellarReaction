@@ -1,0 +1,94 @@
+{
+	"AdditionalBlueprints:comment": "Additional directories to find more blueprints in. Default always loaded.",
+	"AdditionalBlueprints": [],
+	"Decorations": [{
+
+	}],
+	"HazardFields": [{
+		"HazardName": "Asteroid",
+		"NumHazards": 10,
+		"Radius": 10,
+		"OriginX": 20,
+		"OriginY": 40
+	}, {
+		"HazardName": "Asteroid",
+		"NumHazards": 10,
+		"Radius": 14,
+		"OriginX": 90,
+		"OriginY": 0
+	}],
+	"SpawnPoints": [{
+		"Team": 1,
+		"Points": [
+			[20, 50],
+			[20, 600],
+			[20, 30],
+			[20, 20],
+			[20, 10],
+			[20, 0],
+			[20, -10],
+			[20, -20],
+			[20, -30],
+			[20, -40],
+			[20, -50]
+		]
+	}, {
+		"Team": 2,
+		"Points": [
+			[-25, 5],
+			[-25, 0],
+			[-25, -5]
+		]
+	}, {
+		"Team": 3,
+		"Points": [
+			[-5, 20],
+			[0, 20],
+			[-5, 20]
+		]
+	}, {
+		"Team": 4,
+		"Points": [
+			[-5, -20],
+			[0, -20],
+			[5, -20]
+		]
+	}],
+	"Chunks": [{
+		"Title": "DefaultChunk",
+		"Coordinates": [
+			0,
+			0
+		]
+	}, {
+		"Title": "DefaultChunk",
+		"Coordinates": [
+			4,
+			0
+		]
+	}, {
+		"Title": "CombatShip",
+		"Coordinates": [-5, -5]
+	}, {
+		"Title": "CombatShip2",
+		"Coordinates": [-10, -5]
+	}, {
+		"Title": "DefaultStation",
+		"Coordinates": [
+			30,
+			0
+		]
+	}, {
+		"Title": "DefaultCapture",
+		"Coordinates": [
+			30,
+			30
+		]
+	}],
+	"Background1": {
+		"dimensions": [600, 600],
+		"texName": "backgrounds/bg1.png",
+		"animSheetName": "backgrounds/bg1.acfg",
+		"layer": "BackgroundFar"
+	}
+}

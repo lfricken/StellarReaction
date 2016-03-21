@@ -2,6 +2,8 @@
 
 #include "Globals.hpp"
 #include "Universe.hpp"
+#include "JSON.hpp"
+#include "Convert.hpp"
 
 using namespace std;
 
@@ -13,6 +15,7 @@ BodyComponent::BodyComponent(const BodyComponentData& rData) : m_nw(rData.nwComp
 		m_bodyDef.type = b2BodyType::b2_staticBody;
 
 	m_bodyDef.position = rData.coords;
+	m_bodyDef.angle = leon::degToRad(rData.rotation);
 	m_bodyDef.bullet = rData.isBullet;
 	m_bodyDef.angularDamping = rData.angularDampening;
 	m_bodyDef.linearDamping = rData.linearDampening;
@@ -142,6 +145,9 @@ void BodyComponentData::loadJson(const Json::Value& root)
 		isBullet = root["isBullet"].asBool();
 	if(!root["startAwake"].isNull())
 		startAwake = root["startAwake"].asBool();
+
+	linearDampening = JSON::get(root, "LinearDampening", linearDampening);
+	angularDampening = JSON::get(root, "AngularDampening", angularDampening);
 }
 
 

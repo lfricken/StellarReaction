@@ -11,6 +11,95 @@
 using namespace std;
 using namespace sf;
 
+/// <summary>
+/// anyone being told to load the game
+/// </summary>
+void NetworkBoss::recieveLevel(sf::Packet& data)
+{
+	m_nwGameStarted = true;
+	std::string level;
+	int32_t numControllers;
+	std::string slave;
+	std::string title;
+	int team;
+	std::vector<std::string> controllerList;
+	std::vector<std::string> shipTitleList;
+	std::vector<int> teams;
+	int32_t localController;
+
+
+	data >> level;
+	data >> numControllers;
+	for(int32_t i = 0; i < numControllers; ++i)
+	{
+		data >> slave;
+		data >> title;
+		data >> team;
+		cout << "\n[" << slave << "][" << title << "]";
+		controllerList.push_back(slave);
+		shipTitleList.push_back(title);
+		teams.push_back(team);
+	}
+	data >> localController;
+	cout << "\nCont" << localController;
+
+	game.launchGame(level, localController, controllerList, shipTitleList, teams);
+}
+/// <summary>
+/// server deciding to launch the game
+/// </summary>
+void NetworkBoss::launchMultiplayerGame()
+{
+	sf::Packet data;
+
+	std::string level = "Alpha Centauri";
+
+	data << level;
+	data << static_cast<int32_t>(m_connections.size() + 1 + 1);//number of controllers +1 for AI +1 for host
+
+	//host
+	data << "1";
+	data << game.getLocalPlayer().getShipChoice();
+	data << game.getLocalPlayer().getTeam();
+
+	//for clients
+	for(int32_t i = 0; i < (signed)m_connections.size(); ++i)
+	{
+		string slaveName = std::to_string(i + 1 + 1);//+1 for host, +1 for index offset
+		string shipName = m_connections[i]->getShipChoice();
+		int team = m_connections[i]->getTeam();
+		cout << "\nSlave:[" << slaveName << "] title:[" << shipName << "].";
+		data << slaveName;
+		data << shipName;
+		data << team;
+	}
+
+	//for ai TODO REFACTOR
+	string aiSlaveName = std::to_string(m_connections.size() + 1 + 1);
+	string aiShipName = "CombatShip2";
+	int aiTeam = game.getLocalPlayer().getTeam();
+	data << aiSlaveName;
+	data << aiShipName;
+	data << aiTeam;
+
+
+
+	int32_t controller = 0;
+	sf::Packet hostData(data);
+	hostData << controller;
+	++controller;
+
+	for(auto it = m_connections.begin(); it != m_connections.end(); ++it)
+	{
+		sf::Packet launchData(data);
+		(*it)->setController(controller);
+		launchData << controller;
+		++controller;
+		(*it)->sendTcp(Protocol::LoadLevel, launchData);
+	}
+
+	recieveLevel(hostData);
+}
 NetworkBoss::NetworkBoss(const NetworkBossData& rData) : m_io(rData.ioComp, &NetworkBoss::input, this), m_nwFactory("standard"), m_nwFactoryTcp("tcp")
 {
 	m_state = NWState::Local;
@@ -477,7 +566,7 @@ void NetworkBoss::playerOption(sf::Packet& rData, BasePlayerTraits* pFrom)
 		else
 			cout << FILELINE;
 	}
-	else if(command == "addModule")//explicitly adds a module to pFrom
+	else if(command == "addModule")//explicitly adds a module to the gui of pFrom, used to set up initial ship
 	{
 		string bpName;
 		float x = 0;
@@ -494,7 +583,7 @@ void NetworkBoss::playerOption(sf::Packet& rData, BasePlayerTraits* pFrom)
 		else
 			cout << FILELINE;
 	}
-	else if(command == "rebuild")//a player wants to attach a module from their inventory
+	else if(command == "rebuild")//a player wants to attach a module to thier ship, from their inventory
 	{
 		string bpName;
 		float x;
@@ -547,99 +636,6 @@ void NetworkBoss::playerOption(sf::Packet& rData, BasePlayerTraits* pFrom)
 	}
 	else
 		cout << FILELINE << " [" << command << "].";
-}
-/// <summary>
-/// anyone being told to load the game
-/// </summary>
-void NetworkBoss::recieveLevel(sf::Packet& data)
-{
-	m_nwGameStarted = true;
-	std::string level;
-	std::string blueprints;
-	int32_t numControllers;
-	std::string slave;
-	std::string title;
-	int team;
-	std::vector<std::string> controllerList;
-	std::vector<std::string> shipTitleList;
-	std::vector<int> teams;
-	int32_t localController;
-
-
-	data >> level;
-	data >> blueprints;
-	data >> numControllers;
-	for(int32_t i = 0; i < numControllers; ++i)
-	{
-		data >> slave;
-		data >> title;
-		data >> team;
-		cout << "\n[" << slave << "][" << title << "]";
-		controllerList.push_back(slave);
-		shipTitleList.push_back(title);
-		teams.push_back(team);
-	}
-	data >> localController;
-	cout << "\nCont" << localController;
-
-	game.launchGame(level, localController, blueprints, controllerList, shipTitleList, teams);
-}
-/// <summary>
-/// server deciding to launch the game
-/// </summary>
-void NetworkBoss::launchMultiplayerGame()
-{
-	sf::Packet data;
-
-	std::string level = "levels/level_1/";
-	std::string blueprints = "blueprints/";
-
-	data << level;
-	data << blueprints;
-	data << static_cast<int32_t>(m_connections.size() + 1 + 1);//number of controllers +1 for AI +1 for host
-
-	//host
-	data << "1";
-	data << game.getLocalPlayer().getShipChoice();
-	data << game.getLocalPlayer().getTeam();
-
-	//for clients
-	for(int32_t i = 0; i < (signed)m_connections.size(); ++i)
-	{
-		string slaveName = std::to_string(i + 1 + 1);//+1 for host, +1 for index offset
-		string shipName = m_connections[i]->getShipChoice();
-		int team = m_connections[i]->getTeam();
-		cout << "\nSlave:[" << slaveName << "] title:[" << shipName << "].";
-		data << slaveName;
-		data << shipName;
-		data << team;
-	}
-
-	//for ai TODO REFACTOR
-	string aiSlaveName = std::to_string(m_connections.size() + 1 + 1);
-	string aiShipName = "CombatShip2";
-	int aiTeam = game.getLocalPlayer().getTeam();
-	data << aiSlaveName;
-	data << aiShipName;
-	data << aiTeam;
-
-
-
-	int32_t controller = 0;
-	sf::Packet hostData(data);
-	hostData << controller;
-	++controller;
-
-	for(auto it = m_connections.begin(); it != m_connections.end(); ++it)
-	{
-		sf::Packet launchData(data);
-		(*it)->setController(controller);
-		launchData << controller;
-		++controller;
-		(*it)->sendTcp(Protocol::LoadLevel, launchData);
-	}
-
-	recieveLevel(hostData);
 }
 /// <summary>
 /// Local

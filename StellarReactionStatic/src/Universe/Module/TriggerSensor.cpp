@@ -26,7 +26,7 @@ void TriggerSensor::prePhysUpdate()
 			float sqLen = direction.LengthSquared();
 			int damageAmount;
 			if (sqLen > 4)
-				damageAmount = (m_maxDamage / (sqLen));
+				damageAmount = static_cast<int>((m_maxDamage / (sqLen)));
 			else
 				damageAmount = m_maxDamage;
 			if (damageAmount < m_minDamage)
