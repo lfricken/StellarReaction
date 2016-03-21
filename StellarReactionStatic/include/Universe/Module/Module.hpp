@@ -56,6 +56,7 @@ protected:
 	std::string m_title;//how the game refers to it
 	std::string m_name;//what gets displayed to player
 	Chunk* m_parentChunk;
+	int m_collisionDamage;
 private:
 };
 
@@ -65,6 +66,7 @@ struct ModuleData
 	ModuleData() :
 		title("defaultTitle"),
 		name("defaultName"),
+		collisionDamage(0),
 		cost(1),
 		ioComp(game.getUniverse().getUniverseIO()),
 		nwComp(),
@@ -78,6 +80,7 @@ struct ModuleData
 	std::string title;//how the game refers to it
 	std::string name;//what gets displayed to player
 	Money cost;//how much does this cost?
+	int collisionDamage;//how much damage we apply to someone who collides with us
 
 	IOComponentData ioComp;
 	NetworkComponentData nwComp;

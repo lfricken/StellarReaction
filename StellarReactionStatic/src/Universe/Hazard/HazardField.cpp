@@ -19,11 +19,15 @@ void HazardField::spawn()
 {
 	for(int i = 0; i < m_numHazards; ++i)
 	{
-		float32 x = m_origin.x + Random::getRandom(-m_radius, m_radius);
-		float32 y = m_origin.y + Random::getRandom(-m_radius, m_radius);
+		float rx = Random::getRandom(-m_radius, m_radius);
+		float ry = Random::getRandom(-m_radius, m_radius);
+		float32 rotation = Random::getRandom(0.f, 360.f);
+
+		float32 x = m_origin.x + rx;
+		float32 y = m_origin.y + ry;
 
 		sf::Packet pos;
-		pos << x << y;
+		pos << x << y << rotation;
 
 		Message makeHazard(m_io.getPosition(), "createHazard", pos, 0, false);
 		game.getUniverse().getUniverseIO().recieve(makeHazard);
@@ -35,10 +39,12 @@ void HazardField::input(std::string command, sf::Packet data)
 	{
 		float32 x;
 		float32 y;
-		data >> x >> y;
+		float32 rotation;
+		data >> x >> y >> rotation;
 
 		sptr<ChunkData> data(m_pUniverse->getBlueprints().getChunkSPtr(m_hazardName)->clone());
 		data->bodyComp.coords = b2Vec2(x, y);
+		data->bodyComp.rotation = rotation;
 
 		Chunk* asteroid = data->generate(m_pUniverse);
 		m_pUniverse->add(asteroid);

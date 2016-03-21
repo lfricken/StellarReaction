@@ -6,14 +6,14 @@
 	}],
 	"HazardFields": [{
 		"HazardName": "Asteroid",
-		"NumHazards": 4,
+		"NumHazards": 10,
 		"Radius": 10,
 		"OriginX": 20,
 		"OriginY": 40
 	}, {
 		"HazardName": "Asteroid",
-		"NumHazards": 4,
-		"Radius": 10,
+		"NumHazards": 10,
+		"Radius": 14,
 		"OriginX": 90,
 		"OriginY": 0
 	}],

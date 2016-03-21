@@ -1,5 +1,4 @@
 #include "Random.hpp"
-
 #include <time.h>
 
 std::default_random_engine Random::gen;
@@ -8,7 +7,7 @@ std::uniform_real_distribution<float> Random::floats;
 
 void Random::seed()
 {
-	gen.seed(static_cast<unsigned int>(time(NULL)));
+	gen.seed(static_cast<int>(time(NULL)));
 }
 int Random::getRandom(int minInclusive, int maxInclusive)
 {
@@ -20,6 +19,6 @@ float Random::getRandom(float minInclusive, float maxExclusive)
 {
 	std::uniform_real_distribution<float>::param_type range(minInclusive, maxExclusive);
 	floats.param(range);
-	return floats(gen);
+	return floats(gen); 
 }
 

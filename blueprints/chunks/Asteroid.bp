@@ -14,7 +14,9 @@
         "rotation": 0,
         "isDynamic": true,
         "isBullet": false,
-        "startAwake": true
+        "startAwake": true,
+		"AngularDampening": 0.2,
+		"LinearDampening": 0.2
     },
     "Missiles": {
         "Max": 0,
@@ -33,9 +35,10 @@
         "Value": 1
     },
 	"Hull_Sprite": {
-		"dimensions": [256, 256],
+		"dimensions": [1024, 1024],
 		"center": [0,0],
-		"texName": "default.png",
+		"texName": "hulls/asteroid.png",
+		"animSheetName": "hulls/asteroid.acfg",
 		"layer": "ShipHull"
 	},
 	"Afterburner_Sprites": [
@@ -76,17 +79,10 @@
 	],
     "Modules": [
         {
-            "Title": "DefaultThruster",
+            "Title": "AsteroidModule",
             "Position": [
                 0,
-                -1
-            ]
-        },
-		{
-            "Title": "DefaultPlating",
-            "Position": [
-                0,
-                1
+                0
             ]
         }
     ],

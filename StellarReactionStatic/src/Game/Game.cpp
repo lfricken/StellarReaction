@@ -33,9 +33,6 @@ using namespace leon;
 
 Game::Game()
 {
-	srand(static_cast<unsigned int>(time(NULL)));
-	Random::seed();
-
 	m_spDragUpdater = sptr<DragUpdater>(new DragUpdater());
 
 	loadWindow(contentDir() + "window.ini");
@@ -66,7 +63,7 @@ Game::Game()
 	loadUniverse("RANDOMTEXT");//TODO RANDOMTEXT
 	m_spUniverse->togglePause(true);
 
-	m_spDir = sptr<Directory>(new Directory("../"));
+	m_spDir = sptr<Directory>(new Directory(contentDir()));
 
 	ScoreboardData scoreData  = ScoreboardData();
 	m_spScoreboard = sptr<Scoreboard>(new Scoreboard(scoreData));

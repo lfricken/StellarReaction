@@ -1,9 +1,11 @@
 #include "Globals.hpp"
+#include "Random.hpp"
 using namespace std;
 Game game;
 
 int main()
 {
+	Random::seed();
 	game.run();
 	return 0;
 }

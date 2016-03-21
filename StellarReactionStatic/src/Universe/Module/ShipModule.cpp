@@ -82,23 +82,29 @@ void ShipModule::input(std::string rCommand, sf::Packet rData)
 		int cause;
 		rData >> val >> cause;
 
-		m_health.damage(val);
-		m_io.event(EventType::Health, m_health.getHealth(), voidPacket);
-
-		m_decors[m_hitDecorIndex]->getAnimator().setAnimation("Hit", 0.20f);
-		m_decors[m_hitDecorIndex]->setColor(sf::Color(255, static_cast<char>(255.f * m_health.getHealthPercent()), 0, 255));
-
-		if(m_health.isDead())
+		if(val > 0)
 		{
-			setHealthState(HealthState::Broken);
-			sf::Packet pack;
-			pack << 1;
-			Message mess(cause, "increase_score", pack, 0.0f, false);
-			game.getUniverse().getUniverseIO().recieve(mess);
-		}
-		else if(m_health.getHealthPercent() < damagedPercent)
-		{
-			setHealthState(HealthState::Damaged);
+			m_health.damage(val);
+			m_io.event(EventType::Health, m_health.getHealth(), voidPacket);
+
+			m_decors[m_hitDecorIndex]->getAnimator().setAnimation("Hit", 0.20f);
+			m_decors[m_hitDecorIndex]->setColor(sf::Color(255, static_cast<char>(255.f * m_health.getHealthPercent()), 0, 255));
+
+			if(m_healthState != HealthState::Broken)
+			{
+				if(m_health.isDead())
+				{
+					setHealthState(HealthState::Broken);
+					sf::Packet pack;
+					pack << 1;
+					Message mess(cause, "increase_score", pack, 0.0f, false);
+					game.getUniverse().getUniverseIO().recieve(mess);
+				}
+				else if(m_health.getHealthPercent() < damagedPercent)
+				{
+					setHealthState(HealthState::Damaged);
+				}
+			}
 		}
 	}
 	else if(rCommand == "heal")
@@ -106,7 +112,6 @@ void ShipModule::input(std::string rCommand, sf::Packet rData)
 		int val;
 		int cause;
 		rData >> val >> cause;
-
 
 		m_health.heal(val);
 		m_io.event(EventType::Health, m_health.getHealth(), voidPacket);
@@ -204,3 +209,6 @@ void ShipModuleData::loadJson(const Json::Value& root)
 
 	ModuleData::loadJson(root);
 }
+
+
+

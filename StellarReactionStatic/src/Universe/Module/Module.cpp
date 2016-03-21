@@ -7,6 +7,7 @@ using namespace std;
 
 Module::Module(const ModuleData& rData) : m_io(rData.ioComp, &Module::input, this), m_nw(rData.nwComp, &Module::pack, &Module::unpack, this, game.getNwBoss().getNWFactory()), m_fix(rData.fixComp)
 {
+	m_collisionDamage = rData.collisionDamage;
 	m_parentChunk = rData.chunkParent;
 	m_title = rData.title;
 	m_name = rData.name;
@@ -38,14 +39,11 @@ void Module::setAim(const b2Vec2& rTarget)
 }
 void Module::startContactCB(FixtureComponent* pOther)
 {
-	int damage = 2;
-	int m_damage = 0;
-	FixtureComponent& rComp = *pOther;
-	sf::Packet packet;
-	packet << m_damage;
-	Message mess;
-	mess.reset(rComp.getIOPos(), "damage", packet, 0.f, false);
-	game.getUniverse().getUniverseIO().recieve(mess);
+	sf::Packet damagePacket;
+	damagePacket << m_collisionDamage << m_io.getPosition();
+	Message damageMessage;
+	damageMessage.reset(pOther->getIOPos(), "damage", damagePacket, 0.f, false);
+	game.getUniverse().getUniverseIO().recieve(damageMessage);
 }
 void Module::endContactCB(FixtureComponent* pOther)
 {
@@ -113,4 +111,6 @@ void ModuleData::loadJson(const Json::Value& root)
 		nwComp.loadJson(root["Network"]);
 	if(!root["Cost"].isNull())
 		cost = root["Cost"].asInt();
+	if(!root["CollisionDamage"].isNull())
+		collisionDamage = root["CollisionDamage"].asInt();
 }

@@ -5,7 +5,6 @@
 class Random
 {
 public:
-
 	static void seed();
 	static int getRandom(int minInclusive, int maxInclusive);
 	static float getRandom(float minInclusive, float maxExclusive);
