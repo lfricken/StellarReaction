@@ -22,7 +22,7 @@ enum class NWState
 struct NetworkBossData
 {
 	NetworkBossData() :
-		ioComp(game.getCoreIO())
+		ioComp(&game.getCoreIO())
 	{
 		ioComp.name = "networkboss";//how to send io messages to network boss
 	}

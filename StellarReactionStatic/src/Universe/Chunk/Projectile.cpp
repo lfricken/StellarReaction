@@ -24,10 +24,6 @@ void ProjectileData::loadJson(const Json::Value& root)
 				spMod->fixComp.offset.x = (*it)["Position"][0].asFloat();
 				spMod->fixComp.offset.y = (*it)["Position"][1].asFloat();
 			}
-			else if(!(*it)["ClassName"].isNull())//from inline
-			{
-				//inlining		spMod.reset(game.getUniverse().getBlueprints().loadModule(*it)->clone());
-			}
 			else
 			{
 				cout << "\n" << FILELINE;

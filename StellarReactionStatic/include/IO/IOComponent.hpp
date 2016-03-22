@@ -10,9 +10,9 @@
 
 struct IOComponentData
 {
-	IOComponentData(IOManager& rManager) :
+	IOComponentData(IOManager* manager) :
 		name("NONAME"),
-		pMyManager(&rManager)
+		pMyManager(manager)
 	{
 
 	}

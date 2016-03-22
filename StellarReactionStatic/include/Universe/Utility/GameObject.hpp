@@ -8,7 +8,7 @@
 struct GameObjectData
 {
 	GameObjectData() : 
-		ioComp(game.getUniverse().getUniverseIO()),
+		ioComp(&game.getUniverse().getUniverseIO()),
 		nwComp()
 	{
 		pParent = NULL;

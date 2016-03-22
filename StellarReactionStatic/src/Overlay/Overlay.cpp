@@ -245,20 +245,20 @@ void Overlay::loadMenus()
 
 	select.command = "setShip";
 
-	data1.labelData.back().text = "Onyx Fighter";
-	data1.id = "CombatShip";
+	data1.labelData.back().text = "Anubis";
+	data1.id = "Anubis";
 	select.items.push_back(data1);
 
-	data1.labelData.back().text = "Dreadnought";
-	data1.id = "CombatShip2";
+	data1.labelData.back().text = "Caterina";
+	data1.id = "Caterina";
 	select.items.push_back(data1);
 
-	data1.labelData.back().text = "Stupid Ship";
-	data1.id = "DefaultChunk";
+	data1.labelData.back().text = "Caterina";
+	data1.id = "Caterina";
 	select.items.push_back(data1);
 
-	data1.labelData.back().text = "Raven";
-	data1.id = "Raven1";
+	data1.labelData.back().text = "Dante";
+	data1.id = "Dante";
 	select.items.push_back(data1);
 
 	pLobby->add(sptr<leon::WidgetBase>(new leon::NetworkedSelection(*pLobby->getPanelPtr(), select)));

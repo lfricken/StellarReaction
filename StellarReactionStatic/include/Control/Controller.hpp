@@ -60,7 +60,7 @@ struct ControllerData
 {
 	ControllerData() :
 		nwComp(),
-		ioComp(game.getCoreIO()),
+		ioComp(&game.getCoreIO()),
 		slaveName("NOSLAVE")
 	{
 	}

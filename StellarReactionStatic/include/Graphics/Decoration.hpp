@@ -54,7 +54,7 @@ private:
 struct DecorationData
 {
 	DecorationData() :
-		ioComp(game.getUniverse().getUniverseIO()),
+		ioComp(&game.getUniverse().getUniverseIO()),
 		initPosition(0,0),
 		velocity(0,0),
 		repeats(false),

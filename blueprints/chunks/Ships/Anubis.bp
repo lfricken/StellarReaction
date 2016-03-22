@@ -1,107 +1,66 @@
 {
     "ClassName": "ChunkData",
-    "title": "Raven1",
-	"Copies": null,
-    "IO": {
-        "name": "BPCHUNKNAME",
-        "courierList": []
-    },
-    "Body": {
-        "coords": [
-            0,
-            0
-        ],
+    "bodyComp": {
         "rotation": 0,
         "isDynamic": true,
         "isBullet": false,
         "startAwake": true
     },
-    "Missiles": {
-        "Max": 0,
-        "Value": 0
-    },
-    "Energy": {
-        "Max": 0,
-        "Value": 0
-    },
-    "Ballistic": {
-        "Max": 0,
-        "Value": 0
-    },
-    "Zoom": {
+    "zoomData": {
         "Max": 64,
         "Value": 1
     },
-	"Hull_Sprite": {
-		"dimensions": [2600, 2371],
-		"center": [0,-600],
-		"texName": "hulls/raven1.png",
-		"animSheetName": "hulls/raven1.acfg",
+	"hullSpriteData": {
+		"dimensions": [2200, 2000],
+		"texName": "hulls/thrustanim1.png",
+		"animSheetName": "hulls/ship1.acfg",
 		"layer": "ShipHull"
 	},
-	"Afterburner_Sprites": [
+	"afterburnerSpriteData": [
 		{
-			"dimensions": [200, 600],
-			"center": [-150, 795],
+			"dimensions": [250, 700],
+			"center": [0, 835],
 			"texName": "hulls/afterb1.png",
 			"animSheetName": "hulls/afterb1.acfg",
-			"layer": "ShipModules",
-			"permanentRot": -2
-		},
-		{
-			"dimensions": [200, 600],
-			"center": [150, 795],
-			"texName": "hulls/afterb1.png",
-			"animSheetName": "hulls/afterb1.acfg",
-			"layer": "ShipModules",
-			"permanentRot": 2
+			"layer": "ShipModules"
 		}
 	],
-	"Afterburner_Thrust_Sprites": [
+	"afterburnerThrustSpriteData": [
 		{
-			"dimensions": [200, 1400],
-			"center": [-150, 1050],
+			"dimensions": [250, 1400],
+			"center": [0, 1050],
 			"texName": "hulls/afterb1.png",
 			"animSheetName": "hulls/afterb1_thrust.acfg",
-			"layer": "ShipModules",
-			"permanentRot": -2
-		},
-		{
-			"dimensions": [200, 1400],
-			"center": [150, 1050],
-			"texName": "hulls/afterb1.png",
-			"animSheetName": "hulls/afterb1_thrust.acfg",
-			"layer": "ShipModules",
-			"permanentRot": 2
+			"layer": "ShipModules"
 		}
 	],
-    "Modules": [
+    "moduleData": [
         {
             "title": "Reactor",
             "Position": [
-                0,
-                2
-            ]
-        },
-        {
-            "title": "LaserTurret",
-            "Position": [
-                0,
+                1,
                 1
             ]
         },
         {
             "title": "LaserTurret",
             "Position": [
-                -2,
+                0,
                 0
+            ]
+        },
+        {
+            "title": "BallisticTurret",
+            "Position": [
+                1,
+                -1
             ]
         },
         {
             "title": "Plating",
             "Position": [
-                0,
-                3
+                -1,
+                1
             ]
         },
         {
@@ -112,6 +71,13 @@
             ]
         },
         {
+            "title": "Shield",
+            "Position": [
+                -1,
+                -1
+            ]
+        },
+        {
             "title": "Capacitor",
             "Position": [
                 1,
@@ -119,17 +85,24 @@
             ]
         },
         {
-            "title": "BallisticTurret",
+            "title": "MissileTurret",
             "Position": [
                 2,
                 0
+            ]
+        },
+        {
+            "title": "GrappleTurret",
+            "Position": [
+                2,
+                -1
             ]
         },
 		{
             "title": "Radar",
             "Position": [
                 0,
-                0
+                1
             ]
 		},
         {
@@ -145,7 +118,13 @@
                 3,
                 0
             ]
+        },
+		{
+            "title": "Teleport",
+            "Position": [
+                -2,
+                0
+            ]
         }
-    ],
-    "Network": {}
+    ]
 }

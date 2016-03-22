@@ -48,7 +48,7 @@ Game::Game()
 
 	NetworkBossData nwData;
 	m_spNetworkBoss = sptr<NetworkBoss>(new NetworkBoss(nwData));
-	IOComponentData overlayData(*m_spCoreIO);
+	IOComponentData overlayData(&getCoreIO());
 	overlayData.name = "overlay";
 	m_spOverlay = sptr<Overlay>(new Overlay(overlayData));
 	m_spOverlay->loadMenus();
@@ -56,7 +56,7 @@ Game::Game()
 	loadPlayer(contentDir() + "settings/GeneralSettings.cfg");
 
 	/**== GAME IO COMPONENT ==**/
-	IOComponentData gameData(getCoreIO());
+	IOComponentData gameData(&getCoreIO());
 	gameData.name = "game";
 	m_spIO = sptr<IOComponent>(new IOComponent(gameData, &Game::input, this));
 
@@ -84,7 +84,7 @@ void Game::loadPlayer(const std::string& rFileName)
 
 	if(!parsedSuccess)
 	{
-		std::cout << "\nFailed to parse JSON file [" << rFileName << "]." << std::endl << FILELINE;
+		std::cout << "\nParse Failed [" << rFileName << "].\n" << FILELINE;
 		///eRROR LOG
 	}
 	else
@@ -318,7 +318,7 @@ void Game::exit()
 /// </summary>
 void Game::loadUniverse(const std::string& stuff)
 {
-	IOComponentData universeData(getCoreIO());
+	IOComponentData universeData(&getCoreIO());
 	universeData.name = "universe";
 	m_spUniverse.reset();
 	m_spUniverse = sptr<Universe>(new Universe(universeData));
@@ -368,7 +368,7 @@ void Game::loadWindow(const std::string& windowFile)
 
 	if(!parsedSuccess)
 	{
-		std::cout << "\nFailed to parse JSON file [" << windowFile << "]." << std::endl << FILELINE;
+		std::cout << "\nParse Failed [" << windowFile << "]." << std::endl << FILELINE;
 		///eRROR LOG
 	}
 	else

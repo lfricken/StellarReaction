@@ -5,7 +5,7 @@
 #include "Random.hpp"
 #include "JSON.hpp"
 
-HazardField::HazardField(Universe* universe, const Json::Value& root) : m_io(IOComponentData(game.getUniverse().getUniverseIO()), &HazardField::input, this)
+HazardField::HazardField(Universe* universe, const Json::Value& root) : m_io(IOComponentData(&game.getUniverse().getUniverseIO()), &HazardField::input, this)
 {
 	m_pUniverse = universe;
 

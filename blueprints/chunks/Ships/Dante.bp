@@ -1,10 +1,6 @@
 {
     "ClassName": "ChunkData",
-    "IO": {
-        "name": "BPCHUNKNAME",
-        "courierList": []
-    },
-    "Body": {
+    "bodyComp": {
         "coords": [
             0,
             0
@@ -14,33 +10,21 @@
         "isBullet": false,
         "startAwake": true
     },
-    "Missiles": {
-        "Max": 0,
-        "Value": 0
-    },
-    "Energy": {
-        "Max": 0,
-        "Value": 0
-    },
-    "Ballistic": {
-        "Max": 0,
-        "Value": 0
-    },
-    "Zoom": {
+    "zoomData": {
         "Max": 64,
         "Value": 1
     },
-	"Hull_Sprite": {
-		"dimensions": [3275, 2454],
-		"center": [0,-500],
-		"texName": "hulls/titan1.png",
-		"animSheetName": "hulls/titan1.acfg",
+	"hullSpriteData": {
+		"dimensions": [2600, 2371],
+		"center": [0,-600],
+		"texName": "hulls/raven1.png",
+		"animSheetName": "hulls/raven1.acfg",
 		"layer": "ShipHull"
 	},
-	"Afterburner_Sprites": [
+	"afterburnerSpriteData": [
 		{
 			"dimensions": [200, 600],
-			"center": [-240, 965],
+			"center": [-150, 795],
 			"texName": "hulls/afterb1.png",
 			"animSheetName": "hulls/afterb1.acfg",
 			"layer": "ShipModules",
@@ -48,17 +32,17 @@
 		},
 		{
 			"dimensions": [200, 600],
-			"center": [240, 965],
+			"center": [150, 795],
 			"texName": "hulls/afterb1.png",
 			"animSheetName": "hulls/afterb1.acfg",
 			"layer": "ShipModules",
 			"permanentRot": 2
 		}
 	],
-	"Afterburner_Thrust_Sprites": [
+	"afterburnerThrustSpriteData": [
 		{
 			"dimensions": [200, 1400],
-			"center": [-240, 1280],
+			"center": [-150, 1050],
 			"texName": "hulls/afterb1.png",
 			"animSheetName": "hulls/afterb1_thrust.acfg",
 			"layer": "ShipModules",
@@ -66,14 +50,14 @@
 		},
 		{
 			"dimensions": [200, 1400],
-			"center": [240, 1280],
+			"center": [150, 1050],
 			"texName": "hulls/afterb1.png",
 			"animSheetName": "hulls/afterb1_thrust.acfg",
 			"layer": "ShipModules",
 			"permanentRot": 2
 		}
 	],
-    "Modules": [
+    "moduleData": [
         {
             "title": "Reactor",
             "Position": [
@@ -117,16 +101,16 @@
             ]
         },
         {
-            "title": "Radar",
+            "title": "BallisticTurret",
             "Position": [
-                0,
+                2,
                 0
             ]
         },
 		{
-            "title": "BallisticTurret",
+            "title": "Radar",
             "Position": [
-                2,
+                0,
                 0
             ]
 		},
@@ -144,6 +128,5 @@
                 0
             ]
         }
-    ],
-    "Network": {}
+    ]
 }

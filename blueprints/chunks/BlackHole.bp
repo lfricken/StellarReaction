@@ -1,0 +1,25 @@
+{
+    "ClassName": "ChunkData",
+    "bodyComp": {
+        "rotation": 1,
+        "isDynamic": false,
+        "isBullet": false,
+        "startAwake": true
+    },
+    "moduleData": [
+        {
+            "title": "GravityField",
+            "Position": [
+                0,
+                0
+            ]
+        },
+		{
+            "title": "TriggerSensor",
+            "Position": [
+                0,
+                0
+            ]
+        }
+    ]
+}

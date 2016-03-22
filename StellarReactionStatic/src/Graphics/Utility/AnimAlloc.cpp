@@ -29,10 +29,11 @@ const AnimSet* AnimAlloc::request(const std::string& rAnimFile)
 		Animation animation;
 
 
+		const std::string fullPath = contentDir() + "textures/" + rAnimFile;
 		Json::Value root;
 		Json::Reader reader;
-		std::ifstream test(contentDir() + "textures/" + rAnimFile, std::ifstream::binary);
-		bool parsedSuccess = reader.parse(test, root, false);
+		std::ifstream inputFStream(fullPath, std::ifstream::binary);
+		bool parsedSuccess = reader.parse(inputFStream, root, false);
 
 		/**== SUCCESSFUL PARSE ==**/
 		if(parsedSuccess)
@@ -66,7 +67,7 @@ const AnimSet* AnimAlloc::request(const std::string& rAnimFile)
 		}
 		else//we failed to parse successfully
 		{
-			std::cout << "\nFailed to parse JSON file [" << contentDir() + rAnimFile << "]." << std::endl << FILELINE;
+			std::cout << "\nParse Failed [" << fullPath << "].\n" << FILELINE;
 			///ERROR LOG
 
 			pSet = this->request("default.acfg");

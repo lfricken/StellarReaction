@@ -42,7 +42,7 @@ private:
 			blueprints[title] = loadData<T>(title, root);
 		}
 		else
-			std::cout << "\n" << FILELINE;
+			std::cout << "\nParse Failed [" << fullPath << "].\n" << FILELINE;
 	}
 	template <typename T>
 	sptr<const T> loadData(const std::string& title, const Json::Value& root)
@@ -59,7 +59,7 @@ private:
 			spMod.reset(data);
 		}
 		else
-			std::cout << "\n" << "Couldn't Find [" << className << "]" << FILELINE;
+			std::cout << "\n" << "Can't Deduce Type [" << className << "]\n" << FILELINE;
 
 		return spMod;
 	}

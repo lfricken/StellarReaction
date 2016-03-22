@@ -128,6 +128,7 @@ struct ChunkData : public GameObjectData, public BlueprintData
 	{
 		ChunkData copy(*this);
 		copy.pParent = pParent;
+		copy.ioComp.pMyManager = &pParent->getUniverseIO();
 		return new Chunk(copy);
 	}
 	virtual ChunkData* clone() const

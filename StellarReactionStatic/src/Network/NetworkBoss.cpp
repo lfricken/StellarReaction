@@ -76,7 +76,7 @@ void NetworkBoss::launchMultiplayerGame()
 
 	//for ai TODO REFACTOR
 	string aiSlaveName = std::to_string(m_connections.size() + 1 + 1);
-	string aiShipName = "CombatShip2";
+	string aiShipName = "Dante";
 	int aiTeam = game.getLocalPlayer().getTeam();
 	data << aiSlaveName;
 	data << aiShipName;

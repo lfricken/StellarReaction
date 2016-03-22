@@ -10,6 +10,56 @@
 
 using namespace std;
 
+void ChunkData::loadJson(const Json::Value& root)
+{
+	LOADJSON(ioComp);
+	LOADJSON(nwComp);
+	LOADJSON(bodyComp);
+	LOADJSONT(energyData, Energy);
+	LOADJSONT(ballisticData, Ballistic);
+	LOADJSONT(missileData, Missiles);
+	LOADJSONT(zoomData, Zoom);
+	LOADJSON(hullSpriteData);
+
+	if(!root["afterburnerSpriteData"].isNull())
+		for(auto it = root["afterburnerSpriteData"].begin(); it != root["afterburnerSpriteData"].end(); ++it)
+		{
+			QuadComponentData quad;
+			quad.loadJson(*it);
+			afterburnerSpriteData.push_back(quad);
+		}
+
+	if(!root["afterburnerThrustSpriteData"].isNull())
+		for(auto it = root["afterburnerThrustSpriteData"].begin(); it != root["afterburnerThrustSpriteData"].end(); ++it)
+		{
+			QuadComponentData quad;
+			quad.loadJson(*it);
+			afterburnerThrustSpriteData.push_back(quad);
+		}
+
+	if(!root["moduleData"].isNull())
+	{
+		sptr<ModuleData> spMod;
+		for(auto it = root["moduleData"].begin(); it != root["moduleData"].end(); ++it)
+		{
+			if(!(*it)["title"].isNull() && (*it)["ClassName"].isNull())//from title
+			{
+				string title = (*it)["title"].asString();
+				spMod.reset(game.getUniverse().getBlueprints().getModuleSPtr(title)->clone());
+
+				spMod->fixComp.offset.x = (*it)["Position"][0].asFloat();
+				spMod->fixComp.offset.y = (*it)["Position"][1].asFloat();
+			}
+			else
+			{
+				cout << "\n" << FILELINE;
+				///ERROR LOG
+			}
+
+			moduleData.push_back(spMod);
+		}
+	}
+}
 Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp), m_zoomPool(rData.zoomData), m_energyPool(rData.energyData), m_ballisticPool(rData.ballisticData), m_missilePool(rData.missileData)
 {
 	m_spawnPoint = b2Vec2(0, 0);
@@ -344,72 +394,6 @@ void Chunk::input(std::string rCommand, sf::Packet rData)
 	}
 	else
 		cout << "\nCommand not found in [" << m_io.getName() << "]." << FILELINE;
-}
-void ChunkData::loadJson(const Json::Value& root)
-{
-	if(!root["Copies"].isNull())
-		*this = *dynamic_cast<const ChunkData*>(game.getUniverse().getBlueprints().getChunkSPtr(root["Copies"].asString()).get());
-
-	if(!root["IO"].isNull())
-		ioComp.loadJson(root["IO"]);
-	if(!root["Network"].isNull())
-		nwComp.loadJson(root["Network"]);
-	if(!root["Body"].isNull())
-		bodyComp.loadJson(root["Body"]);
-	if(!root["Missiles"].isNull())
-		missileData.loadJson<Missiles>(root["Missiles"]);
-	if(!root["Ballistic"].isNull())
-		ballisticData.loadJson<Ballistic>(root["Ballistic"]);
-	if(!root["Energy"].isNull())
-		energyData.loadJson<Energy>(root["Energy"]);
-	if(!root["Zoom"].isNull())
-		zoomData.loadJson<Zoom>(root["Zoom"]);
-
-	if(!root["Hull_Sprite"].isNull())
-		hullSpriteData.loadJson(root["Hull_Sprite"]);
-
-	if(!root["Afterburner_Sprites"].isNull())
-		for(auto it = root["Afterburner_Sprites"].begin(); it != root["Afterburner_Sprites"].end(); ++it)
-		{
-			QuadComponentData quad;
-			quad.loadJson(*it);
-			afterburnerSpriteData.push_back(quad);
-		}
-
-	if(!root["Afterburner_Thrust_Sprites"].isNull())
-		for(auto it = root["Afterburner_Thrust_Sprites"].begin(); it != root["Afterburner_Thrust_Sprites"].end(); ++it)
-		{
-			QuadComponentData quad;
-			quad.loadJson(*it);
-			afterburnerThrustSpriteData.push_back(quad);
-		}
-
-	if(!root["Modules"].isNull())
-	{
-		sptr<ModuleData> spMod;
-		for(auto it = root["Modules"].begin(); it != root["Modules"].end(); ++it)
-		{
-			if(!(*it)["title"].isNull() && (*it)["ClassName"].isNull())//from title
-			{
-				string title = (*it)["title"].asString();
-				spMod.reset(game.getUniverse().getBlueprints().getModuleSPtr(title)->clone());
-
-				spMod->fixComp.offset.x = (*it)["Position"][0].asFloat();
-				spMod->fixComp.offset.y = (*it)["Position"][1].asFloat();
-			}
-			else if(!(*it)["ClassName"].isNull())//from inline
-			{
-			//inlining	spMod.reset(game.getUniverse().getBlueprints().loadModule(*it)->clone());
-			}
-			else
-			{
-				cout << "\n" << FILELINE;
-				///ERROR LOG
-			}
-
-			moduleData.push_back(spMod);
-		}
-	}
 }
 float Chunk::getRadius()
 {

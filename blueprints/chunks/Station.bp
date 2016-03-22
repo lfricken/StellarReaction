@@ -1,0 +1,18 @@
+{
+    "ClassName": "ChunkData",
+    "bodyComp": {
+        "rotation": 45,
+        "isDynamic": false,
+        "isBullet": false,
+        "startAwake": true
+    },
+    "moduleData": [
+        {
+            "title": "Capacitor",
+            "Position": [
+                0,
+                0
+            ]
+        }
+    ]
+}

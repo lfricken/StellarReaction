@@ -25,6 +25,142 @@
 
 using namespace std;
 
+
+void Universe::loadLevel(const std::string& levelName, int localController, const std::vector<std::string>& rControllerList, const std::vector<std::string>& rShipTitleList, const std::vector<int>& teams)//loads a level using blueprints
+{
+	loadBlueprints("blueprints/");
+
+	const string levelFile = "level.lcfg";
+	const string levelFolder = "levels";
+	const string thisLevelFolder = contentDir() + levelFolder + "/" + levelName + "/";
+	const string modDir = "mods/";
+
+	ifstream level(thisLevelFolder + levelFile, std::ifstream::binary);
+	Json::Reader reader;
+	Json::Value root;
+
+	bool parsedSuccess = reader.parse(level, root, false);
+
+	//SHIP AI TODO
+	m_shipAI.push_back(sptr<ShipAI>(new ShipAI));
+	m_shipAI.back()->setController(rControllerList.size() - 1);
+
+
+	setupBackground();
+
+	if(!parsedSuccess)
+	{
+		cout << "\nParse Failed [" << thisLevelFolder + levelFile << "].\n" << FILELINE;
+		return;
+	}
+	else
+	{
+		/**ADDITIONAL BLUEPRINTS**/
+		if(!root["AdditionalBlueprints"].isNull())
+		{
+			const Json::Value bpList = root["AdditionalBlueprints"];
+			for(auto it = bpList.begin(); it != bpList.end(); ++it)
+			{
+				m_spBPLoader->loadBlueprints(thisLevelFolder + it->asString());
+			}
+		}
+		else
+			cout << "\nAdditional Blueprints Null.";
+		/**SPAWN POINT**/
+		if(!root["SpawnPoints"].isNull())
+		{
+			const Json::Value spawnList = root["SpawnPoints"];
+			for(auto it = spawnList.begin(); it != spawnList.end(); ++it)
+			{
+				const Json::Value pointsJson = (*it)["Points"];
+				vector<b2Vec2> points;
+				for(auto itPoint = pointsJson.begin(); itPoint != pointsJson.end(); ++itPoint)
+				{
+					points.push_back(b2Vec2((*itPoint)[0].asFloat(), (*itPoint)[1].asFloat()));
+				}
+				m_spawnPoints[(*it)["Team"].asInt()] = points;
+			}
+		}
+		else
+			cout << "\nSpawn Points Null.";
+		/**CHUNKS**/
+		sptr<ChunkData> spCnk;
+		if(!root["Chunks"].isNull())
+		{
+			const Json::Value chunks = root["Chunks"];
+			for(auto it = chunks.begin(); it != chunks.end(); ++it)
+			{
+				if(!(*it)["Title"].isNull())
+				{
+					spCnk.reset(m_spBPLoader->getChunkSPtr((*it)["Title"].asString())->clone());
+					spCnk->bodyComp.coords.x = (*it)["Coordinates"][0].asFloat();
+					spCnk->bodyComp.coords.y = (*it)["Coordinates"][1].asFloat();
+				}
+				else
+					cout << "\n" << FILELINE;
+				add(spCnk->generate(this));
+			}
+		}
+		else
+			cout << "\Chunks List Null.";
+		/**HAZARD FIELDS**/
+		if(!root["HazardFields"].isNull())
+		{
+			const Json::Value spawnList = root["HazardFields"];
+			for(auto it = spawnList.begin(); it != spawnList.end(); ++it)
+				hazardFields.push_back(sptr<HazardField>(new HazardField(this, *it)));
+		}
+		else
+			cout << "\nHazard Field Null.";
+	}
+
+	int team = 1;
+	sptr<ChunkData> spCnk;
+	for(int i = 0; i < (signed)rShipTitleList.size(); ++i)
+	{
+		team = teams[i];
+		spCnk.reset(m_spBPLoader->getChunkSPtr(rShipTitleList[i])->clone());
+		spCnk->bodyComp.coords = m_spawnPoints[team][i];
+		spCnk->ioComp.name = std::to_string(i + 1);
+		spCnk->team = team;
+		add(spCnk->generate(this));
+	}
+
+	game.getLocalPlayer().loadOverlay("overlayconfig");
+
+	/**CONTROL**/
+	m_spControlFactory->resetControllers(rControllerList);
+	game.getLocalPlayer().setController(localController);
+
+	Message mes("ship_editor", "clear", voidPacket, 0, false);
+	game.getCoreIO().recieve(mes);
+
+	/**LOAD MY CURRENT SHIP INTO STORE**/
+	Controller* pController = &this->getControllerFactory().getController(localController);
+	Chunk* pCnk = pController->getSlave();
+	if(pCnk != NULL)
+	{
+		auto list = pCnk->getModules();
+		for(auto it = list.cbegin(); it != list.cend(); ++it)
+		{
+			cout << "\nUniverse: " << it->second.x << it->second.y;
+			sf::Packet pack;
+			pack << "addModule";
+			pack << it->first;
+			pack << (float)it->second.x;
+			pack << (float)it->second.y;
+
+
+			Message mes("networkboss", "sendTcpToHost", pack, 0, false);
+			game.getCoreIO().recieve(mes);
+		}
+	}
+	else
+		std::cout << "\nNo slave! " << FILELINE;
+
+	for(auto it = hazardFields.begin(); it != hazardFields.end(); ++it)
+		(**it).spawn();
+}
 Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input, this), m_physWorld(b2Vec2(0, 0))
 {
 	const Money defaultTickMoney = 1;
@@ -452,153 +588,6 @@ void Universe::setupBackground()
 	temp = new DecorQuad(bg_data);
 	add(temp);
 }
-
-/// <summary>
-/// Loads the level.
-/// </summary>
-void Universe::loadLevel(const std::string& levelName, int localController, const std::vector<std::string>& rControllerList, const std::vector<std::string>& rShipTitleList, const std::vector<int>& teams)//loads a level using blueprints
-{
-	loadBlueprints("blueprints/");
-
-	string levelFile = "level.lcfg";
-	string levelFolder = "levels";
-
-	string thisLevelFolder = contentDir() + levelFolder + "/" + levelName + "/";
-
-	string modDir = "mods/";
-
-	ifstream level(thisLevelFolder + levelFile, std::ifstream::binary);
-	Json::Reader reader;
-	Json::Value root;
-
-	bool parsedSuccess = reader.parse(level, root, false);
-
-	//SHIP AI TODO
-	m_shipAI.push_back(sptr<ShipAI>(new ShipAI));
-	m_shipAI.back()->setController(rControllerList.size() - 1);
-
-
-	setupBackground();
-
-	if(!parsedSuccess)
-	{
-		cout << "\nProblem Parsing [" << thisLevelFolder + levelFile << "].";
-		///error log
-		return;
-	}
-	else
-	{
-		/**ADDITIONAL BLUEPRINTS**/
-		if(!root["AdditionalBlueprints"].isNull())
-		{
-			const Json::Value bpList = root["AdditionalBlueprints"];
-			for(auto it = bpList.begin(); it != bpList.end(); ++it)
-			{
-				m_spBPLoader->loadBlueprints(thisLevelFolder + it->asString());
-			}
-		}
-		else
-			cout << "\nAdditional Blueprints Null";
-		/**SPAWN POINT**/
-		if(!root["SpawnPoints"].isNull())
-		{
-			const Json::Value spawnList = root["SpawnPoints"];
-			for(auto it = spawnList.begin(); it != spawnList.end(); ++it)
-			{
-				const Json::Value pointsJson = (*it)["Points"];
-				vector<b2Vec2> points;
-				for(auto itPoint = pointsJson.begin(); itPoint != pointsJson.end(); ++itPoint)
-				{
-					points.push_back(b2Vec2((*itPoint)[0].asFloat(), (*itPoint)[1].asFloat()));
-				}
-				m_spawnPoints[(*it)["Team"].asInt()] = points;
-			}
-		}
-		else
-			cout << "\nSpawn Points Null";
-		/**CHUNKS**/
-		sptr<ChunkData> spCnk;
-		if(!root["Chunks"].isNull())
-		{
-			const Json::Value chunks = root["Chunks"];
-			for(auto it = chunks.begin(); it != chunks.end(); ++it)
-			{
-				if(!(*it)["Title"].isNull())
-				{
-					spCnk.reset(m_spBPLoader->getChunkSPtr((*it)["Title"].asString())->clone());
-					spCnk->bodyComp.coords.x = (*it)["Coordinates"][0].asFloat();
-					spCnk->bodyComp.coords.y = (*it)["Coordinates"][1].asFloat();
-				}
-				else if(!(*it)["ClassName"].isNull())
-				{
-					//spCnk.reset(m_spBPLoader->loadChunk(*it)->clone()); LOAD CHUNK IS NOLONGER VALID, INLINING THINGS NEEDS REVIEW
-				}
-				else
-				{
-					cout << "\n" << FILELINE;
-					///ERROR LOG
-				}
-				add(spCnk->generate(this));
-			}
-		}
-		/**HAZARD FIELDS**/
-		if(!root["HazardFields"].isNull())
-		{
-			const Json::Value spawnList = root["HazardFields"];
-			for(auto it = spawnList.begin(); it != spawnList.end(); ++it)
-				hazardFields.push_back(sptr<HazardField>(new HazardField(this, *it)));
-		}
-		else
-			cout << "\nHazard Field Null";
-	}
-
-	int team = 1;
-	sptr<ChunkData> spCnk;
-	for(int i = 0; i < (signed)rShipTitleList.size(); ++i)
-	{
-		team = teams[i];
-		spCnk.reset(m_spBPLoader->getChunkSPtr(rShipTitleList[i])->clone());
-		spCnk->bodyComp.coords = m_spawnPoints[team][i];
-		spCnk->ioComp.name = std::to_string(i + 1);
-		spCnk->team = team;
-		add(spCnk->generate(this));
-	}
-
-	game.getLocalPlayer().loadOverlay("overlayconfig");
-
-	/**CONTROL**/
-	m_spControlFactory->resetControllers(rControllerList);
-	game.getLocalPlayer().setController(localController);
-
-	Message mes("ship_editor", "clear", voidPacket, 0, false);
-	game.getCoreIO().recieve(mes);
-
-	/**LOAD MY CURRENT SHIP INTO STORE**/
-	Controller* pController = &this->getControllerFactory().getController(localController);
-	Chunk* pCnk = pController->getSlave();
-	if(pCnk != NULL)
-	{
-		auto list = pCnk->getModules();
-		for(auto it = list.cbegin(); it != list.cend(); ++it)
-		{
-			cout << "\nUniverse: " << it->second.x << it->second.y;
-			sf::Packet pack;
-			pack << "addModule";
-			pack << it->first;
-			pack << (float)it->second.x;
-			pack << (float)it->second.y;
-
-
-			Message mes("networkboss", "sendTcpToHost", pack, 0, false);
-			game.getCoreIO().recieve(mes);
-		}
-	}
-	else
-		std::cout << "\nNo slave! " << FILELINE;
-
-	for(auto it = hazardFields.begin(); it != hazardFields.end(); ++it)
-		(**it).spawn();
-}
 void Universe::add(sptr<GameObject> spGO)
 {
 	m_goList.push_back(spGO);
@@ -642,15 +631,6 @@ void Universe::input(std::string rCommand, sf::Packet rData)
 		cout << m_io.getName() << ":[" << rCommand << "] not found." << FILELINE;
 	}
 }
-
-
-/*
-
-*/
-void Universe::spawnChunk(int x, int y)
-{
-	//TODO
-}
 std::vector<sptr<GameObject>> Universe::getDebris()
 {
 	return m_shipDebris;
@@ -659,7 +639,6 @@ std::vector<sptr<GameObject> > Universe::getgoList()
 {
 	return m_goList;
 }
-
 bool Universe::isClear(b2Vec2 position, float radius, const b2Body* exception)
 {
 	Chunk* nearest = dynamic_cast<Chunk*>(getNearestChunkExcept(position, exception));

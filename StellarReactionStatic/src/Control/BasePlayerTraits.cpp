@@ -8,7 +8,7 @@ using namespace std;
 BasePlayerTraits::BasePlayerTraits(const std::string& rName)
 {
 	m_team = 1;
-	m_shipChoice = "CombatShip";
+	m_shipChoice = "Anubis";
 	m_name = rName;
 	m_balance = 20;
 	m_activeControlGroup = 1;

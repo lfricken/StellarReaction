@@ -1,0 +1,128 @@
+{
+    "ClassName": "ChunkData",
+    "bodyComp": {
+        "rotation": 0,
+        "isDynamic": true,
+        "isBullet": false,
+        "startAwake": true
+    },
+    "zoomData": {
+        "Max": 64,
+        "Value": 1
+    },
+	"hullSpriteData": {
+		"dimensions": [3275, 2454],
+		"center": [0,-500],
+		"texName": "hulls/titan1.png",
+		"animSheetName": "hulls/titan1.acfg",
+		"layer": "ShipHull"
+	},
+	"afterburnerSpriteData": [
+		{
+			"dimensions": [200, 600],
+			"center": [-240, 965],
+			"texName": "hulls/afterb1.png",
+			"animSheetName": "hulls/afterb1.acfg",
+			"layer": "ShipModules",
+			"permanentRot": -2
+		},
+		{
+			"dimensions": [200, 600],
+			"center": [240, 965],
+			"texName": "hulls/afterb1.png",
+			"animSheetName": "hulls/afterb1.acfg",
+			"layer": "ShipModules",
+			"permanentRot": 2
+		}
+	],
+	"afterburnerThrustSpriteData": [
+		{
+			"dimensions": [200, 1400],
+			"center": [-240, 1280],
+			"texName": "hulls/afterb1.png",
+			"animSheetName": "hulls/afterb1_thrust.acfg",
+			"layer": "ShipModules",
+			"permanentRot": -2
+		},
+		{
+			"dimensions": [200, 1400],
+			"center": [240, 1280],
+			"texName": "hulls/afterb1.png",
+			"animSheetName": "hulls/afterb1_thrust.acfg",
+			"layer": "ShipModules",
+			"permanentRot": 2
+		}
+	],
+    "moduleData": [
+        {
+            "title": "Reactor",
+            "Position": [
+                0,
+                2
+            ]
+        },
+        {
+            "title": "LaserTurret",
+            "Position": [
+                0,
+                1
+            ]
+        },
+        {
+            "title": "LaserTurret",
+            "Position": [
+                -2,
+                0
+            ]
+        },
+        {
+            "title": "Plating",
+            "Position": [
+                0,
+                3
+            ]
+        },
+        {
+            "title": "Plating",
+            "Position": [
+                -1,
+                0
+            ]
+        },
+        {
+            "title": "Capacitor",
+            "Position": [
+                1,
+                0
+            ]
+        },
+        {
+            "title": "Radar",
+            "Position": [
+                0,
+                0
+            ]
+        },
+		{
+            "title": "BallisticTurret",
+            "Position": [
+                2,
+                0
+            ]
+		},
+        {
+            "title": "Thruster",
+            "Position": [
+                0,
+                -1
+            ]
+        },
+        {
+            "title": "Stealth",
+            "Position": [
+                3,
+                0
+            ]
+        }
+    ]
+}

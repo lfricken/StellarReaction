@@ -8,6 +8,9 @@
 #define LOADJSON(BASEVAR) \
 	 if(!root[#BASEVAR].isNull()) BASEVAR.loadJson(root[#BASEVAR]);
 
+#define LOADJSONT(BASEVAR, TYPE) \
+	 if(!root[#BASEVAR].isNull()) BASEVAR.loadJson<TYPE>(root[#BASEVAR]);
+
 class JSON
 {
 public:

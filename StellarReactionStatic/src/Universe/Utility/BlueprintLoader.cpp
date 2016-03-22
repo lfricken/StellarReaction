@@ -24,6 +24,7 @@ void BlueprintLoader::loadBlueprints(const std::string& rDir)
 	vector<pair<string, string> > chunks = game.getDir().getAllFiles(rDir + "chunks", ".bp");
 	vector<pair<string, string> > projectiles = game.getDir().getAllFiles(rDir + "projectiles", ".bp");
 
+
 	for(auto it = weapons.begin(); it != weapons.end(); ++it)
 		storeData<WeaponData>(it->first, it->second, m_wepBP);
 

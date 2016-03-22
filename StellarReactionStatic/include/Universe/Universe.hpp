@@ -90,9 +90,6 @@ protected:
 private:
 	std::vector<sptr<HazardField>> hazardFields;
 
-	//TODO
-	void spawnChunk(int x, int y);
-
 	void setupBackground();
 
 	/**SLEEP**/

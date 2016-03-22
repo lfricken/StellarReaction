@@ -14,7 +14,7 @@ namespace leon
 			screenCoords(5, 5),
 			size(128, 64),
 			transparency(255),
-			ioComp(game.getCoreIO())
+			ioComp(&game.getCoreIO())
 		{
 		}
 		bool startHidden;/**should this widget start invisible**/

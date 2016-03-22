@@ -26,8 +26,6 @@ int IOComponent::getPosition() const
 }
 void IOComponentData::loadJson(const Json::Value& root)
 {
-	pMyManager = &game.getUniverse().getUniverseIO();
-
 	if(!root["name"].isNull())
 		name = root["name"].asString();
 	if(!root["courierList"].isNull())

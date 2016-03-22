@@ -80,7 +80,7 @@ struct InputConfig
 struct PlayerData
 {
 	PlayerData() :
-		ioComp(game.getCoreIO()),
+		ioComp(&game.getCoreIO()),
 		keyConfig(),
 		tracking(true)
 	{

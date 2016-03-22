@@ -55,31 +55,22 @@
 		]
 	}],
 	"Chunks": [{
-		"Title": "DefaultChunk",
-		"Coordinates": [
-			0,
-			0
-		]
+		"Title": "Anubis",
+		"Coordinates": [-40, -5]
 	}, {
-		"Title": "DefaultChunk",
-		"Coordinates": [
-			4,
-			0
-		]
+		"Title": "Caterina",
+		"Coordinates": [-30, -5]
 	}, {
-		"Title": "CombatShip",
-		"Coordinates": [-5, -5]
+		"Title": "Dante",
+		"Coordinates": [-20, -5]
 	}, {
-		"Title": "CombatShip2",
-		"Coordinates": [-10, -5]
-	}, {
-		"Title": "DefaultStation",
+		"Title": "Station",
 		"Coordinates": [
 			30,
 			0
 		]
 	}, {
-		"Title": "DefaultCapture",
+		"Title": "CapturePoint",
 		"Coordinates": [
 			30,
 			30
