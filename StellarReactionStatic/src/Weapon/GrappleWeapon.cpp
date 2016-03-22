@@ -8,6 +8,11 @@
 
 using namespace std;
 
+
+void GrappleWeaponData::loadJson(const Json::Value& root)
+{
+	LaserWeaponData::loadJson(root);
+}
 GrappleWeapon::GrappleWeapon(const GrappleWeaponData& rData) : LaserWeapon(rData)
 {
 	m_time.setCountDown(3.0);
@@ -81,8 +86,4 @@ void GrappleWeapon::grappleTo()
 		m_pBody->ApplyForceToCenter(appliedForce, true);
 		target->getBodyPtr()->ApplyForceToCenter(b2Vec2(-appliedForce.x, -appliedForce.y), true);
 	}
-}
-void GrappleWeaponData::loadJson(const Json::Value& root)
-{
-	LaserWeaponData::loadJson(root);
 }

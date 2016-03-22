@@ -1,41 +1,42 @@
-#ifndef BALLISTICWEAPON_HPP
-#define BALLISTICWEAPON_HPP
+#pragma once
 
 #include "Weapon.hpp"
-struct BallisticWeaponData;
+struct MissileWeaponData;
 
 /// <summary>
-/// Fires a physical projectile to do something (like damage)
+/// Fires a missile that tracks its target
 /// </summary>
-class BallisticWeapon : public Weapon
+class MissileWeapon : public Weapon
 {
 public:
-	BallisticWeapon(const BallisticWeaponData& rData);
-	virtual ~BallisticWeapon();
+	MissileWeapon(const MissileWeaponData& rData);
+	virtual ~MissileWeapon();
 
 	void preShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation);
 	void postShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation);
 protected:
-
 	float m_projLifetime;
 	std::string m_projName;//bp name of projectile
 	float m_velocity;//velocity of projectiles
+	float m_acceleration;
+	int m_max_velocity;
+	int m_init_velocity;
 private:
 };
 
 
 
-struct BallisticWeaponData : public WeaponData
+struct MissileWeaponData : public WeaponData
 {
-	BallisticWeaponData() :
-		velocity(50),
-		projName("DefaultProjectile")
+	MissileWeaponData() :
+		velocity(20),
+		projName("DefaultMissile")
 	{
 		weaponQuad.animSheetName = "weapons/ballistic1.acfg";
-		weaponQuad.texName = "weapons/missile1.png";
-		ener = 1;///TODO SHOULD BE CONSUMING BALLISTIC ONLY, THIS IS JUST FOR TESTING
-		ball = 0;
-		mis = 0;
+		weaponQuad.texName = "weapons/ballistic1.png";
+		energyConsumption = 1;///TODO SHOULD BE CONSUMING BALLISTIC ONLY, THIS IS JUST FOR TESTING
+		ballisticConsumption = 0;
+		missileConsumption = 0;
 		damage = 500;
 		shotDelay = 0.3f;
 		shots = 1;
@@ -50,16 +51,14 @@ struct BallisticWeaponData : public WeaponData
 
 	virtual Weapon* generate() const
 	{
-		return new BallisticWeapon(*this);
+		return new MissileWeapon(*this);
 	}
-	virtual BallisticWeaponData* clone() const
+	virtual MissileWeaponData* clone() const
 	{
-		return new BallisticWeaponData(*this);
+		return new MissileWeaponData(*this);
 	}
 
 	virtual void loadJson(const Json::Value& root);
 
-	MyType(WeaponData, BallisticWeaponData);
+	MyType(WeaponData, MissileWeaponData);
 };
-
-#endif // BALLISTICWEAPON_HPP

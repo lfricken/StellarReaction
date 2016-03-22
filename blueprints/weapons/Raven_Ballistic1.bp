@@ -1,22 +1,12 @@
 {
     "ClassName": "BallisticWeaponData",
     "title": "Raven_Ballistic1",
-
-    "StartSound": {
-        "name": ""
-    },
-    "ShotSound": {
-        "name": "razor_ballistic1.wav"
-    },
-    "EndSound": {
-        "name": ""
-    },
-	"ProjectileName": "DefaultAOE",
-    "EnergyConsumption": 1,
-    "Damage": 400,
-    "Shots": 1,
-	"Collisions": 5,
-	"WeaponSprite": {
+	"projName": "DefaultAOE",
+    "energyConsumption": 1,
+    "damage": 400,
+    "shots": 1,
+	"collisions": 5,
+	"weaponQuad": {
         "texName": "weapons/raven_ballistic1.png",
         "animSheetName": "weapons/raven_ballistic1.acfg",
         "layer": "Projectiles",

@@ -4,6 +4,13 @@
 
 using namespace std;
 
+
+void BallisticWeaponData::loadJson(const Json::Value& root)
+{
+	WeaponData::loadJson(root);
+
+	GETJSON(projName);
+}
 BallisticWeapon::BallisticWeapon(const BallisticWeaponData& rData) : Weapon(rData)
 {
 	m_projName = rData.projName;
@@ -29,11 +36,4 @@ void BallisticWeapon::preShot(const b2Vec2& center, const b2Vec2& aim, float rad
 void BallisticWeapon::postShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation)
 {
 
-}
-void BallisticWeaponData::loadJson(const Json::Value& root)
-{
-	WeaponData::loadJson(root);
-
-	if(!root["ProjectileName"].isNull())
-		projName = root["ProjectileName"].asString();
 }

@@ -7,15 +7,35 @@
 
 using namespace std;
 
+void WeaponData::loadJson(const Json::Value& root)
+{
+	GETJSON(energyConsumption);
+	GETJSON(ballisticConsumption);
+	GETJSON(missileConsumption);
+	GETJSON(shots);
+	GETJSON(shotsInSpread);
+	GETJSON(damage);
+
+	LOADJSON(startSound);
+	LOADJSON(shotSound);
+	LOADJSON(endSound);
+
+	GETJSON(shotDelay);
+	GETJSON(fireDelay);
+	GETJSON(range);
+	GETJSON(collisions);
+
+	LOADJSON(weaponQuad);
+}
 Weapon::Weapon(const WeaponData& rData) : m_decor(rData.weaponQuad)
 {
 	m_startSound = rData.startSound;
 	m_shotSound = rData.shotSound;
 	m_endSound = rData.endSound;
 
-	m_energy = rData.ener;
-	m_ballistic = rData.ball;
-	m_missiles = rData.mis;
+	m_energy = rData.energyConsumption;
+	m_ballistic = rData.ballisticConsumption;
+	m_missiles = rData.missileConsumption;
 
 	m_range = rData.range * sizeScalingFactor;
 	m_damage = rData.damage;
@@ -122,44 +142,9 @@ void Weapon::damage(b2Fixture* pFix, int damage)
 	mess.reset(rComp.getIOPos(), "damage", packet, 0.f, false);
 	game.getUniverse().getUniverseIO().recieve(mess);
 }
-
 QuadComponent* Weapon::getDecor()
 {
 	return &m_decor;
 }
-void WeaponData::loadJson(const Json::Value& root)
-{
-	if(!root["EnergyConsumption"].isNull())
-		ener = root["EnergyConsumption"].asFloat();
-	if(!root["BallisticConsumption"].isNull())
-		ball = root["BallisticConsumption"].asFloat();
 
-	if(!root["Shots"].isNull())
-		shots = root["Shots"].asInt();
-	if (!root["ShotsInSpread"].isNull())
-		shotsInSpread = root["ShotsInSpread"].asInt();
-	if(!root["Damage"].isNull())
-		damage = root["Damage"].asInt();
-
-	if(!root["StartSound"].isNull())
-		startSound.loadJson(root["StartSound"]);
-	if(!root["ShotSound"].isNull())
-		shotSound.loadJson(root["ShotSound"]);
-	if(!root["EndSound"].isNull())
-		endSound.loadJson(root["EndSound"]);
-
-	if(!root["ShotDelay"].isNull())
-		shotDelay = root["ShotFrequency"].asFloat();
-	if(!root["ReloadTime"].isNull())
-		fireDelay = root["ReloadTime"].asFloat();
-
-	if(!root["Range"].isNull())
-		range = root["Range"].asFloat();
-
-	if(!root["Collisions"].isNull())
-		collisions = root["Collisions"].asInt();
-
-	if(!root["WeaponSprite"].isNull())
-		weaponQuad.loadJson(root["WeaponSprite"]);
-}
 

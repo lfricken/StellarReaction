@@ -89,9 +89,9 @@ private:
 struct WeaponData
 {
 	WeaponData() :
-		ener(0),
-		ball(0),
-		mis(0),
+		energyConsumption(0),
+		ballisticConsumption(0),
+		missileConsumption(0),
 
 		shots(5),
 		shotsInSpread(6),
@@ -110,9 +110,9 @@ struct WeaponData
 		weaponQuad.dimensions = sf::Vector2f(128, 260);
 		weaponQuad.permanentRot = -90.f;
 	}
-	Energy ener;//energy consumed per fire
-	Ballistic ball;//ballistics consumed per fire
-	Missiles mis;//missiles consumed per fire
+	Energy energyConsumption;//energy consumed per fire
+	Ballistic ballisticConsumption;//ballistics consumed per fire
+	Missiles missileConsumption;//missiles consumed per fire
 
 	SoundData startSound, shotSound, endSound;
 

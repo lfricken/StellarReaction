@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\Basic\GrappleWeapon.hpp" />
+    <ClInclude Include="include\Weapon\GrappleWeapon.hpp" />
     <ClInclude Include="include\Game\Directory.hpp" />
     <ClInclude Include="include\API\Box2D\Box2D.h" />
     <ClInclude Include="include\API\Box2D\Collision\b2BroadPhase.h" />
@@ -208,15 +208,15 @@
     <ClInclude Include="include\Audio\Sound.hpp" />
     <ClInclude Include="include\Audio\SoundData.hpp" />
     <ClInclude Include="include\Audio\SoundManager.hpp" />
-    <ClInclude Include="include\Basic\BallisticWeapon.hpp" />
+    <ClInclude Include="include\Weapon\BallisticWeapon.hpp" />
     <ClInclude Include="include\Basic\ClassRegister.hpp" />
     <ClInclude Include="include\Basic\Health.hpp" />
-    <ClInclude Include="include\Basic\LaserWeapon.hpp" />
-    <ClInclude Include="include\Basic\MissileWeapon.hpp" />
+    <ClInclude Include="include\Weapon\LaserWeapon.hpp" />
+    <ClInclude Include="include\Weapon\MissileWeapon.hpp" />
     <ClInclude Include="include\Basic\Pool.hpp" />
     <ClInclude Include="include\Basic\Timer.hpp" />
-    <ClInclude Include="include\Basic\Weapon.hpp" />
-    <ClInclude Include="include\Basic\WeaponRegistration.hpp" />
+    <ClInclude Include="include\Weapon\Weapon.hpp" />
+    <ClInclude Include="include\Weapon\WeaponRegistration.hpp" />
     <ClInclude Include="include\Control\BasePlayerTraits.hpp" />
     <ClInclude Include="include\Control\Camera.hpp" />
     <ClInclude Include="include\Control\ControlFactory.hpp" />
@@ -310,64 +310,18 @@
   <ItemGroup>
     <ClCompile Include="src\Universe\Utility\JSON.cpp" />
     <ClCompile Include="src\Headers\Random.cpp" />
-    <ClCompile Include="src\Basic\GrappleWeapon.cpp" />
+    <ClCompile Include="src\Weapon\GrappleWeapon.cpp" />
     <ClCompile Include="src\Control\ShipAI.cpp" />
     <ClCompile Include="src\Game\Directory.cpp" />
-    <ClCompile Include="include\API\Box2D\Collision\b2BroadPhase.cpp" />
-    <ClCompile Include="include\API\Box2D\Collision\b2CollideCircle.cpp" />
-    <ClCompile Include="include\API\Box2D\Collision\b2CollideEdge.cpp" />
-    <ClCompile Include="include\API\Box2D\Collision\b2CollidePolygon.cpp" />
-    <ClCompile Include="include\API\Box2D\Collision\b2Collision.cpp" />
-    <ClCompile Include="include\API\Box2D\Collision\b2Distance.cpp" />
-    <ClCompile Include="include\API\Box2D\Collision\b2DynamicTree.cpp" />
-    <ClCompile Include="include\API\Box2D\Collision\b2TimeOfImpact.cpp" />
-    <ClCompile Include="include\API\Box2D\Collision\Shapes\b2ChainShape.cpp" />
-    <ClCompile Include="include\API\Box2D\Collision\Shapes\b2CircleShape.cpp" />
-    <ClCompile Include="include\API\Box2D\Collision\Shapes\b2EdgeShape.cpp" />
-    <ClCompile Include="include\API\Box2D\Collision\Shapes\b2PolygonShape.cpp" />
-    <ClCompile Include="include\API\Box2D\Common\b2BlockAllocator.cpp" />
-    <ClCompile Include="include\API\Box2D\Common\b2Draw.cpp" />
-    <ClCompile Include="include\API\Box2D\Common\b2Math.cpp" />
-    <ClCompile Include="include\API\Box2D\Common\b2Settings.cpp" />
-    <ClCompile Include="include\API\Box2D\Common\b2StackAllocator.cpp" />
-    <ClCompile Include="include\API\Box2D\Common\b2Timer.cpp" />
-    <ClCompile Include="include\API\Box2D\Dynamics\b2Body.cpp" />
-    <ClCompile Include="include\API\Box2D\Dynamics\b2ContactManager.cpp" />
-    <ClCompile Include="include\API\Box2D\Dynamics\b2Fixture.cpp" />
-    <ClCompile Include="include\API\Box2D\Dynamics\b2Island.cpp" />
-    <ClCompile Include="include\API\Box2D\Dynamics\b2World.cpp" />
-    <ClCompile Include="include\API\Box2D\Dynamics\b2WorldCallbacks.cpp" />
-    <ClCompile Include="include\API\Box2D\Dynamics\Contacts\b2ChainAndCircleContact.cpp" />
-    <ClCompile Include="include\API\Box2D\Dynamics\Contacts\b2ChainAndPolygonContact.cpp" />
-    <ClCompile Include="include\API\Box2D\Dynamics\Contacts\b2CircleContact.cpp" />
-    <ClCompile Include="include\API\Box2D\Dynamics\Contacts\b2Contact.cpp" />
-    <ClCompile Include="include\API\Box2D\Dynamics\Contacts\b2ContactSolver.cpp" />
-    <ClCompile Include="include\API\Box2D\Dynamics\Contacts\b2EdgeAndCircleContact.cpp" />
-    <ClCompile Include="include\API\Box2D\Dynamics\Contacts\b2EdgeAndPolygonContact.cpp" />
-    <ClCompile Include="include\API\Box2D\Dynamics\Contacts\b2PolygonAndCircleContact.cpp" />
-    <ClCompile Include="include\API\Box2D\Dynamics\Contacts\b2PolygonContact.cpp" />
-    <ClCompile Include="include\API\Box2D\Dynamics\Joints\b2DistanceJoint.cpp" />
-    <ClCompile Include="include\API\Box2D\Dynamics\Joints\b2FrictionJoint.cpp" />
-    <ClCompile Include="include\API\Box2D\Dynamics\Joints\b2GearJoint.cpp" />
-    <ClCompile Include="include\API\Box2D\Dynamics\Joints\b2Joint.cpp" />
-    <ClCompile Include="include\API\Box2D\Dynamics\Joints\b2MotorJoint.cpp" />
-    <ClCompile Include="include\API\Box2D\Dynamics\Joints\b2MouseJoint.cpp" />
-    <ClCompile Include="include\API\Box2D\Dynamics\Joints\b2PrismaticJoint.cpp" />
-    <ClCompile Include="include\API\Box2D\Dynamics\Joints\b2PulleyJoint.cpp" />
-    <ClCompile Include="include\API\Box2D\Dynamics\Joints\b2RevoluteJoint.cpp" />
-    <ClCompile Include="include\API\Box2D\Dynamics\Joints\b2RopeJoint.cpp" />
-    <ClCompile Include="include\API\Box2D\Dynamics\Joints\b2WeldJoint.cpp" />
-    <ClCompile Include="include\API\Box2D\Dynamics\Joints\b2WheelJoint.cpp" />
-    <ClCompile Include="include\API\Box2D\Rope\b2Rope.cpp" />
     <ClCompile Include="src\Audio\Sound.cpp" />
     <ClCompile Include="src\Audio\SoundManager.cpp" />
-    <ClCompile Include="src\Basic\BallisticWeapon.cpp" />
+    <ClCompile Include="src\Weapon\BallisticWeapon.cpp" />
     <ClCompile Include="src\Basic\Health.cpp" />
-    <ClCompile Include="src\Basic\LaserWeapon.cpp" />
-    <ClCompile Include="src\Basic\MissileWeapon.cpp" />
+    <ClCompile Include="src\Weapon\LaserWeapon.cpp" />
+    <ClCompile Include="src\Weapon\MissileWeapon.cpp" />
     <ClCompile Include="src\Basic\Pool.cpp" />
     <ClCompile Include="src\Basic\Timer.cpp" />
-    <ClCompile Include="src\Basic\Weapon.cpp" />
+    <ClCompile Include="src\Weapon\Weapon.cpp" />
     <ClCompile Include="src\Control\BasePlayerTraits.cpp" />
     <ClCompile Include="src\Control\Camera.cpp" />
     <ClCompile Include="src\Control\ControlFactory.cpp" />
@@ -503,7 +457,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\StellarReactionStatic\include\Universe\Utility;..\StellarReactionStatic\include\Universe\ShipModule;..\StellarReactionStatic\include\Universe\Module;..\StellarReactionStatic\include\Universe\Chunk;..\StellarReactionStatic\include\Graphics\Utility;..\StellarReactionStatic\include\Universe;..\StellarReactionStatic\include\Physics;..\StellarReactionStatic\include\Overlay;..\StellarReactionStatic\include\Network;..\StellarReactionStatic\include\IO;..\StellarReactionStatic\include\Headers;..\StellarReactionStatic\include\Graphics;..\StellarReactionStatic\include\Game;..\StellarReactionStatic\include\Control;..\StellarReactionStatic\include\Basic;..\StellarReactionStatic\include\Audio;..\StellarReactionStatic\include\Universe\Hazard;..\StellarReactionStatic\include\API</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\StellarReactionStatic\include\Weapon;..\StellarReactionStatic\include\Universe\Utility;..\StellarReactionStatic\include\Universe\ShipModule;..\StellarReactionStatic\include\Universe\Module;..\StellarReactionStatic\include\Universe\Chunk;..\StellarReactionStatic\include\Graphics\Utility;..\StellarReactionStatic\include\Universe;..\StellarReactionStatic\include\Physics;..\StellarReactionStatic\include\Overlay;..\StellarReactionStatic\include\Network;..\StellarReactionStatic\include\IO;..\StellarReactionStatic\include\Headers;..\StellarReactionStatic\include\Graphics;..\StellarReactionStatic\include\Game;..\StellarReactionStatic\include\Control;..\StellarReactionStatic\include\Basic;..\StellarReactionStatic\include\Audio;..\StellarReactionStatic\include\Universe\Hazard;..\StellarReactionStatic\include\API</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -520,7 +474,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\StellarReactionStatic\include\Universe\Utility;..\StellarReactionStatic\include\Universe\ShipModule;..\StellarReactionStatic\include\Universe\Module;..\StellarReactionStatic\include\Universe\Chunk;..\StellarReactionStatic\include\Graphics\Utility;..\StellarReactionStatic\include\Universe;..\StellarReactionStatic\include\Physics;..\StellarReactionStatic\include\Overlay;..\StellarReactionStatic\include\Network;..\StellarReactionStatic\include\IO;..\StellarReactionStatic\include\Headers;..\StellarReactionStatic\include\Graphics;..\StellarReactionStatic\include\Game;..\StellarReactionStatic\include\Control;..\StellarReactionStatic\include\Basic;..\StellarReactionStatic\include\Audio;..\StellarReactionStatic\include\Universe\Hazard;..\StellarReactionStatic\include\API</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\StellarReactionStatic\include\Weapon;..\StellarReactionStatic\include\Universe\Utility;..\StellarReactionStatic\include\Universe\ShipModule;..\StellarReactionStatic\include\Universe\Module;..\StellarReactionStatic\include\Universe\Chunk;..\StellarReactionStatic\include\Graphics\Utility;..\StellarReactionStatic\include\Universe;..\StellarReactionStatic\include\Physics;..\StellarReactionStatic\include\Overlay;..\StellarReactionStatic\include\Network;..\StellarReactionStatic\include\IO;..\StellarReactionStatic\include\Headers;..\StellarReactionStatic\include\Graphics;..\StellarReactionStatic\include\Game;..\StellarReactionStatic\include\Control;..\StellarReactionStatic\include\Basic;..\StellarReactionStatic\include\Audio;..\StellarReactionStatic\include\Universe\Hazard;..\StellarReactionStatic\include\API</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

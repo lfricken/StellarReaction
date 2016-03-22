@@ -1,53 +1,24 @@
 {
     "ClassName": "LaserWeaponData",
     "title": "DefaultWeapon",
-    "BeamStart": {
-        "texName": "beam/beam_start.png",
-        "animSheetName": "beam/beam_start.acfg",
-        "layer": "Projectiles",
-        "permanentRot": 0,
-        "dimensions": [
-            256,
-            256
-        ]
-    },
-    "BeamEnd": {
-        "texName": "beam/beam_end.png",
-        "animSheetName": "beam/beam_end.acfg",
-        "layer": "Projectiles",
-        "permanentRot": 0,
-        "dimensions": [
-            256,
-            256
-        ]
-    },
-    "BeamMid": {
-        "texName": "beam/beam_mid.png",
-        "animSheetName": "beam/beam_mid.acfg",
-        "layer": "Projectiles",
-        "permanentRot": 0,
-        "dimensions": [
-            256,
-            256
-        ]
-    },
-    "BeamColor": [
+    "beamColor": [
         0,
         255,
         0,
         255
     ],
-    "StartSound": {
+    "startSound": {
         "name": ""
     },
-    "ShotSound": {
+    "shotSound": {
         "name": "laser1.wav"
     },
-    "EndSound": {
+    "endSound": {
         "name": ""
     },
-    "EnergyConsumption": 10,
-    "Damage": 200,
-    "Shots": 10,
-	"Collisions": 2
+    "energyConsumption": 10,
+    "damage": 200,
+    "shots": 10,
+	"shotDelay": 0.3,
+	"collisions": 1
 }

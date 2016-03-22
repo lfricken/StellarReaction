@@ -1,19 +1,8 @@
 {
     "ClassName": "BallisticWeaponData",
     "title": "DefaultBallisticWeapon",
-
-    "StartSound": {
-        "name": ""
-    },
-    "ShotSound": {
-        "name": "default.wav"
-    },
-    "EndSound": {
-        "name": ""
-    },
-	"ProjectileName": "DefaultProjectile",
-    "EnergyConsumption": 1,
-    "Damage": 400,
-    "Shots": 1,
-	"Collisions": 2
+	"projName": "DefaultProjectile",
+    "damage": 400,
+    "shots": 1,
+	"collisions": 2
 }

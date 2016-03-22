@@ -1,19 +1,8 @@
 {
     "ClassName": "MissileWeaponData",
     "title": "DefaultMissileWeapon",
-
-    "StartSound": {
-        "name": ""
-    },
-    "ShotSound": {
-        "name": "default.wav"
-    },
-    "EndSound": {
-        "name": ""
-    },
-	"ProjectileName": "DefaultMissile",
-    "EnergyConsumption": 1,
-    "Damage": 2,
-    "Shots": 1,
-	"Collisions": 2
+	"projName": "DefaultMissile",
+    "energyConsumption": 1,
+    "damage": 2,
+    "shots": 1
 }

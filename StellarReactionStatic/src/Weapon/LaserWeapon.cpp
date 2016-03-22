@@ -7,6 +7,20 @@
 
 using namespace std;
 
+
+void LaserWeaponData::loadJson(const Json::Value& root)
+{
+	WeaponData::loadJson(root);
+
+	GETJSON(beamWidth);
+	if(!root["beamColor"].isNull())
+		beamColor = BlueprintLoader::loadColor(root["beamColor"]);
+	GETJSON(showTime);
+	LOADJSON(beamComp.start);
+	LOADJSON(beamComp.end);
+	LOADJSON(beamComp);
+
+}
 LaserWeapon::LaserWeapon(const LaserWeaponData& rData) : Weapon(rData), m_beam(rData.beamComp)
 {
 	m_beamColor = rData.beamColor;
@@ -60,21 +74,3 @@ void LaserWeapon::postShot(const b2Vec2& center, const b2Vec2& aim, float radCCW
 	m_beam.activate(m_showTime, m_beamWidth, m_beamColor);
 }
 
-void LaserWeaponData::loadJson(const Json::Value& root)
-{
-	WeaponData::loadJson(root);
-
-	if(!root["BeamWidth"].isNull())
-		beamWidth = root["BeamWidth"].asInt();
-	if(!root["BeamColor"].isNull())
-		beamColor = BlueprintLoader::loadColor(root["BeamColor"]);
-	if(!root["ShowTime"].isNull())
-		showTime = root["ShowTime"].asFloat();
-	if(!root["BeamStart"].isNull())
-		beamComp.start.loadJson(root["BeamStart"]);
-	if(!root["BeamEnd"].isNull())
-		beamComp.end.loadJson(root["BeamEnd"]);
-	if(!root["BeamMid"].isNull())
-		beamComp.loadJson(root["BeamMid"]);
-
-}

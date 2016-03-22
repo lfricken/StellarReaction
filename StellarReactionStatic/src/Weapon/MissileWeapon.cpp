@@ -5,6 +5,13 @@
 
 using namespace std;
 
+
+void MissileWeaponData::loadJson(const Json::Value& root)
+{
+	WeaponData::loadJson(root);
+
+	GETJSON(projName);
+}
 MissileWeapon::MissileWeapon(const MissileWeaponData& rData) : Weapon(rData)
 {
 	m_projName = rData.projName;
@@ -33,11 +40,5 @@ void MissileWeapon::postShot(const b2Vec2& center, const b2Vec2& aim, float radC
 {
 
 }
-void MissileWeaponData::loadJson(const Json::Value& root)
-{
-	WeaponData::loadJson(root);
 
-	if(!root["ProjectileName"].isNull())
-		projName = root["ProjectileName"].asString();
-}
 
