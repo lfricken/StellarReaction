@@ -1,0 +1,9 @@
+{
+    "ClassName": "GrappleWeaponData",
+    "beamColor": [
+        200,
+        0,
+        0,
+        255
+    ]
+}

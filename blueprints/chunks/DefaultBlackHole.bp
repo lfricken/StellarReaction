@@ -1,7 +1,5 @@
 {
     "ClassName": "ChunkData",
-    "title": "DefaultBlackHole",
-	"Copies": null,
     "IO": {
         "name": "BPCHUNKNAME",
         "courierList": [
@@ -35,14 +33,14 @@
     },
     "Modules": [
         {
-            "title": "DefaultGravityField",
+            "title": "GravityField",
             "Position": [
                 0,
                 0
             ]
         },
 		{
-            "title": "DefaultTriggerSensor",
+            "title": "TriggerSensor",
             "Position": [
                 0,
                 0

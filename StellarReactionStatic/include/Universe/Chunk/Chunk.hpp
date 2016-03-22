@@ -5,6 +5,7 @@
 #include "Pool.hpp"
 #include "ClassRegister.hpp"
 #include "QuadComponent.hpp"
+#include "BlueprintData.hpp"
 
 struct ChunkData;
 class Module;
@@ -86,13 +87,15 @@ private:
 };
 
 
-struct ChunkData : public GameObjectData
+struct ChunkData : public GameObjectData, public BlueprintData
 {
 	ChunkData() :
 		GameObjectData(),
 		bodyComp(),
 		team(-784)//this value so an unititalized team member team value is distinct
 	{
+		title = "CHUNK_DEFAULT_TITLE";
+
 		zoomData.startMin = 1;
 		zoomData.startValue = 1;
 		zoomData.startMax = 128;

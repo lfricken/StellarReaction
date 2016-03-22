@@ -390,6 +390,7 @@
     <ClInclude Include="include\Weapon\LaserWeapon.hpp" />
     <ClInclude Include="include\Weapon\GrappleWeapon.hpp" />
     <ClInclude Include="include\Weapon\BallisticWeapon.hpp" />
+    <ClInclude Include="include\Basic\BlueprintData.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\API\SFML\Audio\SoundFileFactory.inl" />

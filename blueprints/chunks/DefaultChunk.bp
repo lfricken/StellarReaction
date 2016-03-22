@@ -1,7 +1,5 @@
 {
     "ClassName": "ChunkData",
-    "title": "DefaultChunk",
-	"Copies": null,
     "IO": {
         "name": "BPCHUNKNAME",
         "courierList": [
@@ -50,28 +48,28 @@
     },
     "Modules": [
         {
-            "title": "DefaultReactor",
+            "title": "Reactor",
             "Position": [
                 -1,
                 0
             ]
         },
         {
-            "title": "DefaultCapacitor",
+            "title": "Capacitor",
             "Position": [
                 1,
                 0
             ]
         },
         {
-            "title": "DefaultThruster",
+            "title": "Thruster",
             "Position": [
                 0,
                 -1
             ]
         },
         {
-            "title": "DefaultStealth",
+            "title": "Stealth",
             "Position": [
                 3,
                 0

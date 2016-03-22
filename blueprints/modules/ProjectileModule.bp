@@ -1,6 +1,5 @@
 {
     "ClassName": "ProjectileModuleData",
-	"title": "ProjectileModuleData",
 	"baseDecor": {
 		"texName": "projectile/ballistic1.png",
 		"animSheetName": "projectile/ballistic1.acfg",

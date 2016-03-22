@@ -1,0 +1,23 @@
+{
+    "ClassName": "LaserWeaponData",
+    "beamColor": [
+        0,
+        255,
+        0,
+        255
+    ],
+    "startSound": {
+        "name": ""
+    },
+    "shotSound": {
+        "name": "laser1.wav"
+    },
+    "endSound": {
+        "name": ""
+    },
+    "energyConsumption": 10,
+    "damage": 200,
+    "shots": 10,
+	"shotDelay": 0.3,
+	"collisions": 1
+}

@@ -62,10 +62,9 @@ private:
 };
 
 
-struct ModuleData
+struct ModuleData : public BlueprintData
 {
 	ModuleData() :
-		title("defaultTitle"),
 		name("defaultName"),
 		collisionDamage(0),
 		cost(1),
@@ -74,11 +73,10 @@ struct ModuleData
 		fixComp(),
 		chunkParent(NULL)
 	{
-
+		title = "MODULE_DEFAULT_TITLE";
 	}
 
 	Chunk* chunkParent;
-	std::string title;//how the game refers to it
 	std::string name;//what gets displayed to player
 	Money cost;//how much does this cost?
 	int collisionDamage;//how much damage we apply to someone who collides with us

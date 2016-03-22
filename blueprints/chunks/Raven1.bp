@@ -77,70 +77,70 @@
 	],
     "Modules": [
         {
-            "title": "DefaultReactor",
+            "title": "Reactor",
             "Position": [
                 0,
                 2
             ]
         },
         {
-            "title": "Raven_Laser1",
+            "title": "LaserTurret",
             "Position": [
                 0,
                 1
             ]
         },
         {
-            "title": "Raven_Laser1",
+            "title": "LaserTurret",
             "Position": [
                 -2,
                 0
             ]
         },
         {
-            "title": "DefaultPlating",
+            "title": "Plating",
             "Position": [
                 0,
                 3
             ]
         },
         {
-            "title": "DefaultPlating",
+            "title": "Plating",
             "Position": [
                 -1,
                 0
             ]
         },
         {
-            "title": "DefaultCapacitor",
+            "title": "Capacitor",
             "Position": [
                 1,
                 0
             ]
         },
         {
-            "title": "Raven_Ballistic1",
+            "title": "BallisticTurret",
             "Position": [
                 2,
                 0
             ]
         },
 		{
-            "title": "DefaultRadar",
+            "title": "Radar",
             "Position": [
                 0,
                 0
             ]
 		},
         {
-            "title": "DefaultThruster",
+            "title": "Thruster",
             "Position": [
                 0,
                 -1
             ]
         },
         {
-            "title": "DefaultStealth",
+            "title": "Stealth",
             "Position": [
                 3,
                 0

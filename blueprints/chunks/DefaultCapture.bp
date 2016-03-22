@@ -1,7 +1,5 @@
 {
     "ClassName": "ChunkData",
-    "title": "DefaultCapture",
-	"Copies": null,
     "IO": {
         "name": "BPCHUNKNAME",
         "courierList": [
@@ -35,14 +33,14 @@
     },
     "Modules": [
         {
-            "title": "DefaultCapacitor",
+            "title": "Capacitor",
             "Position": [
                 0,
                 0
             ]
         },
 		{
-            "title": "DefaultCaptureArea",
+            "title": "CaptureArea",
             "Position": [
                 0,
                 0

@@ -1,8 +1,0 @@
-{
-    "ClassName": "BallisticWeaponData",
-    "title": "DefaultBallisticWeapon",
-	"projName": "DefaultProjectile",
-    "damage": 400,
-    "shots": 1,
-	"collisions": 2
-}

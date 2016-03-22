@@ -35,13 +35,13 @@ private:
 	Pool<Energy> m_energyPool;
 };
 
-struct ProjectileData
+struct ProjectileData : public BlueprintData
 {
 	ProjectileData() :
 		body(),
 		moduleData()
 	{
-		title = "NO_TITLE";
+		title = "PROJECTILE_DEFAULT_TITLE";
 		body.angularDampening = 0;
 		body.coords = b2Vec2(0, 5);
 		body.isBullet = true;
@@ -51,7 +51,6 @@ struct ProjectileData
 		body.startAwake = true;
 		lifetime = 0.5f;
 	}
-	std::string title;
 	PoolData<Missiles> missileData;
 	PoolData<Ballistic> ballisticData;
 	PoolData<Energy> energyData;

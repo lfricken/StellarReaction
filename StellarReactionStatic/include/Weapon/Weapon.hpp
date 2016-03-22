@@ -7,6 +7,7 @@
 #include "Globals.hpp"
 #include "SoundData.hpp"
 #include "ClassRegister.hpp"
+#include "BlueprintData.hpp"
 
 struct WeaponData;
 class FixtureComponent;
@@ -86,7 +87,7 @@ private:
 };
 
 
-struct WeaponData
+struct WeaponData : public BlueprintData
 {
 	WeaponData() :
 		energyConsumption(0),
@@ -104,6 +105,8 @@ struct WeaponData
 
 		parentName("")
 	{
+		title = "WEAPON_DEFAULT_TITLE";
+
 		weaponQuad.animSheetName = "weapons/laser1.acfg";
 		weaponQuad.texName = "weapons/laser1.png";
 		weaponQuad.layer = GraphicsLayer::ShipAppendagesUpper;
@@ -125,7 +128,7 @@ struct WeaponData
 	int collisions;//TODO works for projectiles atm, but not lasers
 	float range;//how far can this shoot
 
-	std::string parentName; //controller of weapon
+	std::string parentName; //controller of weapon TODO THIS LOOKS LIKE GARBAGE
 
 	QuadComponentData weaponQuad;
 

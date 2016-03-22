@@ -1,8 +1,0 @@
-{
-    "ClassName": "MissileWeaponData",
-    "title": "DefaultMissileWeapon",
-	"projName": "DefaultMissile",
-    "energyConsumption": 1,
-    "damage": 2,
-    "shots": 1
-}

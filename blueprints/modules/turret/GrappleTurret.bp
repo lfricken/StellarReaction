@@ -1,8 +1,6 @@
 {
     "ClassName": "TurretData",
-    "title": "GrappleTurret",
-    "Inherits": "DefaultShipModule",
-    "startWep": "DefaultGrappleWeapon",
+    "startWep": "GrappleWeapon",
     "baseDecor": {
         "texName": "turret/turret_base.png",
         "animSheetName": "turret/turret_base.acfg"

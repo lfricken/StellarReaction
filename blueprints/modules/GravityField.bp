@@ -1,0 +1,19 @@
+{
+    "ClassName": "GravityFieldData",
+	"fixComp": {
+		"offset": [
+			0,
+			0
+		],
+		"size": [
+			100,
+			0
+		],
+		"shape": "circle",
+		"density": 0,
+		"isSensor": true,
+		"colCat": "Trigger",
+		"colMask": "Trigger"
+	},
+	"mass" : 50
+}

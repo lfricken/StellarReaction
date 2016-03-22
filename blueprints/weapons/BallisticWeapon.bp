@@ -1,0 +1,7 @@
+{
+    "ClassName": "BallisticWeaponData",
+	"projName": "Ballistic",
+    "damage": 400,
+    "shots": 1,
+	"collisions": 2
+}

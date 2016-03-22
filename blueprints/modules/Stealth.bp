@@ -1,0 +1,8 @@
+{
+    "ClassName": "StealthData",
+  	"energyConsumption": 20,
+	"baseDecor": {
+		"texName": "plating/plating_base.png",
+		"animSheetName": "plating/plating_base.acfg"
+	}
+}

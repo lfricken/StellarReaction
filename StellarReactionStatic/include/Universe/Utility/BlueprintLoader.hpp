@@ -29,33 +29,37 @@ private:
 	/** Changing this file doesn't always trigger a recompile, you may need to manually do it!
 	**/
 	template <typename T>
-	void storeData(const std::string& rFile, std::map<std::string, sptr<const T> >& blueprints)//load that blueprint
+	void storeData(const std::string& fileName, const std::string& fullPath, std::map<std::string, sptr<const T> >& blueprints)//load that blueprint
 	{
-		std::ifstream stream(rFile, std::ifstream::binary);
+		std::ifstream stream(fullPath, std::ifstream::binary);
 		Json::Reader reader;
 		Json::Value root;
 		bool parsedSuccess = reader.parse(stream, root, false);
 
 		if(parsedSuccess)
-			blueprints[root["title"].asString()] = loadData<T>(root);
+		{
+			const std::string title = fileName;
+			blueprints[title] = loadData<T>(title, root);
+		}
 		else
 			std::cout << "\n" << FILELINE;
 	}
 	template <typename T>
-	sptr<const T> loadData(const Json::Value& root)
+	sptr<const T> loadData(const std::string& title, const Json::Value& root)
 	{
 		sptr<const T> spMod;
-		const std::string title = root["ClassName"].asString();
-		const T* instance = Deduce<T>::from(title);
+		const std::string className = root["ClassName"].asString();
+		const T* instance = Deduce<T>::from(className);
 
 		if(instance != NULL)//we derived it!
 		{
 			T* data = instance->clone();
+			data->title = title;
 			data->loadJson(root);
 			spMod.reset(data);
 		}
 		else
-			std::cout << "\n" << "Couldn't Find [" << title << "]" << FILELINE;
+			std::cout << "\n" << "Couldn't Find [" << className << "]" << FILELINE;
 
 		return spMod;
 	}
