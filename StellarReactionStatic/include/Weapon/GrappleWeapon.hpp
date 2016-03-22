@@ -31,6 +31,8 @@ struct GrappleWeaponData : public LaserWeaponData
 	GrappleWeaponData() :
 		LaserWeaponData()
 	{
+		weaponQuad.animSheetName = "weapons/GrappleWeapon.acfg";
+		weaponQuad.texName = "weapons/GrappleWeapon.png";
 		damage = 0;
 	}
 

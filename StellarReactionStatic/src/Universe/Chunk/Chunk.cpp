@@ -245,13 +245,13 @@ void Chunk::directive(std::map<Directive, bool>& rIssues, bool local)//send comm
 	{
 		for(auto it = afterburners.begin(); it != afterburners.end(); ++it)
 			(*it)->getAnimator().setAnimation("Thrust", 0.20f);
-		m_thrustNoiseIndex = game.getSound().playSound("Thruster.wav", 60, 20, 20, getBodyPtr()->GetWorldCenter(), true, true);
+		m_thrustNoiseIndex = game.getSound().playSound("Thruster.wav", 60, 20, 20, getBodyPtr()->GetPosition(), true, true);
 	}
 	if(startBoosting)
 	{
 		for(auto it = afterburners_boost.begin(); it != afterburners_boost.end(); ++it)
 			(*it)->getAnimator().setAnimation("Boost", 0.20f);
-		m_boostNoiseIndex = game.getSound().playSound("Afterburner.wav", 100, 20, 20, getBodyPtr()->GetWorldCenter, true, true);
+		m_boostNoiseIndex = game.getSound().playSound("Afterburner.wav", 100, 20, 20, getBodyPtr()->GetPosition(), true, true);
 	}
 
 

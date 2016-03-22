@@ -104,10 +104,10 @@ struct WeaponData : public BlueprintData
 	{
 		title = "WEAPON_DEFAULT_TITLE";
 
-		weaponQuad.animSheetName = "weapons/laser1.acfg";
-		weaponQuad.texName = "weapons/laser1.png";
+		weaponQuad.animSheetName = "weapons/LaserWeapon.acfg";
+		weaponQuad.texName = "weapons/LaserWeapon.png";
 		weaponQuad.layer = GraphicsLayer::ShipAppendagesUpper;
-		weaponQuad.dimensions = sf::Vector2f(128, 260);
+		weaponQuad.dimensions = sf::Vector2f(256, 256);
 		weaponQuad.permanentRot = -90.f;
 	}
 	Energy energyConsumption;//energy consumed per fire

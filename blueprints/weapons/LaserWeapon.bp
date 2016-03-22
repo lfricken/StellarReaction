@@ -6,11 +6,14 @@
         0,
         255
     ],
+	"weaponQuad": {
+		"dimensions": [128, 256]
+	},
     "startSound": {
         "name": ""
     },
     "shotSound": {
-        "name": "laser1.wav"
+        "name": "LaserWeapon.wav"
     },
     "endSound": {
         "name": ""
