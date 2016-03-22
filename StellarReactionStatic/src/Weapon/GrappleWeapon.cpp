@@ -60,18 +60,12 @@ void GrappleWeapon::postShot(const b2Vec2& center, const b2Vec2& aim, float radC
 	m_beam.setEnd(end);
 	m_beam.activate(m_showTime, m_beamWidth, m_beamColor);
 }
-
 void GrappleWeapon::postPhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation)
 {
 	LaserWeapon::postPhysUpdate(center, aim, radCCW, pBody, module_orientation);
 	if (!m_time.isTimeUp())
-	{
 		grappleTo();
-	}
-	//else
-		//target = NULL;
 }
-
 void GrappleWeapon::grappleTo()
 {
 	if (target != NULL)

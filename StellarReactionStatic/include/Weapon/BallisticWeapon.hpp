@@ -36,8 +36,8 @@ struct BallisticWeaponData : public WeaponData
 		energyConsumption = 1;///TODO SHOULD BE CONSUMING BALLISTIC ONLY, THIS IS JUST FOR TESTING
 		ballisticConsumption = 0;
 		missileConsumption = 0;
-		damage = 500;
-		shotDelay = 0.3f;
+		damage = 1;
+		shotDelay = 1.f;
 		shots = 1;
 		fireDelay = 1;
 		range = 45.0f;

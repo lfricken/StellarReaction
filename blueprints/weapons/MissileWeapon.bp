@@ -2,6 +2,6 @@
     "ClassName": "MissileWeaponData",
 	"projName": "Missile",
     "energyConsumption": 1,
-    "damage": 2,
+    "damage": 1,
     "shots": 1
 }

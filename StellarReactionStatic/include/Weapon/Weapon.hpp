@@ -62,7 +62,6 @@ protected:
 	float m_range;
 	int m_collisions;//how many collisions should we do? MODULE PENETRATION LOGIC
 	//TODO m_collisions is not used in the laser weapon type
-	std::string m_parentName;
 	/// <summary>
 	/// Damages the specified fixture (which has a module)
 	/// </summary>
@@ -90,20 +89,18 @@ private:
 struct WeaponData : public BlueprintData
 {
 	WeaponData() :
-		energyConsumption(0),
+		energyConsumption(1),
 		ballisticConsumption(0),
 		missileConsumption(0),
 
-		shots(5),
-		shotsInSpread(6),
+		shots(1),
+		shotsInSpread(1),
 		damage(50),
 
-		shotDelay(0.09f),
-		fireDelay(1.5f),
-		collisions(3),
-		range(45.f),
-
-		parentName("")
+		shotDelay(1.f),
+		fireDelay(1.f),
+		collisions(1),
+		range(45.f)
 	{
 		title = "WEAPON_DEFAULT_TITLE";
 
@@ -120,15 +117,13 @@ struct WeaponData : public BlueprintData
 	SoundData startSound, shotSound, endSound;
 
 	int shots;//how many shots per fire
-	int damage;//damage we do per shot
 	int shotsInSpread;// if this weapon is a shotgun, how many shots in its spread
+	int damage;//damage we do per shot
 
 	float shotDelay;//how much time between shots
 	float fireDelay;//reload time
 	int collisions;//TODO works for projectiles atm, but not lasers
 	float range;//how far can this shoot
-
-	std::string parentName; //controller of weapon TODO THIS LOOKS LIKE GARBAGE
 
 	QuadComponentData weaponQuad;
 

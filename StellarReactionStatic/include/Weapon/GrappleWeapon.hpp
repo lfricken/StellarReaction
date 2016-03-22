@@ -31,8 +31,11 @@ struct GrappleWeaponData : public LaserWeaponData
 	GrappleWeaponData() :
 		LaserWeaponData()
 	{
-
+		damage = 0;
 	}
+
+
+
 
 	virtual Weapon* generate() const
 	{

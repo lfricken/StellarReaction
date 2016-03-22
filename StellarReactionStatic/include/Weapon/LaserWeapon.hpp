@@ -34,7 +34,16 @@ struct LaserWeaponData : public WeaponData
 		beamColor(sf::Color::White),
 		showTime(0.03f)
 	{
-
+		energyConsumption = 1;///TODO SHOULD BE CONSUMING BALLISTIC ONLY, THIS IS JUST FOR TESTING
+		ballisticConsumption = 0;
+		missileConsumption = 0;
+		damage = 1;
+		shotDelay = 1.f;
+		shots = 1;
+		fireDelay = 1;
+		range = 45.0f;
+		weaponQuad.animSheetName = "weapons/LaserWeapon.acfg";
+		weaponQuad.texName = "weapons/LaserWeapon.png";
 	}
 
 	int beamWidth;

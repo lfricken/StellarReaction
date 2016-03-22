@@ -102,7 +102,7 @@ void Universe::loadLevel(const std::string& levelName, int localController, cons
 			}
 		}
 		else
-			cout << "\Chunks List Null.";
+			cout << "\nChunks List Null.";
 		/**HAZARD FIELDS**/
 		if(!root["HazardFields"].isNull())
 		{

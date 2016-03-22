@@ -77,6 +77,7 @@ Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp)
 
 	m_validOffsets = rData.validPos;
 
+	//Make a copy 
 	std::vector<sptr<ModuleData> > thisData;
 	for(auto it = rData.moduleData.begin(); it != rData.moduleData.end(); ++it)
 		thisData.push_back(sptr<ModuleData>((*it)->clone()));
@@ -239,19 +240,20 @@ void Chunk::directive(std::map<Directive, bool>& rIssues, bool local)//send comm
 	bool startBoosting = (rIssues[Directive::Up] && rIssues[Directive::Boost] && !m_wasBoosting);
 
 
+
 	if(startThrusting)
 	{
 		for(auto it = afterburners.begin(); it != afterburners.end(); ++it)
 			(*it)->getAnimator().setAnimation("Thrust", 0.20f);
-		m_thrustNoiseIndex = game.getSound().playSound("afterb1.wav", 60, 20, 20, getBodyPtr()->GetWorldCenter(), true, true);
+		m_thrustNoiseIndex = game.getSound().playSound("Thruster.wav", 60, 20, 20, getBodyPtr()->GetWorldCenter(), true, true);
 	}
-
 	if(startBoosting)
 	{
 		for(auto it = afterburners_boost.begin(); it != afterburners_boost.end(); ++it)
 			(*it)->getAnimator().setAnimation("Boost", 0.20f);
-		m_boostNoiseIndex = game.getSound().playSound("afterb2.wav", 100, 20, 20, getBodyPtr()->GetWorldCenter(), true, true);
+		m_boostNoiseIndex = game.getSound().playSound("Afterburner.wav", 100, 20, 20, getBodyPtr()->GetWorldCenter, true, true);
 	}
+
 
 
 	if(!rIssues[Directive::Up])
@@ -260,7 +262,6 @@ void Chunk::directive(std::map<Directive, bool>& rIssues, bool local)//send comm
 			(*it)->getAnimator().setAnimation("Default", 1.0f);
 		m_thrustNoiseIndex = game.getSound().stopSound(m_thrustNoiseIndex);
 	}
-
 	if(!rIssues[Directive::Up] || !rIssues[Directive::Boost])
 	{
 		for(auto it = afterburners_boost.begin(); it != afterburners_boost.end(); ++it)
