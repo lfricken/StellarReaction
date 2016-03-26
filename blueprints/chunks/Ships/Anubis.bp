@@ -1,11 +1,5 @@
 {
     "ClassName": "ChunkData",
-    "bodyComp": {
-        "rotation": 0,
-        "isDynamic": true,
-        "isBullet": false,
-        "startAwake": true
-    },
     "zoomData": {
         "Max": 64,
         "Value": 1

@@ -132,22 +132,13 @@ int BodyComponent::getTeam() const
 }
 void BodyComponentData::loadJson(const Json::Value& root)
 {
-	if(!root["coords"].isNull())
-	{
-		coords.x = root["coords"][0].asFloat();
-		coords.y = root["coords"][1].asFloat();
-	}
-	if(!root["rotation"].isNull())
-		rotation = root["rotation"].asFloat();
-	if(!root["isDynamic"].isNull())
-		isDynamic = root["isDynamic"].asBool();
-	if(!root["isBullet"].isNull())
-		isBullet = root["isBullet"].asBool();
-	if(!root["startAwake"].isNull())
-		startAwake = root["startAwake"].asBool();
-
-	linearDampening = JSON::get(root, "LinearDampening", linearDampening);
-	angularDampening = JSON::get(root, "AngularDampening", angularDampening);
+	GETJSON(coords);
+	GETJSON(rotation);
+	GETJSON(isDynamic);
+	GETJSON(isBullet);
+	GETJSON(startAwake);
+	GETJSON(linearDampening);
+	GETJSON(angularDampening);
 }
 
 

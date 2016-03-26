@@ -4,7 +4,7 @@ using namespace std;
 
 Health::Health(const HealthData& rData) : Pool(rData)
 {
-	m_armor = rData.armor;
+	m_armor = rData.Armor;
 }
 Health::~Health()
 {
@@ -55,6 +55,5 @@ void HealthData::loadJson(const Json::Value& root)
 {
 	PoolData::loadJson<int>(root);
 
-	if(!root["Armor"].isNull())
-		armor = static_cast<int>(root["Armor"].asFloat());
+	GETJSON(Armor);
 }

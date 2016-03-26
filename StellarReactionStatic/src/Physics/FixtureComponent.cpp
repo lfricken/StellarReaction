@@ -8,12 +8,6 @@ using namespace std;
 
 void FixtureComponentData::loadJson(const Json::Value& root)
 {
-	if(!root["offset"].isNull())
-	{
-		offset.x = root["offset"][0].asFloat();
-		offset.y = root["offset"][1].asFloat();
-	}
-
 	if(!root["shape"].isNull())
 	{
 		string temp = root["shape"].asString();
@@ -28,12 +22,8 @@ void FixtureComponentData::loadJson(const Json::Value& root)
 		}
 	}
 
-	if(!root["size"].isNull())
-	{
-		size.x = root["size"][0].asFloat();
-		size.y = root["size"][1].asFloat();
-	}
-
+	GETJSON(offset);
+	GETJSON(size);
 	GETJSON(density);
 	GETJSON(friction);
 	GETJSON(restitution);

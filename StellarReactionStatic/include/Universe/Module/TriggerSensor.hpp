@@ -30,8 +30,8 @@ struct TriggerSensorData : public SensorData
 
 	}
 
-	float maxDamage;
-	float minDamage;
+	int maxDamage;
+	int minDamage;
 	float period;
 
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const

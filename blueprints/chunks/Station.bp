@@ -2,9 +2,7 @@
     "ClassName": "ChunkData",
     "bodyComp": {
         "rotation": 45,
-        "isDynamic": false,
-        "isBullet": false,
-        "startAwake": true
+        "isDynamic": false
     },
     "moduleData": [
         {

@@ -96,9 +96,9 @@ struct ChunkData : public GameObjectData, public BlueprintData
 	{
 		title = "CHUNK_DEFAULT_TITLE";
 
-		zoomData.startMin = 1;
-		zoomData.startValue = 1;
-		zoomData.startMax = 128;
+		zoomData.Min = 1;
+		zoomData.Value = 1;
+		zoomData.Max = 128;
 
 		//TODO: for 
 		for(float i = -5; i < 5; i += 0.5)

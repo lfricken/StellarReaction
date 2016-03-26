@@ -1,8 +1,8 @@
 {
     "ClassName": "ChunkData",
     "bodyComp": {
-		"AngularDampening": 0.0,
-		"LinearDampening": 0.0
+		"linearDampening": 0.2,
+		"angularDampening": 0.2
     },
 	"hullSpriteData": {
 		"dimensions": [1024, 1024],

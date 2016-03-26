@@ -2,6 +2,7 @@
 
 #include "stdafx.hpp"
 #include "Globals.hpp"
+#include "JSON.hpp"
 
 struct ModuleData;
 struct ProjectileData;
@@ -48,8 +49,13 @@ private:
 	sptr<const T> loadData(const std::string& title, const Json::Value& root)
 	{
 		sptr<const T> spMod;
-		const std::string className = root["ClassName"].asString();
-		const T* instance = Deduce<T>::from(className);
+		std::string ClassName = "garbage";
+		GETJSON(ClassName);
+		
+		if(ClassName == "garbage")
+			std::cout << "\nClassName not found in [" << title << "].\n" << FILELINE;
+
+		const T* instance = Deduce<T>::from(ClassName);
 
 		if(instance != NULL)//we derived it!
 		{
@@ -59,7 +65,7 @@ private:
 			spMod.reset(data);
 		}
 		else
-			std::cout << "\n" << "Can't Deduce Type [" << className << "]\n" << FILELINE;
+			std::cout << "\n" << "Can't Deduce Type [" << ClassName << "]\n" << FILELINE;
 
 		return spMod;
 	}

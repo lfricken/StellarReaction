@@ -1,6 +1,7 @@
 #include "IOComponent.hpp"
 #include "Globals.hpp"
 #include "Universe.hpp"
+#include "JSON.hpp"
 
 using namespace std;
 
@@ -26,8 +27,7 @@ int IOComponent::getPosition() const
 }
 void IOComponentData::loadJson(const Json::Value& root)
 {
-	if(!root["name"].isNull())
-		name = root["name"].asString();
+	GETJSON(name);
 	if(!root["courierList"].isNull())
 	{
 		const Json::Value courierListJson = root["courierList"];

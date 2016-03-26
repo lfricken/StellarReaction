@@ -339,24 +339,40 @@ void Game::loadWindow(const std::string& windowFile)
 		WindowInitData()
 		{
 			windowName = "FIXME";
-			windowMode = "windowed";
+			windowed = true;
+
 			mode = sf::VideoMode(640, 640, 32);
+
 			antiAliasLevel = 0;
 			smoothTextures = false;
-			blurEnabled = false;
+
 			vSinc = false;
 			targetFPS = 10;
 		}
 		std::string windowName;//name of window to display
-		std::string defaultFont;//font file
-		bool windowMode;//windowed vs fullscreen
+		bool windowed;//windowed vs fullscreen
+
 		sf::VideoMode mode;
+
 		int antiAliasLevel;
 		bool smoothTextures;
-		std::string motionBlurShader;
-		bool blurEnabled;
+
 		bool vSinc;
 		int targetFPS;
+
+		void loadJson(const Json::Value& root)
+		{
+			GETJSON(windowName);
+			GETJSON(windowed);
+
+			mode = sf::VideoMode(root["resX"].asInt(), root["resY"].asInt(), root["color"].asInt());
+			
+			GETJSON(antiAliasLevel);
+			GETJSON(smoothTextures);
+
+			GETJSON(vSinc);
+			GETJSON(targetFPS);
+		}
 	};
 	WindowInitData windowData;
 
@@ -367,28 +383,14 @@ void Game::loadWindow(const std::string& windowFile)
 	bool parsedSuccess = reader.parse(test, root, false);
 
 	if(!parsedSuccess)
-	{
 		std::cout << "\nParse Failed [" << windowFile << "]." << std::endl << FILELINE;
-		///eRROR LOG
-	}
 	else
-	{
-		windowData.windowName = root["windowName"].asString();
-		windowData.defaultFont = root["defaultFont"].asString();
-		windowData.windowMode = root["windowed"].asBool();
-		windowData.mode = sf::VideoMode(root["resX"].asInt(), root["resY"].asInt(), root["color"].asInt());
-		windowData.antiAliasLevel = root["antiAliasLevel"].asInt();
-		windowData.smoothTextures = root["smoothTextures"].asBool();
-		windowData.motionBlurShader = root["motionBlurFile"].asString();
-		windowData.blurEnabled = root["motionBlurEnabled"].asBool();
-		windowData.vSinc = root["vSinc"].asBool();
-		windowData.targetFPS = root["targetFPS"].asInt();
-	}
+		windowData.loadJson(root);
 
 
 	settings.antialiasingLevel = windowData.antiAliasLevel;
 	int style;//the sf::style enum has no name!!
-	if(windowData.windowMode)//windowed or fullscreen?
+	if(windowData.windowed)//windowed or fullscreen?
 	{
 		style = sf::Style::Default;
 	}

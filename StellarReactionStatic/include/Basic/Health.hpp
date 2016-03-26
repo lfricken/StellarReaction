@@ -7,14 +7,14 @@ struct HealthData : public PoolData<int>
 {
 	HealthData() :
 		PoolData(),
-		armor(0)
+		Armor(0)
 	{
-		startMax = 1000;
-		startValue = 1000;
-		startMin = 0;
+		Max = 100;
+		Value = 100;
+		Min = 0;
 	}
 
-	int armor;//how much damage is subtracted
+	int Armor;//how much damage is subtracted
 
 	virtual void loadJson(const Json::Value& root);
 };
