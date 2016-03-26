@@ -133,14 +133,20 @@ void Weapon::postPhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 rad
 		}
 	}
 }
+void Weapon::damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmount, int ioCausePos)
+{
+	sf::Packet packet;
+	packet << damageAmount << ioCausePos;
+
+	Message mess;
+	mess.reset(ioTargetPos, "damage", packet, 0.f, false);
+
+	pMessageReciever->recieve(mess);
+}
 void Weapon::damage(b2Fixture* pFix, int damage)
 {
 	FixtureComponent& rComp = *static_cast<FixtureComponent*>(pFix->GetUserData());
-	sf::Packet packet;
-	packet << (m_damage / m_shots) << m_pTempParent->getIOPos();
-	Message mess;
-	mess.reset(rComp.getIOPos(), "damage", packet, 0.f, false);
-	game.getUniverse().getUniverseIO().recieve(mess);
+	Weapon::damage(&game.getUniverse().getUniverseIO(), rComp.getIOPos(), (m_damage / m_shots), m_pTempParent->getIOPos());
 }
 QuadComponent* Weapon::getDecor()
 {

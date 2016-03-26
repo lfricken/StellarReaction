@@ -49,7 +49,7 @@ public:
 	/// Look at laser and projectile weapon.
 	/// </summary>
 
-	
+	static void damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmount, int ioCausePos);
 	virtual void postShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation) = 0;
 	QuadComponent* getDecor();
 
