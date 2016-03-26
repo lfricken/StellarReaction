@@ -2,7 +2,7 @@
     "ClassName": "ChunkData",
     "zoomData": {
         "Max": 64,
-        "Value": 1
+        "Value": 16
     },
 	"hullSpriteData": {
 		"dimensions": [2200, 2000],

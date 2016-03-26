@@ -1,7 +1,7 @@
 {
     "ClassName": "RadarData",
 	"Name": "Sensor thing",
-	"zoomAddition": 20,
+	"zoomAddition": 16,
 	"baseDecor": {
 		"texName": "radar/radar_base.png",
 		"animSheetName": "radar/radar_base.acfg"
