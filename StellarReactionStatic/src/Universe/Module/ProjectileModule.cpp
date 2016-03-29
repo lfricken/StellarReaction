@@ -1,8 +1,7 @@
 #include "ProjectileModule.hpp"
+#include "Weapon.hpp"
 
 using namespace std;
-
-
 
 void ProjectileModuleData::loadJson(const Json::Value& root)
 {
@@ -73,12 +72,7 @@ bool ProjectileModule::shouldTerminate() const
 }
 void ProjectileModule::damage(FixtureComponent* pFix, int damage)
 {
-	FixtureComponent& rComp = *pFix;
-	sf::Packet packet;
-	packet << m_damage << m_fix.getIOPos();
-	Message mess;
-	mess.reset(pFix->getIOPos(), "damage", packet, 0.f, false);
-	game.getUniverse().getUniverseIO().recieve(mess);
+	Weapon::damage(&game.getUniverse().getUniverseIO(), pFix->getIOPos(), m_damage, m_fix.getIOPos());
 }
 void ProjectileModule::input(std::string rCommand, sf::Packet rData)
 {

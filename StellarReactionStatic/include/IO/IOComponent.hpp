@@ -32,7 +32,7 @@ public:
 
 	
 	/// <summary>
-	/// Takes a function to call when an message has been sent to us, such as "damage"
+	/// Takes a function to call when an message has been sent to us, such as damage
 	/// </summary>
 	/// <param name="rData">The r data.</param>
 	/// <param name="func">The function.</param>

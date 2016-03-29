@@ -5,6 +5,7 @@
 #include "Reactor.hpp"
 #include "Universe.hpp"
 #include "BlueprintLoader.hpp"
+#include "Weapon.hpp"
 #include <stdio.h>
 
 using namespace std;
@@ -45,11 +46,8 @@ TEST(ReactorTest, shipMovesOnDeath)
 	b2Vec2 origPos = chunkBodyPtr->GetPosition();
 
 	//destroy the reactor
-	sf::Packet packet;
-	packet << 2000 << testChunk->getModuleList()[0]->getFixtureComponent().getIOPos();
-	Message mess;
-	mess.reset(testChunk->getModuleList()[0]->getFixtureComponent().getIOPos(), "damage", packet, 0.f, false);
-	game.getUniverse().getUniverseIO().recieve(mess);
+	int pos = testChunk->getModuleList()[0]->getFixtureComponent().getIOPos();
+	Weapon::damage(&game.getUniverse().getUniverseIO(), pos, 1000, pos);
 
 
 	game.runTicks(60);
@@ -91,13 +89,9 @@ TEST(ReactorTest, shipHealsOnDeath)
 	b2Vec2 origPos = chunkBodyPtr->GetPosition();
 
 	//destroy the reactor
-	sf::Packet packet;
-	packet << 1000 << testChunk->getModuleList()[0]->getFixtureComponent().getIOPos();
-	Message mess;
-	mess.reset(testChunk->getModuleList()[0]->getFixtureComponent().getIOPos(), "damage", packet, 0.f, false);
-	game.getUniverse().getUniverseIO().recieve(mess);
+	Weapon::damage(&game.getUniverse().getUniverseIO(), testChunk->getModuleList()[0]->getFixtureComponent().getIOPos(), 1000, testChunk->getModuleList()[0]->getFixtureComponent().getIOPos());
 
-	game.runTicks(30);
+	game.runTicks(10);
 
 	ASSERT_TRUE(dynamic_cast<ShipModule*>(testChunk->getModuleList()[0].get())->isFunctioning());
 
@@ -134,11 +128,7 @@ TEST(ReactorTest, debrisShouldDisappearAfter3Seconds)
 	b2Vec2 origPos = chunkBodyPtr->GetPosition();
 
 	//destroy the reactor
-	sf::Packet packet;
-	packet << 2000 << testChunk->getModuleList()[0]->getFixtureComponent().getIOPos();
-	Message mess;
-	mess.reset(testChunk->getModuleList()[0]->getFixtureComponent().getIOPos(), "damage", packet, 0.f, false);
-	game.getUniverse().getUniverseIO().recieve(mess);
+	Weapon::damage(&game.getUniverse().getUniverseIO(), testChunk->getModuleList()[0]->getFixtureComponent().getIOPos(), 1000, testChunk->getModuleList()[0]->getFixtureComponent().getIOPos());
 
 	game.runTicks(30);
 

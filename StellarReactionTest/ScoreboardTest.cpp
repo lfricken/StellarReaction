@@ -3,6 +3,7 @@
 #include "Universe.hpp"
 #include "Scoreboard.hpp"
 #include "Game.hpp"
+#include "Weapon.hpp"
 #include "Stealth.hpp"
 
 extern Game game;
@@ -54,11 +55,8 @@ TEST(ScoreboardTest, increaseScore)
 	//game.getUniverse().getBlueprints().loadBlueprints("blueprints/");
 	//game.getUniverse().getBlueprints().storeChunk("Asteroid.bp");
 
-	sf::Packet packet;
-	packet << 1000 << testChunk->getModuleList()[0]->getFixtureComponent().getIOPos();
-	Message mess;
-	mess.reset(testChunk->getModuleList()[0]->getFixtureComponent().getIOPos() , "damage", packet, 0.f, false);
-	game.getUniverse().getUniverseIO().recieve(mess);
+	int pos = testChunk->getModuleList()[0]->getFixtureComponent().getIOPos();
+	Weapon::damage(&game.getUniverse().getUniverseIO(), pos, 1000, pos);
 
 	game.runTicks(1);
 

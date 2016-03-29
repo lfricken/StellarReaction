@@ -1,6 +1,7 @@
 #include "TriggerSensor.hpp"
 #include "BodyComponent.hpp"
 #include "FixtureComponent.hpp"
+#include "Weapon.hpp"
 
 void TriggerSensorData::loadJson(const Json::Value& root)
 {
@@ -37,11 +38,8 @@ void TriggerSensor::prePhysUpdate()
 				damageAmount = m_maxDamage;
 			if (damageAmount < m_minDamage)
 				damageAmount = m_minDamage;
-			sf::Packet packet;
-			packet << damageAmount << this->getFixtureComponent().getIOPos();
-			Message mess;
-			mess.reset((*it)->getIOPos(), "damage", packet, 0.f, false);
-			game.getUniverse().getUniverseIO().recieve(mess);
+
+			Weapon::damage(&game.getUniverse().getUniverseIO(), (*it)->getIOPos(), damageAmount, getFixtureComponent().getIOPos());
 		}
 		m_damageTimer.setCountDown(m_period);
 		m_damageTimer.restartCountDown();

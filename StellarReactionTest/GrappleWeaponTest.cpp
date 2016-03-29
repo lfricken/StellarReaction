@@ -81,12 +81,9 @@ TEST(GrappleTest, GrappleShip)
 
 
 
-	////destroy the reactor
-	//sf::Packet packet;
-	//packet << 1000 << testChunk->getModuleList()[0]->getFixtureComponent().getIOPos();
-	//Message mess;
-	//mess.reset(testChunk->getModuleList()[0]->getFixtureComponent().getIOPos(), "damage", packet, 0.f, false);
-	//game.getUniverse().getUniverseIO().recieve(mess);
+	////destroy the reactor // use Weapon::damage
+	//int pos = testChunk->getModuleList()[0]->getFixtureComponent().getIOPos();
+	//Weapon::damage(&game.getUniverse().getUniverseIO(), pos, 1000, pos);
 
 
 	//game.runTicks(30);

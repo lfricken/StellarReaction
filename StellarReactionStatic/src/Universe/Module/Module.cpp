@@ -2,6 +2,8 @@
 
 #include "Controller.hpp"
 
+#include "Weapon.hpp"
+
 using namespace std;
 
 void ModuleData::loadJson(const Json::Value& root)
@@ -48,11 +50,7 @@ void Module::setAim(const b2Vec2& rTarget)
 }
 void Module::startContactCB(FixtureComponent* pOther)
 {
-	sf::Packet damagePacket;
-	damagePacket << m_collisionDamage << m_io.getPosition();
-	Message damageMessage;
-	damageMessage.reset(pOther->getIOPos(), "damage", damagePacket, 0.f, false);
-	game.getUniverse().getUniverseIO().recieve(damageMessage);
+	Weapon::damage(&game.getUniverse().getUniverseIO(), pOther->getIOPos(), m_collisionDamage, m_io.getPosition());
 }
 void Module::endContactCB(FixtureComponent* pOther)
 {
@@ -102,7 +100,10 @@ void Module::input(std::string rCommand, sf::Packet rData)
 		rData >> name;
 		m_fix.setStore(name);
 	}
-	if(rCommand == "damage"){}//dont spam console!
+	if(rCommand == "damage")//dont spam console!
+	{
+	
+	}
 	else
 		cout << "\nCommand [" << rCommand << "] not found in [" << m_io.getName() << "]." << FILELINE;
 }
