@@ -19,9 +19,9 @@
         "name": ""
     },
     "energyConsumption": 10,
-    "damage": 1,
-    "shots": 10,
-	"fireDelay": 5,
-	"shotDelay": 0.3,
+    "damage": 12,
+    "shots": 4,
+	"fireDelay": 3,
+	"shotDelay": 0.1,
 	"collisions": 1
 }

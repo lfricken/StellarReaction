@@ -28,7 +28,7 @@
     },
     "Modules": [
 			{
-			"title": "ProjectileModule",
+			"title": "MissileModule",
 			"Position": [
 				0,
 				0

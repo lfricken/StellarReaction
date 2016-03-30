@@ -91,7 +91,7 @@
             ]
         },
         {
-            "title": "BallisticTurret",
+            "title": "LaserTurret",
             "Position": [
                 2,
                 0

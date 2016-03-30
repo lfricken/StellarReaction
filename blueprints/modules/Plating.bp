@@ -5,7 +5,7 @@
 		"animSheetName": "plating/plating_base.acfg"
 	},
 	"health": {
-		"Armor": 80
+		"Armor": 20
 	},
 	"cost": 10
 }

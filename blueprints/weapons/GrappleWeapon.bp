@@ -1,5 +1,6 @@
 {
     "ClassName": "GrappleWeaponData",
+	"damage": 0,
     "beamColor": [
         200,
         0,

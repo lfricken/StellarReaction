@@ -15,7 +15,7 @@ Missile::~Missile()
 void Missile::missileLaunch(b2Vec2 rStart, BodyComponent* target, float module_orientation, float init_velocity, float acceleration, float max_velocity, int damage, const FixtureComponent* pParent, int collisions)
 {
 	m_pTarget = target;
-	m_acceleration = acceleration;
+	m_acceleration = acceleration * 2;
 	m_maxVelocity = max_velocity;
 
 	m_inPlay = true;
@@ -62,7 +62,7 @@ void Missile::prePhysUpdate()
 			if(diffObjectiveAngle < 0)
 				mod = -1;
 
-			float torque = 0.09f*bod.GetMass()*mod;
+			float torque = 30.f*mod*bod.GetInertia();
 
 			bod.ApplyTorque(torque, true);
 

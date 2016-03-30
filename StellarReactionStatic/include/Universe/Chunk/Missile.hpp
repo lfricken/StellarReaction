@@ -30,8 +30,8 @@ struct MissileData : ProjectileData
 	MissileData()
 	{
 		title = "missile_projectile";
-		body.linearDampening = 0.7f;
-		body.angularDampening = 2.7f;
+		body.linearDampening = 1.7f;
+		body.angularDampening = 6.7f;
 	}
 
 	virtual Missile* generate() const

@@ -1,0 +1,26 @@
+{
+    "ClassName": "ProjectileModuleData",
+	"baseDecor": {
+		"texName": "projectile/missile1.png",
+		"animSheetName": "projectile/missile1.acfg",
+		"dimensions": [
+			256,
+			64
+		]
+	},
+	"fixComp": {
+		"offset": [
+			0,
+			0
+		],
+		"shape": "rectangle",
+		"size": [
+			1.0,
+			0.25
+		],
+		"colCat": "Projectile",
+		"colMask": "Projectile"	,
+		"density": 0.25,
+		"isSensor": true
+	}
+}
