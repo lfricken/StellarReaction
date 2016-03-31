@@ -6,8 +6,6 @@ RayCastCallback::RayCastCallback()
 {
 	m_colMask = static_cast<uint16_t>(Mask::None);//by default, collide with nothing
 	m_pIgnoreBody = NULL;
-	m_latest.pFixture = NULL;
-	m_latest.point = b2Vec2(-1,-1);
 }
 RayCastCallback::~RayCastCallback()
 {
@@ -15,16 +13,15 @@ RayCastCallback::~RayCastCallback()
 }
 float32 RayCastCallback::ReportFixture(b2Fixture* pFixture, const b2Vec2& point, const b2Vec2& normal, float32 fraction)
 {
-	b2Body* pBody = pFixture->GetBody();
-	if(m_pIgnoreBody!=pBody && fraction<=m_latest.fraction && !pFixture->IsSensor() && m_colMask&pFixture->GetFilterData().categoryBits)
+	if(m_pIgnoreBody != pFixture->GetBody() && !pFixture->IsSensor() && (m_colMask & pFixture->GetFilterData().categoryBits))
 	{
-		m_latest.pFixture = pFixture;
-		m_latest.point = point;
-		m_latest.fraction = fraction;
-		return fraction;
+		RayData data;
+		data.pFixture = pFixture;
+		data.point = point;
+		m_collisions[fraction] = data;
 	}
-	else
-		return m_latest.fraction;
+
+	return 1.f;
 }
 void RayCastCallback::setIgnoreBody(b2Body* pBody)
 {
@@ -38,13 +35,11 @@ void RayCastCallback::removeMask(Mask mask)
 {
 	m_colMask &= ~static_cast<uint16_t>(mask);//and it with the bitwise negation
 }
-const RayData& RayCastCallback::getLatest() const
+const Map<float, RayData>& RayCastCallback::getLatest() const
 {
-	return m_latest;
+	return m_collisions;
 }
 void RayCastCallback::reset()
 {
-	m_latest.point = b2Vec2(0,0);
-	m_latest.pFixture = NULL;
-	m_latest.fraction = 1.f;
+	m_collisions.clear();
 }
