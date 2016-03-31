@@ -97,8 +97,8 @@ sf::Vector2f Draggable::getClosestPosition(const sf::Vector2f& rCurrent)
 {
 	sf::Vector2f gridHalf(m_gridSize.x / 2, m_gridSize.y / 2);
 	sf::Vector2f calculated = (rCurrent + gridHalf);
-	calculated.x = static_cast<int>(calculated.x) / static_cast<int>(m_gridSize.x);
-	calculated.y = static_cast<int>(calculated.y) / static_cast<int>(m_gridSize.y);
+	calculated.x = static_cast<float>(static_cast<int>(calculated.x) / static_cast<int>(m_gridSize.x));
+	calculated.y = static_cast<float>(static_cast<int>(calculated.y) / static_cast<int>(m_gridSize.y));
 
 	calculated.x *= m_gridSize.x;
 	calculated.y *= m_gridSize.y;

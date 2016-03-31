@@ -14,14 +14,15 @@ public:
 	GrappleWeapon(const GrappleWeaponData& rData);
 	virtual ~GrappleWeapon();
 
-	void preShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation);
-	void postShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation);
 	void postPhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation);
 protected:
+	virtual Vec2 collisionHandle(const RayData& data);
 private:
 	void grappleTo();
-	Timer m_time;
-	FixtureComponent* target;
+
+	float m_pullStrength;
+	Timer m_grappleTimer;
+	FixtureComponent* m_target;
 };
 
 
@@ -29,14 +30,17 @@ private:
 struct GrappleWeaponData : public LaserWeaponData
 {
 	GrappleWeaponData() :
-		LaserWeaponData()
+		LaserWeaponData(),
+		pullStrength(100),
+		pullTime(2)
 	{
 		weaponQuad.animSheetName = "weapons/GrappleWeapon.acfg";
 		weaponQuad.texName = "weapons/GrappleWeapon.png";
 		damage = 0;
 	}
 
-
+	float pullStrength;
+	float pullTime;
 
 
 	virtual Weapon* generate() const

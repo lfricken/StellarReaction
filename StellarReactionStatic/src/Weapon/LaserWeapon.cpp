@@ -42,8 +42,8 @@ void LaserWeapon::preShot(const b2Vec2& center, const b2Vec2& aim, float radCCW,
 {
 	m_ray.setIgnoreBody(m_pBody);
 
-	float mult = m_range/leon::Dist(aim, center);
-	b2Vec2 end = b2Vec2(center.x+(aim.x-center.x)*mult, center.y+(aim.y-center.y)*mult);
+	float mult = m_range / leon::Dist(aim, center);
+	b2Vec2 end = b2Vec2(center.x + (aim.x - center.x)*mult, center.y + (aim.y - center.y)*mult);
 	game.getUniverse().getWorld().RayCast(&m_ray, center, end);
 }
 /// <summary>
@@ -54,23 +54,32 @@ void LaserWeapon::preShot(const b2Vec2& center, const b2Vec2& aim, float radCCW,
 /// <param name="radCCW">The RAD CCW.</param>
 void LaserWeapon::postShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation)
 {
-	RayData data = m_ray.getLatest();
-	m_ray.reset();
+	const Map<float, RayData>& collisions = m_ray.getLatest();
+
 	b2Vec2 end;
 
-	if(data.pFixture != NULL)
+	if(collisions.empty())
 	{
-		end = data.point;
-		damage(data.pFixture, m_damage);
+		float mult = m_range / leon::Dist(aim, center);
+		end = b2Vec2(center.x + (aim.x - center.x)*mult, center.y + (aim.y - center.y)*mult);
 	}
 	else
 	{
-		float mult = m_range/leon::Dist(aim, center);
-		end = b2Vec2(center.x+(aim.x-center.x)*mult, center.y+(aim.y-center.y)*mult);
+		int i = 0;
+		for(auto it = collisions.cbegin(); i < m_collisions && it != collisions.cend(); ++it, ++i)
+		{
+			end = collisionHandle(it->second);
+		}
 	}
 
 	m_beam.setStart(center);
 	m_beam.setEnd(end);
 	m_beam.activate(m_showTime, m_beamWidth, m_beamColor);
-}
 
+	m_ray.reset();
+}
+Vec2 LaserWeapon::collisionHandle(const RayData& data)
+{
+	damage(data.pFixture, m_damage);
+	return data.point;
+}

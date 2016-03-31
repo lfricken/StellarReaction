@@ -1,6 +1,14 @@
 {
     "ClassName": "LaserWeaponData",
-    "beamColor": [
+	
+    "energyConsumption": 10,
+	"fireDelay": 2,
+    "damage": 16,
+	
+    "shots": 4,
+	"shotDelay": 0.1,
+
+	"beamColor": [
         0,
         255,
         0,
@@ -17,11 +25,5 @@
     },
     "endSound": {
         "name": ""
-    },
-    "energyConsumption": 10,
-    "damage": 12,
-    "shots": 4,
-	"fireDelay": 3,
-	"shotDelay": 0.1,
-	"collisions": 1
+    }
 }

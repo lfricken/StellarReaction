@@ -272,8 +272,8 @@ void Player::updateView()
 		}
 
 		int index = 0;
-		float offset_x = 2.40;
-		float offset_y = -1.20;
+		float offset_x = 2.40f;
+		float offset_y = -1.20f;
 		m_radarsize = 0;
 		for (auto it = goList.begin(); it != goList.end(); ++it)
 		{

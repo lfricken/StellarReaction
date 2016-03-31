@@ -16,6 +16,8 @@ public:
 	void preShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation);
 	void postShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation);
 protected:
+	virtual Vec2 collisionHandle(const RayData& data);
+
 	RayCastCallback m_ray;
 	int m_beamWidth;
 	sf::Color m_beamColor;

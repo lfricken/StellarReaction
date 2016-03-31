@@ -40,7 +40,7 @@ const AnimSet* AnimAlloc::request(const std::string& rAnimFile)
 		{
 
 			spAnimSet->setName = rAnimFile;
-			spAnimSet->tileSize = sf::Vector2f(root["texTileSize"][0].asInt(), root["texTileSize"][1].asInt());
+			spAnimSet->tileSize = sf::Vector2f((float)root["texTileSize"][0].asInt(), (float)root["texTileSize"][1].asInt());
 			const Json::Value stateList = root["stateList"];
 
 			int counter = 0;

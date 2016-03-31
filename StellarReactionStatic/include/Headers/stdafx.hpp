@@ -42,10 +42,16 @@ template<typename T>
 using sptr = std::shared_ptr<T>;
 
 template<typename T>
-using wp = std::weak_ptr<T>;
+using Sp = std::shared_ptr<T>;
+
+template<typename T>
+using Wp = std::weak_ptr<T>;
 
 template<typename T>
 using List = std::vector<T>;
+
+template<typename T, typename R>
+using Map = std::map<T, R>;
 
 using Vec2 = b2Vec2;
 

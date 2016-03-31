@@ -19,8 +19,8 @@ protected:
 	std::string m_projName;//bp name of projectile
 	float m_velocity;//velocity of projectiles
 	float m_acceleration;
-	int m_max_velocity;
-	int m_init_velocity;
+	float m_max_velocity;
+	float m_init_velocity;
 private:
 };
 

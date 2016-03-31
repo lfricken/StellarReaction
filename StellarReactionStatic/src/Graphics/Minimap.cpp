@@ -23,7 +23,7 @@ Minimap::~Minimap()
 }
 void Minimap::setDot(b2Vec2 center, int index)
 {
-	if (index >= map_points.size())
+	if(index >= (signed)map_points.size())
 	{
 		DecorQuadData temp;
 		temp.quadComp.dimensions = sf::Vector2f(10, 10);
@@ -39,9 +39,9 @@ void Minimap::setDot(b2Vec2 center, int index)
 }
 void Minimap::cleanMap(int index)
 {
-	if (index < map_points.size())
+	if(index < (signed)map_points.size())
 	{
-		for (int i = index; i < map_points.size(); i++)
+		for(int i = index; i < (signed)map_points.size(); i++)
 		{
 			map_points[i]->setPosition(b2Vec2(-10.0f, 10.0f));
 		}
