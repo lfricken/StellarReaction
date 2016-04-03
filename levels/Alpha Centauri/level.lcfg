@@ -75,6 +75,12 @@
 			30,
 			30
 		]
+	}, {
+		"Title": "BlackHole",
+		"Coordinates": [
+			50,
+			0
+		]
 	}],
 	"Background1": {
 		"dimensions": [600, 600],

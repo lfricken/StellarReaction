@@ -56,7 +56,7 @@ void Stealth::postPhysUpdate()
 }
 void Stealth::directive(map<Directive, bool>& rIssues)
 {
-	if (rIssues[Directive::Stealth])
+	if (rIssues[Directive::Stealth] && isFunctioning())
 	{
 		m_stealthTimer.setCountDown(stealth_duration);
 		if (m_stealthTimer.isTimeUp())
