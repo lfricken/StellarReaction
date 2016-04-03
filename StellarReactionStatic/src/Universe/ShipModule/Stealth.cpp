@@ -20,7 +20,7 @@ Stealth::~Stealth()
 }
 void Stealth::postPhysUpdate()
 {
-	if (m_stealthTimer.isTimeUp())
+	if (m_stealthTimer.isTimeUp() || !isFunctioning())
 	{
 		m_parentChunk->getHull()->setAlpha(alpha_stealth_off);
 		std::vector<sptr<Module>> moduleList = m_parentChunk->getModuleList();
