@@ -93,6 +93,7 @@
     <ClCompile Include="src\Weapon\LaserWeapon.cpp" />
     <ClCompile Include="src\Weapon\MissileWeapon.cpp" />
     <ClCompile Include="src\Weapon\Weapon.cpp" />
+    <ClCompile Include="src\Universe\Module\BlackHole.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Game\Directory.hpp" />
@@ -391,6 +392,7 @@
     <ClInclude Include="include\Weapon\GrappleWeapon.hpp" />
     <ClInclude Include="include\Weapon\BallisticWeapon.hpp" />
     <ClInclude Include="include\Basic\BlueprintData.hpp" />
+    <ClInclude Include="include\Universe\Module\BlackHole.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\API\SFML\Audio\SoundFileFactory.inl" />

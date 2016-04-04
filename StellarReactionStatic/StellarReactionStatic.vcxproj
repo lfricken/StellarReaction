@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Basic\BlueprintData.hpp" />
+    <ClInclude Include="include\Universe\Module\BlackHole.hpp" />
     <ClInclude Include="include\Weapon\GrappleWeapon.hpp" />
     <ClInclude Include="include\Game\Directory.hpp" />
     <ClInclude Include="include\API\Box2D\Box2D.h" />
@@ -309,6 +310,7 @@
     <ClInclude Include="include\Universe\Utility\JSON.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Universe\Module\BlackHole.cpp" />
     <ClCompile Include="src\Universe\Utility\JSON.cpp" />
     <ClCompile Include="src\Headers\Random.cpp" />
     <ClCompile Include="src\Weapon\GrappleWeapon.cpp" />
