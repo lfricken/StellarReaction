@@ -17,6 +17,13 @@
                 0,
                 0
             ]
+        },
+		{
+            "title": "BlackHoleGraphic",
+            "Position": [
+                0,
+                0
+            ]
         }
     ]
 }

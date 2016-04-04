@@ -232,7 +232,7 @@ void Overlay::loadMenus()
 	select.ioComp.name = "lobby_shipSelect";
 
 	leon::SelectableItemData data1;
-	data1.texName = "menu/default_menu.png";
+	data1.texName = "menu/red_menu.png";
 	leon::LabelData label1;
 	data1.labelData.push_back(label1);
 
@@ -288,15 +288,19 @@ void Overlay::loadMenus()
 
 	data.labelData.back().text = "Team 1";
 	data.id = "1";
+	data.texName = "menu/blue_menu.png";
 	selectTeam.items.push_back(data);
 	data.labelData.back().text = "Team 2";
 	data.id = "2";
+	data.texName = "menu/green_menu.png";
 	selectTeam.items.push_back(data);
 	data.labelData.back().text = "Team 3";
 	data.id = "3";
+	data.texName = "menu/yellow_menu.png";
 	selectTeam.items.push_back(data);
 	data.labelData.back().text = "Team 4";
 	data.id = "4";
+	data.texName = "menu/pink_menu.png";
 	selectTeam.items.push_back(data);
 
 	pLobby->add(sptr<leon::WidgetBase>(new leon::NetworkedSelection(*pLobby->getPanelPtr(), selectTeam)));
