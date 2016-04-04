@@ -204,8 +204,15 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 			if(pBody != NULL)
 			{
 				float zoomValue = rController.get(Request::Zoom);
-				if(zoomValue < m_camera.getZoom())
-					m_camera.setZoom(zoomValue);
+				float x1 = game.getWindow().getSize().x; //getting the siz of x
+				float y1 = game.getWindow().getSize().y; //getting the size of y
+				float area = 1920 * 1080; // setting a fixed resolution
+				float area1 = x1*y1;
+				
+			    float newzoomvalue = zoomValue*sqrt(area/area1); // setting a new zoom value based on the current screen's resolution
+
+				if(newzoomvalue < m_camera.getZoom())
+					m_camera.setZoom(newzoomvalue);
 			}
 
 
