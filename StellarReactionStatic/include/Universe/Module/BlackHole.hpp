@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Module.hpp"
-#include "QuadComponent.hpp"
+#include "Spinner.hpp"
 
 struct BlackHoleData;
 
@@ -12,7 +12,6 @@ public:
 	virtual ~BlackHole();
 
 	virtual void prePhysUpdate();
-	virtual void postPhysUpdate();
 
 protected:
 	std::vector<sptr<GraphicsComponent> > m_decors;
@@ -32,9 +31,10 @@ struct BlackHoleData : public ModuleData
 		middleDecor.layer = GraphicsLayer::BackgroundClose;
 		outerDecor.layer = GraphicsLayer::BackgroundClose;
 	}
-	QuadComponentData innerDecor;
-	QuadComponentData middleDecor;
-	QuadComponentData outerDecor;
+
+	SpinnerData innerDecor;
+	SpinnerData middleDecor;
+	SpinnerData outerDecor;
 
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{

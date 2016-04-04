@@ -5,12 +5,15 @@
 
 void GravityFieldData::loadJson(const Json::Value& root)
 {
-	GETJSON(mass);
+	GETJSON(maxForce);
+	GETJSON(minForce);
 	SensorData::loadJson(root);
 }
 GravityField::GravityField(const GravityFieldData& rData) : Sensor(rData)
 {
-	m_mass = rData.mass;
+	m_radius = rData.fixComp.size.x / 2.f * sizeScalingFactor;
+	m_maxForce = rData.maxForce;
+	m_minForce = rData.minForce;
 }
 GravityField::~GravityField()
 {
@@ -18,23 +21,25 @@ GravityField::~GravityField()
 }
 void GravityField::prePhysUpdate()
 {
-	for (auto it = m_guests.cbegin(); it != m_guests.cend(); ++it)
+	for(auto it = m_guests.cbegin(); it != m_guests.cend(); ++it)
 	{
-		b2Body* bod = (*it)->getBodyPtr();
-		b2Vec2 myPos = m_parentChunk->getBodyPtr()->GetPosition();
-		b2Vec2 targetPos = bod->GetPosition();
+		b2Body* pBody = (**it).getBodyPtr();
+		float bodyMass = pBody->GetMass();
 
+		b2Vec2 targetPos = pBody->GetPosition();
+		b2Vec2 myPos = m_fix.getCenter();
 		b2Vec2 direction = myPos - targetPos;
-		float sqLen = direction.LengthSquared();
+
+		float radiusFraction = 1 - (direction.Length() / m_radius);
+
+		float force = radiusFraction * m_maxForce;
+		if(force < m_minForce)
+			force = m_minForce;
+
 		direction.Normalize();
-		if ( (sqLen > 2)) {
-			direction *= m_mass*bod->GetMass() / (sqLen);
-			bod->ApplyForceToCenter(direction, true);
-		}
-		else {
-			direction *= 50;
-			bod->ApplyForceToCenter(direction, true);
-		}
+		direction.x *= force*bodyMass;
+		direction.y *= force*bodyMass;
+		pBody->ApplyForceToCenter(direction, true);
 	}
 
 }

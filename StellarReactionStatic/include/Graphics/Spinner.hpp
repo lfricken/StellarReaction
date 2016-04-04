@@ -15,6 +15,8 @@ struct SpinnerData : public QuadComponentData
 	float rate;//degrees CCW/s
 	bool randomRot;//will we spawn with a random initial rotation?
 	bool startOn;//starts rotating
+
+	virtual void loadJson(const Json::Value& root);
 };
 
 /// <summary>

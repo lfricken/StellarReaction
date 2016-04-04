@@ -12,7 +12,8 @@
         ],
         "texName": "backgrounds/black_hole_i.png",
         "animSheetName": "backgrounds/black_hole.acfg",
-        "layer": "BackgroundClose"
+        "layer": "BackgroundClose",
+		"rate": -440
     },
     "middleDecor": {
         "dimensions": [
@@ -26,7 +27,8 @@
         ],
         "texName": "backgrounds/black_hole_m.png",
         "animSheetName": "backgrounds/black_hole.acfg",
-        "layer": "BackgroundClose"
+        "layer": "BackgroundClose",
+		"rate": -180
     },
     "outerDecor": {
         "dimensions": [
@@ -40,7 +42,8 @@
         ],
         "texName": "backgrounds/black_hole_o.png",
         "animSheetName": "backgrounds/black_hole.acfg",
-        "layer": "BackgroundClose"
+        "layer": "BackgroundClose",
+		"rate": -45
     },
     "fixComp": {
 		"density": 0,

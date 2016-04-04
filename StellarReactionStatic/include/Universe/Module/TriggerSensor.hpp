@@ -16,6 +16,8 @@ protected:
 	int m_minDamage;
 	int m_maxDamage;
 	float m_period;
+
+	float m_radius;
 	Timer m_damageTimer;
 private:
 };

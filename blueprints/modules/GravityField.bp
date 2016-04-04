@@ -15,5 +15,6 @@
 		"colCat": "Trigger",
 		"colMask": "Trigger"
 	},
-	"mass" : 50
+	"maxForce" : 6,
+	"minForce": 2
 }

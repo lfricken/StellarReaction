@@ -13,19 +13,23 @@ public:
 	virtual void prePhysUpdate();
 
 protected:
-	float m_mass;
+	float m_radius;
+	float m_maxForce;
+	float m_minForce;
 private:
 };
 
 struct GravityFieldData : public SensorData
 {
 	GravityFieldData() :
-		mass(50)
+		maxForce(50),
+		minForce(5)
 	{
 
 	}
 
-	float mass;
+	float maxForce;
+	float minForce;
 
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{

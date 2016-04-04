@@ -6,7 +6,7 @@
 			0
 		],
 		"size": [
-			50,
+			20,
 			0
 		],
 		"shape": "circle",
@@ -15,7 +15,7 @@
 		"colCat": "Trigger",
 		"colMask": "Trigger"
 	},
-	"maxDamage": 30,
-	"minDamage": 7,
+	"maxDamage": 20,
+	"minDamage": 1,
 	"period": 0.33
 }

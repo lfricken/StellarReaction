@@ -9,6 +9,16 @@
 using namespace std;
 using namespace sf;
 
+void QuadComponentData::loadJson(const Json::Value& root)
+{
+	GETJSON(dimensions);
+	GETJSON(permanentRot);
+	GETJSON(center);
+	GETJSON(texName);
+	GETJSON(animSheetName);
+	if(!root["layer"].isNull())
+		layer = ChooseLayer(root["layer"].asString());
+}
 QuadComponent::QuadComponent(const QuadComponentData& rData) : GraphicsComponent(rData)
 {
 	m_numVerts = 4;
@@ -41,14 +51,5 @@ void QuadComponent::postUpdate()
 {
 	
 }
-void QuadComponentData::loadJson(const Json::Value& root)
-{
-	GETJSON(dimensions);
-	GETJSON(permanentRot);
-	GETJSON(center);
-	GETJSON(texName);
-	GETJSON(animSheetName);
-	if(!root["layer"].isNull())
-		layer = ChooseLayer(root["layer"].asString());
-}
+
 

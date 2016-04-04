@@ -1,9 +1,19 @@
 #include "Spinner.hpp"
 
 #include "Convert.hpp"
+#include "Random.hpp"
+#include "JSON.hpp"
 
 using namespace std;
 
+void SpinnerData::loadJson(const Json::Value& root)
+{
+	QuadComponentData::loadJson(root);
+
+	GETJSON(rate);
+	GETJSON(randomRot);
+	GETJSON(startOn);
+}
 Spinner::Spinner(const SpinnerData& rData) : QuadComponent(rData)
 {
 	m_timer.getTimeElapsed();
@@ -14,7 +24,7 @@ Spinner::Spinner(const SpinnerData& rData) : QuadComponent(rData)
 		toggleOn(false);
 
 	if(rData.randomRot)
-		m_permanentRot += rand()%7;
+		m_permanentRot += Random::getRandom(0.f, 2.f * pi);
 
 }
 Spinner::~Spinner()
