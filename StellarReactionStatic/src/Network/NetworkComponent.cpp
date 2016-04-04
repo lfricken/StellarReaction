@@ -4,7 +4,7 @@ using namespace std;
 
 NetworkComponent::~NetworkComponent()
 {
-	m_rFactory.free(m_factoryID);
+	m_pFactory->free(m_factoryID);
 }
 bool NetworkComponent::toggleNewData(bool newData)//set new data
 {

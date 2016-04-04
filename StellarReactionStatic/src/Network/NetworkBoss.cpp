@@ -17,33 +17,31 @@ using namespace sf;
 void NetworkBoss::recieveLevel(sf::Packet& data)
 {
 	m_nwGameStarted = true;
-	std::string level;
+	GameLaunchData launchData;
+
+	/**Level**/
+	data >> launchData.level;
+
+	/**List of Player Data**/
 	int32_t numControllers;
-	std::string slave;
-	std::string title;
-	int team;
-	std::vector<std::string> controllerList;
-	std::vector<std::string> shipTitleList;
-	std::vector<int> teams;
-	int32_t localController;
-
-
-	data >> level;
 	data >> numControllers;
 	for(int32_t i = 0; i < numControllers; ++i)
 	{
-		data >> slave;
-		data >> title;
-		data >> team;
-		cout << "\n[" << slave << "][" << title << "]";
-		controllerList.push_back(slave);
-		shipTitleList.push_back(title);
-		teams.push_back(team);
-	}
-	data >> localController;
-	cout << "\nCont" << localController;
+		GameLaunchData::PlayerData playerInstance;
 
-	game.launchGame(level, localController, controllerList, shipTitleList, teams);
+		data >> playerInstance.slaveName;
+		data >> playerInstance.ship;
+		data >> playerInstance.team;
+		cout << "\nControllers: " << numControllers;
+		cout << "\nSlaveName:[" << playerInstance.slaveName << "] Ship Choice:[" << playerInstance.ship << "] Team:[" << playerInstance.team << "]";
+		launchData.playerList.push_back(playerInstance);
+	}
+	/**Local Controller**/
+	data >> launchData.localController;
+	cout << "\nLocal Controller: [" << launchData.localController << "]";
+
+	/**Launch the game!**/
+	game.launchGame(launchData);
 }
 /// <summary>
 /// server deciding to launch the game
@@ -55,7 +53,7 @@ void NetworkBoss::launchMultiplayerGame()
 	std::string level = "Alpha Centauri";
 
 	data << level;
-	data << static_cast<int32_t>(m_connections.size() + 1 + 1);//number of controllers +1 for AI +1 for host
+	data << static_cast<int32_t>(m_connections.size() + 1);//number of controllers +1 for host
 
 	//host
 	data << "1";
@@ -75,12 +73,12 @@ void NetworkBoss::launchMultiplayerGame()
 	}
 
 	//for ai TODO REFACTOR
-	string aiSlaveName = std::to_string(m_connections.size() + 1 + 1);
-	string aiShipName = "Dante";
-	int aiTeam = game.getLocalPlayer().getTeam();
-	data << aiSlaveName;
-	data << aiShipName;
-	data << aiTeam;
+	//string aiSlaveName = std::to_string(m_connections.size() + 1 + 1);
+	//string aiShipName = "Dante";
+	//int aiTeam = game.getLocalPlayer().getTeam();
+	//data << aiSlaveName;
+	//data << aiShipName;
+	//data << aiTeam;
 
 
 

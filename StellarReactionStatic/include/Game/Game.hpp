@@ -2,6 +2,8 @@
 
 #include "stdafx.hpp"
 
+
+
 class Player;
 class Universe;
 class IOComponent;
@@ -15,6 +17,7 @@ class NetworkBoss;
 class SoundManager;
 class Scoreboard;
 class Directory;
+struct GameLaunchData;
 
 namespace leon
 {
@@ -49,7 +52,7 @@ public:
 	const Directory& getDir() const;
 	/**should go in UNIVERSE to be reset upon game reload**/	
 
-	void launchGame(const std::string& level, int localController, const std::vector<std::string>& rControllerList, const std::vector<std::string>& rShipTitleList, const std::vector<int>& teams);
+	void launchGame(const GameLaunchData& data);
 
 
 

@@ -9,6 +9,7 @@
 #include "Scoreboard.hpp"
 #include "Hazard\HazardField.hpp"
 #include "ShipAI.hpp"
+#include "LaunchGame.hpp"
 
 class BatchLayers;
 class GraphicsComponentUpdater;
@@ -22,6 +23,8 @@ class ControlFactory;
 class ProjectileMan;
 class BodyComponent;
 class Scoreboard;
+
+
 
 /// <summary>
 /// A new one is instantiated when you relaunch the game
@@ -64,7 +67,7 @@ public:
 
 	b2Vec2 getBed();//give a position to sleep at
 	void addBed(const b2Vec2& rBed);//someone gave a bed back to us!	
-	void loadLevel(const std::string& level, int localController, const std::vector<std::string>& rControllerList, const std::vector<std::string>& rShipTitleList, const std::vector<int>& teams);//loads a level using blueprints
+	void loadLevel(const GameLaunchData& data);//loads a level using blueprints
 
 	void add(sptr<GameObject> spGO);
 	void add(GameObject* pGO);

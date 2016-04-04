@@ -146,10 +146,10 @@ Scoreboard& Game::getScoreboard()
 /// <param name="localController">The local controller.</param>
 /// <param name="bluePrints">The blue prints.</param>
 /// <param name="rControllerList">The r controller list.</param>
-void Game::launchGame(const std::string& level, int localController, const std::vector<std::string>& rControllerList, const std::vector<std::string>& rShipTitleList, const std::vector<int>& teams)
+void Game::launchGame(const GameLaunchData& data)
 {
 	game.loadUniverse("meaninglessString");
-	game.getUniverse().loadLevel(level, localController, rControllerList, rShipTitleList, teams);
+	game.getUniverse().loadLevel(data);
 
 	sf::Packet boolean;
 	boolean << false;

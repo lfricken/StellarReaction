@@ -22,12 +22,15 @@ public:
 	Controller& getController(int index);
 	NetworkFactory& getNWFactory();
 
+	sptr<NetworkFactory> m_spNWFactory;//must come before the controllers so that everything is destroyed 
+	//in the right order, otherwise m_spControlList controllers Network Components cause a crash
+
 	std::vector<sptr<Controller> > m_spControlList;//list of all controllers
 
 
 protected:
 private:
-	sptr<NetworkFactory> m_spNWFactory;
+
 	sptr<Controller> m_spBackupController;//if we need to return a reference to a controller, but none exist, we give this one
 };
 

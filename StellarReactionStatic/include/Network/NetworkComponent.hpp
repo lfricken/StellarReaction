@@ -19,13 +19,13 @@ class NetworkComponent // for syncing data between objects on different computer
 {
 public:
 	template <typename T>
-	NetworkComponent(const NetworkComponentData& rData, void (T::*pack)(sf::Packet&), void (T::*unpack)(sf::Packet&), T* const classPtr, NetworkFactory& factory) : m_rFactory(factory)
+	NetworkComponent(const NetworkComponentData& rData, void (T::*pack)(sf::Packet&), void (T::*unpack)(sf::Packet&), T* const classPtr, NetworkFactory& factory) : m_pFactory(&factory)
 	{
 		m_packFunction = std::bind(pack, classPtr, std::placeholders::_1);
 		m_unpackFunction = std::bind(unpack, classPtr, std::placeholders::_1);
 		m_newData = false;
 
-		m_factoryID = m_rFactory.give(this);///WE NEED TO GIVE NW FACTORY THIS
+		m_factoryID = m_pFactory->give(this);///WE NEED TO GIVE NW FACTORY THIS
 	}
 	virtual ~NetworkComponent();
 
@@ -40,7 +40,7 @@ private:
 	std::function<void(sf::Packet&)> m_packFunction;//the function we call when we get a receive call
 	std::function<void(sf::Packet&)> m_unpackFunction;//the function we call when we get a receive call
 
-	NetworkFactory& m_rFactory;
+	NetworkFactory* m_pFactory;
 	int m_factoryID;
 	bool m_newData;//is there new data to be sent?
 };

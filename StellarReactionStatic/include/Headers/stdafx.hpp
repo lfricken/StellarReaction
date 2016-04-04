@@ -55,6 +55,9 @@ using Map = std::map<T, R>;
 
 using Vec2 = b2Vec2;
 
+using std::vector;
+using std::string;
+
 #endif // STFAFX_H
 
 

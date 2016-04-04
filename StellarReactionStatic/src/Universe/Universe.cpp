@@ -26,27 +26,29 @@
 using namespace std;
 
 
-void Universe::loadLevel(const std::string& levelName, int localController, const std::vector<std::string>& rControllerList, const std::vector<std::string>& rShipTitleList, const std::vector<int>& teams)//loads a level using blueprints
+void Universe::loadLevel(const GameLaunchData& data)//loads a level using blueprints
 {
 	loadBlueprints("blueprints/");
 
 	const string levelFile = "level.lcfg";
 	const string levelFolder = "levels";
-	const string thisLevelFolder = contentDir() + levelFolder + "/" + levelName + "/";
+	const string thisLevelFolder = contentDir() + levelFolder + "/" + data.level + "/";
 	const string modDir = "mods/";
 
-	ifstream level(thisLevelFolder + levelFile, std::ifstream::binary);
+	ifstream level(thisLevelFolder + levelFile, ifstream::binary);
 	Json::Reader reader;
 	Json::Value root;
 
 	bool parsedSuccess = reader.parse(level, root, false);
 
-	//SHIP AI TODO
-	m_shipAI.push_back(sptr<ShipAI>(new ShipAI));
-	m_shipAI.back()->setController(rControllerList.size() - 1);
-
-
 	setupBackground();
+
+	//SHIP AI TODO
+	//m_shipAI.push_back(sptr<ShipAI>(new ShipAI));
+	//m_shipAI.back()->setController(rControllerList.size() - 1);
+
+
+
 
 	if(!parsedSuccess)
 	{
@@ -55,7 +57,7 @@ void Universe::loadLevel(const std::string& levelName, int localController, cons
 	}
 	else
 	{
-		/**ADDITIONAL BLUEPRINTS**/
+		/**Additional Map Blueprints**/
 		if(!root["AdditionalBlueprints"].isNull())
 		{
 			const Json::Value bpList = root["AdditionalBlueprints"];
@@ -66,7 +68,9 @@ void Universe::loadLevel(const std::string& levelName, int localController, cons
 		}
 		else
 			cout << "\nAdditional Blueprints Null.";
-		/**SPAWN POINT**/
+
+
+		/**Spawn Points**/
 		if(!root["SpawnPoints"].isNull())
 		{
 			const Json::Value spawnList = root["SpawnPoints"];
@@ -83,7 +87,9 @@ void Universe::loadLevel(const std::string& levelName, int localController, cons
 		}
 		else
 			cout << "\nSpawn Points Null.";
-		/**CHUNKS**/
+
+
+		/**Map Chunks**/
 		sptr<ChunkData> spCnk;
 		if(!root["Chunks"].isNull())
 		{
@@ -103,7 +109,9 @@ void Universe::loadLevel(const std::string& levelName, int localController, cons
 		}
 		else
 			cout << "\nChunks List Null.";
-		/**HAZARD FIELDS**/
+
+
+		/**Hazard Fields**/
 		if(!root["HazardFields"].isNull())
 		{
 			const Json::Value spawnList = root["HazardFields"];
@@ -114,29 +122,35 @@ void Universe::loadLevel(const std::string& levelName, int localController, cons
 			cout << "\nHazard Field Null.";
 	}
 
-	int team = 1;
+
+	/**Create player ships**/
 	sptr<ChunkData> spCnk;
-	for(int i = 0; i < (signed)rShipTitleList.size(); ++i)
+	m_spControlFactory.reset(new ControlFactory);
+	for(auto it = data.playerList.cbegin(); it != data.playerList.cend(); ++it)
 	{
-		team = teams[i];
-		spCnk.reset(m_spBPLoader->getChunkSPtr(rShipTitleList[i])->clone());
-		spCnk->bodyComp.coords = m_spawnPoints[team][i];
-		spCnk->ioComp.name = std::to_string(i + 1);
-		spCnk->team = team;
+		spCnk.reset(m_spBPLoader->getChunkSPtr(it->ship)->clone());
+		spCnk->bodyComp.coords = m_spawnPoints[it->team][it - data.playerList.cbegin()];
+		spCnk->ioComp.name = it->slaveName;
+		spCnk->team = it->team;
 		add(spCnk->generate(this));
+
+		m_spControlFactory->addController(it->slaveName);//add controller after we add the ship with the name
+		//otherwise the controller cant find the intended ship
 	}
 
+	/**Load Local Player Overlay**/
 	game.getLocalPlayer().loadOverlay("overlayconfig");
 
-	/**CONTROL**/
-	m_spControlFactory->resetControllers(rControllerList);
-	game.getLocalPlayer().setController(localController);
 
+	/**Set Local Controller**/
+	game.getLocalPlayer().setController(data.localController);
+
+
+	/**Load Ship Into Store**/
 	Message mes("ship_editor", "clear", voidPacket, 0, false);
 	game.getCoreIO().recieve(mes);
 
-	/**LOAD MY CURRENT SHIP INTO STORE**/
-	Controller* pController = &this->getControllerFactory().getController(localController);
+	Controller* pController = &this->getControllerFactory().getController(data.localController);
 	Chunk* pCnk = pController->getSlave();
 	if(pCnk != NULL)
 	{
@@ -158,6 +172,8 @@ void Universe::loadLevel(const std::string& levelName, int localController, cons
 	else
 		std::cout << "\nNo slave! " << FILELINE;
 
+
+	/**Hazard Field Spawn Hazards**/
 	for(auto it = hazardFields.begin(); it != hazardFields.end(); ++it)
 		(**it).spawn();
 }

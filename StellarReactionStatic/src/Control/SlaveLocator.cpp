@@ -30,7 +30,8 @@ int SlaveLocator::give(Chunk* pSlave)//we recieve a pointer to a component and w
 
 	m_slavePtrs[position] = pSlave;
 
-	m_nameLookup[pSlave->getName()] = position;
+	string name = pSlave->getName();
+	m_nameLookup[name] = position;
 
 	return position;
 }
