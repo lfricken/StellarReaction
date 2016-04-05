@@ -47,8 +47,6 @@ public:
 	void setMoney(Money amount);
 	void changeMoney(Money amount);
 	Money getMoney() const;
-	void setActiveControlGroup(int control_group);
-	int getActiveControlGroup() const;
 
 protected:
 	int m_controller;//which controller do we have, 0, 1, 2, ect.(points to a controller in the list)
@@ -59,5 +57,4 @@ private:
 	std::string m_name;
 	int m_team;
 	Money m_balance;
-	int m_activeControlGroup;
 };

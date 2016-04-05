@@ -6,55 +6,11 @@
 #include "Globals.hpp"
 #include "Universe.hpp"
 #include "NetworkComponent.hpp"
+#include "Directive.hpp"
+#include "Request.hpp"
 
 class Chunk;
-
-/// <summary>
-/// Commands a controller can send to a Chunk
-/// </summary>
-enum class Directive
-{
-	/**MOVEMENT**/
-	Up,
-	Down,
-	RollCCW,
-	RollCW,
-
-	/**== COMBAT ==**/
-	FirePrimary,
-	FireSecondary,
-
-	/**== MISC. ==**/
-	Stealth,
-	Teleport,
-	Shield,
-	Boost,
-
-	Respawn,
-	ShowStore,//toggle the store on or off (if there is one near us)
-
-	End,
-};
-/// <summary>
-/// Data a controller can request from a chunk (to display via gui, or control zoom etc)
-/// </summary>
-enum class Request
-{
-	Zoom,
-	MaxZoom,
-
-	Energy,
-	MaxEnergy,
-
-	Ballistics,
-	MaxBallistics,
-
-	Missiles,
-	MaxMissiles,
-
-	Score,
-};
-
+struct CommandInfo;
 
 struct ControllerData
 {
@@ -96,7 +52,7 @@ public:
 	NetworkComponent& getNWComp();
 	IOComponent& getIOComp();
 
-	void updateDirectives(const std::map<Directive, bool>& rDirs);//set our state
+	void locallyUpdate(const CommandInfo& commands);//set our state
 	void processAim() const;//use our stored aim to send commands
 	void processDirectives();//use our stored directives to send commands
 	void toggleLocal(bool local);//true or false whether this controller is locally controlled
@@ -111,6 +67,7 @@ protected:
 	std::string m_slaveName;//name of the game thing we sends commands to
 	b2Vec2 m_aim;//where we are aiming in the world ATM
 	std::map<Directive, bool> m_directives;//up, down, rollCW, roll CCW, ect.
+	Map<int, bool> m_weaponGroups;//decides which weapon groups are on or off
 
 	NetworkComponent m_nw;
 

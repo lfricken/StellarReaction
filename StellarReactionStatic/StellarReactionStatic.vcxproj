@@ -12,6 +12,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Basic\BlueprintData.hpp" />
+    <ClInclude Include="include\Control\Directive.hpp" />
+    <ClInclude Include="include\Control\Request.hpp" />
+    <ClInclude Include="include\Universe\Chunk\CommandInfo.hpp" />
     <ClInclude Include="include\Universe\Utility\LaunchGame.hpp" />
     <ClInclude Include="include\Universe\Module\BlackHole.hpp" />
     <ClInclude Include="include\Weapon\GrappleWeapon.hpp" />

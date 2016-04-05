@@ -37,8 +37,10 @@ void Thruster::postPhysUpdate()
 {
 	ShipModule::postPhysUpdate();
 }
-void Thruster::directive(std::map<Directive, bool>& rIssues)
+void Thruster::directive(const CommandInfo& commands)
 {
+	Map<Directive, bool> rIssues = commands.directives;
+
 	if(rIssues[Directive::Up])
 	{
 		if(rIssues[Directive::Boost])

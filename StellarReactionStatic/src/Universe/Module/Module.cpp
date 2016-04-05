@@ -1,7 +1,6 @@
 #include "Module.hpp"
-
 #include "Controller.hpp"
-
+#include "CommandInfo.hpp"
 #include "Weapon.hpp"
 
 using namespace std;
@@ -40,7 +39,7 @@ void Module::postPhysUpdate()
 {
 
 }
-void Module::directive(std::map<Directive, bool>& rIssues)
+void Module::directive(const CommandInfo& commands)
 {
 
 }

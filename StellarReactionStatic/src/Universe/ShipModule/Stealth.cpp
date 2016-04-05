@@ -54,8 +54,9 @@ void Stealth::postPhysUpdate()
 	}
 	ShipModule::postPhysUpdate();
 }
-void Stealth::directive(map<Directive, bool>& rIssues)
+void Stealth::directive(const CommandInfo& commands)
 {
+	Map<Directive, bool> rIssues = commands.directives;
 	if (rIssues[Directive::Stealth] && isFunctioning())
 	{
 		m_stealthTimer.setCountDown(stealth_duration);

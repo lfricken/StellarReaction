@@ -9,6 +9,7 @@
 #include "LinearMeter.hpp"
 #include "Minimap.hpp"
 #include "Chunk.hpp"
+#include "CommandInfo.hpp"
 
 using namespace std;
 using namespace sf;
@@ -18,6 +19,10 @@ Player::Player(const PlayerData& rData) : m_io(rData.ioComp, &Player::input, thi
 	m_hasFocus = true;
 	m_inGuiMode = true;
 	m_tracking = rData.tracking;
+	for(int i = 1; i <= 9; ++i)
+	{
+		m_weaponGroups[i] = true;
+	}
 }
 Player::~Player()
 {
@@ -122,15 +127,6 @@ void Player::getLiveInput()
 		if (Keyboard::isKeyPressed(m_inCfg.shield))
 			m_directives[Directive::Shield] = true;
 
-		if (Keyboard::isKeyPressed(m_inCfg.cgroup_1))
-			setActiveControlGroup(1);
-		if (Keyboard::isKeyPressed(m_inCfg.cgroup_2))
-			setActiveControlGroup(2);
-		if (Keyboard::isKeyPressed(m_inCfg.cgroup_3))
-			setActiveControlGroup(3);
-		if (Keyboard::isKeyPressed(m_inCfg.cgroup_4))
-			setActiveControlGroup(4);
-
 		/**== SPECIAL ==**/
 		if(Keyboard::isKeyPressed(m_inCfg.store))
 			m_directives[Directive::ShowStore] = true;
@@ -145,7 +141,7 @@ void Player::getLiveInput()
 		m_aim = leon::sfTob2(game.getWindow().mapPixelToCoords(Mouse::getPosition(game.getWindow()), m_camera.getView()));
 
 		/**== DEVELOPER ==**/
-		if(Keyboard::isKeyPressed(Keyboard::Numpad3))
+		if(Keyboard::isKeyPressed(Keyboard::Numpad8))
 			cout << "\n(" << m_aim.x << ",\t" << m_aim.y << ")";
 
 		Controller& rController = game.getUniverse().getControllerFactory().getController(m_controller);
@@ -154,7 +150,11 @@ void Player::getLiveInput()
 
 	m_mouseWindowPos = game.getWindow().mapPixelToCoords(Mouse::getPosition(game.getWindow()), game.getWindow().getDefaultView());
 
-	rController.updateDirectives(m_directives);
+	CommandInfo commands;
+	commands.directives = m_directives;
+	commands.weaponGroups = m_weaponGroups;
+	commands.isLocal = true;
+	rController.locallyUpdate(commands);
 	rController.setAim(m_aim);
 }
 /// <summary>
@@ -216,14 +216,26 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 			}
 
 
-			/**== DEVELOPER OPTIONS ==**/
+
 			if(event.type == Event::KeyPressed)
 			{
-				if(event.key.code == Keyboard::Numpad0)
+				/**== Press Event ==**/
+				if(event.key.code == m_inCfg.cgroup_1)
+					toggleControlGroup(1);
+				if(event.key.code == m_inCfg.cgroup_2)
+					toggleControlGroup(2);
+				if(event.key.code == m_inCfg.cgroup_3)
+					toggleControlGroup(3);
+				if(event.key.code == m_inCfg.cgroup_4)
+					toggleControlGroup(4);
+
+
+				/**== DEVELOPER OPTIONS ==**/
+				if(event.key.code == Keyboard::Numpad9)
 					game.getUniverse().toggleDebugDraw();
-				if(event.key.code == Keyboard::Numpad1)
+				if(event.key.code == Keyboard::Numpad5)
 					m_tracking = !m_tracking;
-				if(event.key.code == Keyboard::Numpad2)
+				if(event.key.code == Keyboard::Numpad0)
 					game.getUniverse().togglePause();
 			}
 		}
@@ -361,6 +373,16 @@ bool Player::toggleFocus(bool isWindowFocused)
 bool Player::hasFocus() const
 {
 	return m_hasFocus;
+}
+bool Player::toggleControlGroup(int group, bool on)
+{
+	return m_weaponGroups[group] = on;
+	return m_weaponGroups[group];
+}
+bool Player::toggleControlGroup(int group)
+{
+	m_weaponGroups[group] = !m_weaponGroups[group];
+	return m_weaponGroups[group];
 }
 void Player::input(std::string rCommand, sf::Packet rData)
 {

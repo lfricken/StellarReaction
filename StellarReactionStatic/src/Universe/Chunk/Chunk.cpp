@@ -7,6 +7,7 @@
 #include "SoundManager.hpp"
 #include "Animation.hpp"
 #include "ShipModule.hpp"
+#include "CommandInfo.hpp"
 
 using namespace std;
 
@@ -209,10 +210,13 @@ void Chunk::setAim(const b2Vec2& world)//send our aim coordinates
 	for(auto it = m_modules.begin(); it != m_modules.end(); ++it)
 		(*it)->setAim(world);
 }
-void Chunk::directive(std::map<Directive, bool>& rIssues, bool local)//send command to target
+void Chunk::directive(const CommandInfo& commands)//send command to target
 {
+	std::map<Directive, bool> rIssues = commands.directives;
+	bool local = commands.isLocal;
+
 	for(auto it = m_modules.begin(); it != m_modules.end(); ++it)
-		(*it)->directive(rIssues);
+		(*it)->directive(commands);
 
 	if(rIssues[Directive::ShowStore] && local)
 	{

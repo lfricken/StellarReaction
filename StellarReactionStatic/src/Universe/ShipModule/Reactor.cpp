@@ -35,8 +35,9 @@ void Reactor::postPhysUpdate()
 	}
 	ShipModule::postPhysUpdate();
 }
-void Reactor::directive(map<Directive, bool>& rIssues)
+void Reactor::directive(const CommandInfo& commands)
 {
+	Map<Directive, bool> rIssues = commands.directives;
 	if(rIssues[Directive::Respawn])
 	{
 		respawn();

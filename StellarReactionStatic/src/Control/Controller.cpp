@@ -2,10 +2,11 @@
 
 #include "SlaveLocator.hpp"
 #include "Chunk.hpp"
+#include "CommandInfo.hpp"
 
 using namespace std;
 
-Controller::Controller(const ControllerData& rData) : m_aim(0,0), m_io(rData.ioComp, &Controller::input, this), m_nw(rData.nwComp, &Controller::pack, &Controller::unpack, this, game.getUniverse().getControllerFactory().getNWFactory())
+Controller::Controller(const ControllerData& rData) : m_aim(0, 0), m_io(rData.ioComp, &Controller::input, this), m_nw(rData.nwComp, &Controller::pack, &Controller::unpack, this, game.getUniverse().getControllerFactory().getNWFactory())
 {
 	m_local = false;
 	m_slavePosition = -1;
@@ -13,9 +14,13 @@ Controller::Controller(const ControllerData& rData) : m_aim(0,0), m_io(rData.ioC
 	if(rData.slaveName != "NOSLAVE")
 		setSlave(rData.slaveName);
 
-	for(int i = 0; i<static_cast<int>(Directive::End); ++i)
+	for(int i = 0; i < static_cast<int>(Directive::End); ++i)
 	{
 		m_directives[static_cast<Directive>(i)] = false;
+	}
+	for(int i = 1; i <= 9; ++i)
+	{
+		m_weaponGroups[i] = true;
 	}
 }
 Controller::~Controller()
@@ -84,9 +89,15 @@ void Controller::processDirectives()//use our stored directives to send commands
 	processAim();
 	Chunk* temp = game.getUniverse().getSlaveLocator().find(m_slavePosition);
 	if(temp != NULL)
-		temp->directive(m_directives, m_local);
+	{
+		CommandInfo commands;
+		commands.directives = m_directives;
+		commands.isLocal = m_local;
+		commands.weaponGroups = m_weaponGroups;
+		temp->directive(commands);
+	}
 	else
-		cout << "NO CONTROLLER" << FILELINE;
+		cout << "\nNO CONTROLLER" << FILELINE;
 }
 /// <summary>
 /// true if this controller is controlled locally (this computer)
@@ -97,10 +108,14 @@ void Controller::toggleLocal(bool local)
 {
 	m_local = local;
 }
-void Controller::updateDirectives(const std::map<Directive, bool>& rDirs)
+void Controller::locallyUpdate(const CommandInfo& commands)
 {
-	m_nw.toggleNewData(true);
-	m_directives = rDirs;
+	if(m_local && commands.isLocal)
+	{
+		m_nw.toggleNewData(true);
+		m_directives = commands.directives;
+		m_weaponGroups = commands.weaponGroups;
+	}
 }
 void Controller::setPlayerName(const std::string& rPlayerName)
 {
@@ -116,12 +131,18 @@ NetworkComponent& Controller::getNWComp()
 }
 void Controller::pack(sf::Packet& rPacket)
 {
+	int32_t weaponGroupSize = m_weaponGroups.size();
 
 	rPacket << static_cast<float32>(m_aim.x);
 	rPacket << static_cast<float32>(m_aim.y);
-	for(int32_t i=0; i<static_cast<int32_t>(Directive::End); ++i)
+	for(int32_t i = 0; i < static_cast<int32_t>(Directive::End); ++i)
 	{
 		rPacket << m_directives[static_cast<Directive>(i)];
+	}
+	rPacket << weaponGroupSize;
+	for(int32_t i = 1; i <= m_weaponGroups.size(); ++i)
+	{
+		rPacket << m_weaponGroups[i];
 	}
 }
 void Controller::unpack(sf::Packet& rPacket)
@@ -130,21 +151,29 @@ void Controller::unpack(sf::Packet& rPacket)
 		m_nw.toggleNewData(true);//if we are the server and we got new data from a client about his control we need to tell the other clients
 
 	/**we need to extract the data no matter what**/
-	bool dir;
 	float32 aimX, aimY;
+	Map<Directive, bool> directives;
+	int32_t weaponGroupSize;
+	Map<int32_t, bool> weaponGroups;
+
 	rPacket >> aimX;
 	rPacket >> aimY;
-	std::map<Directive, bool> directives;
+
 	for(int32_t i = 0; i < static_cast<int32_t>(Directive::End); ++i)
 	{
-		rPacket >> dir;
-		directives[static_cast<Directive>(i)] = dir;
+		rPacket >> directives[static_cast<Directive>(i)];
+	}
+	rPacket >> weaponGroupSize;
+	for(int32_t i = 1; i <= weaponGroupSize; ++i)
+	{
+		rPacket >> weaponGroups[i];
 	}
 
 	if(!m_local)//if we are locally controlled, we shouldnt unpack that stuff
 	{
 		setAim(b2Vec2(aimX, aimY));
 		m_directives = directives;
+		m_weaponGroups = weaponGroups;
 	}
 
 }
