@@ -11,10 +11,10 @@
 			0
 		],
 		"size": [
-			24,
+			22,
 			0
 		],
-		"shape": "sphere",
+		"shape": "Circle",
 		"density": 2.0,
 		"isSensor": false,
 		"colCat": "ShipModule",
