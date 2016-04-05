@@ -35,7 +35,7 @@ Game::Game()
 {
 	m_spDragUpdater = sptr<DragUpdater>(new DragUpdater());
 
-	loadWindow(contentDir() + "window.ini");
+	loadWindow(contentDir() + "settings/" + "window.ini");
 
 	m_sampleClock = 0;
 	m_sampleFreq = 40;
