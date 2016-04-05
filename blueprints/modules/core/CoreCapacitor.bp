@@ -14,7 +14,7 @@
 			22,
 			0
 		],
-		"shape": "Circle",
+		"shape": "circle",
 		"density": 2.0,
 		"isSensor": false,
 		"colCat": "ShipModule",
