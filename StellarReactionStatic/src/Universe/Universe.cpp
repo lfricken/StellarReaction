@@ -101,6 +101,7 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 					spCnk.reset(m_spBPLoader->getChunkSPtr((*it)["Title"].asString())->clone());
 					spCnk->bodyComp.coords.x = (*it)["Coordinates"][0].asFloat();
 					spCnk->bodyComp.coords.y = (*it)["Coordinates"][1].asFloat();
+					spCnk->bodyComp.rotation = (*it)["Coordinates"][2].asFloat();
 				}
 				else
 					cout << "\n" << FILELINE;

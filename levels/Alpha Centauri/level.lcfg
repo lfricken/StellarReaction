@@ -56,35 +56,60 @@
 	}],
 	"Chunks": [{
 		"Title": "Anubis",
-		"Coordinates": [-40, -5]
+		"Coordinates": [-40, -5, 0]
 	}, {
 		"Title": "Caterina",
-		"Coordinates": [-30, -5]
+		"Coordinates": [-30, -5, 0]
 	}, {
 		"Title": "Dante",
-		"Coordinates": [-20, -5]
+		"Coordinates": [-20, -5, 0]
 	}, {
-		"Title": "Station",
+		"Title": "StationBlue",
+		"Coordinates": [
+			-20,
+			-20,
+			0
+		]
+	}, {
+		"Title": "StationGreen",
+		"Coordinates": [
+			-5,
+			-20,
+			180
+		]
+	}, {
+		"Title": "StationYellow",
 		"Coordinates": [
 			10,
-			-10
+			-20,
+			0
+		]
+	}, {
+		"Title": "StationPink",
+		"Coordinates": [
+			25,
+			-20,
+			180
 		]
 	}, {
 		"Title": "CapturePointCCW",
 		"Coordinates": [
 			30,
-			30
+			30,
+			0
 		]
 	}, {
 		"Title": "CapturePointCW",
 		"Coordinates": [
 			0,
-			30
+			30,
+			0
 		]
 	}, {
 		"Title": "BlackHole",
 		"Coordinates": [
 			50,
+			0,
 			0
 		]
 	}],
