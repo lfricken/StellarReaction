@@ -66,8 +66,8 @@
 	}, {
 		"Title": "Station",
 		"Coordinates": [
-			30,
-			0
+			10,
+			-10
 		]
 	}, {
 		"Title": "CapturePointCCW",

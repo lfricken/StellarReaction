@@ -10,8 +10,8 @@
             0,
             0
         ],
-        "texName": "backgrounds/station/station.png",
-        "animSheetName": "backgrounds/station/station.acfg",
+        "texName": "backgrounds/capture/capturePoint.png",
+        "animSheetName": "backgrounds/capture/capturePoint.acfg",
         "layer": "Background4",
 		"rate": 10,
 		"randomRot": false
@@ -26,8 +26,8 @@
             0,
             0
         ],
-        "texName": "backgrounds/station/white.png",
-        "animSheetName": "backgrounds/station/station.acfg",
+        "texName": "backgrounds/capture/white.png",
+        "animSheetName": "backgrounds/capture/capturePoint.acfg",
         "layer": "BackgroundClose",
 		"rate": 10,
 		"randomRot": false
@@ -42,8 +42,8 @@
             0,
             0
         ],
-        "texName": "backgrounds/station/blue.png",
-        "animSheetName": "backgrounds/station/station.acfg",
+        "texName": "backgrounds/capture/blue.png",
+        "animSheetName": "backgrounds/capture/capturePoint.acfg",
         "layer": "BackgroundClose",
 		"rate": 10,
 		"randomRot": false
@@ -58,8 +58,8 @@
             0,
             0
         ],
-        "texName": "backgrounds/station/green.png",
-        "animSheetName": "backgrounds/station/station.acfg",
+        "texName": "backgrounds/capture/green.png",
+        "animSheetName": "backgrounds/capture/capturePoint.acfg",
         "layer": "BackgroundClose",
 		"rate": 10,
 		"randomRot": false
@@ -74,8 +74,8 @@
             0,
             0
         ],
-        "texName": "backgrounds/station/yellow.png",
-        "animSheetName": "backgrounds/station/station.acfg",
+        "texName": "backgrounds/capture/yellow.png",
+        "animSheetName": "backgrounds/capture/capturePoint.acfg",
         "layer": "BackgroundClose",
 		"rate": 10,
 		"randomRot": false
@@ -90,8 +90,8 @@
             0,
             0
         ],
-        "texName": "backgrounds/station/pink.png",
-        "animSheetName": "backgrounds/station/station.acfg",
+        "texName": "backgrounds/capture/pink.png",
+        "animSheetName": "backgrounds/capture/capturePoint.acfg",
         "layer": "BackgroundClose",
 		"rate": 10,
 		"randomRot": false
@@ -106,8 +106,8 @@
             0,
             0
         ],
-        "texName": "backgrounds/station/red.png",
-        "animSheetName": "backgrounds/station/station.acfg",
+        "texName": "backgrounds/capture/red.png",
+        "animSheetName": "backgrounds/capture/capturePoint.acfg",
         "layer": "BackgroundClose",
 		"rate": 10,
 		"randomRot": false

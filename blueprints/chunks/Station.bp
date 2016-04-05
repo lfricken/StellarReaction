@@ -1,15 +1,22 @@
 {
     "ClassName": "ChunkData",
     "bodyComp": {
-        "rotation": 45,
+        "rotation": 0,
         "isDynamic": false
     },
+	"hullSpriteData": {
+		"dimensions": [5880, 10052],
+		"center": [0,0],
+		"texName": "core/qwer.png",
+		"animSheetName": "core/station.acfg",
+		"layer": "BackgroundClose"
+	},
     "moduleData": [
         {
-            "title": "Capacitor",
+            "title": "CoreCapacitor",
             "Position": [
-                0,
-                0
+                -1,
+                -1
             ]
         }
     ]
