@@ -1,0 +1,22 @@
+{
+    "ClassName": "ChunkData",
+    "bodyComp": {
+        "isDynamic": false
+    },
+    "moduleData": [
+		{
+            "title": "CaptureArea",
+            "Position": [
+                0,
+                0
+            ]
+		},
+		{
+            "title": "CaptureGraphicCCW",
+            "Position": [
+                0,
+                0
+            ]
+		}
+    ]
+}

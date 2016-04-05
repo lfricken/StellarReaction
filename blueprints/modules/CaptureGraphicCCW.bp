@@ -1,0 +1,120 @@
+{
+    "ClassName": "CaptureGraphicData",
+    "baseDecor": {
+        "dimensions": [
+            10240,
+            10240
+        ],
+        "permanentRot": 30,
+        "center": [
+            0,
+            0
+        ],
+        "texName": "backgrounds/station/station.png",
+        "animSheetName": "backgrounds/station/station.acfg",
+        "layer": "Background4",
+		"rate": 10,
+		"randomRot": false
+    },
+	"whiteLights": {
+        "dimensions": [
+            10240,
+            10240
+        ],
+        "permanentRot": 30,
+        "center": [
+            0,
+            0
+        ],
+        "texName": "backgrounds/station/white.png",
+        "animSheetName": "backgrounds/station/station.acfg",
+        "layer": "BackgroundClose",
+		"rate": 10,
+		"randomRot": false
+    },
+	"blueLights": {
+        "dimensions": [
+            10240,
+            10240
+        ],
+        "permanentRot": 30,
+        "center": [
+            0,
+            0
+        ],
+        "texName": "backgrounds/station/blue.png",
+        "animSheetName": "backgrounds/station/station.acfg",
+        "layer": "BackgroundClose",
+		"rate": 10,
+		"randomRot": false
+    },
+	"greenLights": {
+        "dimensions": [
+            10240,
+            10240
+        ],
+        "permanentRot": 30,
+        "center": [
+            0,
+            0
+        ],
+        "texName": "backgrounds/station/green.png",
+        "animSheetName": "backgrounds/station/station.acfg",
+        "layer": "BackgroundClose",
+		"rate": 10,
+		"randomRot": false
+    },
+	"yellowLights": {
+        "dimensions": [
+            10240,
+            10240
+        ],
+        "permanentRot": 30,
+        "center": [
+            0,
+            0
+        ],
+        "texName": "backgrounds/station/yellow.png",
+        "animSheetName": "backgrounds/station/station.acfg",
+        "layer": "BackgroundClose",
+		"rate": 10,
+		"randomRot": false
+    },
+	"pinkLights": {
+        "dimensions": [
+            10240,
+            10240
+        ],
+        "permanentRot": 30,
+        "center": [
+            0,
+            0
+        ],
+        "texName": "backgrounds/station/pink.png",
+        "animSheetName": "backgrounds/station/station.acfg",
+        "layer": "BackgroundClose",
+		"rate": 10,
+		"randomRot": false
+    },
+	"redLights": {
+        "dimensions": [
+            10240,
+            10240
+        ],
+        "permanentRot": 30,
+        "center": [
+            0,
+            0
+        ],
+        "texName": "backgrounds/station/red.png",
+        "animSheetName": "backgrounds/station/station.acfg",
+        "layer": "BackgroundClose",
+		"rate": 10,
+		"randomRot": false
+    },
+    "fixComp": {
+		"density": 0,
+		"colCat": "None",
+		"colMask": "None"	
+	}
+}

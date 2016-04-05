@@ -1,5 +1,5 @@
 {
-    "ClassName": "BlackHoleData",
+    "ClassName": "BlackHoleGraphicData",
     "innerDecor": {
         "dimensions": [
             20480,

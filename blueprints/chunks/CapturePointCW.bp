@@ -4,15 +4,15 @@
         "isDynamic": false
     },
     "moduleData": [
-        {
-            "title": "Capacitor",
+		{
+            "title": "CaptureArea",
             "Position": [
                 0,
                 0
             ]
-        },
+		},
 		{
-            "title": "CaptureArea",
+            "title": "CaptureGraphicCW",
             "Position": [
                 0,
                 0

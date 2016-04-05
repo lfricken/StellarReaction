@@ -70,9 +70,15 @@
 			0
 		]
 	}, {
-		"Title": "CapturePoint",
+		"Title": "CapturePointCCW",
 		"Coordinates": [
 			30,
+			30
+		]
+	}, {
+		"Title": "CapturePointCW",
+		"Coordinates": [
+			0,
 			30
 		]
 	}, {
