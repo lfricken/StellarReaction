@@ -107,14 +107,56 @@
 		"Title": "CapturePointCCW",
 		"Coordinates": [
 			30,
+			0,
+			0
+		]
+	}, {
+		"Title": "CapturePointCCW",
+		"Coordinates": [
+			21,
+			21,
+			0
+		]
+	}, {
+		"Title": "CapturePointCW",
+		"Coordinates": [
+			0,
 			30,
 			0
 		]
 	}, {
 		"Title": "CapturePointCW",
 		"Coordinates": [
+			-21,
+			21,
+			0
+		]
+	}, {
+		"Title": "CapturePointCCW",
+		"Coordinates": [
 			-30,
+			0,
+			0
+		]
+	}, {
+		"Title": "CapturePointCCW",
+		"Coordinates": [
+			-21,
+			-21,
+			0
+		]
+	}, {
+		"Title": "CapturePointCW",
+		"Coordinates": [
+			0,
 			-30,
+			0
+		]
+	}, {
+		"Title": "CapturePointCW",
+		"Coordinates": [
+			21,
+			-21,
 			0
 		]
 	}, {
