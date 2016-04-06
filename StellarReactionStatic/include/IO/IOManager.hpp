@@ -3,6 +3,7 @@
 
 #include "Timer.hpp"
 #include "Courier.hpp"
+#include "NonCopyable.hpp"
 
 class NetworkComponent;
 class IOComponent;
@@ -11,7 +12,7 @@ class IOComponent;
 /// Controlls the sending of Messages throughout the program
 /// and stores all the io components in a list
 /// </summary>
-class IOManager
+class IOManager : NonCopyable
 {
 public:
 	IOManager(bool acceptsLocalMessages, bool networked = false);

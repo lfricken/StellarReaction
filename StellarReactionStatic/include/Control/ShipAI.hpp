@@ -1,11 +1,12 @@
 #pragma once
 
 #include "BasePlayerTraits.hpp"
+#include "NonCopyable.hpp"
 
 class Chunk;
 enum class Directive;
 
-class ShipAI : public BasePlayerTraits
+class ShipAI : public BasePlayerTraits, NonCopyable
 {
 public:
 	ShipAI();

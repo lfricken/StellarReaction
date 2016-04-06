@@ -10,10 +10,11 @@
 #include "ClassRegister.hpp"
 #include "JSON.hpp"
 #include "CommandInfo.hpp"
+#include "NonCopyable.hpp"
 
 struct ModuleData;
 
-class Module
+class Module : NonCopyable
 {
 public:
 	Module(const ModuleData& rData);

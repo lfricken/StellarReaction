@@ -140,7 +140,7 @@ void Controller::pack(sf::Packet& rPacket)
 		rPacket << m_directives[static_cast<Directive>(i)];
 	}
 	rPacket << weaponGroupSize;
-	for(int32_t i = 1; i <= m_weaponGroups.size(); ++i)
+	for(int32_t i = 1; i <= (signed)m_weaponGroups.size(); ++i)
 	{
 		rPacket << m_weaponGroups[i];
 	}

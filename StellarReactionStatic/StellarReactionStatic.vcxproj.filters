@@ -397,6 +397,7 @@
     <ClInclude Include="include\Universe\Chunk\CommandInfo.hpp" />
     <ClInclude Include="include\Control\Directive.hpp" />
     <ClInclude Include="include\Control\Request.hpp" />
+    <ClInclude Include="include\Basic\NonCopyable.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\API\SFML\Audio\SoundFileFactory.inl" />

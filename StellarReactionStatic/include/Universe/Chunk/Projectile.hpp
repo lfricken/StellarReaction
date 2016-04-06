@@ -5,10 +5,11 @@
 #include "ProjectileModule.hpp"
 #include "QuadComponent.hpp"
 #include "Pool.hpp"
+#include "NonCopyable.hpp"
 
 struct ProjectileData;
 
-class Projectile
+class Projectile : NonCopyable
 {
 public:
 	Projectile(const ProjectileData& rData);

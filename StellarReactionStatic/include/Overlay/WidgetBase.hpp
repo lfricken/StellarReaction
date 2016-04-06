@@ -3,6 +3,7 @@
 #include "stdafx.hpp"
 #include "Globals.hpp"
 #include "IOComponent.hpp"
+#include "NonCopyable.hpp"
 
 namespace leon
 {
@@ -26,7 +27,7 @@ namespace leon
 		IOComponentData ioComp;
 	};
 
-	class WidgetBase
+	class WidgetBase : NonCopyable
 	{
 	public:
 		WidgetBase(tgui::Gui& gui, const WidgetBaseData& rData);

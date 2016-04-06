@@ -8,6 +8,7 @@
 #include "SoundData.hpp"
 #include "ClassRegister.hpp"
 #include "BlueprintData.hpp"
+#include "NonCopyable.hpp"
 
 struct WeaponData;
 class FixtureComponent;
@@ -16,7 +17,7 @@ class FixtureComponent;
 /// Base Class for all weapon types.
 /// Derived weapons override only preshot and postshot
 /// </summary>
-class Weapon
+class Weapon : NonCopyable
 {
 public:
 	Weapon(const WeaponData& rData);

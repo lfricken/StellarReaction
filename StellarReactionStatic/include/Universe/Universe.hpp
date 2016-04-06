@@ -10,6 +10,7 @@
 #include "Hazard\HazardField.hpp"
 #include "ShipAI.hpp"
 #include "LaunchGame.hpp"
+#include "NonCopyable.hpp"
 
 class BatchLayers;
 class GraphicsComponentUpdater;
@@ -24,12 +25,10 @@ class ProjectileMan;
 class BodyComponent;
 class Scoreboard;
 
-
-
 /// <summary>
 /// A new one is instantiated when you relaunch the game
 /// </summary>
-class Universe
+class Universe : NonCopyable
 {
 public:
 	Universe(const IOComponentData& rData);

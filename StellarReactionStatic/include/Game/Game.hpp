@@ -1,7 +1,7 @@
 #pragma once
 
 #include "stdafx.hpp"
-
+#include "NonCopyable.hpp"
 
 
 class Player;
@@ -29,7 +29,7 @@ namespace leon
 /// Game is global access point for state
 /// ultimately holds everything
 /// </summary>
-class Game
+class Game : NonCopyable
 {
 public:
 	Game();

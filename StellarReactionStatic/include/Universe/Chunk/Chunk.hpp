@@ -6,6 +6,7 @@
 #include "ClassRegister.hpp"
 #include "QuadComponent.hpp"
 #include "BlueprintData.hpp"
+#include "NonCopyable.hpp"
 
 struct ChunkData;
 class Module;

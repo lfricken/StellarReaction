@@ -2,10 +2,12 @@
 #define PROJECTILEMAN_HPP
 
 #include "stdafx.hpp"
+#include "NonCopyable.hpp"
+
 class Projectile;
 
 /**MANAGES PROJECTILES**/
-class ProjectileMan
+class ProjectileMan : NonCopyable
 {
 public:
 	ProjectileMan();

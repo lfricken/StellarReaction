@@ -1,5 +1,6 @@
 #pragma once
-#include <iostream>
+
+#include "stdafx.hpp"
 
 struct BlueprintData
 {
@@ -9,5 +10,7 @@ struct BlueprintData
 	}
 
 	std::string title;
+
+	virtual void loadJson(const Json::Value& root) = 0;
 };
 
