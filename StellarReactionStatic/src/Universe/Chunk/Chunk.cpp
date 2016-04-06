@@ -62,7 +62,7 @@ void ChunkData::loadJson(const Json::Value& root)
 }
 Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp), m_zoomPool(rData.zoomData), m_energyPool(rData.energyData), m_ballisticPool(rData.ballisticData), m_missilePool(rData.missileData)
 {
-	m_spawnPoint = b2Vec2(0, 0);
+	m_spawnPoint = b2Vec2(30, 30);
 	m_deaths = 0;
 	m_wasThrusting = false;
 	m_wasBoosting = false;
