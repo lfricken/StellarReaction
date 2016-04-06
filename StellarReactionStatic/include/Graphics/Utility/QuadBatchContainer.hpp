@@ -28,6 +28,7 @@ struct Batch
 /// <summary>
 /// Stores Batches for each texture requested
 /// </summary>
+class QuadBatchContainer : public sf::Drawable, NonCopyable
 {
 public:
 	QuadBatchContainer();
