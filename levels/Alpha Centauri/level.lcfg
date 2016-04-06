@@ -8,14 +8,14 @@
 		"HazardName": "Asteroid",
 		"NumHazards": 16,
 		"Radius": 40,
-		"OriginX": -80,
-		"OriginY": 0
+		"OriginX": -70,
+		"OriginY": 70
 	}, {
 		"HazardName": "Asteroid",
 		"NumHazards": 16,
 		"Radius": 40,
-		"OriginX": 80,
-		"OriginY": 0
+		"OriginX": 70,
+		"OriginY": -70
 	}],
 	"SpawnPoints": [{
 		"Team": 1,
