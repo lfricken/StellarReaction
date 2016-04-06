@@ -35,7 +35,6 @@ void Spinner::toggleOn(bool on)
 {
 	if(m_on == true && on == false)
 	{
-		cout << "\n" << on;
 		m_oldRate = m_rate;
 		m_rate = 0;
 		m_on = false;
