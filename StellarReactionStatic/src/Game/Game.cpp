@@ -67,6 +67,10 @@ Game::Game()
 
 	ScoreboardData scoreData  = ScoreboardData();
 	m_spScoreboard = sptr<Scoreboard>(new Scoreboard(scoreData));
+
+	m_spIcon.reset(new sf::Image());
+	if(m_spIcon->loadFromFile(contentDir() + "textures/" + "gameicon.png"))
+		getWindow().setIcon(64, 64, m_spIcon->getPixelsPtr());
 }
 Game::~Game()
 {
@@ -237,7 +241,6 @@ void Game::tick(float frameTime)
 
 	static float physTickTimeRemaining = 0;
 	static const float timeStep = getUniverse().getTimeStep();
-	static const sf::View defaultView(Vector2f((float)(rWindow.getSize().x / 2), (float)(rWindow.getSize().y / 2)), Vector2f((float)rWindow.getSize().x, (float)rWindow.getSize().y));
 
 
 	/**== FRAMERATE ==**/
@@ -288,7 +291,7 @@ void Game::tick(float frameTime)
 	/**== DRAW UNIVERSE ==**/
 	rWindow.clear(sf::Color::Black);
 
-	rWindow.setView(defaultView);
+	rWindow.setView(*m_spStaticView);
 	getUniverse().getBatchLayers().drawBackground(rWindow);
 
 	rWindow.setView(getLocalPlayer().getCamera().getView());
@@ -299,7 +302,7 @@ void Game::tick(float frameTime)
 
 
 	/**== DRAW GUI/OVERLAYS ==**/
-	rWindow.setView(defaultView);
+	rWindow.setView(*m_spStaticView);
 	getUniverse().getBatchLayers().drawOverlay(rWindow);
 	m_spOverlay->getGui().draw();
 
@@ -416,6 +419,14 @@ void Game::loadWindow(const std::string& windowFile)
 	m_spWindow->setVerticalSyncEnabled(windowData.vSinc);
 	cout << "\nFPS Limit:" << windowData.targetFPS;
 	m_spWindow->setFramerateLimit(windowData.targetFPS);
+
+	resizeStaticView();
+}
+void Game::resizeStaticView()
+{
+	m_spStaticView.reset(new sf::View(sf::Vector2f(m_spWindow->getSize().x / 2, m_spWindow->getSize().y / 2), static_cast<sf::Vector2f>(m_spWindow->getSize())));
+	if(m_spOverlay)
+		m_spOverlay->getGui().setWindow(getWindow());
 }
 /// <summary>
 /// process the command

@@ -174,6 +174,7 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 		if(event.type == sf::Event::Resized)
 		{
 			//TODO WE MAY NEED TO ADJUST OTHER VIEW ELEMENTS???
+			game.resizeStaticView();
 			m_camera.resize();
 		}
 
