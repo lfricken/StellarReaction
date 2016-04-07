@@ -1,12 +1,12 @@
 {
-    "ClassName": "CaptureAreaData",
+    "ClassName": "GravityFieldData",
 	"fixComp": {
 		"offset": [
 			0,
 			0
 		],
 		"size": [
-			28,
+			130,
 			0
 		],
 		"shape": "circle",
@@ -15,9 +15,8 @@
 		"colCat": "Trigger",
 		"colMask": "Trigger"
 	},
-	"value": 10,
-	"captureTime": 5,
-	"capturePercent": 0.80,
+	"maxForce" : 9,
+	"minForce": 4,
     "baseDecor": {
         "texName": "other/blank.png",
         "animSheetName": "other/blank.acfg"

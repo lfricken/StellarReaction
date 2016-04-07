@@ -20,8 +20,8 @@ public:
 protected:
 private:
 	Energy m_rate;//energy per second
-	Timer m_debrisTimer;
-	std::vector<Chunk*> m_debrisList;
+	Timer m_respawnTimer;
+	bool m_respawned;
 };
 
 

@@ -1,0 +1,35 @@
+{
+    "ClassName": "ChunkData",
+    "bodyComp": {
+        "rotation": 0,
+        "isDynamic": false
+    },
+	"hullSpriteData": {
+		"dimensions": [27000, 27000],
+		"center": [0,0],
+		"texName": "planets/pluto.png",
+		"animSheetName": "planets/pluto.acfg",
+		"layer": "BackgroundClose"
+	},
+    "moduleData": [
+        {
+            "title": "PlanetPlating",
+            "Position": [
+                0,
+                0
+            ]
+        },{
+            "title": "PlanetTriggerSensor",
+            "Position": [
+                0,
+                0
+            ]
+        },{
+            "title": "PlanetGravityField",
+            "Position": [
+                0,
+                0
+            ]
+        }
+    ]
+}

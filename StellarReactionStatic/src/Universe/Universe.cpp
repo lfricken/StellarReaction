@@ -283,6 +283,19 @@ vector<int> Universe::getBounds()
 {
 	return m_bounds;
 }
+void Universe::setBounds(int x, int y)
+{
+	if (m_bounds.size() == 0)
+	{
+		m_bounds.push_back(x);
+		m_bounds.push_back(y);
+	}
+	else 
+	{
+		m_bounds[0] = x;
+		m_bounds[1] = y;
+	}
+}
 void Universe::updateShipAI()
 {
 	for(auto it = m_shipAI.begin(); it != m_shipAI.end(); ++it)

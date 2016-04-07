@@ -45,6 +45,7 @@ public:
 	BlueprintLoader& getBlueprints();
 	Scoreboard& getScoreboard();
 	std::vector<int> getBounds();
+	void setBounds(int x, int y);
 
 	float getTimeStep() const;
 	void prePhysUpdate();

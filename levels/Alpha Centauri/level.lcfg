@@ -232,6 +232,13 @@
 			0,
 			0
 		]
+	}, {
+		"Title": "Pluto",
+		"Coordinates": [
+		    -150,
+			-150,
+			0
+		]
 	}],
 	"Background1": {
 		"dimensions": [600, 600],

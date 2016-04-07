@@ -1,23 +1,24 @@
 {
-    "ClassName": "CaptureAreaData",
+    "ClassName": "PlatingData",
+	"health": {
+		"Max": 1000,
+		"Min": 0,
+		"Value": 1000,
+		"Armor": 500
+	},
 	"fixComp": {
 		"offset": [
 			0,
 			0
 		],
 		"size": [
-			28,
+			103,
 			0
 		],
 		"shape": "circle",
-		"density": 0,
-		"isSensor": true,
-		"colCat": "Trigger",
-		"colMask": "Trigger"
+		"density": 30
 	},
-	"value": 10,
-	"captureTime": 5,
-	"capturePercent": 0.80,
+	"collisionDamage": 5000,
     "baseDecor": {
         "texName": "other/blank.png",
         "animSheetName": "other/blank.acfg"

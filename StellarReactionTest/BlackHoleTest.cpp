@@ -16,13 +16,14 @@ extern Game game;
 TEST(BlackHoleTest, blackHoleAppliesForce)
 {
 	//create black hole
+	game.getUniverse().setBounds(10000, 10000);
 	game.getUniverse().getBlueprints().loadBlueprints("blueprints/");
-	ChunkData* bh = game.getUniverse().getBlueprints().getChunkSPtr("DefaultBlackHole")->clone();
+	ChunkData* bh = game.getUniverse().getBlueprints().getChunkSPtr("BlackHole")->clone();
 	bh->bodyComp.coords = b2Vec2(0, 0);
 	Chunk* hole = bh->generate(&game.getUniverse());
 	game.getUniverse().add(hole);
 	//create chunk
-	ChunkData* c = game.getUniverse().getBlueprints().getChunkSPtr("DefaultChunk")->clone();
+	ChunkData* c = game.getUniverse().getBlueprints().getChunkSPtr("TestChunk")->clone();
 	c->bodyComp.coords = b2Vec2(-10, 10);
 	Chunk* testShip = c->generate(&game.getUniverse());
 	game.getUniverse().add(testShip);
@@ -38,16 +39,13 @@ TEST(BlackHoleTest, blackHoleAppliesForce)
 TEST(BlackHoleTest, blackHoleDealsDamage)
 {
 	//create chunk
-	ChunkData* c = game.getUniverse().getBlueprints().getChunkSPtr("DefaultChunk")->clone();
-	c->bodyComp.coords = b2Vec2(-10, 10);
+	ChunkData* c = game.getUniverse().getBlueprints().getChunkSPtr("TestChunk")->clone();
+	c->bodyComp.coords = b2Vec2(-1, 1);
 	Chunk* testShip = c->generate(&game.getUniverse());
 	game.getUniverse().add(testShip);
-	//set velocity of chunk
-	b2Vec2 orgVel = b2Vec2(10, 0);
-	testShip->getBodyPtr()->SetLinearVelocity(orgVel);
 	//run time and check that a module has taken damage
 	game.runTime(0.5f);
-	int currentHealth = dynamic_cast<ShipModule*>(testShip->getModuleList()[1].get())->getHealth().getHealth();
-	int maxHealth = dynamic_cast<ShipModule*>(testShip->getModuleList()[1].get())->getHealth().getMaxHealth();
+	int currentHealth = dynamic_cast<ShipModule*>(testShip->getModuleList()[0].get())->getHealth().getHealth();
+	int maxHealth = dynamic_cast<ShipModule*>(testShip->getModuleList()[0].get())->getHealth().getMaxHealth();
 	ASSERT_LT(currentHealth, maxHealth);
 }

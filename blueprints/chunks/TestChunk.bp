@@ -1,0 +1,16 @@
+{
+    "ClassName": "ChunkData",
+    "bodyComp": {
+		"linearDampening": 0.0,
+		"angularDampening": 0.0
+    },
+    "moduleData": [
+        {
+            "title": "Radar",
+            "Position": [
+                0,
+                0
+            ]
+        }
+    ]
+}

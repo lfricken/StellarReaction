@@ -22,7 +22,7 @@ TEST(GrappleTest, GrappleShip)
 	3. Add LaserData to chunkData
 	4. Create chunk with chunkdata
 	5. Create Grapple with GrappleData
-	*/
+	
 
 	//create chunkData
 	ChunkData* testChunkData = new ChunkData();
@@ -91,5 +91,5 @@ TEST(GrappleTest, GrappleShip)
 	//ASSERT_NE(origPos.x, afterDeathPos.x);
 	//ASSERT_GT(afterDeathPos.x, -8);
 	//ASSERT_LT(afterDeathPos.x, 8);
-
+*/
 }
