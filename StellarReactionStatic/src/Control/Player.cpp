@@ -148,7 +148,7 @@ void Player::getLiveInput()
 
 	}
 
-	m_mouseWindowPos = game.getWindow().mapPixelToCoords(Mouse::getPosition(game.getWindow()), game.getWindow().getDefaultView());
+	m_mouseWindowPos = game.getWindow().mapPixelToCoords(Mouse::getPosition(game.getWindow()), game.getStaticView());
 
 	CommandInfo commands;
 	commands.directives = m_directives;
@@ -176,6 +176,7 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 			//TODO WE MAY NEED TO ADJUST OTHER VIEW ELEMENTS???
 			game.resizeStaticView();
 			m_camera.resize();
+			game.getOverlay().getGui().handleEvent(event, false);
 		}
 
 		/** CLOSE **/

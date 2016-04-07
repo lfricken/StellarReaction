@@ -281,9 +281,10 @@ void Game::tick(float frameTime)
 
 	/**== WINDOW ==**/
 	getDragUpdater().update(getLocalPlayer().getMouseWindowPos());
-	rWindow.setView(getLocalPlayer().getCamera().getView());
+	//rWindow.setView(getLocalPlayer().getCamera().getView());
+	rWindow.setView(*m_spStaticView);
 	getLocalPlayer().getWindowEvents(rWindow);
-	getUniverse().updateDecorationPosition(getLocalPlayer().getCamera().getPosition(), getLocalPlayer().getCamera().getZoom());
+	//getUniverse().updateDecorationPosition(getLocalPlayer().getCamera().getPosition(), getLocalPlayer().getCamera().getZoom());
 	getUniverse().getGfxUpdater().update();//update graphics components
 
 
@@ -304,7 +305,7 @@ void Game::tick(float frameTime)
 	/**== DRAW GUI/OVERLAYS ==**/
 	rWindow.setView(*m_spStaticView);
 	getUniverse().getBatchLayers().drawOverlay(rWindow);
-	m_spOverlay->getGui().draw();
+	m_spOverlay->getGui().draw(false);
 
 	/**== DISPLAY ==**/
 	rWindow.display();
@@ -330,6 +331,10 @@ void Game::loadUniverse(const std::string& stuff)
 		getUniverse().getUniverseIO().toggleAcceptsLocal(false);
 	else
 		getUniverse().getUniverseIO().toggleAcceptsLocal(true);
+}
+sf::View& Game::getStaticView()
+{
+	return *m_spStaticView;
 }
 /// <summary>
 /// Initializes the window from a json file with the needed data.
@@ -425,8 +430,6 @@ void Game::loadWindow(const std::string& windowFile)
 void Game::resizeStaticView()
 {
 	m_spStaticView.reset(new sf::View(sf::Vector2f(m_spWindow->getSize().x / 2, m_spWindow->getSize().y / 2), static_cast<sf::Vector2f>(m_spWindow->getSize())));
-	if(m_spOverlay)
-		m_spOverlay->getGui().setWindow(getWindow());
 }
 /// <summary>
 /// process the command

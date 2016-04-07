@@ -47,6 +47,7 @@ public:
 	SoundManager& getSound();
 	leon::DragUpdater& getDragUpdater();
 	Scoreboard& getScoreboard();
+	sf::View& getStaticView();
 
 	Universe& getUniverse();
 	const Directory& getDir() const;
@@ -100,6 +101,7 @@ private:
 	/// SFML window.
 	/// </summary>
 	sptr<sf::RenderWindow> m_spWindow;
+	/// <summary>
 	/// View that does not move. (HUD elements)
 	/// </summary>
 	sptr<sf::View> m_spStaticView;
