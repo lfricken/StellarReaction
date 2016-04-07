@@ -171,6 +171,11 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 			toggleFocus(false);
 		if(event.type == sf::Event::GainedFocus)
 			toggleFocus(true);
+		if(event.type == sf::Event::Resized)
+		{
+			//TODO WE MAY NEED TO ADJUST OTHER VIEW ELEMENTS???
+			m_camera.resize();
+		}
 
 		/** CLOSE **/
 		if(event.type == sf::Event::Closed)

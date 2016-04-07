@@ -45,7 +45,11 @@ void Camera::setRotation(float radiansCCW)
 {
 	m_view.setRotation(-leon::radToDeg(radiansCCW));
 }
-
+void Camera::resize()
+{
+	m_standardSize = static_cast<sf::Vector2f>(game.getWindow().getSize());
+	m_view.setSize(m_standardSize.x * m_zoomLevel, m_standardSize.y *m_zoomLevel);
+}
 
 
 b2Vec2 Camera::getPosition() const
