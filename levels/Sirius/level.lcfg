@@ -1,0 +1,189 @@
+{
+	"AdditionalBlueprints:comment": "Additional directories to find more blueprints in. Default always loaded.",
+	"AdditionalBlueprints": [],
+	"MapBounds": [150, 150],
+	"Decorations": [{
+
+	}],
+	"HazardFields": [{
+		"HazardName": "Asteroid",
+		"NumHazards": 16,
+		"Radius": 40,
+		"OriginX": -70,
+		"OriginY": 70
+	}, {
+		"HazardName": "Asteroid",
+		"NumHazards": 16,
+		"Radius": 40,
+		"OriginX": 70,
+		"OriginY": -70
+	}, {
+		"HazardName": "Asteroid",
+		"NumHazards": 16,
+		"Radius": 30,
+		"OriginX": 120,
+		"OriginY": -120
+	}, {
+		"HazardName": "Asteroid",
+		"NumHazards": 16,
+		"Radius": 30,
+		"OriginX": -120,
+		"OriginY": 120
+	}],
+	"SpawnPoints": [{
+		"Team": 1,
+		"Points": [
+			[-165, 20, 0],
+			[-165, 15, 0],
+			[-165, 10, 0],
+			[-165, 5, 0],
+			[-165, -5, 0],
+			[-165, -10, 0],
+			[-165, -15, 0],
+			[-165, -20, 0]
+		]
+	}, {
+		"Team": 2,
+		"Points": [
+			[165, 20, 0],
+			[165, 15, 0],
+			[165, 10, 0],
+			[165, 5, 0],
+			[165, -5, 0],
+			[165, -10, 0],
+			[165, -15, 0],
+			[165, -20, 0]
+		]
+	}, {
+		"Team": 3,
+		"Points": [
+			[20, 165, 0],
+			[15, 165, 0],
+			[10, 165, 0],
+			[5, 165, 0],
+			[-5, 165, 0],
+			[-10, 165, 0],
+			[-15, 165, 0],
+			[-20, 165, 0]
+		]
+	}, {
+		"Team": 4,
+		"Points": [
+			[20, -165, 0],
+			[15, -165, 0],
+			[10, -165, 0],
+			[5, -165, 0],
+			[-5, -165, 0],
+			[-10, -165, 0],
+			[-15, -165, 0],
+			[-20, -165, 0]
+		]
+	}],
+	"Chunks": [{
+		"Title": "Anubis",
+		"Coordinates": [-60, -5, 0]
+	}, {
+		"Title": "Caterina",
+		"Coordinates": [-50, -5, 0]
+	}, {
+		"Title": "Dante",
+		"Coordinates": [-40, -5, 0]
+	}, {
+		"Title": "StationBlue",
+		"Coordinates": [
+			-145,
+			-0,
+			270
+		]
+	}, {
+		"Title": "StationGreen",
+		"Coordinates": [
+			145,
+			0,
+			90
+		]
+	}, {
+		"Title": "StationYellow",
+		"Coordinates": [
+			0,
+			-145,
+			0
+		]
+	}, {
+		"Title": "StationPink",
+		"Coordinates": [
+			0,
+			145,
+			180
+		]
+	}, {
+		"Title": "CapturePointCCW",
+		"Coordinates": [
+			-40,
+			40,
+			0
+		]
+	}, {
+		"Title": "CapturePointCCW",
+		"Coordinates": [
+			40,
+			-40,
+			0
+		]
+	}, {
+		"Title": "CapturePointCW",
+		"Coordinates": [
+			-100,
+			100,
+			0
+		]
+	}, {
+		"Title": "CapturePointCW",
+		"Coordinates": [
+			100,
+			-100,
+			0
+		]
+	}, {
+		"Title": "CapturePointCCW",
+		"Coordinates": [
+			-120,
+			0,
+			0
+		]
+	}, {
+		"Title": "CapturePointCCW",
+		"Coordinates": [
+			120,
+			0,
+			0
+		]
+	}, {
+		"Title": "CapturePointCW",
+		"Coordinates": [
+			0,
+			120,
+			0
+		]
+	}, {
+		"Title": "CapturePointCW",
+		"Coordinates": [
+			0,
+			-120,
+			0
+		]
+	}, {
+		"Title": "BlackHole",
+		"Coordinates": [
+		    0,
+			0,
+			0
+		]
+	}],
+	"Background1": {
+		"dimensions": [600, 600],
+		"texName": "backgrounds/bg1.png",
+		"animSheetName": "backgrounds/bg1.acfg",
+		"layer": "BackgroundFar"
+	}
+}
