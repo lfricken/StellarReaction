@@ -7,12 +7,14 @@ using namespace std;
 void ReactorData::loadJson(const Json::Value& root)
 {
 	GETJSON(rate);
+	GETJSON(respawnTime);
 
 	ShipModuleData::loadJson(root);
 }
 Reactor::Reactor(const ReactorData& rData) : ShipModule(rData)
 {
 	m_rate = rData.rate;
+	m_respawnTime = rData.respawnTime;
 	m_respawned = true;
 }
 Reactor::~Reactor()
@@ -63,7 +65,7 @@ void Reactor::respawn()
 	}
 	else if (m_respawned)
 	{
-		m_respawnTimer.setCountDown(3.0);
+		m_respawnTimer.setCountDown(m_respawnTime);
 		m_respawnTimer.restartCountDown();
 		m_respawned = false;
 	}

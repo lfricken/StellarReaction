@@ -22,6 +22,7 @@ private:
 	Energy m_rate;//energy per second
 	Timer m_respawnTimer;
 	bool m_respawned;
+	float m_respawnTime;
 };
 
 
@@ -29,13 +30,15 @@ struct ReactorData : public ShipModuleData
 {
 	ReactorData() :
 		ShipModuleData(),
-		rate(5)// J/s
+		rate(5),// J/s
+		respawnTime(3)
 	{
 		baseDecor.texName = "reactor/reactor_base.png";
 		baseDecor.animSheetName = "reactor/reactor_base.acfg";
 	}
 
 	Energy rate;// J/s
+	float respawnTime;
 
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{

@@ -29,6 +29,7 @@ TEST(ReactorTest, shipMovesOnDeath)
 
 	//create ReactorData
 	ReactorData* testReactorData = new ReactorData();
+	testReactorData->respawnTime = 0.f;
 	testChunkData->moduleData.push_back(sptr<ModuleData>(testReactorData));
 
 	//create Chunk
@@ -74,6 +75,7 @@ TEST(ReactorTest, shipHealsOnDeath)
 
 	//create ReactorData
 	ReactorData* testReactorData = new ReactorData();
+	testReactorData->respawnTime = 0.f;
 	testChunkData->moduleData.push_back(sptr<ModuleData>(testReactorData));
 
 	//create Chunk
