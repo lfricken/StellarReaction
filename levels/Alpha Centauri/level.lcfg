@@ -1,7 +1,7 @@
 {
 	"AdditionalBlueprints:comment": "Additional directories to find more blueprints in. Default always loaded.",
 	"AdditionalBlueprints": [],
-	"MapBounds": [175, 175],
+	"MapBounds": [150, 150],
 	"Decorations": [{
 
 	}],
@@ -17,54 +17,66 @@
 		"Radius": 40,
 		"OriginX": 70,
 		"OriginY": -70
+	}, {
+		"HazardName": "Asteroid",
+		"NumHazards": 16,
+		"Radius": 30,
+		"OriginX": 120,
+		"OriginY": -120
+	}, {
+		"HazardName": "Asteroid",
+		"NumHazards": 16,
+		"Radius": 30,
+		"OriginX": -120,
+		"OriginY": 120
 	}],
 	"SpawnPoints": [{
 		"Team": 1,
 		"Points": [
-			[-185, 20, 0],
-			[-185, 15, 0],
-			[-185, 10, 0],
-			[-185, 5, 0],
-			[-185, -5, 0],
-			[-185, -10, 0],
-			[-185, -15, 0],
-			[-185, -20, 0]
+			[-165, 20, 0],
+			[-165, 15, 0],
+			[-165, 10, 0],
+			[-165, 5, 0],
+			[-165, -5, 0],
+			[-165, -10, 0],
+			[-165, -15, 0],
+			[-165, -20, 0]
 		]
 	}, {
 		"Team": 2,
 		"Points": [
-			[185, 20, 0],
-			[185, 15, 0],
-			[185, 10, 0],
-			[185, 5, 0],
-			[185, -5, 0],
-			[185, -10, 0],
-			[185, -15, 0],
-			[185, -20, 0]
+			[165, 20, 0],
+			[165, 15, 0],
+			[165, 10, 0],
+			[165, 5, 0],
+			[165, -5, 0],
+			[165, -10, 0],
+			[165, -15, 0],
+			[165, -20, 0]
 		]
 	}, {
 		"Team": 3,
 		"Points": [
-			[20, 185, 0],
-			[15, 185, 0],
-			[10, 185, 0],
-			[5, 185, 0],
-			[-5, 185, 0],
-			[-10, 185, 0],
-			[-15, 185, 0],
-			[-20, 185, 0]
+			[20, 165, 0],
+			[15, 165, 0],
+			[10, 165, 0],
+			[5, 165, 0],
+			[-5, 165, 0],
+			[-10, 165, 0],
+			[-15, 165, 0],
+			[-20, 165, 0]
 		]
 	}, {
 		"Team": 4,
 		"Points": [
-			[20, -185, 0],
-			[15, -185, 0],
-			[10, -185, 0],
-			[5, -185, 0],
-			[-5, -185, 0],
-			[-10, -185, 0],
-			[-15, -185, 0],
-			[-20, -185, 0]
+			[20, -165, 0],
+			[15, -165, 0],
+			[10, -165, 0],
+			[5, -165, 0],
+			[-5, -165, 0],
+			[-10, -165, 0],
+			[-15, -165, 0],
+			[-20, -165, 0]
 		]
 	}],
 	"Chunks": [{
@@ -79,14 +91,14 @@
 	}, {
 		"Title": "StationBlue",
 		"Coordinates": [
-			-160,
+			-145,
 			-0,
 			270
 		]
 	}, {
 		"Title": "StationGreen",
 		"Coordinates": [
-			160,
+			145,
 			0,
 			90
 		]
@@ -94,70 +106,70 @@
 		"Title": "StationYellow",
 		"Coordinates": [
 			0,
-			-160,
+			-145,
 			0
 		]
 	}, {
 		"Title": "StationPink",
 		"Coordinates": [
 			0,
-			160,
+			145,
 			180
 		]
 	}, {
 		"Title": "CapturePointCCW",
 		"Coordinates": [
-			30,
+			-40,
+			40,
+			0
+		]
+	}, {
+		"Title": "CapturePointCCW",
+		"Coordinates": [
+			40,
+			-40,
+			0
+		]
+	}, {
+		"Title": "CapturePointCW",
+		"Coordinates": [
+			-100,
+			100,
+			0
+		]
+	}, {
+		"Title": "CapturePointCW",
+		"Coordinates": [
+			100,
+			-100,
+			0
+		]
+	}, {
+		"Title": "CapturePointCCW",
+		"Coordinates": [
+			-120,
 			0,
 			0
 		]
 	}, {
 		"Title": "CapturePointCCW",
 		"Coordinates": [
-			21,
-			21,
+			120,
+			0,
 			0
 		]
 	}, {
 		"Title": "CapturePointCW",
 		"Coordinates": [
 			0,
-			30,
-			0
-		]
-	}, {
-		"Title": "CapturePointCW",
-		"Coordinates": [
-			-21,
-			21,
-			0
-		]
-	}, {
-		"Title": "CapturePointCCW",
-		"Coordinates": [
-			-30,
-			0,
-			0
-		]
-	}, {
-		"Title": "CapturePointCCW",
-		"Coordinates": [
-			-21,
-			-21,
+			120,
 			0
 		]
 	}, {
 		"Title": "CapturePointCW",
 		"Coordinates": [
 			0,
-			-30,
-			0
-		]
-	}, {
-		"Title": "CapturePointCW",
-		"Coordinates": [
-			21,
-			-21,
+			-120,
 			0
 		]
 	}, {
