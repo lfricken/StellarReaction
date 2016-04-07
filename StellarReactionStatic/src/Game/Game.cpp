@@ -213,7 +213,8 @@ void Game::runTime(float time)
 	{
 		frameTime = m_clock.getElapsedTime().asSeconds() - lastTime;
 		lastTime = m_clock.getElapsedTime().asSeconds();
-		tick(frameTime);
+		if(frameTime < 1)
+			tick(frameTime);
 	}
 
 	if(!game.getUniverse().isPaused())
@@ -232,7 +233,8 @@ void Game::run()
 	{
 		frameTime = m_clock.getElapsedTime().asSeconds() - lastTime;
 		lastTime = m_clock.getElapsedTime().asSeconds();
-		tick(frameTime);
+		if(frameTime < 1)
+			tick(frameTime);
 	}
 }
 void Game::tick(float frameTime)
