@@ -69,6 +69,15 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 		else
 			cout << "\nAdditional Blueprints Null.";
 
+		/**Map Bounds*/
+		if (!root["MapBounds"].isNull())
+		{
+			const Json::Value boundsList = root["MapBounds"];
+			m_bounds.push_back(root["MapBounds"][0].asInt());
+			m_bounds.push_back(root["MapBounds"][1].asInt());
+		}
+		else
+			cout << "\nAdditional Blueprints Null.";
 
 		/**Spawn Points**/
 		if(!root["SpawnPoints"].isNull())
@@ -269,6 +278,10 @@ IOManager& Universe::getUniverseIO()
 Scoreboard& Universe::getScoreboard()
 {
 	return *m_scoreboard;
+}
+vector<int> Universe::getBounds()
+{
+	return m_bounds;
 }
 void Universe::updateShipAI()
 {
@@ -664,4 +677,13 @@ bool Universe::isClear(b2Vec2 position, float radius, const b2Body* exception)
 	if(dist < (nearestRad + radius))
 		return false;
 	return true;
+}
+b2Vec2 Universe::getAvailableSpawn(int team, float radius, const b2Body* exception)
+{
+	for (auto it = m_spawnPoints[team].begin(); it != m_spawnPoints[team].end(); it++)
+	{
+		if (isClear((*it), radius, exception))
+			return (*it);
+	}
+	return b2Vec2_zero;
 }

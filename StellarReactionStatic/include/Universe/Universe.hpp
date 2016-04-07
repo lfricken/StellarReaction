@@ -44,6 +44,7 @@ public:
 	b2World& getWorld();
 	BlueprintLoader& getBlueprints();
 	Scoreboard& getScoreboard();
+	std::vector<int> getBounds();
 
 	float getTimeStep() const;
 	void prePhysUpdate();
@@ -78,6 +79,7 @@ public:
 
 	std::vector<sptr<GameObject> > getgoList();
 	bool isClear(b2Vec2 position, float radius, const b2Body* exception);
+	b2Vec2 getAvailableSpawn(int team, float radius, const b2Body* exception);
 
 
 	float m_pauseTime;
@@ -133,4 +135,5 @@ private:
 	IOComponent m_io;
 	float m_lastTime;//used for update method//cant use timer because timer references us!
 	bool m_debugDrawEnabled;
+	std::vector<int> m_bounds;
 };

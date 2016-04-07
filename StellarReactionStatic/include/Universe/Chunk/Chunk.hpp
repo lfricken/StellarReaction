@@ -46,6 +46,7 @@ public:
 
 	int incDeaths();
 	b2Vec2 getSpawn();
+	b2Vec2 getClearSpawn();
 
 	void setStealth(bool stealthToggle);
 	bool isStealth();

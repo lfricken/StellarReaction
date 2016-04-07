@@ -62,7 +62,7 @@ void ChunkData::loadJson(const Json::Value& root)
 }
 Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp), m_zoomPool(rData.zoomData), m_energyPool(rData.energyData), m_ballisticPool(rData.ballisticData), m_missilePool(rData.missileData)
 {
-	m_spawnPoint = b2Vec2(30, 30);
+	m_spawnPoint = m_body.getBodyPtr()->GetPosition();
 	m_deaths = 0;
 	m_wasThrusting = false;
 	m_wasBoosting = false;
@@ -127,6 +127,15 @@ b2Vec2 Chunk::getSpawn()
 {
 	return m_spawnPoint;
 }
+b2Vec2 Chunk::getClearSpawn()
+{
+	if (game.getUniverse().isClear(m_spawnPoint, getRadius(), m_body.getBodyPtr()))
+		return m_spawnPoint;
+	else
+	{
+		game.getUniverse().getAvailableSpawn(m_body.getTeam(), getRadius(), m_body.getBodyPtr());
+	}
+}
 void Chunk::setStealth(bool stealthToggle)
 {
 	m_stealth = stealthToggle;
@@ -175,6 +184,21 @@ void Chunk::add(const ModuleData& rData)
 }
 void Chunk::prePhysUpdate()
 {
+	//push chunk in bounds if out of bounds
+	b2Vec2 location = m_body.getBodyPtr()->GetPosition();
+	vector<int> bounds = game.getUniverse().getBounds();
+	if (abs(location.x) > bounds[0] || abs(location.y) > bounds[1])
+	{
+		b2Vec2 force = b2Vec2(-location.x, -location.y);
+		force.Normalize();
+		force *= 10;
+		if (abs(location.x) > bounds[0])
+			force.x *= abs(location.x) - bounds[0];
+		if (abs(location.y) > bounds[1])
+			force.y *= abs(location.y) - bounds[1];
+		m_body.getBodyPtr()->ApplyForceToCenter(force, true);
+	}
+
 	for(auto it = m_modules.begin(); it != m_modules.end(); ++it)
 		(*it)->prePhysUpdate();
 }
