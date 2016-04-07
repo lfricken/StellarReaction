@@ -63,6 +63,7 @@ void ChunkData::loadJson(const Json::Value& root)
 Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp), m_zoomPool(rData.zoomData), m_energyPool(rData.energyData), m_ballisticPool(rData.ballisticData), m_missilePool(rData.missileData)
 {
 	m_spawnPoint = m_body.getBodyPtr()->GetPosition();
+	m_radius = -1.f;
 	m_deaths = 0;
 	m_wasThrusting = false;
 	m_wasBoosting = false;
@@ -422,6 +423,8 @@ void Chunk::input(std::string rCommand, sf::Packet rData)
 }
 float Chunk::getRadius()
 {
+	if (m_radius < 0.f)
+		return m_radius;
 	b2Vec2 max = b2Vec2_zero;
 	for (auto it = m_modules.cbegin(); it != m_modules.cend(); ++it)
 	{
@@ -429,7 +432,7 @@ float Chunk::getRadius()
 			max = b2Vec2((*it)->getOffset());
 		}
 	}
-
-	return max.Length();
+	m_radius = max.Length();
+	return m_radius;
 }
 

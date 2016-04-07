@@ -85,6 +85,7 @@ private:
 	int m_thrustNoiseIndex;
 	int m_boostNoiseIndex;
 	int m_deaths;
+	float m_radius;
 };
 
 
