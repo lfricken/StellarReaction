@@ -121,6 +121,7 @@ private:
 
 	std::map<int, std::vector<b2Vec2> > m_spawnPoints;//places for people to spawn, int is team
 	std::map<int, Money> m_captures;//how much money does each team get for capture points
+	bool m_restartedMoneyTimer;
 	sptr<Timer> m_spMoneyTimer;//how long to wait for each money gift
 
 	std::vector<sptr<GameObject> > m_goList;//list of game objects that WE need to keep track of

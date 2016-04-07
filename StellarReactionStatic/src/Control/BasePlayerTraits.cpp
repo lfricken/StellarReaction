@@ -10,7 +10,7 @@ BasePlayerTraits::BasePlayerTraits(const std::string& rName)
 	m_team = 1;
 	m_shipChoice = "Anubis";
 	m_name = rName;
-	m_balance = 20;
+	m_balance = 0;
 	m_controller = -1;
 }
 BasePlayerTraits::~BasePlayerTraits()

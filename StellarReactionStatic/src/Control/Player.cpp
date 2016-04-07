@@ -364,6 +364,7 @@ void Player::universeDestroyed()
 	m_energyMeterFill.reset();
 	m_energyDanger.reset();
 	m_minimap.reset();
+	setMoney(0);
 }
 bool Player::toggleFocus(bool isWindowFocused)
 {

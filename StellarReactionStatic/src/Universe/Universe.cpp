@@ -180,7 +180,7 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input, this), m_physWorld(b2Vec2(0, 0))
 {
 	const Money defaultTickMoney = 1;
-	const float moneyTickTime = 5.f;
+	const float moneyTickTime = 1.f;
 	const int minTeam = 1;
 	const int maxTeam = 4;
 
@@ -202,8 +202,9 @@ Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input,
 	/**IO**/
 
 	//how often are people given capture rewards?
-	m_spMoneyTimer = sptr<Timer>(new Timer(this->getTime()));
+	m_spMoneyTimer.reset(new Timer(this->getTime()));
 	m_spMoneyTimer->setCountDown(moneyTickTime);
+	m_restartedMoneyTimer = false;
 
 	for(int i = minTeam; i <= maxTeam; ++i)
 		m_captures[i] = defaultTickMoney;
@@ -384,6 +385,12 @@ BodyComponent* Universe::getNearestBody(const b2Vec2& target)
 /// </summary>
 void Universe::teamMoneyUpdate()
 {
+	if(!m_restartedMoneyTimer)
+	{
+		m_spMoneyTimer->restartCountDown();
+		m_restartedMoneyTimer = true;
+	}
+
 	if(game.getNwBoss().getNWState() == NWState::Server)
 		if(m_spMoneyTimer->isTimeUp())
 		{
