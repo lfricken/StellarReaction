@@ -7,7 +7,6 @@ using namespace std;
 
 void ModuleData::loadJson(const Json::Value& root)
 {
-	GETJSON(title);
 	GETJSON(name);
 	LOADJSON(ioComp);
 	LOADJSON(fixComp);

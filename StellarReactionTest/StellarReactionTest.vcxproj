@@ -109,6 +109,12 @@
       <Project>{b53d049c-4f44-4469-b0ab-328feee2def4}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="testblueprints\chunks\Ships\test_chunk.bp" />
+    <None Include="testblueprints\modules\test_module.bp" />
+    <None Include="testblueprints\projectiles\test_projectile.bp" />
+    <None Include="testblueprints\weapons\test_weapon.bp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
