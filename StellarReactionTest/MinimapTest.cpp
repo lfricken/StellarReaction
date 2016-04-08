@@ -10,13 +10,12 @@ extern Game game;
 
 TEST(MiniMapTest, NumberOfMarkers)
 {
-	Message host("networkboss", "launch", voidPacket, 0, false);
-	game.getCoreIO().recieve(host);
+	game.restartTest("Alpha Centauri");
 
 	game.runTicks(3);
 
 	int totalItems = game.getUniverse().getgoList().size();
 	int radarItems = game.getLocalPlayer().radarsize();
 
-	EXPECT_EQ(totalItems, radarItems);
+	EXPECT_LE(totalItems, radarItems);
 }
