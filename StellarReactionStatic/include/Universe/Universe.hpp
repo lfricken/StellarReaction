@@ -126,7 +126,6 @@ private:
 
 	std::vector<sptr<GameObject> > m_goList;//list of game objects that WE need to keep track of
 	std::vector<sptr<GameObject> > m_playerShipList;
-	std::vector<sptr<GameObject>> m_shipDebris;//game object to add after iteration
 	std::vector<sptr<GameObject> > m_shipDebris;//game object to add after iteration
 	std::vector<sptr<ShipAI> > m_shipAI;
 	std::vector<sptr<HazardField> > hazardFields;
