@@ -16,7 +16,7 @@ using namespace std;
 Minimap::Minimap(const MinimapData& rData) : QuadComponent(rData)
 {
 	m_controller = rData.controller;
-	map_points = std::vector<sptr<DecorQuad> >();
+	map_points = std::vector<sptr<QuadComponent> >();
 }
 Minimap::~Minimap()
 {
@@ -25,20 +25,30 @@ void Minimap::setDot(b2Vec2 center, int index, int team)
 {
 	if(index >= (signed)map_points.size())
 	{
-		DecorQuadData temp;
-		temp.quadComp.dimensions = sf::Vector2f(10, 10);
-		temp.quadComp.layer = GraphicsLayer::OverlayMiddle;
+		QuadComponentData atemp;
+		atemp.dimensions = sf::Vector2f(10, 10);
+		atemp.layer = GraphicsLayer::OverlayMiddle;
 		if (team == 1)
-			temp.quadComp.color = sf::Color::Green;
+			atemp.color = sf::Color::Green;
+		else if (team == 0)
+			atemp.color = sf::Color::Red;
 		else
-			temp.quadComp.color = sf::Color::Red;
-		DecorQuad* ptemp = new DecorQuad(temp);
-		ptemp->setPosition(center);
-		sptr<DecorQuad> new_value = sptr<DecorQuad>(ptemp);
-		map_points.push_back(new_value);
+			atemp.color = sf::Color::Blue;
+		QuadComponent* btemp = new QuadComponent(atemp);
+		btemp->setPosition(center);
+		sptr<QuadComponent> new_val = sptr<QuadComponent>(btemp);
+		map_points.push_back(new_val);
 	}
 	else
+	{
 		map_points[index]->setPosition(center);
+		if (team == 1)
+			map_points[index]->setColor(sf::Color::Green);
+		else if (team == 0)
+			map_points[index]->setColor(sf::Color::Red);
+		else
+			map_points[index]->setColor(sf::Color::Blue);
+	}
 }
 void Minimap::cleanMap(int index)
 {

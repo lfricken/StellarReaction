@@ -33,7 +33,7 @@ public:
 
 protected:
 	int m_controller;
-	std::vector<sptr<DecorQuad> > map_points;
+	std::vector<sptr<QuadComponent> > map_points;
 private:
 };
 

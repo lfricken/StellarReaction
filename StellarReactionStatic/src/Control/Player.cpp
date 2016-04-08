@@ -311,6 +311,8 @@ void Player::updateView()
 			int team = 0;
 			if (other_team == my_team)
 				team = 1;
+			else if (other_team < 0)
+				team = -1;
 			if (object != NULL && !object->isStealth())
 			{
 				b2Vec2 dif = pBody->GetPosition() - object->getBodyPtr()->GetPosition();
