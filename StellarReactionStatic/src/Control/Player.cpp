@@ -275,6 +275,17 @@ void Player::updateView()
 			m_energyDanger->input(com, dat);
 		}
 
+		b2Vec2 location = pBody->GetPosition();
+		vector<int> bounds = game.getUniverse().getBounds();
+		if (abs(location.x) > bounds[0] || abs(location.y) > bounds[1])//if out of bounds
+		{
+			string com = "setAnimation";
+			sf::Packet dat;
+			dat << "Default";
+			dat << 2.f;
+			m_boundsDanger->input(com, dat);
+		}
+
 		std::vector<sptr<GameObject> > goList = game.getUniverse().getgoList();
 
 		int score = rController.get(Request::Score);
@@ -357,7 +368,7 @@ void Player::loadOverlay(const std::string& rOverlay)
 	DecorQuad* pDQuad = new DecorQuad(data);
 	pDQuad->setPosition(emeterPos);
 
-
+	//Energy Warning
 	DecorQuadData datawarn;
 	datawarn.quadComp.dimensions = sf::Vector2f(86,73);
 	datawarn.quadComp.texName = "overlay/warning_energy.png";
@@ -366,6 +377,16 @@ void Player::loadOverlay(const std::string& rOverlay)
 	DecorQuad* pDang = new DecorQuad(datawarn);
 	pDang->setPosition(emeterPos+b2Vec2(0.f, -0.4f));
 
+	//Out of Bounds Warning
+	DecorQuadData dataWarnBounds;
+	dataWarnBounds.quadComp.dimensions = sf::Vector2f(250, 73);
+	dataWarnBounds.quadComp.texName = "overlay/warning_bounds.png";
+	dataWarnBounds.quadComp.animSheetName = "overlay/warning_bounds.acfg";
+	dataWarnBounds.quadComp.layer = GraphicsLayer::Overlay;
+	DecorQuad* pBounds = new DecorQuad(dataWarnBounds);
+	pBounds->setPosition(b2Vec2(1.35f, -0.3f));
+
+	m_boundsDanger = sptr<DecorQuad>(pBounds);
 	m_energyMeter = sptr<DecorQuad>(pDQuad);
 	m_energyMeterFill = sptr<LinearMeter>(pFill);
 	m_energyDanger = sptr<DecorQuad>(pDang);
@@ -378,6 +399,7 @@ void Player::universeDestroyed()
 	m_energyMeterFill.reset();
 	m_energyDanger.reset();
 	m_minimap.reset();
+	m_boundsDanger.reset();
 	setMoney(0);
 }
 bool Player::toggleFocus(bool isWindowFocused)

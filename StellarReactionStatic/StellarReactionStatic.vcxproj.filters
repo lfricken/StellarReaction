@@ -93,7 +93,8 @@
     <ClCompile Include="src\Weapon\LaserWeapon.cpp" />
     <ClCompile Include="src\Weapon\MissileWeapon.cpp" />
     <ClCompile Include="src\Weapon\Weapon.cpp" />
-    <ClCompile Include="src\Universe\Module\BlackHole.cpp" />
+    <ClCompile Include="src\Universe\Module\CaptureGraphic.cpp" />
+    <ClCompile Include="src\Universe\Module\BlackHoleGraphic.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Game\Directory.hpp" />
@@ -350,6 +351,8 @@
     <ClInclude Include="include\Weapon\BallisticWeapon.hpp" />
     <ClInclude Include="include\Basic\BlueprintData.hpp" />
     <ClInclude Include="include\Universe\Utility\LaunchGame.hpp" />
+    <ClInclude Include="include\Universe\Module\CaptureGraphic.hpp" />
+    <ClInclude Include="include\Universe\Module\BlackHoleGraphic.hpp" />
     <ClInclude Include="include\Universe\Module\BlackHole.hpp" />
     <ClInclude Include="include\Universe\Chunk\CommandInfo.hpp" />
     <ClInclude Include="include\Control\Directive.hpp" />

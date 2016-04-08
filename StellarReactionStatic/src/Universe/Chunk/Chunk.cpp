@@ -63,7 +63,8 @@ void ChunkData::loadJson(const Json::Value& root)
 }
 Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp), m_zoomPool(rData.zoomData), m_energyPool(rData.energyData), m_ballisticPool(rData.ballisticData), m_missilePool(rData.missileData)
 {
-	m_spawnPoint = b2Vec2(0, 0);
+	m_spawnPoint = m_body.getBodyPtr()->GetPosition();
+	m_radius = -1.f;
 	m_deaths = 0;
 	m_wasThrusting = false;
 	m_wasBoosting = false;
@@ -128,6 +129,19 @@ b2Vec2 Chunk::getSpawn()
 {
 	return m_spawnPoint;
 }
+b2Vec2 Chunk::getClearSpawn()
+{
+	if(game.getUniverse().isClear(m_spawnPoint, getRadius(), m_body.getBodyPtr()))
+		return m_spawnPoint;
+	else
+	{
+		return game.getUniverse().getAvailableSpawn(m_body.getTeam(), getRadius(), m_body.getBodyPtr());
+	}
+}
+void Chunk::setSpawn(float x, float y)
+{
+	m_spawnPoint = b2Vec2(x, y);
+}
 void Chunk::setStealth(bool stealthToggle)
 {
 	m_stealth = stealthToggle;
@@ -176,6 +190,21 @@ void Chunk::add(const ModuleData& rData)
 }
 void Chunk::prePhysUpdate()
 {
+	//push chunk in bounds if out of bounds
+	b2Vec2 location = m_body.getBodyPtr()->GetPosition();
+	vector<int> bounds = game.getUniverse().getBounds();
+	if(abs(location.x) > bounds[0] || abs(location.y) > bounds[1])
+	{
+		b2Vec2 force = b2Vec2(-location.x, -location.y);
+		force.Normalize();
+		force *= 10;
+		if(abs(location.x) > bounds[0])
+			force.x *= abs(location.x) - bounds[0];
+		if(abs(location.y) > bounds[1])
+			force.y *= abs(location.y) - bounds[1];
+		m_body.getBodyPtr()->ApplyForceToCenter(force, true);
+	}
+
 	for(auto it = m_modules.begin(); it != m_modules.end(); ++it)
 		(*it)->prePhysUpdate();
 }
@@ -402,14 +431,17 @@ void Chunk::input(std::string rCommand, sf::Packet rData)
 }
 float Chunk::getRadius()
 {
+	if(m_radius > 0.f)
+		return m_radius;
 	b2Vec2 max = b2Vec2_zero;
-	for (auto it = m_modules.cbegin(); it != m_modules.cend(); ++it)
+	for(auto it = m_modules.cbegin(); it != m_modules.cend(); ++it)
 	{
-		if (max.Length() < b2Vec2((*it)->getOffset()).Length()){
+		if(max.Length() < b2Vec2((*it)->getOffset()).Length())
+		{
 			max = b2Vec2((*it)->getOffset());
 		}
 	}
-
-	return max.Length();
+	m_radius = max.Length();
+	return m_radius;
 }
 

@@ -90,6 +90,7 @@
   <ItemGroup>
     <ClCompile Include="BlackHoleTest.cpp" />
     <ClCompile Include="BlueprintLoaderTest.cpp" />
+    <ClCompile Include="CapturePointTest.cpp" />
     <ClCompile Include="GameTest.cpp" />
     <ClCompile Include="Health.cpp" />
     <ClCompile Include="ReactorTest.cpp" />

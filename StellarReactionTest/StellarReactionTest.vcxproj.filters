@@ -11,6 +11,7 @@
     <ClCompile Include="StealthTest.cpp" />
     <ClCompile Include="StellarReactionTest.cpp" />
     <ClCompile Include="TeleportTest.cpp" />
+    <ClCompile Include="CapturePointTest.cpp" />
     <ClCompile Include="Health.cpp" />
   </ItemGroup>
   <ItemGroup>

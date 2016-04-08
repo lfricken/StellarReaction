@@ -55,12 +55,13 @@
     <ClInclude Include="include\API\TGUI\Transformable.hpp" />
     <ClInclude Include="include\API\TGUI\Widget.hpp" />
     <ClInclude Include="include\Basic\BlueprintData.hpp" />
+    <ClInclude Include="include\Universe\Module\CaptureGraphic.hpp" />
     <ClInclude Include="include\Basic\NonCopyable.hpp" />
     <ClInclude Include="include\Control\Directive.hpp" />
     <ClInclude Include="include\Control\Request.hpp" />
     <ClInclude Include="include\Universe\Chunk\CommandInfo.hpp" />
     <ClInclude Include="include\Universe\Utility\LaunchGame.hpp" />
-    <ClInclude Include="include\Universe\Module\BlackHole.hpp" />
+    <ClInclude Include="include\Universe\Module\BlackHoleGraphic.hpp" />
     <ClInclude Include="include\Weapon\GrappleWeapon.hpp" />
     <ClInclude Include="include\Game\Directory.hpp" />
     <ClInclude Include="include\API\Box2D\Box2D.h" />
@@ -315,7 +316,8 @@
     <ClInclude Include="include\Universe\Utility\JSON.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Universe\Module\BlackHole.cpp" />
+    <ClCompile Include="src\Universe\Module\BlackHoleGraphic.cpp" />
+    <ClCompile Include="src\Universe\Module\CaptureGraphic.cpp" />
     <ClCompile Include="src\Universe\Utility\JSON.cpp" />
     <ClCompile Include="src\Headers\Random.cpp" />
     <ClCompile Include="src\Weapon\GrappleWeapon.cpp" />

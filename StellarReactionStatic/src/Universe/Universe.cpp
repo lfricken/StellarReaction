@@ -66,9 +66,21 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 				m_spBPLoader->loadBlueprints(thisLevelFolder + it->asString());
 			}
 		}
-		else
-			cout << "\nAdditional Blueprints Null.";
+		//else
+		//	cout << "\nAdditional Blueprints Null.";
 
+		/**Map Bounds*/
+		if (!root["MapBounds"].isNull())
+		{
+			const Json::Value boundsList = root["MapBounds"];
+			m_bounds.push_back(root["MapBounds"][0].asInt());
+			m_bounds.push_back(root["MapBounds"][1].asInt());
+		}
+		else
+		{
+			m_bounds.push_back(10000);
+			m_bounds.push_back(10000);
+		}
 
 		/**Spawn Points**/
 		if(!root["SpawnPoints"].isNull())
@@ -101,6 +113,7 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 					spCnk.reset(m_spBPLoader->getChunkSPtr((*it)["Title"].asString())->clone());
 					spCnk->bodyComp.coords.x = (*it)["Coordinates"][0].asFloat();
 					spCnk->bodyComp.coords.y = (*it)["Coordinates"][1].asFloat();
+					spCnk->bodyComp.rotation = (*it)["Coordinates"][2].asFloat();
 				}
 				else
 					cout << "\n" << FILELINE;
@@ -269,6 +282,23 @@ IOManager& Universe::getUniverseIO()
 Scoreboard& Universe::getScoreboard()
 {
 	return *m_scoreboard;
+}
+vector<int> Universe::getBounds()
+{
+	return m_bounds;
+}
+void Universe::setBounds(int x, int y)
+{
+	if (m_bounds.size() == 0)
+	{
+		m_bounds.push_back(x);
+		m_bounds.push_back(y);
+	}
+	else 
+	{
+		m_bounds[0] = x;
+		m_bounds[1] = y;
+	}
 }
 void Universe::updateShipAI()
 {
@@ -549,4 +579,13 @@ bool Universe::isClear(b2Vec2 position, float radius, const b2Body* exception)
 			return true;
 	}
 	return true;
+}
+b2Vec2 Universe::getAvailableSpawn(int team, float radius, const b2Body* exception)
+{
+	for (auto it = m_spawnPoints[team].begin(); it != m_spawnPoints[team].end(); it++)
+	{
+		if (isClear((*it), radius, exception))
+			return (*it);
+	}
+	return b2Vec2_zero;
 }

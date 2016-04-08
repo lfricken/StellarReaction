@@ -22,7 +22,7 @@ TEST(GameTest, RunTime)
 }
 TEST(GameTest, RestartingManyTimes)
 {
-	const int numRestarts = 30;
+	const int numRestarts = 2;
 	for(int i = 0; i < numRestarts; ++i)
 	{
 		game.restartTest();

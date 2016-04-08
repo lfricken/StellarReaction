@@ -25,6 +25,7 @@ TEST(BlackHoleTest, AppliesForce)
 	//Ship
 	ChunkData* c = game.getUniverse().getBlueprints().getChunkSPtr("Anubis")->clone();
 	c->bodyComp.coords = b2Vec2(2, 2);
+
 	Chunk* testShip = c->generate(&game.getUniverse());
 	game.getUniverse().add(testShip);
 
@@ -56,4 +57,6 @@ TEST(BlackHoleTest, DealsDamage)
 	int maxHealth = dynamic_cast<ShipModule*>(testShip->getModuleList()[0].get())->getHealth().getMaxHealth();
 	b2Vec2 pos = testShip->getBodyComponent().getPosition();
 	EXPECT_LT(currentHealth, maxHealth);// || pos.x != 100
+
 }
+

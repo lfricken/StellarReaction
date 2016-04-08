@@ -1,0 +1,23 @@
+{
+    "ClassName": "ChunkData",
+    "bodyComp": {
+        "rotation": 0,
+        "isDynamic": false
+    },
+	"hullSpriteData": {
+		"dimensions": [7920, 22500],
+		"center": [0,0],
+		"texName": "battlestations/yellow1.png",
+		"animSheetName": "battlestations/yellow1.acfg",
+		"layer": "ShipHull"
+	},
+    "moduleData": [
+        {
+            "title": "CoreCapacitor",
+            "Position": [
+                -1,
+                -1
+            ]
+        }
+    ]
+}

@@ -1,0 +1,24 @@
+{
+    "ClassName": "GravityFieldData",
+	"fixComp": {
+		"offset": [
+			0,
+			0
+		],
+		"size": [
+			130,
+			0
+		],
+		"shape": "circle",
+		"density": 0,
+		"isSensor": true,
+		"colCat": "Trigger",
+		"colMask": "Trigger"
+	},
+	"maxForce" : 9,
+	"minForce": 4,
+    "baseDecor": {
+        "texName": "other/blank.png",
+        "animSheetName": "other/blank.acfg"
+    }
+}

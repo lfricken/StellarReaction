@@ -48,6 +48,8 @@ public:
 
 	int incDeaths();
 	b2Vec2 getSpawn();
+	void setSpawn(float x, float y);
+	b2Vec2 getClearSpawn();
 
 	void setStealth(bool stealthToggle);
 	bool isStealth();
@@ -86,6 +88,7 @@ private:
 	int m_thrustNoiseIndex;
 	int m_boostNoiseIndex;
 	int m_deaths;
+	float m_radius;
 };
 
 

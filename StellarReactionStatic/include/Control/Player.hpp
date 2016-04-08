@@ -153,6 +153,7 @@ private:
 	///TEMPORARY
 	sptr<DecorQuad> m_energyMeter;
 	sptr<DecorQuad> m_energyDanger;
+	sptr<DecorQuad> m_boundsDanger;
 	sptr<LinearMeter> m_energyMeterFill;
 	sptr<Minimap> m_minimap;
 
