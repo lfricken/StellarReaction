@@ -20,12 +20,12 @@ Stealth::~Stealth()
 }
 void Stealth::postPhysUpdate()
 {
-	if (m_stealthTimer.isTimeUp() || !isFunctioning())
+	if(m_stealthTimer.isTimeUp() || !isFunctioning())
 	{
 		m_parentChunk->getHull()->setAlpha(alpha_stealth_off);
 		std::vector<sptr<Module>> moduleList = m_parentChunk->getModuleList();
 		m_parentChunk->setStealth(false);
-		for (auto it = moduleList.begin(); it != moduleList.end(); ++it)
+		for(auto it = moduleList.begin(); it != moduleList.end(); ++it)
 		{
 			(*it)->toggleStealth(false);
 		}
@@ -34,10 +34,10 @@ void Stealth::postPhysUpdate()
 	else
 	{
 		float eThisStep = m_eConsump*game.getUniverse().getTimeStep();
-		if (eThisStep <= m_pEnergyPool->getValue() && !out_of_energy)
+		if(eThisStep <= m_pEnergyPool->getValue() && !out_of_energy)
 		{
 			m_pEnergyPool->changeValue(-eThisStep);
-			if (m_pEnergyPool->getValue() < eThisStep)
+			if(m_pEnergyPool->getValue() < eThisStep)
 				out_of_energy = true;
 		}
 		else
@@ -46,7 +46,7 @@ void Stealth::postPhysUpdate()
 			m_parentChunk->getHull()->setAlpha(alpha_stealth_off);
 			std::vector<sptr<Module>> moduleList = m_parentChunk->getModuleList();
 			m_parentChunk->setStealth(false);
-			for (auto it = moduleList.begin(); it != moduleList.end(); ++it)
+			for(auto it = moduleList.begin(); it != moduleList.end(); ++it)
 			{
 				(*it)->toggleStealth(false);
 			}
@@ -54,17 +54,18 @@ void Stealth::postPhysUpdate()
 	}
 	ShipModule::postPhysUpdate();
 }
-void Stealth::directive(map<Directive, bool>& rIssues)
+void Stealth::directive(const CommandInfo& commands)
 {
-	if (rIssues[Directive::Stealth] && isFunctioning())
+	Map<Directive, bool> rIssues = commands.directives;
+	if(rIssues[Directive::Stealth] && isFunctioning())
 	{
 		m_stealthTimer.setCountDown(stealth_duration);
-		if (m_stealthTimer.isTimeUp())
+		if(m_stealthTimer.isTimeUp())
 			m_stealthTimer.restartCountDown();
 		m_parentChunk->getHull()->setAlpha(alpha_stealth_on);
 		std::vector<sptr<Module>> moduleList = m_parentChunk->getModuleList();
 		m_parentChunk->setStealth(true);
-		for (auto it = moduleList.begin(); it != moduleList.end(); ++it)
+		for(auto it = moduleList.begin(); it != moduleList.end(); ++it)
 		{
 			(*it)->toggleStealth(true);
 		}

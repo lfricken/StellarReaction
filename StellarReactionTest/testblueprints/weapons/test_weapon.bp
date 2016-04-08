@@ -1,0 +1,17 @@
+{
+    "ClassName": "BallisticWeaponData",
+	
+    "energyConsumption": 1,
+    "ballisticConsumption": 2,
+    "missileConsumption": 3,
+	
+	"shots": 4,
+	"shotsInSpread": 5,
+	"fireArc": 6,
+	"damage": 7,
+		
+    "shotDelay": 8,
+	"fireDelay": 9,
+	"range": 10,
+	"collisions": 11
+}

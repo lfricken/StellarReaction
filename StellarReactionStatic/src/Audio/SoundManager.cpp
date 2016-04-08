@@ -58,7 +58,7 @@ int SoundManager::playSound(const std::string& rSoundName, int volume, float min
 	}
 
 	/**It's been loaded, find a noise to play it in**/
-	for (int i = 0; i < m_numNoises; ++i)
+	for(int i = 0; i < m_numNoises; ++i)
 		if(m_noises[i].m_sound.getStatus() == sf::Sound::Stopped)
 		{
 			m_noises[i].m_name = rSoundName;
@@ -75,7 +75,7 @@ int SoundManager::playSound(const std::string& rSoundName, int volume, float min
 			sf::Vector3f d = sf::Listener::getDirection();
 			sf::Vector3f p = sf::Listener::getPosition();
 
-	//		cout << "\nSound index: [" << i << "] " << FILELINE;
+			//		cout << "\nSound index: [" << i << "] " << FILELINE;
 
 			return i;
 		}
@@ -86,10 +86,10 @@ int SoundManager::playSound(const std::string& rSoundName, int volume, float min
 
 int SoundManager::stopSound(int noiseIndex)
 {
-	if (noiseIndex < 0) 
+	if(noiseIndex < 0)
 		return noiseIndex;
 
-	if (m_noises[noiseIndex].m_sound.getStatus() == sf::Sound::Playing)
+	if(m_noises[noiseIndex].m_sound.getStatus() == sf::Sound::Playing)
 		m_noises[noiseIndex].m_sound.stop();
 
 	return -1;

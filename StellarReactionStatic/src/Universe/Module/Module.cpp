@@ -1,14 +1,12 @@
 #include "Module.hpp"
-
 #include "Controller.hpp"
-
+#include "CommandInfo.hpp"
 #include "Weapon.hpp"
 
 using namespace std;
 
 void ModuleData::loadJson(const Json::Value& root)
 {
-	GETJSON(title);
 	GETJSON(name);
 	LOADJSON(ioComp);
 	LOADJSON(fixComp);
@@ -40,7 +38,7 @@ void Module::postPhysUpdate()
 {
 
 }
-void Module::directive(std::map<Directive, bool>& rIssues)
+void Module::directive(const CommandInfo& commands)
 {
 
 }

@@ -3,6 +3,7 @@
 
 #include "stdafx.hpp"
 #include "NetworkBoss.hpp"
+#include "NonCopyable.hpp"
 
 struct NetworkComponentData
 {
@@ -15,7 +16,7 @@ struct NetworkComponentData
 };
 
 
-class NetworkComponent // for syncing data between objects on different computers
+class NetworkComponent : NonCopyable // for syncing data between objects on different computers
 {
 public:
 	template <typename T>

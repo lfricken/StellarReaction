@@ -3,35 +3,95 @@
 #include "Stealth.hpp"
 #include "Universe.hpp"
 #include "BlueprintLoader.hpp"
+#include "Projectile.hpp"
 #include "Weapon.hpp"
 
 extern Game game;
 
-class BlueprintLoaderTest : public ::testing::Test
+TEST(BlueprintLoaderTest, LoadWeapon)
 {
-protected:
-	virtual void setUp()
-	{
+	game.restartTest();
 
-	}
+	game.getUniverse().getBlueprints().loadBlueprints("StellarReactionTest/testblueprints/");
+	const WeaponData* const pWeaponData = game.getUniverse().getBlueprints().getWeaponSPtr("test_weapon").get();
 
-	virtual void tearDown()
-	{
+	ASSERT_TRUE(pWeaponData);
 
-	}
-};
+	EXPECT_EQ(pWeaponData->energyConsumption, 1);
+	EXPECT_EQ(pWeaponData->ballisticConsumption, 2);
+	EXPECT_EQ(pWeaponData->missileConsumption, 3);
 
-TEST(BlueprintLoaderTest, loadBlueprint)
+	EXPECT_EQ(pWeaponData->shots, 4);
+	EXPECT_EQ(pWeaponData->shotsInSpread, 5);
+	EXPECT_EQ(pWeaponData->fireArc, 6);
+	EXPECT_EQ(pWeaponData->damage, 7);
+
+	EXPECT_EQ(pWeaponData->shotDelay, 8);
+	EXPECT_EQ(pWeaponData->fireDelay, 9);
+	EXPECT_EQ(pWeaponData->range, 10);
+	EXPECT_EQ(pWeaponData->collisions, 11);
+}
+TEST(BlueprintLoaderTest, LoadModule)
 {
-	//game.runTicks(1);
-	//game.getUniverse().getBlueprints().storeWeapon("../StellarReactionTest/testblueprints/test_weapon_blueprint.bp");
-	//const WeaponData* const p = game.getUniverse().getBlueprints().getWeaponSPtr("test_blueprint").get();
+	game.restartTest();
 
-	//ASSERT_TRUE(p);
+	game.getUniverse().getBlueprints().loadBlueprints("StellarReactionTest/testblueprints/");
+	const ModuleData* const pData = game.getUniverse().getBlueprints().getModuleSPtr("test_module").get();
 
-	//EXPECT_EQ(p->damage, 400);
-	//EXPECT_EQ(p->collisions, 5);
-	//EXPECT_EQ(p->shots, 1);
+	ASSERT_TRUE(pData);
+	auto& data = *pData;
+
+	string name = "DisplayName";
+	EXPECT_EQ(data.name, name);
+	EXPECT_EQ(data.cost, 10);
+	EXPECT_EQ(data.collisionDamage, 11);
+}
+TEST(BlueprintLoaderTest, LoadChunk)
+{
+	game.restartTest();
+
+	game.getUniverse().getBlueprints().loadBlueprints("StellarReactionTest/testblueprints/");
+	const ChunkData* const pData = game.getUniverse().getBlueprints().getChunkSPtr("test_chunk").get();
+
+	ASSERT_TRUE(pData);
+	auto& data = *pData;
+
+	EXPECT_EQ(data.energyData.Max, 1);
+	EXPECT_EQ(data.energyData.Min, 2);
+	EXPECT_EQ(data.energyData.Value, 3);
+
+	EXPECT_EQ(data.ballisticData.Max, 4);
+	EXPECT_EQ(data.ballisticData.Min, 5);
+	EXPECT_EQ(data.ballisticData.Value, 6);
+
+	EXPECT_EQ(data.missileData.Max, 7);
+	EXPECT_EQ(data.missileData.Min, 8);
+	EXPECT_EQ(data.missileData.Value, 9);
+
+	EXPECT_EQ(data.zoomData.Max, 10);
+	EXPECT_EQ(data.zoomData.Min, 11);
+	EXPECT_EQ(data.zoomData.Value, 12);
+
+	EXPECT_EQ(data.moduleData.size(), 3);
+}
+TEST(BlueprintLoaderTest, LoadBody)
+{
+	game.restartTest();
+
+	game.getUniverse().getBlueprints().loadBlueprints("StellarReactionTest/testblueprints/");
+	const ProjectileData* const pData = game.getUniverse().getBlueprints().getProjectileSPtr("test_projectile").get();
+
+	ASSERT_TRUE(pData);
+	auto& data = *pData;
+
+
+	EXPECT_EQ(1, data.body.coords.x);
+	EXPECT_EQ(2, data.body.coords.y);
+
+	EXPECT_EQ(3, data.body.rotation);
+	EXPECT_EQ(true, data.body.isDynamic);
+	EXPECT_EQ(true, data.body.isBullet);
+	EXPECT_EQ(true, data.body.startAwake);
 }
 
 

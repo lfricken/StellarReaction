@@ -18,11 +18,13 @@ public:
 	void prePhysUpdate() final;
 	void postPhysUpdate() final;
 	virtual void setAim(const b2Vec2& rTarget);
-	virtual void directive(std::map<Directive, bool>& rIssues);
+	virtual void directive(const CommandInfo& commands);
 	virtual void toggleStealth(bool toggle);
 
 protected:
 private:
+	int m_controlGroup;
+
 	sptr<Weapon> m_spWep;
 	int m_shotsRemain;//shots remaining in this volley
 
@@ -34,12 +36,14 @@ private:
 struct TurretData : public ShipModuleData
 {
 	TurretData() :
-		ShipModuleData()
+		ShipModuleData(),
+		controlGroup(1)
 	{
 		baseDecor.texName = "turret/turret_base.png";
 		baseDecor.animSheetName = "turret/turret_base.acfg";
 	}
 
+	int controlGroup;
 	sptr<const WeaponData> startWep;
 
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const

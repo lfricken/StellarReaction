@@ -132,6 +132,8 @@ public:
 	//this tells the player that the universe no longer exists, meaning the sprites
 	//for the HUD need to be destroyed.
 	void universeDestroyed();
+	bool toggleControlGroup(int group, bool on);
+	bool toggleControlGroup(int group);
 
 	int radarsize();
 
@@ -143,6 +145,7 @@ private:
 	b2Vec2 m_aim;//where we are aiming in the world ATM
 	sf::Vector2f m_mouseWindowPos;//where is the players mouse on the screen?
 	std::map<Directive, bool> m_directives;//up, down, rollCW, roll CCW, ect.
+	std::map<int, bool> m_weaponGroups;//group, is active
 
 	float m_desiredZoom;//for smooth zooming
 	b2Vec2 m_desiredCameraPos;//for smooth zooming

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Button.hpp"
+#include "NonCopyable.hpp"
 
 namespace leon
 {
@@ -43,7 +44,7 @@ namespace leon
 	};
 
 
-	class SelectableItem
+	class SelectableItem : NonCopyable
 	{
 	public:
 		SelectableItem(tgui::Gui& gui, const SelectableItemData& rData);

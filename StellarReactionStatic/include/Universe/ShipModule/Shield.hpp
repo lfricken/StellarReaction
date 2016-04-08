@@ -61,7 +61,7 @@ class Shield : public ShipModule
 public:
 	Shield(const ShieldData& rData);
 
-	void directive(std::map<Directive, bool>& rIssues);
+	void directive(const CommandInfo& commands);
 
 	virtual void prePhysUpdate();
 	bool hitConsumption();

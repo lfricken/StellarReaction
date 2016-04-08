@@ -3,6 +3,7 @@
 
 #include "stdafx.hpp"
 #include "NetworkComponent.hpp"
+#include "NonCopyable.hpp"
 
 struct BodyComponentData
 {
@@ -31,7 +32,7 @@ struct BodyComponentData
 };
 
 
-class BodyComponent
+class BodyComponent : NonCopyable
 {
 public:
 	BodyComponent(const BodyComponentData& rData);
