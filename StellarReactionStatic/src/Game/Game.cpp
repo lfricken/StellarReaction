@@ -35,7 +35,7 @@ Game::Game()
 {
 	m_spDragUpdater = sptr<DragUpdater>(new DragUpdater());
 
-	loadWindow(contentDir() + "window.ini");
+	loadWindow(contentDir() + "settings/" + "window.ini");
 
 	m_sampleClock = 0;
 	m_sampleFreq = 40;
@@ -67,6 +67,10 @@ Game::Game()
 
 	ScoreboardData scoreData  = ScoreboardData();
 	m_spScoreboard = sptr<Scoreboard>(new Scoreboard(scoreData));
+
+	m_spIcon.reset(new sf::Image());
+	if(m_spIcon->loadFromFile(contentDir() + "textures/" + "gameicon.png"))
+		getWindow().setIcon(64, 64, m_spIcon->getPixelsPtr());
 }
 Game::~Game()
 {
@@ -209,7 +213,8 @@ void Game::runTime(float time)
 	{
 		frameTime = m_clock.getElapsedTime().asSeconds() - lastTime;
 		lastTime = m_clock.getElapsedTime().asSeconds();
-		tick(frameTime);
+		if(frameTime < 1)
+			tick(frameTime);
 	}
 
 	if(!game.getUniverse().isPaused())
@@ -228,7 +233,8 @@ void Game::run()
 	{
 		frameTime = m_clock.getElapsedTime().asSeconds() - lastTime;
 		lastTime = m_clock.getElapsedTime().asSeconds();
-		tick(frameTime);
+		if(frameTime < 1)
+			tick(frameTime);
 	}
 }
 void Game::tick(float frameTime)
@@ -237,13 +243,12 @@ void Game::tick(float frameTime)
 
 	static float physTickTimeRemaining = 0;
 	static const float timeStep = getUniverse().getTimeStep();
-	static const sf::View defaultView(Vector2f((float)(rWindow.getSize().x / 2), (float)(rWindow.getSize().y / 2)), Vector2f((float)rWindow.getSize().x, (float)rWindow.getSize().y));
 
 
 	/**== FRAMERATE ==**/
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad4))
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad6))
 		std::cout << "\nFPS: " << 1.f / frameTime;
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad5))
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::M))
 		std::cout << "\nLocal Player Money: " << game.getLocalPlayer().getMoney();
 
 	/**== IO ==**/
@@ -278,9 +283,10 @@ void Game::tick(float frameTime)
 
 	/**== WINDOW ==**/
 	getDragUpdater().update(getLocalPlayer().getMouseWindowPos());
-	rWindow.setView(getLocalPlayer().getCamera().getView());
+	//rWindow.setView(getLocalPlayer().getCamera().getView());
+	rWindow.setView(*m_spStaticView);
 	getLocalPlayer().getWindowEvents(rWindow);
-	getUniverse().updateDecorationPosition(getLocalPlayer().getCamera().getPosition(), getLocalPlayer().getCamera().getZoom());
+	//getUniverse().updateDecorationPosition(getLocalPlayer().getCamera().getPosition(), getLocalPlayer().getCamera().getZoom());
 	getUniverse().getGfxUpdater().update();//update graphics components
 
 
@@ -288,7 +294,7 @@ void Game::tick(float frameTime)
 	/**== DRAW UNIVERSE ==**/
 	rWindow.clear(sf::Color::Black);
 
-	rWindow.setView(defaultView);
+	rWindow.setView(*m_spStaticView);
 	getUniverse().getBatchLayers().drawBackground(rWindow);
 
 	rWindow.setView(getLocalPlayer().getCamera().getView());
@@ -299,9 +305,9 @@ void Game::tick(float frameTime)
 
 
 	/**== DRAW GUI/OVERLAYS ==**/
-	rWindow.setView(defaultView);
+	rWindow.setView(*m_spStaticView);
 	getUniverse().getBatchLayers().drawOverlay(rWindow);
-	m_spOverlay->getGui().draw();
+	m_spOverlay->getGui().draw(false);
 
 	/**== DISPLAY ==**/
 	rWindow.display();
@@ -320,13 +326,18 @@ void Game::loadUniverse(const std::string& stuff)
 {
 	IOComponentData universeData(&getCoreIO());
 	universeData.name = "universe";
-	m_spUniverse.reset();
-	m_spUniverse = sptr<Universe>(new Universe(universeData));
-	m_spUniverse->getUniverseIO().give(&*m_spIO);
+	m_spUniverse.reset();//explicitly destroy universe before another can take its place
+	m_spUniverse.reset(new Universe(universeData));
+	m_spUniverse->getUniverseIO().give(m_spIO.get());
+
 	if(game.getNwBoss().getNWState() == NWState::Client)
 		getUniverse().getUniverseIO().toggleAcceptsLocal(false);
 	else
 		getUniverse().getUniverseIO().toggleAcceptsLocal(true);
+}
+sf::View& Game::getStaticView()
+{
+	return *m_spStaticView;
 }
 /// <summary>
 /// Initializes the window from a json file with the needed data.
@@ -414,8 +425,14 @@ void Game::loadWindow(const std::string& windowFile)
 	}
 
 	m_spWindow->setVerticalSyncEnabled(windowData.vSinc);
-	cout << "\nFPS Limit:" << windowData.targetFPS;
+	//cout << "\nFPS Limit:" << windowData.targetFPS;
 	m_spWindow->setFramerateLimit(windowData.targetFPS);
+
+	resizeStaticView();
+}
+void Game::resizeStaticView()
+{
+	m_spStaticView.reset(new sf::View(sf::Vector2f(m_spWindow->getSize().x / 2, m_spWindow->getSize().y / 2), static_cast<sf::Vector2f>(m_spWindow->getSize())));
 }
 /// <summary>
 /// process the command
@@ -443,3 +460,15 @@ void Game::input(std::string rCommand, sf::Packet rData)
 		cout << "Game: [" << rCommand << "] not found.";
 	}
 }
+void Game::restartTest(const std::string& level)
+{
+	PlayerData player;
+	GameLaunchData data;
+
+	data.level = level;
+	data.localController = 0;
+	game.launchGame(data);
+
+	game.runTicks(10);
+}
+

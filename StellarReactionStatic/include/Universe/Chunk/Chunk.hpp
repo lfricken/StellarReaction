@@ -6,10 +6,12 @@
 #include "ClassRegister.hpp"
 #include "QuadComponent.hpp"
 #include "BlueprintData.hpp"
+#include "NonCopyable.hpp"
 
 struct ChunkData;
 class Module;
 struct ModuleData;
+struct CommandInfo;
 enum class Directive;
 enum class Request;
 
@@ -34,7 +36,7 @@ public:
 	const std::string& getName() const;
 
 	void setAim(const b2Vec2& world);//send our aim coordinates
-	void directive(std::map<Directive, bool>& rIssues, bool local);//send command to target
+	void directive(const CommandInfo& commands);//send command to target
 	float get(Request value) const;//return the requested value
 	b2Body* getBodyPtr();
 	BodyComponent& getBodyComponent();

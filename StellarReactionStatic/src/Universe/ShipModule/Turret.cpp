@@ -8,6 +8,8 @@
 
 void TurretData::loadJson(const Json::Value& root)
 {
+	GETJSON(controlGroup);
+
 	if(!root["startWep"].isNull())
 		startWep = game.getUniverse().getBlueprints().getWeaponSPtr(root["startWep"].asString());
 
@@ -18,6 +20,8 @@ Turret::Turret(const TurretData& rData) : ShipModule(rData)
 	if(rData.startWep)
 		setWep(rData.startWep);
 	m_lastAngle = 0;
+
+	m_controlGroup = rData.controlGroup;
 }
 Turret::~Turret()
 {
@@ -45,9 +49,12 @@ void Turret::postPhysUpdate()
 		m_spWep->postPhysUpdate(m_fix.getCenter(), m_lastAim, m_lastAngle+m_fix.getAngle(), m_fix.getBodyPtr(), m_fix.getAngle());
 	ShipModule::postPhysUpdate();
 }
-void Turret::directive(std::map<Directive, bool>& rIssues)
+void Turret::directive(const CommandInfo& commands)
 {
-	if(rIssues[Directive::FirePrimary] && game.getLocalPlayer().getActiveControlGroup() == m_controlGroup)
+	Map<Directive, bool> rIssues = commands.directives;
+	Map<int, bool> controlGroups = commands.weaponGroups;
+
+	if(rIssues[Directive::FirePrimary] && controlGroups[m_controlGroup])
 		if(m_spWep && isFunctioning())//if we have a weapon
 			if(m_spWep->fire(m_fix, m_pEnergyPool, m_pBallisticPool, m_pMissilePool))//if we successfully fired
 			{

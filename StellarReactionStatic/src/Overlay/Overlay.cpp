@@ -30,7 +30,7 @@ void Overlay::addPanel(sptr<leon::Panel> spPanel)
 }
 void Overlay::handleEvent(sf::Event& rEvent)
 {
-	m_gui.handleEvent(rEvent);
+	m_gui.handleEvent(rEvent, false);
 }
 tgui::Gui& Overlay::getGui()
 {

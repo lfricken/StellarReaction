@@ -30,8 +30,6 @@ public:
 	void setHealthState(HealthState newState);
 	virtual void setHealthStateHook(HealthState newState);
 	virtual void toggleStealth(bool toggle);
-	int getControlGroup() const;
-	void setControlGroup(int control_group);
 	virtual void healToMax();
 
 protected:
@@ -49,7 +47,6 @@ protected:
 	int m_hitDecorIndex;//index in m_decors where the hit sprite is
 	int m_explosionIndex;//index in m_decors where the exposion sprite is
 
-	int m_controlGroup;
 	const int alpha_stealth_on = 50;
 	const int alpha_stealth_off = 255;
 private:

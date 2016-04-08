@@ -1,7 +1,7 @@
 #pragma once
 
 #include "stdafx.hpp"
-
+#include "NonCopyable.hpp"
 
 
 class Player;
@@ -29,7 +29,7 @@ namespace leon
 /// Game is global access point for state
 /// ultimately holds everything
 /// </summary>
-class Game
+class Game : NonCopyable
 {
 public:
 	Game();
@@ -47,13 +47,15 @@ public:
 	SoundManager& getSound();
 	leon::DragUpdater& getDragUpdater();
 	Scoreboard& getScoreboard();
+	sf::View& getStaticView();
 
 	Universe& getUniverse();
 	const Directory& getDir() const;
 	/**should go in UNIVERSE to be reset upon game reload**/	
 
 	void launchGame(const GameLaunchData& data);
-
+	void restartTest(const std::string& level = "Testbed");
+	void resizeStaticView();
 
 
 	void run();//runs the game on a loop
@@ -71,6 +73,11 @@ private:
 	void loadWindow(const std::string& windowFile);
 	void loadUniverse(const std::string& stuff);
 
+
+	/// <summary>
+	/// Icon for game.
+	/// </summary>
+	sptr<sf::Image> m_spIcon;
 	/// <summary>
 	/// IO component for global "game"
 	/// </summary>
@@ -88,13 +95,17 @@ private:
 	/// </summary>
 	sptr<NetworkBoss> m_spNetworkBoss;
 	/// <summary>
-	/// The player on this computer and all info regarding him.
+	/// The player on this computer and all info regarding them.
 	/// </summary>
 	sptr<Player> m_spLocalPlayer;
 	/// <summary>
 	/// SFML window.
 	/// </summary>
 	sptr<sf::RenderWindow> m_spWindow;
+	/// <summary>
+	/// View that does not move. (HUD elements)
+	/// </summary>
+	sptr<sf::View> m_spStaticView;
 	/// <summary>
 	/// Wrapper for tgui GUI
 	/// </summary>

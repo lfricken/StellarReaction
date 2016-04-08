@@ -8,31 +8,14 @@
 
 extern Game game;
 
-class MiniMapTest : public ::testing::Test
+TEST(MiniMapTest, NumberOfMarkers)
 {
-protected:
-	virtual void setUp()
-	{
+	game.restartTest("Alpha Centauri");
 
-	}
+	game.runTicks(3);
 
-	virtual void tearDown()
-	{
+	int totalItems = game.getUniverse().getgoList().size();
+	int radarItems = game.getLocalPlayer().radarsize();
 
-	}
-};
-
-TEST(MiniMapTest, minimap)
-{
-	Message host("networkboss", "launch", voidPacket, 0, false);
-	game.getCoreIO().recieve(host);
-
-
-	game.runTicks(5);
-
-
-	game.getUniverse().getgoList().size();
-	game.getLocalPlayer().radarsize();
-
-	EXPECT_EQ(game.getLocalPlayer().radarsize(), game.getUniverse().getgoList().size());
+	EXPECT_LE(totalItems, radarItems);
 }

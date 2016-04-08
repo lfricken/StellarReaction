@@ -167,7 +167,7 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 		auto list = pCnk->getModules();
 		for(auto it = list.cbegin(); it != list.cend(); ++it)
 		{
-			cout << "\nUniverse: " << it->second.x << it->second.y;
+			//cout << "\nUniverse: " << it->second.x << it->second.y;
 			sf::Packet pack;
 			pack << "addModule";
 			pack << it->first;
@@ -179,8 +179,8 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 			game.getCoreIO().recieve(mes);
 		}
 	}
-	else
-		std::cout << "\nNo slave! " << FILELINE;
+	//else
+	//	std::cout << "\nNo slave! " << FILELINE;
 
 
 	/**Hazard Field Spawn Hazards**/
@@ -190,7 +190,7 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input, this), m_physWorld(b2Vec2(0, 0))
 {
 	const Money defaultTickMoney = 1;
-	const float moneyTickTime = 5.f;
+	const float moneyTickTime = 1.f;
 	const int minTeam = 1;
 	const int maxTeam = 4;
 
@@ -212,8 +212,9 @@ Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input,
 	/**IO**/
 
 	//how often are people given capture rewards?
-	m_spMoneyTimer = sptr<Timer>(new Timer(this->getTime()));
+	m_spMoneyTimer.reset(new Timer(this->getTime()));
 	m_spMoneyTimer->setCountDown(moneyTickTime);
+	m_restartedMoneyTimer = false;
 
 	for(int i = minTeam; i <= maxTeam; ++i)
 		m_captures[i] = defaultTickMoney;
@@ -238,9 +239,9 @@ Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input,
 }
 Universe::~Universe()
 {
-	cout << "\nUniverse Destroying...";
+	//cout << "\nUniverse Destroying...";
 	game.getLocalPlayer().universeDestroyed();
-	cout << "\nEnd.";
+	//cout << "\nEnd.";
 }
 ControlFactory& Universe::getControllerFactory()
 {
@@ -411,6 +412,12 @@ BodyComponent* Universe::getNearestBody(const b2Vec2& target)
 /// </summary>
 void Universe::teamMoneyUpdate()
 {
+	if(!m_restartedMoneyTimer)
+	{
+		m_spMoneyTimer->restartCountDown();
+		m_restartedMoneyTimer = true;
+	}
+
 	if(game.getNwBoss().getNWState() == NWState::Server)
 		if(m_spMoneyTimer->isTimeUp())
 		{
@@ -503,133 +510,7 @@ void Universe::loadBlueprints(const std::string& bpDir)//loads blueprints
 }
 void Universe::setupBackground()
 {
-	const float height = 6 * 2400.0f; float width = 6 * 2400.0f; //these have to be floats
 
-	QuadComponentData rData;
-	//nearest
-	DecorQuadData data;
-	data.ioComp.name = "decorTest";
-	data.movementScale = .1f;
-	rData.dimensions.x = width;
-	rData.dimensions.y = height;
-	rData.texName = "backgrounds/stars4.png";
-	rData.layer = GraphicsLayer::Background4;
-	data.quadComp = rData;
-	data.dimensions = b2Vec2(width, height);
-	data.repeats = true;
-	data.velocity = b2Vec2(0.25, 0.25);
-	//second nearest
-	DecorQuadData data2;
-	data2.ioComp.name = "decorTest";
-	data2.movementScale = .8f;
-	rData.dimensions.x = width / 2;
-	rData.dimensions.y = height / 2;
-	rData.texName = "backgrounds/stars4.png";
-	rData.layer = GraphicsLayer::Background3;
-	data2.quadComp = rData;
-	data2.dimensions = b2Vec2(width / 2, height / 2);
-	data2.repeats = true;
-	data2.velocity = b2Vec2(0.25, 0.25);
-	//third nearest
-	DecorQuadData data3;
-	data3.ioComp.name = "decorTest";
-	data3.movementScale = .85f;
-	rData.dimensions.x = width / 3;
-	rData.dimensions.y = height / 3;
-	rData.texName = "backgrounds/stars3.png";
-	rData.layer = GraphicsLayer::Background2;
-	data3.quadComp = rData;
-	data3.dimensions = b2Vec2(width / 3, height / 3);
-	data3.repeats = true;
-	data3.velocity = b2Vec2(0.25, 0.25);
-	//fourth nearest
-	DecorQuadData data4;
-	data4.ioComp.name = "decorTest";
-	data4.movementScale = .9f;
-	rData.dimensions.x = width / 4;
-	rData.dimensions.y = height / 4;
-	rData.texName = "backgrounds/stars3.png";
-	rData.layer = GraphicsLayer::Background1;
-	data4.quadComp = rData;
-	data4.dimensions = b2Vec2(width / 4, height / 4);
-	data4.repeats = true;
-	data4.velocity = b2Vec2(0.25, 0.25);
-
-
-	const float startPosX = game.getLocalPlayer().getCamera().getView().getCenter().x - 20000;
-	const float endPosX = game.getLocalPlayer().getCamera().getView().getCenter().x + 20000;
-	const float startPosY = game.getLocalPlayer().getCamera().getView().getCenter().y + 10000;
-	const float endPosY = game.getLocalPlayer().getCamera().getView().getCenter().y - 10000;
-
-	b2Vec2 startPos = leon::sfTob2(b2Vec2(startPosX, startPosY));
-	b2Vec2 endPos = leon::sfTob2(b2Vec2(endPosX, endPosY));
-
-	//for square in screen region, add one of these
-	//one world unit is 256
-	//did the below by hand
-	const int tilesX = 11;
-	const int tilesY = 8;
-
-	DecorQuad* temp;
-	for(int i = 0; i < tilesX; i++)
-	{
-		for(int j = 0; j < tilesY; j++)
-		{
-			//nearest 
-			if(i < 3 && j < 3)
-			{
-				data.initPosition = b2Vec2(startPos.x + (i*height) / scale, startPos.y + (j*width) / scale);
-				data.num_in_layer = b2Vec2(3, 3);
-				temp = new DecorQuad(data);
-				add(temp);
-			}
-			//second nearest
-			if(i < 6 && j < 4)
-			{
-				data2.initPosition = b2Vec2(startPos.x + (i*height / 2) / scale, startPos.y + (j*width / 2) / scale);
-				data2.num_in_layer = b2Vec2(6, 4);
-				temp = new DecorQuad(data2);
-				add(temp);
-			}
-			//third nearest
-			if(i < 9 && j < 6)
-			{
-				data3.initPosition = b2Vec2(startPos.x + (i*height / 3) / scale, startPos.y + (j*width / 3) / scale);
-				data3.num_in_layer = b2Vec2(9, 6);
-				temp = new DecorQuad(data3);
-				add(temp);
-			}
-			//fourth nearest
-			if(i < 11 && j < 8)
-			{
-				data4.initPosition = b2Vec2(startPos.x + (i*height / 4) / scale, startPos.y + (j*width / 4) / scale);
-				data4.num_in_layer = b2Vec2(11, 8);
-				temp = new DecorQuad(data4);
-				add(temp);
-			}
-		}
-	}
-
-	//background
-	DecorQuadData bg_data;
-	bg_data.ioComp.name = "decorTest";
-	bg_data.movementScale = 0;
-	rData.dimensions.x = 2400;
-	rData.dimensions.y = 1200;
-	rData.center = sf::Vector2f(200, 300);
-
-	rData.texName = "backgrounds/bg6.png";
-	rData.animSheetName = "backgrounds/bg1.acfg";
-	rData.layer = GraphicsLayer::BackgroundUnmoving1;
-	bg_data.quadComp = rData;
-	bg_data.dimensions = b2Vec2(1200, 1200);
-	const float pixelsX = game.getWindow().getDefaultView().getSize().x / 2.f;
-	const float pixelsY = game.getWindow().getDefaultView().getSize().y / 2.f;
-	bg_data.initPosition = b2Vec2(pixelsX / static_cast<float>(scale), -pixelsY / static_cast<float>(scale));
-	bg_data.initPosition = b2Vec2(0, 0);
-	bg_data.num_in_layer = b2Vec2(100, 100);
-	temp = new DecorQuad(bg_data);
-	add(temp);
 }
 void Universe::add(sptr<GameObject> spGO)
 {
@@ -685,10 +566,15 @@ std::vector<sptr<GameObject> > Universe::getgoList()
 bool Universe::isClear(b2Vec2 position, float radius, const b2Body* exception)
 {
 	Chunk* nearest = dynamic_cast<Chunk*>(getNearestChunkExcept(position, exception));
-	float nearestRad = nearest->getRadius();
-	float dist = (nearest->getBodyPtr()->GetPosition() - position).Length();
-	if(dist < (nearestRad + radius))
-		return false;
+	if(nearest != NULL)
+	{
+		float nearestRad = nearest->getRadius();
+		float dist = (nearest->getBodyPtr()->GetPosition() - position).Length();
+		if(dist < (nearestRad + radius))
+			return false;
+		else
+			return true;
+	}
 	return true;
 }
 b2Vec2 Universe::getAvailableSpawn(int team, float radius, const b2Body* exception)

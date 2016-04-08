@@ -31,34 +31,35 @@ void Reactor::prePhysUpdate()
 void Reactor::postPhysUpdate()
 {
 	//check if we should respawn or operate normally
-	if (isFunctioning() && m_respawned)
+	if(isFunctioning() && m_respawned)
 		m_pEnergyPool->changeValue(game.getUniverse().getTimeStep()*m_rate);
 	else
 		respawn();
 
-	if (m_waitTimer.isTimeUp() && !m_respawned)
+	if(m_waitTimer.isTimeUp() && !m_respawned)
 	{
 		//stop waiting
 		m_waiting = false;
 		m_respawned = true;
 		//heal all modules to max hp
 		std::vector<sptr<Module>> moduleList = m_parentChunk->getModuleList();
-		for (auto it = moduleList.begin(); it != moduleList.end(); ++it)
+		for(auto it = moduleList.begin(); it != moduleList.end(); ++it)
 		{
 			(*it)->healToMax();
 		}
 	}
 	//halt all ship movement
-	if (m_waiting)
+	if(m_waiting)
 	{
 		m_parentChunk->getBodyPtr()->SetLinearVelocity(b2Vec2_zero);
 		m_parentChunk->getBodyPtr()->SetAngularVelocity(0);
 	}
-	
+
 	ShipModule::postPhysUpdate();
 }
-void Reactor::directive(map<Directive, bool>& rIssues)
+void Reactor::directive(const CommandInfo& commands)
 {
+	Map<Directive, bool> rIssues = commands.directives;
 	if(rIssues[Directive::Respawn])
 	{
 		//respawn();
@@ -67,8 +68,8 @@ void Reactor::directive(map<Directive, bool>& rIssues)
 	}
 }
 void Reactor::respawn()
-{	
-	if (m_respawned && !m_waiting)
+{
+	if(m_respawned && !m_waiting)
 	{
 		m_respawnTimer.setCountDown(m_respawnTime);
 		m_respawnTimer.restartCountDown();
@@ -77,7 +78,7 @@ void Reactor::respawn()
 		m_respawned = false;
 		return;
 	}
-	if (m_respawnTimer.isTimeUp() && !m_respawned && !m_waiting)
+	if(m_respawnTimer.isTimeUp() && !m_respawned && !m_waiting)
 	{
 		//ship manipulation
 		b2Body* ship = m_parentChunk->getBodyPtr();

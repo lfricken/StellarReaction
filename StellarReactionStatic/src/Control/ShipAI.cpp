@@ -4,11 +4,14 @@
 #include "Controller.hpp"
 #include "Chunk.hpp"
 #include "Convert.hpp"
+#include "CommandInfo.hpp"
 
 
 ShipAI::ShipAI() : BasePlayerTraits("ai")
 {
 	m_pCurrentTarget = NULL;
+	for(int i = 1; i <= 9; ++i)
+		m_weaponGroups[i] = true;
 }
 ShipAI::~ShipAI()
 {
@@ -39,7 +42,12 @@ void ShipAI::updateDecision()
 
 	m_directives[Directive::Up] = true;
 
-	rController.updateDirectives(m_directives);
+	CommandInfo commands;
+	commands.isLocal = true;
+	commands.directives = m_directives;
+	commands.weaponGroups = m_weaponGroups;
+
+	rController.locallyUpdate(commands);
 }
 void ShipAI::flyTowardsTarget()
 {

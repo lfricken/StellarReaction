@@ -18,7 +18,7 @@ public:
 	virtual void postPhysUpdate() final;
 
 
-	void directive(std::map<Directive, bool>& rIssues);
+	void directive(const CommandInfo& commands);
 
 protected:
 private:

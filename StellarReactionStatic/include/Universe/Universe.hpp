@@ -10,6 +10,7 @@
 #include "Hazard\HazardField.hpp"
 #include "ShipAI.hpp"
 #include "LaunchGame.hpp"
+#include "NonCopyable.hpp"
 
 class BatchLayers;
 class GraphicsComponentUpdater;
@@ -24,12 +25,10 @@ class ProjectileMan;
 class BodyComponent;
 class Scoreboard;
 
-
-
 /// <summary>
 /// A new one is instantiated when you relaunch the game
 /// </summary>
-class Universe
+class Universe : NonCopyable
 {
 public:
 	Universe(const IOComponentData& rData);
@@ -94,8 +93,6 @@ protected:
 	void input(std::string rCommand, sf::Packet rData);
 
 private:
-	std::vector<sptr<HazardField>> hazardFields;
-
 	void setupBackground();
 
 	/**SLEEP**/
@@ -125,12 +122,13 @@ private:
 
 	std::map<int, std::vector<b2Vec2> > m_spawnPoints;//places for people to spawn, int is team
 	std::map<int, Money> m_captures;//how much money does each team get for capture points
+	bool m_restartedMoneyTimer;
 	sptr<Timer> m_spMoneyTimer;//how long to wait for each money gift
 
 	std::vector<sptr<GameObject> > m_goList;//list of game objects that WE need to keep track of
-	std::vector<sptr<GameObject>> m_shipDebris;//game object to add after iteration
+	std::vector<sptr<GameObject> > m_shipDebris;//game object to add after iteration
 	std::vector<sptr<ShipAI> > m_shipAI;
-
+	std::vector<sptr<HazardField> > hazardFields;
 	std::vector<sptr<Decoration> > m_decorList;//list of decorations for the world
 
 	IOComponent m_io;

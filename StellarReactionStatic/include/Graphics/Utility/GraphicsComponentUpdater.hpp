@@ -2,13 +2,14 @@
 #define GRAPHICSCOMPONENTUPDATER_HPP
 
 #include "stdafx.hpp"
+#include "NonCopyable.hpp"
 
 class GraphicsComponent;
 
 /// <summary>
 /// Holds a reference to all Graphics Components so we can tell them to update their animation.
 /// </summary>
-class GraphicsComponentUpdater
+class GraphicsComponentUpdater : NonCopyable
 {
 public:
 	GraphicsComponentUpdater();

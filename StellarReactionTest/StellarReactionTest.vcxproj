@@ -84,9 +84,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
@@ -95,11 +92,10 @@
     <ClCompile Include="BlueprintLoaderTest.cpp" />
     <ClCompile Include="CapturePointTest.cpp" />
     <ClCompile Include="GameTest.cpp" />
-    <ClCompile Include="GrappleWeaponTest.cpp" />
+    <ClCompile Include="Health.cpp" />
     <ClCompile Include="ReactorTest.cpp" />
     <ClCompile Include="MinimapTest.cpp" />
     <ClCompile Include="ScoreboardTest.cpp" />
-    <ClCompile Include="ShipAITest.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -112,6 +108,12 @@
     <ProjectReference Include="..\StellarReaction\StellarReaction.vcxproj">
       <Project>{b53d049c-4f44-4469-b0ab-328feee2def4}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="testblueprints\chunks\Ships\test_chunk.bp" />
+    <None Include="testblueprints\modules\test_module.bp" />
+    <None Include="testblueprints\projectiles\test_projectile.bp" />
+    <None Include="testblueprints\weapons\test_weapon.bp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

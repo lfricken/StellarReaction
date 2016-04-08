@@ -32,13 +32,13 @@ void NetworkBoss::recieveLevel(sf::Packet& data)
 		data >> playerInstance.slaveName;
 		data >> playerInstance.ship;
 		data >> playerInstance.team;
-		cout << "\nControllers: " << numControllers;
-		cout << "\nSlaveName:[" << playerInstance.slaveName << "] Ship Choice:[" << playerInstance.ship << "] Team:[" << playerInstance.team << "]";
+		//cout << "\nControllers: " << numControllers;
+		//cout << "\nSlaveName:[" << playerInstance.slaveName << "] Ship Choice:[" << playerInstance.ship << "] Team:[" << playerInstance.team << "]";
 		launchData.playerList.push_back(playerInstance);
 	}
 	/**Local Controller**/
 	data >> launchData.localController;
-	cout << "\nLocal Controller: [" << launchData.localController << "]";
+	///cout << "\nLocal Controller: [" << launchData.localController << "]";
 
 	/**Launch the game!**/
 	game.launchGame(launchData);

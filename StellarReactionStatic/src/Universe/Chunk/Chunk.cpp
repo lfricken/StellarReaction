@@ -7,6 +7,7 @@
 #include "SoundManager.hpp"
 #include "Animation.hpp"
 #include "ShipModule.hpp"
+#include "CommandInfo.hpp"
 
 using namespace std;
 
@@ -238,10 +239,13 @@ void Chunk::setAim(const b2Vec2& world)//send our aim coordinates
 	for(auto it = m_modules.begin(); it != m_modules.end(); ++it)
 		(*it)->setAim(world);
 }
-void Chunk::directive(std::map<Directive, bool>& rIssues, bool local)//send command to target
+void Chunk::directive(const CommandInfo& commands)//send command to target
 {
+	std::map<Directive, bool> rIssues = commands.directives;
+	bool local = commands.isLocal;
+
 	for(auto it = m_modules.begin(); it != m_modules.end(); ++it)
-		(*it)->directive(rIssues);
+		(*it)->directive(commands);
 
 	if(rIssues[Directive::ShowStore] && local)
 	{
@@ -358,7 +362,7 @@ std::vector<std::pair<std::string, b2Vec2> > Chunk::getModules() const
 	{
 		if(dynamic_cast<ShipModule*>(it->get()) != NULL)//make sure it's not a strange item, like a ShieldComponent
 		{
-			cout << "\nChunk: " << (*it)->getOffset().x << (*it)->getOffset().y;
+			//cout << "\nChunk: " << (*it)->getOffset().x << (*it)->getOffset().y;
 			list.push_back(std::pair<std::string, b2Vec2>((*it)->getTitle(), b2Vec2((*it)->getOffset())));
 		}
 	}

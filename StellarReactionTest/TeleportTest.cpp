@@ -12,18 +12,23 @@ using namespace std;
 extern Game game;
 
 
-TEST(TeleportTest, testIsClear)
+TEST(TeleportTest, IsClear)
 {
-	//check that it is clear
+	game.restartTest();
+
+	//Select Clear Position
 	b2Vec2 farAway = b2Vec2(200, 200);
-	ASSERT_TRUE(game.getUniverse().isClear(farAway, 3.0f, NULL));
-	//spawn ship
-	ChunkData* c = game.getUniverse().getBlueprints().getChunkSPtr("TestChunk")->clone();
+	EXPECT_TRUE(game.getUniverse().isClear(farAway, 3.0f, NULL));
+
+	//Put Ship There
+	ChunkData* c = game.getUniverse().getBlueprints().getChunkSPtr("Anubis")->clone();
 	c->bodyComp.coords = farAway;
 	Chunk* testShip = c->generate(&game.getUniverse());
 	game.getUniverse().add(testShip);
-	//should not be clear
-	ASSERT_FALSE(game.getUniverse().isClear(farAway, 3.0f, NULL));
-	//should be clear if we exclude the testShip
-	ASSERT_TRUE(game.getUniverse().isClear(farAway, 3.0f, testShip->getBodyPtr()));
+
+	//Shouldn't Be Clear
+	EXPECT_FALSE(game.getUniverse().isClear(farAway, 3.0f, NULL));
+
+	//Should Be Clear if it's us
+	EXPECT_TRUE(game.getUniverse().isClear(farAway, 3.0f, testShip->getBodyPtr()));
 }
