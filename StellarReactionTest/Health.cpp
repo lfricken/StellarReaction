@@ -79,7 +79,7 @@ TEST(Health, DamageBeyondZero)
 	Health health(data);
 
 	int damage = Random::getRandom(1000, 2000);
-	int expectedHealth = data.Min;//because we did way more damage then health
+	int expectedHealth = data.Min;
 
 	health.damage(damage);
 	EXPECT_EQ(expectedHealth, health.getHealth());
@@ -119,7 +119,7 @@ TEST(Health, HealBeyondMax)
 	Health health(data);
 
 	int heal = Random::getRandom(1000, 2000);
-	int expectedHealth = data.Max;//because we did way more damage then health
+	int expectedHealth = data.Max;
 
 	health.heal(heal);
 	EXPECT_EQ(expectedHealth, health.getHealth());
