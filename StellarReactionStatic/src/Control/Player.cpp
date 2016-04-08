@@ -261,11 +261,13 @@ void Player::updateView()
 
 		int score = rController.get(Request::Score);
 		static int oldScore = -1;
+		string scoreString = "Score: ";
+		string moneyString = "Money: " + to_string(getMoney());
 		
 		if (score != oldScore)
 		{
 			oldScore = score;
-			string scoreString = to_string(oldScore);
+			scoreString += to_string(oldScore);
 
 			if (oldScore == 10)
 			{
@@ -275,9 +277,15 @@ void Player::updateView()
 
 			Packet scorePack;
 			scorePack << scoreString;
-			Message setHudScore("hud_score", "setText", scorePack, 0, false);
-			game.getCoreIO().recieve(setHudScore);
+			Message setScore("hud_score", "setText", scorePack, 0, false);
+			game.getCoreIO().recieve(setScore);
 		}
+
+
+		Packet moneyPack;
+		moneyPack << moneyString;
+		Message setMoney("hud_money", "setText", moneyPack, 0, false);
+		game.getCoreIO().recieve(setMoney);
 
 		int index = 0;
 		float offset_x = 2.40f;
