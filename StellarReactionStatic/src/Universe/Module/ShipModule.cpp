@@ -91,7 +91,7 @@ void ShipModule::input(std::string rCommand, sf::Packet rData)
 		int team;
 		rData >> val >> cause >> team;
 
-		if(val > 0 && team != game.getLocalPlayer().getTeam() )
+		if (val > 0 && team != m_parentChunk->getBodyComponent().getTeam() )
 		{
 			m_health.damage(val);
 			m_io.event(EventType::Health, m_health.getHealth(), voidPacket);
