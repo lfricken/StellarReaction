@@ -18,10 +18,13 @@ TEST(ReactorTest, ShipMovesOnDeath)
 
 	//Create Chunk
 	ChunkData testChunkData;
-	testChunkData.ballisticData.Max = 22;
+	testChunkData.bodyComp.coords = b2Vec2(100, 100);
 
-	//Create Reactor
-	testChunkData.moduleData.push_back(sptr<ModuleData>(new ReactorData));
+	//create ReactorData
+	ReactorData* testReactorData = new ReactorData();
+	testReactorData->respawnTime = 0.05f;
+	testReactorData->waitTime = 0.05f;
+	testChunkData.moduleData.push_back(sptr<ModuleData>(testReactorData));
 
 	//Add Chunk
 	Chunk* testChunk = testChunkData.generate(&game.getUniverse());
@@ -48,7 +51,8 @@ TEST(ReactorTest, ShipMovesOnDeath)
 }
 TEST(ReactorTest, ShipHealsOnDeath)
 {
-<<<<<<< HEAD
+	game.restartTest();
+
 	//create chunkData, respawns at (100,100)
 	ChunkData* testChunkData = new ChunkData();
 	testChunkData->pParent = &game.getUniverse();
@@ -58,36 +62,6 @@ TEST(ReactorTest, ShipHealsOnDeath)
 	ReactorData* testReactorData = new ReactorData();
 	testReactorData->respawnTime = 0.05f;
 	testReactorData->waitTime = 0.05f;
-	testChunkData->moduleData.push_back(sptr<ModuleData>(testReactorData));
-
-	//create Chunk
-	Chunk* testChunk = new Chunk(*testChunkData);
-	//Add chunk to universe
-	game.getUniverse().add(testChunk);
-	game.runTicks(2);
-
-	//Get the location, move the chunk away from original position
-	b2Body* chunkBodyPtr = testChunk->getBodyPtr();
-	chunkBodyPtr->SetTransform(b2Vec2(20, 20), 0.5);
-	b2Vec2 origPos = chunkBodyPtr->GetPosition();
-	game.runTicks(5);
-
-	//destroy the reactor
-	int pos = testChunk->getModuleList()[0]->getFixtureComponent().getIOPos();
-	Weapon::damage(&game.getUniverse().getUniverseIO(), pos, 2000, pos);
-
-	game.runTime(0.3f);
-	
-	ASSERT_TRUE(dynamic_cast<ShipModule*>(testChunk->getModuleList()[0].get())->isFunctioning());
-}
-=======
-	game.restartTest();
-
-	//Create Chunk
-	ChunkData* testChunkData = new ChunkData();
-
-	//Create Reactor
-	ReactorData* testReactorData = new ReactorData();
 	testChunkData->moduleData.push_back(sptr<ModuleData>(testReactorData));
 
 	//Add Chunk
@@ -104,7 +78,7 @@ TEST(ReactorTest, ShipHealsOnDeath)
 	Weapon::damage(&game.getUniverse().getUniverseIO(), pos, 1000, pos);
 
 	//Run Test
-	game.runTicks(2);
+	game.runTime(0.3f);
 	EXPECT_TRUE(dynamic_cast<ShipModule*>(testChunk->getModuleList()[0].get())->isFunctioning());
 }
 TEST(ReactorTest, NoDebris)
@@ -113,5 +87,3 @@ TEST(ReactorTest, NoDebris)
 	//Debris system causes lag.
 	//Debris system either needs to be graphics only or have preallocated debris chunks.
 }
-
->>>>>>> refs/remotes/origin/master

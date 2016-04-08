@@ -66,8 +66,8 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 				m_spBPLoader->loadBlueprints(thisLevelFolder + it->asString());
 			}
 		}
-		else
-			cout << "\nAdditional Blueprints Null.";
+		//else
+		//	cout << "\nAdditional Blueprints Null.";
 
 		/**Map Bounds*/
 		if (!root["MapBounds"].isNull())
@@ -77,7 +77,10 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 			m_bounds.push_back(root["MapBounds"][1].asInt());
 		}
 		else
-			cout << "\nAdditional Blueprints Null.";
+		{
+			m_bounds.push_back(10000);
+			m_bounds.push_back(10000);
+		}
 
 		/**Spawn Points**/
 		if(!root["SpawnPoints"].isNull())

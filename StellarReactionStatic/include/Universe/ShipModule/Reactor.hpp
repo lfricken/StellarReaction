@@ -18,7 +18,6 @@ public:
 	void directive(const CommandInfo& commands);
 	void respawn();
 protected:
-	void respawn();
 private:
 	Energy m_rate;//energy per second
 	Timer m_respawnTimer; //tracks respawn time

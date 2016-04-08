@@ -131,11 +131,11 @@ b2Vec2 Chunk::getSpawn()
 }
 b2Vec2 Chunk::getClearSpawn()
 {
-	if (game.getUniverse().isClear(m_spawnPoint, getRadius(), m_body.getBodyPtr()))
+	if(game.getUniverse().isClear(m_spawnPoint, getRadius(), m_body.getBodyPtr()))
 		return m_spawnPoint;
 	else
 	{
-		game.getUniverse().getAvailableSpawn(m_body.getTeam(), getRadius(), m_body.getBodyPtr());
+		return game.getUniverse().getAvailableSpawn(m_body.getTeam(), getRadius(), m_body.getBodyPtr());
 	}
 }
 void Chunk::setSpawn(float x, float y)
@@ -193,14 +193,14 @@ void Chunk::prePhysUpdate()
 	//push chunk in bounds if out of bounds
 	b2Vec2 location = m_body.getBodyPtr()->GetPosition();
 	vector<int> bounds = game.getUniverse().getBounds();
-	if (abs(location.x) > bounds[0] || abs(location.y) > bounds[1])
+	if(abs(location.x) > bounds[0] || abs(location.y) > bounds[1])
 	{
 		b2Vec2 force = b2Vec2(-location.x, -location.y);
 		force.Normalize();
 		force *= 10;
-		if (abs(location.x) > bounds[0])
+		if(abs(location.x) > bounds[0])
 			force.x *= abs(location.x) - bounds[0];
-		if (abs(location.y) > bounds[1])
+		if(abs(location.y) > bounds[1])
 			force.y *= abs(location.y) - bounds[1];
 		m_body.getBodyPtr()->ApplyForceToCenter(force, true);
 	}
@@ -431,12 +431,13 @@ void Chunk::input(std::string rCommand, sf::Packet rData)
 }
 float Chunk::getRadius()
 {
-	if (m_radius > 0.f)
+	if(m_radius > 0.f)
 		return m_radius;
 	b2Vec2 max = b2Vec2_zero;
-	for (auto it = m_modules.cbegin(); it != m_modules.cend(); ++it)
+	for(auto it = m_modules.cbegin(); it != m_modules.cend(); ++it)
 	{
-		if (max.Length() < b2Vec2((*it)->getOffset()).Length()){
+		if(max.Length() < b2Vec2((*it)->getOffset()).Length())
+		{
 			max = b2Vec2((*it)->getOffset());
 		}
 	}
