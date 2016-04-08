@@ -6,5 +6,9 @@
     "damage": 75,
 	
     "shots": 3,
-	"shotDelay": 0.2
+	"shotDelay": 0.2,
+	
+	"shotSound": {
+        "name": "BallisticShot.wav"
+    }
 }

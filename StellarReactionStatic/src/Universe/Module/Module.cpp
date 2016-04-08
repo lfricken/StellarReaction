@@ -14,7 +14,7 @@ void ModuleData::loadJson(const Json::Value& root)
 	GETJSON(cost);
 	GETJSON(collisionDamage);
 }
-Module::Module(const ModuleData& rData) : m_io(rData.ioComp, &Module::input, this), m_nw(rData.nwComp, &Module::pack, &Module::unpack, this, game.getNwBoss().getNWFactory()), m_fix(rData.fixComp)
+Module::Module(const ModuleData& rData) : m_io(rData.ioComp, &Module::input, this), m_fix(rData.fixComp)
 {
 	m_collisionDamage = rData.collisionDamage;
 	m_parentChunk = rData.chunkParent;
