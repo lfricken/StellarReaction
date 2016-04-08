@@ -74,9 +74,11 @@ public:
 	void add(sptr<Decoration> pDec);
 	void add(Decoration* pDec);
 	void addDebris(GameObject* pGO);
+	void addPlayer(GameObject* pGO);
 	void clearDebris();
 
 	std::vector<sptr<GameObject> > getgoList();
+	std::vector<sptr<GameObject> > getPlayerShipList();
 	bool isClear(b2Vec2 position, float radius, const b2Body* exception);
 
 
@@ -125,6 +127,7 @@ private:
 	sptr<Timer> m_spMoneyTimer;//how long to wait for each money gift
 
 	std::vector<sptr<GameObject> > m_goList;//list of game objects that WE need to keep track of
+	std::vector<sptr<GameObject> > m_playerShipList;
 	std::vector<sptr<GameObject>> m_shipDebris;//game object to add after iteration
 	std::vector<sptr<ShipAI> > m_shipAI;
 

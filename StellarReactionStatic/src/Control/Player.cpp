@@ -183,6 +183,14 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 				Message menu("overlay", "toggleMenu", voidPacket, 0, false);
 				game.getCoreIO().recieve(menu);
 			}
+			/**== SCOREBOARD ==**/
+			if (event.key.code == Keyboard::Tab)
+			{
+				Message scoreboard("overlay", "toggleScoreboard", voidPacket, 0, false);
+				game.getCoreIO().recieve(scoreboard);
+				//create message to display scoreboard overlay
+				//receive message
+			}
 		}
 
 

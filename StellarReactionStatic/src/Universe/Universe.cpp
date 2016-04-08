@@ -132,7 +132,7 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 		spCnk->bodyComp.coords = m_spawnPoints[it->team][it - data.playerList.cbegin()];
 		spCnk->ioComp.name = it->slaveName;
 		spCnk->team = it->team;
-		add(spCnk->generate(this));
+		addPlayer(spCnk->generate(this));
 
 		m_spControlFactory->addController(it->slaveName);//add controller after we add the ship with the name
 		//otherwise the controller cant find the intended ship
@@ -616,6 +616,11 @@ void Universe::addDebris(GameObject* pGO)
 {
 	m_shipDebris.push_back(sptr<GameObject>(pGO));
 }
+void Universe::addPlayer(GameObject* pGO)
+{
+	m_playerShipList.push_back(sptr<GameObject>(pGO));
+	add(pGO);
+}
 void Universe::clearDebris()
 {
 	m_shipDebris.clear();
@@ -654,6 +659,10 @@ std::vector<sptr<GameObject>> Universe::getDebris()
 std::vector<sptr<GameObject> > Universe::getgoList()
 {
 	return m_goList;
+}
+std::vector<sptr<GameObject> > Universe::getPlayerShipList()
+{
+	return m_playerShipList;
 }
 bool Universe::isClear(b2Vec2 position, float radius, const b2Body* exception)
 {
