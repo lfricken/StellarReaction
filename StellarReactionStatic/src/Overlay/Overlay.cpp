@@ -452,11 +452,17 @@ void Overlay::loadMenus()
 	/**SCORE**/
 	leon::ButtonData hudScore;
 	hudScore.ioComp.name = "hud_score";
-	hudScore.size = sf::Vector2f(200, 50);
+	hudScore.size = sf::Vector2f(100, 30);
 	hudScore.buttonText = "";
-	hudScore.transparency = 50;
 	hudScore.screenCoords = sf::Vector2f(0, 0);
 	pLobby->add(sptr<leon::WidgetBase>(new leon::Button(*pHudPanel->getPanelPtr(), hudScore)));
+	/**MONEY**/
+	leon::ButtonData hudMoney;
+	hudMoney.ioComp.name = "hud_money";
+	hudMoney.size = sf::Vector2f(100, 30);
+	hudMoney.buttonText = "";
+	hudMoney.screenCoords = sf::Vector2f(0, 30);
+	pLobby->add(sptr<leon::WidgetBase>(new leon::Button(*pHudPanel->getPanelPtr(), hudMoney)));
 	/**HUD**/
 	/**HUD**/
 
@@ -502,7 +508,7 @@ void Overlay::loadScoreboard(const GameLaunchData& data)
 	select.screenCoords = sf::Vector2f(200, 40);
 	select.backgroundColor = sf::Color(50, 50, 50, 128);
 	select.startHidden = false;
-	select.ioComp.name = "lobby_shipSelect";
+	select.ioComp.name = "team1_score";
 
 	leon::SelectableItemData data1;
 	data1.texName = "menu/blue_menu.png";
@@ -525,7 +531,7 @@ void Overlay::loadScoreboard(const GameLaunchData& data)
 	select2.screenCoords = sf::Vector2f(200, 210);
 	select2.backgroundColor = sf::Color(50, 50, 50, 128);
 	select2.startHidden = false;
-	select2.ioComp.name = "lobby_shipSelect";
+	select2.ioComp.name = "team2_score";
 
 	leon::SelectableItemData data2;
 	data2.texName = "menu/green_menu.png";
@@ -548,7 +554,7 @@ void Overlay::loadScoreboard(const GameLaunchData& data)
 	select3.screenCoords = sf::Vector2f(200, 380);
 	select3.backgroundColor = sf::Color(50, 50, 50, 128);
 	select3.startHidden = false;
-	select3.ioComp.name = "lobby_shipSelect";
+	select3.ioComp.name = "team3_score";
 
 	leon::SelectableItemData data3;
 	data3.texName = "menu/yellow_menu.png";
@@ -571,7 +577,7 @@ void Overlay::loadScoreboard(const GameLaunchData& data)
 	select4.screenCoords = sf::Vector2f(200, 550);
 	select4.backgroundColor = sf::Color(50, 50, 50, 128);
 	select4.startHidden = false;
-	select4.ioComp.name = "lobby_shipSelect";
+	select4.ioComp.name = "team4_score";
 
 	leon::SelectableItemData data4;
 	data4.texName = "menu/pink_menu.png";
@@ -623,12 +629,26 @@ void Overlay::loadScoreboard(const GameLaunchData& data)
 	pMain_menu->add(sptr<leon::WidgetBase>(new leon::NetworkedSelection(*pMain_menu->getPanelPtr(), select3)));
 	pMain_menu->add(sptr<leon::WidgetBase>(new leon::NetworkedSelection(*pMain_menu->getPanelPtr(), select4)));
 
-	leon::ButtonData scoreboardLabel;
-	scoreboardLabel.ioComp.name = "label";
-	scoreboardLabel.size = sf::Vector2f(1000, 40);
-	scoreboardLabel.buttonText = "Player Name                                                             Score  Money";
-	scoreboardLabel.screenCoords = sf::Vector2f(200, 5);
-	pMain_menu->add(sptr<leon::WidgetBase>(new leon::Button(*pMain_menu->getPanelPtr(), scoreboardLabel)));
+	leon::ButtonData scoreboardLabelName;
+	scoreboardLabelName.ioComp.name = "label_name";
+	scoreboardLabelName.size = sf::Vector2f(200, 30);
+	scoreboardLabelName.buttonText = "Player Name";
+	scoreboardLabelName.screenCoords = sf::Vector2f(250, 5);
+	pMain_menu->add(sptr<leon::WidgetBase>(new leon::Button(*pMain_menu->getPanelPtr(), scoreboardLabelName)));
+
+	leon::ButtonData scoreboardLabelScore;
+	scoreboardLabelName.ioComp.name = "label_score";
+	scoreboardLabelName.size = sf::Vector2f(200, 30);
+	scoreboardLabelName.buttonText = "Score";
+	scoreboardLabelName.screenCoords = sf::Vector2f(800, 5);
+	pMain_menu->add(sptr<leon::WidgetBase>(new leon::Button(*pMain_menu->getPanelPtr(), scoreboardLabelName)));
+
+	leon::ButtonData scoreboardLabelMoney;
+	scoreboardLabelMoney.ioComp.name = "label_money";
+	scoreboardLabelMoney.size = sf::Vector2f(200, 30);
+	scoreboardLabelMoney.buttonText = "Money";
+	scoreboardLabelMoney.screenCoords = sf::Vector2f(1000, 5);
+	pMain_menu->add(sptr<leon::WidgetBase>(new leon::Button(*pMain_menu->getPanelPtr(), scoreboardLabelMoney)));
 }
 void Overlay::toggleMenu(bool show)//display menu, assume gui control, send pause game command
 {
@@ -659,9 +679,18 @@ void Overlay::toggleScoreboard(bool show)
 
 	sf::Packet hideScoreboard;
 	hideScoreboard << (!show);
+	sf::Packet hideHudScore;
+	hideHudScore << (show);
+	sf::Packet hideHudMoney;
+	hideHudMoney << (show);
 
-	Message mes("main_scoreboard", "setHidden", hideScoreboard, 0, false);
-	game.getCoreIO().recieve(mes);
+	Message mes1("main_scoreboard", "setHidden", hideScoreboard, 0, false);
+	Message mes2("hud_score", "setHidden", hideHudScore, 0, false);
+	Message mes3("hud_money", "setHidden", hideHudMoney, 0, false);
+	
+	game.getCoreIO().recieve(mes1);
+	game.getCoreIO().recieve(mes2);
+	game.getCoreIO().recieve(mes3);
 
 }
 void Overlay::input(const std::string rCommand, sf::Packet rData)
