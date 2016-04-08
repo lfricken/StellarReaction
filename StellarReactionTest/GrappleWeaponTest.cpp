@@ -31,9 +31,9 @@ TEST(GrappleTest, GrappleShip)
 	//create turretdata
 	TurretData* testTurretData = new TurretData();
 	GrappleWeaponData* testGrappleWeaponData = new GrappleWeaponData();
-	testGrappleWeaponData->ener = 0;
-	testGrappleWeaponData->ball = 0;
-	testGrappleWeaponData->mis = 0;
+	//testGrappleWeaponData->ener = 0;
+	//testGrappleWeaponData->ball = 0;
+	//testGrappleWeaponData->mis = 0;
 
 	testTurretData->startWep.reset(testGrappleWeaponData);
 

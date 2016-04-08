@@ -4,17 +4,19 @@
 #include "DecorQuad.hpp"
 
 class GraphicsComponent;
-struct DecorQuadData;
+struct StaticDecorData;
 
 class StaticDecor : public DecorQuad
 {
 public:
-	StaticDecor(const StaticDecor& rData);
+	StaticDecor(const StaticDecorData& rData);
 	virtual ~StaticDecor();
 
 	virtual bool inputHook(std::string rCommand, sf::Packet rData);
 protected:
 private:
+	float m_parallax;
+	b2Vec2 m_position;
 };
 
 
@@ -44,4 +46,4 @@ struct StaticDecorData : public DecorQuadData
 	}
 };
 
-#endif // DECORQUAD_HPP
+#endif // STATICDECOR_HPP

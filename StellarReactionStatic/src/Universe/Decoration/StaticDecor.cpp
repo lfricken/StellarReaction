@@ -2,9 +2,10 @@
 
 using namespace std;
 
-StaticDecor::StaticDecor(const StaticDecorData& rData) : DecorQuad(rData, &m_quad), m_quad(rData.quadComp)
+StaticDecor::StaticDecor(const StaticDecorData& rData) : DecorQuad(rData)
 {
-
+	m_parallax = rData.parallax;
+	m_position = rData.position;
 }
 StaticDecor::~StaticDecor()
 {

@@ -4,17 +4,23 @@
 #include "DecorQuad.hpp"
 
 class GraphicsComponent;
-struct DecorQuadData;
+struct DynamicDecorData;
 
 class DynamicDecor : public DecorQuad
 {
 public:
-	DynamicDecor(const DynamicDecor& rData);
+	DynamicDecor(const DynamicDecorData& rData);
 	virtual ~DynamicDecor();
 
 	virtual bool inputHook(std::string rCommand, sf::Packet rData);
 protected:
 private:
+	float m_parallax;
+	float m_frequency;
+	float m_minX;
+	float m_minY;
+	float m_maxX;
+	float m_maxY;
 };
 
 
@@ -44,7 +50,7 @@ struct DynamicDecorData : public DecorQuadData
 
 	virtual DecorQuad* generate() const
 	{
-		return new DynamicDecor(*this);
+	return new DynamicDecor(*this);
 	}
 	virtual DecorQuadData* clone() const
 	{
@@ -52,4 +58,4 @@ struct DynamicDecorData : public DecorQuadData
 	}
 };
 
-#endif // DECORQUAD_HPP
+#endif // DYNAMICDECOR_HPP
