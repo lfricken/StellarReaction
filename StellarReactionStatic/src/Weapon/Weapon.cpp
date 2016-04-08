@@ -4,6 +4,7 @@
 #include "Universe.hpp"
 #include "IOManager.hpp"
 #include "SoundManager.hpp"
+#include "Player.hpp"
 
 using namespace std;
 
@@ -135,8 +136,9 @@ void Weapon::postPhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 rad
 }
 void Weapon::damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmount, int ioCausePos)
 {
+	int team = game.getLocalPlayer().getTeam();
 	sf::Packet packet;
-	packet << damageAmount << ioCausePos;
+	packet << damageAmount << ioCausePos << team;
 
 	Message mess;
 	mess.reset(ioTargetPos, "damage", packet, 0.f, false);

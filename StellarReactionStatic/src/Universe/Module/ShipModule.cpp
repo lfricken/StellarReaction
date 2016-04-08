@@ -1,5 +1,6 @@
 #include "ShipModule.hpp"
 #include "SoundManager.hpp"
+#include "Player.hpp"
 
 using namespace std;
 
@@ -87,9 +88,10 @@ void ShipModule::input(std::string rCommand, sf::Packet rData)
 	{
 		int val;
 		int cause;
-		rData >> val >> cause;
+		int team;
+		rData >> val >> cause >> team;
 
-		if(val > 0)
+		if(val > 0 && team != game.getLocalPlayer().getTeam() )
 		{
 			m_health.damage(val);
 			m_io.event(EventType::Health, m_health.getHealth(), voidPacket);
