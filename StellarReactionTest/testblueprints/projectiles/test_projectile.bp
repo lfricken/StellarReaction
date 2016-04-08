@@ -1,0 +1,13 @@
+{
+    "ClassName": "ProjectileData",
+    "body": {
+        "coords": [
+            1,
+            2
+        ],
+        "rotation": 3,
+        "isDynamic": true,
+        "isBullet": true,
+        "startAwake": true
+    }
+}

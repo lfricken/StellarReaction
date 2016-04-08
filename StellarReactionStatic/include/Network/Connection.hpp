@@ -5,11 +5,13 @@
 #include "Protocol.hpp"
 #include "BasePlayerTraits.hpp"
 #include "Message.hpp"
+#include "NonCopyable.hpp"
+
 
 /// <summary>
 /// A connection to another player, 1 is used by client, 1 for each client used by server
 /// </summary>
-class Connection : public BasePlayerTraits
+class Connection : public BasePlayerTraits, NonCopyable
 {
 public:
 	Connection(sf::UdpSocket* pSocket, sptr<sf::TcpSocket> spTcpSocket, bool valid);

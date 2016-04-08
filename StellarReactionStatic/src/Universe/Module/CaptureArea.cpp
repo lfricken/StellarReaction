@@ -64,12 +64,14 @@ void CaptureArea::prePhysUpdate()
 	//we transitioned to owning it
 	if((m_oldProgress / m_captureTime) < m_capPercent && (m_progress / m_captureTime) >= m_capPercent)
 	{
+		std::cout << "\nOwned";
 		m_owned = true;
 		game.getUniverse().changeTeamMoney(m_currentTeam, m_value);
 	}
 	//we transitioned to not owning it
 	else if((m_oldProgress / m_captureTime) > m_capPercent && (m_progress / m_captureTime) <= m_capPercent)
 	{
+		std::cout << "\nNot Owned";
 		m_owned = false;
 		game.getUniverse().changeTeamMoney(m_currentTeam, -m_value);
 	}

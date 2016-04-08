@@ -10,6 +10,7 @@ struct PlayerScore;
 enum class GameType
 {
 	Deathmatch,
+	Conquest,
 	CTF,
 };
 

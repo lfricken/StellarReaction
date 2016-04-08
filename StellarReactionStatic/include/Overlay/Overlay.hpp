@@ -3,12 +3,13 @@
 #include "stdafx.hpp"
 #include "IOComponent.hpp"
 #include "LaunchGame.hpp"
+#include "NonCopyable.hpp"
 
 namespace leon
 {
 	class Panel;
 
-	class Overlay
+	class Overlay : NonCopyable
 	{
 	public:
 		Overlay(const IOComponentData& rData);

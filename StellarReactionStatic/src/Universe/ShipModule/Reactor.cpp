@@ -35,8 +35,9 @@ void Reactor::postPhysUpdate()
 	}
 	ShipModule::postPhysUpdate();
 }
-void Reactor::directive(map<Directive, bool>& rIssues)
+void Reactor::directive(const CommandInfo& commands)
 {
+	Map<Directive, bool> rIssues = commands.directives;
 	if(rIssues[Directive::Respawn])
 	{
 		respawn();
@@ -48,11 +49,11 @@ void Reactor::respawn()
 	b2Body* ship = m_parentChunk->getBodyComponent().getBodyPtr();
 	m_parentChunk->incDeaths();
 	//start debris timer
-	m_debrisTimer.setCountDown(3.0);
-	if(m_debrisTimer.isTimeUp())
-	{
-		m_debrisTimer.restartCountDown();
-	}
+	//m_debrisTimer.setCountDown(3.0);
+	//if(m_debrisTimer.isTimeUp())
+	//{
+	//	m_debrisTimer.restartCountDown();
+	//}
 	//create debris
 	//for (int i = 0; i<3; i++)
 	//{

@@ -9,6 +9,7 @@ void ShipModuleData::loadJson(const Json::Value& root)
 	LOADJSON(health);
 	LOADJSON(baseDecor);
 
+
 	ModuleData::loadJson(root);
 }
 
@@ -47,8 +48,7 @@ ShipModule::ShipModule(const ShipModuleData& rData) : Module(rData), m_health(rD
 	m_decors.push_back(sptr<GraphicsComponent>(new QuadComponent(data)));
 	m_explosionIndex = m_decors.size() - 1;
 
-	m_controlGroup = 1;
-	//m_fix.setTeam();
+	//m_fix.setTeam();//TODO WHAT IS THIS
 }
 ShipModule::~ShipModule()
 {
@@ -169,12 +169,6 @@ void ShipModule::setHealthStateHook(HealthState newState)
 {
 
 }
-int ShipModule::getControlGroup() const{
-	return m_controlGroup;
-}
-void ShipModule::setControlGroup(int control_group) {
-	m_controlGroup = control_group;
-}
 void ShipModule::f_died()
 {
 	b2Vec2 center = m_fix.getCenter();
@@ -184,7 +178,7 @@ void ShipModule::f_died()
 	m_decors[m_explosionIndex]->setPosition(center);
 
 	SoundData sound;
-	sound.name = "explode1.wav";
+	sound.name = "ExplodeSmall.wav";
 	sound.pos = center;
 	game.getSound().playSound(sound);
 }

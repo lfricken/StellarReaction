@@ -2,13 +2,14 @@
 #define SLAVELOCATOR_HPP
 
 #include "stdafx.hpp"
+#include "NonCopyable.hpp"
 
 class Chunk;
 
 /// <summary>
 /// This class holds pointers to all the chunks
 /// </summary>
-class SlaveLocator
+class SlaveLocator : NonCopyable
 {
 public:
 	SlaveLocator();

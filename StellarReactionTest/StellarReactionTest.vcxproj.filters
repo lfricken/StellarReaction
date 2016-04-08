@@ -4,21 +4,23 @@
     <ClCompile Include="BlackHoleTest.cpp" />
     <ClCompile Include="BlueprintLoaderTest.cpp" />
     <ClCompile Include="GameTest.cpp" />
-    <ClCompile Include="GrappleWeaponTest.cpp" />
     <ClCompile Include="ReactorTest.cpp" />
     <ClCompile Include="MinimapTest.cpp" />
     <ClCompile Include="ScoreboardTest.cpp" />
-    <ClCompile Include="ShipAITest.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="StealthTest.cpp" />
     <ClCompile Include="StellarReactionTest.cpp" />
     <ClCompile Include="TeleportTest.cpp" />
+    <ClCompile Include="Health.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
+    <None Include="testblueprints\weapons\test_weapon.bp" />
+    <None Include="testblueprints\projectiles\test_projectile.bp" />
+    <None Include="testblueprints\modules\test_module.bp" />
+    <None Include="testblueprints\chunks\Ships\test_chunk.bp" />
   </ItemGroup>
 </Project>

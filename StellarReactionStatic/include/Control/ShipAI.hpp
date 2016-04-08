@@ -1,11 +1,12 @@
 #pragma once
 
 #include "BasePlayerTraits.hpp"
+#include "NonCopyable.hpp"
 
 class Chunk;
 enum class Directive;
 
-class ShipAI : public BasePlayerTraits
+class ShipAI : public BasePlayerTraits, NonCopyable
 {
 public:
 	ShipAI();
@@ -19,7 +20,7 @@ protected:
 private:
 
 	Chunk* m_pCurrentTarget;
-	std::map<Directive, bool> m_directives;
-
+	Map<Directive, bool> m_directives;
+	Map<int, bool> m_weaponGroups;
 };
 

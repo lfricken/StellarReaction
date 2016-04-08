@@ -8,18 +8,18 @@
 
 extern Game game;
 
-
 TEST(ScoreboardTest, initalScores)
 {
+	game.restartTest();
+
 	ChunkData* testChunkData = new ChunkData();
-	testChunkData->pParent = &game.getUniverse();
 
 	//create TurretData
 	StealthData* testModuleData = new StealthData();
 	testChunkData->moduleData.push_back(sptr<ModuleData>(testModuleData));
 
 	//create Chunk
-	Chunk* testChunk = new Chunk(*testChunkData);
+	Chunk* testChunk = testChunkData->generate(&game.getUniverse());
 
 	//Add chunk to universe
 	game.getUniverse().add(testChunk);
@@ -28,27 +28,19 @@ TEST(ScoreboardTest, initalScores)
 	int initialScore = testChunk->getScore();
 	EXPECT_EQ(0, initialScore);
 }
-
 TEST(ScoreboardTest, increaseScore)
 {
-	/*
-	1. Create chunkdata
-	2. Create reactorData
-	3. Add reactorData to chunkData
-	4. Create chunk with chunkdata
-	5. Create reactor with reactorData
-	*/
+	game.restartTest();
 
 	//create chunkData
 	ChunkData* testChunkData = new ChunkData();
-	testChunkData->pParent = &game.getUniverse();
 
 	//create TurretData
 	StealthData* testModuleData = new StealthData();
 	testChunkData->moduleData.push_back(sptr<ModuleData>(testModuleData));
 
 	//create Chunk
-	Chunk* testChunk = new Chunk(*testChunkData);
+	Chunk* testChunk = testChunkData->generate(&game.getUniverse());
 
 	//Add chunk to universe
 	game.getUniverse().add(testChunk);
@@ -63,3 +55,5 @@ TEST(ScoreboardTest, increaseScore)
 	int score = testChunk->getScore();
 	EXPECT_EQ(1, score);
 }
+
+

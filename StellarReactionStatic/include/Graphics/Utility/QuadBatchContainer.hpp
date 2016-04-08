@@ -3,6 +3,7 @@
 
 #include "stdafx.hpp"
 #include "TextureAllocator.hpp"
+#include "NonCopyable.hpp"
 
 /// <summary>
 /// For a particular texture, a pointer to our verts
@@ -27,7 +28,7 @@ struct Batch
 /// <summary>
 /// Stores Batches for each texture requested
 /// </summary>
-class QuadBatchContainer : public sf::Drawable
+class QuadBatchContainer : public sf::Drawable, NonCopyable
 {
 public:
 	QuadBatchContainer();

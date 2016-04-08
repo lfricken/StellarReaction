@@ -28,8 +28,10 @@ void Teleport::postPhysUpdate()
 
 	ShipModule::postPhysUpdate();
 }
-void Teleport::directive(map<Directive, bool>& rIssues)
+void Teleport::directive(const CommandInfo& commands)
 {
+	Map<Directive, bool> rIssues = commands.directives;
+
 	if(rIssues[Directive::Teleport])
 	{
 		if(m_pEnergyPool->getValue() > m_eConsump && m_teleTimer.isTimeUp() && isFunctioning())
