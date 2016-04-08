@@ -2,6 +2,7 @@
 #define DYNAMICDECOR_HPP
 
 #include "DecorQuad.hpp"
+#include "ClassRegister.hpp"
 
 class GraphicsComponent;
 struct DynamicDecorData;

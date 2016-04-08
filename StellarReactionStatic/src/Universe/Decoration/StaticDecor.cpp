@@ -11,6 +11,14 @@ StaticDecor::~StaticDecor()
 {
 
 }
+
+void StaticDecorData::loadJson(const Json::Value& root)
+{
+	GETJSON(parallax);
+	GETJSON(position);
+
+	DecorQuadData::loadJson(root);
+}
 bool StaticDecor::inputHook(std::string rCommand, sf::Packet rData)
 {
 	if (rCommand == "filler")

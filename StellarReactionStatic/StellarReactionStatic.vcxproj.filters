@@ -363,7 +363,6 @@
     <ClInclude Include="include\Universe\Module\CaptureArea.hpp" />
     <ClInclude Include="include\Universe\Module\GravityField.hpp" />
     <ClInclude Include="include\Universe\Module\Module.hpp" />
-    <ClInclude Include="include\Universe\Module\ModuleRegistration.hpp" />
     <ClInclude Include="include\Universe\Module\ProjectileModule.hpp" />
     <ClInclude Include="include\Universe\Module\Sensor.hpp" />
     <ClInclude Include="include\Universe\Module\ShipModule.hpp" />
@@ -399,6 +398,7 @@
     <ClInclude Include="include\Universe\Utility\ProjectileMan.hpp" />
     <ClInclude Include="include\Universe\Utility\RayCastCallback.hpp" />
     <ClInclude Include="include\Universe\Utility\UniversalContactListener.hpp" />
+    <ClInclude Include="include\Universe\Module\ModuleRegistration.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\API\SFML\Audio\SoundFileFactory.inl" />

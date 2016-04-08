@@ -1,6 +1,17 @@
-"Background1": {
-	"dimensions": [600, 600],
-	"texName": "backgrounds/bg1.png",
-	"animSheetName": "backgrounds/bg1.acfg",
-	"layer": "BackgroundFar"
+{
+	"ClassName": "Background1",
+	"quadComp":{
+		"dimensions": [600, 600],
+		"texName": "backgrounds/bg1.png",
+		"permanentRot": 0,
+		"center": [0,0],
+		"animSheetName": "backgrounds/bg1.acfg",
+		"layer": "BackgroundFar",
+		"rate": -440
+	},
+	"staticDecorData"{
+		"Position":[0,0],
+		"Parallax": 3
+	}
+	
 }	

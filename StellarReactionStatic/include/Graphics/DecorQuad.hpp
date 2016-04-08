@@ -3,6 +3,7 @@
 
 #include "Decoration.hpp"
 #include "QuadComponent.hpp"
+#include "JSON.hpp"
 
 class GraphicsComponent;
 struct DecorQuadData;
@@ -35,6 +36,8 @@ struct DecorQuadData : public DecorationData
 	}
 
 	QuadComponentData quadComp;
+
+	virtual void loadJson(const Json::Value& root);
 
 	virtual Decoration* generate() const
 	{

@@ -2,6 +2,7 @@
 #define STATICDECOR_HPP
 
 #include "DecorQuad.hpp"
+#include "ClassRegister.hpp"
 
 class GraphicsComponent;
 struct StaticDecorData;
@@ -34,7 +35,7 @@ struct StaticDecorData : public DecorQuadData
 	float parallax;
 	b2Vec2 position;
 
-	virtual void loadJson(const Json::Value& root);
+	void loadJson(const Json::Value& root);
 
 	virtual DecorQuad* generate() const
 	{
