@@ -6,7 +6,13 @@ Game game;
 
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);
-	return RUN_ALL_TESTS();
+
+	int returnValue = RUN_ALL_TESTS();
+
+	std::cout << "\nTesting Done!\nPress enter to continue...\n";
+	std::cin.get();
+
+	return returnValue;
 }
 /**
 
