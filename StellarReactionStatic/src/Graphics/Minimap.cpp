@@ -21,14 +21,17 @@ Minimap::Minimap(const MinimapData& rData) : QuadComponent(rData)
 Minimap::~Minimap()
 {
 }
-void Minimap::setDot(b2Vec2 center, int index)
+void Minimap::setDot(b2Vec2 center, int index, int team)
 {
 	if(index >= (signed)map_points.size())
 	{
 		DecorQuadData temp;
 		temp.quadComp.dimensions = sf::Vector2f(10, 10);
 		temp.quadComp.layer = GraphicsLayer::OverlayMiddle;
-		temp.quadComp.color = sf::Color::Red;
+		if (team == 1)
+			temp.quadComp.color = sf::Color::Green;
+		else
+			temp.quadComp.color = sf::Color::Red;
 		DecorQuad* ptemp = new DecorQuad(temp);
 		ptemp->setPosition(center);
 		sptr<DecorQuad> new_value = sptr<DecorQuad>(ptemp);

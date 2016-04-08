@@ -28,7 +28,7 @@ public:
 	Minimap(const MinimapData& rData);
 	virtual ~Minimap();
 
-	void setDot(b2Vec2 center, int index);
+	void setDot(b2Vec2 center, int index, int team);
 	void cleanMap(int index);
 
 protected:

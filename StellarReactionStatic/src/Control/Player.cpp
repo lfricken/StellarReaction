@@ -306,6 +306,11 @@ void Player::updateView()
 			m_radarsize++;
 			GameObject* p = it->get();
 			Chunk* object = dynamic_cast<Chunk*>(p);
+			int other_team = object->getBodyComponent().getTeam();
+			int my_team = this->getTeam();
+			int team = 0;
+			if (other_team == my_team)
+				team = 1;
 			if (object != NULL && !object->isStealth())
 			{
 				b2Vec2 dif = pBody->GetPosition() - object->getBodyPtr()->GetPosition();
@@ -313,7 +318,7 @@ void Player::updateView()
 				if (dist < 50)
 				{
 					dif *= -0.005f;
-					m_minimap->setDot(b2Vec2(offset_x, offset_y) + dif, index);
+					m_minimap->setDot(b2Vec2(offset_x, offset_y) + dif, index, team);
 					index++;
 				}
 			}
