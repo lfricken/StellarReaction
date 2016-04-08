@@ -6,6 +6,7 @@
 #include "Connection.hpp"
 #include "IOComponent.hpp"
 #include "NetworkFactory.hpp"
+#include "NonCopyable.hpp"
 
 class PlayerState;
 
@@ -30,7 +31,7 @@ struct NetworkBossData
 	IOComponentData ioComp;
 };
 
-class NetworkBoss
+class NetworkBoss : NonCopyable
 {
 public:
 	NetworkBoss(const NetworkBossData& rData);

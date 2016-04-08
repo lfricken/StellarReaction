@@ -1,6 +1,7 @@
 {
     "ClassName": "TurretData",
     "startWep": "GrappleWeapon",
+	"controlGroup": 4,
     "baseDecor": {
         "texName": "turret/turret_base.png",
         "animSheetName": "turret/turret_base.acfg"

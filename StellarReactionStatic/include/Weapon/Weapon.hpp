@@ -8,6 +8,7 @@
 #include "SoundData.hpp"
 #include "ClassRegister.hpp"
 #include "BlueprintData.hpp"
+#include "NonCopyable.hpp"
 
 struct WeaponData;
 class FixtureComponent;
@@ -16,7 +17,7 @@ class FixtureComponent;
 /// Base Class for all weapon types.
 /// Derived weapons override only preshot and postshot
 /// </summary>
-class Weapon
+class Weapon : NonCopyable
 {
 public:
 	Weapon(const WeaponData& rData);
@@ -58,6 +59,7 @@ protected:
 	const FixtureComponent* m_pTempParent;
 	int m_shots;//how many shots we do upon each fire command
 	int m_shotsInSpread; //how many shots per spread
+	float m_fireArc;
 	int m_damage;
 	float m_range;
 	int m_collisions;//how many collisions should we do? MODULE PENETRATION LOGIC
@@ -95,6 +97,7 @@ struct WeaponData : public BlueprintData
 
 		shots(1),
 		shotsInSpread(1),
+		fireArc(0),//degrees
 		damage(50),
 
 		shotDelay(1.f),
@@ -118,6 +121,7 @@ struct WeaponData : public BlueprintData
 
 	int shots;//how many shots per fire
 	int shotsInSpread;// if this weapon is a shotgun, how many shots in its spread
+	float fireArc;
 	int damage;//damage we do per shot
 
 	float shotDelay;//how much time between shots

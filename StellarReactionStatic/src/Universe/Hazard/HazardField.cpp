@@ -5,7 +5,7 @@
 #include "Random.hpp"
 #include "JSON.hpp"
 
-HazardField::HazardField(Universe* universe, const Json::Value& root) : m_io(IOComponentData(&game.getUniverse().getUniverseIO()), &HazardField::input, this)
+HazardField::HazardField(Universe* universe, const Json::Value& root) : m_io(IOComponentData(&universe->getUniverseIO()), &HazardField::input, this)
 {
 	m_pUniverse = universe;
 
@@ -30,7 +30,7 @@ void HazardField::spawn()
 		pos << x << y << rotation;
 
 		Message makeHazard(m_io.getPosition(), "createHazard", pos, 0, false);
-		game.getUniverse().getUniverseIO().recieve(makeHazard);
+		m_pUniverse->getUniverseIO().recieve(makeHazard);
 	}
 }
 void HazardField::input(std::string command, sf::Packet data)

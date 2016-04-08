@@ -4,6 +4,7 @@
 #include "NetworkComponent.hpp"
 #include "IOComponent.hpp"
 #include "Universe.hpp"
+#include "NonCopyable.hpp"
 
 struct GameObjectData
 {
@@ -23,7 +24,7 @@ struct GameObjectData
 /// Contains Networking and IO/Eventing
 /// pre/post phys update
 /// </summary>
-class GameObject
+class GameObject : NonCopyable
 {
 public:
 	GameObject(const GameObjectData& rData);

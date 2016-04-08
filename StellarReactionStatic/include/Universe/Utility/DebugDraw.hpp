@@ -2,8 +2,9 @@
 #define DEBUGDRAW_H
 
 #include "stdafx.hpp"
+#include "NonCopyable.hpp"
 
-class DebugDraw : public b2Draw
+class DebugDraw : public b2Draw, NonCopyable
 {
 public:
 	DebugDraw();

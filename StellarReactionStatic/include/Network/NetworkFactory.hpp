@@ -1,10 +1,12 @@
 #ifndef NETWORKFACTORY_HPP
 #define NETWORKFACTORY_HPP
+
 #include "stdafx.hpp"
+#include "NonCopyable.hpp"
 
 class NetworkComponent;
 
-class NetworkFactory
+class NetworkFactory : NonCopyable
 {
 public:
 	NetworkFactory(std::string name);

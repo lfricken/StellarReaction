@@ -2,13 +2,14 @@
 #define ANIMALLOC_HPP
 
 #include "stdafx.hpp"
+#include "NonCopyable.hpp"
 
 struct AnimSet;
 
 /// <summary>
 /// Stores animations so we don't have to load them from json repeatedly for no reason
 /// </summary>
-class AnimAlloc
+class AnimAlloc : NonCopyable
 {
 public:
 	AnimAlloc();

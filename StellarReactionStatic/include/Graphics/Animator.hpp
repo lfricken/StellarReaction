@@ -21,7 +21,6 @@ public:
 	sf::Vector2i getTile();//what tile should we be on? 0,0, 1,0 ect
 	const sf::Vector2f& getTileSize() const;
 
-	//Evan - TODO - do something with this
 	const AnimSet* m_pSet;
 
 protected:

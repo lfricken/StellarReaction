@@ -1,14 +1,12 @@
 #include "Module.hpp"
-
 #include "Controller.hpp"
-
+#include "CommandInfo.hpp"
 #include "Weapon.hpp"
 
 using namespace std;
 
 void ModuleData::loadJson(const Json::Value& root)
 {
-	GETJSON(title);
 	GETJSON(name);
 	LOADJSON(ioComp);
 	LOADJSON(fixComp);
@@ -16,7 +14,7 @@ void ModuleData::loadJson(const Json::Value& root)
 	GETJSON(cost);
 	GETJSON(collisionDamage);
 }
-Module::Module(const ModuleData& rData) : m_io(rData.ioComp, &Module::input, this), m_nw(rData.nwComp, &Module::pack, &Module::unpack, this, game.getNwBoss().getNWFactory()), m_fix(rData.fixComp)
+Module::Module(const ModuleData& rData) : m_io(rData.ioComp, &Module::input, this), m_fix(rData.fixComp)
 {
 	m_collisionDamage = rData.collisionDamage;
 	m_parentChunk = rData.chunkParent;
@@ -40,7 +38,7 @@ void Module::postPhysUpdate()
 {
 
 }
-void Module::directive(std::map<Directive, bool>& rIssues)
+void Module::directive(const CommandInfo& commands)
 {
 
 }

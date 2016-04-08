@@ -16,6 +16,7 @@
 #include <functional>
 #include <random>
 #include <chrono>
+#include <fstream>
 
 #include <time.h>
 #include <conio.h>

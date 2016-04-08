@@ -28,12 +28,12 @@ public:
 	Minimap(const MinimapData& rData);
 	virtual ~Minimap();
 
-	void setDot(b2Vec2 center, int index);
+	void setDot(b2Vec2 center, int index, int team);
 	void cleanMap(int index);
 
 protected:
 	int m_controller;
-	std::vector<sptr<DecorQuad> > map_points;
+	std::vector<sptr<QuadComponent> > map_points;
 private:
 };
 

@@ -4,6 +4,8 @@
 #include "stdafx.hpp"
 #include "GraphicsLayer.hpp"
 #include "Animator.hpp"
+#include "NonCopyable.hpp"
+
 class GraphicsComponentUpdater;
 
 struct GraphicsComponentData
@@ -30,7 +32,7 @@ struct GraphicsComponentData
 /// <summary>
 /// Base type for all game related graphics
 /// </summary>
-class GraphicsComponent
+class GraphicsComponent : NonCopyable
 {
 public:
 	GraphicsComponent(const GraphicsComponentData& rData);

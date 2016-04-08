@@ -78,8 +78,9 @@ bool Shield::hitConsumption()
 	m_pEnergyPool->changeValue(-m_energyPerHit);
 	return (m_pEnergyPool->getValue() > m_energyPerHit);
 }
-void Shield::directive(map<Directive, bool>& rIssues)
+void Shield::directive(const CommandInfo& commands)
 {
+	Map<Directive, bool> rIssues = commands.directives;
 	if(rIssues[Directive::Shield])
 	{
 		if(m_toggleTimer.isTimeUp())

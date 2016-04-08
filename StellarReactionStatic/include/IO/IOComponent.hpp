@@ -6,6 +6,7 @@
 #include "Courier.hpp"
 #include "Eventer.hpp"
 #include "IOManager.hpp"
+#include "NonCopyable.hpp"
 
 
 struct IOComponentData
@@ -26,7 +27,7 @@ struct IOComponentData
 /// <summary>
 /// A class can be given this to allow it to send messages to other IOComponents on other objects
 /// </summary>
-class IOComponent
+class IOComponent : NonCopyable
 {
 public:
 
