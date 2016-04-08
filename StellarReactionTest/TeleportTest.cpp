@@ -18,7 +18,7 @@ TEST(TeleportTest, testIsClear)
 	b2Vec2 farAway = b2Vec2(200, 200);
 	ASSERT_TRUE(game.getUniverse().isClear(farAway, 3.0f, NULL));
 	//spawn ship
-	ChunkData* c = game.getUniverse().getBlueprints().getChunkSPtr("DefaultChunk")->clone();
+	ChunkData* c = game.getUniverse().getBlueprints().getChunkSPtr("TestChunk")->clone();
 	c->bodyComp.coords = farAway;
 	Chunk* testShip = c->generate(&game.getUniverse());
 	game.getUniverse().add(testShip);

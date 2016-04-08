@@ -13,6 +13,7 @@
     <ClCompile Include="StealthTest.cpp" />
     <ClCompile Include="StellarReactionTest.cpp" />
     <ClCompile Include="TeleportTest.cpp" />
+    <ClCompile Include="CapturePointTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />

@@ -29,7 +29,44 @@
 		"Radius": 30,
 		"OriginX": -120,
 		"OriginY": 120
-	}],
+	}, {
+		"HazardName": "Asteroid",
+		"NumHazards": 8,
+		"Radius": 16,
+		"OriginX": -135,
+		"OriginY": -50
+	}, {
+		"HazardName": "Asteroid",
+		"NumHazards": 8,
+		"Radius": 16,
+		"OriginX": -50,
+		"OriginY": -135
+	}, {
+		"HazardName": "Asteroid",
+		"NumHazards": 14,
+		"Radius": 18,
+		"OriginX": 75,
+		"OriginY": 130
+	}, {
+		"HazardName": "Asteroid",
+		"NumHazards": 20,
+		"Radius": 24,
+		"OriginX": 110,
+		"OriginY": 110
+	}, {
+		"HazardName": "Asteroid",
+		"NumHazards": 14,
+		"Radius": 18,
+		"OriginX": 130,
+		"OriginY": 75
+	}, {
+		"HazardName": "Asteroid",
+		"NumHazards": 30,
+		"Radius": 40,
+		"OriginX": 62,
+		"OriginY": 62
+	}
+	],
 	"SpawnPoints": [{
 		"Team": 1,
 		"Points": [
@@ -95,7 +132,7 @@
 	}, {
 		"Title": "StationBlue",
 		"Coordinates": [
-			-145,
+			-135,
 			-0,
 			270
 		]
@@ -109,7 +146,7 @@
 	}, {
 		"Title": "StationGreen",
 		"Coordinates": [
-			145,
+			135,
 			0,
 			90
 		]
@@ -131,7 +168,7 @@
 		"Title": "StationYellow",
 		"Coordinates": [
 			0,
-			-145,
+			-135,
 			0
 		]
 	}, {
@@ -152,7 +189,7 @@
 		"Title": "StationPink",
 		"Coordinates": [
 			0,
-			145,
+			135,
 			180
 		]
 	}, {
@@ -200,14 +237,14 @@
 	}, {
 		"Title": "CapturePointCCW",
 		"Coordinates": [
-			-120,
+			-100,
 			0,
 			0
 		]
 	}, {
 		"Title": "CapturePointCCW",
 		"Coordinates": [
-			120,
+			100,
 			0,
 			0
 		]
@@ -215,14 +252,42 @@
 		"Title": "CapturePointCW",
 		"Coordinates": [
 			0,
-			120,
+			100,
 			0
 		]
 	}, {
 		"Title": "CapturePointCW",
 		"Coordinates": [
 			0,
-			-120,
+			-100,
+			0
+		]
+	}, {
+		"Title": "CapturePointCCW",
+		"Coordinates": [
+			-22,
+			-22,
+			0
+		]
+	}, {
+		"Title": "CapturePointCW",
+		"Coordinates": [
+			22,
+			22,
+			0
+		]
+	}, {
+		"Title": "CapturePointCCW",
+		"Coordinates": [
+			100,
+			100,
+			0
+		]
+	}, {
+		"Title": "CapturePointCW",
+		"Coordinates": [
+			-100,
+			-100,
 			0
 		]
 	}, {
@@ -235,8 +300,8 @@
 	}, {
 		"Title": "Pluto",
 		"Coordinates": [
-		    -150,
-			-150,
+		    -130,
+			-130,
 			0
 		]
 	}],

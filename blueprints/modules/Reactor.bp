@@ -2,6 +2,7 @@
     "ClassName": "ReactorData",
 	"rate": 10,
 	"respawnTime": 3,
+	"waitTime": 1,
     "baseDecor": {
         "texName": "reactor/reactor_base.png",
         "animSheetName": "reactor/reactor_base.acfg"

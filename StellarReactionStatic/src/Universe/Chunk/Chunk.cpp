@@ -137,6 +137,10 @@ b2Vec2 Chunk::getClearSpawn()
 		game.getUniverse().getAvailableSpawn(m_body.getTeam(), getRadius(), m_body.getBodyPtr());
 	}
 }
+void Chunk::setSpawn(float x, float y)
+{
+	m_spawnPoint = b2Vec2(x, y);
+}
 void Chunk::setStealth(bool stealthToggle)
 {
 	m_stealth = stealthToggle;
@@ -423,7 +427,7 @@ void Chunk::input(std::string rCommand, sf::Packet rData)
 }
 float Chunk::getRadius()
 {
-	if (m_radius < 0.f)
+	if (m_radius > 0.f)
 		return m_radius;
 	b2Vec2 max = b2Vec2_zero;
 	for (auto it = m_modules.cbegin(); it != m_modules.cend(); ++it)
