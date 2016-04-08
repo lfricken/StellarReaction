@@ -20,3 +20,22 @@ TEST(GameTest, RunTime)
 	game.runTime(0.2f);
 	EXPECT_EQ(true, game.getUniverse().isPaused());
 }
+TEST(GameTest, RestartingManyTimes)
+{
+	const int numRestarts = 30;
+	for(int i = 0; i < numRestarts; ++i)
+	{
+		game.restartTest();
+	}
+	for(int i = 0; i < numRestarts; ++i)
+	{
+		Message host("networkboss", "launch", voidPacket, 0, false);
+		game.getCoreIO().recieve(host);
+	}
+	for(int i = 0; i < numRestarts; ++i)
+	{
+		game.restartTest();
+	}
+
+	EXPECT_EQ(true, true);
+}

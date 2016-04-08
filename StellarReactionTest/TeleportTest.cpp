@@ -15,7 +15,6 @@ extern Game game;
 TEST(TeleportTest, IsClear)
 {
 	game.restartTest();
-	game.getUniverse().getBlueprints().loadBlueprints("blueprints/");
 
 	//Select Clear Position
 	b2Vec2 farAway = b2Vec2(200, 200);

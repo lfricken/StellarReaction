@@ -10,8 +10,7 @@ extern Game game;
 
 TEST(ScoreboardTest, initalScores)
 {
-	Message host("networkboss", "launch", voidPacket, 0, false);
-	game.getCoreIO().recieve(host);
+	game.restartTest();
 
 	ChunkData* testChunkData = new ChunkData();
 
@@ -31,8 +30,7 @@ TEST(ScoreboardTest, initalScores)
 }
 TEST(ScoreboardTest, increaseScore)
 {
-	Message host("networkboss", "launch", voidPacket, 0, false);
-	game.getCoreIO().recieve(host);
+	game.restartTest();
 
 	//create chunkData
 	ChunkData* testChunkData = new ChunkData();

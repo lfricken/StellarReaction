@@ -6,7 +6,7 @@
 
 extern Game game;
 
-TEST(ShipAITest, shipAiMoving)
+TEST(ShipAITest, MovesTowardTarget)
 {
 	//std::cout << "\nBegin Ship AI Test.";
 	//game.runTicks(5);

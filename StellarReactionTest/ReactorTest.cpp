@@ -17,18 +17,18 @@ TEST(ReactorTest, ShipMovesOnDeath)
 	game.restartTest();
 
 	//Create Chunk
-	ChunkData* testChunkData = new ChunkData();
+	ChunkData testChunkData;
+	testChunkData.ballisticData.Max = 22;
 
 	//Create Reactor
-	ReactorData* testReactorData = new ReactorData();
-	testChunkData->moduleData.push_back(sptr<ModuleData>(testReactorData));
+	testChunkData.moduleData.push_back(sptr<ModuleData>(new ReactorData));
 
 	//Add Chunk
-	Chunk* testChunk = testChunkData->generate(&game.getUniverse());
+	Chunk* testChunk = testChunkData.generate(&game.getUniverse());
 	game.getUniverse().add(testChunk);
 
 	//Get Location, Move Chunk
-	b2Body* chunkBodyPtr= testChunk->getBodyPtr();
+	b2Body* chunkBodyPtr = testChunk->getBodyPtr();
 	chunkBodyPtr->SetTransform(b2Vec2(200, 200), 0.5);
 	b2Vec2 origPos = chunkBodyPtr->GetPosition();
 
@@ -39,6 +39,7 @@ TEST(ReactorTest, ShipMovesOnDeath)
 	//Run Test
 	game.runTicks(2);
 	b2Vec2 afterDeathPos = testChunk->getBodyPtr()->GetPosition();
+
 	EXPECT_NE(origPos.x, afterDeathPos.x);
 	EXPECT_GT(afterDeathPos.x, -9);
 	EXPECT_LT(afterDeathPos.x, 9);

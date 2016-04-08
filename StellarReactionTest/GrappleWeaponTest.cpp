@@ -15,7 +15,8 @@ extern Game game;
 
 TEST(GrappleTest, GrappleShip)
 {
-
+	game.restartTest();
+	EXPECT_FALSE(false);
 	///*
 	//1. Create chunkdata
 	//2. Create LaserData

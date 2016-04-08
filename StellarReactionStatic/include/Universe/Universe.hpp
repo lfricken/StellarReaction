@@ -90,8 +90,6 @@ protected:
 	void input(std::string rCommand, sf::Packet rData);
 
 private:
-	std::vector<sptr<HazardField>> hazardFields;
-
 	void setupBackground();
 
 	/**SLEEP**/
@@ -125,9 +123,9 @@ private:
 	sptr<Timer> m_spMoneyTimer;//how long to wait for each money gift
 
 	std::vector<sptr<GameObject> > m_goList;//list of game objects that WE need to keep track of
-	std::vector<sptr<GameObject>> m_shipDebris;//game object to add after iteration
+	std::vector<sptr<GameObject> > m_shipDebris;//game object to add after iteration
 	std::vector<sptr<ShipAI> > m_shipAI;
-
+	std::vector<sptr<HazardField> > hazardFields;
 	std::vector<sptr<Decoration> > m_decorList;//list of decorations for the world
 
 	IOComponent m_io;

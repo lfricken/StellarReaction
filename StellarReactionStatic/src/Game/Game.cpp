@@ -460,13 +460,15 @@ void Game::input(std::string rCommand, sf::Packet rData)
 		cout << "Game: [" << rCommand << "] not found.";
 	}
 }
-void Game::restartTest()
+void Game::restartTest(const std::string& level)
 {
 	PlayerData player;
 	GameLaunchData data;
 
-	data.level = "Testbed";
+	data.level = level;
 	data.localController = 0;
 	game.launchGame(data);
+
+	game.runTicks(10);
 }
 

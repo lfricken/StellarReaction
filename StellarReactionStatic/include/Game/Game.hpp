@@ -54,7 +54,7 @@ public:
 	/**should go in UNIVERSE to be reset upon game reload**/	
 
 	void launchGame(const GameLaunchData& data);
-	void restartTest();
+	void restartTest(const std::string& level = "Testbed");
 	void resizeStaticView();
 
 
