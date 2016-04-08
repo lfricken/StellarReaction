@@ -15,7 +15,7 @@ DynamicDecor::~DynamicDecor()
 {
 
 }
-bool DynamicDecor::inputHook(std::string rCommand, sf::Packet rData)
+bool DynamicDecor::inputHook(string rCommand, sf::Packet rData)
 {
 	if (rCommand == "filler")
 	{

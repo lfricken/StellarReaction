@@ -40,10 +40,11 @@ struct StaticDecorData : public DecorQuadData
 	{
 		return new StaticDecor(*this);
 	}
-	virtual DecorQuadData* clone() const
+	virtual StaticDecorData* clone() const
 	{
 		return new StaticDecorData(*this);
 	}
+	MyType(StaticDecorData, StaticDecorData);
 };
 
 #endif // STATICDECOR_HPP

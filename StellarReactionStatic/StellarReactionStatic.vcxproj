@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Basic\BlueprintData.hpp" />
+    <ClInclude Include="include\Universe\Decoration\DecorRegistration.hpp" />
     <ClInclude Include="include\Universe\Decoration\DynamicDecor.hpp" />
     <ClInclude Include="include\Universe\Decoration\StaticDecor.hpp" />
     <ClInclude Include="include\Universe\Utility\LaunchGame.hpp" />
@@ -465,7 +466,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>H:\Code\School\CS428\StellarReaction\StellarReactionStatic\include\Universe\Decoration;..\StellarReactionStatic\include\Weapon;..\StellarReactionStatic\include\Universe\Utility;..\StellarReactionStatic\include\Universe\ShipModule;..\StellarReactionStatic\include\Universe\Module;..\StellarReactionStatic\include\Universe\Chunk;..\StellarReactionStatic\include\Graphics\Utility;..\StellarReactionStatic\include\Universe;..\StellarReactionStatic\include\Physics;..\StellarReactionStatic\include\Overlay;..\StellarReactionStatic\include\Network;..\StellarReactionStatic\include\IO;..\StellarReactionStatic\include\Headers;..\StellarReactionStatic\include\Graphics;..\StellarReactionStatic\include\Game;..\StellarReactionStatic\include\Control;..\StellarReactionStatic\include\Basic;..\StellarReactionStatic\include\Audio;..\StellarReactionStatic\include\Universe\Hazard;..\StellarReactionStatic\include\API</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\StellarReactionStatic\include\Universe\Decoration;..\StellarReactionStatic\include\Weapon;..\StellarReactionStatic\include\Universe\Utility;..\StellarReactionStatic\include\Universe\ShipModule;..\StellarReactionStatic\include\Universe\Module;..\StellarReactionStatic\include\Universe\Chunk;..\StellarReactionStatic\include\Graphics\Utility;..\StellarReactionStatic\include\Universe;..\StellarReactionStatic\include\Physics;..\StellarReactionStatic\include\Overlay;..\StellarReactionStatic\include\Network;..\StellarReactionStatic\include\IO;..\StellarReactionStatic\include\Headers;..\StellarReactionStatic\include\Graphics;..\StellarReactionStatic\include\Game;..\StellarReactionStatic\include\Control;..\StellarReactionStatic\include\Basic;..\StellarReactionStatic\include\Audio;..\StellarReactionStatic\include\Universe\Hazard;..\StellarReactionStatic\include\API</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

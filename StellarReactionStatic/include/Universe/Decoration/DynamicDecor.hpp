@@ -52,10 +52,11 @@ struct DynamicDecorData : public DecorQuadData
 	{
 	return new DynamicDecor(*this);
 	}
-	virtual DecorQuadData* clone() const
+	virtual DynamicDecorData* clone() const
 	{
 		return new DynamicDecorData(*this);
 	}
+	MyType(DynamicDecorData, DynamicDecorData);
 };
 
 #endif // DYNAMICDECOR_HPP

@@ -27,6 +27,7 @@ private:
 
 struct DecorQuadData : public DecorationData
 {
+	std::string title;
 	DecorQuadData() :
 		DecorationData()
 	{
