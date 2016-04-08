@@ -94,6 +94,8 @@
     <ClCompile Include="src\Weapon\MissileWeapon.cpp" />
     <ClCompile Include="src\Weapon\Weapon.cpp" />
     <ClCompile Include="src\Universe\Module\BlackHole.cpp" />
+    <ClCompile Include="src\Universe\Decoration\StaticDecor.cpp" />
+    <ClCompile Include="src\Universe\Decoration\DynamicDecor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Game\Directory.hpp" />
@@ -394,6 +396,8 @@
     <ClInclude Include="include\Basic\BlueprintData.hpp" />
     <ClInclude Include="include\Universe\Utility\LaunchGame.hpp" />
     <ClInclude Include="include\Universe\Module\BlackHole.hpp" />
+    <ClInclude Include="include\Universe\Decoration\StaticDecor.hpp" />
+    <ClInclude Include="include\Universe\Decoration\DynamicDecor.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\API\SFML\Audio\SoundFileFactory.inl" />

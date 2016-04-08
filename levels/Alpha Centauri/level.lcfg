@@ -87,5 +87,14 @@
 		"texName": "backgrounds/bg1.png",
 		"animSheetName": "backgrounds/bg1.acfg",
 		"layer": "BackgroundFar"
+	}	
+	"Decorations": {
+		"static":[{
+			"Title": "AsteroidField"
+		}],
+		"dynamic":[{
+			"Title": "Comet"
+		}]
+
 	}
 }

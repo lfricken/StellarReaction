@@ -1,0 +1,19 @@
+{
+    "ClassName": "AsteroidFieldDecorationData",
+    "decorData": [
+        {
+        "dimensions":  [600, 600],
+        "permanentRot": 0,
+        "center": [
+            0,
+            0
+        ],
+        "texName": "backgrounds/bg1.png",
+        "animSheetName": "backgrounds/bg1.acfg",
+        "layer": "BackgroundClose",
+        "rate": -440
+        }
+    ],
+    "Position": [0,0],
+    "Parallax": 3
+}
