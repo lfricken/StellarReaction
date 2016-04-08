@@ -6,27 +6,17 @@
 
 extern Game game;
 
-class GameTest : public ::testing::Test
+TEST(GameTest, RunTicks)
 {
-protected:
-	virtual void setUp()
-	{
+	game.restartTest();
 
-	}
-
-	virtual void tearDown()
-	{
-
-	}
-};
-
-TEST(GameTest, runTicks)
-{
-	game.runTicks(10);
+	game.runTicks(5);
 	EXPECT_EQ(true, game.getUniverse().isPaused());
 }
-TEST(GameTest, runTime)
+TEST(GameTest, RunTime)
 {
-	game.runTime(0.3f);
+	game.restartTest();
+
+	game.runTime(0.2f);
 	EXPECT_EQ(true, game.getUniverse().isPaused());
 }

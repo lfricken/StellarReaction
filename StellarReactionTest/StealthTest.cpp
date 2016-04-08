@@ -5,22 +5,7 @@
 
 extern Game game;
 
-
-class StealthTest : public ::testing::Test
-{
-protected:
-	virtual void setUp()
-	{
-
-	}
-
-	virtual void tearDown()
-	{
-
-	}
-};
-
-TEST(StealthTest, stealthActive)
+TEST(StealthTest, StealthActive)
 {
 	EXPECT_EQ(true, true);
 }

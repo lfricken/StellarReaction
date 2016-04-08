@@ -1,0 +1,117 @@
+{
+    "ClassName": "ChunkData",
+    "zoomData": {
+        "Max": 64,
+        "Value": 16
+    },
+	"hullSpriteData": {
+		"dimensions": [2200, 2000],
+		"texName": "hulls/thrustanim1.png",
+		"animSheetName": "hulls/ship1.acfg",
+		"layer": "ShipHull"
+	},
+	"afterburnerSpriteData": [
+		{
+			"dimensions": [250, 700],
+			"center": [0, 835],
+			"texName": "hulls/afterb1.png",
+			"animSheetName": "hulls/afterb1.acfg",
+			"layer": "ShipModules"
+		}
+	],
+	"afterburnerThrustSpriteData": [
+		{
+			"dimensions": [250, 1400],
+			"center": [0, 1050],
+			"texName": "hulls/afterb1.png",
+			"animSheetName": "hulls/afterb1_thrust.acfg",
+			"layer": "ShipModules"
+		}
+	],
+    "moduleData": [
+        {
+            "title": "Reactor",
+            "Position": [
+                1,
+                1
+            ]
+        },
+        {
+            "title": "LaserTurret",
+            "Position": [
+                0,
+                0
+            ]
+        },
+        {
+            "title": "BallisticTurret",
+            "Position": [
+                1,
+                -1
+            ]
+        },
+        {
+            "title": "Plating",
+            "Position": [
+                -1,
+                1
+            ]
+        },
+        {
+            "title": "Plating",
+            "Position": [
+                -1,
+                0
+            ]
+        },
+        {
+            "title": "Shield",
+            "Position": [
+                -1,
+                -1
+            ]
+        },
+        {
+            "title": "Capacitor",
+            "Position": [
+                1,
+                0
+            ]
+        },
+        {
+            "title": "MissileTurret",
+            "Position": [
+                2,
+                0
+            ]
+        },
+		{
+            "title": "Radar",
+            "Position": [
+                0,
+                1
+            ]
+		},
+        {
+            "title": "Thruster",
+            "Position": [
+                0,
+                -1
+            ]
+        },
+        {
+            "title": "Stealth",
+            "Position": [
+                3,
+                0
+            ]
+        },
+		{
+            "title": "Teleport",
+            "Position": [
+                -2,
+                0
+            ]
+        }
+    ]
+}

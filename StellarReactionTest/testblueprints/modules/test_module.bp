@@ -1,0 +1,11 @@
+{
+    "ClassName": "PlatingData",
+	"baseDecor": {
+		"texName": "plating/plating_base.png",
+		"animSheetName": "plating/plating_base.acfg"
+	},
+	"health": {
+		"Armor": 20
+	},
+	"cost": 10
+}

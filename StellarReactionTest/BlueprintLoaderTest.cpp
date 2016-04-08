@@ -7,31 +7,28 @@
 
 extern Game game;
 
-class BlueprintLoaderTest : public ::testing::Test
+TEST(BlueprintLoaderTest, LoadWeapon)
 {
-protected:
-	virtual void setUp()
-	{
+	game.restartTest();
 
-	}
+	game.getUniverse().getBlueprints().loadBlueprints("StellarReactionTest/testblueprints/");
+	const WeaponData* const pWeaponData = game.getUniverse().getBlueprints().getWeaponSPtr("test_weapon").get();
 
-	virtual void tearDown()
-	{
+	ASSERT_TRUE(pWeaponData);
 
-	}
-};
+	EXPECT_EQ(pWeaponData->energyConsumption, 1);
+	EXPECT_EQ(pWeaponData->ballisticConsumption, 2);
+	EXPECT_EQ(pWeaponData->missileConsumption, 3);
 
-TEST(BlueprintLoaderTest, loadBlueprint)
-{
-	//game.runTicks(1);
-	//game.getUniverse().getBlueprints().storeWeapon("../StellarReactionTest/testblueprints/test_weapon_blueprint.bp");
-	//const WeaponData* const p = game.getUniverse().getBlueprints().getWeaponSPtr("test_blueprint").get();
+	EXPECT_EQ(pWeaponData->shots, 4);
+	EXPECT_EQ(pWeaponData->shotsInSpread, 5);
+	EXPECT_EQ(pWeaponData->fireArc, 6);
+	EXPECT_EQ(pWeaponData->damage, 7);
 
-	//ASSERT_TRUE(p);
-
-	//EXPECT_EQ(p->damage, 400);
-	//EXPECT_EQ(p->collisions, 5);
-	//EXPECT_EQ(p->shots, 1);
+	EXPECT_EQ(pWeaponData->shotDelay, 8);
+	EXPECT_EQ(pWeaponData->fireDelay, 9);
+	EXPECT_EQ(pWeaponData->range, 10);
+	EXPECT_EQ(pWeaponData->collisions, 11);
 }
 
 

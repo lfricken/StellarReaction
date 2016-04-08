@@ -326,9 +326,10 @@ void Game::loadUniverse(const std::string& stuff)
 {
 	IOComponentData universeData(&getCoreIO());
 	universeData.name = "universe";
-	m_spUniverse.reset();
-	m_spUniverse = sptr<Universe>(new Universe(universeData));
-	m_spUniverse->getUniverseIO().give(&*m_spIO);
+	m_spUniverse.reset();//explicitly destroy universe before another can take its place
+	m_spUniverse.reset(new Universe(universeData));
+	m_spUniverse->getUniverseIO().give(m_spIO.get());
+
 	if(game.getNwBoss().getNWState() == NWState::Client)
 		getUniverse().getUniverseIO().toggleAcceptsLocal(false);
 	else
@@ -424,7 +425,7 @@ void Game::loadWindow(const std::string& windowFile)
 	}
 
 	m_spWindow->setVerticalSyncEnabled(windowData.vSinc);
-	cout << "\nFPS Limit:" << windowData.targetFPS;
+	//cout << "\nFPS Limit:" << windowData.targetFPS;
 	m_spWindow->setFramerateLimit(windowData.targetFPS);
 
 	resizeStaticView();
@@ -459,3 +460,13 @@ void Game::input(std::string rCommand, sf::Packet rData)
 		cout << "Game: [" << rCommand << "] not found.";
 	}
 }
+void Game::restartTest()
+{
+	PlayerData player;
+	GameLaunchData data;
+
+	data.level = "Testbed";
+	data.localController = 0;
+	game.launchGame(data);
+}
+

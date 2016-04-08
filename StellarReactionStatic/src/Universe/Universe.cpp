@@ -157,7 +157,7 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 		auto list = pCnk->getModules();
 		for(auto it = list.cbegin(); it != list.cend(); ++it)
 		{
-			cout << "\nUniverse: " << it->second.x << it->second.y;
+			//cout << "\nUniverse: " << it->second.x << it->second.y;
 			sf::Packet pack;
 			pack << "addModule";
 			pack << it->first;
@@ -169,8 +169,8 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 			game.getCoreIO().recieve(mes);
 		}
 	}
-	else
-		std::cout << "\nNo slave! " << FILELINE;
+	//else
+	//	std::cout << "\nNo slave! " << FILELINE;
 
 
 	/**Hazard Field Spawn Hazards**/
@@ -229,9 +229,9 @@ Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input,
 }
 Universe::~Universe()
 {
-	cout << "\nUniverse Destroying...";
+	//cout << "\nUniverse Destroying...";
 	game.getLocalPlayer().universeDestroyed();
-	cout << "\nEnd.";
+	//cout << "\nEnd.";
 }
 ControlFactory& Universe::getControllerFactory()
 {
@@ -539,9 +539,14 @@ std::vector<sptr<GameObject> > Universe::getgoList()
 bool Universe::isClear(b2Vec2 position, float radius, const b2Body* exception)
 {
 	Chunk* nearest = dynamic_cast<Chunk*>(getNearestChunkExcept(position, exception));
-	float nearestRad = nearest->getRadius();
-	float dist = (nearest->getBodyPtr()->GetPosition() - position).Length();
-	if(dist < (nearestRad + radius))
-		return false;
+	if(nearest != NULL)
+	{
+		float nearestRad = nearest->getRadius();
+		float dist = (nearest->getBodyPtr()->GetPosition() - position).Length();
+		if(dist < (nearestRad + radius))
+			return false;
+		else
+			return true;
+	}
 	return true;
 }

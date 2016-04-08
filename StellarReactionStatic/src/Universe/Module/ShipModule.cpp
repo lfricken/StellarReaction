@@ -176,7 +176,7 @@ void ShipModule::f_died()
 	m_decors[m_explosionIndex]->setPosition(center);
 
 	SoundData sound;
-	sound.name = "explode1.wav";
+	sound.name = "ExplodeSmall.wav";
 	sound.pos = center;
 	game.getSound().playSound(sound);
 }

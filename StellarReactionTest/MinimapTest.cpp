@@ -8,31 +8,15 @@
 
 extern Game game;
 
-class MiniMapTest : public ::testing::Test
-{
-protected:
-	virtual void setUp()
-	{
-
-	}
-
-	virtual void tearDown()
-	{
-
-	}
-};
-
-TEST(MiniMapTest, minimap)
+TEST(MiniMapTest, NumberOfMarkers)
 {
 	Message host("networkboss", "launch", voidPacket, 0, false);
 	game.getCoreIO().recieve(host);
 
+	game.runTicks(3);
 
-	game.runTicks(5);
+	int totalItems = game.getUniverse().getgoList().size();
+	int radarItems = game.getLocalPlayer().radarsize();
 
-
-	game.getUniverse().getgoList().size();
-	game.getLocalPlayer().radarsize();
-
-	EXPECT_EQ(game.getLocalPlayer().radarsize(), game.getUniverse().getgoList().size());
+	EXPECT_EQ(totalItems, radarItems);
 }
