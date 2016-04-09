@@ -1,9 +1,6 @@
 {
 	"AdditionalBlueprints:comment": "Additional directories to find more blueprints in. Default always loaded.",
 	"AdditionalBlueprints": [],
-	"Decorations": [{
-
-	}],
 	"HazardFields": [{
 		"HazardName": "Asteroid",
 		"NumHazards": 10,
@@ -82,10 +79,28 @@
 			0
 		]
 	}],
-	"Background1": {
-		"dimensions": [600, 600],
-		"texName": "backgrounds/bg1.png",
-		"animSheetName": "backgrounds/bg1.acfg",
-		"layer": "BackgroundFar"
-	}	
+	"Decorations": {
+		"StaticDecor": [{
+			"Title": "Background0"
+		},  {
+			"Title": "Background1"
+		}, 	{
+			"Title": "Background2"
+		}, 	{
+			"Title": "Background3"
+		}, 	{
+			"Title": "Background4"
+		}],
+		"DynamicDecor": [{
+			"Title": "Comet"
+		},  {
+			"Title": "Comet"
+		},	{
+			"Title": "Comet"
+		},	{
+			"Title": "Comet"
+		},	{
+			"Title": "Comet"
+		}]
+	}
 }

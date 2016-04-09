@@ -93,7 +93,7 @@ protected:
 private:
 	std::vector<sptr<HazardField>> hazardFields;
 
-	void setupBackground();
+	void setupBackground(Json::Value& root);
 
 	/**SLEEP**/
 	std::vector<b2Vec2> m_beds;

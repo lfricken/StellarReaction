@@ -1,6 +1,7 @@
 #include "Decoration.hpp"
 
 #include "GraphicsComponent.hpp"
+#include "JSON.hpp"
 
 //Evan
 #include "Player.hpp"
@@ -9,6 +10,16 @@
 #include "Convert.hpp"
 
 using namespace std;
+
+void DecorationData::loadJson(const Json::Value& root)
+{
+	LOADJSON(ioComp);
+	GETJSON(movementScale);
+	GETJSON(isAbsoluteSize);
+	GETJSON(initPosition);
+	GETJSON(velocity);
+	GETJSON(repeats);
+}
 
 Decoration::Decoration(const DecorationData& rData, GraphicsComponent* pGfx) : m_io(rData.ioComp, &Decoration::input, this)
 {

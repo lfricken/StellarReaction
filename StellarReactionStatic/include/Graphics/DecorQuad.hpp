@@ -19,7 +19,7 @@ public:
 
 	virtual bool inputHook(std::string rCommand, sf::Packet rData);
 protected:
-
+	std::string m_title;
 	QuadComponent m_quad;
 private:
 };
@@ -28,7 +28,7 @@ private:
 
 struct DecorQuadData : public DecorationData
 {
-	std::string title;
+
 	DecorQuadData() :
 		DecorationData()
 	{
@@ -36,6 +36,7 @@ struct DecorQuadData : public DecorationData
 	}
 
 	QuadComponentData quadComp;
+	std::string title;
 
 	virtual void loadJson(const Json::Value& root);
 

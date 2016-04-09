@@ -74,6 +74,8 @@ struct DecorationData
 	b2Vec2 velocity;
 	bool repeats;
 
+	virtual void loadJson(const Json::Value& root);
+
 	virtual Decoration* generate() const = 0;
 	virtual DecorationData* clone() const = 0;
 
