@@ -93,7 +93,6 @@
     <ClCompile Include="src\Weapon\LaserWeapon.cpp" />
     <ClCompile Include="src\Weapon\MissileWeapon.cpp" />
     <ClCompile Include="src\Weapon\Weapon.cpp" />
-    <ClCompile Include="src\Universe\Module\BlackHole.cpp" />
     <ClCompile Include="src\Universe\Decoration\StaticDecor.cpp" />
     <ClCompile Include="src\Universe\Decoration\DynamicDecor.cpp" />
     <ClCompile Include="src\Universe\Module\CaptureGraphic.cpp" />
@@ -345,8 +344,6 @@
     <ClInclude Include="include\Weapon\GrappleWeapon.hpp" />
     <ClInclude Include="include\Weapon\BallisticWeapon.hpp" />
     <ClInclude Include="include\Basic\BlueprintData.hpp" />
-<<<<<<< HEAD
-    <ClInclude Include="include\Universe\Module\BlackHole.hpp" />
     <ClInclude Include="include\Universe\Decoration\StaticDecor.hpp" />
     <ClInclude Include="include\Universe\Decoration\DynamicDecor.hpp" />
     <ClInclude Include="include\Universe\Decoration\DecorRegistration.hpp" />
@@ -359,11 +356,9 @@
     <ClInclude Include="include\Universe\Utility\RayCastCallback.hpp" />
     <ClInclude Include="include\Universe\Utility\UniversalContactListener.hpp" />
     <ClInclude Include="include\Universe\Module\ModuleRegistration.hpp" />
-=======
     <ClInclude Include="include\Universe\Utility\LaunchGame.hpp" />
     <ClInclude Include="include\Universe\Module\CaptureGraphic.hpp" />
     <ClInclude Include="include\Universe\Module\BlackHoleGraphic.hpp" />
-    <ClInclude Include="include\Universe\Module\BlackHole.hpp" />
     <ClInclude Include="include\Universe\Chunk\CommandInfo.hpp" />
     <ClInclude Include="include\Control\Directive.hpp" />
     <ClInclude Include="include\Control\Request.hpp" />
@@ -411,7 +406,6 @@
     <ClInclude Include="include\API\TGUI\TGUI.hpp" />
     <ClInclude Include="include\API\TGUI\Transformable.hpp" />
     <ClInclude Include="include\API\TGUI\Widget.hpp" />
->>>>>>> refs/remotes/origin/master
   </ItemGroup>
   <ItemGroup>
     <None Include="include\API\SFML\Audio\SoundFileFactory.inl" />

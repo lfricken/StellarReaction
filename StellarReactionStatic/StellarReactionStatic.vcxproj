@@ -319,14 +319,10 @@
     <ClInclude Include="include\Universe\Utility\JSON.hpp" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
     <ClCompile Include="src\Universe\Decoration\DynamicDecor.cpp" />
     <ClCompile Include="src\Universe\Decoration\StaticDecor.cpp" />
-    <ClCompile Include="src\Universe\Module\BlackHole.cpp" />
-=======
     <ClCompile Include="src\Universe\Module\BlackHoleGraphic.cpp" />
     <ClCompile Include="src\Universe\Module\CaptureGraphic.cpp" />
->>>>>>> refs/remotes/origin/master
     <ClCompile Include="src\Universe\Utility\JSON.cpp" />
     <ClCompile Include="src\Headers\Random.cpp" />
     <ClCompile Include="src\Weapon\GrappleWeapon.cpp" />

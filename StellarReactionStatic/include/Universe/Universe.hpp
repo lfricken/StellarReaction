@@ -93,7 +93,6 @@ protected:
 	void input(std::string rCommand, sf::Packet rData);
 
 private:
-	std::vector<sptr<HazardField>> hazardFields;
 
 	void setupBackground(Json::Value& root);
 
