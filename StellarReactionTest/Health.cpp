@@ -6,6 +6,17 @@
 
 extern Game game;
 
+
+void initHealthParamTest(const vector<int>& cases)
+{
+	for(auto it = cases.cbegin(); it != cases.cend(); ++it)
+	{
+		HealthData data;
+		data.Max = *it;
+		Health healthObj(data);
+		EXPECT_EQ(*it, healthObj.getMaxHealth());
+	}
+};
 TEST(Health, InitializeHealth)
 {
 	HealthData data;
@@ -23,7 +34,16 @@ TEST(Health, InitializeHealth)
 	EXPECT_EQ(data.Max, health.getMaxHealth());
 	EXPECT_EQ(data.Value, health.getHealth());
 	EXPECT_EQ(false, health.isDead());
+
+	/**Parameters for test**/
+	const int numCases = 300;
+	vector<int> cases;
+	for(int i = 0; i < numCases; ++i)
+		cases.push_back(i + 100);
+
+	initHealthParamTest(cases);
 }
+
 TEST(Health, RecieveDamage)
 {
 	HealthData data;
@@ -65,6 +85,24 @@ TEST(Health, RecieveLowDamage)
 	EXPECT_EQ(expectedHealth, health.getHealth());
 	EXPECT_EQ(1, health.getHealthPercent());
 }
+void damageHealthParamTest(const vector<int>& cases)
+{
+	HealthData data;
+	data.Armor = 10;
+	for(auto it = cases.cbegin(); it != cases.cend(); ++it)
+	{
+		Health healthObj(data);
+		healthObj.damage(*it);
+		if(*it < 0)
+			EXPECT_EQ(healthObj.getMaxHealth(), healthObj.getHealth());
+		else if(*it >= 110)
+			EXPECT_EQ(0, healthObj.getHealth());
+		else if(*it <= 10)
+			EXPECT_EQ(healthObj.getMaxHealth(), healthObj.getHealth());
+		else//in [11, 109]
+			EXPECT_EQ(healthObj.getMaxHealth() + healthObj.getArmor() - *it, healthObj.getHealth());
+	}
+};
 TEST(Health, DamageBeyondZero)
 {
 	HealthData data;
@@ -84,6 +122,14 @@ TEST(Health, DamageBeyondZero)
 	health.damage(damage);
 	EXPECT_EQ(expectedHealth, health.getHealth());
 	EXPECT_EQ(0, health.getHealthPercent());
+
+	/**Parameters for test**/
+	const int numCases = 500;
+	vector<int> cases;
+	for(int i = 0; i < numCases; ++i)
+		cases.push_back(i - 100);
+
+	damageHealthParamTest(cases);// [-100, 400)
 }
 TEST(Health, Healing)
 {
