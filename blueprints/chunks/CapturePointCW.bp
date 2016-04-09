@@ -1,0 +1,29 @@
+{
+    "ClassName": "ChunkData",
+    "bodyComp": {
+        "isDynamic": false
+    },
+	"hullSpriteData": {
+		"dimensions": [256, 256],
+		"center": [0,0],
+		"texName": "other/blank.png",
+		"animSheetName": "other/blank.acfg",
+		"layer": "ShipHull"
+	},
+    "moduleData": [
+		{
+            "title": "CaptureArea",
+            "Position": [
+                0,
+                0
+            ]
+		},
+		{
+            "title": "CaptureGraphicCW",
+            "Position": [
+                0,
+                0
+            ]
+		}
+    ]
+}

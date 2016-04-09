@@ -3,16 +3,23 @@
     "bodyComp": {
         "isDynamic": false
     },
+	"hullSpriteData": {
+		"dimensions": [256, 256],
+		"center": [0,0],
+		"texName": "other/blank.png",
+		"animSheetName": "other/blank.acfg",
+		"layer": "ShipHull"
+	},
     "moduleData": [
-        {
-            "title": "Capacitor",
+		{
+            "title": "CaptureArea",
             "Position": [
                 0,
                 0
             ]
-        },
+		},
 		{
-            "title": "CaptureArea",
+            "title": "CaptureGraphicCCW",
             "Position": [
                 0,
                 0

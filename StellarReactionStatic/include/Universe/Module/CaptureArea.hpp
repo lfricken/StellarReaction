@@ -11,6 +11,9 @@ public:
 	~CaptureArea();
 
 	virtual void prePhysUpdate();
+	bool isConflicted();
+	int getCurrentTeam();
+	float getProgress();
 
 protected:
 private:
@@ -18,7 +21,9 @@ private:
 	float m_capPercent;
 	float m_captureTime;//how long does it take to capture this?
 
-	int m_currentTeam;
+	int m_currentTeam;//team that owns this point currently
+	int m_capTeam;//team is currently capturing this point
+	bool m_conflicted;
 	float m_progress;
 	float m_oldProgress;
 
@@ -36,7 +41,7 @@ struct CaptureAreaData : public SensorData
 	{
 
 	}
-	
+
 	Money value;
 	float captureTime;
 	float capturePercent;

@@ -90,8 +90,8 @@ void ShipModule::input(std::string rCommand, sf::Packet rData)
 		int cause;
 		int team;
 		rData >> val >> cause >> team;
-
-		if (val > 0 && team != m_parentChunk->getBodyComponent().getTeam() )
+		int myTeam = m_parentChunk->getBodyComponent().getTeam();
+		if ((val > 0 && team != myTeam) || (myTeam != 1 && myTeam != 2 && myTeam != 3 && myTeam != 4))
 		{
 			m_health.damage(val);
 			m_io.event(EventType::Health, m_health.getHealth(), voidPacket);

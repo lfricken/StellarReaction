@@ -1,0 +1,23 @@
+{
+    "ClassName": "CapacitorData",
+	"storage": 100,
+    "baseDecor": {
+        "texName": "capacitor/capacitor_base.png",
+        "animSheetName": "capacitor/capacitor_base.acfg"
+    },
+	"fixComp": {
+		"offset": [
+			0,
+			0
+		],
+		"size": [
+			22,
+			0
+		],
+		"shape": "circle",
+		"density": 2.0,
+		"isSensor": false,
+		"colCat": "ShipModule",
+		"colMask": "ShipModule"
+	}
+}
