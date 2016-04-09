@@ -4,6 +4,7 @@
 #include "Globals.hpp"
 #include "FixtureComponent.hpp"
 #include "BlueprintLoader.hpp"
+#include "Player.hpp"
 
 using namespace std;
 
@@ -80,6 +81,6 @@ void LaserWeapon::postShot(const b2Vec2& center, const b2Vec2& aim, float radCCW
 }
 Vec2 LaserWeapon::collisionHandle(const RayData& data)
 {
-	damage(data.pFixture, m_damage);
+	damage(data.pFixture, m_damage, game.getLocalPlayer().getTeam());
 	return data.point;
 }

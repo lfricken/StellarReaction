@@ -139,9 +139,8 @@ void Weapon::postPhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 rad
 			game.getSound().playSound(m_endSound);
 		}
 	}
-void Weapon::damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmount, int ioCausePos)
+void Weapon::damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmount, int ioCausePos, int team)
 {
-	int team = game.getLocalPlayer().getTeam();
 	sf::Packet packet;
 	packet << damageAmount << ioCausePos << team;
 
@@ -150,10 +149,10 @@ void Weapon::damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmou
 
 	pMessageReciever->recieve(mess);
 }
-void Weapon::damage(b2Fixture* pFix, int damage)
+void Weapon::damage(b2Fixture* pFix, int damage, int team)
 {
 	FixtureComponent& rComp = *static_cast<FixtureComponent*>(pFix->GetUserData());
-	Weapon::damage(&game.getUniverse().getUniverseIO(), rComp.getIOPos(), (m_damage / m_shots), m_pTempParent->getIOPos());
+	Weapon::damage(&game.getUniverse().getUniverseIO(), rComp.getIOPos(), (m_damage / m_shots), m_pTempParent->getIOPos(), team);
 }
 QuadComponent* Weapon::getDecor()
 {

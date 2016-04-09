@@ -50,7 +50,7 @@ public:
 	/// Look at laser and projectile weapon.
 	/// </summary>
 
-	static void damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmount, int ioCausePos);
+	static void damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmount, int ioCausePos, int team);
 	virtual void postShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation) = 0;
 	QuadComponent* getDecor();
 
@@ -67,7 +67,7 @@ protected:
 	/// <summary>
 	/// Damages the specified fixture (which has a module)
 	/// </summary>
-	void damage(b2Fixture* pFix, int damage);
+	void damage(b2Fixture* pFix, int damage, int team);
 private:
 	QuadComponent m_decor;//the weapon sprite
 

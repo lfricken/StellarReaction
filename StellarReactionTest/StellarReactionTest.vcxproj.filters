@@ -12,6 +12,7 @@
     <ClCompile Include="StellarReactionTest.cpp" />
     <ClCompile Include="TeleportTest.cpp" />
     <ClCompile Include="Health.cpp" />
+    <ClCompile Include="ShipModuleTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
