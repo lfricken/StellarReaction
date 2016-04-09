@@ -9,6 +9,8 @@ struct ModuleData;
 struct ProjectileData;
 struct ChunkData;
 struct WeaponData;
+struct StaticDecorData;
+struct DynamicDecorData;
 
 class BlueprintLoader : NonCopyable
 {
@@ -22,6 +24,8 @@ public:
 	sptr<const ChunkData> getChunkSPtr(const std::string& rBPName) const;
 	sptr<const WeaponData> getWeaponSPtr(const std::string& rBPName) const;
 	sptr<const ProjectileData> getProjectileSPtr(const std::string& rBPName) const;
+	sptr<const StaticDecorData> getStaticDecorSPtr(const std::string& rBPName) const;
+	sptr<const DynamicDecorData> getDynamicDecorSPtr(const std::string& rBPName) const;
 
 	static sf::Color loadColor(const Json::Value& root);
 protected:
@@ -88,4 +92,6 @@ private:
 	std::map<std::string, sptr<const WeaponData> > m_wepBP;
 	std::map<std::string, sptr<const ChunkData> > m_cnkBP;
 	std::map<std::string, sptr<const ProjectileData> > m_prjBP;
+	std::map<std::string, sptr<const StaticDecorData> > m_sdcBP;
+	std::map<std::string, sptr<const DynamicDecorData> > m_ddcBP;
 };

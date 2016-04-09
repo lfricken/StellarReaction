@@ -93,6 +93,8 @@
     <ClCompile Include="src\Weapon\LaserWeapon.cpp" />
     <ClCompile Include="src\Weapon\MissileWeapon.cpp" />
     <ClCompile Include="src\Weapon\Weapon.cpp" />
+    <ClCompile Include="src\Universe\Decoration\StaticDecor.cpp" />
+    <ClCompile Include="src\Universe\Decoration\DynamicDecor.cpp" />
     <ClCompile Include="src\Universe\Module\CaptureGraphic.cpp" />
     <ClCompile Include="src\Universe\Module\BlackHoleGraphic.cpp" />
   </ItemGroup>
@@ -319,7 +321,6 @@
     <ClInclude Include="include\Universe\Module\CaptureArea.hpp" />
     <ClInclude Include="include\Universe\Module\GravityField.hpp" />
     <ClInclude Include="include\Universe\Module\Module.hpp" />
-    <ClInclude Include="include\Universe\Module\ModuleRegistration.hpp" />
     <ClInclude Include="include\Universe\Module\ProjectileModule.hpp" />
     <ClInclude Include="include\Universe\Module\Sensor.hpp" />
     <ClInclude Include="include\Universe\Module\ShipModule.hpp" />
@@ -334,15 +335,8 @@
     <ClInclude Include="include\Universe\ShipModule\Thruster.hpp" />
     <ClInclude Include="include\Universe\ShipModule\Turret.hpp" />
     <ClInclude Include="include\Universe\Universe.hpp" />
-    <ClInclude Include="include\Universe\Utility\BlueprintLoader.hpp" />
-    <ClInclude Include="include\Universe\Utility\DebugDraw.hpp" />
-    <ClInclude Include="include\Universe\Utility\GameObject.hpp" />
-    <ClInclude Include="include\Universe\Utility\ProjectileMan.hpp" />
-    <ClInclude Include="include\Universe\Utility\RayCastCallback.hpp" />
-    <ClInclude Include="include\Universe\Utility\UniversalContactListener.hpp" />
     <ClInclude Include="include\Control\ShipAI.hpp" />
     <ClInclude Include="include\Headers\Random.hpp" />
-    <ClInclude Include="include\Universe\Utility\JSON.hpp" />
     <ClInclude Include="include\Weapon\Weapon.hpp" />
     <ClInclude Include="include\Weapon\WeaponRegistration.hpp" />
     <ClInclude Include="include\Weapon\MissileWeapon.hpp" />
@@ -350,10 +344,21 @@
     <ClInclude Include="include\Weapon\GrappleWeapon.hpp" />
     <ClInclude Include="include\Weapon\BallisticWeapon.hpp" />
     <ClInclude Include="include\Basic\BlueprintData.hpp" />
+    <ClInclude Include="include\Universe\Decoration\StaticDecor.hpp" />
+    <ClInclude Include="include\Universe\Decoration\DynamicDecor.hpp" />
+    <ClInclude Include="include\Universe\Decoration\DecorRegistration.hpp" />
+    <ClInclude Include="include\Universe\Utility\BlueprintLoader.hpp" />
+    <ClInclude Include="include\Universe\Utility\DebugDraw.hpp" />
+    <ClInclude Include="include\Universe\Utility\GameObject.hpp" />
+    <ClInclude Include="include\Universe\Utility\JSON.hpp" />
+    <ClInclude Include="include\Universe\Utility\LaunchGame.hpp" />
+    <ClInclude Include="include\Universe\Utility\ProjectileMan.hpp" />
+    <ClInclude Include="include\Universe\Utility\RayCastCallback.hpp" />
+    <ClInclude Include="include\Universe\Utility\UniversalContactListener.hpp" />
+    <ClInclude Include="include\Universe\Module\ModuleRegistration.hpp" />
     <ClInclude Include="include\Universe\Utility\LaunchGame.hpp" />
     <ClInclude Include="include\Universe\Module\CaptureGraphic.hpp" />
     <ClInclude Include="include\Universe\Module\BlackHoleGraphic.hpp" />
-    <ClInclude Include="include\Universe\Module\BlackHole.hpp" />
     <ClInclude Include="include\Universe\Chunk\CommandInfo.hpp" />
     <ClInclude Include="include\Control\Directive.hpp" />
     <ClInclude Include="include\Control\Request.hpp" />

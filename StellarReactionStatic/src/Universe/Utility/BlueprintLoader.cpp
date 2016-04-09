@@ -6,6 +6,7 @@
 #include "WeaponRegistration.hpp"
 #include "ChunkRegistration.hpp"
 #include "ProjectileRegistration.hpp"
+#include "DecorRegistration.hpp"
 
 using namespace std;
 
@@ -23,6 +24,9 @@ void BlueprintLoader::loadBlueprints(const std::string& rDir)
 	vector<pair<string, string> > modules = game.getDir().getAllFiles(rDir + "modules", ".bp");
 	vector<pair<string, string> > chunks = game.getDir().getAllFiles(rDir + "chunks", ".bp");
 	vector<pair<string, string> > projectiles = game.getDir().getAllFiles(rDir + "projectiles", ".bp");
+	vector<pair<string, string> > static_decors = game.getDir().getAllFiles(rDir + "decorations/static", ".bp");
+	vector<pair<string, string> > dynamic_decors = game.getDir().getAllFiles(rDir + "decorations/dynamic", ".bp");
+
 
 
 	for(auto it = weapons.begin(); it != weapons.end(); ++it)
@@ -36,6 +40,12 @@ void BlueprintLoader::loadBlueprints(const std::string& rDir)
 
 	for(auto it = projectiles.begin(); it != projectiles.end(); ++it)
 		storeData<ProjectileData>(it->first, it->second, m_prjBP);
+
+	for (auto it = static_decors.begin(); it != static_decors.end(); ++it)
+		storeData<StaticDecorData>(it->first, it->second, m_sdcBP);
+	
+	for (auto it = dynamic_decors.begin(); it != dynamic_decors.end(); ++it)
+		storeData<DynamicDecorData>(it->first, it->second, m_ddcBP);
 }
 sptr<const ChunkData> BlueprintLoader::getChunkSPtr(const std::string& rBPName) const
 {
@@ -52,6 +62,14 @@ sptr<const ModuleData> BlueprintLoader::getModuleSPtr(const std::string& rBPName
 sptr<const WeaponData> BlueprintLoader::getWeaponSPtr(const std::string& rBPName) const
 {
 	return getData<WeaponData>(rBPName, m_wepBP);
+}
+sptr<const StaticDecorData> BlueprintLoader::getStaticDecorSPtr(const std::string& rBPName) const
+{
+	return getData<StaticDecorData>(rBPName, m_sdcBP);
+}
+sptr<const DynamicDecorData> BlueprintLoader::getDynamicDecorSPtr(const std::string& rBPName) const
+{
+	return getData<DynamicDecorData>(rBPName, m_ddcBP);
 }
 sf::Color BlueprintLoader::loadColor(const Json::Value& root)
 {

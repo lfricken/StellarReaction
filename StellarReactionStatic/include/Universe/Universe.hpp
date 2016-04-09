@@ -93,7 +93,8 @@ protected:
 	void input(std::string rCommand, sf::Packet rData);
 
 private:
-	void setupBackground();
+
+	void setupBackground(Json::Value& root);
 
 	/**SLEEP**/
 	std::vector<b2Vec2> m_beds;

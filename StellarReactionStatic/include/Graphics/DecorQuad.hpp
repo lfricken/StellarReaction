@@ -3,6 +3,7 @@
 
 #include "Decoration.hpp"
 #include "QuadComponent.hpp"
+#include "JSON.hpp"
 
 class GraphicsComponent;
 struct DecorQuadData;
@@ -18,7 +19,7 @@ public:
 
 	virtual bool inputHook(std::string rCommand, sf::Packet rData);
 protected:
-
+	std::string m_title;
 	QuadComponent m_quad;
 private:
 };
@@ -27,6 +28,7 @@ private:
 
 struct DecorQuadData : public DecorationData
 {
+
 	DecorQuadData() :
 		DecorationData()
 	{
@@ -34,6 +36,9 @@ struct DecorQuadData : public DecorationData
 	}
 
 	QuadComponentData quadComp;
+	std::string title;
+
+	virtual void loadJson(const Json::Value& root);
 
 	virtual Decoration* generate() const
 	{

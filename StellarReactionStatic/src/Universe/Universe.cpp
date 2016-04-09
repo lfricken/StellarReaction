@@ -21,6 +21,8 @@
 #include "BallisticWeapon.hpp"
 #include "ProjectileMan.hpp"
 #include "DecorQuad.hpp"
+#include "StaticDecor.hpp"
+#include "DynamicDecor.hpp"
 #include "Convert.hpp"
 
 using namespace std;
@@ -41,7 +43,7 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 
 	bool parsedSuccess = reader.parse(level, root, false);
 
-	setupBackground();
+
 
 	//SHIP AI TODO
 	//m_shipAI.push_back(sptr<ShipAI>(new ShipAI));
@@ -57,6 +59,7 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 	}
 	else
 	{
+		setupBackground(root);
 		/**Additional Map Blueprints**/
 		if(!root["AdditionalBlueprints"].isNull())
 		{
@@ -511,9 +514,79 @@ void Universe::loadBlueprints(const std::string& bpDir)//loads blueprints
 {
 	m_spBPLoader->loadBlueprints(bpDir);
 }
-void Universe::setupBackground()
+void Universe::setupBackground(Json::Value& root)
 {
+	sptr<StaticDecorData> spSDec;
+	sptr<DynamicDecorData> spDDec;
+	if (!root["Decorations"].isNull())
+	{
+		const Json::Value decors = root["Decorations"];
+		if (!decors["StaticDecor"].isNull())
+		{
+			const Json::Value sdecors = decors["StaticDecor"];
+			for (auto it = sdecors.begin(); it != sdecors.end(); ++it)
+			{
+				if (!(*it)["Title"].isNull())
+				{
+					auto thing = m_spBPLoader->getStaticDecorSPtr((*it)["Title"].asString())->clone();
+					thing->ioComp.pMyManager = &game.getUniverse().getUniverseIO();
+					spSDec.reset(thing);
+				}
+				else
+					cout << "\n" << FILELINE;
+				if (spSDec->repeats)
+				{
+					float height = 1200;
+					float width = 1200;
 
+					if (!(*it)["dimensions"].isNull())
+					{
+						height = spSDec->dimensions.x;
+						width = spSDec->dimensions.y;
+					}
+
+					for (int i = 0; i < 10; i++)
+					{
+						for (int j = 0; j < 10; j++)
+						{
+							spSDec->initPosition = b2Vec2(i*height, j*width);
+							add(spSDec->generate());
+						}
+					}
+				} else 
+					add(spSDec->generate());
+			}
+		}
+		else
+			cout << "\nStaticDecor List Null.";
+
+		if (!decors["DynamicDecor"].isNull())
+		{
+			const Json::Value sdecors = decors["DynamicDecor"];
+			for (auto it = sdecors.begin(); it != sdecors.end(); ++it)
+			{
+				if (!(*it)["Title"].isNull())
+				{
+					auto thing = m_spBPLoader->getDynamicDecorSPtr((*it)["Title"].asString())->clone();
+					thing->ioComp.pMyManager = &game.getUniverse().getUniverseIO();
+					spDDec.reset(thing);
+				}
+				else
+					cout << "\n" << FILELINE;
+				for (int i = 0; i < (rand() % 10 * spDDec->frequency); i++)
+				{
+					float velX = rand() % (int)(spDDec->maxX - spDDec->minX + 1) + spDDec->minX;
+					float velY = rand() % (int)(spDDec->maxX - spDDec->minY + 1) + spDDec->minY;
+					spDDec->velocity = b2Vec2(spDDec->minY, spDDec->minY);
+					add(spDDec->generate());
+					cout << "\nAdded Dynamic Decor";	
+				}
+				
+			}
+		}
+		else
+			cout << "\nDynamicDecor List Null.";
+	}
 }
 void Universe::add(sptr<GameObject> spGO)
 {
