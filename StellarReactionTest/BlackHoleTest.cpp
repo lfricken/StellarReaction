@@ -12,42 +12,51 @@ using namespace std;
 
 extern Game game;
 
-
-TEST(BlackHoleTest, blackHoleAppliesForce)
+TEST(BlackHoleTest, AppliesForce)
 {
-	//create black hole
-	game.getUniverse().getBlueprints().loadBlueprints("blueprints/");
-	ChunkData* bh = game.getUniverse().getBlueprints().getChunkSPtr("DefaultBlackHole")->clone();
+	game.restartTest();
+
+	//Black Hole
+	ChunkData* bh = game.getUniverse().getBlueprints().getChunkSPtr("BlackHole")->clone();
 	bh->bodyComp.coords = b2Vec2(0, 0);
 	Chunk* hole = bh->generate(&game.getUniverse());
 	game.getUniverse().add(hole);
-	//create chunk
-	ChunkData* c = game.getUniverse().getBlueprints().getChunkSPtr("DefaultChunk")->clone();
-	c->bodyComp.coords = b2Vec2(-10, 10);
+
+	//Ship
+	ChunkData* c = game.getUniverse().getBlueprints().getChunkSPtr("Anubis")->clone();
+	c->bodyComp.coords = b2Vec2(2, 2);
+
 	Chunk* testShip = c->generate(&game.getUniverse());
 	game.getUniverse().add(testShip);
-	//set chunk to move horizontally
-	b2Vec2 orgVel = b2Vec2(10, 0);
-	testShip->getBodyPtr()->SetLinearVelocity(orgVel);
-	//run time and check that ship now has vertical velocity
-	game.runTime(0.5f);
+
+	//Moved
+	game.runTicks(2);
 	b2Vec2 newVel = testShip->getBodyPtr()->GetLinearVelocity();
-	ASSERT_NE(orgVel.y, newVel.y);
+	EXPECT_NE(newVel.x, 0);
+	EXPECT_NE(newVel.y, 0);
+}
+TEST(BlackHoleTest, DealsDamage)
+{
+	game.restartTest();
+
+	//Black Hole
+	ChunkData* blackholeData = game.getUniverse().getBlueprints().getChunkSPtr("BlackHole")->clone();
+	blackholeData->bodyComp.coords = b2Vec2(100, 0);
+	Chunk* hole = blackholeData->generate(&game.getUniverse());
+	game.getUniverse().add(hole);
+
+	//Create Ship
+	ChunkData* shipData = game.getUniverse().getBlueprints().getChunkSPtr("Anubis")->clone();
+	shipData->bodyComp.coords = b2Vec2(100, 0);
+	Chunk* testShip = shipData->generate(&game.getUniverse());
+	game.getUniverse().add(testShip);
+
+	//Taken Damage
+	game.runTime(0.4f);
+	int currentHealth = dynamic_cast<ShipModule*>(testShip->getModuleList()[0].get())->getHealth().getHealth();
+	int maxHealth = dynamic_cast<ShipModule*>(testShip->getModuleList()[0].get())->getHealth().getMaxHealth();
+	b2Vec2 pos = testShip->getBodyComponent().getPosition();
+	EXPECT_LT(currentHealth, maxHealth);// || pos.x != 100
+
 }
 
-TEST(BlackHoleTest, blackHoleDealsDamage)
-{
-	//create chunk
-	ChunkData* c = game.getUniverse().getBlueprints().getChunkSPtr("DefaultChunk")->clone();
-	c->bodyComp.coords = b2Vec2(-10, 10);
-	Chunk* testShip = c->generate(&game.getUniverse());
-	game.getUniverse().add(testShip);
-	//set velocity of chunk
-	b2Vec2 orgVel = b2Vec2(10, 0);
-	testShip->getBodyPtr()->SetLinearVelocity(orgVel);
-	//run time and check that a module has taken damage
-	game.runTime(0.5f);
-	int currentHealth = dynamic_cast<ShipModule*>(testShip->getModuleList()[1].get())->getHealth().getHealth();
-	int maxHealth = dynamic_cast<ShipModule*>(testShip->getModuleList()[1].get())->getHealth().getMaxHealth();
-	ASSERT_LT(currentHealth, maxHealth);
-}

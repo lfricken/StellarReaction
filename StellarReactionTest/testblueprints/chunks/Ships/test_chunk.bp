@@ -1,0 +1,41 @@
+{
+	"ClassName": "ChunkData",
+	"energyData": {
+		"Max": 1,
+		"Min": 2,
+		"Value": 3
+	},
+	"ballisticData": {
+		"Max": 4,
+		"Min": 5,
+		"Value": 6
+	},
+	"missileData": {
+		"Max": 7,
+		"Min": 8,
+		"Value": 9
+	},
+	"zoomData": {
+		"Max": 10,
+		"Min": 11,
+		"Value": 12
+	},
+	"moduleData": [{
+		"title": "Reactor",
+		"Position": [
+			1,
+			1
+		]
+	}, {
+		"title": "Stealth",
+		"Position": [
+			3,
+			0
+		]
+	}, {
+		"title": "Teleport",
+		"Position": [-2,
+			0
+		]
+	}]
+}

@@ -4,13 +4,14 @@
 #include "stdafx.hpp"
 #include "SoundData.hpp"
 #include "Sound.hpp"
+#include "NonCopyable.hpp"
 
 namespace leon
 {
 	class Sound;
 }
 /// <summary>
-/// Stored in SoundManger. Each Sound only has a certain number of 
+/// Stored in SoundManger. Each Sound only has a certain number of possible noises
 /// </summary>
 struct Noise
 {
@@ -28,7 +29,7 @@ struct Noise
 /// Plays all sounds in game.
 /// We need a sound manager because there are a max number of sounds. So we want to prevent going over a certain number.
 /// </summary>
-class SoundManager
+class SoundManager : NonCopyable
 {
 public:
 	SoundManager();

@@ -9,6 +9,7 @@
 #include "LinearMeter.hpp"
 #include "Minimap.hpp"
 #include "Chunk.hpp"
+#include "CommandInfo.hpp"
 
 using namespace std;
 using namespace sf;
@@ -18,6 +19,10 @@ Player::Player(const PlayerData& rData) : m_io(rData.ioComp, &Player::input, thi
 	m_hasFocus = true;
 	m_inGuiMode = true;
 	m_tracking = rData.tracking;
+	for(int i = 1; i <= 9; ++i)
+	{
+		m_weaponGroups[i] = true;
+	}
 }
 Player::~Player()
 {
@@ -122,15 +127,6 @@ void Player::getLiveInput()
 		if (Keyboard::isKeyPressed(m_inCfg.shield))
 			m_directives[Directive::Shield] = true;
 
-		if (Keyboard::isKeyPressed(m_inCfg.cgroup_1))
-			setActiveControlGroup(1);
-		if (Keyboard::isKeyPressed(m_inCfg.cgroup_2))
-			setActiveControlGroup(2);
-		if (Keyboard::isKeyPressed(m_inCfg.cgroup_3))
-			setActiveControlGroup(3);
-		if (Keyboard::isKeyPressed(m_inCfg.cgroup_4))
-			setActiveControlGroup(4);
-
 		/**== SPECIAL ==**/
 		if(Keyboard::isKeyPressed(m_inCfg.store))
 			m_directives[Directive::ShowStore] = true;
@@ -145,16 +141,20 @@ void Player::getLiveInput()
 		m_aim = leon::sfTob2(game.getWindow().mapPixelToCoords(Mouse::getPosition(game.getWindow()), m_camera.getView()));
 
 		/**== DEVELOPER ==**/
-		if(Keyboard::isKeyPressed(Keyboard::Numpad3))
+		if(Keyboard::isKeyPressed(Keyboard::Numpad8))
 			cout << "\n(" << m_aim.x << ",\t" << m_aim.y << ")";
 
 		Controller& rController = game.getUniverse().getControllerFactory().getController(m_controller);
 
 	}
 
-	m_mouseWindowPos = game.getWindow().mapPixelToCoords(Mouse::getPosition(game.getWindow()), game.getWindow().getDefaultView());
+	m_mouseWindowPos = game.getWindow().mapPixelToCoords(Mouse::getPosition(game.getWindow()), game.getStaticView());
 
-	rController.updateDirectives(m_directives);
+	CommandInfo commands;
+	commands.directives = m_directives;
+	commands.weaponGroups = m_weaponGroups;
+	commands.isLocal = true;
+	rController.locallyUpdate(commands);
 	rController.setAim(m_aim);
 }
 /// <summary>
@@ -171,6 +171,13 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 			toggleFocus(false);
 		if(event.type == sf::Event::GainedFocus)
 			toggleFocus(true);
+		if(event.type == sf::Event::Resized)
+		{
+			//TODO WE MAY NEED TO ADJUST OTHER VIEW ELEMENTS???
+			game.resizeStaticView();
+			m_camera.resize();
+			game.getOverlay().getGui().handleEvent(event, false);
+		}
 
 		/** CLOSE **/
 		if(event.type == sf::Event::Closed)
@@ -204,19 +211,38 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 			if(pBody != NULL)
 			{
 				float zoomValue = rController.get(Request::Zoom);
-				if(zoomValue < m_camera.getZoom())
-					m_camera.setZoom(zoomValue);
+				float x1 = game.getWindow().getSize().x; //getting the siz of x
+				float y1 = game.getWindow().getSize().y; //getting the size of y
+				float area = 1920 * 1080; // setting a fixed resolution
+				float area1 = x1*y1;
+				
+			    float newzoomvalue = zoomValue*sqrt(area/area1); // setting a new zoom value based on the current screen's resolution
+
+				if(newzoomvalue < m_camera.getZoom())
+					m_camera.setZoom(newzoomvalue);
 			}
 
 
-			/**== DEVELOPER OPTIONS ==**/
+
 			if(event.type == Event::KeyPressed)
 			{
-				if(event.key.code == Keyboard::Numpad0)
+				/**== Press Event ==**/
+				if(event.key.code == m_inCfg.cgroup_1)
+					toggleControlGroup(1);
+				if(event.key.code == m_inCfg.cgroup_2)
+					toggleControlGroup(2);
+				if(event.key.code == m_inCfg.cgroup_3)
+					toggleControlGroup(3);
+				if(event.key.code == m_inCfg.cgroup_4)
+					toggleControlGroup(4);
+
+
+				/**== DEVELOPER OPTIONS ==**/
+				if(event.key.code == Keyboard::Numpad9)
 					game.getUniverse().toggleDebugDraw();
-				if(event.key.code == Keyboard::Numpad1)
+				if(event.key.code == Keyboard::Numpad5)
 					m_tracking = !m_tracking;
-				if(event.key.code == Keyboard::Numpad2)
+				if(event.key.code == Keyboard::Numpad0)
 					game.getUniverse().togglePause();
 			}
 		}
@@ -247,6 +273,17 @@ void Player::updateView()
 			dat << "Default";
 			dat << 2.f;
 			m_energyDanger->input(com, dat);
+		}
+
+		b2Vec2 location = pBody->GetPosition();
+		vector<int> bounds = game.getUniverse().getBounds();
+		if (abs(location.x) > bounds[0] || abs(location.y) > bounds[1])//if out of bounds
+		{
+			string com = "setAnimation";
+			sf::Packet dat;
+			dat << "Default";
+			dat << 2.f;
+			m_boundsDanger->input(com, dat);
 		}
 
 		std::vector<sptr<GameObject> > goList = game.getUniverse().getgoList();
@@ -280,6 +317,13 @@ void Player::updateView()
 			m_radarsize++;
 			GameObject* p = it->get();
 			Chunk* object = dynamic_cast<Chunk*>(p);
+			int other_team = object->getBodyComponent().getTeam();
+			int my_team = this->getTeam();
+			int team = 0;
+			if (other_team == my_team)
+				team = 1;
+			else if (other_team < 0)
+				team = -1;
 			if (object != NULL && !object->isStealth())
 			{
 				b2Vec2 dif = pBody->GetPosition() - object->getBodyPtr()->GetPosition();
@@ -287,7 +331,7 @@ void Player::updateView()
 				if (dist < 50)
 				{
 					dif *= -0.005f;
-					m_minimap->setDot(b2Vec2(offset_x, offset_y) + dif, index);
+					m_minimap->setDot(b2Vec2(offset_x, offset_y) + dif, index, team);
 					index++;
 				}
 			}
@@ -324,7 +368,7 @@ void Player::loadOverlay(const std::string& rOverlay)
 	DecorQuad* pDQuad = new DecorQuad(data);
 	pDQuad->setPosition(emeterPos);
 
-
+	//Energy Warning
 	DecorQuadData datawarn;
 	datawarn.quadComp.dimensions = sf::Vector2f(86,73);
 	datawarn.quadComp.texName = "overlay/warning_energy.png";
@@ -333,6 +377,16 @@ void Player::loadOverlay(const std::string& rOverlay)
 	DecorQuad* pDang = new DecorQuad(datawarn);
 	pDang->setPosition(emeterPos+b2Vec2(0.f, -0.4f));
 
+	//Out of Bounds Warning
+	DecorQuadData dataWarnBounds;
+	dataWarnBounds.quadComp.dimensions = sf::Vector2f(250, 73);
+	dataWarnBounds.quadComp.texName = "overlay/warning_bounds.png";
+	dataWarnBounds.quadComp.animSheetName = "overlay/warning_bounds.acfg";
+	dataWarnBounds.quadComp.layer = GraphicsLayer::Overlay;
+	DecorQuad* pBounds = new DecorQuad(dataWarnBounds);
+	pBounds->setPosition(b2Vec2(1.35f, -0.3f));
+
+	m_boundsDanger = sptr<DecorQuad>(pBounds);
 	m_energyMeter = sptr<DecorQuad>(pDQuad);
 	m_energyMeterFill = sptr<LinearMeter>(pFill);
 	m_energyDanger = sptr<DecorQuad>(pDang);
@@ -345,6 +399,8 @@ void Player::universeDestroyed()
 	m_energyMeterFill.reset();
 	m_energyDanger.reset();
 	m_minimap.reset();
+	m_boundsDanger.reset();
+	setMoney(0);
 }
 bool Player::toggleFocus(bool isWindowFocused)
 {
@@ -354,6 +410,16 @@ bool Player::toggleFocus(bool isWindowFocused)
 bool Player::hasFocus() const
 {
 	return m_hasFocus;
+}
+bool Player::toggleControlGroup(int group, bool on)
+{
+	return m_weaponGroups[group] = on;
+	return m_weaponGroups[group];
+}
+bool Player::toggleControlGroup(int group)
+{
+	m_weaponGroups[group] = !m_weaponGroups[group];
+	return m_weaponGroups[group];
 }
 void Player::input(std::string rCommand, sf::Packet rData)
 {

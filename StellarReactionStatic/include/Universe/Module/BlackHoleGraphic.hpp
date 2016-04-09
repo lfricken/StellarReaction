@@ -3,13 +3,13 @@
 #include "Module.hpp"
 #include "Spinner.hpp"
 
-struct BlackHoleData;
+struct BlackHoleGraphicData;
 
-class BlackHole : public Module
+class BlackHoleGraphic : public Module
 {
 public:
-	BlackHole(const BlackHoleData& rData);
-	virtual ~BlackHole();
+	BlackHoleGraphic(const BlackHoleGraphicData& rData);
+	virtual ~BlackHoleGraphic();
 
 	virtual void prePhysUpdate();
 
@@ -19,9 +19,9 @@ protected:
 
 
 
-struct BlackHoleData : public ModuleData
+struct BlackHoleGraphicData : public ModuleData
 {
-	BlackHoleData() :
+	BlackHoleGraphicData() :
 		innerDecor(),
 		middleDecor(),
 		outerDecor()
@@ -38,17 +38,17 @@ struct BlackHoleData : public ModuleData
 
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{
-		BlackHoleData copy(*this);
+		BlackHoleGraphicData copy(*this);
 		copy.pools = stuff;
 		copy.fixComp.pBody = pBody;
 		copy.chunkParent = parent;
-		return new BlackHole(copy);
+		return new BlackHoleGraphic(copy);
 	}
 	virtual ModuleData* clone() const
 	{
-		return new BlackHoleData(*this);
+		return new BlackHoleGraphicData(*this);
 	}
 	virtual void loadJson(const Json::Value& root);
 
-	MyType(ModuleData, BlackHoleData);
+	MyType(ModuleData, BlackHoleGraphicData);
 };

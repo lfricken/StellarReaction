@@ -14,14 +14,19 @@ public:
 	virtual void prePhysUpdate();
 	virtual void postPhysUpdate();
 
-	void directive(std::map<Directive, bool>& rIssues);
-	void respawn();
 
+	void directive(const CommandInfo& commands);
+	void respawn();
 protected:
 private:
 	Energy m_rate;//energy per second
-	Timer m_debrisTimer;
-	std::vector<Chunk*> m_debrisList;
+	Timer m_respawnTimer; //tracks respawn time
+	float m_respawnTime; //how long after we die until we respawn
+	bool m_respawned; //whether or ship has respawned
+	
+	Timer m_waitTimer; //tracks wait time
+	float m_waitTime; //how long to freeze the ship after respawn
+	bool m_waiting; //whether or not ship is waiting
 };
 
 
@@ -29,13 +34,17 @@ struct ReactorData : public ShipModuleData
 {
 	ReactorData() :
 		ShipModuleData(),
-		rate(5)// J/s
+		rate(5),// J/s
+		respawnTime(3),
+		waitTime(1)
 	{
 		baseDecor.texName = "reactor/reactor_base.png";
 		baseDecor.animSheetName = "reactor/reactor_base.acfg";
 	}
 
 	Energy rate;// J/s
+	float respawnTime;
+	float waitTime;
 
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{

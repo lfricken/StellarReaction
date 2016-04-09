@@ -12,130 +12,78 @@ using namespace std;
 
 extern Game game;
 
-
-TEST(ReactorTest, shipMovesOnDeath)
+TEST(ReactorTest, ShipMovesOnDeath)
 {
-	/*
-		1. Create chunkdata
-		2. Create reactorData
-		3. Add reactorData to chunkData
-		4. Create chunk with chunkdata
-		5. Create reactor with reactorData
-	*/
+	game.restartTest();
 
-	//create chunkData
-	ChunkData* testChunkData = new ChunkData();
-	testChunkData->pParent = &game.getUniverse();
+	//Create Chunk
+	ChunkData testChunkData;
+	testChunkData.bodyComp.coords = b2Vec2(100, 100);
 
 	//create ReactorData
 	ReactorData* testReactorData = new ReactorData();
+	testReactorData->respawnTime = 0.05f;
+	testReactorData->waitTime = 0.05f;
+	testChunkData.moduleData.push_back(sptr<ModuleData>(testReactorData));
+
+	//Add Chunk
+	Chunk* testChunk = testChunkData.generate(&game.getUniverse());
+	game.getUniverse().add(testChunk);
+
+	//Get Location, Move Chunk
+	b2Body* chunkBodyPtr = testChunk->getBodyPtr();
+	chunkBodyPtr->SetTransform(b2Vec2(200, 200), 0.5);
+
+	b2Vec2 origPos = chunkBodyPtr->GetPosition();
+	game.runTicks(5);
+
+	//Kill Reactor Module
+	int pos = testChunk->getModuleList()[0]->getFixtureComponent().getIOPos();
+	Weapon::damage(&game.getUniverse().getUniverseIO(), pos, 2000, pos);
+
+	game.runTime(0.3f);
+	b2Vec2 afterDeathPos = testChunk->getBodyPtr()->GetPosition();
+	ASSERT_NE(origPos.x, afterDeathPos.x);
+	ASSERT_GT(afterDeathPos.x, 97);
+	ASSERT_LT(afterDeathPos.x, 102);
+	ASSERT_GT(afterDeathPos.y, 97);
+	ASSERT_LT(afterDeathPos.y, 102);
+}
+TEST(ReactorTest, ShipHealsOnDeath)
+{
+	game.restartTest();
+
+	//create chunkData, respawns at (100,100)
+	ChunkData* testChunkData = new ChunkData();
+	testChunkData->pParent = &game.getUniverse();
+	testChunkData->bodyComp.coords = b2Vec2(120, 120);
+
+	//create ReactorData
+	ReactorData* testReactorData = new ReactorData();
+	testReactorData->respawnTime = 0.05f;
+	testReactorData->waitTime = 0.05f;
 	testChunkData->moduleData.push_back(sptr<ModuleData>(testReactorData));
 
-	//create Chunk
-	Chunk* testChunk = new Chunk(*testChunkData);
-
-	//Add chunk to universe
+	//Add Chunk
+	Chunk* testChunk = testChunkData->generate(&game.getUniverse());
 	game.getUniverse().add(testChunk);
-//	game.getUniverse().getBlueprints().loadBlueprints( BAD BAD BAD"C:\\Users\\leon\\Desktop\\Projects\\StellarReaction\\blueprints/");
 
-
-
-	//Get the location, move the chunk away from origin
-	b2Body* chunkBodyPtr= testChunk->getBodyPtr();
-	chunkBodyPtr->SetTransform(b2Vec2(20, 20), 0.5);
+	//Get Location, Move Chunk
+	b2Body* chunkBodyPtr = testChunk->getBodyPtr();
+	chunkBodyPtr->SetTransform(b2Vec2(200, 200), 0.5);
 	b2Vec2 origPos = chunkBodyPtr->GetPosition();
 
-	//destroy the reactor
+	//Kill Reactor Module
 	int pos = testChunk->getModuleList()[0]->getFixtureComponent().getIOPos();
 	Weapon::damage(&game.getUniverse().getUniverseIO(), pos, 1000, pos);
 
-
-	game.runTicks(60);
-	b2Vec2 afterDeathPos = testChunk->getBodyPtr()->GetPosition();
-	ASSERT_NE(origPos.x, afterDeathPos.x);
-	ASSERT_GT(afterDeathPos.x, -9);
-	ASSERT_LT(afterDeathPos.x, 9);
-
+	//Run Test
+	game.runTime(0.3f);
+	EXPECT_TRUE(dynamic_cast<ShipModule*>(testChunk->getModuleList()[0].get())->isFunctioning());
 }
-
-TEST(ReactorTest, shipHealsOnDeath)
+TEST(ReactorTest, NoDebris)
 {
-	/*
-	1. Create chunkdata
-	2. Create reactorData
-	3. Add reactorData to chunkData
-	4. Create chunk with chunkdata
-	5. Create reactor with reactorData
-	*/
-
-	//create chunkData
-	ChunkData* testChunkData = new ChunkData();
-	testChunkData->pParent = &game.getUniverse();
-
-	//create ReactorData
-	ReactorData* testReactorData = new ReactorData();
-	testChunkData->moduleData.push_back(sptr<ModuleData>(testReactorData));
-
-	//create Chunk
-	Chunk* testChunk = new Chunk(*testChunkData);
-
-	//Add chunk to universe
-	game.getUniverse().add(testChunk);
-	//game.getUniverse().getBlueprints().loadBlueprints("blueprints/");
-
-	//Get the location, move the chunk away from origin
-	b2Body* chunkBodyPtr = testChunk->getBodyPtr();
-	chunkBodyPtr->SetTransform(b2Vec2(20, 20), 0.5);
-	b2Vec2 origPos = chunkBodyPtr->GetPosition();
-
-	//destroy the reactor
-	Weapon::damage(&game.getUniverse().getUniverseIO(), testChunk->getModuleList()[0]->getFixtureComponent().getIOPos(), 1000, testChunk->getModuleList()[0]->getFixtureComponent().getIOPos());
-
-	game.runTicks(10);
-
-	ASSERT_TRUE(dynamic_cast<ShipModule*>(testChunk->getModuleList()[0].get())->isFunctioning());
-
-}
-
-TEST(ReactorTest, debrisShouldDisappearAfter3Seconds)
-{
-	/*
-	1. Create chunkdata
-	2. Create reactorData
-	3. Add reactorData to chunkData
-	4. Create chunk with chunkdata
-	5. Create reactor with reactorData
-	*/
-
-	//create chunkData
-	ChunkData* testChunkData = new ChunkData();
-	testChunkData->pParent = &game.getUniverse();
-
-	//create ReactorData
-	ReactorData* testReactorData = new ReactorData();
-	testChunkData->moduleData.push_back(sptr<ModuleData>(testReactorData));
-
-	//create Chunk
-	Chunk* testChunk = new Chunk(*testChunkData);
-
-	//Add chunk to universe
-	game.getUniverse().add(testChunk);
-	//game.getUniverse().getBlueprints().loadBlueprints("blueprints/");
-
-	//Get the location, move the chunk away from origin
-	b2Body* chunkBodyPtr = testChunk->getBodyPtr();
-	chunkBodyPtr->SetTransform(b2Vec2(20, 20), 0.5);
-	b2Vec2 origPos = chunkBodyPtr->GetPosition();
-
-	//destroy the reactor
-	Weapon::damage(&game.getUniverse().getUniverseIO(), testChunk->getModuleList()[0]->getFixtureComponent().getIOPos(), 1000, testChunk->getModuleList()[0]->getFixtureComponent().getIOPos());
-
-	game.runTicks(30);
-
-	EXPECT_FALSE(game.getUniverse().getDebris().empty());
-
-	game.runTime(3.7);
-
-	ASSERT_TRUE(game.getUniverse().getDebris().empty());
-	
+	//Deleted Test.
+	//Debris system causes lag.
+	//Debris system either needs to be graphics only or have preallocated debris chunks.
 }

@@ -1,8 +1,8 @@
-#include "BlackHole.hpp"
+#include "BlackHoleGraphic.hpp"
 
 using namespace std;
 
-void BlackHoleData::loadJson(const Json::Value& root)
+void BlackHoleGraphicData::loadJson(const Json::Value& root)
 {
 	LOADJSON(innerDecor);
 	LOADJSON(middleDecor);
@@ -11,7 +11,7 @@ void BlackHoleData::loadJson(const Json::Value& root)
 	ModuleData::loadJson(root);
 }
 
-BlackHole::BlackHole(const BlackHoleData& rData) : Module(rData)
+BlackHoleGraphic::BlackHoleGraphic(const BlackHoleGraphicData& rData) : Module(rData)
 {
 	m_decors.push_back(sptr<GraphicsComponent>(new Spinner(rData.innerDecor)));
 	m_decors.push_back(sptr<GraphicsComponent>(new Spinner(rData.middleDecor)));
@@ -21,11 +21,11 @@ BlackHole::BlackHole(const BlackHoleData& rData) : Module(rData)
 	m_decors[1]->setPosition(parentPos);
 	m_decors[2]->setPosition(parentPos);
 }
-BlackHole::~BlackHole()
+BlackHoleGraphic::~BlackHoleGraphic()
 {
 
 }
-void BlackHole::prePhysUpdate()
+void BlackHoleGraphic::prePhysUpdate()
 {
 
 }

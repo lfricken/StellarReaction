@@ -2,6 +2,7 @@
 
 #include "stdafx.hpp"
 #include "CollisionCategory.hpp"
+#include "NonCopyable.hpp"
 
 namespace leon
 {
@@ -45,7 +46,7 @@ struct FixtureComponentData
 };
 
 
-class FixtureComponent
+class FixtureComponent : NonCopyable
 {
 public:
 	FixtureComponent(const FixtureComponentData& rData);

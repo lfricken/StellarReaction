@@ -1,12 +1,13 @@
 #pragma once
 
 #include "stdafx.hpp"
+#include "NonCopyable.hpp"
 
 namespace leon
 {
 	class DragUpdater;
 
-	class DragComponent
+	class DragComponent : NonCopyable
 	{
 	public:
 		template <typename T>

@@ -1,12 +1,12 @@
 {
     "ClassName": "ChunkData",
     "bodyComp": {
-        "rotation": 45,
-        "isDynamic": false
+		"linearDampening": 0.0,
+		"angularDampening": 0.0
     },
     "moduleData": [
         {
-            "title": "Capacitor",
+            "title": "Radar",
             "Position": [
                 0,
                 0

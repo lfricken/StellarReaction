@@ -10,6 +10,7 @@
 #include "Hazard\HazardField.hpp"
 #include "ShipAI.hpp"
 #include "LaunchGame.hpp"
+#include "NonCopyable.hpp"
 
 class BatchLayers;
 class GraphicsComponentUpdater;
@@ -24,12 +25,10 @@ class ProjectileMan;
 class BodyComponent;
 class Scoreboard;
 
-
-
 /// <summary>
 /// A new one is instantiated when you relaunch the game
 /// </summary>
-class Universe
+class Universe : NonCopyable
 {
 public:
 	Universe(const IOComponentData& rData);
@@ -44,6 +43,8 @@ public:
 	b2World& getWorld();
 	BlueprintLoader& getBlueprints();
 	Scoreboard& getScoreboard();
+	std::vector<int> getBounds();
+	void setBounds(int x, int y);
 
 	float getTimeStep() const;
 	void prePhysUpdate();
@@ -78,6 +79,7 @@ public:
 
 	std::vector<sptr<GameObject> > getgoList();
 	bool isClear(b2Vec2 position, float radius, const b2Body* exception);
+	b2Vec2 getAvailableSpawn(int team, float radius, const b2Body* exception);
 
 
 	float m_pauseTime;
@@ -122,15 +124,17 @@ private:
 
 	std::map<int, std::vector<b2Vec2> > m_spawnPoints;//places for people to spawn, int is team
 	std::map<int, Money> m_captures;//how much money does each team get for capture points
+	bool m_restartedMoneyTimer;
 	sptr<Timer> m_spMoneyTimer;//how long to wait for each money gift
 
 	std::vector<sptr<GameObject> > m_goList;//list of game objects that WE need to keep track of
-	std::vector<sptr<GameObject>> m_shipDebris;//game object to add after iteration
+	std::vector<sptr<GameObject> > m_shipDebris;//game object to add after iteration
 	std::vector<sptr<ShipAI> > m_shipAI;
-
+	std::vector<sptr<HazardField> > hazardFields;
 	std::vector<sptr<Decoration> > m_decorList;//list of decorations for the world
 
 	IOComponent m_io;
 	float m_lastTime;//used for update method//cant use timer because timer references us!
 	bool m_debugDrawEnabled;
+	std::vector<int> m_bounds;
 };

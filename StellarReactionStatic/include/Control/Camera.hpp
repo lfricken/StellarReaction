@@ -16,6 +16,7 @@ public:
 	void move(const b2Vec2& change);
 	void setZoom(float level);//multiple of each dimension to find new
 	void setRotation(float radiansCCW);
+	void resize();
 
 	b2Vec2 getPosition() const;
 	float getZoom() const;

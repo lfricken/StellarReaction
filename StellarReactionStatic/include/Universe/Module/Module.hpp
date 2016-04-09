@@ -9,11 +9,12 @@
 #include "Chunk.hpp"
 #include "ClassRegister.hpp"
 #include "JSON.hpp"
+#include "CommandInfo.hpp"
+#include "NonCopyable.hpp"
 
-enum class Directive;
 struct ModuleData;
 
-class Module
+class Module : NonCopyable
 {
 public:
 	Module(const ModuleData& rData);
@@ -21,7 +22,7 @@ public:
 
 	virtual void prePhysUpdate() = 0;
 	virtual void postPhysUpdate();
-	virtual void directive(std::map<Directive, bool>& rIssues);
+	virtual void directive(const CommandInfo& commands);
 	virtual void setAim(const b2Vec2& rTarget);
 	/// <summary>
 	/// What store is the module intersecting?
@@ -44,7 +45,6 @@ protected:
 	virtual void endContactCB(FixtureComponent* pOther);
 
 	IOComponent m_io;
-	NetworkComponent m_nw;//TODO this maybe shouldn't be here
 	FixtureComponent m_fix;
 
 	Pool<Missiles>* m_pMissilePool;

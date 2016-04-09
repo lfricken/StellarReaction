@@ -3,6 +3,7 @@
 #include "stdafx.hpp"
 #include "Globals.hpp"
 #include "JSON.hpp"
+#include "NonCopyable.hpp"
 
 struct ModuleData;
 struct ProjectileData;
@@ -11,7 +12,7 @@ struct WeaponData;
 struct StaticDecorData;
 struct DynamicDecorData;
 
-class BlueprintLoader
+class BlueprintLoader : NonCopyable
 {
 public:
 	BlueprintLoader();

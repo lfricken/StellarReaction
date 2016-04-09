@@ -2,6 +2,7 @@
 #define ControlFACTORY_HPP
 
 #include "stdafx.hpp"
+#include "NonCopyable.hpp"
 
 class Controller;
 class NetworkFactory;
@@ -9,7 +10,7 @@ class NetworkFactory;
 /// <summary>
 /// Holds the controllers
 /// </summary>
-class ControlFactory
+class ControlFactory : NonCopyable
 {
 public:
 	ControlFactory();

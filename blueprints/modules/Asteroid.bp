@@ -16,7 +16,7 @@
 			0
 		],
 		"shape": "circle",
-		"density": 5
+		"density": 30
 	},
 	"collisionDamage": 20
 }

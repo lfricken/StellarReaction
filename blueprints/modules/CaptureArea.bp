@@ -6,7 +6,7 @@
 			0
 		],
 		"size": [
-			8,
+			28,
 			0
 		],
 		"shape": "circle",
@@ -17,5 +17,9 @@
 	},
 	"value": 10,
 	"captureTime": 5,
-	"capturePercent": 0.80
+	"capturePercent": 0.80,
+    "baseDecor": {
+        "texName": "other/blank.png",
+        "animSheetName": "other/blank.acfg"
+    }
 }
