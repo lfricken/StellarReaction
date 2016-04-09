@@ -160,6 +160,7 @@ void Game::launchGame(const GameLaunchData& data)
 
 	Message closeMenu("overlay", "setMenu", boolean, 0, false);
 	game.getCoreIO().recieve(closeMenu);
+	m_spOverlay->loadScoreboard(data);
 }
 SoundManager& Game::getSound()
 {

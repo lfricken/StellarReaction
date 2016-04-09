@@ -72,7 +72,7 @@ bool ProjectileModule::shouldTerminate() const
 }
 void ProjectileModule::damage(FixtureComponent* pFix, int damage)
 {
-	Weapon::damage(&game.getUniverse().getUniverseIO(), pFix->getIOPos(), m_damage, m_fix.getIOPos());
+	Weapon::damage(&game.getUniverse().getUniverseIO(), pFix->getIOPos(), m_damage, m_fix.getIOPos(), -1);
 }
 void ProjectileModule::input(std::string rCommand, sf::Packet rData)
 {

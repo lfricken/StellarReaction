@@ -48,7 +48,7 @@ void Module::setAim(const b2Vec2& rTarget)
 }
 void Module::startContactCB(FixtureComponent* pOther)
 {
-	Weapon::damage(&game.getUniverse().getUniverseIO(), pOther->getIOPos(), m_collisionDamage, m_io.getPosition());
+	Weapon::damage(&game.getUniverse().getUniverseIO(), pOther->getIOPos(), m_collisionDamage, m_io.getPosition(), m_parentChunk->getBodyComponent().getTeam());
 }
 void Module::endContactCB(FixtureComponent* pOther)
 {

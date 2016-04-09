@@ -30,6 +30,8 @@ void NetworkBoss::recieveLevel(sf::Packet& data)
 		GameLaunchData::PlayerData playerInstance;
 
 		data >> playerInstance.slaveName;
+		data >> playerInstance.playerName;
+		data >> playerInstance.playerMoney;
 		data >> playerInstance.ship;
 		data >> playerInstance.team;
 		//cout << "\nControllers: " << numControllers;
@@ -57,6 +59,8 @@ void NetworkBoss::launchMultiplayerGame()
 
 	//host
 	data << "1";
+	data << game.getLocalPlayer().getName();
+	data << game.getLocalPlayer().getMoney();
 	data << game.getLocalPlayer().getShipChoice();
 	data << game.getLocalPlayer().getTeam();
 
@@ -64,10 +68,15 @@ void NetworkBoss::launchMultiplayerGame()
 	for(int32_t i = 0; i < (signed)m_connections.size(); ++i)
 	{
 		string slaveName = std::to_string(i + 1 + 1);//+1 for host, +1 for index offset
-		string shipName = m_connections[i]->getShipChoice();
-		int team = m_connections[i]->getTeam();
+		sptr<Connection> client = m_connections[i];
+		string playerName = client->getName();
+		Money playerMoney = client->getMoney();
+		string shipName = client->getShipChoice();
+		int team = client->getTeam();
 		cout << "\nSlave:[" << slaveName << "] title:[" << shipName << "].";
 		data << slaveName;
+		data << playerName;
+		data << playerMoney;
 		data << shipName;
 		data << team;
 	}

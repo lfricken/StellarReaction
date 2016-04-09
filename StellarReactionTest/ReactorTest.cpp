@@ -39,7 +39,7 @@ TEST(ReactorTest, ShipMovesOnDeath)
 
 	//Kill Reactor Module
 	int pos = testChunk->getModuleList()[0]->getFixtureComponent().getIOPos();
-	Weapon::damage(&game.getUniverse().getUniverseIO(), pos, 2000, pos);
+	Weapon::damage(&game.getUniverse().getUniverseIO(), pos, 1000, pos, 0);
 
 	game.runTime(0.3f);
 	b2Vec2 afterDeathPos = testChunk->getBodyPtr()->GetPosition();
@@ -75,7 +75,7 @@ TEST(ReactorTest, ShipHealsOnDeath)
 
 	//Kill Reactor Module
 	int pos = testChunk->getModuleList()[0]->getFixtureComponent().getIOPos();
-	Weapon::damage(&game.getUniverse().getUniverseIO(), pos, 1000, pos);
+	Weapon::damage(&game.getUniverse().getUniverseIO(), pos, 1000, pos, 0);
 
 	//Run Test
 	game.runTime(0.3f);

@@ -48,7 +48,7 @@ TEST(ScoreboardTest, increaseScore)
 	//game.getUniverse().getBlueprints().storeChunk("Asteroid.bp");
 
 	int pos = testChunk->getModuleList()[0]->getFixtureComponent().getIOPos();
-	Weapon::damage(&game.getUniverse().getUniverseIO(), pos, 1000, pos);
+	Weapon::damage(&game.getUniverse().getUniverseIO(), pos, 1000, pos, 0);
 
 	game.runTicks(1);
 

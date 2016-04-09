@@ -10,6 +10,8 @@
 #include "NetworkedSelection.hpp"
 #include "Draggable.hpp"
 #include "DraggableSurface.hpp"
+#include "Chunk.hpp"
+#include <string>
 
 using namespace std;
 using namespace leon;
@@ -18,6 +20,7 @@ Overlay::Overlay(const IOComponentData& rData) : m_gui(game.getWindow()), m_io(r
 {
 	m_gui.setGlobalFont(contentDir() + "TGUI/fonts/DejaVuSans.ttf");
 	m_menuShowing = true;
+	m_scoreboardShowing = false;
 	/**If we call loadMenus now, we try and access this very Overlay object before it has been returned to game**/
 }
 Overlay::~Overlay()
@@ -449,11 +452,17 @@ void Overlay::loadMenus()
 	/**SCORE**/
 	leon::ButtonData hudScore;
 	hudScore.ioComp.name = "hud_score";
-	hudScore.size = sf::Vector2f(200, 50);
+	hudScore.size = sf::Vector2f(100, 30);
 	hudScore.buttonText = "";
-	hudScore.transparency = 50;
 	hudScore.screenCoords = sf::Vector2f(0, 0);
 	pLobby->add(sptr<leon::WidgetBase>(new leon::Button(*pHudPanel->getPanelPtr(), hudScore)));
+	/**MONEY**/
+	leon::ButtonData hudMoney;
+	hudMoney.ioComp.name = "hud_money";
+	hudMoney.size = sf::Vector2f(100, 30);
+	hudMoney.buttonText = "";
+	hudMoney.screenCoords = sf::Vector2f(0, 30);
+	pLobby->add(sptr<leon::WidgetBase>(new leon::Button(*pHudPanel->getPanelPtr(), hudMoney)));
 	/**HUD**/
 	/**HUD**/
 
@@ -480,6 +489,167 @@ void Overlay::loadMenus()
 	pMessBox->add(sptr<leon::WidgetBase>(pClose));
 	game.getOverlay().addPanel(sptr<leon::Panel>(pMessBox));
 }
+void Overlay::loadScoreboard(const GameLaunchData& data)
+{
+	// main scoreboard panel
+	sf::Vector2f scorebordPanelSize = sf::Vector2f(1280, 720);
+	leon::PanelData mainMenuData;
+	mainMenuData.ioComp.name = "main_scoreboard";
+	mainMenuData.startHidden = true;
+	mainMenuData.backgroundColor = sf::Color(50, 50, 50, 128);
+	mainMenuData.screenCoords = sf::Vector2f(game.getWindow().getSize().x / 2 - scorebordPanelSize.x / 2, game.getWindow().getSize().y / 2 - scorebordPanelSize.y / 2);
+	mainMenuData.size = sf::Vector2f(scorebordPanelSize.x, scorebordPanelSize.y);
+	leon::Panel* pMain_menu = new leon::Panel(game.getOverlay().getGui(), mainMenuData);
+
+	//section for team 1, the box will be outlined with blue
+	leon::NetworkedSelectionData select;
+	select.size = sf::Vector2f(1000, 170);
+	select.itemSize = sf::Vector2f(1000, 34);
+	select.screenCoords = sf::Vector2f(200, 40);
+	select.backgroundColor = sf::Color(50, 50, 50, 128);
+	select.startHidden = false;
+	select.ioComp.name = "team1_score";
+
+	leon::SelectableItemData data1;
+	data1.texName = "menu/blue_menu.png";
+	leon::LabelData label1;
+	data1.labelData.push_back(label1);
+	
+	Courier buttonClick;
+	buttonClick.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
+	buttonClick.message.reset("networkboss", "sendTcpToHost", voidPacket, 0, false);
+	data1.buttData.ioComp.courierList.push_back(buttonClick);
+	data1.labelData.back().textSize = 16;
+
+
+	select.command = "setShip";
+
+	//section for team 2, the box will be outlined with green
+	leon::NetworkedSelectionData select2;
+	select2.size = sf::Vector2f(1000, 170);
+	select2.itemSize = sf::Vector2f(1000, 34);
+	select2.screenCoords = sf::Vector2f(200, 210);
+	select2.backgroundColor = sf::Color(50, 50, 50, 128);
+	select2.startHidden = false;
+	select2.ioComp.name = "team2_score";
+
+	leon::SelectableItemData data2;
+	data2.texName = "menu/green_menu.png";
+	leon::LabelData label2;
+	data2.labelData.push_back(label2);
+
+	Courier buttonClick2;
+	buttonClick2.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
+	buttonClick2.message.reset("networkboss", "sendTcpToHost", voidPacket, 0, false);
+	data2.buttData.ioComp.courierList.push_back(buttonClick2);
+	data2.labelData.back().textSize = 16;
+
+
+	select2.command = "setShip";
+
+	//section for team 3, the box will be outlined with yellow
+	leon::NetworkedSelectionData select3;
+	select3.size = sf::Vector2f(1000, 170);
+	select3.itemSize = sf::Vector2f(1000, 34);
+	select3.screenCoords = sf::Vector2f(200, 380);
+	select3.backgroundColor = sf::Color(50, 50, 50, 128);
+	select3.startHidden = false;
+	select3.ioComp.name = "team3_score";
+
+	leon::SelectableItemData data3;
+	data3.texName = "menu/yellow_menu.png";
+	leon::LabelData label3;
+	data3.labelData.push_back(label3);
+
+	Courier buttonClick3;
+	buttonClick3.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
+	buttonClick3.message.reset("networkboss", "sendTcpToHost", voidPacket, 0, false);
+	data3.buttData.ioComp.courierList.push_back(buttonClick3);
+	data3.labelData.back().textSize = 16;
+
+
+	select3.command = "setShip";
+
+	//section for team 4, the box will be outlined with pink
+	leon::NetworkedSelectionData select4;
+	select4.size = sf::Vector2f(1000, 170);
+	select4.itemSize = sf::Vector2f(1000, 34);
+	select4.screenCoords = sf::Vector2f(200, 550);
+	select4.backgroundColor = sf::Color(50, 50, 50, 128);
+	select4.startHidden = false;
+	select4.ioComp.name = "team4_score";
+
+	leon::SelectableItemData data4;
+	data4.texName = "menu/pink_menu.png";
+	leon::LabelData label4;
+	data4.labelData.push_back(label4);
+
+	Courier buttonClick4;
+	buttonClick4.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
+	buttonClick4.message.reset("networkboss", "sendTcpToHost", voidPacket, 0, false);
+	data4.buttData.ioComp.courierList.push_back(buttonClick4);
+	data4.labelData.back().textSize = 16;
+
+
+	select4.command = "setShip";
+
+	std::vector< sptr<GameObject> > gamePlayers = game.getUniverse().getPlayerShipList();
+
+	for (auto it = data.playerList.begin(); it != data.playerList.end(); ++it)
+	{
+		int team = it->team;
+		switch (team) {
+		case 1:
+			data1.labelData.back().text = it->playerName + "                                                             " + "0" + "  " + to_string(it->playerMoney);
+			data1.id = it->playerName;
+			select.items.push_back(data1);
+			break;
+		case 2:
+			data2.labelData.back().text = it->playerName + "                                                             " + "0" + "  " + to_string(it->playerMoney);
+			data2.id = it->playerName;
+			select2.items.push_back(data2);
+			break;
+		case 3:
+			data3.labelData.back().text = it->playerName + "                                                             " + "0" + "  " + to_string(it->playerMoney);
+			data3.id = it->playerName;
+			select3.items.push_back(data3);
+			break;
+		case 4:
+			data4.labelData.back().text = it->playerName + "                                                             " + "0" + "  " + to_string(it->playerMoney);
+			data4.id = it->playerName;
+			select4.items.push_back(data4);
+			break;
+		}
+
+	}
+
+
+	pMain_menu->add(sptr<leon::WidgetBase>(new leon::NetworkedSelection(*pMain_menu->getPanelPtr(), select)));
+	pMain_menu->add(sptr<leon::WidgetBase>(new leon::NetworkedSelection(*pMain_menu->getPanelPtr(), select2)));
+	pMain_menu->add(sptr<leon::WidgetBase>(new leon::NetworkedSelection(*pMain_menu->getPanelPtr(), select3)));
+	pMain_menu->add(sptr<leon::WidgetBase>(new leon::NetworkedSelection(*pMain_menu->getPanelPtr(), select4)));
+
+	leon::ButtonData scoreboardLabelName;
+	scoreboardLabelName.ioComp.name = "label_name";
+	scoreboardLabelName.size = sf::Vector2f(200, 30);
+	scoreboardLabelName.buttonText = "Player Name";
+	scoreboardLabelName.screenCoords = sf::Vector2f(250, 5);
+	pMain_menu->add(sptr<leon::WidgetBase>(new leon::Button(*pMain_menu->getPanelPtr(), scoreboardLabelName)));
+
+	leon::ButtonData scoreboardLabelScore;
+	scoreboardLabelName.ioComp.name = "label_score";
+	scoreboardLabelName.size = sf::Vector2f(200, 30);
+	scoreboardLabelName.buttonText = "Score";
+	scoreboardLabelName.screenCoords = sf::Vector2f(800, 5);
+	pMain_menu->add(sptr<leon::WidgetBase>(new leon::Button(*pMain_menu->getPanelPtr(), scoreboardLabelName)));
+
+	leon::ButtonData scoreboardLabelMoney;
+	scoreboardLabelMoney.ioComp.name = "label_money";
+	scoreboardLabelMoney.size = sf::Vector2f(200, 30);
+	scoreboardLabelMoney.buttonText = "Money";
+	scoreboardLabelMoney.screenCoords = sf::Vector2f(1000, 5);
+	pMain_menu->add(sptr<leon::WidgetBase>(new leon::Button(*pMain_menu->getPanelPtr(), scoreboardLabelMoney)));
+}
 void Overlay::toggleMenu(bool show)//display menu, assume gui control, send pause game command
 {
 	m_menuShowing = show;
@@ -503,11 +673,35 @@ void Overlay::toggleMenu(bool show)//display menu, assume gui control, send paus
 	game.getCoreIO().recieve(mes3);
 	game.getCoreIO().recieve(mes4);
 }
+void Overlay::toggleScoreboard(bool show)
+{
+	m_scoreboardShowing = show;
+
+	sf::Packet hideScoreboard;
+	hideScoreboard << (!show);
+	sf::Packet hideHudScore;
+	hideHudScore << (show);
+	sf::Packet hideHudMoney;
+	hideHudMoney << (show);
+
+	Message mes1("main_scoreboard", "setHidden", hideScoreboard, 0, false);
+	Message mes2("hud_score", "setHidden", hideHudScore, 0, false);
+	Message mes3("hud_money", "setHidden", hideHudMoney, 0, false);
+	
+	game.getCoreIO().recieve(mes1);
+	game.getCoreIO().recieve(mes2);
+	game.getCoreIO().recieve(mes3);
+
+}
 void Overlay::input(const std::string rCommand, sf::Packet rData)
 {
 	if(rCommand == "toggleMenu")
 	{
 		toggleMenu(!m_menuShowing);
+	}
+	else if (rCommand == "toggleScoreboard")
+	{
+		toggleScoreboard(!m_scoreboardShowing);
 	}
 	else if(rCommand == "setMenu")
 	{

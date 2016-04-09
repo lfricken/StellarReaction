@@ -4,6 +4,7 @@
 #include "Universe.hpp"
 #include "IOManager.hpp"
 #include "SoundManager.hpp"
+#include "Player.hpp"
 #include "Random.hpp"
 #include "Convert.hpp"
 
@@ -138,20 +139,20 @@ void Weapon::postPhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 rad
 			game.getSound().playSound(m_endSound);
 		}
 	}
-void Weapon::damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmount, int ioCausePos)
+void Weapon::damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmount, int ioCausePos, int team)
 {
 	sf::Packet packet;
-	packet << damageAmount << ioCausePos;
+	packet << damageAmount << ioCausePos << team;
 
 	Message mess;
 	mess.reset(ioTargetPos, "damage", packet, 0.f, false);
 
 	pMessageReciever->recieve(mess);
 }
-void Weapon::damage(b2Fixture* pFix, int damage)
+void Weapon::damage(b2Fixture* pFix, int damage, int team)
 {
 	FixtureComponent& rComp = *static_cast<FixtureComponent*>(pFix->GetUserData());
-	Weapon::damage(&game.getUniverse().getUniverseIO(), rComp.getIOPos(), (m_damage / m_shots), m_pTempParent->getIOPos());
+	Weapon::damage(&game.getUniverse().getUniverseIO(), rComp.getIOPos(), (m_damage / m_shots), m_pTempParent->getIOPos(), team);
 }
 QuadComponent* Weapon::getDecor()
 {
