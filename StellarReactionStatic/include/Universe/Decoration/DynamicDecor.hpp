@@ -16,7 +16,6 @@ public:
 	virtual bool inputHook(std::string rCommand, sf::Packet rData);
 protected:
 private:
-	float m_parallax;
 	float m_frequency;
 	float m_minX;
 	float m_minY;
@@ -30,7 +29,6 @@ struct DynamicDecorData : public DecorQuadData
 {
 	DynamicDecorData() :
 		DecorQuadData(),
-		parallax(1),
 		frequency(1),
 		minX(1),
 		minY(1),

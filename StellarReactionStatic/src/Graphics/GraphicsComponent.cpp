@@ -3,6 +3,7 @@
 #include "convert.hpp"
 #include "Universe.hpp"
 #include "GraphicsComponentUpdater.hpp"
+#include "JSON.hpp"
 
 using namespace std;
 using namespace sf;

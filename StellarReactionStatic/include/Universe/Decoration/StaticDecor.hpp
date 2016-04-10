@@ -16,8 +16,6 @@ public:
 	virtual bool inputHook(std::string rCommand, sf::Packet rData);
 protected:
 private:
-	float m_parallax;
-	b2Vec2 m_position;
 };
 
 
@@ -25,15 +23,10 @@ private:
 struct StaticDecorData : public DecorQuadData
 {
 	StaticDecorData() :
-		DecorQuadData(),
-		parallax(1),
-		position()
+		DecorQuadData()
 	{
 
 	}
-
-	float parallax;
-	b2Vec2 position;
 
 	void loadJson(const Json::Value& root);
 

@@ -54,7 +54,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\StellarReactionStatic\include\Weapon;..\StellarReactionStatic\include\Universe\Utility;..\StellarReactionStatic\include\Universe\ShipModule;..\StellarReactionStatic\include\Universe\Module;..\StellarReactionStatic\include\Universe\Chunk;..\StellarReactionStatic\include\Graphics\Utility;..\StellarReactionStatic\include\Universe;..\StellarReactionStatic\include\Physics;..\StellarReactionStatic\include\Overlay;..\StellarReactionStatic\include\Network;..\StellarReactionStatic\include\IO;..\StellarReactionStatic\include\Headers;..\StellarReactionStatic\include\Graphics;..\StellarReactionStatic\include\Game;..\StellarReactionStatic\include\Control;..\StellarReactionStatic\include\Basic;..\StellarReactionStatic\include\Audio;..\StellarReactionStatic\include\Universe\Hazard;..\StellarReactionStatic\include\API</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\StellarReactionStatic\include\Weapon;..\StellarReactionStatic\include\Universe\Decoration;..\StellarReactionStatic\include\Universe\Utility;..\StellarReactionStatic\include\Universe\ShipModule;..\StellarReactionStatic\include\Universe\Module;..\StellarReactionStatic\include\Universe\Chunk;..\StellarReactionStatic\include\Graphics\Utility;..\StellarReactionStatic\include\Universe;..\StellarReactionStatic\include\Physics;..\StellarReactionStatic\include\Overlay;..\StellarReactionStatic\include\Network;..\StellarReactionStatic\include\IO;..\StellarReactionStatic\include\Headers;..\StellarReactionStatic\include\Graphics;..\StellarReactionStatic\include\Game;..\StellarReactionStatic\include\Control;..\StellarReactionStatic\include\Basic;..\StellarReactionStatic\include\Audio;..\StellarReactionStatic\include\Universe\Hazard;..\StellarReactionStatic\include\API</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -89,8 +89,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BlackHoleTest.cpp" />
-    <ClCompile Include="BlueprintLoaderTest.cpp" />
+    <ClCompile Include="BlueprintLoaderTest.cpp">
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\StellarReactionStatic\include\Universe\Decoration;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
     <ClCompile Include="CapturePointTest.cpp" />
+    <ClCompile Include="DecorTest.cpp" />
     <ClCompile Include="GameTest.cpp" />
     <ClCompile Include="Health.cpp" />
     <ClCompile Include="ReactorTest.cpp" />

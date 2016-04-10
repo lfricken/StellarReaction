@@ -80,6 +80,7 @@ public:
 
 	std::vector<sptr<GameObject> > getgoList();
 	std::vector<sptr<GameObject> > getPlayerShipList();
+	std::vector<sptr<Decoration> > getDecorList();
 	bool isClear(b2Vec2 position, float radius, const b2Body* exception);
 	b2Vec2 getAvailableSpawn(int team, float radius, const b2Body* exception);
 

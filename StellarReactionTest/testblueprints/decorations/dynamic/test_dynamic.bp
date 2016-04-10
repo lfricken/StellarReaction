@@ -1,6 +1,5 @@
 {
     "ClassName": "DynamicDecorData",
-    "title": "Comet",
     "quadComp": {
         "dimensions": [
             480,
@@ -13,8 +12,10 @@
         ],
         "texName": "hulls/asteroid.png",
         "animSheetName": "hulls/asteroid.acfg",
-        "layer": "BackgroundClose"
+        "layer": "BackgroundClose",
+        "rate": -440
     },
+    "parallax": 1,
     "frequency": 1,
     "minX": 1,
     "minY": 1,

@@ -59,7 +59,9 @@ struct DecorationData
 		velocity(0,0),
 		repeats(false),
 		movementScale(0),
-		isAbsoluteSize(false)
+		isAbsoluteSize(false),
+		num_in_layer(1,1),
+		dimensions(1200,1200)
 	{
 
 	}

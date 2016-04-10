@@ -4,8 +4,6 @@ using namespace std;
 
 StaticDecor::StaticDecor(const StaticDecorData& rData) : DecorQuad(rData)
 {
-	m_parallax = rData.parallax;
-	m_position = rData.position;
 }
 StaticDecor::~StaticDecor()
 {
@@ -14,8 +12,6 @@ StaticDecor::~StaticDecor()
 
 void StaticDecorData::loadJson(const Json::Value& root)
 {
-	GETJSON(parallax);
-	GETJSON(position);
 
 	DecorQuadData::loadJson(root);
 }
