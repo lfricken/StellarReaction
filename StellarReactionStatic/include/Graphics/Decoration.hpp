@@ -22,31 +22,21 @@ public:
 	void setAnimation(const std::string& rAnimName, float duration);
 	void setScale(float scale);
 
-	bool hasAbsoluteSize() const;
-
 	void updateScaledPosition(const b2Vec2& rCameraCenter);
 
 	void input(std::string rCommand, sf::Packet rData);
+protected:
 	virtual bool inputHook(std::string rCommand, sf::Packet rData) = 0;//returns true if we handled the command
 
-	//Evan
-	b2Vec2 velocity;
-	bool m_repeats;
-	Timer velocityTimer;
-	b2Vec2 dimensions;
-	b2Vec2 num_in_layer;
-
-protected:
-
 private:
+	GraphicsComponent* m_gfx;
 	IOComponent m_io;
 
-	bool m_isAbsoluteSize;
+
 	float m_movementScale;
-	GraphicsComponent* m_gfx;
-	b2Vec2 m_position;//world
-	b2Vec2 m_initPosition;//absolute
-	float m_rotation;//radians CCW
+	
+	b2Vec2 m_position;//world (where it appears to be due to perspective)
+	b2Vec2 m_realPosition;//absolute (where it actually would be in a 3d world)
 };
 
 
@@ -55,13 +45,11 @@ struct DecorationData
 {
 	DecorationData() :
 		ioComp(&game.getUniverse().getUniverseIO()),
-		initPosition(0,0),
-		velocity(0,0),
-		repeats(false),
-		movementScale(0),
-		isAbsoluteSize(false),
-		num_in_layer(1,1),
-		dimensions(1200,1200)
+		realPosition(0, 0),
+		minVelocity(0, 0),
+		maxVelocity(0, 0),
+		tiled(false),
+		movementScale(0)
 	{
 
 	}
@@ -71,19 +59,16 @@ struct DecorationData
 	//movement scale of 0
 	//an object far from the target would follow the camera, and have a movement scale <=1
 	//an object closer than the target would speed past the camera, and have a movment scale >1
-	bool isAbsoluteSize;
-	b2Vec2 initPosition;
-	b2Vec2 velocity;
-	bool repeats;
+
+	b2Vec2 realPosition;
+	b2Vec2 minVelocity;
+	b2Vec2 maxVelocity;
+	bool tiled;
 
 	virtual void loadJson(const Json::Value& root);
 
 	virtual Decoration* generate() const = 0;
 	virtual DecorationData* clone() const = 0;
-
-	//Evan
-	b2Vec2 num_in_layer;
-	b2Vec2 dimensions;
 };
 
 

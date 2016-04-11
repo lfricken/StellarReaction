@@ -18,8 +18,8 @@ public:
 	virtual ~DecorQuad();
 
 	virtual bool inputHook(std::string rCommand, sf::Packet rData);
+
 protected:
-	std::string m_title;
 	QuadComponent m_quad;
 private:
 };
@@ -32,11 +32,10 @@ struct DecorQuadData : public DecorationData
 	DecorQuadData() :
 		DecorationData()
 	{
-
+		quadComp.layer = GraphicsLayer::BackgroundUnmoving1;
 	}
 
 	QuadComponentData quadComp;
-	std::string title;
 
 	virtual void loadJson(const Json::Value& root);
 

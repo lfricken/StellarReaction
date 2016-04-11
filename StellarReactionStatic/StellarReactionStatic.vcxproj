@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Graphics\Utility\DecorationEngine.hpp" />
     <ClInclude Include="include\API\TGUI\AnimatedPicture.hpp" />
     <ClInclude Include="include\API\TGUI\Borders.hpp" />
     <ClInclude Include="include\API\TGUI\Button.hpp" />
@@ -55,9 +56,6 @@
     <ClInclude Include="include\API\TGUI\Transformable.hpp" />
     <ClInclude Include="include\API\TGUI\Widget.hpp" />
     <ClInclude Include="include\Basic\BlueprintData.hpp" />
-    <ClInclude Include="include\Universe\Decoration\DecorRegistration.hpp" />
-    <ClInclude Include="include\Universe\Decoration\DynamicDecor.hpp" />
-    <ClInclude Include="include\Universe\Decoration\StaticDecor.hpp" />
     <ClInclude Include="include\Universe\Module\CaptureGraphic.hpp" />
     <ClInclude Include="include\Basic\NonCopyable.hpp" />
     <ClInclude Include="include\Control\Directive.hpp" />
@@ -289,7 +287,7 @@
     <ClInclude Include="include\Universe\Chunk\Missile.hpp" />
     <ClInclude Include="include\Universe\Chunk\Projectile.hpp" />
     <ClInclude Include="include\Universe\Chunk\ProjectileRegistration.hpp" />
-    <ClInclude Include="include\Universe\Hazard\HazardField.hpp" />
+    <ClInclude Include="include\Universe\Utility\HazardField.hpp" />
     <ClInclude Include="include\Universe\Module\CaptureArea.hpp" />
     <ClInclude Include="include\Universe\Module\GravityField.hpp" />
     <ClInclude Include="include\Universe\Module\Module.hpp" />
@@ -319,8 +317,7 @@
     <ClInclude Include="include\Universe\Utility\JSON.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Universe\Decoration\DynamicDecor.cpp" />
-    <ClCompile Include="src\Universe\Decoration\StaticDecor.cpp" />
+    <ClCompile Include="src\Graphics\Utility\DecorationEngine.cpp" />
     <ClCompile Include="src\Universe\Module\BlackHoleGraphic.cpp" />
     <ClCompile Include="src\Universe\Module\CaptureGraphic.cpp" />
     <ClCompile Include="src\Universe\Utility\JSON.cpp" />
@@ -391,7 +388,7 @@
     <ClCompile Include="src\Universe\Chunk\Chunk.cpp" />
     <ClCompile Include="src\Universe\Chunk\Missile.cpp" />
     <ClCompile Include="src\Universe\Chunk\Projectile.cpp" />
-    <ClCompile Include="src\Universe\Hazard\HazardField.cpp" />
+    <ClCompile Include="src\Universe\Utility\HazardField.cpp" />
     <ClCompile Include="src\Universe\Module\CaptureArea.cpp" />
     <ClCompile Include="src\Universe\Module\GravityField.cpp" />
     <ClCompile Include="src\Universe\Module\Module.cpp" />
@@ -472,7 +469,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\StellarReactionStatic\include\Universe\Decoration;..\StellarReactionStatic\include\Weapon;..\StellarReactionStatic\include\Universe\Utility;..\StellarReactionStatic\include\Universe\ShipModule;..\StellarReactionStatic\include\Universe\Module;..\StellarReactionStatic\include\Universe\Chunk;..\StellarReactionStatic\include\Graphics\Utility;..\StellarReactionStatic\include\Universe;..\StellarReactionStatic\include\Physics;..\StellarReactionStatic\include\Overlay;..\StellarReactionStatic\include\Network;..\StellarReactionStatic\include\IO;..\StellarReactionStatic\include\Headers;..\StellarReactionStatic\include\Graphics;..\StellarReactionStatic\include\Game;..\StellarReactionStatic\include\Control;..\StellarReactionStatic\include\Basic;..\StellarReactionStatic\include\Audio;..\StellarReactionStatic\include\Universe\Hazard;..\StellarReactionStatic\include\API</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\StellarReactionStatic\include\Weapon;..\StellarReactionStatic\include\Universe\Utility;..\StellarReactionStatic\include\Universe\ShipModule;..\StellarReactionStatic\include\Universe\Module;..\StellarReactionStatic\include\Universe\Chunk;..\StellarReactionStatic\include\Graphics\Utility;..\StellarReactionStatic\include\Universe;..\StellarReactionStatic\include\Physics;..\StellarReactionStatic\include\Overlay;..\StellarReactionStatic\include\Network;..\StellarReactionStatic\include\IO;..\StellarReactionStatic\include\Headers;..\StellarReactionStatic\include\Graphics;..\StellarReactionStatic\include\Game;..\StellarReactionStatic\include\Control;..\StellarReactionStatic\include\Basic;..\StellarReactionStatic\include\Audio;..\StellarReactionStatic\include\API</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -489,7 +486,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\StellarReactionStatic\include\Weapon;..\StellarReactionStatic\include\Universe\Utility;..\StellarReactionStatic\include\Universe\ShipModule;..\StellarReactionStatic\include\Universe\Module;..\StellarReactionStatic\include\Universe\Chunk;..\StellarReactionStatic\include\Graphics\Utility;..\StellarReactionStatic\include\Universe;..\StellarReactionStatic\include\Physics;..\StellarReactionStatic\include\Overlay;..\StellarReactionStatic\include\Network;..\StellarReactionStatic\include\IO;..\StellarReactionStatic\include\Headers;..\StellarReactionStatic\include\Graphics;..\StellarReactionStatic\include\Game;..\StellarReactionStatic\include\Control;..\StellarReactionStatic\include\Basic;..\StellarReactionStatic\include\Audio;..\StellarReactionStatic\include\Universe\Hazard;..\StellarReactionStatic\include\API</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\StellarReactionStatic\include\Weapon;..\StellarReactionStatic\include\Universe\Utility;..\StellarReactionStatic\include\Universe\ShipModule;..\StellarReactionStatic\include\Universe\Module;..\StellarReactionStatic\include\Universe\Chunk;..\StellarReactionStatic\include\Graphics\Utility;..\StellarReactionStatic\include\Universe;..\StellarReactionStatic\include\Physics;..\StellarReactionStatic\include\Overlay;..\StellarReactionStatic\include\Network;..\StellarReactionStatic\include\IO;..\StellarReactionStatic\include\Headers;..\StellarReactionStatic\include\Graphics;..\StellarReactionStatic\include\Game;..\StellarReactionStatic\include\Control;..\StellarReactionStatic\include\Basic;..\StellarReactionStatic\include\Audio;..\StellarReactionStatic\include\API</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

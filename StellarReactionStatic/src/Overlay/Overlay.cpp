@@ -593,8 +593,6 @@ void Overlay::loadScoreboard(const GameLaunchData& data)
 
 	select4.command = "setShip";
 
-	std::vector< sptr<GameObject> > gamePlayers = game.getUniverse().getPlayerShipList();
-
 	for (auto it = data.playerList.begin(); it != data.playerList.end(); ++it)
 	{
 		int team = it->team;

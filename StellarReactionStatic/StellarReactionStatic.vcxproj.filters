@@ -62,7 +62,6 @@
     <ClCompile Include="src\Universe\Chunk\Chunk.cpp" />
     <ClCompile Include="src\Universe\Chunk\Missile.cpp" />
     <ClCompile Include="src\Universe\Chunk\Projectile.cpp" />
-    <ClCompile Include="src\Universe\Hazard\HazardField.cpp" />
     <ClCompile Include="src\Universe\Module\CaptureArea.cpp" />
     <ClCompile Include="src\Universe\Module\GravityField.cpp" />
     <ClCompile Include="src\Universe\Module\Module.cpp" />
@@ -93,10 +92,10 @@
     <ClCompile Include="src\Weapon\LaserWeapon.cpp" />
     <ClCompile Include="src\Weapon\MissileWeapon.cpp" />
     <ClCompile Include="src\Weapon\Weapon.cpp" />
-    <ClCompile Include="src\Universe\Decoration\StaticDecor.cpp" />
-    <ClCompile Include="src\Universe\Decoration\DynamicDecor.cpp" />
     <ClCompile Include="src\Universe\Module\CaptureGraphic.cpp" />
     <ClCompile Include="src\Universe\Module\BlackHoleGraphic.cpp" />
+    <ClCompile Include="src\Graphics\Utility\DecorationEngine.cpp" />
+    <ClCompile Include="src\Universe\Utility\HazardField.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Game\Directory.hpp" />
@@ -317,7 +316,6 @@
     <ClInclude Include="include\Universe\Chunk\Missile.hpp" />
     <ClInclude Include="include\Universe\Chunk\Projectile.hpp" />
     <ClInclude Include="include\Universe\Chunk\ProjectileRegistration.hpp" />
-    <ClInclude Include="include\Universe\Hazard\HazardField.hpp" />
     <ClInclude Include="include\Universe\Module\CaptureArea.hpp" />
     <ClInclude Include="include\Universe\Module\GravityField.hpp" />
     <ClInclude Include="include\Universe\Module\Module.hpp" />
@@ -344,9 +342,6 @@
     <ClInclude Include="include\Weapon\GrappleWeapon.hpp" />
     <ClInclude Include="include\Weapon\BallisticWeapon.hpp" />
     <ClInclude Include="include\Basic\BlueprintData.hpp" />
-    <ClInclude Include="include\Universe\Decoration\StaticDecor.hpp" />
-    <ClInclude Include="include\Universe\Decoration\DynamicDecor.hpp" />
-    <ClInclude Include="include\Universe\Decoration\DecorRegistration.hpp" />
     <ClInclude Include="include\Universe\Utility\BlueprintLoader.hpp" />
     <ClInclude Include="include\Universe\Utility\DebugDraw.hpp" />
     <ClInclude Include="include\Universe\Utility\GameObject.hpp" />
@@ -406,6 +401,8 @@
     <ClInclude Include="include\API\TGUI\TGUI.hpp" />
     <ClInclude Include="include\API\TGUI\Transformable.hpp" />
     <ClInclude Include="include\API\TGUI\Widget.hpp" />
+    <ClInclude Include="include\Graphics\Utility\DecorationEngine.hpp" />
+    <ClInclude Include="include\Universe\Utility\HazardField.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\API\SFML\Audio\SoundFileFactory.inl" />

@@ -7,7 +7,7 @@
 #include "ControlFactory.hpp"
 #include "Money.hpp"
 #include "Scoreboard.hpp"
-#include "Hazard\HazardField.hpp"
+#include "HazardField.hpp"
 #include "ShipAI.hpp"
 #include "LaunchGame.hpp"
 #include "NonCopyable.hpp"
@@ -24,6 +24,7 @@ class ControlFactory;
 class ProjectileMan;
 class BodyComponent;
 class Scoreboard;
+class DecorationEngine;
 
 /// <summary>
 /// A new one is instantiated when you relaunch the game
@@ -70,17 +71,10 @@ public:
 	void addBed(const b2Vec2& rBed);//someone gave a bed back to us!	
 	void loadLevel(const GameLaunchData& data);//loads a level using blueprints
 
-	void add(sptr<GameObject> spGO);
 	void add(GameObject* pGO);
-	void add(sptr<Decoration> pDec);
-	void add(Decoration* pDec);
-	void addDebris(GameObject* pGO);
-	void addPlayer(GameObject* pGO);
-	void clearDebris();
 
 	std::vector<sptr<GameObject> > getgoList();
-	std::vector<sptr<GameObject> > getPlayerShipList();
-	std::vector<sptr<Decoration> > getDecorList();
+
 	bool isClear(b2Vec2 position, float radius, const b2Body* exception);
 	b2Vec2 getAvailableSpawn(int team, float radius, const b2Body* exception);
 
@@ -96,14 +90,12 @@ protected:
 	void input(std::string rCommand, sf::Packet rData);
 
 private:
-
-	void setupBackground(Json::Value& root);
-
 	/**SLEEP**/
 	std::vector<b2Vec2> m_beds;
 	int m_inc;
 	b2Vec2 m_currentBed;
 	/**SLEEP**/
+
 
 	/**PHYSICS**/
 	float m_timeStep;
@@ -122,19 +114,23 @@ private:
 	sptr<BatchLayers> m_spBatchLayers;
 	sptr<GraphicsComponentUpdater> m_spGfxUpdater;
 	sptr<IOManager> m_spUniverseIO;//manages IO for the game objects
-	sptr<ProjectileMan> m_spProjMan;//manages IO for the game objects
+	sptr<ProjectileMan> m_spProjMan;//manages projectiles
+	sptr<DecorationEngine> m_spDecorEngine;//list of decorations for the world
 
 	std::map<int, std::vector<b2Vec2> > m_spawnPoints;//places for people to spawn, int is team
+
+	/**Money**/
 	std::map<int, Money> m_captures;//how much money does each team get for capture points
 	bool m_restartedMoneyTimer;
 	sptr<Timer> m_spMoneyTimer;//how long to wait for each money gift
 
+	/**Ships, AI**/
 	std::vector<sptr<GameObject> > m_goList;//list of game objects that WE need to keep track of
-	std::vector<sptr<GameObject> > m_playerShipList;
-	std::vector<sptr<GameObject> > m_shipDebris;//game object to add after iteration
 	std::vector<sptr<ShipAI> > m_shipAI;
+
+	/**Hazards**/
 	std::vector<sptr<HazardField> > hazardFields;
-	std::vector<sptr<Decoration> > m_decorList;//list of decorations for the world
+
 
 	IOComponent m_io;
 	float m_lastTime;//used for update method//cant use timer because timer references us!
