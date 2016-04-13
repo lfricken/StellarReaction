@@ -19,12 +19,12 @@
 #include "QuadComponent.hpp"
 #include "Spinner.hpp"
 #include "LinearMeter.hpp"
-#include "DecorQuad.hpp"
 #include "Beam.hpp"
 #include "RayCastCallback.hpp"
 #include "Projectile.hpp"
 #include "Directory.hpp"
 #include "Random.hpp"
+#include "DecorationEngine.hpp"
 
 using namespace std;
 using namespace sf;
@@ -287,16 +287,13 @@ void Game::tick(float frameTime)
 	//rWindow.setView(getLocalPlayer().getCamera().getView());
 	rWindow.setView(*m_spStaticView);
 	getLocalPlayer().getWindowEvents(rWindow);
-	//getUniverse().updateDecorationPosition(getLocalPlayer().getCamera().getPosition(), getLocalPlayer().getCamera().getZoom());
+	getUniverse().getDecors().update(getLocalPlayer().getCamera());
 	getUniverse().getGfxUpdater().update();//update graphics components
 
 
 
 	/**== DRAW UNIVERSE ==**/
-	rWindow.clear(sf::Color::Black);
-
-	rWindow.setView(*m_spStaticView);
-	getUniverse().getBatchLayers().drawBackground(rWindow);
+	rWindow.clear(sf::Color::Blue);
 
 	rWindow.setView(getLocalPlayer().getCamera().getView());
 	if(getUniverse().debugDraw())

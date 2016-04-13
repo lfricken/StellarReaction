@@ -16,16 +16,9 @@
     <ClCompile Include="src\Control\SlaveLocator.cpp" />
     <ClCompile Include="src\Game\Game.cpp" />
     <ClCompile Include="src\Game\Scoreboard.cpp" />
-    <ClCompile Include="src\Graphics\Animator.cpp" />
-    <ClCompile Include="src\Graphics\Beam.cpp" />
     <ClCompile Include="src\Graphics\Decoration.cpp" />
-    <ClCompile Include="src\Graphics\DecorQuad.cpp" />
     <ClCompile Include="src\Graphics\GraphicsComponent.cpp" />
-    <ClCompile Include="src\Graphics\GraphicsLayer.cpp" />
-    <ClCompile Include="src\Graphics\LinearMeter.cpp" />
     <ClCompile Include="src\Graphics\QuadComponent.cpp" />
-    <ClCompile Include="src\Graphics\Minimap.cpp" />
-    <ClCompile Include="src\Graphics\Spinner.cpp" />
     <ClCompile Include="src\Graphics\Utility\AnimAlloc.cpp" />
     <ClCompile Include="src\Graphics\Utility\BatchLayers.cpp" />
     <ClCompile Include="src\Graphics\Utility\GraphicsComponentUpdater.cpp" />
@@ -96,6 +89,12 @@
     <ClCompile Include="src\Universe\Module\BlackHoleGraphic.cpp" />
     <ClCompile Include="src\Graphics\Utility\DecorationEngine.cpp" />
     <ClCompile Include="src\Universe\Utility\HazardField.cpp" />
+    <ClCompile Include="src\Graphics\Utility\Animator.cpp" />
+    <ClCompile Include="src\Graphics\Utility\GraphicsLayer.cpp" />
+    <ClCompile Include="src\Graphics\QuadComponents\Spinner.cpp" />
+    <ClCompile Include="src\Graphics\QuadComponents\Minimap.cpp" />
+    <ClCompile Include="src\Graphics\QuadComponents\LinearMeter.cpp" />
+    <ClCompile Include="src\Graphics\QuadComponents\Beam.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Game\Directory.hpp" />
@@ -264,15 +263,9 @@
     <ClInclude Include="include\Control\SlaveLocator.hpp" />
     <ClInclude Include="include\Game\Game.hpp" />
     <ClInclude Include="include\Game\Scoreboard.hpp" />
-    <ClInclude Include="include\Graphics\Animator.hpp" />
-    <ClInclude Include="include\Graphics\Beam.hpp" />
     <ClInclude Include="include\Graphics\Decoration.hpp" />
-    <ClInclude Include="include\Graphics\DecorQuad.hpp" />
     <ClInclude Include="include\Graphics\GraphicsComponent.hpp" />
-    <ClInclude Include="include\Graphics\Minimap.hpp" />
-    <ClInclude Include="include\Graphics\LinearMeter.hpp" />
     <ClInclude Include="include\Graphics\QuadComponent.hpp" />
-    <ClInclude Include="include\Graphics\Spinner.hpp" />
     <ClInclude Include="include\Graphics\Utility\AnimAlloc.hpp" />
     <ClInclude Include="include\Graphics\Utility\Animation.hpp" />
     <ClInclude Include="include\Graphics\Utility\BatchLayers.hpp" />
@@ -403,6 +396,11 @@
     <ClInclude Include="include\API\TGUI\Widget.hpp" />
     <ClInclude Include="include\Graphics\Utility\DecorationEngine.hpp" />
     <ClInclude Include="include\Universe\Utility\HazardField.hpp" />
+    <ClInclude Include="include\Graphics\Utility\Animator.hpp" />
+    <ClInclude Include="include\Graphics\QuadComponents\Beam.hpp" />
+    <ClInclude Include="include\Graphics\QuadComponents\Spinner.hpp" />
+    <ClInclude Include="include\Graphics\QuadComponents\Minimap.hpp" />
+    <ClInclude Include="include\Graphics\QuadComponents\LinearMeter.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\API\SFML\Audio\SoundFileFactory.inl" />

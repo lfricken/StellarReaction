@@ -11,32 +11,32 @@ struct DecorationData;
 /// <summary>
 /// The generic decoration type. Needs to implement a specific type of graphic for GraphicsComponent
 /// </summary>
-class Decoration
+class Decoration final
 {
 public:
 	Decoration(const DecorationData& rData, GraphicsComponent* pGfx);
 	virtual ~Decoration();
 
-	void setPosition(const b2Vec2& rWorld);
+	void setPosition(const Vec2& rWorld);
 	void setRotation(float radiansCCW);
 	void setAnimation(const std::string& rAnimName, float duration);
 	void setScale(float scale);
 
-	void updateScaledPosition(const b2Vec2& rCameraCenter);
+	void updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bottomLeft, const Vec2& topRight, float dTime);
 
 	void input(std::string rCommand, sf::Packet rData);
 protected:
-	virtual bool inputHook(std::string rCommand, sf::Packet rData) = 0;//returns true if we handled the command
 
 private:
-	GraphicsComponent* m_gfx;
-	IOComponent m_io;
+	bool hasLeftScreen(const sf::Rect<float>& rect) const;
 
+	sptr<GraphicsComponent> m_spGfx;
+	IOComponent m_io;
 
 	float m_movementScale;
 	
-	b2Vec2 m_position;//world (where it appears to be due to perspective)
-	b2Vec2 m_realPosition;//absolute (where it actually would be in a 3d world)
+	Vec2 m_velocity;
+	Vec2 m_realPosition;//absolute (where it actually would be in a 3d world)
 };
 
 
@@ -55,20 +55,20 @@ struct DecorationData
 	}
 
 	IOComponentData ioComp;
-	float movementScale;//a stationary target-planar object wouldn't follow the camera, so it would have a
-	//movement scale of 0
-	//an object far from the target would follow the camera, and have a movement scale <=1
-	//an object closer than the target would speed past the camera, and have a movment scale >1
+	float movementScale;
+	//Examples imagine you are looking out of a speeding car at another speeding car next to you
+	//an object super far      1 (it follows the camera 1:1 and always stays in view) (stars in night sky)
+	//an object kind of far  0.5 (it follows the camera, but moves slowly) (grain silo a mile away)
+	//an object same plane     0 (it doesnt follow the camera) (the ground under the other car)
+	//an object closer      -0.5 (it flies past the camera) (the ground between you and the other car)
 
-	b2Vec2 realPosition;
-	b2Vec2 minVelocity;
-	b2Vec2 maxVelocity;
+
+	Vec2 realPosition;
+	Vec2 minVelocity;
+	Vec2 maxVelocity;
 	bool tiled;
 
 	virtual void loadJson(const Json::Value& root);
-
-	virtual Decoration* generate() const = 0;
-	virtual DecorationData* clone() const = 0;
 };
 
 

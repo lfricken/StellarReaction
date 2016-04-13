@@ -235,15 +235,14 @@
     <ClInclude Include="include\Control\SlaveLocator.hpp" />
     <ClInclude Include="include\Game\Game.hpp" />
     <ClInclude Include="include\Game\Scoreboard.hpp" />
-    <ClInclude Include="include\Graphics\Animator.hpp" />
-    <ClInclude Include="include\Graphics\Beam.hpp" />
+    <ClInclude Include="include\Graphics\Utility\Animator.hpp" />
+    <ClInclude Include="include\Graphics\QuadComponents\Beam.hpp" />
     <ClInclude Include="include\Graphics\Decoration.hpp" />
-    <ClInclude Include="include\Graphics\DecorQuad.hpp" />
     <ClInclude Include="include\Graphics\GraphicsComponent.hpp" />
-    <ClInclude Include="include\Graphics\Minimap.hpp" />
-    <ClInclude Include="include\Graphics\LinearMeter.hpp" />
+    <ClInclude Include="include\Graphics\QuadComponents\Minimap.hpp" />
+    <ClInclude Include="include\Graphics\QuadComponents\LinearMeter.hpp" />
     <ClInclude Include="include\Graphics\QuadComponent.hpp" />
-    <ClInclude Include="include\Graphics\Spinner.hpp" />
+    <ClInclude Include="include\Graphics\QuadComponents\Spinner.hpp" />
     <ClInclude Include="include\Graphics\Utility\AnimAlloc.hpp" />
     <ClInclude Include="include\Graphics\Utility\Animation.hpp" />
     <ClInclude Include="include\Graphics\Utility\BatchLayers.hpp" />
@@ -342,16 +341,15 @@
     <ClCompile Include="src\Control\SlaveLocator.cpp" />
     <ClCompile Include="src\Game\Game.cpp" />
     <ClCompile Include="src\Game\Scoreboard.cpp" />
-    <ClCompile Include="src\Graphics\Animator.cpp" />
-    <ClCompile Include="src\Graphics\Beam.cpp" />
+    <ClCompile Include="src\Graphics\Utility\Animator.cpp" />
+    <ClCompile Include="src\Graphics\QuadComponents\Beam.cpp" />
     <ClCompile Include="src\Graphics\Decoration.cpp" />
-    <ClCompile Include="src\Graphics\DecorQuad.cpp" />
     <ClCompile Include="src\Graphics\GraphicsComponent.cpp" />
-    <ClCompile Include="src\Graphics\GraphicsLayer.cpp" />
-    <ClCompile Include="src\Graphics\LinearMeter.cpp" />
+    <ClCompile Include="src\Graphics\Utility\GraphicsLayer.cpp" />
+    <ClCompile Include="src\Graphics\QuadComponents\LinearMeter.cpp" />
     <ClCompile Include="src\Graphics\QuadComponent.cpp" />
-    <ClCompile Include="src\Graphics\Minimap.cpp" />
-    <ClCompile Include="src\Graphics\Spinner.cpp" />
+    <ClCompile Include="src\Graphics\QuadComponents\Minimap.cpp" />
+    <ClCompile Include="src\Graphics\QuadComponents\Spinner.cpp" />
     <ClCompile Include="src\Graphics\Utility\AnimAlloc.cpp" />
     <ClCompile Include="src\Graphics\Utility\BatchLayers.cpp" />
     <ClCompile Include="src\Graphics\Utility\GraphicsComponentUpdater.cpp" />
@@ -469,7 +467,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\StellarReactionStatic\include\Weapon;..\StellarReactionStatic\include\Universe\Utility;..\StellarReactionStatic\include\Universe\ShipModule;..\StellarReactionStatic\include\Universe\Module;..\StellarReactionStatic\include\Universe\Chunk;..\StellarReactionStatic\include\Graphics\Utility;..\StellarReactionStatic\include\Universe;..\StellarReactionStatic\include\Physics;..\StellarReactionStatic\include\Overlay;..\StellarReactionStatic\include\Network;..\StellarReactionStatic\include\IO;..\StellarReactionStatic\include\Headers;..\StellarReactionStatic\include\Graphics;..\StellarReactionStatic\include\Game;..\StellarReactionStatic\include\Control;..\StellarReactionStatic\include\Basic;..\StellarReactionStatic\include\Audio;..\StellarReactionStatic\include\API</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\StellarReactionStatic\include\Weapon;..\StellarReactionStatic\include\Universe\Utility;..\StellarReactionStatic\include\Universe\ShipModule;..\StellarReactionStatic\include\Universe\Module;..\StellarReactionStatic\include\Universe\Chunk;..\StellarReactionStatic\include\Graphics\Utility;..\StellarReactionStatic\include\Universe;..\StellarReactionStatic\include\Physics;..\StellarReactionStatic\include\Overlay;..\StellarReactionStatic\include\Network;..\StellarReactionStatic\include\IO;..\StellarReactionStatic\include\Headers;..\StellarReactionStatic\include\Graphics;..\StellarReactionStatic\include\Game;..\StellarReactionStatic\include\Control;..\StellarReactionStatic\include\Basic;..\StellarReactionStatic\include\Audio;..\StellarReactionStatic\include\API;..\StellarReactionStatic\include\Graphics\QuadComponents</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -486,7 +484,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\StellarReactionStatic\include\Weapon;..\StellarReactionStatic\include\Universe\Utility;..\StellarReactionStatic\include\Universe\ShipModule;..\StellarReactionStatic\include\Universe\Module;..\StellarReactionStatic\include\Universe\Chunk;..\StellarReactionStatic\include\Graphics\Utility;..\StellarReactionStatic\include\Universe;..\StellarReactionStatic\include\Physics;..\StellarReactionStatic\include\Overlay;..\StellarReactionStatic\include\Network;..\StellarReactionStatic\include\IO;..\StellarReactionStatic\include\Headers;..\StellarReactionStatic\include\Graphics;..\StellarReactionStatic\include\Game;..\StellarReactionStatic\include\Control;..\StellarReactionStatic\include\Basic;..\StellarReactionStatic\include\Audio;..\StellarReactionStatic\include\API</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\StellarReactionStatic\include\Weapon;..\StellarReactionStatic\include\Universe\Utility;..\StellarReactionStatic\include\Universe\ShipModule;..\StellarReactionStatic\include\Universe\Module;..\StellarReactionStatic\include\Universe\Chunk;..\StellarReactionStatic\include\Graphics\Utility;..\StellarReactionStatic\include\Universe;..\StellarReactionStatic\include\Physics;..\StellarReactionStatic\include\Overlay;..\StellarReactionStatic\include\Network;..\StellarReactionStatic\include\IO;..\StellarReactionStatic\include\Headers;..\StellarReactionStatic\include\Graphics;..\StellarReactionStatic\include\Game;..\StellarReactionStatic\include\Control;..\StellarReactionStatic\include\Basic;..\StellarReactionStatic\include\Audio;..\StellarReactionStatic\include\API;..\StellarReactionStatic\include\Graphics\QuadComponents</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

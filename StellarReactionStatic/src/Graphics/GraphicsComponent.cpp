@@ -10,6 +10,8 @@ using namespace sf;
 
 GraphicsComponent::GraphicsComponent(const GraphicsComponentData& rData) : m_rUpdater(game.getUniverse().getGfxUpdater()), m_animator(rData.animSheetName)
 {
+	m_calculatedSize = false;
+
 	m_color = rData.color;
 	m_scale = 1;
 	m_rUpdater.store(this);
@@ -23,7 +25,6 @@ GraphicsComponent::GraphicsComponent(const GraphicsComponentData& rData) : m_rUp
 }
 GraphicsComponent::~GraphicsComponent()
 {
-
 	m_rUpdater.free(this);
 
 	for(int i = 0; i < m_numVerts; ++i)
@@ -36,7 +37,6 @@ void GraphicsComponent::setScale(float scale)
 		m_originPos[i] *= change;
 	m_scale = scale;
 }
-
 void GraphicsComponent::setPosition(const b2Vec2& rWorldCoords)
 {
 	coordinates = rWorldCoords;
@@ -59,14 +59,10 @@ void GraphicsComponent::setAlpha(int alphaValue)
 	sf::Color curColor = m_color;
 	setColor(sf::Color(curColor.r, curColor.g, curColor.b, alphaValue));
 }
-
-
 Animator& GraphicsComponent::getAnimator()
 {
 	return m_animator;
 }
-
-
 const b2Vec2& GraphicsComponent::getPosition() const
 {
 	return coordinates;
@@ -83,10 +79,6 @@ const sf::Color GraphicsComponent::getColor() const
 {
 	return m_color;
 }
-
-
-
-
 void GraphicsComponent::update()
 {
 	sf::Transform form = getTransform();
@@ -110,8 +102,34 @@ sf::Transform GraphicsComponent::getTransform() const
 	transform.translate(leon::b2Tosf<float>(coordinates)).rotate(leon::radToDeg(-m_rotation - m_permanentRot));
 	return transform;
 }
+Vec2 GraphicsComponent::getSize() const
+{
+	if(!m_calculatedSize)
+	{
+		Vec2 maxSize(-1,-1);
+		for(int i = 0; i < m_numVerts; ++i)
+			if(m_originPos[i].x > maxSize.x)
+				maxSize.x = m_originPos[i].x;
+		for(int i = 0; i < m_numVerts; ++i)
+			if(m_originPos[i].x > maxSize.y)
+				maxSize.y = m_originPos[i].y;
 
+		Vec2 minSize(-1, -1);
+		for(int i = 0; i < m_numVerts; ++i)
+			if(m_originPos[i].x < minSize.x)
+				minSize.x = m_originPos[i].x;
+		for(int i = 0; i < m_numVerts; ++i)
+			if(m_originPos[i].x < minSize.y)
+				minSize.y = m_originPos[i].y;
 
+		m_size = maxSize - minSize;
+		m_size.x /= scale;
+		m_size.y /= scale;
+
+		m_calculatedSize = true;
+	}
+	return m_size;
+}
 
 
 

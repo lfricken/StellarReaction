@@ -20,7 +20,6 @@
 #include "LinearMeter.hpp"
 #include "BallisticWeapon.hpp"
 #include "ProjectileMan.hpp"
-#include "DecorQuad.hpp"
 #include "Convert.hpp"
 #include "DecorationEngine.hpp"
 
@@ -243,6 +242,10 @@ ControlFactory& Universe::getControllerFactory()
 ProjectileMan& Universe::getProjMan()
 {
 	return *m_spProjMan;
+}
+DecorationEngine& Universe::getDecors()
+{
+	return *m_spDecorEngine;
 }
 SlaveLocator& Universe::getSlaveLocator()
 {

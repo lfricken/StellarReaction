@@ -5,7 +5,6 @@
 #include "Universe.hpp"
 #include "IOManager.hpp"
 #include "Convert.hpp"
-#include "DecorQuad.hpp"
 #include "LinearMeter.hpp"
 #include "Minimap.hpp"
 #include "Chunk.hpp"

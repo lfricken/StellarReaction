@@ -41,6 +41,7 @@ public:
 	GraphicsComponentUpdater& getGfxUpdater();
 	IOManager& getUniverseIO();
 	ProjectileMan& getProjMan();
+	DecorationEngine& getDecors();
 	b2World& getWorld();
 	BlueprintLoader& getBlueprints();
 	Scoreboard& getScoreboard();
@@ -79,11 +80,7 @@ public:
 	b2Vec2 getAvailableSpawn(int team, float radius, const b2Body* exception);
 
 
-	float m_pauseTime;
-	float m_skippedTime;
-	bool m_paused;
 
-	std::vector<sptr<GameObject>> getDebris();
 protected:
 	void loadBlueprints(const std::string& bluePrints);//loads blueprints
 
@@ -96,6 +93,10 @@ private:
 	b2Vec2 m_currentBed;
 	/**SLEEP**/
 
+
+	float m_pauseTime;
+	float m_skippedTime;
+	bool m_paused;
 
 	/**PHYSICS**/
 	float m_timeStep;
