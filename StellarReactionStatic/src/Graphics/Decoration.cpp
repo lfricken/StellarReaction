@@ -20,6 +20,8 @@ Decoration::Decoration(const DecorationData& rData, GraphicsComponent* pGfx) : m
 	m_movementScale = rData.movementScale;
 	m_velocity = rData.maxVelocity;
 	m_realPosition = rData.realPosition;
+
+	m_lastCameraPos = Vec2(0, 0);
 }
 Decoration::~Decoration()
 {
@@ -54,9 +56,9 @@ void Decoration::input(std::string rCommand, sf::Packet rData)
 		///ERROR LOG
 	}
 }
-void Decoration::setPosition(const Vec2& rWorld)
+void Decoration::setPosition(const Vec2& rDesiredWorldPos)
 {
-	m_realPosition = rWorld;
+	m_realPosition = rDesiredWorldPos - Vec2(m_lastCameraPos.x*m_movementScale, m_lastCameraPos.y*m_movementScale);
 }
 void Decoration::setRotation(float radiansCCW)
 {
@@ -72,24 +74,26 @@ void Decoration::setScale(float scale)
 }
 void Decoration::updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bottomLeft, const Vec2& topRight, float dTime)
 {
+	m_lastCameraPos = rCameraCenter;
 	m_realPosition += Vec2(m_velocity.x * dTime * (1.f - m_movementScale), m_velocity.y * dTime * (1.f - m_movementScale));
 	m_spGfx->setPosition(m_realPosition + Vec2(rCameraCenter.x*m_movementScale, rCameraCenter.y*m_movementScale));
 
-	sf::Rect<float> rect(bottomLeft.x, bottomLeft.y, topRight.x - bottomLeft.x, topRight.y - bottomLeft.y);
-
-	if(this->hasLeftScreen(rect))
-	{
-		std::cout << "\nHas left screen.";
-	}
-}
-bool Decoration::hasLeftScreen(const sf::Rect<float>& rect) const
-{
-	Vec2 halfSize(m_spGfx->getSize().x / 2, m_spGfx->getSize().y / 2);
-	Vec2 pos = m_spGfx->getPosition();
+	Vec2 halfSize(m_spGfx->getSize().x / 2.f, m_spGfx->getSize().y / 2.f);
+	Vec2 pos(m_spGfx->getPosition());
 	Vec2 ourBotLeft = pos - halfSize;
 	Vec2 ourTopRight = pos + halfSize;
 
-	sf::Rect<float> ourRect(ourBotLeft.x, ourBotLeft.y, ourTopRight.x - ourBotLeft.x, ourTopRight.y - ourBotLeft.y);
+	if(ourTopRight.x < bottomLeft.x)//has exited left
+		setPosition(Vec2(topRight.x, m_spGfx->getPosition().y));
 
-	return !rect.intersects(ourRect);
+	if(ourBotLeft.x > topRight.x)//has exited right
+		setPosition(Vec2(bottomLeft.x, m_spGfx->getPosition().y));
+
+	if(ourBotLeft.y > topRight.y)//has exited top
+		setPosition(Vec2(m_spGfx->getPosition().x, bottomLeft.y));
+
+	if(ourTopRight.y < bottomLeft.y)//has exited bottom
+		setPosition(Vec2(m_spGfx->getPosition().x, topRight.y));
+
 }
+

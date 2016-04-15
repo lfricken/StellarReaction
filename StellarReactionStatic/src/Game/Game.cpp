@@ -287,13 +287,13 @@ void Game::tick(float frameTime)
 	//rWindow.setView(getLocalPlayer().getCamera().getView());
 	rWindow.setView(*m_spStaticView);
 	getLocalPlayer().getWindowEvents(rWindow);
-	getUniverse().getDecors().update(getLocalPlayer().getCamera());
+	getUniverse().getDecors().update(getLocalPlayer().getCamera().getPosition(), leon::sfTob2(sf::Vector2f(rWindow.getSize().x / 2, -(signed)rWindow.getSize().y / 2)));
 	getUniverse().getGfxUpdater().update();//update graphics components
 
 
 
 	/**== DRAW UNIVERSE ==**/
-	rWindow.clear(sf::Color::Blue);
+	rWindow.clear(sf::Color::Black);
 
 	rWindow.setView(getLocalPlayer().getCamera().getView());
 	if(getUniverse().debugDraw())

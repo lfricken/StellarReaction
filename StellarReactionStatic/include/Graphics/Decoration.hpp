@@ -28,13 +28,12 @@ public:
 protected:
 
 private:
-	bool hasLeftScreen(const sf::Rect<float>& rect) const;
-
 	sptr<GraphicsComponent> m_spGfx;
 	IOComponent m_io;
 
 	float m_movementScale;
 	
+	Vec2 m_lastCameraPos;
 	Vec2 m_velocity;
 	Vec2 m_realPosition;//absolute (where it actually would be in a 3d world)
 };
