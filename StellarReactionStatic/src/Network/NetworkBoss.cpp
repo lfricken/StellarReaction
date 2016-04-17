@@ -52,7 +52,7 @@ void NetworkBoss::launchMultiplayerGame()
 {
 	sf::Packet data;
 
-	std::string level = "Alpha Centauri";
+	std::string level = "Testbed";
 
 	data << level;
 	data << static_cast<int32_t>(m_connections.size() + 1);//number of controllers +1 for host

@@ -23,10 +23,10 @@ public:
 	float getRotation() const;
 	const sf::View& getView() const;
 
+	const static float m_maxZoom;//max zoom possible with a camera
+	const static float m_minZoom;//minimum zoom possible with a camera
 protected:
 private:
-	const static float m_maxZoom;//max zoom possible with a camera
-	const static float m_minZoom;//max zoom possible with a camera
 	float m_zoomLevel;//current zoom between [1,16]
 	sf::Vector2f m_standardSize;
 	sf::View m_view;

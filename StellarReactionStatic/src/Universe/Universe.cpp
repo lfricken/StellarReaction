@@ -20,13 +20,10 @@
 #include "LinearMeter.hpp"
 #include "BallisticWeapon.hpp"
 #include "ProjectileMan.hpp"
-#include "DecorQuad.hpp"
-#include "StaticDecor.hpp"
-#include "DynamicDecor.hpp"
 #include "Convert.hpp"
+#include "DecorationEngine.hpp"
 
 using namespace std;
-
 
 void Universe::loadLevel(const GameLaunchData& data)//loads a level using blueprints
 {
@@ -59,7 +56,6 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 	}
 	else
 	{
-		setupBackground(root);
 		/**Additional Map Blueprints**/
 		if(!root["AdditionalBlueprints"].isNull())
 		{
@@ -69,9 +65,6 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 				m_spBPLoader->loadBlueprints(thisLevelFolder + it->asString());
 			}
 		}
-		//else
-		//	cout << "\nAdditional Blueprints Null.";
-
 		/**Map Bounds*/
 		if (!root["MapBounds"].isNull())
 		{
@@ -84,7 +77,6 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 			m_bounds.push_back(10000);
 			m_bounds.push_back(10000);
 		}
-
 		/**Spawn Points**/
 		if(!root["SpawnPoints"].isNull())
 		{
@@ -100,10 +92,6 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 				m_spawnPoints[(*it)["Team"].asInt()] = points;
 			}
 		}
-		else
-			cout << "\nSpawn Points Null.";
-
-
 		/**Map Chunks**/
 		sptr<ChunkData> spCnk;
 		if(!root["Chunks"].isNull())
@@ -123,10 +111,6 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 				add(spCnk->generate(this));
 			}
 		}
-		else
-			cout << "\nChunks List Null.";
-
-
 		/**Hazard Fields**/
 		if(!root["HazardFields"].isNull())
 		{
@@ -134,8 +118,9 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 			for(auto it = spawnList.begin(); it != spawnList.end(); ++it)
 				hazardFields.push_back(sptr<HazardField>(new HazardField(this, *it)));
 		}
-		else
-			cout << "\nHazard Field Null.";
+		/**Decorations**/
+		DecorationEngine& decorations = *m_spDecorEngine;
+		LOADJSON(decorations);
 	}
 
 
@@ -148,7 +133,7 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 		spCnk->bodyComp.coords = m_spawnPoints[it->team][it - data.playerList.cbegin()];
 		spCnk->ioComp.name = it->slaveName;
 		spCnk->team = it->team;
-		addPlayer(spCnk->generate(this));
+		add(spCnk->generate(this));
 
 		m_spControlFactory->addController(it->slaveName);//add controller after we add the ship with the name
 		//otherwise the controller cant find the intended ship
@@ -218,6 +203,7 @@ Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input,
 	/**IO**/
 
 	//how often are people given capture rewards?
+	m_spDecorEngine.reset(new DecorationEngine);
 	m_spMoneyTimer.reset(new Timer(this->getTime()));
 	m_spMoneyTimer->setCountDown(moneyTickTime);
 	m_restartedMoneyTimer = false;
@@ -256,6 +242,10 @@ ControlFactory& Universe::getControllerFactory()
 ProjectileMan& Universe::getProjMan()
 {
 	return *m_spProjMan;
+}
+DecorationEngine& Universe::getDecors()
+{
+	return *m_spDecorEngine;
 }
 SlaveLocator& Universe::getSlaveLocator()
 {
@@ -334,11 +324,6 @@ void Universe::prePhysUpdate()
 			(*it)->prePhysUpdate();
 		}
 		m_spProjMan->prePhysUpdate();
-
-		for(auto it = m_shipDebris.begin(); it != m_shipDebris.end(); ++it)
-		{
-			(*it)->prePhysUpdate();
-		}
 	}
 }
 void Universe::changeTeamMoney(int team, Money money)
@@ -350,7 +335,6 @@ void Universe::physUpdate()
 	if(!m_paused)
 	{
 		m_physWorld.Step(m_timeStep, m_velocityIterations, m_positionIterations);
-		///m_projAlloc.recoverProjectiles();
 	}
 }
 /// <summary>
@@ -361,8 +345,6 @@ void Universe::postPhysUpdate()
 	if(!m_paused)
 	{
 		for(auto it = m_goList.begin(); it != m_goList.end(); ++it)
-			(*it)->postPhysUpdate();
-		for(auto it = m_shipDebris.begin(); it != m_shipDebris.end(); ++it)
 			(*it)->postPhysUpdate();
 		m_spProjMan->postPhysUpdate();
 	}
@@ -437,11 +419,6 @@ void Universe::teamMoneyUpdate()
 			m_spMoneyTimer->restartCountDown();
 		}
 }
-void Universe::updateDecorationPosition(const b2Vec2& rCameraPos, float zoom)
-{
-	for(auto it = m_decorList.begin(); it != m_decorList.end(); ++it)
-		(*it)->updateScaledPosition(rCameraPos);
-}
 /// <summary>
 /// returns true if debug draw is on
 /// debug draw is drawing box2d shapes only
@@ -514,232 +491,9 @@ void Universe::loadBlueprints(const std::string& bpDir)//loads blueprints
 {
 	m_spBPLoader->loadBlueprints(bpDir);
 }
-void Universe::setupBackground(Json::Value& root)
-{
-	
-	sptr<StaticDecorData> spSDec;
-	sptr<DynamicDecorData> spDDec;
-	if (!root["Decorations"].isNull())
-	{
-		const Json::Value decors = root["Decorations"];
-		if (!decors["StaticDecor"].isNull())
-		{
-			const Json::Value sdecors = decors["StaticDecor"];
-			for (auto it = sdecors.begin(); it != sdecors.end(); ++it)
-			{
-				if (!(*it)["Title"].isNull())
-				{
-					auto thing = m_spBPLoader->getStaticDecorSPtr((*it)["Title"].asString())->clone();
-					thing->ioComp.pMyManager = &game.getUniverse().getUniverseIO();
-					spSDec.reset(thing);
-				}
-				else
-					cout << "\n" << FILELINE;
-				if (spSDec->repeats)
-				{
-					float height = 1200;
-					float width = 1200;
-
-					if (!(*it)["dimensions"].isNull())
-					{
-						height = spSDec->dimensions.x;
-						width = spSDec->dimensions.y;
-					}
-
-					for (int i = 0; i < 10; i++)
-					{
-						for (int j = 0; j < 10; j++)
-						{
-							spSDec->initPosition = b2Vec2(i*height / scale, j*width /scale);
-							auto test = spSDec->generate();
-							add(spSDec->generate());
-						}
-					}
-				} else 
-					add(spSDec->generate());
-			}
-		}
-		else
-			cout << "\nStaticDecor List Null.";
-
-		if (!decors["DynamicDecor"].isNull())
-		{
-			const Json::Value sdecors = decors["DynamicDecor"];
-			for (auto it = sdecors.begin(); it != sdecors.end(); ++it)
-			{
-				if (!(*it)["Title"].isNull())
-				{
-					auto thing = m_spBPLoader->getDynamicDecorSPtr((*it)["Title"].asString())->clone();
-					thing->ioComp.pMyManager = &game.getUniverse().getUniverseIO();
-					spDDec.reset(thing);
-				}
-				else
-					cout << "\n" << FILELINE;
-				for (int i = 0; i < (rand() % 10 * spDDec->frequency); i++)
-				{
-					float velX = rand() % (int)(spDDec->maxX - spDDec->minX + 1) + spDDec->minX;
-					float velY = rand() % (int)(spDDec->maxX - spDDec->minY + 1) + spDDec->minY;
-					spDDec->velocity = b2Vec2(spDDec->minY, spDDec->minY);
-					add(spDDec->generate());
-				}
-				
-			}
-		}
-		else
-			cout << "\nDynamicDecor List Null.";
-	}
-	/*
-	const float height = 6 * 2400.0f; float width = 6 * 2400.0f; //these have to be floats
-	QuadComponentData rData;
-	//nearest
-	DecorQuadData data;
-	data.ioComp.name = "decorTest";
-	data.movementScale = .1f;
-	rData.dimensions.x = width;
-	rData.dimensions.y = height;
-	rData.texName = "backgrounds/stars4.png";
-	rData.layer = GraphicsLayer::Background4;
-	data.quadComp = rData;
-	data.dimensions = b2Vec2(width, height);
-	data.repeats = true;
-	data.velocity = b2Vec2(0.25, 0.25);
-	//second nearest
-	DecorQuadData data2;
-	data2.ioComp.name = "decorTest";
-	data2.movementScale = .8f;
-	rData.dimensions.x = width / 2;
-	rData.dimensions.y = height / 2;
-	rData.texName = "backgrounds/stars4.png";
-	rData.layer = GraphicsLayer::Background3;
-	data2.quadComp = rData;
-	data2.dimensions = b2Vec2(width / 2, height / 2);
-	data2.repeats = true;
-	data2.velocity = b2Vec2(0.25, 0.25);
-	//third nearest
-	DecorQuadData data3;
-	data3.ioComp.name = "decorTest";
-	data3.movementScale = .85f;
-	rData.dimensions.x = width / 3;
-	rData.dimensions.y = height / 3;
-	rData.texName = "backgrounds/stars3.png";
-	rData.layer = GraphicsLayer::Background2;
-	data3.quadComp = rData;
-	data3.dimensions = b2Vec2(width / 3, height / 3);
-	data3.repeats = true;
-	data3.velocity = b2Vec2(0.25, 0.25);
-	//fourth nearest
-	DecorQuadData data4;
-	data4.ioComp.name = "decorTest";
-	data4.movementScale = .9f;
-	rData.dimensions.x = width / 4;
-	rData.dimensions.y = height / 4;
-	rData.texName = "backgrounds/stars3.png";
-	rData.layer = GraphicsLayer::Background1;
-	data4.quadComp = rData;
-	data4.dimensions = b2Vec2(width / 4, height / 4);
-	data4.repeats = true;
-	data4.velocity = b2Vec2(0.25, 0.25);
-	const float startPosX = game.getLocalPlayer().getCamera().getView().getCenter().x - 20000;
-	const float endPosX = game.getLocalPlayer().getCamera().getView().getCenter().x + 20000;
-	const float startPosY = game.getLocalPlayer().getCamera().getView().getCenter().y + 10000;
-	const float endPosY = game.getLocalPlayer().getCamera().getView().getCenter().y - 10000;
-	b2Vec2 startPos = leon::sfTob2(b2Vec2(startPosX, startPosY));
-	b2Vec2 endPos = leon::sfTob2(b2Vec2(endPosX, endPosY));
-	//for square in screen region, add one of these
-	//one world unit is 256
-	//did the below by hand
-	const int tilesX = 11;
-	const int tilesY = 8;
-	DecorQuad* temp;
-	for (int i = 0; i < tilesX; i++)
-	{
-		for (int j = 0; j < tilesY; j++)
-		{
-			//nearest 
-			if (i < 3 && j < 3)
-			{
-				data.initPosition = b2Vec2(startPos.x + (i*height) / scale, startPos.y + (j*width) / scale);
-				data.num_in_layer = b2Vec2(3, 3);
-				temp = new DecorQuad(data);
-				add(temp);
-			}
-			//second nearest
-			if (i < 6 && j < 4)
-			{
-				data2.initPosition = b2Vec2(startPos.x + (i*height / 2) / scale, startPos.y + (j*width / 2) / scale);
-				data2.num_in_layer = b2Vec2(6, 4);
-				temp = new DecorQuad(data2);
-				add(temp);
-			}
-			//third nearest
-			if (i < 9 && j < 6)
-			{
-				data3.initPosition = b2Vec2(startPos.x + (i*height / 3) / scale, startPos.y + (j*width / 3) / scale);
-				data3.num_in_layer = b2Vec2(9, 6);
-				temp = new DecorQuad(data3);
-				add(temp);
-			}
-			//fourth nearest
-			if (i < 11 && j < 8)
-			{
-				data4.initPosition = b2Vec2(startPos.x + (i*height / 4) / scale, startPos.y + (j*width / 4) / scale);
-				data4.num_in_layer = b2Vec2(11, 8);
-				temp = new DecorQuad(data4);
-				add(temp);
-			}
-		}
-	}*/
-	//background
-	DecorQuadData bg_data;
-	QuadComponentData rData;
-	DecorQuad* temp;
-	bg_data.ioComp.name = "decorTest";
-	bg_data.movementScale = 0;
-	rData.dimensions.x = 2400;
-	rData.dimensions.y = 1200;
-	rData.center = sf::Vector2f(200, 300);
-	rData.texName = "backgrounds/bg6.png";
-	rData.animSheetName = "backgrounds/bg1.acfg";
-	rData.layer = GraphicsLayer::BackgroundUnmoving1;
-	bg_data.quadComp = rData;
-	bg_data.dimensions = b2Vec2(1200, 1200);
-	const float pixelsX = game.getWindow().getDefaultView().getSize().x / 2.f;
-	const float pixelsY = game.getWindow().getDefaultView().getSize().y / 2.f;
-	bg_data.initPosition = b2Vec2(pixelsX / static_cast<float>(scale), -pixelsY / static_cast<float>(scale));
-	bg_data.initPosition = b2Vec2(0, 0);
-	bg_data.num_in_layer = b2Vec2(100, 100);
-	temp = new DecorQuad(bg_data);
-	add(temp); 
-	
-}
-void Universe::add(sptr<GameObject> spGO)
-{
-	m_goList.push_back(spGO);
-}
 void Universe::add(GameObject* pGO)
 {
-	add(sptr<GameObject>(pGO));
-}
-void Universe::addDebris(GameObject* pGO)
-{
-	m_shipDebris.push_back(sptr<GameObject>(pGO));
-}
-void Universe::addPlayer(GameObject* pGO)
-{
-	//m_playerShipList.push_back(sptr<GameObject>(pGO));
-	add(pGO);
-}
-void Universe::clearDebris()
-{
-	m_shipDebris.clear();
-}
-void Universe::add(sptr<Decoration> pDec)
-{
-	m_decorList.push_back(pDec);
-}
-void Universe::add(Decoration* pDec)
-{
-	add(sptr<Decoration>(pDec));
+	m_goList.push_back(sptr<GameObject>(pGO));
 }
 void Universe::input(std::string rCommand, sf::Packet rData)
 {
@@ -760,24 +514,10 @@ void Universe::input(std::string rCommand, sf::Packet rData)
 		cout << m_io.getName() << ":[" << rCommand << "] not found." << FILELINE;
 	}
 }
-std::vector<sptr<GameObject>> Universe::getDebris()
-{
-	return m_shipDebris;
-}
 std::vector<sptr<GameObject> > Universe::getgoList()
 {
 	return m_goList;
 }
-std::vector<sptr<GameObject> > Universe::getPlayerShipList()
-{
-	return m_playerShipList;
-}
-
-std::vector<sptr<Decoration> > Universe::getDecorList()
-{
-	return m_decorList;
-}
-
 bool Universe::isClear(b2Vec2 position, float radius, const b2Body* exception)
 {
 	Chunk* nearest = dynamic_cast<Chunk*>(getNearestChunkExcept(position, exception));

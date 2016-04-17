@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Graphics\Utility\DecorationEngine.hpp" />
     <ClInclude Include="include\API\TGUI\AnimatedPicture.hpp" />
     <ClInclude Include="include\API\TGUI\Borders.hpp" />
     <ClInclude Include="include\API\TGUI\Button.hpp" />
@@ -55,9 +56,6 @@
     <ClInclude Include="include\API\TGUI\Transformable.hpp" />
     <ClInclude Include="include\API\TGUI\Widget.hpp" />
     <ClInclude Include="include\Basic\BlueprintData.hpp" />
-    <ClInclude Include="include\Universe\Decoration\DecorRegistration.hpp" />
-    <ClInclude Include="include\Universe\Decoration\DynamicDecor.hpp" />
-    <ClInclude Include="include\Universe\Decoration\StaticDecor.hpp" />
     <ClInclude Include="include\Universe\Module\CaptureGraphic.hpp" />
     <ClInclude Include="include\Basic\NonCopyable.hpp" />
     <ClInclude Include="include\Control\Directive.hpp" />
@@ -237,15 +235,14 @@
     <ClInclude Include="include\Control\SlaveLocator.hpp" />
     <ClInclude Include="include\Game\Game.hpp" />
     <ClInclude Include="include\Game\Scoreboard.hpp" />
-    <ClInclude Include="include\Graphics\Animator.hpp" />
-    <ClInclude Include="include\Graphics\Beam.hpp" />
+    <ClInclude Include="include\Graphics\Utility\Animator.hpp" />
+    <ClInclude Include="include\Graphics\QuadComponents\Beam.hpp" />
     <ClInclude Include="include\Graphics\Decoration.hpp" />
-    <ClInclude Include="include\Graphics\DecorQuad.hpp" />
     <ClInclude Include="include\Graphics\GraphicsComponent.hpp" />
-    <ClInclude Include="include\Graphics\Minimap.hpp" />
-    <ClInclude Include="include\Graphics\LinearMeter.hpp" />
+    <ClInclude Include="include\Graphics\QuadComponents\Minimap.hpp" />
+    <ClInclude Include="include\Graphics\QuadComponents\LinearMeter.hpp" />
     <ClInclude Include="include\Graphics\QuadComponent.hpp" />
-    <ClInclude Include="include\Graphics\Spinner.hpp" />
+    <ClInclude Include="include\Graphics\QuadComponents\Spinner.hpp" />
     <ClInclude Include="include\Graphics\Utility\AnimAlloc.hpp" />
     <ClInclude Include="include\Graphics\Utility\Animation.hpp" />
     <ClInclude Include="include\Graphics\Utility\BatchLayers.hpp" />
@@ -289,7 +286,7 @@
     <ClInclude Include="include\Universe\Chunk\Missile.hpp" />
     <ClInclude Include="include\Universe\Chunk\Projectile.hpp" />
     <ClInclude Include="include\Universe\Chunk\ProjectileRegistration.hpp" />
-    <ClInclude Include="include\Universe\Hazard\HazardField.hpp" />
+    <ClInclude Include="include\Universe\Utility\HazardField.hpp" />
     <ClInclude Include="include\Universe\Module\CaptureArea.hpp" />
     <ClInclude Include="include\Universe\Module\GravityField.hpp" />
     <ClInclude Include="include\Universe\Module\Module.hpp" />
@@ -319,8 +316,7 @@
     <ClInclude Include="include\Universe\Utility\JSON.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Universe\Decoration\DynamicDecor.cpp" />
-    <ClCompile Include="src\Universe\Decoration\StaticDecor.cpp" />
+    <ClCompile Include="src\Graphics\Utility\DecorationEngine.cpp" />
     <ClCompile Include="src\Universe\Module\BlackHoleGraphic.cpp" />
     <ClCompile Include="src\Universe\Module\CaptureGraphic.cpp" />
     <ClCompile Include="src\Universe\Utility\JSON.cpp" />
@@ -345,16 +341,15 @@
     <ClCompile Include="src\Control\SlaveLocator.cpp" />
     <ClCompile Include="src\Game\Game.cpp" />
     <ClCompile Include="src\Game\Scoreboard.cpp" />
-    <ClCompile Include="src\Graphics\Animator.cpp" />
-    <ClCompile Include="src\Graphics\Beam.cpp" />
+    <ClCompile Include="src\Graphics\Utility\Animator.cpp" />
+    <ClCompile Include="src\Graphics\QuadComponents\Beam.cpp" />
     <ClCompile Include="src\Graphics\Decoration.cpp" />
-    <ClCompile Include="src\Graphics\DecorQuad.cpp" />
     <ClCompile Include="src\Graphics\GraphicsComponent.cpp" />
-    <ClCompile Include="src\Graphics\GraphicsLayer.cpp" />
-    <ClCompile Include="src\Graphics\LinearMeter.cpp" />
+    <ClCompile Include="src\Graphics\Utility\GraphicsLayer.cpp" />
+    <ClCompile Include="src\Graphics\QuadComponents\LinearMeter.cpp" />
     <ClCompile Include="src\Graphics\QuadComponent.cpp" />
-    <ClCompile Include="src\Graphics\Minimap.cpp" />
-    <ClCompile Include="src\Graphics\Spinner.cpp" />
+    <ClCompile Include="src\Graphics\QuadComponents\Minimap.cpp" />
+    <ClCompile Include="src\Graphics\QuadComponents\Spinner.cpp" />
     <ClCompile Include="src\Graphics\Utility\AnimAlloc.cpp" />
     <ClCompile Include="src\Graphics\Utility\BatchLayers.cpp" />
     <ClCompile Include="src\Graphics\Utility\GraphicsComponentUpdater.cpp" />
@@ -391,7 +386,7 @@
     <ClCompile Include="src\Universe\Chunk\Chunk.cpp" />
     <ClCompile Include="src\Universe\Chunk\Missile.cpp" />
     <ClCompile Include="src\Universe\Chunk\Projectile.cpp" />
-    <ClCompile Include="src\Universe\Hazard\HazardField.cpp" />
+    <ClCompile Include="src\Universe\Utility\HazardField.cpp" />
     <ClCompile Include="src\Universe\Module\CaptureArea.cpp" />
     <ClCompile Include="src\Universe\Module\GravityField.cpp" />
     <ClCompile Include="src\Universe\Module\Module.cpp" />
@@ -472,7 +467,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\StellarReactionStatic\include\Universe\Decoration;..\StellarReactionStatic\include\Weapon;..\StellarReactionStatic\include\Universe\Utility;..\StellarReactionStatic\include\Universe\ShipModule;..\StellarReactionStatic\include\Universe\Module;..\StellarReactionStatic\include\Universe\Chunk;..\StellarReactionStatic\include\Graphics\Utility;..\StellarReactionStatic\include\Universe;..\StellarReactionStatic\include\Physics;..\StellarReactionStatic\include\Overlay;..\StellarReactionStatic\include\Network;..\StellarReactionStatic\include\IO;..\StellarReactionStatic\include\Headers;..\StellarReactionStatic\include\Graphics;..\StellarReactionStatic\include\Game;..\StellarReactionStatic\include\Control;..\StellarReactionStatic\include\Basic;..\StellarReactionStatic\include\Audio;..\StellarReactionStatic\include\Universe\Hazard;..\StellarReactionStatic\include\API</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\StellarReactionStatic\include\Weapon;..\StellarReactionStatic\include\Universe\Utility;..\StellarReactionStatic\include\Universe\ShipModule;..\StellarReactionStatic\include\Universe\Module;..\StellarReactionStatic\include\Universe\Chunk;..\StellarReactionStatic\include\Graphics\Utility;..\StellarReactionStatic\include\Universe;..\StellarReactionStatic\include\Physics;..\StellarReactionStatic\include\Overlay;..\StellarReactionStatic\include\Network;..\StellarReactionStatic\include\IO;..\StellarReactionStatic\include\Headers;..\StellarReactionStatic\include\Graphics;..\StellarReactionStatic\include\Game;..\StellarReactionStatic\include\Control;..\StellarReactionStatic\include\Basic;..\StellarReactionStatic\include\Audio;..\StellarReactionStatic\include\API;..\StellarReactionStatic\include\Graphics\QuadComponents</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -489,7 +484,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\StellarReactionStatic\include\Weapon;..\StellarReactionStatic\include\Universe\Utility;..\StellarReactionStatic\include\Universe\ShipModule;..\StellarReactionStatic\include\Universe\Module;..\StellarReactionStatic\include\Universe\Chunk;..\StellarReactionStatic\include\Graphics\Utility;..\StellarReactionStatic\include\Universe;..\StellarReactionStatic\include\Physics;..\StellarReactionStatic\include\Overlay;..\StellarReactionStatic\include\Network;..\StellarReactionStatic\include\IO;..\StellarReactionStatic\include\Headers;..\StellarReactionStatic\include\Graphics;..\StellarReactionStatic\include\Game;..\StellarReactionStatic\include\Control;..\StellarReactionStatic\include\Basic;..\StellarReactionStatic\include\Audio;..\StellarReactionStatic\include\Universe\Hazard;..\StellarReactionStatic\include\API</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\StellarReactionStatic\include\Weapon;..\StellarReactionStatic\include\Universe\Utility;..\StellarReactionStatic\include\Universe\ShipModule;..\StellarReactionStatic\include\Universe\Module;..\StellarReactionStatic\include\Universe\Chunk;..\StellarReactionStatic\include\Graphics\Utility;..\StellarReactionStatic\include\Universe;..\StellarReactionStatic\include\Physics;..\StellarReactionStatic\include\Overlay;..\StellarReactionStatic\include\Network;..\StellarReactionStatic\include\IO;..\StellarReactionStatic\include\Headers;..\StellarReactionStatic\include\Graphics;..\StellarReactionStatic\include\Game;..\StellarReactionStatic\include\Control;..\StellarReactionStatic\include\Basic;..\StellarReactionStatic\include\Audio;..\StellarReactionStatic\include\API;..\StellarReactionStatic\include\Graphics\QuadComponents</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

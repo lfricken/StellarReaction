@@ -2,6 +2,6 @@
 
 const std::string& contentDir()
 {
-	static const std::string dir("../");
+	static const std::string dir("../content/");
 	return dir;
 }

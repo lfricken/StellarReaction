@@ -9,14 +9,11 @@
 /// </summary>
 enum class GraphicsLayer
 {
-	BackgroundUnmoving1 = 0,
-	BackgroundUnmoving2,
+	BackgroundVeryBack = 0,
+	BackgroundVeryFar,
 
 	BackgroundFar,//scenery
-	Background1,//scenery
-	Background2,//scenery
-	Background3,//scenery
-	Background4,//scenery
+	BackgroundMid,//scenery
 	BackgroundClose,//scenery
 
 	ShipUnder,//fill background
@@ -32,8 +29,9 @@ enum class GraphicsLayer
 
 	Shield,//force fields
 
-	Overlay,//HUD SPRITES LIKE HEALTH AND AMMO
+	OverlayBottom,//HUD SPRITES LIKE HEALTH AND AMMO
 	OverlayMiddle,
+	OverlayTop,
 	maxLayers,
 };
 

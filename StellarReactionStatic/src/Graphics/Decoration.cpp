@@ -1,136 +1,99 @@
 #include "Decoration.hpp"
-
 #include "GraphicsComponent.hpp"
 #include "JSON.hpp"
-
-//Evan
-#include "Player.hpp"
-#include "Globals.hpp"
-#include "Camera.hpp"
-#include "Convert.hpp"
-
-using namespace std;
 
 void DecorationData::loadJson(const Json::Value& root)
 {
 	LOADJSON(ioComp);
 	GETJSON(movementScale);
-	GETJSON(isAbsoluteSize);
-	GETJSON(initPosition);
-	GETJSON(velocity);
-	GETJSON(repeats);
-}
+	GETJSON(realPosition);
 
+	GETJSON(minVelocity);
+	GETJSON(maxVelocity);
+	GETJSON(tiled);
+}
 Decoration::Decoration(const DecorationData& rData, GraphicsComponent* pGfx) : m_io(rData.ioComp, &Decoration::input, this)
 {
-	m_gfx = pGfx;
-	m_initPosition = rData.initPosition;
-	setPosition(rData.initPosition);
-	m_movementScale = rData.movementScale;
+	m_spGfx.reset(pGfx);
 
-	//Evan
-	velocity = rData.velocity;
-	velocityTimer.getTimeElapsed();
-	num_in_layer = b2Vec2(rData.num_in_layer);
-	m_repeats = rData.repeats;
+	setPosition(rData.realPosition);
+	m_movementScale = rData.movementScale;
+	m_velocity = rData.maxVelocity;
+	m_realPosition = rData.realPosition;
+
+	m_lastCameraPos = Vec2(0, 0);
 }
 Decoration::~Decoration()
 {
 
 }
-bool Decoration::hasAbsoluteSize() const
-{
-	return m_isAbsoluteSize;
-}
 void Decoration::input(std::string rCommand, sf::Packet rData)
 {
-	if(!inputHook(rCommand, rData))
+	if(rCommand == "setPosition")
 	{
-		if(rCommand == "setPosition")
-		{
-			b2Vec2 pos;
-			rData >> pos.x;
-			rData >> pos.y;
-			setPosition(pos);
-		}
-		else if(rCommand == "setRotation")
-		{
-			float rotCCW;
-			rData >> rotCCW;
-			setRotation(rotCCW);
-		}
-		else if(rCommand == "setAnimation")
-		{
-			string anim;
-			float duration;
-			rData >> anim;
-			rData >> duration;
-			m_gfx->getAnimator().setAnimation(anim, duration);
-		}
-		else
-		{
-			cout << "\n[" << rCommand << "] was not found in [" << m_io.getName() << "].";
-			///ERROR LOG
-		}
+		b2Vec2 pos;
+		rData >> pos.x;
+		rData >> pos.y;
+		setPosition(pos);
+	}
+	else if(rCommand == "setRotation")
+	{
+		float rotCCW;
+		rData >> rotCCW;
+		setRotation(rotCCW);
+	}
+	else if(rCommand == "setAnimation")
+	{
+		string anim;
+		float duration;
+		rData >> anim;
+		rData >> duration;
+		m_spGfx->getAnimator().setAnimation(anim, duration);
+	}
+	else
+	{
+		std::cout << "\n[" << rCommand << "] was not found in [" << m_io.getName() << "].";
+		///ERROR LOG
 	}
 }
-void Decoration::setPosition(const b2Vec2& rWorld)
+void Decoration::setPosition(const Vec2& rDesiredWorldPos)
 {
-	m_position = rWorld;
-	m_gfx->setPosition(m_position);
+	m_realPosition = rDesiredWorldPos - Vec2(m_lastCameraPos.x*m_movementScale, m_lastCameraPos.y*m_movementScale);
 }
 void Decoration::setRotation(float radiansCCW)
 {
-	m_rotation = radiansCCW;
-	m_gfx->setRotation(m_rotation);
+	m_spGfx->setRotation(radiansCCW);
 }
 void Decoration::setAnimation(const std::string& rAnimName, float duration)
 {
-	m_gfx->getAnimator().setAnimation(rAnimName, duration);
+	m_spGfx->getAnimator().setAnimation(rAnimName, duration);
 }
 void Decoration::setScale(float scale)
 {
-	m_gfx->setScale(scale);
+	m_spGfx->setScale(scale);
 }
-void Decoration::updateScaledPosition(const b2Vec2& rCameraCenter)
+void Decoration::updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bottomLeft, const Vec2& topRight, float dTime)
 {
+	m_lastCameraPos = rCameraCenter;
+	m_realPosition += Vec2(m_velocity.x * dTime * (1.f - m_movementScale), m_velocity.y * dTime * (1.f - m_movementScale));
+	m_spGfx->setPosition(m_realPosition + Vec2(rCameraCenter.x*m_movementScale, rCameraCenter.y*m_movementScale));
 
-	if(m_movementScale == 0.0f)
-	{
-		setPosition(m_initPosition);
-		return;
-	}
+	Vec2 halfSize(m_spGfx->getSize().x / 2.f, m_spGfx->getSize().y / 2.f);
+	Vec2 pos(m_spGfx->getPosition());
+	Vec2 ourBotLeft = pos - halfSize;
+	Vec2 ourTopRight = pos + halfSize;
 
-	//Evan - update velocity over time
-	float time = velocityTimer.getTimeElapsed();
-	b2Vec2 deltaV(velocity.x * time / m_movementScale * sizeScalingFactor, velocity.y * time / m_movementScale * sizeScalingFactor);
-	m_initPosition += deltaV;
+	if(ourTopRight.x < bottomLeft.x)//has exited left
+		setPosition(Vec2(topRight.x, m_spGfx->getPosition().y));
 
-	if(m_repeats)
-	{
-		int max_x = 80 * sizeScalingFactor;
-		int max_y = 60 * sizeScalingFactor;
+	if(ourBotLeft.x > topRight.x)//has exited right
+		setPosition(Vec2(bottomLeft.x, m_spGfx->getPosition().y));
 
+	if(ourBotLeft.y > topRight.y)//has exited top
+		setPosition(Vec2(m_spGfx->getPosition().x, bottomLeft.y));
 
-		//this logic should be in another class, not the default decoration
-		//below lines are magic
-		if(m_initPosition.x + rCameraCenter.x * m_movementScale > (rCameraCenter.x) + (max_x))
-		{
-			m_initPosition.x -= (dimensions.x / scale)*num_in_layer.x;
-		}
-		else if(m_initPosition.x + rCameraCenter.x * m_movementScale < (rCameraCenter.x) - (max_x))
-		{
-			m_initPosition.x += (dimensions.x / scale)*num_in_layer.x;
-		}
-		if(m_initPosition.y + rCameraCenter.y * m_movementScale >(rCameraCenter.y + (max_y)))
-		{
-			m_initPosition.y -= (dimensions.y / scale)*num_in_layer.y;
-		}
-		else if(m_initPosition.y + rCameraCenter.y * m_movementScale < (rCameraCenter.y - (max_y)))
-		{
-			m_initPosition.y += (dimensions.y / scale)*num_in_layer.y;
-		}
-	}
+	if(ourTopRight.y < bottomLeft.y)//has exited bottom
+		setPosition(Vec2(m_spGfx->getPosition().x, topRight.y));
 
-	setPosition(m_initPosition + b2Vec2(rCameraCenter.x*m_movementScale, rCameraCenter.y*m_movementScale));
 }
+

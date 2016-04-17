@@ -48,6 +48,7 @@ public:
 	void setAlpha(int alphaValue);
 
 	/**GETTERS**/
+	Vec2 getSize() const;
 	const b2Vec2& getPosition() const;
 	float getRotation() const;
 	const sf::Vector2f& getOffset() const;
@@ -81,6 +82,8 @@ protected:
 
 	Animator m_animator;
 private:
+	mutable bool m_calculatedSize;
+	mutable Vec2 m_size;
 	float m_scale;
 };
 

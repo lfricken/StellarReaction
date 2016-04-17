@@ -302,19 +302,11 @@
 			0
 		]
 	}],
-	"Decorations": {
-		"StaticDecor": [{
+	"decorations": {
+		"static": [{
 			"Title": "Background0"
-		},  {
-			"Title": "Background1"
-		}, 	{
-			"Title": "Background2"
-		}, 	{
-			"Title": "Background3"
-		}, 	{
-			"Title": "Background4"
 		}],
-		"DynamicDecor": [{
+		"dynamic": [{
 			"Title": "Comet"
 		}]
 	}

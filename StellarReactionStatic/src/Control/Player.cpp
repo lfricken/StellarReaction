@@ -5,7 +5,6 @@
 #include "Universe.hpp"
 #include "IOManager.hpp"
 #include "Convert.hpp"
-#include "DecorQuad.hpp"
 #include "LinearMeter.hpp"
 #include "Minimap.hpp"
 #include "Chunk.hpp"
@@ -32,7 +31,8 @@ Camera& Player::getCamera()
 {
 	return m_camera;
 }
-b2Vec2 Player::getMouseInWorld(){
+b2Vec2 Player::getMouseInWorld()
+{
 	return m_aim;
 }
 const InputConfig& Player::getInCfg() const
@@ -97,13 +97,13 @@ void Player::getLiveInput()
 		/**== CAMERA ==**/
 		const float speed = 0.05f;
 		if(Keyboard::isKeyPressed(m_inCfg.cameraUp))
-			m_camera.move(b2Vec2(0,speed));
+			m_camera.move(b2Vec2(0, speed));
 		if(Keyboard::isKeyPressed(m_inCfg.cameraDown))
-			m_camera.move(b2Vec2(0,-speed));
+			m_camera.move(b2Vec2(0, -speed));
 		if(Keyboard::isKeyPressed(m_inCfg.cameraLeft))
-			m_camera.move(b2Vec2(-speed,0));
+			m_camera.move(b2Vec2(-speed, 0));
 		if(Keyboard::isKeyPressed(m_inCfg.cameraRight))
-			m_camera.move(b2Vec2(speed,0));
+			m_camera.move(b2Vec2(speed, 0));
 
 
 		/**== KEYBOARD ==**/
@@ -115,16 +115,16 @@ void Player::getLiveInput()
 			m_directives[Directive::RollCCW] = true;
 		if(Keyboard::isKeyPressed(m_inCfg.rollCW))
 			m_directives[Directive::RollCW] = true;
-		if (Keyboard::isKeyPressed(m_inCfg.boost))
+		if(Keyboard::isKeyPressed(m_inCfg.boost))
 			m_directives[Directive::Boost] = true;
-		if (Keyboard::isKeyPressed(m_inCfg.stealth))
+		if(Keyboard::isKeyPressed(m_inCfg.stealth))
 			m_directives[Directive::Stealth] = true;
-		if (Keyboard::isKeyPressed(m_inCfg.teleport))
+		if(Keyboard::isKeyPressed(m_inCfg.teleport))
 			m_directives[Directive::Teleport] = true;
-		if (Keyboard::isKeyPressed(Keyboard::K))
+		if(Keyboard::isKeyPressed(Keyboard::K))
 			m_directives[Directive::Respawn] = true;
 
-		if (Keyboard::isKeyPressed(m_inCfg.shield))
+		if(Keyboard::isKeyPressed(m_inCfg.shield))
 			m_directives[Directive::Shield] = true;
 
 		/**== SPECIAL ==**/
@@ -191,7 +191,7 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 				game.getCoreIO().recieve(menu);
 			}
 			/**== SCOREBOARD ==**/
-			if (event.key.code == Keyboard::Tab)
+			if(event.key.code == Keyboard::Tab)
 			{
 				Message scoreboard("overlay", "toggleScoreboard", voidPacket, 0, false);
 				game.getCoreIO().recieve(scoreboard);
@@ -223,8 +223,8 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 				float y1 = game.getWindow().getSize().y; //getting the size of y
 				float area = 1920 * 1080; // setting a fixed resolution
 				float area1 = x1*y1;
-				
-			    float newzoomvalue = zoomValue*sqrt(area/area1); // setting a new zoom value based on the current screen's resolution
+
+				float newzoomvalue = zoomValue*sqrt(area / area1); // setting a new zoom value based on the current screen's resolution
 
 				if(newzoomvalue < m_camera.getZoom())
 					m_camera.setZoom(newzoomvalue);
@@ -265,6 +265,7 @@ void Player::updateView()
 		if(m_tracking)
 			m_camera.setPosition(pBody->GetPosition());
 
+		//Energy Bar
 		float val = rController.get(Request::Energy);
 		float maxVal = rController.get(Request::MaxEnergy);
 		if(maxVal <= 0.f)
@@ -272,41 +273,33 @@ void Player::updateView()
 			maxVal = 1.f;
 			val = 0.f;
 		}
+		m_energyMeterFill->setPercent(val / maxVal);
 
-		m_energyMeterFill->setPercent(val/maxVal);
-		if(val/maxVal < 0.1f)//if energy less than 10 percent
-		{
-			string com = "setAnimation";
-			sf::Packet dat;
-			dat << "Default";
-			dat << 2.f;
-			m_energyDanger->input(com, dat);
-		}
+		//Energy Warning
+		if(val / maxVal < 0.1f)
+			m_boundsDanger->getAnimator().setAnimation("Default", 2.f);
 
+		//Out of Bounds
 		b2Vec2 location = pBody->GetPosition();
 		vector<int> bounds = game.getUniverse().getBounds();
-		if (abs(location.x) > bounds[0] || abs(location.y) > bounds[1])//if out of bounds
-		{
-			string com = "setAnimation";
-			sf::Packet dat;
-			dat << "Default";
-			dat << 2.f;
-			m_boundsDanger->input(com, dat);
-		}
+		if(abs(location.x) > bounds[0] || abs(location.y) > bounds[1])//if out of bounds
+			m_boundsDanger->getAnimator().setAnimation("Default", 2.f);
 
+
+		//Score and Money
 		std::vector<sptr<GameObject> > goList = game.getUniverse().getgoList();
 
 		int score = rController.get(Request::Score);
 		static int oldScore = -1;
 		string scoreString = "Score: ";
 		string moneyString = "Money: " + to_string(getMoney());
-		
-		if (score != oldScore)
+
+		if(score != oldScore)
 		{
 			oldScore = score;
 			scoreString += to_string(oldScore);
 
-			if (oldScore == 10)
+			if(oldScore == 10)
 			{
 				scoreString = "You Win";
 				game.getUniverse().togglePause();
@@ -317,18 +310,18 @@ void Player::updateView()
 			Message setScore("hud_score", "setText", scorePack, 0, false);
 			game.getCoreIO().recieve(setScore);
 		}
-
-
 		Packet moneyPack;
 		moneyPack << moneyString;
 		Message setMoney("hud_money", "setText", moneyPack, 0, false);
 		game.getCoreIO().recieve(setMoney);
 
+
+		//Radar
 		int index = 0;
 		float offset_x = 2.40f;
 		float offset_y = -1.20f;
 		m_radarsize = 0;
-		for (auto it = goList.begin(); it != goList.end(); ++it)
+		for(auto it = goList.begin(); it != goList.end(); ++it)
 		{
 			m_radarsize++;
 			GameObject* p = it->get();
@@ -336,15 +329,15 @@ void Player::updateView()
 			int other_team = object->getBodyComponent().getTeam();
 			int my_team = this->getTeam();
 			int team = 0;
-			if (other_team == my_team)
+			if(other_team == my_team)
 				team = 1;
-			else if (other_team < 0)
+			else if(other_team < 0)
 				team = -1;
-			if (object != NULL && !object->isStealth())
+			if(object != NULL && !object->isStealth())
 			{
 				b2Vec2 dif = pBody->GetPosition() - object->getBodyPtr()->GetPosition();
 				float dist = dif.Length();
-				if (dist < 50)
+				if(dist < 50)
 				{
 					dif *= -0.005f;
 					m_minimap->setDot(b2Vec2(offset_x, offset_y) + dif, index, team);
@@ -362,52 +355,49 @@ IOComponent& Player::getIOComp()
 }
 void Player::loadOverlay(const std::string& rOverlay)
 {
-	b2Vec2 emeterPos = b2Vec2(0.2f, -0.45f);
+	b2Vec2 emeterPos = b2Vec2(0.05f, -0.05f);
 
+	//Thing covering fill
 	LinearMeterData fillData;
-	fillData.dimensions = sf::Vector2f(30,124);
+	fillData.dimensions = sf::Vector2f(30, 124);
 	fillData.layer = GraphicsLayer::OverlayMiddle;
-	LinearMeter* pFill = new LinearMeter(fillData);
-	pFill->setPosition(emeterPos);
+	fillData.center = sf::Vector2f(-fillData.dimensions.x / 2, fillData.dimensions.y / 2);
+	m_energyMeterFill.reset(new LinearMeter(fillData));
+	m_energyMeterFill->setPosition(emeterPos);
 
 	MinimapData mapData;
 	mapData.controller = m_controller;
 	mapData.layer = GraphicsLayer::OverlayMiddle;
-	Minimap* pMap = new Minimap(mapData);
-	pMap->setPosition(b2Vec2(2.4f, -1.2f));
+	m_minimap.reset(new Minimap(mapData));
+	m_minimap->setPosition(b2Vec2(2.4f, -1.2f));
 
-	DecorQuadData data;
-	data.quadComp.dimensions = sf::Vector2f(32,128);
-	data.quadComp.texName = "overlay/meter.png";
-	data.quadComp.animSheetName = "overlay/meter.acfg";
-	data.quadComp.layer = GraphicsLayer::Overlay;
-	DecorQuad* pDQuad = new DecorQuad(data);
-	pDQuad->setPosition(emeterPos);
+	//Energy Bar
+	QuadComponentData data;
+	data.dimensions = sf::Vector2f(32, 128);
+	data.texName = "overlay/meter.png";
+	data.animSheetName = "overlay/meter.acfg";
+	data.layer = GraphicsLayer::OverlayBottom;
+	data.center = sf::Vector2f(-data.dimensions.x / 2, data.dimensions.y / 2);
+	m_energyMeter.reset(new QuadComponent(data));
+	m_energyMeter->setPosition(emeterPos);
 
 	//Energy Warning
-	DecorQuadData datawarn;
-	datawarn.quadComp.dimensions = sf::Vector2f(86,73);
-	datawarn.quadComp.texName = "overlay/warning_energy.png";
-	datawarn.quadComp.animSheetName = "overlay/warning_energy.acfg";
-	datawarn.quadComp.layer = GraphicsLayer::Overlay;
-	DecorQuad* pDang = new DecorQuad(datawarn);
-	pDang->setPosition(emeterPos+b2Vec2(0.f, -0.4f));
+	QuadComponentData datawarn;
+	datawarn.dimensions = sf::Vector2f(86, 73);
+	datawarn.texName = "overlay/warning_energy.png";
+	datawarn.animSheetName = "overlay/warning_energy.acfg";
+	datawarn.layer = GraphicsLayer::OverlayBottom;
+	m_energyDanger.reset(new QuadComponent(datawarn));
+	m_energyDanger->setPosition(emeterPos + b2Vec2(0.f, -0.4f));
 
 	//Out of Bounds Warning
-	DecorQuadData dataWarnBounds;
-	dataWarnBounds.quadComp.dimensions = sf::Vector2f(250, 73);
-	dataWarnBounds.quadComp.texName = "overlay/warning_bounds.png";
-	dataWarnBounds.quadComp.animSheetName = "overlay/warning_bounds.acfg";
-	dataWarnBounds.quadComp.layer = GraphicsLayer::Overlay;
-	DecorQuad* pBounds = new DecorQuad(dataWarnBounds);
-	pBounds->setPosition(b2Vec2(1.35f, -0.3f));
-
-	m_boundsDanger = sptr<DecorQuad>(pBounds);
-	m_energyMeter = sptr<DecorQuad>(pDQuad);
-	m_energyMeterFill = sptr<LinearMeter>(pFill);
-	m_energyDanger = sptr<DecorQuad>(pDang);
-	m_minimap = sptr<Minimap>(pMap);
-
+	QuadComponentData dataWarnBounds;
+	dataWarnBounds.dimensions = sf::Vector2f(250, 73);
+	dataWarnBounds.texName = "overlay/warning_bounds.png";
+	dataWarnBounds.animSheetName = "overlay/warning_bounds.acfg";
+	dataWarnBounds.layer = GraphicsLayer::OverlayBottom;
+	m_boundsDanger.reset(new QuadComponent(dataWarnBounds));
+	m_boundsDanger->setPosition(b2Vec2(1.35f, -0.3f));
 }
 void Player::universeDestroyed()
 {

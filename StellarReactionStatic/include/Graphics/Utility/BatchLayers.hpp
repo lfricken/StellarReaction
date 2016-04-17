@@ -17,7 +17,7 @@ public:
 	virtual ~BatchLayers();
 
 	QuadData request(const std::string& rTexName, GraphicsLayer layer);//gives 4 texture vertexes
-	void drawBackground(sf::RenderTarget& rTarget);
+
 	void drawWorld(sf::RenderTarget& rTarget);
 	void drawOverlay(sf::RenderTarget& rTarget);
 

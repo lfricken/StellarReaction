@@ -2,8 +2,15 @@
 
 GraphicsLayer ChooseLayer(const std::string& rStr)
 {
+	if(rStr == "BackgroundVeryBack")
+		return GraphicsLayer::BackgroundVeryBack;
+	if(rStr == "BackgroundVeryFar")
+		return GraphicsLayer::BackgroundVeryFar;
+
 	if(rStr == "BackgroundFar")
 		return GraphicsLayer::BackgroundFar;
+	if(rStr == "BackgroundFar")
+		return GraphicsLayer::BackgroundMid;
 	if(rStr == "BackgroundClose")
 		return GraphicsLayer::BackgroundClose;
 
@@ -33,15 +40,17 @@ GraphicsLayer ChooseLayer(const std::string& rStr)
 		return GraphicsLayer::Shield;
 
 
-	if(rStr == "Overlay")
-		return GraphicsLayer::Overlay;
+	if(rStr == "OverlayBottom")
+		return GraphicsLayer::OverlayBottom;
 	if(rStr == "OverlayMiddle")
 		return GraphicsLayer::OverlayMiddle;
+	if(rStr == "OverlayTop")
+		return GraphicsLayer::OverlayTop;
 	if(rStr == "maxLayers")
 		return GraphicsLayer::maxLayers;
 	else
 	{
 		///ERROR
-		return GraphicsLayer::BackgroundFar;
+		return GraphicsLayer::OverlayTop;
 	}
 }

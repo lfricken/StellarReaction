@@ -1,0 +1,43 @@
+{
+    "texTileSize": [
+        86,
+        73
+    ],
+    "stateList": [
+        {
+            "comment": "The default state is the state we are normally in",
+			"comment2": "the t represents the %of time we will spend on that tile",
+            "state": "Default",
+            "repeats": false,
+            "tileList": [
+				{
+                    "x": 0,
+                    "y": 0,
+                    "t": 1
+                },
+				{
+                    "x": 1,
+                    "y": 0,
+                    "t": 1
+                }
+            ]
+        },
+        {
+            "comment": "This is the state we go into if we are told to go into a state we dont have (always have this for all acfg files",
+            "state": "Error",
+            "repeats": true,
+            "tileList": [
+				{
+                    "x": 0,
+                    "y": 0,
+                    "t": 1
+                },
+				{
+                    "x": 1,
+                    "y": 0,
+                    "t": 1
+                }
+            ]
+        }
+    ]
+}
