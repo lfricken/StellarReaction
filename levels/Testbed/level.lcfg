@@ -1,7 +1,21 @@
 {
 	"AdditionalBlueprints": [],
-	"Decorations": [{
-	}],
+	"Decorations": {
+		"StaticDecor": [{
+			"Title": "Background0"
+		},  {
+			"Title": "Background1"
+		}, 	{
+			"Title": "Background2"
+		}, 	{
+			"Title": "Background3"
+		}, 	{
+			"Title": "Background4"
+		}],
+		"DynamicDecor": [{
+			"Title": "Comet"
+		}]
+	},
 	"HazardFields": [],
 	"SpawnPoints": [{
 		"Team": 1,

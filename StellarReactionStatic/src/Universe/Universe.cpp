@@ -581,7 +581,6 @@ void Universe::setupBackground(Json::Value& root)
 					float velY = rand() % (int)(spDDec->maxX - spDDec->minY + 1) + spDDec->minY;
 					spDDec->velocity = b2Vec2(spDDec->minY, spDDec->minY);
 					add(spDDec->generate());
-					cout << "\nAdded Dynamic Decor";	
 				}
 				
 			}
