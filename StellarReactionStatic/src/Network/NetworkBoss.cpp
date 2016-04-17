@@ -34,6 +34,7 @@ void NetworkBoss::recieveLevel(sf::Packet& data)
 		data >> playerInstance.playerMoney;
 		data >> playerInstance.ship;
 		data >> playerInstance.team;
+		data >> playerInstance.isAI;
 		//cout << "\nControllers: " << numControllers;
 		//cout << "\nSlaveName:[" << playerInstance.slaveName << "] Ship Choice:[" << playerInstance.ship << "] Team:[" << playerInstance.team << "]";
 		launchData.playerList.push_back(playerInstance);
@@ -52,7 +53,7 @@ void NetworkBoss::launchMultiplayerGame()
 {
 	sf::Packet data;
 
-	std::string level = "Testbed";
+	std::string level = "Alpha Centauri";
 
 	data << level;
 	data << static_cast<int32_t>(m_connections.size() + 1);//number of controllers +1 for host
@@ -63,6 +64,7 @@ void NetworkBoss::launchMultiplayerGame()
 	data << game.getLocalPlayer().getMoney();
 	data << game.getLocalPlayer().getShipChoice();
 	data << game.getLocalPlayer().getTeam();
+	data << false;
 
 	//for clients
 	for(int32_t i = 0; i < (signed)m_connections.size(); ++i)
@@ -79,17 +81,24 @@ void NetworkBoss::launchMultiplayerGame()
 		data << playerMoney;
 		data << shipName;
 		data << team;
+		data << false;//is ai
 	}
 
-	//for ai TODO REFACTOR
-	//string aiSlaveName = std::to_string(m_connections.size() + 1 + 1);
-	//string aiShipName = "Dante";
-	//int aiTeam = game.getLocalPlayer().getTeam();
-	//data << aiSlaveName;
-	//data << aiShipName;
-	//data << aiTeam;
 
-
+	/*
+	for (int i = 1; i <= 4; ++i)
+	{
+		string aiSlaveName = std::to_string(m_connections.size() + 20 + i);
+		string aiShipName = "Dante";
+		int aiTeam = i;
+		data << aiSlaveName;
+		data << "AI_PLAYER";
+		data << (int)0;
+		data << aiShipName;
+		data << aiTeam;
+		data << true;
+	}
+	*/
 
 	int32_t controller = 0;
 	sf::Packet hostData(data);

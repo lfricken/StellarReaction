@@ -12,7 +12,7 @@
         ],
         "texName": "backgrounds/capture/capturePoint.png",
         "animSheetName": "backgrounds/capture/capturePoint.acfg",
-        "layer": "Background4",
+        "layer": "BackgroundClose",
 		"rate": 10,
 		"randomRot": false
     },
@@ -28,7 +28,7 @@
         ],
         "texName": "backgrounds/capture/white.png",
         "animSheetName": "backgrounds/capture/capturePoint.acfg",
-        "layer": "BackgroundClose",
+        "layer": "ShipHull",
 		"rate": 10,
 		"randomRot": false
     },
@@ -44,7 +44,7 @@
         ],
         "texName": "backgrounds/capture/blue.png",
         "animSheetName": "backgrounds/capture/capturePoint.acfg",
-        "layer": "BackgroundClose",
+        "layer": "ShipHull",
 		"rate": 10,
 		"randomRot": false
     },
@@ -60,7 +60,7 @@
         ],
         "texName": "backgrounds/capture/green.png",
         "animSheetName": "backgrounds/capture/capturePoint.acfg",
-        "layer": "BackgroundClose",
+        "layer": "ShipHull",
 		"rate": 10,
 		"randomRot": false
     },
@@ -76,7 +76,7 @@
         ],
         "texName": "backgrounds/capture/yellow.png",
         "animSheetName": "backgrounds/capture/capturePoint.acfg",
-        "layer": "BackgroundClose",
+        "layer": "ShipHull",
 		"rate": 10,
 		"randomRot": false
     },
@@ -92,7 +92,7 @@
         ],
         "texName": "backgrounds/capture/pink.png",
         "animSheetName": "backgrounds/capture/capturePoint.acfg",
-        "layer": "BackgroundClose",
+        "layer": "ShipHull",
 		"rate": 10,
 		"randomRot": false
     },
@@ -108,7 +108,7 @@
         ],
         "texName": "backgrounds/capture/red.png",
         "animSheetName": "backgrounds/capture/capturePoint.acfg",
-        "layer": "BackgroundClose",
+        "layer": "ShipHull",
 		"rate": 10,
 		"randomRot": false
     },

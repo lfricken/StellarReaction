@@ -277,7 +277,7 @@ void Player::updateView()
 
 		//Energy Warning
 		if(val / maxVal < 0.1f)
-			m_boundsDanger->getAnimator().setAnimation("Default", 2.f);
+			m_energyDanger->getAnimator().setAnimation("Default", 2.f);
 
 		//Out of Bounds
 		b2Vec2 location = pBody->GetPosition();

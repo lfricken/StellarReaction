@@ -46,6 +46,10 @@ Controller& ControlFactory::getController(int index)
 		return *m_spBackupController;
 	}
 }
+int ControlFactory::getSize()
+{
+	return m_spControlList.size();
+}
 NetworkFactory& ControlFactory::getNWFactory()
 {
 	return *m_spNWFactory;

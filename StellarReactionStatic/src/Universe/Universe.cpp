@@ -137,6 +137,13 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 
 		m_spControlFactory->addController(it->slaveName);//add controller after we add the ship with the name
 		//otherwise the controller cant find the intended ship
+		if (it->isAI && !game.getNwBoss().isClient())
+		{
+			sptr<ShipAI> ai = sptr<ShipAI>(new ShipAI);
+			ai->setTeam(it->team);
+			ai->setController(m_spControlFactory->getSize() - 1);
+			m_shipAI.push_back(ai);
+		}
 	}
 
 	/**Load Local Player Overlay**/

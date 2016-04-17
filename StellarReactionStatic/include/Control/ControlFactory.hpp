@@ -19,6 +19,7 @@ public:
 	void processAllDirectives();//call processDirectives on all intelligences
 	void addController(const std::string& slave);//creates a new controller with a specified slave
 	void resetControllers(const std::vector<std::string>& slaves);//delete current controllers and just have these
+	int getSize();//returns the size of controll list
 	void unsetLocal();
 	Controller& getController(int index);
 	NetworkFactory& getNWFactory();
