@@ -11,13 +11,9 @@ using namespace sf;
 
 void QuadComponentData::loadJson(const Json::Value& root)
 {
-	GETJSON(dimensions);
-	GETJSON(permanentRot);
-	GETJSON(center);
-	GETJSON(texName);
-	GETJSON(animSheetName);
-	if(!root["layer"].isNull())
-		layer = ChooseLayer(root["layer"].asString());
+	GraphicsComponentData::loadJson(root);
+
+
 }
 QuadComponent::QuadComponent(const QuadComponentData& rData) : GraphicsComponent(rData)
 {

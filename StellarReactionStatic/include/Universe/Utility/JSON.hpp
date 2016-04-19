@@ -15,6 +15,7 @@ class JSON
 {
 public:
 	static b2Vec2 get(const Json::Value& root, const std::string& fieldName, const b2Vec2& defaultValue);
+	static sf::Color get(const Json::Value& root, const std::string& fieldName, const sf::Color& defaultValue);
 	static sf::Vector2f get(const Json::Value& root, const std::string& fieldName, const sf::Vector2f& defaultValue);
 
 	static std::string get(const Json::Value& root, const std::string& fieldName, const std::string& defaultValue);

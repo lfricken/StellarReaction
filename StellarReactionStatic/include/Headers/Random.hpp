@@ -6,8 +6,8 @@ class Random
 {
 public:
 	static void seed();
-	static int getRandom(int minInclusive, int maxInclusive);
-	static float getRandom(float minInclusive, float maxExclusive);
+	static int get(int minInclusive, int maxInclusive);
+	static float get(float minInclusive, float maxExclusive);
 
 private:
 	static std::default_random_engine gen;

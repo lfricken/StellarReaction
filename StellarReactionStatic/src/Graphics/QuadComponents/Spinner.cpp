@@ -24,7 +24,7 @@ Spinner::Spinner(const SpinnerData& rData) : QuadComponent(rData)
 		toggleOn(false);
 
 	if(rData.randomRot)
-		m_permanentRot += Random::getRandom(0.f, 2.f * pi);
+		m_permanentRot += Random::get(0.f, 2.f * pi);
 
 }
 Spinner::~Spinner()

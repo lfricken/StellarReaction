@@ -65,7 +65,7 @@ Game::Game()
 
 	m_spDir = sptr<Directory>(new Directory(contentDir()));
 
-	ScoreboardData scoreData  = ScoreboardData();
+	ScoreboardData scoreData = ScoreboardData();
 	m_spScoreboard = sptr<Scoreboard>(new Scoreboard(scoreData));
 
 	m_spIcon.reset(new sf::Image());
@@ -287,7 +287,12 @@ void Game::tick(float frameTime)
 	//rWindow.setView(getLocalPlayer().getCamera().getView());
 	rWindow.setView(*m_spStaticView);
 	getLocalPlayer().getWindowEvents(rWindow);
-	getUniverse().getDecors().update(getLocalPlayer().getCamera().getPosition(), leon::sfTob2(sf::Vector2f(rWindow.getSize().x / 2, -(signed)rWindow.getSize().y / 2)));
+	const Vec2 camPos = getLocalPlayer().getCamera().getPosition();
+	const Vec2 halfSize = leon::sfTob2(sf::Vector2f(rWindow.getSize().x / 2, -(signed)rWindow.getSize().y / 2));
+	const float maxZoom = 20;// getLocalPlayer().getCamera().m_maxZoom;
+	const Vec2 maxHalfSize(halfSize.x * maxZoom, halfSize.y * maxZoom);
+	const float zoom = getLocalPlayer().getCamera().getZoom();
+	getUniverse().getDecors().update(camPos, maxHalfSize, zoom);
 	getUniverse().getGfxUpdater().update();//update graphics components
 
 
@@ -375,7 +380,7 @@ void Game::loadWindow(const std::string& windowFile)
 			GETJSON(windowed);
 
 			mode = sf::VideoMode(root["resX"].asInt(), root["resY"].asInt(), root["color"].asInt());
-			
+
 			GETJSON(antiAliasLevel);
 			GETJSON(smoothTextures);
 

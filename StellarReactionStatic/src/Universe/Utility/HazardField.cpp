@@ -19,9 +19,9 @@ void HazardField::spawn()
 {
 	for(int i = 0; i < m_numHazards; ++i)
 	{
-		float rx = Random::getRandom(-m_radius, m_radius);
-		float ry = Random::getRandom(-m_radius, m_radius);
-		float32 rotation = Random::getRandom(0.f, 360.f);
+		float rx = Random::get(-m_radius, m_radius);
+		float ry = Random::get(-m_radius, m_radius);
+		float32 rotation = Random::get(0.f, 360.f);
 
 		float32 x = m_origin.x + rx;
 		float32 y = m_origin.y + ry;

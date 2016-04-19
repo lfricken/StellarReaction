@@ -23,10 +23,10 @@ TEST(Health, InitializeHealth)
 
 	Random::seed();
 
-	data.Armor = Random::getRandom(3, 10);
-	data.Max = Random::getRandom(900, 2000);
+	data.Armor = Random::get(3, 10);
+	data.Max = Random::get(900, 2000);
 	data.Min = 0;
-	data.Value = Random::getRandom(500, 600);
+	data.Value = Random::get(500, 600);
 
 	Health health(data);
 
@@ -50,14 +50,14 @@ TEST(Health, RecieveDamage)
 
 	Random::seed();
 
-	data.Armor = Random::getRandom(3, 10);
-	data.Max = Random::getRandom(900, 2000);
+	data.Armor = Random::get(3, 10);
+	data.Max = Random::get(900, 2000);
 	data.Min = 0;
-	data.Value = Random::getRandom(500, 600);
+	data.Value = Random::get(500, 600);
 
 	Health health(data);
 
-	int damage = Random::getRandom(40, 50);
+	int damage = Random::get(40, 50);
 	int expectedHealth = data.Value - (damage - data.Armor);
 
 	health.damage(damage);
@@ -71,14 +71,14 @@ TEST(Health, RecieveLowDamage)
 
 	Random::seed();
 
-	data.Armor = Random::getRandom(30, 50);
-	data.Max = Random::getRandom(900, 2000);
+	data.Armor = Random::get(30, 50);
+	data.Max = Random::get(900, 2000);
 	data.Min = 0;
 	data.Value = data.Max;
 
 	Health health(data);
 
-	int damage = Random::getRandom(10, 20);
+	int damage = Random::get(10, 20);
 	int expectedHealth = data.Value;//because we did less damage then health
 
 	health.damage(damage);
@@ -109,14 +109,14 @@ TEST(Health, DamageBeyondZero)
 
 	Random::seed();
 
-	data.Armor = Random::getRandom(0, 10);
-	data.Max = Random::getRandom(100, 900);
+	data.Armor = Random::get(0, 10);
+	data.Max = Random::get(100, 900);
 	data.Min = 0;
 	data.Value = data.Max;
 
 	Health health(data);
 
-	int damage = Random::getRandom(1000, 2000);
+	int damage = Random::get(1000, 2000);
 	int expectedHealth = data.Min;
 
 	health.damage(damage);
@@ -137,14 +137,14 @@ TEST(Health, Healing)
 
 	Random::seed();
 
-	data.Armor = Random::getRandom(20, 30);
-	data.Max = Random::getRandom(800, 900);
+	data.Armor = Random::get(20, 30);
+	data.Max = Random::get(800, 900);
 	data.Min = 0;
 	data.Value = data.Max / 2;
 
 	Health health(data);
 
-	int heal = Random::getRandom(20, 30);
+	int heal = Random::get(20, 30);
 	int expectedHealth = data.Value + heal;
 
 	health.heal(heal);
@@ -157,14 +157,14 @@ TEST(Health, HealBeyondMax)
 
 	Random::seed();
 
-	data.Armor = Random::getRandom(0, 10);
-	data.Max = Random::getRandom(100, 900);
+	data.Armor = Random::get(0, 10);
+	data.Max = Random::get(100, 900);
 	data.Min = 0;
 	data.Value = data.Max;
 
 	Health health(data);
 
-	int heal = Random::getRandom(1000, 2000);
+	int heal = Random::get(1000, 2000);
 	int expectedHealth = data.Max;
 
 	health.heal(heal);

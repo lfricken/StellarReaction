@@ -13,7 +13,7 @@ public:
 	DecorationEngine();
 	~DecorationEngine();
 	
-	void update(const Vec2& cameraPos, const Vec2& halfSize);
+	void update(const Vec2& cameraPos, const Vec2& halfSize, const float zoom);
 
 	void loadJson(const Json::Value& root);
 

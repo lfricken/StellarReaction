@@ -14,7 +14,13 @@ sf::Vector2f JSON::get(const Json::Value& root, const std::string& fieldName, co
 	else
 		return sf::Vector2f(root[fieldName][0].asFloat(), root[fieldName][1].asFloat());
 }
-
+sf::Color JSON::get(const Json::Value& root, const std::string& fieldName, const sf::Color& defaultValue)
+{
+	if(root[fieldName].isNull())
+		return defaultValue;
+	else
+		return sf::Color(root[fieldName][0].asFloat(), root[fieldName][1].asFloat(), root[fieldName][2].asFloat(), root[fieldName][3].asFloat());
+}
 
 
 

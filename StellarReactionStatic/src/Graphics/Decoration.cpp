@@ -1,31 +1,61 @@
 #include "Decoration.hpp"
 #include "GraphicsComponent.hpp"
 #include "JSON.hpp"
+#include "Random.hpp"
+#include "Convert.hpp"
 
 void DecorationData::loadJson(const Json::Value& root)
 {
 	LOADJSON(ioComp);
+	GETJSON(sizeScale);
 	GETJSON(movementScale);
+
 	GETJSON(realPosition);
 
+	GETJSON(minSpinRate);
+	GETJSON(maxSpinRate);
 	GETJSON(minVelocity);
 	GETJSON(maxVelocity);
+
 	GETJSON(tiled);
+	GETJSON(repeats);
+	GETJSON(repeatsRandom);
 }
-Decoration::Decoration(const DecorationData& rData, GraphicsComponent* pGfx) : m_io(rData.ioComp, &Decoration::input, this)
+Decoration::Decoration(const DecorationData& data, GraphicsComponent* pGfx) : m_io(data.ioComp, &Decoration::input, this)
 {
 	m_spGfx.reset(pGfx);
+	m_sizeScale = data.sizeScale;
+	m_movementScale = data.movementScale;
 
-	setPosition(rData.realPosition);
-	m_movementScale = rData.movementScale;
-	m_velocity = rData.maxVelocity;
-	m_realPosition = rData.realPosition;
+	if(!data.positionRandom)
+		setPosition(data.realPosition);
+	else
+		setPosition(Vec2(Random::get(-50, 50), Random::get(-50, 50)));
+
+	m_minSpin = leon::degToRad(data.minSpinRate);
+	m_maxSpin = leon::degToRad(data.maxSpinRate);
+	m_minVel = data.minVelocity;
+	m_maxVel = data.maxVelocity;
+	randSpin();
+	randVel();
+
+	m_repeats = data.repeats;
+	m_repeatsRandom = data.repeatsRandom;
 
 	m_lastCameraPos = Vec2(0, 0);
 }
 Decoration::~Decoration()
 {
 
+}
+void Decoration::randVel()
+{
+	m_spinRate = Random::get(m_minSpin, m_maxSpin);
+}
+void Decoration::randSpin()
+{
+	m_velocity.x = Random::get(m_minVel.x, m_maxVel.x);
+	m_velocity.y = Random::get(m_minVel.y, m_maxVel.y);
 }
 void Decoration::input(std::string rCommand, sf::Packet rData)
 {
@@ -59,6 +89,8 @@ void Decoration::input(std::string rCommand, sf::Packet rData)
 void Decoration::setPosition(const Vec2& rDesiredWorldPos)
 {
 	m_realPosition = rDesiredWorldPos - Vec2(m_lastCameraPos.x*m_movementScale, m_lastCameraPos.y*m_movementScale);
+	randVel();
+	randSpin();
 }
 void Decoration::setRotation(float radiansCCW)
 {
@@ -72,28 +104,75 @@ void Decoration::setScale(float scale)
 {
 	m_spGfx->setScale(scale);
 }
-void Decoration::updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bottomLeft, const Vec2& topRight, float dTime)
+void Decoration::updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bottomLeft, const Vec2& topRight, const float zoom, const float dTime)
 {
 	m_lastCameraPos = rCameraCenter;
-	m_realPosition += Vec2(m_velocity.x * dTime * (1.f - m_movementScale), m_velocity.y * dTime * (1.f - m_movementScale));
-	m_spGfx->setPosition(m_realPosition + Vec2(rCameraCenter.x*m_movementScale, rCameraCenter.y*m_movementScale));
 
-	Vec2 halfSize(m_spGfx->getSize().x / 2.f, m_spGfx->getSize().y / 2.f);
-	Vec2 pos(m_spGfx->getPosition());
-	Vec2 ourBotLeft = pos - halfSize;
-	Vec2 ourTopRight = pos + halfSize;
+	/**Spins**/
+	{
+		float total = m_spGfx->getRotation() + (dTime * m_spinRate);
+		m_spGfx->setRotation(total);
+	}
 
-	if(ourTopRight.x < bottomLeft.x)//has exited left
-		setPosition(Vec2(topRight.x, m_spGfx->getPosition().y));
+	/**Follows Camera**/
+	{
+		m_realPosition += Vec2(m_velocity.x * dTime * (1.f - m_movementScale), m_velocity.y * dTime * (1.f - m_movementScale));
+		const Vec2 finalPos = m_realPosition + Vec2(rCameraCenter.x*m_movementScale, rCameraCenter.y*m_movementScale);
+		m_spGfx->setPosition(finalPos);
+	}
 
-	if(ourBotLeft.x > topRight.x)//has exited right
-		setPosition(Vec2(bottomLeft.x, m_spGfx->getPosition().y));
 
-	if(ourBotLeft.y > topRight.y)//has exited top
-		setPosition(Vec2(m_spGfx->getPosition().x, bottomLeft.y));
+	/**Repeats itself over view box**/
+	{
+		const Vec2 halfSize(m_spGfx->getSize().x / 2.f, m_spGfx->getSize().y / 2.f);
+		const Vec2 pos(m_spGfx->getPosition());
+		const Vec2 ourBotLeft = pos - halfSize;
+		const Vec2 ourTopRight = pos + halfSize;
 
-	if(ourTopRight.y < bottomLeft.y)//has exited bottom
-		setPosition(Vec2(m_spGfx->getPosition().x, topRight.y));
+		if(m_repeats || m_repeatsRandom)
+		{
+			if(ourTopRight.x < bottomLeft.x)//has exited left
+			{
+				float starting = m_spGfx->getPosition().y;
 
+				if(m_repeatsRandom)
+					starting = Random::get(bottomLeft.y, topRight.y);
+
+				setPosition(Vec2(topRight.x, starting));
+			}
+			if(ourBotLeft.x > topRight.x)//has exited right
+			{
+				float starting = m_spGfx->getPosition().y;
+
+				if(m_repeatsRandom)
+					starting = Random::get(bottomLeft.y, topRight.y);
+
+				setPosition(Vec2(bottomLeft.x, starting));
+			}
+			if(ourBotLeft.y > topRight.y)//has exited top
+			{
+				float starting = m_spGfx->getPosition().x;
+
+				if(m_repeatsRandom)
+					starting = Random::get(bottomLeft.x, topRight.x);
+
+				setPosition(Vec2(starting, bottomLeft.y));
+			}
+			if(ourTopRight.y < bottomLeft.y)//has exited bottom
+			{
+				float starting = m_spGfx->getPosition().x;
+
+				if(m_repeatsRandom)
+					starting = Random::get(bottomLeft.x, topRight.x);
+
+				setPosition(Vec2(starting, topRight.y));
+			}
+
+		}
+	}
+
+
+	/**Scales with zoom out**/
+	setScale(m_sizeScale*(zoom - 1) + 1);
 }
 

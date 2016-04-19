@@ -8,6 +8,17 @@
 using namespace std;
 using namespace sf;
 
+void GraphicsComponentData::loadJson(const Json::Value& root)
+{
+	GETJSON(dimensions);
+	GETJSON(permanentRot);
+	GETJSON(center);
+	GETJSON(texName);
+	GETJSON(animSheetName);
+	if(!root["layer"].isNull())
+		layer = ChooseLayer(root["layer"].asString());
+	GETJSON(color);
+}
 GraphicsComponent::GraphicsComponent(const GraphicsComponentData& rData) : m_rUpdater(game.getUniverse().getGfxUpdater()), m_animator(rData.animSheetName)
 {
 	m_calculatedSize = false;
@@ -32,10 +43,11 @@ GraphicsComponent::~GraphicsComponent()
 }
 void GraphicsComponent::setScale(float scale)
 {
-	float change = scale / m_scale;
-	for(int i = 0; i < m_numVerts; ++i)
-		m_originPos[i] *= change;
 	m_scale = scale;
+}
+float GraphicsComponent::getScale() const
+{
+	return m_scale;
 }
 void GraphicsComponent::setPosition(const b2Vec2& rWorldCoords)
 {
@@ -86,7 +98,7 @@ void GraphicsComponent::update()
 	sf::Vector2f centerFixed(m_center.x, -m_center.y);
 
 	for(int i = 0; i < m_numVerts; ++i)
-		(*m_pVerts)[i + m_startVert].position = form.transformPoint(m_originPos[i] + offsetFixed - centerFixed);
+		(*m_pVerts)[i + m_startVert].position = form.transformPoint(m_originPos[i] * m_scale + offsetFixed - centerFixed);
 
 	sf::Vector2i tile = m_animator.getTile();
 	sf::Vector2f size = m_animator.getTileSize();
@@ -106,12 +118,12 @@ Vec2 GraphicsComponent::getSize() const
 {
 	if(!m_calculatedSize)
 	{
-		Vec2 maxSize(-1,-1);
+		Vec2 maxSize(-1, -1);
 		for(int i = 0; i < m_numVerts; ++i)
 			if(m_originPos[i].x > maxSize.x)
 				maxSize.x = m_originPos[i].x;
 		for(int i = 0; i < m_numVerts; ++i)
-			if(m_originPos[i].x > maxSize.y)
+			if(m_originPos[i].y > maxSize.y)
 				maxSize.y = m_originPos[i].y;
 
 		Vec2 minSize(-1, -1);
@@ -119,13 +131,12 @@ Vec2 GraphicsComponent::getSize() const
 			if(m_originPos[i].x < minSize.x)
 				minSize.x = m_originPos[i].x;
 		for(int i = 0; i < m_numVerts; ++i)
-			if(m_originPos[i].x < minSize.y)
+			if(m_originPos[i].y < minSize.y)
 				minSize.y = m_originPos[i].y;
 
 		m_size = maxSize - minSize;
-		m_size.x /= scale;
-		m_size.y /= scale;
-
+		m_size.x *= m_scale / scale;// / scale to put it into box2d units
+		m_size.y *= m_scale / scale;// / scale to put it into box2d units
 		m_calculatedSize = true;
 	}
 	return m_size;

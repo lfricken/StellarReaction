@@ -22,20 +22,37 @@ public:
 	void setAnimation(const std::string& rAnimName, float duration);
 	void setScale(float scale);
 
-	void updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bottomLeft, const Vec2& topRight, float dTime);
+	void updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bottomLeft, const Vec2& topRight, const float zoom, const float dTime);
 
 	void input(std::string rCommand, sf::Packet rData);
 protected:
 
 private:
+	void randVel();
+	void randSpin();
+
 	sptr<GraphicsComponent> m_spGfx;
 	IOComponent m_io;
 
+	float m_sizeScale;
 	float m_movementScale;
-	
+
 	Vec2 m_lastCameraPos;
+
+	float m_minSpin;
+	float m_maxSpin;
+	Vec2 m_maxVel;
+	Vec2 m_minVel;
+
+	float m_spinRate;
 	Vec2 m_velocity;
+
+
 	Vec2 m_realPosition;//absolute (where it actually would be in a 3d world)
+
+	bool tiled;
+	bool m_repeats;
+	bool m_repeatsRandom;
 };
 
 
@@ -44,16 +61,26 @@ struct DecorationData
 {
 	DecorationData() :
 		ioComp(&game.getUniverse().getUniverseIO()),
+		sizeScale(0),
+		movementScale(0),
+
 		realPosition(0, 0),
+
+		minSpinRate(0),
+		maxSpinRate(0),
 		minVelocity(0, 0),
 		maxVelocity(0, 0),
+
 		tiled(false),
-		movementScale(0)
+		repeats(false),
+		repeatsRandom(false),
+		positionRandom(false)
 	{
 
 	}
 
 	IOComponentData ioComp;
+	float sizeScale;//recommended to be equal to movement scale
 	float movementScale;
 	//Examples imagine you are looking out of a speeding car at another speeding car next to you
 	//an object super far      1 (it follows the camera 1:1 and always stays in view) (stars in night sky)
@@ -63,9 +90,16 @@ struct DecorationData
 
 
 	Vec2 realPosition;
+
+	float minSpinRate;
+	float maxSpinRate;
 	Vec2 minVelocity;
 	Vec2 maxVelocity;
+
 	bool tiled;
+	bool repeats;
+	bool repeatsRandom;
+	bool positionRandom;
 
 	virtual void loadJson(const Json::Value& root);
 };

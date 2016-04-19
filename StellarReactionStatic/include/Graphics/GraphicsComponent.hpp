@@ -28,6 +28,8 @@ struct GraphicsComponentData
 	std::string animSheetName;//name of our animation sheet
 	GraphicsLayer layer;
 	sf::Color color;
+
+	virtual void loadJson(const Json::Value& root);
 };
 /// <summary>
 /// Base type for all game related graphics
@@ -45,9 +47,11 @@ public:
 	void setColor(sf::Color);
 	Animator& getAnimator();
 	void setScale(float scale);
+
 	void setAlpha(int alphaValue);
 
 	/**GETTERS**/
+	float getScale() const;
 	Vec2 getSize() const;
 	const b2Vec2& getPosition() const;
 	float getRotation() const;

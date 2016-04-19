@@ -1,2 +1,0 @@
-note
-TODO - stars3 can be smaller if you add an animsheet property when loading

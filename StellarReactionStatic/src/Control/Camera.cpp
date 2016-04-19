@@ -5,7 +5,7 @@
 
 using namespace std;
 
-const float Camera::m_maxZoom = 256;
+const float Camera::m_maxZoom = 64;
 const float Camera::m_minZoom = 1;
 Camera::Camera()
 {
