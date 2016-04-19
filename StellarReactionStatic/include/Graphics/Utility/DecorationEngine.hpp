@@ -20,8 +20,7 @@ public:
 private:
 	//void tile(const DecorationData& decor, const QuadComponentData& quad);//tile these
 
-	vector<sptr<Decoration> > m_static;
-	vector<sptr<Decoration> > m_dynamic;
+	vector<sptr<Decoration> > m_decorations;
 
 	Timer m_deltaTime;
 };
