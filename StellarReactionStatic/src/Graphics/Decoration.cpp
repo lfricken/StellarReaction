@@ -17,9 +17,9 @@ void DecorationData::loadJson(const Json::Value& root)
 	GETJSON(minVelocity);
 	GETJSON(maxVelocity);
 
-	GETJSON(tiled);
 	GETJSON(repeats);
 	GETJSON(repeatsRandom);
+	GETJSON(positionRandom);
 }
 Decoration::Decoration(const DecorationData& data, GraphicsComponent* pGfx) : m_io(data.ioComp, &Decoration::input, this)
 {
@@ -30,7 +30,7 @@ Decoration::Decoration(const DecorationData& data, GraphicsComponent* pGfx) : m_
 	if(!data.positionRandom)
 		setPosition(data.realPosition);
 	else
-		setPosition(Vec2(Random::get(-50, 50), Random::get(-50, 50)));
+		setPosition(Vec2(Random::get(-30, 30), Random::get(-30, 30)));
 
 	m_minSpin = leon::degToRad(data.minSpinRate);
 	m_maxSpin = leon::degToRad(data.maxSpinRate);

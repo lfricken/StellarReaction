@@ -18,8 +18,6 @@ public:
 	void loadJson(const Json::Value& root);
 
 private:
-	//void tile(const DecorationData& decor, const QuadComponentData& quad);//tile these
-
 	vector<sptr<Decoration> > m_decorations;
 
 	Timer m_deltaTime;

@@ -71,7 +71,6 @@ struct DecorationData
 		minVelocity(0, 0),
 		maxVelocity(0, 0),
 
-		tiled(false),
 		repeats(false),
 		repeatsRandom(false),
 		positionRandom(false)
@@ -96,7 +95,6 @@ struct DecorationData
 	Vec2 minVelocity;
 	Vec2 maxVelocity;
 
-	bool tiled;
 	bool repeats;
 	bool repeatsRandom;
 	bool positionRandom;
