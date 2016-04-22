@@ -3,7 +3,7 @@
 
 #include "Pool.hpp"
 
-//Data constructor for Health
+///Data constructor for Health
 struct HealthData : public PoolData<int>
 {
 	HealthData() :
@@ -20,6 +20,8 @@ struct HealthData : public PoolData<int>
 	virtual void loadJson(const Json::Value& root);
 };
 
+
+//
 class Health : private Pool<int>
 {
 public:

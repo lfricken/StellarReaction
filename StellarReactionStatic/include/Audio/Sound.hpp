@@ -6,24 +6,24 @@ struct SoundData;
 
 namespace leon
 {	
-	//A sound acts as a wrapper around a sound handle for easier playing of sounds.
+	///A sound acts as a wrapper around a sound handle for easier playing of sounds.
 	class Sound
 	{
 	public:
 		Sound(const SoundData& rData);
 		virtual ~Sound();
 
-		//Sets the position of this sound, so the sound emanates from this position.
+		///Sets the position of this sound, so the sound emanates from this position.
 		void setPos(const b2Vec2& rPos);
-		//Determines whether this sound will loop or not.
+		///Determines whether this sound will loop or not.
 		void toggleLooping(bool shouldLoop);
-		//Switches whether this sound will loop or not.
+		///Switches whether this sound will loop or not.
 		void toggleLooping();
-		//Play sound from beginning.
+		/// Play sound from beginning.
 		void restart();
-		//Continue playing sound, may cause restart.
+		/// Continue playing sound, may cause restart.
 		void resume();
-		//Pause this sound.
+		/// Pause this sound.
 		void pause();
 
 	protected:

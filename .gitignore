@@ -11,16 +11,30 @@
 *.xml
 *.db
 *.db
-StellarReactionTest/Debug/StellarReactionTest.pch
+
 *.coverage
 *.ipch
-/doc/*
 
+
+#######################
+#Documentation
+#######################
+/doc/generated/*
+
+
+
+#######################
+#Project Specific files
+#######################
+StellarReactionTest/Debug/StellarReactionTest.pch
 *StellarReactionStatic-d.lib
 *StellarReactionStatic.lib
 
 
+
+#######################
 # Mac
+#######################
 .DS_Store
 *.cache
 *.filters
