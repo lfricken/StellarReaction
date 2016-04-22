@@ -1,5 +1,8 @@
 #pragma once
 
+///Prevents a class from being copied, by producing a compile time error.
+///Used for classes who cannot just be coppied, because they are complex and would cause runtime errors.
+///Taken from SFML.
 class NonCopyable
 {
 protected:
