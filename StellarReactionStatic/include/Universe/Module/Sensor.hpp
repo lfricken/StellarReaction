@@ -7,6 +7,7 @@ struct SensorData;
 /*
 * Sensor Class:
 * Extends Module to implement sensor game object.
+* Sensor game objects detect if other objects enter their sensing radius.
 */
 class Sensor : public Module
 {

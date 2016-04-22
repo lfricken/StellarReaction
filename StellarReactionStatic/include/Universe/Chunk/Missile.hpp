@@ -9,6 +9,7 @@ class Chunk;
 /*
 * Missle Class:
 * Extends Projectile to create missle game object.
+* Missile game objects travel slower and home in on their target in order to deal damage.
 */
 class Missile : public Projectile
 {

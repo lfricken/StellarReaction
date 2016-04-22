@@ -9,6 +9,7 @@ struct CaptureGraphicData;
 /*
 * CaptureGraphic Class:
 * Extends Module to implement the capture area graphical component
+* CaptureArea Graphical components are used to show which team has captured a capture area.
 */
 
 class CaptureGraphic : public Module

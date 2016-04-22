@@ -12,6 +12,7 @@ struct ProjectileData;
 /*
 * Projectile Class:
 * Creates projectile game object.
+* Projectile game objects travel and do damage to other objects.
 */
 
 class Projectile : NonCopyable

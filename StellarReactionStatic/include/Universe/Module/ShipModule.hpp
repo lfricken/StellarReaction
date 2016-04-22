@@ -18,6 +18,7 @@ struct ShipModuleData;
 /*
 * ShipModule Class:
 * Extends Module to implement ship modules.
+* ShipModule game objects are modules that are part of a ship chunk.
 */
 
 
@@ -36,7 +37,7 @@ public:
 	bool isFunctioning();
 	///Set the health state of this module.
 	void setHealthState(HealthState newState);
-
+	///Actions to process on object when HealthState changes.
 	virtual void setHealthStateHook(HealthState newState);
 	///Toggle stealth state.
 	virtual void toggleStealth(bool toggle);

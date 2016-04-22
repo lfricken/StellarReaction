@@ -6,21 +6,29 @@
 
 struct RadarData;
 
+/*
+* Radar Class:
+* Extends ShipModule to implement radar game objects.
+* Radar game objects are modules that allow the user to change their field of vision.
+*/
+
 class Radar : public ShipModule
 {
 public:
 	Radar(const RadarData& rData);
 	virtual ~Radar();
-
+	///Actions to process on object when HealthState changes.
 	virtual void setHealthStateHook(HealthState newState);
+	///Toggle stealth state.
 	virtual void toggleStealth(bool toggle);
 
 protected:
 private:
-	bool m_hasContributed;//
-	float m_zoom;//zoom change
-
-	int m_dishIndex;//the index of our dish in our list
+	bool m_hasContributed;
+	///Zoom change.
+	float m_zoom;
+	///The index of our dish in our list.
+	int m_dishIndex;
 };
 
 
@@ -41,9 +49,9 @@ struct RadarData : public ShipModuleData
 	}
 
 	SpinnerData dish;
-
-	float zoomAddition;//how much more we can zoom with this module active
-
+	//How much more we can zoom with this module active?
+	float zoomAddition;
+	///Create Radar object from this data object.
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{
 		RadarData copy(*this);
@@ -52,10 +60,12 @@ struct RadarData : public ShipModuleData
 		copy.chunkParent = parent;
 		return new Radar(copy);
 	}
+	///Create new copy of this data object.
 	virtual ModuleData* clone() const
 	{
 		return new RadarData(*this);
 	}
+	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
 
 	MyType(ModuleData, RadarData);

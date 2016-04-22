@@ -9,6 +9,7 @@ struct ProjectileModuleData;
 /*
 * ProjectileModule Class:
 * Extends Sensor to implement a projectile module game object.
+* Projectile module game objects are projectiles that can collide with other objects.
 */
 
 class ProjectileModule : public Sensor

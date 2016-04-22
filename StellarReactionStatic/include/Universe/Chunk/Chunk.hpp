@@ -16,6 +16,9 @@ enum class Directive;
 enum class Request;
 
 /*
+* Chunk Class:
+* Extends GameObject to implement chunk game objects.
+* Chunk game objects are:
 *	A collection of box2d objects.
 *	This contains the body, and fixtures are attached to us.
 *	Controllers find us through SlaveLocator, and issue us commands.

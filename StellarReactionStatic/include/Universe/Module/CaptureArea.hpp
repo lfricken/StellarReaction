@@ -7,6 +7,7 @@ struct CaptureAreaData;
 /*
 * CaptureArea Class:
 * Extends Sensor Class to implement capture areas
+* Capture areas are regions that provide money to the team that captures them and are a victory condition in certain game modes.
 */
 class CaptureArea : public Sensor
 {

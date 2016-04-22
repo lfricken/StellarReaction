@@ -5,14 +5,20 @@
 
 struct StealthData;
 
+/*
+* Stealth Class:
+* Extends ShipModule to implement stealth game objects.
+* Stealth game objects stealth the ship at the cost of energy.
+*/
+
 class Stealth : public ShipModule
 {
 public:
 	Stealth(const StealthData& rData);
 	virtual ~Stealth();
-
+	///Actions to process on object after performing physics updates.
 	virtual void postPhysUpdate();
-
+	///Send comands to a target.
 	void directive(const CommandInfo& commands);
 
 protected:
@@ -34,7 +40,7 @@ struct StealthData : public ShipModuleData
 	}
 
 	float energyConsumption;
-
+	///Create Stealth object from this data object.
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{
 		StealthData copy(*this);
@@ -43,10 +49,12 @@ struct StealthData : public ShipModuleData
 		copy.chunkParent = parent;
 		return new Stealth(copy);
 	}
+	///Create new copy of this data object.
 	virtual ModuleData* clone() const
 	{
 		return new StealthData(*this);
 	}
+	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
 
 	MyType(ModuleData, StealthData);

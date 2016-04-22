@@ -7,13 +7,18 @@
 class Shield;
 struct ShieldData;
 struct ShieldComponentData;
-
+/*
+* ShieldComponent Class:
+* Extends Sensor to implement ShieldComponent game objects.
+* ShieldComponent game objects block incoming projectiles.
+*/
 class ShieldComponent : public Sensor
 {
 public:
 	ShieldComponent(const ShieldComponentData& rData);
-
+	///Actions to process when fixture component enters our sensor. May be called multiple times in a single step.
 	virtual void entered(FixtureComponent* pOther);
+	///Actions to process when fixture component exits our sensor. May be called multiple times in a single step.
 	virtual void exited(FixtureComponent* pOther);
 protected:
 	virtual void input(std::string rCommand, sf::Packet rData);
@@ -38,7 +43,7 @@ struct ShieldComponentData : public SensorData
 
 	Shield* pParentShieldModule;
 
-
+	///Create ShieldComponent object from this data object.
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{
 		ShieldComponentData copy(*this);
@@ -47,23 +52,32 @@ struct ShieldComponentData : public SensorData
 		copy.chunkParent = parent;
 		return new ShieldComponent(copy);
 	}
+	///Create new copy of this data object.
 	virtual ModuleData* clone() const
 	{
 		return new ShieldComponentData(*this);
 	}
+	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
 
 	MyType(ModuleData, ShieldComponentData);
 };
 
+/*
+* Shield Class:
+* Extends ShipModule to implement shield game objects.
+* Shield game objects create shield components that block incoming projectiles.
+*/
+
 class Shield : public ShipModule
 {
 public:
 	Shield(const ShieldData& rData);
-
+	///Send command to a target.
 	void directive(const CommandInfo& commands);
-
+	///Actions to process on object before performing physics updates.
 	virtual void prePhysUpdate();
+	///After blocking a projectile, do we still have enough energy to maintain the shield?
 	bool hitConsumption();
 
 protected:
@@ -91,13 +105,16 @@ struct ShieldData : public ShipModuleData
 		baseDecor.animSheetName = "shield/shield.acfg";
 	}
 
+	///Energy consumed per second.
+	float energyPerSecond;
+	///Energy consumed per hit.
+	float energyPerHit;
+	///How big the shield is.
+	float radius;
+	///How frequently we can turn it on or off.
+	float toggleFrequency;
 
-	float energyPerSecond;//energy consumed per second
-	float energyPerHit;//energy consumed per hit
-	float radius;//how big the shield is
-	float toggleFrequency;//how frequently we can turn it on or off
-
-
+	///Create Shield object from this data object.
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{
 		ShieldData copy(*this);
@@ -106,10 +123,12 @@ struct ShieldData : public ShipModuleData
 		copy.chunkParent = parent;
 		return new Shield(copy);
 	}
+	///Create new copy of this data object.
 	virtual ModuleData* clone() const
 	{
 		return new ShieldData(*this);
 	}
+	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
 	MyType(ModuleData, ShieldData);
 };

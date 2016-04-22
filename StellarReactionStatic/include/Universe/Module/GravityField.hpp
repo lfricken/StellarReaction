@@ -6,7 +6,8 @@ struct GravityFieldData;
 
 /*
 * GravityField Class:
-* Extends Sensor to implement gravity field game object.
+* Extends Sensor to implement GravityField game object.
+* GravityField game objects pull other objects into them.
 */
 
 class GravityField : public Sensor

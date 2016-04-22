@@ -7,6 +7,7 @@ struct TriggerSensorData;
 /*
 * TriggerSensor Class:
 * Extends Sensor to implement TriggerSensor game objects.
+* TriggerSensor game objects damage objects that enter their sensing radius.
 */
 class TriggerSensor : public Sensor
 {
