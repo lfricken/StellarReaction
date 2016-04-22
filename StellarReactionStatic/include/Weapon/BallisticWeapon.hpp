@@ -4,22 +4,27 @@
 #include "Weapon.hpp"
 struct BallisticWeaponData;
 
-/// <summary>
-/// Fires a physical projectile to do something (like damage)
-/// </summary>
+/*
+* BallisticWeapon Class:
+* Extends Weapon to implement a ballistic weapon game object.
+* Ballistic weapons fire physical projectiles to do something.
+*/
 class BallisticWeapon : public Weapon
 {
 public:
 	BallisticWeapon(const BallisticWeaponData& rData);
 	virtual ~BallisticWeapon();
-
+	///Actions to be processed before a shot is taken.
 	void preShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation);
+	///Actions to be processed after a shot is taken.
 	void postShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation);
 protected:
 
 	float m_projLifetime;
-	std::string m_projName;//bp name of projectile
-	float m_velocity;//velocity of projectiles
+	///Blueprint name of the projetile
+	std::string m_projName;
+	///Velocity of the projectile
+	float m_velocity;
 private:
 };
 
@@ -44,19 +49,24 @@ struct BallisticWeaponData : public WeaponData
 		radCCWps = 0;
 	}
 
-	std::string projName;//the bp name of the projectile we fire, to be passed to projectileMan
-	float velocity;//m/s (blocks per second)
-	float radCCWps;//rotation rate of the projectile Radians CCW per second
+	///the bp name of the projectile we fire, to be passed to projectileMan
+	std::string projName;
+	///m/s (blocks per second)
+	float velocity;
+	///rotation rate of the projectile Radians CCW per second
+	float radCCWps;
 
+	///Create BallisticWeapon object from this data object.
 	virtual Weapon* generate() const
 	{
 		return new BallisticWeapon(*this);
 	}
+	///Create new copy of this data object.
 	virtual BallisticWeaponData* clone() const
 	{
 		return new BallisticWeaponData(*this);
 	}
-
+	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
 
 	MyType(WeaponData, BallisticWeaponData);
