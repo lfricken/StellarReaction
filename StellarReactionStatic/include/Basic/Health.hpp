@@ -15,8 +15,9 @@ struct HealthData : public PoolData<int>
 		Min = 0;
 	}
 
-	int Armor;//how much damage is subtracted
+	int Armor;///how much damage is subtracted
 
+	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
 };
 

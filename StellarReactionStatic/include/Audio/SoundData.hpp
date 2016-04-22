@@ -3,7 +3,7 @@
 
 #include "JSON.hpp"
 
-//Used to pass to SoundManager to play a sound with these settings.
+///Used to pass to SoundManager to play a sound with these settings.
 struct SoundData
 {
 	SoundData()
@@ -28,7 +28,7 @@ struct SoundData
 
 	b2Vec2 pos;
 
-	//Fill this object with data from a json file.
+	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root)
 	{
 		GETJSON(name);
