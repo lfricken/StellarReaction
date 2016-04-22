@@ -9,18 +9,25 @@
 
 struct ProjectileData;
 
+/*
+* Projectile Class:
+* Creates projectile game object.
+*/
+
 class Projectile : NonCopyable
 {
 public:
 	Projectile(const ProjectileData& rData);
 	virtual ~Projectile();
-
-	void launch(const b2Vec2& rStart, const b2Vec2& rVel, float radCCW, float radCCWps, float lifetime, int damage, const FixtureComponent* pParent, int collisions);// coord, linVel, rot, rotVel
-	void reset();//this projectile will go back into projectile pool
-
+	///Launches projectile with given coordinates, direction, damage and lifetime.
+	void launch(const b2Vec2& rStart, const b2Vec2& rVel, float radCCW, float radCCWps, float lifetime, int damage, const FixtureComponent* pParent, int collisions);
+	///Return this projectile back into projectile pool of parent.
+	void reset();
+	///Actions to process on object before performing physics updates.
 	virtual void prePhysUpdate();
+	///Actions to process on object after performing physics updates.
 	virtual void postPhysUpdate();
-
+	///Return the title of this object.
 	const std::string& getTitle() const;
 
 protected:
@@ -61,16 +68,18 @@ struct ProjectileData : public BlueprintData
 	std::vector<sptr<const ModuleData> > moduleData;
 	float lifetime;//time in seconds that the projectile poof out of existence if not already colided
 
+	///Create Projectile object from this data object.
 	virtual Projectile* generate() const
 	{
 		ProjectileData copy(*this);
 		return new Projectile(copy);
 	}
+	///Create new copy of this data object.
 	virtual ProjectileData* clone() const
 	{
 		return new ProjectileData(*this);
 	}
-
+	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
 
 	MyType(ProjectileData, ProjectileData);
