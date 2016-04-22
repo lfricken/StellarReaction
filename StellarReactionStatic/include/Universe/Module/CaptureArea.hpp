@@ -4,15 +4,22 @@
 
 struct CaptureAreaData;
 
+/*
+* CaptureArea Class:
+* Extends Sensor Class to implement capture areas
+*/
 class CaptureArea : public Sensor
 {
 public:
 	CaptureArea(const CaptureAreaData& rData);
 	~CaptureArea();
-
+	///Actions to process on object before performing physics updates.
 	virtual void prePhysUpdate();
+	///Is this capture area being contested?
 	bool isConflicted();
+	//Get the team that has captured this area.
 	int getCurrentTeam();
+	//Get current capture status.
 	float getProgress();
 
 protected:
@@ -45,7 +52,7 @@ struct CaptureAreaData : public SensorData
 	Money value;
 	float captureTime;
 	float capturePercent;
-
+	///Create CaptureArea object from this data object.
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{
 		CaptureAreaData copy(*this);
@@ -54,10 +61,12 @@ struct CaptureAreaData : public SensorData
 		copy.chunkParent = parent;
 		return new CaptureArea(copy);
 	}
+	///Create new copy of this data object.
 	virtual ModuleData* clone() const
 	{
 		return new CaptureAreaData(*this);
 	}
+	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
 
 	MyType(ModuleData, CaptureAreaData);

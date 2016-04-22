@@ -13,28 +13,36 @@
 #include "NonCopyable.hpp"
 
 struct ModuleData;
-
+/*
+* Module Class:
+* Implements module game object
+*/
 class Module : NonCopyable
 {
 public:
 	Module(const ModuleData& rData);
 	virtual ~Module();
-
+	///Pure Virtual function that processes actions on object before physics updates.
 	virtual void prePhysUpdate() = 0;
+	///Actions to process on object after performing physics updates.
 	virtual void postPhysUpdate();
+	///Send a command to a target.
 	virtual void directive(const CommandInfo& commands);
+	///Set coordinates for current aim.
 	virtual void setAim(const b2Vec2& rTarget);
-	/// <summary>
 	/// What store is the module intersecting?
-	/// </summary>
 	const std::string& getStore() const;
+	///Get offset from center of fixture component.
 	const b2Vec2& getOffset() const;
+	///Get title of module.
 	const std::string& getTitle() const;
+	///Get name of module.
 	const std::string& getName() const;
+	///Set stealth to on or off.
 	virtual void toggleStealth(bool toggle);
-
+	///Heal to full health.
 	virtual void healToMax();
-
+	///Get a reference to the fixture component of this module.
 	const FixtureComponent& getFixtureComponent();
 
 protected:
@@ -86,15 +94,18 @@ struct ModuleData : public BlueprintData
 	FixtureComponentData fixComp;
 	PoolCollection pools;
 
+	///Create Module object from this data object.
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{
 		std::cout << FILELINE;
 		return NULL;
 	}
+	///Create new copy of this data object.
 	virtual ModuleData* clone() const
 	{
 		return new ModuleData(*this);
 	}
+	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
 
 	MyType(ModuleData, ModuleData);

@@ -4,12 +4,17 @@
 
 struct GravityFieldData;
 
+/*
+* GravityField Class:
+* Extends Sensor to implement gravity field game object.
+*/
+
 class GravityField : public Sensor
 {
 public:
 	GravityField(const GravityFieldData& rData);
 	~GravityField();
-
+	///Actions to process on object before performing physics updates.
 	virtual void prePhysUpdate();
 
 protected:
@@ -30,7 +35,7 @@ struct GravityFieldData : public SensorData
 
 	float maxForce;
 	float minForce;
-
+	///Create GravityField object from this data object.
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{
 		GravityFieldData copy(*this);
@@ -39,10 +44,12 @@ struct GravityFieldData : public SensorData
 		copy.chunkParent = parent;
 		return new GravityField(copy);
 	}
+	///Create new copy of this data object.
 	virtual ModuleData* clone() const
 	{
 		return new GravityFieldData(*this);
 	}
+	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
 
 	MyType(ModuleData, GravityFieldData);
