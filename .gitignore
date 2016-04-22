@@ -14,6 +14,8 @@
 StellarReactionTest/Debug/StellarReactionTest.pch
 *.coverage
 *.ipch
+/doc/*
+
 *StellarReactionStatic-d.lib
 *StellarReactionStatic.lib
 

@@ -3,6 +3,7 @@
 
 #include "Pool.hpp"
 
+//Data constructor for Health
 struct HealthData : public PoolData<int>
 {
 	HealthData() :
