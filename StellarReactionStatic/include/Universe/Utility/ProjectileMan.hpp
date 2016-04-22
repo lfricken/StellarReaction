@@ -6,18 +6,24 @@
 
 class Projectile;
 
-/**MANAGES PROJECTILES**/
+/*
+* ProjectileMan Class:
+* Manages projectiles.
+*/
 class ProjectileMan : NonCopyable
 {
 public:
 	ProjectileMan();
 	virtual ~ProjectileMan();
-
+	///Returns a pointer to a projectile for the given blueprint name.
 	Projectile* getProjectile(const std::string& rBPName);
+	///Frees the given projectile.
 	void freeProjectile(Projectile* pProj);
+	///Adds new projectile from blueprint.
 	void addNew(const std::string& rBPName);
-
+	///Actions to process on object before performing physics updates.
 	void prePhysUpdate();
+	///Actions to process on object after performing physics updates.
 	void postPhysUpdate();
 
 protected:

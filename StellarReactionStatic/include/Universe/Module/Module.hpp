@@ -16,6 +16,7 @@ struct ModuleData;
 /*
 * Module Class:
 * Implements module game object
+* Module game object is the basic building block of other game objects.
 */
 class Module : NonCopyable
 {
