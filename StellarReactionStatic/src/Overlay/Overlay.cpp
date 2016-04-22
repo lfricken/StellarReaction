@@ -491,6 +491,8 @@ void Overlay::loadMenus()
 }
 void Overlay::loadScoreboard(const GameLaunchData& data)
 {
+	//TODO these buttons probably shouldn't be networked. They also shouldn't be buttons.
+
 	// main scoreboard panel
 	sf::Vector2f scorebordPanelSize = sf::Vector2f(1280, 720);
 	leon::PanelData mainMenuData;

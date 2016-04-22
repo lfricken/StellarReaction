@@ -85,6 +85,7 @@ bool DraggableSurface::inputHook(const std::string rCommand, sf::Packet rData)
 			pack << y;
 		}
 
+		//Tell server that we moved a module. It is then moved there as well.
 		Message mes("networkboss", "sendTcpToHost", pack, 0, false);
 		game.getCoreIO().recieve(mes);
 

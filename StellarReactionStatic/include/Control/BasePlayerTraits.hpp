@@ -3,33 +3,34 @@
 #include "stdafx.hpp"
 #include "Money.hpp"
 
-/// <summary>
-/// Holds information about each human player
-/// </summary>
+
+///Holds information about each player.
 class BasePlayerTraits
 {
 public:
 	BasePlayerTraits(const std::string& rName);
 	virtual ~BasePlayerTraits();
 
-	
-	void setTeam(int team);//Which team are we on?
-	int getTeam() const;//Which team are we on?
+	///Set our team.
+	void setTeam(int team);
+	///Return which team we are on.
+	int getTeam() const;
 
-	
-	virtual void setController(int index);//Which controller does this player send commands to?
-	int getController() const;//Which controller does this player send commands to?
 
-	void setShipChoice(const std::string& rTitle);//which ship does this player want to start with?
-	const std::string& getShipChoice() const;//which ship does this player want to start with?
+	///Set which controller does this entity control.
+	virtual void setController(int index);
+	///Which controller does this entity control?
+	int getController() const;
+
+	///Set which ship does this player want to start with.
+	void setShipChoice(const std::string& rTitle);
+	///Which ship does this player want to start with?
+	const std::string& getShipChoice() const;
 	
-	/// <summary>
-	/// In Game name, such as mightyWarrior23
-	/// </summary>
+
+	///Set in game name, seen by other players.
 	void setName(const std::string& rTitle);
-	/// <summary>
-	/// In Game name, such as mightyWarrior23
-	/// </summary>
+	///Get in game name, seen by other players.
 	const std::string& getName() const;
 
 	/// <summary>
