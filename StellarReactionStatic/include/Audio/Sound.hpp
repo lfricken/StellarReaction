@@ -19,11 +19,11 @@ namespace leon
 		void toggleLooping(bool shouldLoop);
 		///Switches whether this sound will loop or not.
 		void toggleLooping();
-		/// Play sound from beginning.
+		///Play sound from beginning.
 		void restart();
-		/// Continue playing sound, may cause restart.
+		///Continue playing sound, may cause restart.
 		void resume();
-		/// Pause this sound.
+		///Pause this sound.
 		void pause();
 
 	protected:
