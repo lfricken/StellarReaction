@@ -19,7 +19,7 @@ void DecorationData::loadJson(const Json::Value& root)
 
 	GETJSON(repeats);
 	GETJSON(repeatsRandom);
-	GETJSON(positionRandom);
+	GETJSON(spawnRandom);
 }
 Decoration::Decoration(const DecorationData& data, GraphicsComponent* pGfx) : m_io(data.ioComp, &Decoration::input, this)
 {
@@ -27,10 +27,9 @@ Decoration::Decoration(const DecorationData& data, GraphicsComponent* pGfx) : m_
 	m_sizeScale = data.sizeScale;
 	m_movementScale = data.movementScale;
 
-	if(!data.positionRandom)
-		setPosition(data.realPosition);
-	else
-		setPosition(Vec2(Random::get(-30, 30), Random::get(-30, 30)));
+
+	setPosition(data.realPosition);
+
 
 	m_minSpin = leon::degToRad(data.minSpinRate);
 	m_maxSpin = leon::degToRad(data.maxSpinRate);
@@ -41,6 +40,7 @@ Decoration::Decoration(const DecorationData& data, GraphicsComponent* pGfx) : m_
 
 	m_repeats = data.repeats;
 	m_repeatsRandom = data.repeatsRandom;
+	m_spawnRandom = data.spawnRandom;
 
 	m_lastCameraPos = Vec2(0, 0);
 }
@@ -103,6 +103,10 @@ void Decoration::setAnimation(const std::string& rAnimName, float duration)
 void Decoration::setScale(float scale)
 {
 	m_spGfx->setScale(scale);
+}
+bool Decoration::isRandSpawn() const
+{
+	return m_spawnRandom;
 }
 void Decoration::updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bottomLeft, const Vec2& topRight, const float zoom, const float dTime)
 {

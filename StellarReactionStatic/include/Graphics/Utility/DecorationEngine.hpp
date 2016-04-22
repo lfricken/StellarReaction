@@ -17,6 +17,8 @@ public:
 
 	void loadJson(const Json::Value& root);
 
+	void initSpawns(const Vec2& cameraPos, const Vec2& maxHalf);
+
 private:
 	vector<sptr<Decoration> > m_decorations;
 

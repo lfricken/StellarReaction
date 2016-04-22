@@ -184,6 +184,12 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 	/**Hazard Field Spawn Hazards**/
 	for(auto it = hazardFields.begin(); it != hazardFields.end(); ++it)
 		(**it).spawn();
+
+	//m_spControlFactory->getController(data.localController)
+
+
+	//const Vec2 pos = 
+	//m_spDecorEngine->initSpawns(
 }
 Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input, this), m_physWorld(b2Vec2(0, 0))
 {
@@ -278,7 +284,6 @@ IOManager& Universe::getUniverseIO()
 {
 	return *m_spUniverseIO;
 }
-
 Scoreboard& Universe::getScoreboard()
 {
 	return *m_scoreboard;

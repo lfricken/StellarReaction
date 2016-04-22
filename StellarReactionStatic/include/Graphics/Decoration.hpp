@@ -22,6 +22,8 @@ public:
 	void setAnimation(const std::string& rAnimName, float duration);
 	void setScale(float scale);
 
+	bool isRandSpawn() const;
+
 	void updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bottomLeft, const Vec2& topRight, const float zoom, const float dTime);
 
 	void input(std::string rCommand, sf::Packet rData);
@@ -50,7 +52,7 @@ private:
 
 	Vec2 m_realPosition;//absolute (where it actually would be in a 3d world)
 
-	bool tiled;
+	bool m_spawnRandom;
 	bool m_repeats;
 	bool m_repeatsRandom;
 };
@@ -73,7 +75,7 @@ struct DecorationData
 
 		repeats(false),
 		repeatsRandom(false),
-		positionRandom(false)
+		spawnRandom(false)
 	{
 
 	}
@@ -97,7 +99,7 @@ struct DecorationData
 
 	bool repeats;
 	bool repeatsRandom;
-	bool positionRandom;
+	bool spawnRandom;
 
 	virtual void loadJson(const Json::Value& root);
 };

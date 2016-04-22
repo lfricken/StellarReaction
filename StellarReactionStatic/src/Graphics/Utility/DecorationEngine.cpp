@@ -139,5 +139,16 @@ void DecorationEngine::loadJson(const Json::Value& decorations)
 	//	m_decorations.push_back(sptr<Decoration>(pDecor));
 	//}
 }
+void DecorationEngine::initSpawns(const Vec2& cameraPos, const Vec2& maxHalf)
+{
+	for(auto it = m_decorations.begin(); it != m_decorations.end(); ++it)
+	{
+		if((**it).isRandSpawn())
+		{
 
+
+
+		}
+	}
+}
 
