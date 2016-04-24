@@ -148,9 +148,7 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 		if (it->isAI && !game.getNwBoss().isClient())
 		{
 			cout << "\n" << it->slaveName << " controlled by " << m_spControlFactory->getSize() - 1;
-			sptr<ShipAI> ai = sptr<ShipAI>(new ShipAI);
-			ai->setTeam(it->team);
-			ai->setController(m_spControlFactory->getSize() - 1);
+			sptr<ShipAI> ai = sptr<ShipAI>(new ShipAI(it->team, m_spControlFactory->getSize() - 1));
 			m_shipAI.push_back(ai);
 		}
 	}

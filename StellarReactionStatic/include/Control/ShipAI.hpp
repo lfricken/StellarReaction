@@ -9,7 +9,7 @@ enum class Directive;
 class ShipAI : public BasePlayerTraits, NonCopyable
 {
 public:
-	ShipAI();
+	ShipAI(int team, int controller_index);
 	~ShipAI();
 
 	void updateDecision();
@@ -18,7 +18,7 @@ public:
 
 protected:
 private:
-
+	int m_currentBehavior;
 	Chunk* m_pCurrentTarget;
 	Map<Directive, bool> m_directives;
 	Map<int, bool> m_weaponGroups;
