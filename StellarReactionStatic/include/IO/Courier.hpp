@@ -4,10 +4,10 @@
 #include "Message.hpp"
 #include "Condition.hpp"
 
-/// <summary>
-/// A condition for when to send a message
-/// and the message to send
-/// </summary>
+/*
+* A condition for when to send a message
+* and the message to send
+*/
 struct Courier
 {
 	Condition condition;

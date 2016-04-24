@@ -34,7 +34,7 @@ enum class EventType
 
 	None,
 };
-
+/// Converts the EventType string to enum class.
 EventType ChooseEvent(const std::string& rStr);
 
 

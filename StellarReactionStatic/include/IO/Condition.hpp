@@ -3,22 +3,26 @@
 
 #include "EventTypes.hpp"
 
-/// <summary>
-/// Determines whether a value should trigger a message to be sent.
-/// </summary>
+/*
+* Condition Class:
+* Determines whether a value should trigger a message to be sent.
+*/
 class Condition
 {
 public:
 	Condition();
 	Condition(EventType type, int value, char comparison, bool repeatable);
 	~Condition();
+	/// Resets the Condition object to have the given type, value, comparison, and repeatability.
 	void reset(EventType type, int value, char comparison, bool repeatable);
-
-	bool evaluate(int value) const;//returns true if value satisfies the condition
-
-	EventType getEventType() const;//What type of event are we for?
-	char getComparison() const;//what type of comparison of values does this condition do?
-	bool isRepeatable() const;//can this condition be triggered only once?
+	/// Returns true if value satisfies the condition.
+	bool evaluate(int value) const;
+	/// Return the event type.
+	EventType getEventType() const;
+	/// Return the comparison of values does this condition do?
+	char getComparison() const;
+	/// Can this condition be triggered more than once?
+	bool isRepeatable() const;
 
 private:
 

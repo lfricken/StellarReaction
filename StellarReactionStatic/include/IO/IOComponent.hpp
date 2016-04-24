@@ -20,13 +20,14 @@ struct IOComponentData
 	std::string name;//the name we are located by
 	std::vector<Courier> courierList;//list of couriers to event on
 	IOManager* pMyManager;//pointer to our manager (to send a ptr to us to and for sending messages
-
+	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
 };
 
-/// <summary>
-/// A class can be given this to allow it to send messages to other IOComponents on other objects
-/// </summary>
+/*
+* IOComponent Class:
+* A class can be given this to allow it to send messages to other IOComponents on other objects
+*/
 class IOComponent : NonCopyable
 {
 public:
@@ -46,16 +47,14 @@ public:
 		m_eventer.add(rData.courierList);
 	}
 	virtual ~IOComponent();
-	/// <summary>
-	/// Called when an event happens.
-	/// </summary>
+	/// Receive an event call.
 	void event(EventType type, int value, const sf::Packet& rData);//EventType occurred, has value, and other data	
-	/// <summary>
-	/// Called when this target recieves a message
-	/// </summary>
+	/// Receive a command from a packet.
 	void recieve(const std::string& rCommand, const sf::Packet& rData);
-	const std::string& getName() const;//name of this
-	int getPosition() const;//position of this io component in the list.
+	/// Return the name of this IOComponent.
+	const std::string& getName() const;
+	/// Return the position of this IOComponent in the list.
+	int getPosition() const;
 
 protected:
 private:
