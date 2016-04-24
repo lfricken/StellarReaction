@@ -12,6 +12,7 @@
 class Chunk;
 struct CommandInfo;
 
+///Data to create a Controller
 struct ControllerData
 {
 	ControllerData() :
@@ -26,11 +27,10 @@ struct ControllerData
 	std::string slaveName;
 };
 
-/// <summary>
+
 /// A controller sends commands to ships.
-/// A local players commands are sent to a designated controller, who's state is updated between games.
-/// Chunks are then also synced
-/// </summary>
+/// A local players' commands are sent to a designated controller, who's state is updated between games.
+/// Those commands are duplicated between games, and those commands are sent to the targets.
 class Controller
 {
 public:

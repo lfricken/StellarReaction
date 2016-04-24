@@ -5,6 +5,7 @@
 
 
 ///Holds information about each player.
+///Inherited by Player (local player) and Connection (host has one for each human player).
 class BasePlayerTraits
 {
 public:
@@ -33,29 +34,33 @@ public:
 	///Get in game name, seen by other players.
 	const std::string& getName() const;
 
-	/// <summary>
-	/// This base player trait should represent the local player who is
-	/// also the server host, we decided that we should add a module to our list
-	/// so we send a message directly to our ship gui editor
-	/// </summary>
-	/// <param name="newTitle">The new title.</param>
-	/// <param name="rPos">The r position.</param>
+	/// Give this player another module of this type.
 	virtual void addModule(const std::string& newTitle, const b2Vec2& rPos);
-	virtual bool removeModule(const std::string& oldTitle);//remove module from m_owned, returns if it was removed or not
+	/// Take from this player another module of this type.
+	virtual bool removeModule(const std::string& oldTitle);
 
+	/// Get the List of modules this player has, as well as their positions.
 	const std::vector<std::pair<std::string, b2Vec2> >& getOwnedModuleTitles() const;
-
+	/// Set this players money value.
 	void setMoney(Money amount);
+	/// Change this players money by a certain amount.
 	void changeMoney(Money amount);
+	/// Get how much money this player has.
 	Money getMoney() const;
 
 protected:
-	int m_controller;//which controller do we have, 0, 1, 2, ect.(points to a controller in the list)
-	std::vector<std::pair<std::string, b2Vec2> > m_owned;//list of modules and where they exist on the ship
+	///Which controller do we have, 0, 1, 2, ect.(points to a controller in the list)
+	int m_controller;
+	///Llist of modules and where they exist on the ship.
+	std::vector<std::pair<std::string, b2Vec2> > m_owned;
 
 private:
+	///Name of ship this player wants (blueprint name).
 	std::string m_shipChoice;
+	///In game name.
 	std::string m_name;
+	///Which team this player is on.
 	int m_team;
+	///Total current money this player owns.
 	Money m_balance;
 };
