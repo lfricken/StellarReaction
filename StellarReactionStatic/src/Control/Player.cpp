@@ -286,6 +286,13 @@ void Player::updateView()
 			m_boundsDanger->getAnimator().setAnimation("Default", 2.f);
 
 
+		// Group Icons
+		for (auto it = m_groupIcon.begin(); it != m_groupIcon.end(); ++it)
+		{
+			(*it)->getAnimator().setAnimation("On", 2.f);
+		}
+
+
 		//Score and Money
 		std::vector<sptr<GameObject> > goList = game.getUniverse().getgoList();
 
@@ -398,6 +405,30 @@ void Player::loadOverlay(const std::string& rOverlay)
 	dataWarnBounds.layer = GraphicsLayer::OverlayBottom;
 	m_boundsDanger.reset(new QuadComponent(dataWarnBounds));
 	m_boundsDanger->setPosition(b2Vec2(1.35f, -0.3f));
+
+
+
+	// Create a group icon for each possible group.
+	for (int group = 0; group < 4; ++group)
+	{
+		// Create one for each group.
+		QuadComponentData groupData;
+		groupData.dimensions = sf::Vector2f(20, 20);
+		groupData.layer = GraphicsLayer::OverlayBottom;
+
+		// TODO: Create images for when a group is toggled on and off, and set the values inside of the if statement.
+		groupData.texName = "overlay/control_group.png";
+		groupData.animSheetName = "overlay/control_group.acfg";
+		groupData.layer = GraphicsLayer::OverlayBottom;
+
+		// Generate a new sptr to grouping icon.
+		sptr<QuadComponent> groupIcon;
+		groupIcon.reset(new QuadComponent(groupData));
+		groupIcon->setPosition(b2Vec2(0.25f * group, 0.5f));
+
+		m_groupIcon.push_back(groupIcon);
+	}
+
 }
 void Player::universeDestroyed()
 {
@@ -406,6 +437,13 @@ void Player::universeDestroyed()
 	m_energyDanger.reset();
 	m_minimap.reset();
 	m_boundsDanger.reset();
+
+	// Reset all the available control group QuadComponents.
+	for (auto it = m_groupIcon.begin(); it != m_groupIcon.end(); ++it)
+	{
+		it->reset();
+	}
+
 	setMoney(0);
 }
 bool Player::toggleFocus(bool isWindowFocused)
@@ -417,6 +455,7 @@ bool Player::hasFocus() const
 {
 	return m_hasFocus;
 }
+
 bool Player::toggleControlGroup(int group, bool on)
 {
 	return m_weaponGroups[group] = on;

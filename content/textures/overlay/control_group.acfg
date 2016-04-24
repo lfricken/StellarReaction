@@ -1,0 +1,47 @@
+{
+    "texTileSize": [
+        100,
+        50
+    ],
+    "stateList": [
+        {
+            "comment": "Start off as off.",
+            "state": "Off",
+            "repeats": false,
+            "tileList": [
+				{
+                    "x": 0,
+                    "y": 0,
+                    "t": 1.0
+                }
+            ]
+        },
+        {
+            "comment": "this is the state we go into if we start doing something special",
+            "state": "On",
+            "repeats": true,
+            "tileList": [
+                {
+                    "x": 0,
+                    "y": 1,
+                    "t": 0.0
+                },
+                {
+                    "x": 1,
+                    "y": 1,
+                    "t": 0.0
+                },
+                {
+                    "x": 2,
+                    "y": 1,
+                    "t": 0.0
+                },
+                {
+                    "x": 3,
+                    "y": 1,
+                    "t": 0.0
+                }
+            ]
+        }
+    ]
+}

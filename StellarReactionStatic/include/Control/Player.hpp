@@ -154,6 +154,9 @@ private:
 	sptr<QuadComponent> m_energyMeter;
 	sptr<QuadComponent> m_energyDanger;
 	sptr<QuadComponent> m_boundsDanger;
+
+	vector<sptr<QuadComponent>> m_groupIcon;
+
 	sptr<LinearMeter> m_energyMeterFill;
 	sptr<Minimap> m_minimap;
 
