@@ -609,7 +609,7 @@ void NetworkBoss::playerOption(sf::Packet& rData, BasePlayerTraits* pFrom)
 
 		Controller* pCon = &game.getUniverse().getControllerFactory().getController(pFrom->getController());
 		std::string slaveName = pCon->getSlaveName();
-		Chunk* pTemp = game.getUniverse().getSlaveLocator().findHack(slaveName);
+		Chunk* pTemp = game.getUniverse().getSlaveLocator().find(slaveName);
 		int targetPos = pTemp->m_io.getPosition();
 
 		Message clean((unsigned)targetPos, "clear", voidPacket, 0, false);

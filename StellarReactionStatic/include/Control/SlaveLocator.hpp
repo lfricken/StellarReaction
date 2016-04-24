@@ -6,27 +6,33 @@
 
 class Chunk;
 
-/// <summary>
-/// This class holds pointers to all the chunks
-/// </summary>
+/// This class holds pointers to all the chunks.
+/// When a controller wants to control a chunk, it goes through us to find it.
 class SlaveLocator : NonCopyable
 {
 public:
 	SlaveLocator();
 	virtual ~SlaveLocator();
 
-	int give(Chunk* pSlave);//we recieve a pointer to a component and we store it and remember the name and position (return position)
-	void free(int position);//don't adjust the list, just mark the node as null and offer it as a position to future customers
-	int findPos(const std::string& slaveTarget);//-1 if it can't be found
+	/// A Chunk is allocated, and we store a pointer to it in a list, and remember its name and position (return position).
+	int give(Chunk* pSlave);
+	/// A Chunk is freed, so we no longer can set it as a target. Remove it from our list.
+	void free(int position);
+	/// Return index of a Chunk, given its name. -1 if it can't be found.
+	int findPos(const std::string& slaveTarget);
+	/// Return a pointer to a Chunk given its position. NULL if it can't be found.
 	Chunk* find(int position);
-
-	Chunk* findHack(const std::string& rName);//TODO Rename; returns chunk pointer by name
+	/// Return a pointer to a Chunk given its name. NULL if it can't be found.
+	Chunk* find(const std::string& rName);
 
 protected:
 private:
-	std::vector<Chunk*> m_slavePtrs;//where we store all of them
-	std::vector<int> m_freeIndexes;//spots where the ptr is null and we can give a position out!
-	std::map<std::string, int> m_nameLookup;//where we lookup the position of an IOComponent after we are told its name
+	/// List of Chunk pointers.
+	std::vector<Chunk*> m_slavePtrs;
+	/// Spots in the Chunk list where the Chunk was destroyed.
+	std::vector<int> m_freeIndexes;
+	/// Lookup table to find index, given a name.
+	std::map<std::string, int> m_nameLookup;
 };
 
 #endif // SLAVELOCATOR_HPP
