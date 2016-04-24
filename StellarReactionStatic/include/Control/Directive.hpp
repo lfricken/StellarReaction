@@ -1,8 +1,6 @@
 #pragma once
 
-/// <summary>
-/// Commands a controller can send to a Chunk
-/// </summary>
+/// Commands a Controller can send to a Chunk
 enum class Directive
 {
 	/**MOVEMENT**/

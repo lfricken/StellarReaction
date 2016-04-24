@@ -11,10 +11,8 @@ class QuadComponent;
 class LinearMeter;
 class Minimap;
 
-/// <summary>
-/// Default key configurations.
+/// Key configurations.
 /// This system would allow loading and saving of key configurations.
-/// </summary>
 struct InputConfig
 {
 	InputConfig() :
@@ -77,6 +75,7 @@ struct InputConfig
 	sf::Keyboard::Key cameraLeft;
 	sf::Keyboard::Key cameraRight;
 };
+/// Data necessary for local player.
 struct PlayerData
 {
 	PlayerData() :
@@ -85,7 +84,7 @@ struct PlayerData
 		tracking(true)
 	{
 		ioComp.name = "local_player";
-		name = "Leon";
+		name = "default_local_player_name";
 	}
 	std::string name;
 	IOComponentData ioComp;
@@ -94,55 +93,67 @@ struct PlayerData
 };
 
 
-/// <summary>
 /// Represents the local player on this machine.
 /// This class also handles all user input through it's getLiveInput and getWindowEvents functions
 /// those commands are then sent to a controller
-/// </summary>
 class Player : public BasePlayerTraits
 {
 public:
 	Player(const PlayerData& rData);
 	virtual ~Player();
-
+	/// Returns Camera for local player.
 	Camera& getCamera();
-
-	const InputConfig& getInCfg() const;//returns keyboard input configuration
+	/// Returns keyboard input configuration.
+	const InputConfig& getInCfg() const;
+	/// Return IO component of the Player.
 	IOComponent& getIOComp();
-	bool inGuiMode() const;//does keyboard and mouse input go to GUI, or game
-	bool toggleGuiMode(bool isGuiModeOn);//does keyboard and mouse input go to GUI, or game
-	bool toggleFocus(bool isWindowFocused);//toggle focus of application window
-	bool hasFocus() const;//Does the application window have operating system focus
-	bool isTracking() const;//is our camera tracking our target?
-	void setController(int index);//which controller does this player control
+	/// Is the player in GUI mode or Game mode?
+	/// If in GUI mode, the commands to go the GUI instead of the players ship.
+	bool inGuiMode() const;
+	/// Toggle GUI mode on or off.
+	bool toggleGuiMode(bool isGuiModeOn);
+	/// Toggle whether the Game have "Window Focus"? This is an OS related feature.
+	bool toggleFocus(bool isWindowFocused);
+	/// Does the Game have Window Focus?
+	bool hasFocus() const;
+	/// Is the players Camera tracking the players ship?
+	bool isTracking() const;
+	/// Set which controller this player controlls.
+	void setController(int index);
 
-	/**MOUSE**/
-	const sf::Vector2f& getMouseWindowPos() const;//window coordinates
-	void setMouseWindowPos(const sf::Vector2f& rPos);//window coordinates
+	/// Return the position of the players cursor in window coordinates.
+	const sf::Vector2f& getMouseWindowPos() const;
+	/// Set the position of the players cursor in window coordinates.
+	void setMouseWindowPos(const sf::Vector2f& rPos);
+	/// Return the position of the cursor in world coordinates.
 	b2Vec2 getMouseInWorld();
 
-	/**INPUT**/
-	void getLiveInput();//get direct feed from keyboard and mouse, just gets their states though (not events) (up, down, position of mouse)
-	void getWindowEvents(sf::RenderWindow& rWindow);//process window events, such as mouse down and key down events
+	/// Get direct feed from keyboard and mouse. Gets their states only, not events.
+	void getLiveInput();
+	/// Get events, such as keydown, keyup, mouse-button-down, mouse-button-up etc.
+	void getWindowEvents(sf::RenderWindow& rWindow);
 
-
+	/// Update HUD elements.
 	void updateView();
-	void loadOverlay(const std::string& rOverlay);//loads the game HUD (NOT A GUI)
+	/// Initially load HUD elements.
+	void loadOverlay(const std::string& rOverlay);
 
-	//this tells the player that the universe no longer exists, meaning the sprites
-	//for the HUD need to be destroyed.
+	/// Tells Player that the universe no longer exists.
+	/// This means the sprites for the HUD need to be destroyed if they existed in universe.
 	void universeDestroyed();
+	/// Set the state of a particular control group.
 	bool toggleControlGroup(int group, bool on);
+	/// Toggle the state of a control group.
 	bool toggleControlGroup(int group);
-
+	/// Number of items on radar.
 	int radarsize();
 
 protected:
 	void input(std::string rCommand, sf::Packet rData);
 
 private:
-
-	b2Vec2 m_aim;//where we are aiming in the world ATM
+	///Where we are aiming in world coordinates.
+	b2Vec2 m_aim;
 	sf::Vector2f m_mouseWindowPos;//where is the players mouse on the screen?
 	std::map<Directive, bool> m_directives;//up, down, rollCW, roll CCW, ect.
 	std::map<int, bool> m_weaponGroups;//group, is active

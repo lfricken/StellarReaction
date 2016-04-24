@@ -1,7 +1,7 @@
 #ifndef MONEY_HPP
 #define MONEY_HPP
 
-//the type that money is
+///Defines money type.
 typedef int Money;
 
 #endif // MONEY_HPP
