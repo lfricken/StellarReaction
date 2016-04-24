@@ -6,6 +6,7 @@
 #include "Convert.hpp"
 #include "CommandInfo.hpp"
 
+using namespace std;
 
 ShipAI::ShipAI() : BasePlayerTraits("ai")
 {
@@ -27,9 +28,12 @@ void ShipAI::updateDecision()
 	b2Body* pBody = rController.getBodyPtr();
 
 
-	if(m_pCurrentTarget == NULL)
+	if (m_pCurrentTarget == NULL) {
 		m_pCurrentTarget = game.getUniverse().getNearestChunk(pBody->GetPosition(), rController.getSlave());
+		cout << "\n" << rController.getSlaveName() << " " << m_controller;
+	}
 
+	
 	if(m_pCurrentTarget != NULL)
 	{
 		b2Vec2 targetPos = m_pCurrentTarget->getBodyPtr()->GetPosition();

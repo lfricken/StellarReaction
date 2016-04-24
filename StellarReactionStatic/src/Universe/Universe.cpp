@@ -125,20 +125,29 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 
 
 	/**Create player ships**/
+	cout << "\nCreating Player Ships: ";
 	sptr<ChunkData> spCnk;
 	m_spControlFactory.reset(new ControlFactory);
 	for(auto it = data.playerList.cbegin(); it != data.playerList.cend(); ++it)
 	{
 		spCnk.reset(m_spBPLoader->getChunkSPtr(it->ship)->clone());
-		spCnk->bodyComp.coords = m_spawnPoints[it->team][it - data.playerList.cbegin()];
+		b2Vec2 spawn = m_spawnPoints[it->team][it - data.playerList.cbegin()];
+		spCnk->bodyComp.coords =spawn;
+		float angle = atan2(spawn.y, spawn.x) + (pi / 2.f);
+		spCnk->bodyComp.rotation = angle;
 		spCnk->ioComp.name = it->slaveName;
 		spCnk->team = it->team;
-		add(spCnk->generate(this));
+		Chunk* newChnk = spCnk->generate(this);
+		add(newChnk);
+		newChnk->getBodyPtr()->SetTransform(spawn, angle);
 
-		m_spControlFactory->addController(it->slaveName);//add controller after we add the ship with the name
+		//add controller after we add the ship with the name
 		//otherwise the controller cant find the intended ship
+		m_spControlFactory->addController(it->slaveName);
+
 		if (it->isAI && !game.getNwBoss().isClient())
 		{
+			cout << "\n" << it->slaveName << " controlled by " << m_spControlFactory->getSize() - 1;
 			sptr<ShipAI> ai = sptr<ShipAI>(new ShipAI);
 			ai->setTeam(it->team);
 			ai->setController(m_spControlFactory->getSize() - 1);

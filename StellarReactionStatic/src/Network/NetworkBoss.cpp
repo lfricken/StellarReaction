@@ -51,12 +51,13 @@ void NetworkBoss::recieveLevel(sf::Packet& data)
 /// </summary>
 void NetworkBoss::launchMultiplayerGame()
 {
+	int num_ai = 1;
 	sf::Packet data;
 
 	std::string level = "Alpha Centauri";
 
 	data << level;
-	data << static_cast<int32_t>(m_connections.size() + 1);//number of controllers +1 for host
+	data << static_cast<int32_t>(m_connections.size() + 1 + num_ai);//number of controllers +1 for host +num_ai for number of AI
 
 	//host
 	data << "1";
@@ -85,12 +86,13 @@ void NetworkBoss::launchMultiplayerGame()
 	}
 
 
-	/*
-	for (int i = 1; i <= 4; ++i)
+	//for ai
+	for (int i = 1; i <= num_ai; ++i)
 	{
 		string aiSlaveName = std::to_string(m_connections.size() + 20 + i);
-		string aiShipName = "Dante";
+		string aiShipName = "Anubis";
 		int aiTeam = i;
+		cout << "\nAISlave:[" << aiSlaveName << "] title:[" << "AI_PLAYER" << "].";
 		data << aiSlaveName;
 		data << "AI_PLAYER";
 		data << (int)0;
@@ -98,7 +100,7 @@ void NetworkBoss::launchMultiplayerGame()
 		data << aiTeam;
 		data << true;
 	}
-	*/
+	
 
 	int32_t controller = 0;
 	sf::Packet hostData(data);
