@@ -397,6 +397,7 @@ void NetworkBoss::tcpRecieve()
 					}
 					else if(proto == Protocol::PlayerOption)//server recieving something
 					{
+						//Server recieving
 						if(getNWState() == NWState::Server)
 							playerOption(data, m_connections[i].get());
 						else
@@ -653,9 +654,7 @@ void NetworkBoss::playerOption(sf::Packet& rData, BasePlayerTraits* pFrom)
 	else
 		cout << FILELINE << " [" << command << "].";
 }
-/// <summary>
-/// Local
-/// </summary>
+//Local
 void NetworkBoss::input(const std::string rCommand, sf::Packet rData)
 {
 	if(rCommand == "joinIP")
@@ -695,6 +694,8 @@ void NetworkBoss::input(const std::string rCommand, sf::Packet rData)
 		if(m_state != NWState::Client)
 			launchMultiplayerGame();
 	}
+	///If we are the host, handle our own message.
+	///If we are a client, send it to the server.
 	else if(rCommand == "sendTcpToHost")
 	{
 		if(getNWState() == NWState::Server)
