@@ -40,7 +40,7 @@ public:
 	const std::string& getName() const;
 	///Set coordinates for current aim.
 	void setAim(const b2Vec2& world);
-	///Send a command to a target.
+	///Send a command to this target.
 	void directive(const CommandInfo& commands);
 	///Get a requested value.
 	float get(Request value) const;
