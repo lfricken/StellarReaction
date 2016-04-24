@@ -28,7 +28,9 @@ void ShipAI::updateDecision()
 	b2Body* pBody = rController.getBodyPtr();
 
 
+
 	if (m_pCurrentTarget == NULL) {
+		rController.toggleLocal(true);
 		m_pCurrentTarget = game.getUniverse().getNearestChunk(pBody->GetPosition(), rController.getSlave());
 		cout << "\n" << rController.getSlaveName() << " " << m_controller;
 	}
