@@ -84,9 +84,13 @@ protected:
 	void input(std::string rCommand, sf::Packet rData);
 
 private:
-	void tick(float frameTime);//increment the game loop one step, telling it that frameTime has passed
+	/// Increment the game loop one step, telling it that frameTime seconds have passed.
+	void tick(float frameTime);
+	/// Loads player data from a file.
 	void loadPlayer(const std::string& rFileName);
+	/// Load window with specified settings in a file.
 	void loadWindow(const std::string& windowFile);
+	/// Load the universe. Input does nothing at the moment.
 	void loadUniverse(const std::string& stuff);
 
 
@@ -118,11 +122,11 @@ private:
 	sptr<IOComponent> m_spIO;	
 	/// Directory handler
 	sptr<const Directory> m_spDir;
-
+	/// Score board. TODO this should be in Universe.
 	sptr<Scoreboard> m_spScoreboard;
-
+	/// Used for a few calculations.
 	const float m_estimatedFrameTime = (1.f / 60.f);
-
+	/// Places limit on max FPS.
 	double m_targetFPS;
 	/// Global clock that is never paused.
 	sf::Clock m_clock;	

@@ -1,5 +1,4 @@
-#ifndef INTELLIGENCE_HPP
-#define INTELLIGENCE_HPP
+#pragma once
 
 #include "stdafx.hpp"
 #include "IOComponent.hpp"
@@ -91,4 +90,3 @@ private:
 	std::string m_playerName;//name of us in game, like BobbyLolcatz99, not used for anything but player reading
 };
 
-#endif // INTELLIGENCE_HPP

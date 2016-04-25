@@ -3,6 +3,7 @@
 
 #include "QuadComponent.hpp"
 
+/// Data needed for a beam.
 struct BeamData : public QuadComponentData
 {
 	BeamData() :
@@ -26,22 +27,26 @@ struct BeamData : public QuadComponentData
 	QuadComponentData start;
 	QuadComponentData end;
 };
-/// <summary>
+
+
 /// Beam is a special type of GraphicsComponent made
 /// easier for drawing lasers, they have a texture,
 /// as well as start and endpoint textures
-/// </summary>
 class Beam : protected QuadComponent
 {
 public:
 	Beam(const BeamData& rData);
 	virtual ~Beam();
 
+	/// Sets the start point of the beam.
 	void setStart(const b2Vec2& rStart);
+	/// Sets the end point of the beam.
 	void setEnd(const b2Vec2& rEnd);
-
+	/// Activate the beam for a given amount of time.
 	void activate(float secs, int beamWidth, const sf::Color& color);//seconds to be active, and then deactivate
-	void deactivate();//regardless of our state, deactivate
+	/// Regardless of what we are doing, turn off so we can't be seen.
+	void deactivate();
+	/// Used to determine when to turn ourselves off.
 	virtual void postUpdate();
 
 protected:

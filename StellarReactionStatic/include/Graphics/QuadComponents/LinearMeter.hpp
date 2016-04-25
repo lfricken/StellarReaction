@@ -1,8 +1,8 @@
-#ifndef LINEARMETER_HPP
-#define LINEARMETER_HPP
+#pragma once
 
 #include "QuadComponent.hpp"
 
+/// Data needed for LinearMeter
 struct LinearMeterData : public QuadComponentData
 {
 	LinearMeterData() :
@@ -13,9 +13,8 @@ struct LinearMeterData : public QuadComponentData
 
 };
 
-/// <summary>
-/// Something conveinent for using as a meter (for gui)
-/// </summary>
+
+/// Something convenient for using as a meter (for gui).
 class LinearMeter : public QuadComponent
 {
 public:
@@ -24,17 +23,14 @@ public:
 
 	void postUpdate();//used to override texCoords
 	
-	/// <summary>
-	/// as percent approaches 1, the initial y read position of the texture increases to 1*height
-	/// this means at 1, the texture is being read 1 tile below the start tile
-	/// </summary>
-	/// <param name="per">The per.</param>
+	/// Determines where on the texture to read.
+	/// At 0, it will read the default texture tile.
+	/// As percent goes to 1, it moves the tile being read to the tile below.
 	void setPercent(float per);// 0-1
 
 protected:
 private:
 
-	float m_percent;//how full are we (0-1)
+	float m_percent;
 };
 
-#endif // LINEARMETER_HPP

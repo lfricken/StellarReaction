@@ -1,40 +1,33 @@
-#ifndef MINIMAP_HPP
-#define MINIMAP_HPP
+#pragma once
 
 #include "QuadComponent.hpp"
 
+/// Data to initalize Minimap.
 struct MinimapData : public QuadComponentData
 {
 	MinimapData() :
-		controller(0),
 		QuadComponentData()
 	{
 		texName = "default.png";
 		color = sf::Color::Black;
 	}
-
-	int controller;
-
 };
 
-class DecorQuad;
-
-/// <summary>
-/// Something conveinent for using as a meter (for gui)
-/// </summary>
+/// The Minimap that displays nearby objects.
 class Minimap : public QuadComponent
 {
 public:
 	Minimap(const MinimapData& rData);
 	virtual ~Minimap();
 
-	void setDot(b2Vec2 center, int index, int team);
+	/// Set a dot at the given position.
+	/// index indicates the dot count.
+	/// teamFlag has values -1,0,1 for Neutral, Enemy, Friendly.
+	void setDot(b2Vec2 center, int index, int teamFlag);
+	/// Clear the map of dots by putting the dots off map.
 	void cleanMap(int index);
 
 protected:
-	int m_controller;
 	std::vector<sptr<QuadComponent> > map_points;
 private:
 };
-
-#endif // MINIMAP_HPP
