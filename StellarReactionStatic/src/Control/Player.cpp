@@ -287,7 +287,7 @@ void Player::updateView()
 
 
 		// Group Icons
-		for (auto it = m_groupIcon.begin(); it != m_groupIcon.end(); ++it)
+		for(auto it = m_groupIcon.begin(); it != m_groupIcon.end(); ++it)
 		{
 			(*it)->getAnimator().setAnimation("On", 2.f);
 		}
@@ -409,7 +409,7 @@ void Player::loadOverlay(const std::string& rOverlay)
 
 
 	// Create a group icon for each possible group.
-	for (int group = 0; group < 4; ++group)
+	for(int group = 0; group < 4; ++group)
 	{
 		// Create one for each group.
 		QuadComponentData groupData;
@@ -419,12 +419,11 @@ void Player::loadOverlay(const std::string& rOverlay)
 		// TODO: Create images for when a group is toggled on and off, and set the values inside of the if statement.
 		groupData.texName = "overlay/control_group.png";
 		groupData.animSheetName = "overlay/control_group.acfg";
-		groupData.layer = GraphicsLayer::OverlayBottom;
 
 		// Generate a new sptr to grouping icon.
 		sptr<QuadComponent> groupIcon;
 		groupIcon.reset(new QuadComponent(groupData));
-		groupIcon->setPosition(b2Vec2(0.25f * group, 0.5f));
+		groupIcon->setPosition(b2Vec2(1 + 0.2*group, 0) + emeterPos);
 
 		m_groupIcon.push_back(groupIcon);
 	}
@@ -438,11 +437,10 @@ void Player::universeDestroyed()
 	m_minimap.reset();
 	m_boundsDanger.reset();
 
-	// Reset all the available control group QuadComponents.
-	for (auto it = m_groupIcon.begin(); it != m_groupIcon.end(); ++it)
-	{
-		it->reset();
-	}
+	// Clear, because otherwise, when we go 
+	// to add 4 more to it, the old null
+	// pointers are left behind and cause a crash.
+	m_groupIcon.clear();
 
 	setMoney(0);
 }
