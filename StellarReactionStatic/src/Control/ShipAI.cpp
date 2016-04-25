@@ -12,6 +12,9 @@ ShipAI::ShipAI(int team, int controller_index) : BasePlayerTraits("ai")
 {
 	m_currentBehavior = 0;
 	m_pCurrentTarget = NULL;
+	m_targetTimer.setCountDown(5.f);
+	m_stuckTimer.setCountDown(2.f);
+	m_unstuckTimer.setCountDown(1.f);
 	setController(controller_index);
 	setTeam(team);
 	for(int i = 1; i <= 9; ++i)
@@ -26,22 +29,28 @@ void ShipAI::updateDecision()
 {
 	Controller& rController = game.getUniverse().getControllerFactory().getController(m_controller);
 	b2Body* pBody = rController.getBodyPtr();
+	//set controller to be local
+	if (!rController.isLocal()){
+		rController.toggleLocal(true);
+	}
+	//default all actions to false
+	for (auto it = m_directives.begin(); it != m_directives.end(); ++it)
+		it->second = false;
+
+	//check if stuck
+	if ( isStuck(pBody->GetPosition()) ){
+		m_currentBehavior = 1;
+		m_unstuckTimer.restartCountDown();
+	}
+	//update directives based on current behavior
 	if (m_currentBehavior == 0) // we should attack enemy players
 	{
-		//default to false
-		for (auto it = m_directives.begin(); it != m_directives.end(); ++it)
-			it->second = false;
-
-		Controller& rController = game.getUniverse().getControllerFactory().getController(m_controller);
-		b2Body* pBody = rController.getBodyPtr();
-
-		if (!rController.isLocal()){
-			rController.toggleLocal(true);
-		}
-
-
-		if (m_pCurrentTarget == NULL) {
-			m_pCurrentTarget = game.getUniverse().getNearestChunk(pBody->GetPosition(), rController.getSlave());
+		if (m_pCurrentTarget == NULL || m_targetTimer.isTimeUp()) {
+			m_targetTimer.restartCountDown();
+			int teams[] = {1,2,3,4};
+			std::list<int> teamList(teams, teams + 4);
+			teamList.remove(getTeam());
+			m_pCurrentTarget = game.getUniverse().getNearestChunkOnTeam(pBody->GetPosition(), rController.getSlave(), teamList);
 		}
 
 
@@ -52,10 +61,18 @@ void ShipAI::updateDecision()
 
 			flyTowardsTarget();
 			fireAtTarget();
+			m_directives[Directive::Up] = true;
 		}
-		m_directives[Directive::Up] = true;
 
 	}
+	else if (m_currentBehavior == 1) //we are stuck
+	{
+		m_directives[Directive::Down] = true;
+		if (m_unstuckTimer.isTimeUp()){
+			m_currentBehavior = 0;
+		}
+	}
+
 	CommandInfo commands;
 	commands.isLocal = true;
 	commands.directives = m_directives;
@@ -127,6 +144,18 @@ void ShipAI::fireAtTarget()
 	}
 
 
+}
+
+bool ShipAI::isStuck(b2Vec2 curPos)
+{
+	if (m_stuckTimer.isTimeUp()){
+		m_stuckTimer.restartCountDown();
+		if (curPos == oldPos){
+			return true;
+		}
+		oldPos = curPos;
+	}
+	return false;
 }
 
 

@@ -51,7 +51,7 @@ void NetworkBoss::recieveLevel(sf::Packet& data)
 /// </summary>
 void NetworkBoss::launchMultiplayerGame()
 {
-	int num_ai = 1;
+	int num_ai = 2;
 	sf::Packet data;
 
 	std::string level = "Alpha Centauri";

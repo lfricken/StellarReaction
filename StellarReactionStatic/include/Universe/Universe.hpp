@@ -67,6 +67,8 @@ public:
 	GameObject* getNearestChunkExcept(const b2Vec2& target, const b2Body* exception);
 	BodyComponent* getNearestBody(const b2Vec2& target);
 	Chunk* getNearestChunk(const b2Vec2& target, const Chunk* me);
+	Chunk* getNearestChunkOnTeam(const b2Vec2& target, const Chunk* exception, std::list<int> teams);
+	bool listContains(std::list<int> teams, int value);
 
 	b2Vec2 getBed();//give a position to sleep at
 	void addBed(const b2Vec2& rBed);//someone gave a bed back to us!	

@@ -22,6 +22,7 @@
 #include "ProjectileMan.hpp"
 #include "Convert.hpp"
 #include "DecorationEngine.hpp"
+#include <algorithm>
 
 using namespace std;
 
@@ -413,6 +414,36 @@ Chunk* Universe::getNearestChunk(const b2Vec2& target, const Chunk* me)
 BodyComponent* Universe::getNearestBody(const b2Vec2& target)
 {
 	return &(dynamic_cast<Chunk*>(getNearestChunkExcept(target, NULL))->getBodyComponent());
+}
+Chunk* Universe::getNearestChunkOnTeam(const b2Vec2& target, const Chunk* exception, std::list<int> teams)
+{
+	float prevDist = -1;
+	Chunk* closest = NULL;
+	for (auto it = m_goList.begin(); it != m_goList.end(); ++it)
+	{
+		GameObject* p = it->get();
+		Chunk* object = dynamic_cast<Chunk*>(p);
+		if (object != NULL && object != exception && listContains(teams, object->getBodyComponent().getTeam()))
+		{
+			b2Vec2 dif = target - object->getBodyPtr()->GetPosition();
+			float dist = dif.Length();
+			if (dist < prevDist || prevDist == -1)
+			{
+				prevDist = dist;
+				closest = object;
+			}
+		}
+	}
+	return closest;
+}
+bool Universe::listContains(std::list<int> intList, int value)
+{
+	for (std::list<int>::iterator it = intList.begin(); it != intList.end(); ++it)
+	{
+		if ((*it) == value)
+			return true;
+	}
+	return false;
 }
 /// <summary>
 /// Gives each team the money the get per step (from cap points)

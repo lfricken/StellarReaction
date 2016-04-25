@@ -2,6 +2,7 @@
 
 #include "BasePlayerTraits.hpp"
 #include "NonCopyable.hpp"
+#include "Timer.hpp"
 
 class Chunk;
 enum class Directive;
@@ -13,11 +14,20 @@ public:
 	~ShipAI();
 
 	void updateDecision();
-	void flyTowardsTarget();
-	void fireAtTarget();
+	
 
 protected:
 private:
+	bool isStuck(b2Vec2 curPos);
+	Timer m_stuckTimer;
+	Timer m_unstuckTimer;
+	b2Vec2 oldPos;
+
+	Timer m_targetTimer;
+	void flyTowardsTarget();
+	void fireAtTarget();
+
+
 	int m_currentBehavior;
 	Chunk* m_pCurrentTarget;
 	Map<Directive, bool> m_directives;
