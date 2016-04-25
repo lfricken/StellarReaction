@@ -10,19 +10,7 @@
             "repeats": false,
             "tileList": [
 				{
-                    "x": 0,
-                    "y": 0,
-                    "t": 1
-                }
-            ]
-        },
-        {
-            "comment": "Start off as off.",
-            "state": "Off",
-            "repeats": false,
-            "tileList": [
-				{
-                    "x": 0,
+                    "x": 1,
                     "y": 0,
                     "t": 1
                 }
@@ -35,6 +23,18 @@
             "tileList": [
                 {
                     "x": 1,
+                    "y": 0,
+                    "t": 1
+                }
+            ]
+        },
+        {
+            "comment": "Start off as off.",
+            "state": "Off",
+            "repeats": false,
+            "tileList": [
+				{
+                    "x": 0,
                     "y": 0,
                     "t": 1
                 }

@@ -286,13 +286,6 @@ void Player::updateView()
 			m_boundsDanger->getAnimator().setAnimation("Default", 2.f);
 
 
-		// Group Icons
-		for(auto it = m_groupIcon.begin(); it != m_groupIcon.end(); ++it)
-		{
-			(*it)->getAnimator().setAnimation("On", 2.f);
-		}
-
-
 		//Score and Money
 		std::vector<sptr<GameObject> > goList = game.getUniverse().getgoList();
 
@@ -456,13 +449,21 @@ bool Player::hasFocus() const
 
 bool Player::toggleControlGroup(int group, bool on)
 {
+	// HUD Icons.
+	int index = group - 1;
+	if(index < m_groupIcon.size())
+	{
+		if(on)
+			m_groupIcon[index]->getAnimator().setAnimation("On", 1);
+		else
+			m_groupIcon[index]->getAnimator().setAnimation("Off", 1);
+	}
+
 	return m_weaponGroups[group] = on;
-	return m_weaponGroups[group];
 }
 bool Player::toggleControlGroup(int group)
 {
-	m_weaponGroups[group] = !m_weaponGroups[group];
-	return m_weaponGroups[group];
+	return toggleControlGroup(group, !m_weaponGroups[group]);
 }
 void Player::input(std::string rCommand, sf::Packet rData)
 {
