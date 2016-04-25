@@ -45,7 +45,7 @@ void ShipAI::updateDecision()
 	//update directives based on current behavior
 	if (m_currentBehavior == 0) // we should attack enemy players
 	{
-		if (m_pCurrentTarget == NULL || m_targetTimer.isTimeUp()) {
+		if (m_targetTimer.isTimeUp()) {
 			m_targetTimer.restartCountDown();
 			int teams[] = {1,2,3,4};
 			std::list<int> teamList(teams, teams + 4);

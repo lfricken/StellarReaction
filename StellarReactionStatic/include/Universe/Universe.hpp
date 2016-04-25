@@ -64,9 +64,8 @@ public:
 	void togglePause();
 	bool isPaused();
 	void toggleDebugDraw();
-	GameObject* getNearestChunkExcept(const b2Vec2& target, const b2Body* exception);
+	Chunk* getNearestChunkExcept(const b2Vec2& target, const Chunk* exception);
 	BodyComponent* getNearestBody(const b2Vec2& target);
-	Chunk* getNearestChunk(const b2Vec2& target, const Chunk* me);
 	Chunk* getNearestChunkOnTeam(const b2Vec2& target, const Chunk* exception, std::list<int> teams);
 	bool listContains(std::list<int> teams, int value);
 
@@ -78,8 +77,8 @@ public:
 
 	std::vector<sptr<GameObject> > getgoList();
 
-	bool isClear(b2Vec2 position, float radius, const b2Body* exception);
-	b2Vec2 getAvailableSpawn(int team, float radius, const b2Body* exception);
+	bool isClear(b2Vec2 position, float radius, const Chunk* exception);
+	b2Vec2 getAvailableSpawn(int team, float radius, const Chunk* exception);
 
 
 

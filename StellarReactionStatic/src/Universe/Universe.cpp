@@ -369,7 +369,8 @@ void Universe::postPhysUpdate()
 		m_spProjMan->postPhysUpdate();
 	}
 }
-GameObject* Universe::getNearestChunkExcept(const b2Vec2& target, const b2Body* exception)
+
+Chunk* Universe::getNearestChunkExcept(const b2Vec2& target, const Chunk* exception)
 {
 	float prevDist = -1;
 	Chunk* closest = NULL;
@@ -377,7 +378,7 @@ GameObject* Universe::getNearestChunkExcept(const b2Vec2& target, const b2Body* 
 	{
 		GameObject* p = it->get();
 		Chunk* object = dynamic_cast<Chunk*>(p);
-		if(object != NULL && object->getBodyPtr() != exception)
+		if(object != NULL && object != exception)
 		{
 			b2Vec2 dif = target - object->getBodyPtr()->GetPosition();
 			float dist = dif.Length();
@@ -390,31 +391,16 @@ GameObject* Universe::getNearestChunkExcept(const b2Vec2& target, const b2Body* 
 	}
 	return closest;
 }
-Chunk* Universe::getNearestChunk(const b2Vec2& target, const Chunk* me)
-{
-	float prevDist = -1;
-	Chunk* closest = NULL;
-	for(auto it = m_goList.begin(); it != m_goList.end(); ++it)
-	{
-		GameObject* p = it->get();
-		Chunk* object = dynamic_cast<Chunk*>(p);
-		if(object != NULL && object != me)
-		{
-			b2Vec2 dif = target - object->getBodyPtr()->GetPosition();
-			float dist = dif.Length();
-			if(dist < prevDist || prevDist == -1)
-			{
-				prevDist = dist;
-				closest = object;
-			}
-		}
-	}
-	return closest;
-}
+
 BodyComponent* Universe::getNearestBody(const b2Vec2& target)
 {
 	return &(dynamic_cast<Chunk*>(getNearestChunkExcept(target, NULL))->getBodyComponent());
 }
+
+/// <summary>
+/// finds nearest chunk on a team that is within the team list
+/// if the team list is empty it will consider all teams
+/// </summary>
 Chunk* Universe::getNearestChunkOnTeam(const b2Vec2& target, const Chunk* exception, std::list<int> teams)
 {
 	float prevDist = -1;
@@ -436,8 +422,14 @@ Chunk* Universe::getNearestChunkOnTeam(const b2Vec2& target, const Chunk* except
 	}
 	return closest;
 }
+/// <summary>
+/// returns true if list contains value or list is empty
+/// </summary>
 bool Universe::listContains(std::list<int> intList, int value)
 {
+	if (intList.empty())
+		return true;
+
 	for (std::list<int>::iterator it = intList.begin(); it != intList.end(); ++it)
 	{
 		if ((*it) == value)
@@ -568,9 +560,9 @@ std::vector<sptr<GameObject> > Universe::getgoList()
 {
 	return m_goList;
 }
-bool Universe::isClear(b2Vec2 position, float radius, const b2Body* exception)
+bool Universe::isClear(b2Vec2 position, float radius, const Chunk* exception)
 {
-	Chunk* nearest = dynamic_cast<Chunk*>(getNearestChunkExcept(position, exception));
+	Chunk* nearest = getNearestChunkExcept(position, exception);
 	if(nearest != NULL)
 	{
 		float nearestRad = nearest->getRadius();
@@ -582,7 +574,7 @@ bool Universe::isClear(b2Vec2 position, float radius, const b2Body* exception)
 	}
 	return true;
 }
-b2Vec2 Universe::getAvailableSpawn(int team, float radius, const b2Body* exception)
+b2Vec2 Universe::getAvailableSpawn(int team, float radius, const Chunk* exception)
 {
 	for (auto it = m_spawnPoints[team].begin(); it != m_spawnPoints[team].end(); it++)
 	{
