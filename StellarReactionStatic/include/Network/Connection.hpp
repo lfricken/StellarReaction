@@ -8,29 +8,39 @@
 #include "NonCopyable.hpp"
 
 
-/// <summary>
-/// A connection to another player, 1 is used by client, 1 for each client used by server
-/// </summary>
+/// A connection to another player.
+/// 1 is used by the Client to stay connected to the server.
+/// 1 for each client used by the Server.
 class Connection : public BasePlayerTraits, NonCopyable
 {
 public:
 	Connection(sf::UdpSocket* pSocket, sptr<sf::TcpSocket> spTcpSocket, bool valid);
 	~Connection();
 
-	void sendUdp(Protocol proto, const sf::Packet& rData);//send data via a udp packet
-	void sendTcp(Protocol proto, const sf::Packet& rData);//send data via a tcp packet
-	Protocol recievePacket(sf::Packet& rData);//this connection sent us a packet, return what we should do with it
+	/// Send data via a udp packet and a given Protocol.
+	void sendUdp(Protocol proto, const sf::Packet& rData);
+	/// Send data via a tcp packet and a given Protocol.
+	void sendTcp(Protocol proto, const sf::Packet& rData);
+	/// This connection sent us a packet, return what we should do with it.
+	Protocol recievePacket(sf::Packet& rData);
 
+	/// Return the SFML TcpSocket.
 	sf::TcpSocket& getTcpSocket();
-	sf::Socket::Status getStatus() const;//status of tcp socket
-	bool validated() const;//was this connection established?
-	void setValid();//make our conection valid
+	/// Return the status of our tcp socket.
+	sf::Socket::Status getStatus() const;
+	/// Was this connection established?
+	bool validated() const;
+	/// Set this connection to be established.
+	void setValid();
 
-	void syncPlayerTraits();//keeps clients updated to their money status (possibly other things)
-	void recievePlayerTraits(sf::Packet mes);//keeps clients updated to their money status (possibly other things)
+	/// As a Server, send player info, such as Money.
+	void syncPlayerTraits();
+	/// As a Client, recieve my player info, such as Money.
+	void recievePlayerTraits(sf::Packet mes);
 
-	void sendSpecialIo(const Message& mes);//called when an IOComponent message is sent across the network
-	void recieveSpecialIo(sf::Packet& mes);//called when an IOComponent message is sent across the network
+	/// Called when an IOComponent message is sent across the network.
+	void sendSpecialIo(const Message& mes);
+	void recieveSpecialIo(sf::Packet& mes);
 
 	/// <summary>
 	/// this is a client connection on the server
