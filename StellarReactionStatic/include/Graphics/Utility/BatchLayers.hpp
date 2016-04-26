@@ -4,6 +4,7 @@
 #include "GraphicsLayer.hpp"
 #include "NonCopyable.hpp"
 
+/// Stores a Batch for each layer.
 /// Allows more than one layer of drawing.
 /// So all the Textures of one layer get drawn
 /// then the next layer, etc.
