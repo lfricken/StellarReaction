@@ -1,5 +1,4 @@
-#ifndef IOCOMPONENT_HPP
-#define IOCOMPONENT_HPP
+#pragma once
 
 #include "EventTypes.hpp"
 #include "stdafx.hpp"
@@ -9,6 +8,7 @@
 #include "NonCopyable.hpp"
 
 
+/// Used to initialize an IOComponent.
 struct IOComponentData
 {
 	IOComponentData(IOManager* manager) :
@@ -24,21 +24,12 @@ struct IOComponentData
 	virtual void loadJson(const Json::Value& root);
 };
 
-/*
-* IOComponent Class:
-* A class can be given this to allow it to send messages to other IOComponents on other objects
-*/
+/// A class can be given this to allow it to send messages to other IOComponents on other objects.
 class IOComponent : NonCopyable
 {
 public:
 
-	
-	/// <summary>
 	/// Takes a function to call when an message has been sent to us, such as damage
-	/// </summary>
-	/// <param name="rData">The r data.</param>
-	/// <param name="func">The function.</param>
-	/// <param name="classPtr">The class PTR.</param>
 	template <typename T>
 	IOComponent(const IOComponentData& rData, void (T::*func)(std::string, sf::Packet), T* const classPtr) : m_pManager(rData.pMyManager), m_name(rData.name), m_eventer(*m_pManager)
 	{
@@ -66,4 +57,3 @@ private:
 	std::function<void(std::string, sf::Packet)> m_cbFunction;//the function we call when we get a receive message
 };
 
-#endif // IOCOMPONENT_HPP

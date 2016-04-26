@@ -1,17 +1,13 @@
-#ifndef MESSAGE_HPP
-#define MESSAGE_HPP
+#pragma once
 
 #include "stdafx.hpp"
 
-/*
-* Message Class:
-* Message which is sent to IOComponents
-* Contains a target, either a name or an IOComponent Position,
-* a command, which the object uses to determine what the intended action was
-* a data packet for any additional data to be sent with the action
-* a delay, so the message may not be recieved immediately
-* a boolean to determine whether the data packet should contain Run Time Information (use false unless you know what you are doing)
-*/
+/// Message which is sent to IOComponents
+/// Contains a target, either a name or an IOComponent Position,
+/// a command, which the target object uses to determine what the intended action was
+/// a data packet for any additional data to be sent with the action
+/// a delay, so the message may not be recieved immediately
+/// a boolean to determine whether the data packet should contain Run Time Information (use false unless you know what you are doing)
 class Message
 {
 public:
@@ -26,6 +22,8 @@ public:
 	/// Attempt to replace the target position's with packet's target position.
 	void tryReplaceTargetPos(const sf::Packet& rData);
 	/// Attempt to replace the data with this packet.
+	/// If this message has the replaceData flag set to true,
+	/// it will accept the data.
 	void tryReplaceData(const sf::Packet& rData);
 	/// Change delay.
 	void changeDelay(float change);
@@ -48,7 +46,8 @@ public:
 	/// Returns the delay.
 	float getDelay() const;
 
-	bool m_replaceTargetPos;//true if we should replace our data with the data sent by the calling object
+	/// True if we should replace our data with the data sent by the calling object.
+	bool m_replaceTargetPos;
 
 protected:
 private:
@@ -62,4 +61,3 @@ private:
 	bool m_replaceData;//true if we should replace our data with the data sent by the calling object
 };
 
-#endif // MESSAGE_HPP

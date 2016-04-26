@@ -1,25 +1,23 @@
-#ifndef EVENTER_HPP
-#define EVENTER_HPP
+#pragma once
 
 #include "Courier.hpp"
 
 class IOManager;
 
-/*
-* Eventer Class:
-* Stores Conditions and messages to send when those events occur.
-*/
+/// Stores Conditions and messages to send when those events occur.
 class Eventer
 {
 public:
-	Eventer(IOManager& rManager);//when we create an Eventer, we need need to tell it who to send the messages to
+	/// Eventer takes a reference to an IOManager as a constructor
+	/// because the eventer needs to know where to send message that are triggered.
+	Eventer(IOManager& rManager);
 	virtual ~Eventer();
-	/// Stores the Courier so we can call events on it later.
+	/// Stores the Courier so we can check events on it later.
 	void add(const Courier& rCourier);
 	/// Stores multiple Couriers so we can call events on them later.
 	void add(const std::vector<Courier>& rCourierList);
-	/// Called when an event happens, and we check to see if any of our conditions are met;
-	/// if they are met, we send the corresponding message.
+	/// Called when an event happens, and we check to see if any of our conditions are met.
+	/// If they are met, we send the corresponding message.
 	void event(EventType type, int value, const sf::Packet& rData);
 
 protected:
@@ -28,4 +26,3 @@ private:
 	IOManager& m_rIOManager;//reference to our manager
 };
 
-#endif // EVENTER_HPP

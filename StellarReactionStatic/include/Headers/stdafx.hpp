@@ -1,5 +1,4 @@
-#ifndef STDAFX_H
-#define STDAFX_H
+#pragma once
 
 #include <iostream>
 #include <stdio.h>
@@ -59,7 +58,6 @@ using Vec2 = b2Vec2;
 using std::vector;
 using std::string;
 
-#endif // STFAFX_H
 
 
 

@@ -1,25 +1,31 @@
-#ifndef CONDITION_HPP
-#define CONDITION_HPP
+#pragma once
 
 #include "EventTypes.hpp"
 
-/*
-* Condition Class:
-* Determines whether a value should trigger a message to be sent.
-*/
+
+/// Used to determine whether a value should trigger a message to be sent.
+/// It is given a comparison operator from the following list, and uses it
+/// to evaluate an int when requested. It also can be told to or not to repeat.
+/// It evaluates as:
+/// checkValue operator m_value
+/// '>' for greater than
+/// '<' for less than
+/// '=' equal
+/// '!' not equal
+/// 'd' (delta) always trigger
 class Condition
 {
 public:
 	Condition();
 	Condition(EventType type, int value, char comparison, bool repeatable);
 	~Condition();
-	/// Resets the Condition object to have the given type, value, comparison, and repeatability.
+	/// Resets the Condition object to have the given EventType, value, comparison operator, and whether it can repeat.
 	void reset(EventType type, int value, char comparison, bool repeatable);
-	/// Returns true if value satisfies the condition.
+	/// Returns true if the value satisfies the condition.
 	bool evaluate(int value) const;
-	/// Return the event type.
+	/// Return the type of event as EventType.
 	EventType getEventType() const;
-	/// Return the comparison of values does this condition do?
+	/// Return the comparison operator as a char.
 	char getComparison() const;
 	/// Can this condition be triggered more than once?
 	bool isRepeatable() const;
@@ -32,4 +38,4 @@ private:
 	bool m_isRepeatable;//if this condition sends a message, should we allow it to happen again?
 };
 
-#endif // CONDITION_HPP
+
