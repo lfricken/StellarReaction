@@ -7,23 +7,26 @@ class AnimAlloc;
 struct AnimSet;
 struct Animation;
 
-/// <summary>
-/// Controls animation of Graphics Components
-/// </summary>
+/// Controls Animation of GraphicsComponents
 class Animator
 {
 public:
 	Animator(const std::string& setAnimationSheet);
 	virtual ~Animator();
 
-	void setAnimation(const std::string& setAnim, float duration);//name of animation, how long should that last? (lower numbers mean the sheet completes faster)
-	sf::Vector2i getTile();//what tile should we be on? 0,0, 1,0 ect
+	/// Set name of animation and how long it should last in seconds.
+	void setAnimation(const std::string& setAnim, float duration);
+	/// Returns which tile should we be on right now.
+	sf::Vector2i getTile();
+	/// How large the texture tiles are.
 	const sf::Vector2f& getTileSize() const;
 
-	const AnimSet* m_pSet;
+
 
 protected:
 private:
+	/// The pointer to the AnimSet we use.
+	const AnimSet* m_pSet;
 	/// To determine how much time has gone by.
 	mutable Timer m_timer;
 	/// Our current Animation.
