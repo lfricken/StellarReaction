@@ -22,7 +22,7 @@
 #include "ProjectileMan.hpp"
 #include "Convert.hpp"
 #include "DecorationEngine.hpp"
-#include <algorithm>
+#include "CaptureArea.hpp"
 
 using namespace std;
 
@@ -252,6 +252,7 @@ Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input,
 }
 Universe::~Universe()
 {
+	m_capturePoints.clear();
 	//cout << "\nUniverse Destroying...";
 	game.getLocalPlayer().universeDestroyed();
 	//cout << "\nEnd.";
@@ -422,6 +423,57 @@ Chunk* Universe::getNearestChunkOnTeam(const b2Vec2& target, const Chunk* except
 	}
 	return closest;
 }
+
+/// <summary>
+/// returns chunk pointer to nearest Capture Point that isn't owned by the specified team
+/// </summary>
+Chunk* Universe::getNearestStation(const b2Vec2& target, int team)
+{
+	float prevDist = -1;
+	Chunk* closest = NULL;
+	if (m_capturePoints.size() == 0) {
+		for (auto it = m_goList.begin(); it != m_goList.end(); ++it)
+		{
+			GameObject* p = it->get();
+			Chunk* object = dynamic_cast<Chunk*>(p);
+			if (object != NULL && object->getBodyComponent().getTeam() == 12)
+			{
+				m_capturePoints.push_back(object);
+				CaptureArea* ca = dynamic_cast<CaptureArea*>((&*object->getModuleList()[0]));
+				if (ca->getCurrentTeam() != team)
+				{
+					b2Vec2 dif = target - object->getBodyPtr()->GetPosition();
+					float dist = dif.Length();
+					if (dist < prevDist || prevDist == -1)
+					{
+						prevDist = dist;
+						closest = object;
+					}
+				}
+			}
+		}
+	}
+	else 
+	{
+		for (auto it = m_capturePoints.begin(); it != m_capturePoints.end(); ++it)
+		{
+			Chunk* object = (*it);
+			CaptureArea* ca = dynamic_cast<CaptureArea*>((&*object->getModuleList()[0]));
+			if (ca->getCurrentTeam() != team)
+			{
+				b2Vec2 dif = target - object->getBodyPtr()->GetPosition();
+				float dist = dif.Length();
+				if (dist < prevDist || prevDist == -1)
+				{
+					prevDist = dist;
+					closest = object;
+				}
+			}
+		}
+	}
+	return closest;
+}
+
 /// <summary>
 /// returns true if list contains value or list is empty
 /// </summary>

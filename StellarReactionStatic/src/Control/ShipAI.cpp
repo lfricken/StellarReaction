@@ -10,7 +10,7 @@ using namespace std;
 
 ShipAI::ShipAI(int team, int controller_index) : BasePlayerTraits("ai")
 {
-	m_currentBehavior = 0;
+	m_currentBehavior = 2;
 	m_pCurrentTarget = NULL;
 	m_targetTimer.setCountDown(5.f);
 	m_stuckTimer.setCountDown(2.f);
@@ -45,7 +45,7 @@ void ShipAI::updateDecision()
 	//update directives based on current behavior
 	if (m_currentBehavior == 0) // we should attack enemy players
 	{
-		if (m_targetTimer.isTimeUp()) {
+		if (m_targetTimer.isTimeUp() || m_pCurrentTarget == NULL) {
 			m_targetTimer.restartCountDown();
 			int teams[] = {1,2,3,4};
 			std::list<int> teamList(teams, teams + 4);
@@ -70,6 +70,18 @@ void ShipAI::updateDecision()
 		m_directives[Directive::Down] = true;
 		if (m_unstuckTimer.isTimeUp()){
 			m_currentBehavior = 0;
+		}
+	}
+	else if (m_currentBehavior == 2) //find station to capture
+	{
+		if (m_pCurrentTarget == NULL) {
+			m_pCurrentTarget = game.getUniverse().getNearestStation(pBody->GetPosition(), getTeam());
+		}
+
+		if (m_pCurrentTarget != NULL)
+		{
+			flyTowardsTarget();
+			m_directives[Directive::Up] = true;
 		}
 	}
 
@@ -97,7 +109,7 @@ void ShipAI::flyTowardsTarget()
 
 	float diffAngle = leon::normRad(targetAngle - ourAngle);
 
-	if (dist > 15)
+	if (dist > 15 || m_currentBehavior == 2)
 	{
 		//angle toward target
 		if (diffAngle < pi)

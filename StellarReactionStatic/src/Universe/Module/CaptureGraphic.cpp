@@ -44,8 +44,11 @@ CaptureGraphic::~CaptureGraphic()
 }
 void CaptureGraphic::prePhysUpdate()
 {
-	if (m_cap == NULL)
+	if (m_cap == NULL) 
+	{
 		m_cap = dynamic_cast<CaptureArea*>((&*m_parentChunk->getModuleList()[0]));
+		m_parentChunk->getBodyComponent().setTeam(12);
+	}
 }
 void CaptureGraphic::postPhysUpdate()
 {

@@ -63,6 +63,9 @@ private:
 	float m_oldAngle;//used for sleep
 
 	int m_team;
+	// 1-4 is blue, green, yellow, pink teams
+	// 12 is capture station
+	//-784 everything else
 };
 
 #endif // BODYCOMPONENT_HPP

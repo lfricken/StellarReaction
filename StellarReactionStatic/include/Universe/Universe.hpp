@@ -64,6 +64,7 @@ public:
 	void togglePause();
 	bool isPaused();
 	void toggleDebugDraw();
+	Chunk* getNearestStation(const b2Vec2& target, int team);
 	Chunk* getNearestChunkExcept(const b2Vec2& target, const Chunk* exception);
 	BodyComponent* getNearestBody(const b2Vec2& target);
 	Chunk* getNearestChunkOnTeam(const b2Vec2& target, const Chunk* exception, std::list<int> teams);
@@ -129,6 +130,7 @@ private:
 	/**Ships, AI**/
 	std::vector<sptr<GameObject> > m_goList;//list of game objects that WE need to keep track of
 	std::vector<sptr<ShipAI> > m_shipAI;
+	std::vector<Chunk*> m_capturePoints;
 
 	/**Hazards**/
 	std::vector<sptr<HazardField> > hazardFields;
