@@ -1,5 +1,4 @@
-#ifndef ANIMATOR_HPP
-#define ANIMATOR_HPP
+#pragma once
 
 #include "stdafx.hpp"
 #include "Timer.hpp"
@@ -25,19 +24,18 @@ public:
 
 protected:
 private:
+	/// To determine how much time has gone by.
 	mutable Timer m_timer;
-
+	/// Our current Animation.
 	const Animation* m_pAnim;
 
-	float m_realTime;
+	/// Current tile index in our Animation.
+	int m_currentTileIndex;
+	/// How long the animation that we are doing should last.
+	float m_currentDuration;
+	/// When we started the most recent animation.
+	float m_startTime;
 
-	std::string m_name;//the current animation state we are in
-	float m_currentDuration;//how long the animation that we are executing should last
-	float m_startTime;//when we started the most recent animation
-
-	sf::Vector2f m_tileSize;
-
+	/// Animation to default to.
 	static const std::string m_errorTiles;
 };
-
-#endif // ANIMATOR_HPP

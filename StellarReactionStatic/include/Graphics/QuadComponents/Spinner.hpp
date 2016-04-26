@@ -1,8 +1,8 @@
-#ifndef SPINNER_HPP
-#define SPINNER_HPP
+#pragma once
 
 #include "QuadComponent.hpp"
 
+/// Used to initialize a Spinner.
 struct SpinnerData : public QuadComponentData
 {
 	SpinnerData() :
@@ -19,26 +19,29 @@ struct SpinnerData : public QuadComponentData
 	virtual void loadJson(const Json::Value& root);
 };
 
-/// <summary>
-/// Used for things that should rotate steadily
-/// </summary>
+
+/// Used for graphics objects that should rotate steadily.
 class Spinner : public QuadComponent
 {
 public:
 	Spinner(const SpinnerData& rData);
 	virtual ~Spinner();
 
-	void toggleOn(bool on);//send true to make it spin, defaults on
-	void setRotationRate(float degCCW);//degrees CCW per second
+	/// Set whether the Spinner is spinning or not.
+	void toggleOn(bool on);
+	/// Sets the rotation rate for this Spinner in degrees counterclockwise per second.
+	void setRotationRate(float degCCW);
+	/// Called to update how this object is displayed.
 	virtual void postUpdate();
 
 protected:
 private:
 
+	/// Is this Spinner spinning?
 	bool m_on;
-	float m_oldRate;
-	float m_rate;// radiansCCW/s
-	Timer m_timer;//tells us how long since last update
+	/// Radians CCW per second.
+	float m_rate;
+	/// Used to determine how much time has passed.
+	Timer m_timer;
 };
 
-#endif // SPINNER_HPP
