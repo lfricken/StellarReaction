@@ -1,0 +1,76 @@
+{
+    "texTileSize": [
+        800,
+        3000
+    ],
+    "stateList": [
+        {
+            "state": "Default",
+            "repeats": true,
+            "tileList": [
+				{
+                    "x": 8,
+                    "y": 1,
+                    "t": 1.0
+                }
+            ]
+        },
+        {
+            "state": "Activated",
+            "repeats": true,
+            "tileList": [
+                {
+                    "x": 0,
+                    "y": 0,
+                    "t": 1
+                },
+                {
+                    "x": 1,
+                    "y": 0,
+                    "t": 1
+                },
+                {
+                    "x": 2,
+                    "y": 0,
+                    "t": 1
+                },
+                {
+                    "x": 3,
+                    "y": 0,
+                    "t": 1
+                },
+                {
+                    "x": 4,
+                    "y": 0,
+                    "t": 1
+                },
+                {
+                    "x": 5,
+                    "y": 0,
+                    "t": 1
+                },
+                {
+                    "x": 6,
+                    "y": 0,
+                    "t": 1
+                },
+                {
+                    "x": 7,
+                    "y": 0,
+                    "t": 1
+                }
+            ]
+        },
+        {
+            "state": "Error",
+            "repeats": false,
+            "tileList": [
+                {
+                    "x": 3,
+                    "y": 0,
+                    "t": 1
+                }
+            ]
+        }
+    ]
+}
