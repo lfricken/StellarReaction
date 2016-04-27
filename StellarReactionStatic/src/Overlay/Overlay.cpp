@@ -71,6 +71,8 @@ void Overlay::loadMenus()
 	resumeButtonData.size = sf::Vector2f(150, 50);
 	resumeButtonData.buttonText = "Resume";
 	resumeButtonData.screenCoords = sf::Vector2f(20, 300);
+	resumeButtonData.startHidden = true;
+	resumeButtonData.ioComp.name = "resume_button";
 
 	Courier resumeMessage1;
 	resumeMessage1.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
@@ -661,15 +663,19 @@ void Overlay::toggleMenu(bool show)//display menu, assume gui control, send paus
 	sf::Packet hideHUD;
 	hideHUD << (show);
 
+	Universe* x = &game.getUniverse();
+
 	Message mes1("main_menu", "setHidden", hideMenu, 0, false);
 	Message mes2("local_player", "setGuiMode", guiMode, 0, false);
 	Message mes3("universe", "setPause", pause, 0, false);
 	Message mes4("hud_panel", "setHidden", hideHUD, 0, false);
+	Message mes5("resume_button", "setHidden", hideMenu, 0, false);
 
 	game.getCoreIO().recieve(mes1);
 	game.getCoreIO().recieve(mes2);
 	game.getCoreIO().recieve(mes3);
 	game.getCoreIO().recieve(mes4);
+	game.getCoreIO().recieve(mes5);
 }
 void Overlay::toggleScoreboard(bool show)
 {
