@@ -406,7 +406,7 @@ void Player::loadOverlay(const std::string& rOverlay)
 	for(int group = 0; group < 4; ++group)
 	{
 		// Create one for each group.
-		QuadComponentData groupData = createUI(sf::Vector2f(20, 20), "overlay/control_group");
+		QuadComponentData groupData = createUI(sf::Vector2f(100, 50), "overlay/control_group");
 
 		// Generate a new sptr to grouping icon.
 		sptr<QuadComponent> groupIcon;
