@@ -503,6 +503,9 @@ void Overlay::loadScoreboard(const GameLaunchData& data)
 	mainMenuData.size = sf::Vector2f(scorebordPanelSize.x, scorebordPanelSize.y);
 	leon::Panel* pMain_menu = new leon::Panel(game.getOverlay().getGui(), mainMenuData);
 
+	//all rows in scoreboard are clickable, but currently do nothing. This can be used in the future to do
+	//something useful upon clicking a player's name, such as showing more detailed information about them
+
 	//section for team 1, the box will be outlined with blue
 	leon::NetworkedSelectionData select;
 	select.size = sf::Vector2f(1000, 170);
@@ -518,13 +521,7 @@ void Overlay::loadScoreboard(const GameLaunchData& data)
 	data1.labelData.push_back(label1);
 	
 	Courier buttonClick;
-	buttonClick.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
-	buttonClick.message.reset("networkboss", "sendTcpToHost", voidPacket, 0, false);
 	data1.buttData.ioComp.courierList.push_back(buttonClick);
-	data1.labelData.back().textSize = 16;
-
-
-	select.command = "setShip";
 
 	//section for team 2, the box will be outlined with green
 	leon::NetworkedSelectionData select2;
@@ -541,13 +538,7 @@ void Overlay::loadScoreboard(const GameLaunchData& data)
 	data2.labelData.push_back(label2);
 
 	Courier buttonClick2;
-	buttonClick2.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
-	buttonClick2.message.reset("networkboss", "sendTcpToHost", voidPacket, 0, false);
 	data2.buttData.ioComp.courierList.push_back(buttonClick2);
-	data2.labelData.back().textSize = 16;
-
-
-	select2.command = "setShip";
 
 	//section for team 3, the box will be outlined with yellow
 	leon::NetworkedSelectionData select3;
@@ -564,13 +555,7 @@ void Overlay::loadScoreboard(const GameLaunchData& data)
 	data3.labelData.push_back(label3);
 
 	Courier buttonClick3;
-	buttonClick3.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
-	buttonClick3.message.reset("networkboss", "sendTcpToHost", voidPacket, 0, false);
 	data3.buttData.ioComp.courierList.push_back(buttonClick3);
-	data3.labelData.back().textSize = 16;
-
-
-	select3.command = "setShip";
 
 	//section for team 4, the box will be outlined with pink
 	leon::NetworkedSelectionData select4;
@@ -587,13 +572,7 @@ void Overlay::loadScoreboard(const GameLaunchData& data)
 	data4.labelData.push_back(label4);
 
 	Courier buttonClick4;
-	buttonClick4.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
-	buttonClick4.message.reset("networkboss", "sendTcpToHost", voidPacket, 0, false);
 	data4.buttData.ioComp.courierList.push_back(buttonClick4);
-	data4.labelData.back().textSize = 16;
-
-
-	select4.command = "setShip";
 
 	for (auto it = data.playerList.begin(); it != data.playerList.end(); ++it)
 	{
