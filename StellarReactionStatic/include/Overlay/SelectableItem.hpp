@@ -5,6 +5,7 @@
 
 namespace leon
 {
+	/// Label to display on a SelectableItem.
 	struct LabelData
 	{
 		LabelData() :
@@ -25,7 +26,7 @@ namespace leon
 		std::string text;
 	};
 
-
+	/// Used to intialize SelectableItem
 	struct SelectableItemData
 	{
 		SelectableItemData() :
@@ -43,7 +44,7 @@ namespace leon
 		std::string id;
 	};
 
-
+	/// An object that goes in a NetworkedSelection list.
 	class SelectableItem : NonCopyable
 	{
 	public:
@@ -51,9 +52,13 @@ namespace leon
 		SelectableItem(tgui::Container& container, const SelectableItemData& rData);
 		virtual ~SelectableItem();
 
+		/// The data held by this SelectableItem.
 		std::string m_id;
+		/// The visual part of this.
 		tgui::Picture::Ptr m_pic;
+		/// A textual TGUI::Label.
 		std::vector<sptr<tgui::Label::Ptr> > m_labels;
+		/// The Button which handles clicking.
 		sptr<Button> m_spButt;
 
 	protected:

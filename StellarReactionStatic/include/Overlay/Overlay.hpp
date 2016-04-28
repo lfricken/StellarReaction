@@ -9,21 +9,30 @@ namespace leon
 {
 	class Panel;
 
+	/// Holds a list of all Panel, which then contain everything with the GUI.
 	class Overlay : NonCopyable
 	{
 	public:
 		Overlay(const IOComponentData& rData);
 		virtual ~Overlay();
 
+		/// Return a particular Panel based on its name.
 		leon::Panel& getPanel(const std::string& rPanelName);
+		/// Add a Panel to the list.
 		void addPanel(sptr<leon::Panel> spPanel);
 
+		/// Handle an SFML Window or Keyboard event.
 		void handleEvent(sf::Event& rEvent);
+		/// Load the menus.
 		void loadMenus();
+		/// Load scoreboard.
 		void loadScoreboard(const GameLaunchData& data);
+		/// Return TGUI Gui.
 		tgui::Gui& getGui();
 
-		void toggleMenu(bool show);//display menu, assume gui control, send pause game command
+		/// Turn the Main Menu on or off. Handles input switching, pausing game, visuals switch.
+		void toggleMenu(bool show);
+		/// Toggle whether the scoreboard should be visible or not.
 		void toggleScoreboard(bool show);
 
 	protected:

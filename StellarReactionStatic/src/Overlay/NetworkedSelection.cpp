@@ -40,14 +40,6 @@ void NetworkedSelection::f_initialize(NetworkedSelectionData& rData, void* conta
 		m_items.push_back(sptr<SelectableItem>(new SelectableItem(*getPanelPtr(), *it)));
 	}
 }
-void NetworkedSelection::addItem()
-{
-
-}
-void NetworkedSelection::addItems()
-{
-
-}
 void NetworkedSelection::f_GrabInfo(sf::Packet* rPacket)
 {
 

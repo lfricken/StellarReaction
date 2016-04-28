@@ -5,6 +5,7 @@
 
 namespace leon
 {
+	/// Initialize NetworkedSelection
 	struct NetworkedSelectionData : public PanelData
 	{
 		NetworkedSelectionData() :
@@ -20,15 +21,14 @@ namespace leon
 		std::vector<SelectableItemData> items;
 	};
 
+
+	/// Used to hold a list of Button that will cause a network event when pressed.
 	class NetworkedSelection : public Panel
 	{
 	public:
 		NetworkedSelection(tgui::Gui& gui, const NetworkedSelectionData& rData);
 		NetworkedSelection(tgui::Container& container, const NetworkedSelectionData& rData);
 		virtual ~NetworkedSelection();
-
-		void addItem();
-		void addItems();
 
 	protected:
 		void f_GrabInfo(sf::Packet* rPacket);
