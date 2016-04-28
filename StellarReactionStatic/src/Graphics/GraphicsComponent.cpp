@@ -1,6 +1,6 @@
 #include "GraphicsComponent.hpp"
 
-#include "convert.hpp"
+#include "Convert.hpp"
 #include "Universe.hpp"
 #include "GraphicsComponentUpdater.hpp"
 #include "JSON.hpp"
@@ -55,7 +55,7 @@ void GraphicsComponent::setPosition(const b2Vec2& rWorldCoords)
 }
 void GraphicsComponent::setRotation(float radiansCCW)
 {
-	m_rotation = radiansCCW;
+	m_rotation = leon::normRad(radiansCCW);
 }
 void GraphicsComponent::setOffset(const sf::Vector2f pixels)//sets the origin of us
 {
@@ -81,7 +81,7 @@ const b2Vec2& GraphicsComponent::getPosition() const
 }
 float GraphicsComponent::getRotation() const
 {
-	return m_rotation;
+	return leon::normRad(m_rotation);
 }
 const sf::Vector2f& GraphicsComponent::getOffset() const
 {
