@@ -527,9 +527,10 @@ void Overlay::loadScoreboard(const GameLaunchData& data)
 	select.ioComp.name = "team1_score";
 
 	leon::SelectableItemData data1;
-	data1.texName = "menu/blue_menu.png";
+	data1.texName = "menu/Blue_menu_button.png";
 	leon::LabelData label1;
 	data1.labelData.push_back(label1);
+	data1.labelData.back().textSize = 16;
 	
 	Courier buttonClick;
 	data1.buttData.ioComp.courierList.push_back(buttonClick);
@@ -544,9 +545,10 @@ void Overlay::loadScoreboard(const GameLaunchData& data)
 	select2.ioComp.name = "team2_score";
 
 	leon::SelectableItemData data2;
-	data2.texName = "menu/green_menu.png";
+	data2.texName = "menu/Green_menu_button.png";
 	leon::LabelData label2;
 	data2.labelData.push_back(label2);
+	data2.labelData.back().textSize = 16;
 
 	Courier buttonClick2;
 	data2.buttData.ioComp.courierList.push_back(buttonClick2);
@@ -561,9 +563,10 @@ void Overlay::loadScoreboard(const GameLaunchData& data)
 	select3.ioComp.name = "team3_score";
 
 	leon::SelectableItemData data3;
-	data3.texName = "menu/yellow_menu.png";
+	data3.texName = "menu/Orange_menu_button.png";
 	leon::LabelData label3;
 	data3.labelData.push_back(label3);
+	data3.labelData.back().textSize = 16;
 
 	Courier buttonClick3;
 	data3.buttData.ioComp.courierList.push_back(buttonClick3);
@@ -578,9 +581,10 @@ void Overlay::loadScoreboard(const GameLaunchData& data)
 	select4.ioComp.name = "team4_score";
 
 	leon::SelectableItemData data4;
-	data4.texName = "menu/pink_menu.png";
+	data4.texName = "menu/Purple_menu_button.png";
 	leon::LabelData label4;
 	data4.labelData.push_back(label4);
+	data4.labelData.back().textSize = 16;
 
 	Courier buttonClick4;
 	data4.buttData.ioComp.courierList.push_back(buttonClick4);
