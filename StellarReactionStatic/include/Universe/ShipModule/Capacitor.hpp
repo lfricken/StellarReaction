@@ -5,11 +5,7 @@
 
 struct CapacitorData;
 
-/*
-* Capacitor Class:
-* Extends ShipModule to implement capacitor game object.
-* Capacitor game objects provide energy to the ship.
-*/
+/// Stores energy for a Ship.
 class Capacitor : public ShipModule
 {
 public:
@@ -26,7 +22,7 @@ private:
 };
 
 
-
+/// Blueprint for Capacitor.
 struct CapacitorData : ShipModuleData
 {
 	CapacitorData() :

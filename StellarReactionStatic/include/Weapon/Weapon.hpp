@@ -13,11 +13,7 @@
 struct WeaponData;
 class FixtureComponent;
 
-/*
-* Weapon Class:
-* Base Class for all weapon types.
-* Derived weapons override only preshot and postshot.
-*/
+/// Basic object that provides easier interface for making complex types of weapons.
 class Weapon : NonCopyable
 {
 public:
@@ -75,7 +71,7 @@ private:
 	bool m_shotThisTick;//did we fire this tick?
 };
 
-
+/// Blueprint for Weapon.
 struct WeaponData : public BlueprintData
 {
 	WeaponData() :

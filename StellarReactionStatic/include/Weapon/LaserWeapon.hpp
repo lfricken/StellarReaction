@@ -7,12 +7,7 @@
 
 struct LaserWeaponData;
 
-/* 
-* LaserWeapon Class:
-* Extends Weapon to implement laser weapon game objects.
-* Laser Weapon game objects fire energy projectiles that do something.
-*/
-
+/// A weapon that fires bursts of lasers to do damage.
 class LaserWeapon : public Weapon
 {
 public:
@@ -34,8 +29,7 @@ private:
 
 };
 
-
-
+///Blueprint for LaserWeapon.
 struct LaserWeaponData : public WeaponData
 {
 	LaserWeaponData() :

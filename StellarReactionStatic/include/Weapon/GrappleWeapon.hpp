@@ -8,12 +8,7 @@
 
 struct GrappleWeaponData;
 
-/*
-* GrappleWeapon Class:
-* Extends LaserWeapon to implement grapple weapon
-* Grapple Weapon grabs onto another chunk and pulls the owner and the target towards each other.
-*/
-
+/// A weapon that pull other ships towards you.
 class GrappleWeapon : public LaserWeapon
 {
 public:
@@ -32,7 +27,7 @@ private:
 };
 
 
-
+///Blueprint for GrappleWeapon.
 struct GrappleWeaponData : public LaserWeaponData
 {
 	GrappleWeaponData() :

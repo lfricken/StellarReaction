@@ -3,11 +3,8 @@
 
 #include "stdafx.hpp"
 
-/*
-* UniversalContactListener Class:
-* Extends b2ContactListener to expose contact functions.
-*/
 
+/// Used to call callback functions on the FixtureComponent.
 class UniversalContactListener : public b2ContactListener
 {
 public:

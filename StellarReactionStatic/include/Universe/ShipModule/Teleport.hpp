@@ -4,11 +4,8 @@
 #include "ShipModule.hpp"
 
 struct TeleportData;
-/* 
-* Teleport Class:
-* Extends ShipModule to implement teleport game objects.
-* Teleport game objects allowed the ship to teleport a distance.
-*/
+
+/// Allows the ship to teleport some distance.
 class Teleport : public ShipModule
 {
 public:
@@ -27,7 +24,7 @@ private:
 	Timer m_teleTimer;
 };
 
-
+/// Teleport Blueprint.
 struct TeleportData : public ShipModuleData
 {
 	TeleportData() :

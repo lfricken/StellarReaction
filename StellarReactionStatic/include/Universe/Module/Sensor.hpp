@@ -4,11 +4,8 @@
 
 struct SensorData;
 
-/*
-* Sensor Class:
-* Extends Module to implement sensor game object.
-* Sensor game objects detect if other objects enter their sensing radius.
-*/
+
+///Detects other objects that overlap their region (usualy circular). Do not cause rebounding collisions.
 class Sensor : public Module
 {
 public:
@@ -35,7 +32,7 @@ private:
 };
 
 
-
+/// Initialize Sensor.
 struct SensorData : public ModuleData
 {
 	SensorData() :

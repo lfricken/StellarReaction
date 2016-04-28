@@ -4,11 +4,7 @@
 #include "stdafx.hpp"
 #include "NonCopyable.hpp"
 
-/*
-* DebugDraw Class:
-* Extends b2Draw to implement drawing of debug graphics.
-*/
-
+/// Manually draws lines around Box2D objects to help with debugging.
 class DebugDraw : public b2Draw, NonCopyable
 {
 public:

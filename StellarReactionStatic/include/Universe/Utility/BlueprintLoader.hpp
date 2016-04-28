@@ -12,10 +12,7 @@ struct WeaponData;
 struct StaticDecorData;
 struct DynamicDecorData;
 
-/*
-* BlueprintLoader Class:
-* Handles loading and storage of blueprints from files.
-*/
+/// Handles the loading of Blueprints from files.
 class BlueprintLoader : NonCopyable
 {
 public:

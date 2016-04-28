@@ -6,11 +6,8 @@
 
 struct ThrusterData;
 
-/*
-* Thruster Class:
-* Extends ShipModule to implement thruster game objects.
-* Thruster game objects propell the ship.
-*/
+
+/// Propels a ship.
 class Thruster : public ShipModule
 {
 public:
@@ -39,7 +36,7 @@ private:
 	bool m_isCCW;//do we go CCW this tick?
 };
 
-
+/// Blueprint for Thruster.
 struct ThrusterData : public ShipModuleData
 {
 	ThrusterData() :

@@ -11,11 +11,7 @@
 #define LOADJSONT(BASEVAR, TYPE) \
 	 if(!root[#BASEVAR].isNull()) BASEVAR.loadJson<TYPE>(root[#BASEVAR]);
 
-/*
-* JSON Class:
-* Defines utilities for reading and handling JSON objects.
-*/
-
+/// Provides more convenient loading of Json data. Use the define: GETJSON(varname)
 class JSON
 {
 public:

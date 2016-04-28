@@ -26,9 +26,7 @@ class BodyComponent;
 class Scoreboard;
 class DecorationEngine;
 
-/// <summary>
-/// A new one is instantiated when you relaunch the game
-/// </summary>
+/// Contains everything in the "world". Relaunching a game totally recreates this object.
 class Universe : NonCopyable
 {
 public:

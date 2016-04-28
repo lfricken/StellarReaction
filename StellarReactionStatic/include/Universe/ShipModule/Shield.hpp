@@ -7,11 +7,10 @@
 class Shield;
 struct ShieldData;
 struct ShieldComponentData;
-/*
-* ShieldComponent Class:
-* Extends Sensor to implement ShieldComponent game objects.
-* ShieldComponent game objects block incoming projectiles.
-*/
+
+
+
+/// Designed to block incoming projectiles. The invisible part.
 class ShieldComponent : public Sensor
 {
 public:
@@ -25,6 +24,7 @@ protected:
 	Shield* m_pParentShieldModule;
 };
 
+/// Initialize Shield.
 struct ShieldComponentData : public SensorData
 {
 	ShieldComponentData() :
@@ -63,12 +63,7 @@ struct ShieldComponentData : public SensorData
 	MyType(ModuleData, ShieldComponentData);
 };
 
-/*
-* Shield Class:
-* Extends ShipModule to implement shield game objects.
-* Shield game objects create shield components that block incoming projectiles.
-*/
-
+/// ShipModule that controls a ShieldComponent.
 class Shield : public ShipModule
 {
 public:
@@ -92,6 +87,7 @@ private:
 	ShieldComponent* m_pShield;
 };
 
+/// Blueprint for a Shield.
 struct ShieldData : public ShipModuleData
 {
 	ShieldData() : 

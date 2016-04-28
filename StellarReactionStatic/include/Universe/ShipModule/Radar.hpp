@@ -6,12 +6,8 @@
 
 struct RadarData;
 
-/*
-* Radar Class:
-* Extends ShipModule to implement radar game objects.
-* Radar game objects are modules that allow the user to change their field of vision.
-*/
 
+/// Adds to the Radar Pool, allowing the player to zoom out further.
 class Radar : public ShipModule
 {
 public:
@@ -31,7 +27,7 @@ private:
 	int m_dishIndex;
 };
 
-
+/// Blueprint for Radar.
 struct RadarData : public ShipModuleData
 {
 	RadarData() :

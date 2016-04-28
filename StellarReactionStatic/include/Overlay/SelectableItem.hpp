@@ -44,7 +44,7 @@ namespace leon
 		std::string id;
 	};
 
-	/// An object that goes in a NetworkedSelection list.
+	/// An object that goes in a NetworkedSelection list. Implements a button to send a special command.
 	class SelectableItem : NonCopyable
 	{
 	public:

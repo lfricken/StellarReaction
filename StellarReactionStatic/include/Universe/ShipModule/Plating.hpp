@@ -5,12 +5,7 @@
 
 struct PlatingData;
 
-/*
-* Plating Class:
-* Extends ShipModule class to implement plating game objects.
-* Plating game objects protect their ship.
-*/
-
+/// Designed to take damage and have high Armor.
 class Plating : public ShipModule
 {
 public:
@@ -21,7 +16,7 @@ protected:
 private:
 };
 
-
+/// Blueprint for Plating.
 struct PlatingData : public ShipModuleData
 {
 	PlatingData() :

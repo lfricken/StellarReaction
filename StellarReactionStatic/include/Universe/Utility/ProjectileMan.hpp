@@ -6,10 +6,7 @@
 
 class Projectile;
 
-/*
-* ProjectileMan Class:
-* Manages projectiles.
-*/
+/// Stores projectiles and creates new ones when needed.
 class ProjectileMan : NonCopyable
 {
 public:

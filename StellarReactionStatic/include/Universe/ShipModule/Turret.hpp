@@ -6,12 +6,8 @@
 
 struct TurretData;
 
-/*
-* Turret Class:
-* Extends ShipModule to implement turret game objects.
-* Turret game objects fire projectiles that deal damage.
-*/
 
+/// Holds a Weapon that it controls.
 class Turret : public ShipModule
 {
 public:
@@ -43,7 +39,7 @@ private:
 	float32 m_lastAngle;//used to preserve the orientation of a broken turret
 };
 
-
+/// Blueprint for Weapon.
 struct TurretData : public ShipModuleData
 {
 	TurretData() :

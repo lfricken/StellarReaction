@@ -6,12 +6,8 @@
 
 struct ProjectileModuleData;
 
-/*
-* ProjectileModule Class:
-* Extends Sensor to implement a projectile module game object.
-* Projectile module game objects are projectiles that can collide with other objects.
-*/
 
+/// Detects when colliding with something a potentially dealing damage.
 class ProjectileModule : public Sensor
 {
 public:
@@ -46,7 +42,7 @@ private:
 
 };
 
-
+/// Initialize ProjectileModule
 struct ProjectileModuleData : public SensorData
 {
 	ProjectileModuleData() :

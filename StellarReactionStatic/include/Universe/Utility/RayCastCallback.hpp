@@ -3,6 +3,7 @@
 #include "stdafx.hpp"
 #include "CollisionCategory.hpp"
 
+/// Data returned by a RayCastCallback.
 struct RayData
 {
 	b2Fixture* pFixture;//fixture we collided with
@@ -11,11 +12,7 @@ struct RayData
 	//1 to 2 with endpoint 1.5 is a fraction of 0.5 (except all in 2d not 1d)
 };
 
-/*
-* RayCastCallback Class:
-* Extends b2RayCastCallback to expose raycasting utilities.
-*/
-
+/// Used to cast a ray through the world and find things that collide with it. Used by LaserWeapon.
 class RayCastCallback : public b2RayCastCallback
 {
 public:

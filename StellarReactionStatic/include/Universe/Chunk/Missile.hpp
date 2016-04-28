@@ -6,11 +6,7 @@ struct MissileData;
 class Chunk;
 
 
-/*
-* Missle Class:
-* Extends Projectile to create missle game object.
-* Missile game objects travel slower and home in on their target in order to deal damage.
-*/
+/// Projectile that follows target to deal damage.
 class Missile : public Projectile
 {
 public:
@@ -33,6 +29,7 @@ private:
 
 };
 
+/// Initialize Missile
 struct MissileData : ProjectileData
 {
 	MissileData()

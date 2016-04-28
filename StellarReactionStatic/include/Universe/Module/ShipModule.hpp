@@ -15,14 +15,9 @@ enum class HealthState
 
 struct ShipModuleData;
 
-/*
-* ShipModule Class:
-* Extends Module to implement ship modules.
-* ShipModule game objects are modules that are part of a ship chunk.
-*/
 
-
-class ShipModule : public Module ///maybe we should make this virtual to ensure this never gets created...
+/// Represent functional components of a ship, which go on a Chunk.
+class ShipModule : public Module
 {
 public:
 	ShipModule(const ShipModuleData& rData);
@@ -67,8 +62,7 @@ protected:
 private:
 };
 
-
-
+/// Initialize ShipModule.
 struct ShipModuleData : public ModuleData
 {
 	ShipModuleData() :

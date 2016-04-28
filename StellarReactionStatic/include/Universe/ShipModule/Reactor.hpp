@@ -5,12 +5,8 @@
 
 struct ReactorData;
 
-/*
-* Reactor Class:
-* Extends ShipModule to implement reactor game object.
-* Reactor game objects are the core of a ship.
-*/
 
+/// Generates energy andn when destroyed, respawns the player at base.
 class Reactor : public ShipModule
 {
 public:
@@ -42,7 +38,7 @@ private:
 	bool m_waiting; 
 };
 
-
+/// Bueprint for Reactor.
 struct ReactorData : public ShipModuleData
 {
 	ReactorData() :

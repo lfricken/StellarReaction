@@ -22,7 +22,7 @@ namespace leon
 	};
 
 
-	/// Used to hold a list of Button that will cause a network event when pressed.
+	/// Used to hold a list of SelectableItem that will cause a network event when pressed.
 	class NetworkedSelection : public Panel
 	{
 	public:

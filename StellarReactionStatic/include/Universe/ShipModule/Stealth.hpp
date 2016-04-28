@@ -5,12 +5,7 @@
 
 struct StealthData;
 
-/*
-* Stealth Class:
-* Extends ShipModule to implement stealth game objects.
-* Stealth game objects stealth the ship at the cost of energy.
-*/
-
+/// Makes a ship invisible at the cost of energy.
 class Stealth : public ShipModule
 {
 public:
@@ -28,7 +23,7 @@ private:
 	const float stealth_duration = 5.0;
 };
 
-
+/// Blueprint for a Stealth.
 struct StealthData : public ShipModuleData
 {
 	StealthData() :

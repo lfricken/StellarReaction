@@ -13,6 +13,7 @@ namespace leon
 	};
 }
 
+/// Initializes FixtureComponent
 struct FixtureComponentData
 {
 	FixtureComponentData() :
@@ -41,16 +42,14 @@ struct FixtureComponentData
 
 	Category colCategory;//what are we?
 	Mask colMask;//what do we collide with
+
 	///Fill this object with data from a json file.
 	void loadJson(const Json::Value& root);
 };
 
-/*
-* FixtureComponent Class:
-* Creates FixtureComponent object.
-* FixtureComponent objects define bodies in the game world.
-*/
 
+
+/// Wrapper for Box2D Fixture.
 class FixtureComponent : NonCopyable
 {
 public:

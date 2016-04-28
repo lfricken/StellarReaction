@@ -6,6 +6,7 @@
 #include "Universe.hpp"
 #include "NonCopyable.hpp"
 
+/// Blueprint for GameObject.
 struct GameObjectData
 {
 	GameObjectData() : 
@@ -19,13 +20,7 @@ struct GameObjectData
 	NetworkComponentData nwComp;
 };
 
-/*
-* GameObject Class:
-* Implements game objects and exposes the following:
-* Things owned by Universe, such as Chunks... (what else?)
-* Contains Networking and IO/Eventing
-* pre/post phys update
-*/
+/// Base object to allow networking and IO interaction.
 class GameObject : NonCopyable
 {
 public:

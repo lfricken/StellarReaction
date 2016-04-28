@@ -6,12 +6,7 @@
 
 class Universe;
 
-/*
-* HazardField Class:
-* Implements HazardField object
-* HazardField object defines a utility to create hazard fields in the game universe.
-*/
-
+/// Used briefly to create a collection of Hazards in the world.
 class HazardField
 {
 

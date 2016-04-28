@@ -9,12 +9,8 @@
 
 struct ProjectileData;
 
-/*
-* Projectile Class:
-* Creates projectile game object.
-* Projectile game objects travel and do damage to other objects.
-*/
 
+/// A Chunk that travels to do damage to other objects.
 class Projectile : NonCopyable
 {
 public:
@@ -44,6 +40,7 @@ private:
 	Pool<Energy> m_energyPool;
 };
 
+///Initiailze Projectile.
 struct ProjectileData : public BlueprintData
 {
 	ProjectileData() :

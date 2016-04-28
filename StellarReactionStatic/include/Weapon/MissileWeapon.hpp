@@ -3,11 +3,7 @@
 #include "Weapon.hpp"
 struct MissileWeaponData;
 
-/*
-* MissileWeapon Class:
-* Extends Weapon to implement missile weapon game objects.
-* Missile Weapon game objects fire a missile that track their target.
-*/
+///Fires a Missile to deal damage to a target. Will target nearest Ship to mouse cursor.
 class MissileWeapon : public Weapon
 {
 public:
@@ -30,7 +26,7 @@ private:
 };
 
 
-
+/// Blueprint for MissileWeapon.
 struct MissileWeaponData : public WeaponData
 {
 	MissileWeaponData() :

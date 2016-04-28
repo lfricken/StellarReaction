@@ -13,11 +13,9 @@
 #include "NonCopyable.hpp"
 
 struct ModuleData;
-/*
-* Module Class:
-* Implements module game object
-* Module game object is the basic building block of other game objects.
-*/
+
+
+/// Basic building block of Chunks and physical objects.
 class Module : NonCopyable
 {
 public:

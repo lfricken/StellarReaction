@@ -4,11 +4,7 @@
 #include "Weapon.hpp"
 struct BallisticWeaponData;
 
-/*
-* BallisticWeapon Class:
-* Extends Weapon to implement a ballistic weapon game object.
-* Ballistic weapons fire physical projectiles to do something.
-*/
+/// Fire a Projectile at a target to do damage.
 class BallisticWeapon : public Weapon
 {
 public:
@@ -29,7 +25,7 @@ private:
 };
 
 
-
+/// Blueprint for BallisticWeapon.
 struct BallisticWeaponData : public WeaponData
 {
 	BallisticWeaponData() :
@@ -49,7 +45,7 @@ struct BallisticWeaponData : public WeaponData
 		radCCWps = 0;
 	}
 
-	///the bp name of the projectile we fire, to be passed to projectileMan
+	///the Blueprint name of the projectile we fire, to be passed to projectileMan
 	std::string projName;
 	///m/s (blocks per second)
 	float velocity;

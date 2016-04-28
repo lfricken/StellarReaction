@@ -5,12 +5,7 @@
 
 struct BlackHoleGraphicData;
 
-/*
-* BlackHoleGraphic Class:
-* Extends Module to implement BlackHoleGraphic game objects.
-* BlackHole Graphic game objects show decor for gravity field objects.
-*/
-
+/// A Module with the specific purpose of a making graphics appear.
 class BlackHoleGraphic : public Module
 {
 public:
@@ -24,7 +19,7 @@ protected:
 };
 
 
-
+/// Initialize BlackHoleGraphic.
 struct BlackHoleGraphicData : public ModuleData
 {
 	BlackHoleGraphicData() :
