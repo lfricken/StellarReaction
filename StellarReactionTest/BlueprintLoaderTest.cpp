@@ -12,7 +12,7 @@ TEST(BlueprintLoaderTest, LoadWeapon)
 {
 	game.restartTest();
 
-	game.getUniverse().getBlueprints().loadBlueprints("StellarReactionTest/testblueprints/");
+	game.getUniverse().getBlueprints().loadBlueprints("../StellarReactionTest/testblueprints/");
 	const WeaponData* const pWeaponData = game.getUniverse().getBlueprints().getWeaponSPtr("test_weapon").get();
 
 	ASSERT_TRUE(pWeaponData);
@@ -35,7 +35,7 @@ TEST(BlueprintLoaderTest, LoadModule)
 {
 	game.restartTest();
 
-	game.getUniverse().getBlueprints().loadBlueprints("StellarReactionTest/testblueprints/");
+	game.getUniverse().getBlueprints().loadBlueprints("../StellarReactionTest/testblueprints/");
 	const ModuleData* const pData = game.getUniverse().getBlueprints().getModuleSPtr("test_module").get();
 
 	ASSERT_TRUE(pData);
@@ -50,7 +50,7 @@ TEST(BlueprintLoaderTest, LoadChunk)
 {
 	game.restartTest();
 
-	game.getUniverse().getBlueprints().loadBlueprints("StellarReactionTest/testblueprints/");
+	game.getUniverse().getBlueprints().loadBlueprints("../StellarReactionTest/testblueprints/");
 	const ChunkData* const pData = game.getUniverse().getBlueprints().getChunkSPtr("test_chunk").get();
 
 	ASSERT_TRUE(pData);
@@ -78,7 +78,7 @@ TEST(BlueprintLoaderTest, LoadBody)
 {
 	game.restartTest();
 
-	game.getUniverse().getBlueprints().loadBlueprints("StellarReactionTest/testblueprints/");
+	game.getUniverse().getBlueprints().loadBlueprints("../StellarReactionTest/testblueprints/");
 	const ProjectileData* const pData = game.getUniverse().getBlueprints().getProjectileSPtr("test_projectile").get();
 
 	ASSERT_TRUE(pData);
