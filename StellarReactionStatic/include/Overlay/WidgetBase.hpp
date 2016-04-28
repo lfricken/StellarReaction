@@ -13,7 +13,8 @@ namespace leon
 	{
 		WidgetBaseData() :
 			startHidden(false),
-			configFile("TGUI/widgets/Black.conf"),
+			//configFile("TGUI/widgets/Black.conf"),
+			configFile("TGUI/widgets/NewMenu.conf"),
 			screenCoords(5, 5),
 			size(128, 64),
 			transparency(255),

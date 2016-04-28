@@ -1,0 +1,44 @@
+{
+    "texTileSize": [
+        119,
+        47
+    ],
+    "stateList": [
+        {
+            "comment": "You always need to have a Default state",
+            "state": "Default",
+            "repeats": false,
+            "tileList": [
+				{
+                    "x": 1,
+                    "y": 0,
+                    "t": 1
+                }
+            ]
+        },
+        {
+            "comment": "this is the state we go into if we start doing something special",
+            "state": "On",
+            "repeats": false,
+            "tileList": [
+                {
+                    "x": 1,
+                    "y": 0,
+                    "t": 1
+                }
+            ]
+        },
+        {
+            "comment": "Start off as off.",
+            "state": "Off",
+            "repeats": false,
+            "tileList": [
+				{
+                    "x": 0,
+                    "y": 0,
+                    "t": 1
+                }
+            ]
+        }
+    ]
+}
