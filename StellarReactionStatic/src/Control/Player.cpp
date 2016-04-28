@@ -424,6 +424,13 @@ bool Player::toggleControlGroup(int group, bool on)
 bool Player::toggleControlGroup(int group)
 {
 	m_weaponGroups[group] = !m_weaponGroups[group];
+
+	//update hud
+	Packet controlPack;
+	controlPack << genControlString();
+	Message setControl("hud_control", "setText", controlPack, 0, false);
+	game.getCoreIO().recieve(setControl);
+
 	return m_weaponGroups[group];
 }
 void Player::input(std::string rCommand, sf::Packet rData)
@@ -439,4 +446,19 @@ void Player::input(std::string rCommand, sf::Packet rData)
 		data >> mode;
 		toggleGuiMode(mode);
 	}
+}
+string Player::genControlString()
+{
+	string ret = "";
+	//only iterate through first four, since that's all the control groups we can toggle currently
+	int i = 0;
+	for (auto it = m_weaponGroups.begin(); i < 4; ++it)
+	{
+		if (it->second == true)
+			ret += to_string(it->first) + ": Enabled ";
+		else
+			ret += to_string(it->first) + ": Disabled ";
+		i++;
+	}
+	return ret;
 }

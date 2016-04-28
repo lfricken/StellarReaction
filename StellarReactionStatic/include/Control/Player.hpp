@@ -179,6 +179,8 @@ private:
 	int m_radarsize;
 
 	IOComponent m_io;
+
+	string genControlString(); //helper function to populate hud with the player's weapon control groups.
 };
 
 #endif // PLAYER_HPP

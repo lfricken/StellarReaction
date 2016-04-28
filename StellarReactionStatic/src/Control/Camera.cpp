@@ -43,7 +43,7 @@ void Camera::setZoom(float level)//multiple of each dimension to find new
 }
 void Camera::setRotation(float radiansCCW)
 {
-	m_view.setRotation(-leon::radToDeg(radiansCCW));
+	m_view.setRotation(-leon::radToDeg(leon::normRad(radiansCCW)));
 }
 void Camera::resize()
 {
@@ -62,7 +62,7 @@ float Camera::getZoom() const
 }
 float Camera::getRotation() const
 {
-	return -leon::degToRad(m_view.getRotation());
+	return -leon::degToRad(leon::normDeg(m_view.getRotation()));
 }
 const sf::View& Camera::getView() const
 {
