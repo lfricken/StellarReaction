@@ -6,14 +6,15 @@
 
 class Universe;
 
+/// Used briefly to create a collection of Hazards in the world.
 class HazardField
 {
 
 public:
 	HazardField(Universe* universe, const Json::Value& root);
-
+	///Spawns a hazard in a random location within the field.
 	void spawn();
-
+	///Recieve commands.
 	void input(std::string command, sf::Packet data);
 private:
 	Universe* m_pUniverse;

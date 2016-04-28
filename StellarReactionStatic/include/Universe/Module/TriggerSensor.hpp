@@ -4,12 +4,13 @@
 
 struct TriggerSensorData;
 
+/// A Sensor configured to damage anyone who enters it.
 class TriggerSensor : public Sensor
 {
 public:
 	TriggerSensor(const TriggerSensorData& rData);
 	~TriggerSensor();
-
+	///Actions to process on object before performing physics updates.
 	virtual void prePhysUpdate();
 
 protected:
@@ -22,6 +23,7 @@ protected:
 private:
 };
 
+/// Initialize TriggerSensor
 struct TriggerSensorData : public SensorData
 {
 	TriggerSensorData() :
@@ -35,7 +37,7 @@ struct TriggerSensorData : public SensorData
 	int maxDamage;
 	int minDamage;
 	float period;
-
+	///Create CaptureGraphics object from this data object.
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{
 		TriggerSensorData copy(*this);
@@ -44,10 +46,12 @@ struct TriggerSensorData : public SensorData
 		copy.chunkParent = parent;
 		return new TriggerSensor(copy);
 	}
+	///Create new copy of this data object.
 	virtual ModuleData* clone() const
 	{
 		return new TriggerSensorData(*this);
 	}
+	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
 
 	MyType(ModuleData, TriggerSensorData);

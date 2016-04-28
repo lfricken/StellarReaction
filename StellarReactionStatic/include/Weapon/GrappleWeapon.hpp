@@ -8,12 +8,13 @@
 
 struct GrappleWeaponData;
 
+/// A weapon that pull other ships towards you.
 class GrappleWeapon : public LaserWeapon
 {
 public:
 	GrappleWeapon(const GrappleWeaponData& rData);
 	virtual ~GrappleWeapon();
-
+	///Actions to process on object after performing physics updates.
 	void postPhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation);
 protected:
 	virtual Vec2 collisionHandle(const RayData& data);
@@ -26,7 +27,7 @@ private:
 };
 
 
-
+///Blueprint for GrappleWeapon.
 struct GrappleWeaponData : public LaserWeaponData
 {
 	GrappleWeaponData() :
@@ -42,16 +43,17 @@ struct GrappleWeaponData : public LaserWeaponData
 	float pullStrength;
 	float pullTime;
 
-
+	///Create GrappleWeapon object from this data object.
 	virtual Weapon* generate() const
 	{
 		return new GrappleWeapon(*this);
 	}
+	///Create new copy of this data object.
 	virtual GrappleWeaponData* clone() const
 	{
 		return new GrappleWeaponData(*this);
 	}
-
+	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
 
 	MyType(WeaponData, GrappleWeaponData);

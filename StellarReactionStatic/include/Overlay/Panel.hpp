@@ -4,7 +4,7 @@
 
 namespace leon
 {
-
+	/// Data to initialize a Panel.
 	struct PanelData : public WidgetBaseData
 	{
 		PanelData() :
@@ -19,6 +19,7 @@ namespace leon
 		std::string backgroundTex;//background texture
 	};
 
+	/// A Panel holds all WidgetBase objects.
 	class Panel : public WidgetBase
 	{
 	public:
@@ -26,8 +27,11 @@ namespace leon
 		Panel(tgui::Container& container, const PanelData& data);
 		~Panel();
 
+		/// Return pointer to TGUI::Panel.
 		tgui::Panel::Ptr getPanelPtr() const;
+		/// Add a WidgetBase to this Panel.
 		void add(sptr<WidgetBase> sp_widget);
+		/// Delete all objects held by this Panel.
 		void clear();
 
 	protected:

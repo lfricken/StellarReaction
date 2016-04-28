@@ -1,11 +1,8 @@
-#ifndef EVENTTYPES_HPP
-#define EVENTTYPES_HPP
+#pragma once
 
 #include "stdafx.hpp"
 
-/// <summary>
-/// A list of event types, as well as the value they are intended to check for
-/// </summary>
+/// A list of event types, as well as the type of value they are intended to check for.
 enum class EventType
 {
 	/**UNIVERSE**/
@@ -34,8 +31,8 @@ enum class EventType
 
 	None,
 };
-
+/// \brief Converts the EventType string to enum class.
+///
+/// Used for loading JSON.
 EventType ChooseEvent(const std::string& rStr);
 
-
-#endif // EVENTTYPES_HPP

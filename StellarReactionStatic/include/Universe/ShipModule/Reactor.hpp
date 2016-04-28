@@ -5,31 +5,40 @@
 
 struct ReactorData;
 
+
+/// Generates energy andn when destroyed, respawns the player at base.
 class Reactor : public ShipModule
 {
 public:
 	Reactor(const ReactorData& rData);
 	virtual ~Reactor();
-
+	///Actions to process on object before performing physics updates.
 	virtual void prePhysUpdate();
+	///Actions to process on object after performing physics updates.
 	virtual void postPhysUpdate();
-
-
+	///Send commands to a target.
 	void directive(const CommandInfo& commands);
+	///Respawn this ship.
 	void respawn();
 protected:
 private:
-	Energy m_rate;//energy per second
-	Timer m_respawnTimer; //tracks respawn time
-	float m_respawnTime; //how long after we die until we respawn
-	bool m_respawned; //whether or ship has respawned
-	
-	Timer m_waitTimer; //tracks wait time
-	float m_waitTime; //how long to freeze the ship after respawn
-	bool m_waiting; //whether or not ship is waiting
+	///Energy per second.
+	Energy m_rate;
+	///Tracks respawn time
+	Timer m_respawnTimer;
+	///How long after we die until we respawn.
+	float m_respawnTime; 
+	///Whether or not the ship has respawned.
+	bool m_respawned; 
+	///Tracks wait time.
+	Timer m_waitTimer;
+	///How long to freeze the ship after respawn.
+	float m_waitTime; 
+	///Whether or not ship is waiting.
+	bool m_waiting; 
 };
 
-
+/// Bueprint for Reactor.
 struct ReactorData : public ShipModuleData
 {
 	ReactorData() :
@@ -42,10 +51,12 @@ struct ReactorData : public ShipModuleData
 		baseDecor.animSheetName = "reactor/reactor_base.acfg";
 	}
 
-	Energy rate;// J/s
+	// J/s
+	Energy rate;
 	float respawnTime;
 	float waitTime;
 
+	///Create Reactor object from this data object.
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{
 		ReactorData copy(*this);
@@ -54,10 +65,12 @@ struct ReactorData : public ShipModuleData
 		copy.chunkParent = parent;
 		return new Reactor(copy);
 	}
+	///Create new copy of this data object.
 	virtual ModuleData* clone() const
 	{
 		return new ReactorData(*this);
 	}
+	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
 
 	MyType(ModuleData, ReactorData);

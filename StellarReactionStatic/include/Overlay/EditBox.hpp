@@ -4,6 +4,7 @@
 
 namespace leon
 {
+	/// Initialize an EditBox
 	struct EditBoxData : public WidgetBaseData
 	{
 		EditBoxData() :
@@ -15,7 +16,7 @@ namespace leon
 		std::string startingText;
 	};
 
-
+	/// A textbox for typing in things (target IP, Port, and the Chatbox).
 	class EditBox : public WidgetBase
 	{
 	public:
@@ -23,7 +24,8 @@ namespace leon
 		EditBox(tgui::Container& container, const EditBoxData& data);
 		virtual ~EditBox();
 
-		void setText(const std::string& rText);//removes all text in editbox
+		/// Set the text of the textbox.
+		void setText(const std::string& rText);
 
 	protected:
 		void f_TextChanged();

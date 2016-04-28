@@ -3,7 +3,7 @@
 #include "stdafx.hpp"
 #include "Directive.hpp"
 
-
+/// Data sent from a Controller to a Chunk to control the ship.
 struct CommandInfo
 {
 	Map<Directive, bool> directives;//things to do

@@ -6,23 +6,25 @@ struct SoundData;
 
 namespace leon
 {	
-	/// <summary>
-	/// A class to make an instance of for a class. When you want to play a sound, use this.
-	/// TODO
-	/// </summary>
+	///A sound acts as a wrapper around a sound handle for easier playing of sounds.
 	class Sound
 	{
 	public:
 		Sound(const SoundData& rData);
 		virtual ~Sound();
 
+		///Sets the position of this sound, so the sound emanates from this position.
 		void setPos(const b2Vec2& rPos);
+		///Determines whether this sound will loop or not.
 		void toggleLooping(bool shouldLoop);
+		///Switches whether this sound will loop or not.
 		void toggleLooping();
-
-		void restart();//restarts from beginning no matter what
-		void resume();//continue playing, may have been restarted
-		void pause();//pause the sound
+		///Play sound from beginning.
+		void restart();
+		///Continue playing sound, may cause restart.
+		void resume();
+		///Pause this sound.
+		void pause();
 
 	protected:
 

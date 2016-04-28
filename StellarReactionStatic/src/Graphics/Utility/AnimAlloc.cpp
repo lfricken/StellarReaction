@@ -46,16 +46,21 @@ const AnimSet* AnimAlloc::request(const std::string& rAnimFile)
 			int counter = 0;
 			for(auto it = stateList.begin(); it != stateList.end(); ++it)//get all the state settings
 			{
-
 				Animation animation;
 
 				animation.name = (*it)["state"].asString();
 				animation.repeats = (*it)["repeats"].asBool();
 				const Json::Value tileList = (*it)["tileList"];
 
-				for(unsigned int i = 0; i<tileList.size(); ++i)
+				float totalSum = 0;
+				for(unsigned int i = 0; i < tileList.size(); ++i)
+					totalSum += tileList[i]["t"].asFloat();
+
+				float localSum = 0;
+				for(unsigned int i = 0; i < tileList.size(); ++i)
 				{
-					animation.tileSet.push_back(std::pair<sf::Vector2i, float>(sf::Vector2i(tileList[i]["x"].asInt(), tileList[i]["y"].asInt()), tileList[i]["t"].asFloat()));
+					localSum += tileList[i]["t"].asFloat();
+					animation.tileSet.push_back(std::pair<sf::Vector2i, float>(sf::Vector2i(tileList[i]["x"].asInt(), tileList[i]["y"].asInt()), localSum/totalSum));
 				}
 
 				spAnimSet->animations[animation.name] = animation;

@@ -8,6 +8,7 @@ namespace leon
 	class DragComponent;
 	class DraggableSurface;
 
+	/// \brief Data to initialize Draggable.
 	struct DraggableData : public ButtonData
 	{
 		DraggableData() :
@@ -33,7 +34,9 @@ namespace leon
 		PictureData icon;
 	};
 
-
+	/// \brief Something that can be dragged around the screen.
+	///
+	/// Obtains mouse coordinates from DragComponent.
 	class Draggable : public Button
 	{
 	public:
@@ -41,10 +44,15 @@ namespace leon
 		Draggable(tgui::Container& container, const DraggableData& rData);
 		virtual ~Draggable();
 
+		/// Get our current grid position defined by DraggableSurface.
 		sf::Vector2f getGridPosition() const;
+		/// Set the grid coordinate defined by DraggableSurface.
 		void setGridPosition(const sf::Vector2f& rPos);
+		/// Get data this Draggable is holding.
 		const std::string& getMetaData() const;
+		/// Check whether the DraggableSurface already has a Draggable at that position before setting position.
 		bool trySetPosition(const sf::Vector2f& rPos);
+		/// Set the position of this draggable to a particular coordinate.
 		void setPosition(const sf::Vector2f& rPos);
 
 	protected:

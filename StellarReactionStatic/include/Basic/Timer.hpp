@@ -1,12 +1,12 @@
 #ifndef TIMER_H
 #define TIMER_H
 
-/// <summary>
-/// Timer for in game items, NOT FOR GUI.
+
+/// \brief Timer for in game items, NOT FOR GUI.
+///
 /// The reason is that pausing the game pauses these timers.
 /// Use this for weapons, animations.
-/// If the "Pause" function should effect your item use this
-/// </summary>
+/// If the "Pause" function should effect your item, use this class.
 class Timer
 {
 public:
@@ -14,12 +14,17 @@ public:
 	Timer(float time);
 	virtual ~Timer();
 
-	float getTime() const;//time elapsed as seconds since the universe was initialized
-	float getTimeElapsed();//get time elapsed since we last called this function, or our initialization
+	///Time elapsed as seconds since the universe was initialized.
+	float getTime() const;
+	///Get time elapsed since we last called this function on this instance, or our since our initialization.
+	float getTimeElapsed();
 
-	bool isTimeUp() const;//asks whether the timer has counted down enough
-	void setCountDown(float countDown);//sets the countdownTime, default 1.0
-	void restartCountDown();//starts, the current countdown time from whatever it is supposed to be
+	///Has the timer expired?
+	bool isTimeUp() const;
+	///Sets the countdown time. Defaults to 1 second.
+	void setCountDown(float countDown = 1.f);
+	///Sets the REMAINING countdown time to the countdown time.
+	void restartCountDown();
 protected:
 private:
 	float m_lastElapsedTime;

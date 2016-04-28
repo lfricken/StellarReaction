@@ -366,7 +366,6 @@ void Player::loadOverlay(const std::string& rOverlay)
 	m_energyMeterFill->setPosition(emeterPos);
 
 	MinimapData mapData;
-	mapData.controller = m_controller;
 	mapData.layer = GraphicsLayer::OverlayMiddle;
 	m_minimap.reset(new Minimap(mapData));
 	m_minimap->setPosition(b2Vec2(2.4f, -1.2f));

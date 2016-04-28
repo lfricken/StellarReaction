@@ -1,5 +1,4 @@
-#ifndef INTELLIGENCE_HPP
-#define INTELLIGENCE_HPP
+#pragma once
 
 #include "stdafx.hpp"
 #include "IOComponent.hpp"
@@ -12,6 +11,7 @@
 class Chunk;
 struct CommandInfo;
 
+///Data to create a Controller
 struct ControllerData
 {
 	ControllerData() :
@@ -26,37 +26,51 @@ struct ControllerData
 	std::string slaveName;
 };
 
-/// <summary>
-/// A controller sends commands to ships.
-/// A local players commands are sent to a designated controller, who's state is updated between games.
-/// Chunks are then also synced
-/// </summary>
+
+/// \brief A controller sends commands to ships.
+///
+/// A local players' commands are sent to a designated controller, who's state is updated between games.
+/// Those commands are duplicated between games, and those commands are sent to the targets.
 class Controller
 {
 public:
 	Controller(const ControllerData& rData);
 	virtual ~Controller();
 
-	/**== SETTERS ==**/
+	/// Set the players name. From some BasePlayerTraits object.
 	void setPlayerName(const std::string& rPlayerName);
-	void setSlave(const std::string& rSlaveName);//designate a name for us to control
-	void setAim(const b2Vec2& world);//send our aim coordinates
+	/// Designate a name for us to control.
+	void setSlave(const std::string& rSlaveName);
+	/// Set where we are aiming.
+	void setAim(const b2Vec2& world);
 
-	/**GETTERS**/
+	/// Return players name.
 	const std::string& getPlayerName() const;
-	const std::string& getSlaveName() const;//what's the name of the ship are we controlling
-	Chunk* getSlave() const;//get the pointer to the ship this controller controls
-	const b2Vec2& getAim() const;//where is this controller aiming?
-	float get(Request value);//gives feedback from the thing we are controlling
-	b2Body* getBodyPtr();//return our chunk body if we have one
+	/// Return name of ship we are controlling.
+	const std::string& getSlaveName() const;
+	/// Return the actualy ship we are controlling.
+	Chunk* getSlave() const;
+	/// Find where this controller is aiming.
+	const b2Vec2& getAim() const;
+	/// Get a value from our ship.
+	float get(Request value);
+	/// Get pointer to body of ship.
+	b2Body* getBodyPtr();
+	/// Return the networking object for this controller.
 	NetworkComponent& getNWComp();
+	/// Return the io object for this controller.
 	IOComponent& getIOComp();
 
-	void locallyUpdate(const CommandInfo& commands);//set our state
-	void processAim() const;//use our stored aim to send commands
-	void processDirectives();//use our stored directives to send commands
-	void toggleLocal(bool local);//true or false whether this controller is locally controlled
-	bool isLocal() const;//are we a locally controlled controller?
+	/// Set state of this controller from a local source.
+	void locallyUpdate(const CommandInfo& commands);
+	/// Use our stored aim to aim our ship.
+	void processAim() const;
+	/// Use our stored directives to control our ship.
+	void processDirectives();
+	/// Set wheter this controller accept commands from local sources?
+	void toggleLocal(bool local);
+	/// Are we a locally controlled controller?
+	bool isLocal() const;
 
 protected:
 	virtual void input(std::string rCommand, sf::Packet rData);
@@ -77,4 +91,3 @@ private:
 	std::string m_playerName;//name of us in game, like BobbyLolcatz99, not used for anything but player reading
 };
 
-#endif // INTELLIGENCE_HPP

@@ -5,6 +5,7 @@
 
 struct PlatingData;
 
+/// Designed to take damage and have high Armor.
 class Plating : public ShipModule
 {
 public:
@@ -15,7 +16,7 @@ protected:
 private:
 };
 
-
+/// Blueprint for Plating.
 struct PlatingData : public ShipModuleData
 {
 	PlatingData() :
@@ -24,7 +25,7 @@ struct PlatingData : public ShipModuleData
 		baseDecor.texName = "radar/radar_base.png";
 		baseDecor.animSheetName = "radar/radar_base.acfg";
 	}
-
+	///Create CaptureGraphics object from this data object.
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{
 		PlatingData copy(*this);
@@ -33,10 +34,12 @@ struct PlatingData : public ShipModuleData
 		copy.chunkParent = parent;
 		return new Plating(copy);
 	}
+	///Create new copy of this data object.
 	virtual ModuleData* clone() const
 	{
 		return new PlatingData(*this);
 	}
+	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
 
 	MyType(ModuleData, PlatingData);
