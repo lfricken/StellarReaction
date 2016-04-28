@@ -1,7 +1,5 @@
-#ifndef MONEY_HPP
-#define MONEY_HPP
+#pragma once
 
 ///Defines money type.
 typedef int Money;
 
-#endif // MONEY_HPP

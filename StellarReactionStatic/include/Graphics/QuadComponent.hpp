@@ -16,7 +16,8 @@ struct QuadComponentData : public GraphicsComponentData
 };
 
 
-/// Generic game graphics object.
+/// \brief Generic game graphics object.
+///
 /// Contains 4 vertices.
 class QuadComponent : public GraphicsComponent
 {

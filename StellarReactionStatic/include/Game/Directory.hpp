@@ -2,7 +2,7 @@
 
 #include <vector>
 
-/// Automatically accesses content directory.
+/// \brief Automatically accesses content directory.
 class Directory
 {
 public:
@@ -10,7 +10,8 @@ public:
 	~Directory();
 	
 
-	/// Gets all files in a relative directory.
+	/// \brief Gets all files in a relative directory.
+	///
 	/// If passed an evaluator function, the function will be used to determine whether a particular extension is accepted.
 	/// Otherwise it will accept any extension, including none.
 	std::vector<std::pair<std::string, std::string> > getAllFiles(const std::string& rDir, bool(*evalFunc)(const std::string& extensionName) = NULL) const;

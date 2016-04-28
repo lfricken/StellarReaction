@@ -2,7 +2,8 @@
 
 #include "stdafx.hpp"
 
-/// Message which is sent to IOComponents
+/// \brief Message which is sent to IOComponents.
+///
 /// Contains a target, either a name or an IOComponent Position,
 /// a command, which the target object uses to determine what the intended action was
 /// a data packet for any additional data to be sent with the action

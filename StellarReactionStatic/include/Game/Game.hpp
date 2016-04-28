@@ -25,7 +25,8 @@ namespace leon
 	class DragUpdater;
 }
 
-/// Game is the global access point for data and state.
+/// \brief Game is the global access point for data and state.
+///
 /// Contains all objects and memory.
 /// Built to rely on a single global instance of itself.
 class Game : NonCopyable

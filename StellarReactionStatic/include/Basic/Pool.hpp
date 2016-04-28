@@ -40,10 +40,11 @@ struct PoolData
 
 
 template <typename T>
-///Generic container to limit value ranges.
-///Good for any attribute that has a min value, current value, max value.
-///The functions prevent the current value from escaping min-max, as well as prevent
-///min-max from being reversed, such as min=3, max=2
+/// \brief Generic container to limit value ranges.
+///
+/// Good for any attribute that has a min value, current value, max value.
+/// The functions prevent the current value from escaping min-max, as well as prevent
+/// min-max from being reversed, such as min=3, max=2
 class Pool
 {
 public:

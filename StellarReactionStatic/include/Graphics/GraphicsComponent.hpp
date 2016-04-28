@@ -33,7 +33,8 @@ struct GraphicsComponentData
 };
 
 
-/// Base type for all game related graphics.
+/// \brief Base type for all game related graphics.
+///
 /// Does not handle most GUI graphics.
 class GraphicsComponent : NonCopyable
 {
@@ -47,7 +48,8 @@ public:
 	void setRotation(float radCCW);
 	/// Offset where we are drawn in pixels from our center.
 	void setOffset(const sf::Vector2f pixels);
-	/// Set the color that is multiplied with our texture.
+	/// \brief Set the color that is multiplied with our texture.
+	///
 	/// Basically turns the image this color.
 	void setColor(sf::Color);
 	/// Return Animator that animates us.

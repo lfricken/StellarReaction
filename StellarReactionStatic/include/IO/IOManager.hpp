@@ -8,8 +8,7 @@ class NetworkComponent;
 class IOComponent;
 
 
-/// Controls the sending of Messages throughout the program
-/// and stores all the IOComponents in a list.
+/// Controls the sending of Messages throughout the program and stores all the IOComponents in a list.
 class IOManager : NonCopyable
 {
 public:
@@ -20,7 +19,8 @@ public:
 	void recieve(const Message& rMessage);
 	/// Check if any packages should be sent, since dT time has passed.
 	void update(float dT);
-	/// Toggles whether messages coming from local items should be processed or not.
+	/// \brief Toggles whether messages coming from local items should be processed or not.
+	///
 	/// If we are the client, we should ignore local events.
 	void toggleAcceptsLocal(bool acceptsLocal);
 

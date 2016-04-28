@@ -8,6 +8,7 @@ const std::string& contentDir();
 const sf::Packet voidPacket;
 
 //TODO these should be defined here, but set somewhere else so changing them doesn't trigger a total recompile.
+
 /// Sets how many pixels (SFML units) is in a meter (Box2D units).
 const int scale = 512;//1 box2d unit is scale pixels at 1 zoom
 /// Sets how large in pixels a module on a ship should be at 1 zoom.
@@ -19,7 +20,8 @@ const float pi = 3.14159f;
 /// Useful debugging item.
 #define FILELINE "file:{"<<__FILE__<<"}line:{"<<__LINE__<<"}"
 
-/// Globally accessible instance of Game.
+/// \brief Globally accessible instance of Game.
+///
 /// Declared in main.cpp
 extern Game game;
 

@@ -19,7 +19,8 @@ public:
 	void setZoom(float level);
 	///Set the rotation of the camera in radians counter clockwise.
 	void setRotation(float radiansCCW);
-	///If the windows resolution is resized, call this.
+	///\brief If the windows resolution is resized, call this.
+	///
 	///It will resize the internal camera so the view is not skewed.
 	void resize();
 

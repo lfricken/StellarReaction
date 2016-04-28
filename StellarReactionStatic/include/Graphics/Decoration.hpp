@@ -8,7 +8,8 @@ class GraphicsComponent;
 struct DecorationData;
 
 
-/// A graphics object designed for simulating background
+/// \brief A graphics object designed for simulating background
+///
 /// and far away objects. Can simulate paralax for movement
 /// and zoom. Configured in a level.cfg file.
 class Decoration final
@@ -17,7 +18,8 @@ public:
 	Decoration(const DecorationData& rData, GraphicsComponent* pGfx);
 	virtual ~Decoration();
 
-	/// Set the position of this Decoration 
+	/// \brief Set the position of this Decoration
+	///
 	/// so that it will apear to the camera at its current position
 	/// that it is at that location. (Meaning it accounts for movementScale)
 	void setPosition(const Vec2& rWorld);

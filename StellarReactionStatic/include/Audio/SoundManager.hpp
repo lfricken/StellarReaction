@@ -25,9 +25,10 @@ struct Noise
 };
 
 
-///Plays all sounds in game.
-///We need a sound manager because there are a max number of sounds. So we want to prevent going over a certain number.
-///Otherwise the program will crash.
+/// \brief Plays all sounds in game.
+///
+/// We need a sound manager because there are a max number of sounds. So we want to prevent going over a certain number.
+/// Otherwise the program will crash.
 class SoundManager : NonCopyable
 {
 public:
@@ -52,7 +53,8 @@ private:
 	static const int m_numNoises = 255;//citation: http://www.sfml-dev.org/tutorials/2.0/audio-sounds.php
 	/// Actual sounds that are playing or have played.
 	Noise m_noises[m_numNoises];
-	/// map of (string soundname, sound thing which stores the actual data)
+	/// \brief map of (string soundname, sound thing which stores the actual data)
+	///
 	/// We load these into sf::Sounds to play them
 	std::map<std::string, sf::SoundBuffer> m_buffers;
 };

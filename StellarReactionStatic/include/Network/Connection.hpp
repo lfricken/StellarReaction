@@ -8,7 +8,8 @@
 #include "NonCopyable.hpp"
 
 
-/// A connection to another player.
+/// \brief A connection to a Client, or to the Server.
+///
 /// 1 is used by the Client to stay connected to the server.
 /// 1 for each client used by the Server.
 class Connection : public BasePlayerTraits, NonCopyable
@@ -42,13 +43,9 @@ public:
 	void sendSpecialIo(const Message& mes);
 	void recieveSpecialIo(sf::Packet& mes);
 
-	/// <summary>
-	/// this is a client connection on the server
-	/// the server has determined that a module should be added to this clients list of useable modules
-	/// the server will now send a packet to the client
-	/// </summary>
-	/// <param name="newTitle">The new title.</param>
-	/// <param name="rPos">The r position.</param>
+	/// \brief Called when this Connection is a clients connection on the Server.
+	///
+	/// The server has determined that a module should be added to this clients list of useable modules.
 	virtual void addModule(const std::string& newTitle, const b2Vec2& rPos);
 
 protected:

@@ -11,7 +11,8 @@ class QuadComponent;
 class LinearMeter;
 class Minimap;
 
-/// Key configurations.
+/// \brief Key configurations.
+///
 /// This system would allow loading and saving of key configurations.
 struct InputConfig
 {
@@ -93,7 +94,8 @@ struct PlayerData
 };
 
 
-/// Represents the local player on this machine.
+/// \brief Represents the local player on this machine.
+///
 /// This class also handles all user input through it's getLiveInput and getWindowEvents functions
 /// those commands are then sent to a controller
 class Player : public BasePlayerTraits

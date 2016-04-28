@@ -2,7 +2,8 @@
 #define TIMER_H
 
 
-/// Timer for in game items, NOT FOR GUI.
+/// \brief Timer for in game items, NOT FOR GUI.
+///
 /// The reason is that pausing the game pauses these timers.
 /// Use this for weapons, animations.
 /// If the "Pause" function should effect your item, use this class.

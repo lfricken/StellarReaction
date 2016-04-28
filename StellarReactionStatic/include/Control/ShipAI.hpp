@@ -6,7 +6,8 @@
 class Chunk;
 enum class Directive;
 
-/// An AI designed to control a ship.
+/// \brief An AI designed to control a ship.
+///
 /// A list of these are stored on the host, which send commands to Controllers.
 /// These controllers are synced between each Game.
 class ShipAI : public BasePlayerTraits, NonCopyable

@@ -2,7 +2,8 @@
 
 #include <random>
 
-/// A class to generate Random numbers.
+/// \brief A class to generate Random numbers.
+///
 /// This has a bug described by this post:
 /// http://stackoverflow.com/questions/36119190/static-random-number-generator-losing-seed-for-global-variable
 class Random

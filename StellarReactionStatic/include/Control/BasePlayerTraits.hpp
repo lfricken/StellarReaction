@@ -4,8 +4,9 @@
 #include "Money.hpp"
 
 
-///Holds information about each player.
-///Inherited by Player (local player) and Connection (host has one for each human player).
+/// \brief Holds information about each player.
+/// 
+/// Inherited by Player (local player) and Connection (host has one for each human player).
 class BasePlayerTraits
 {
 public:

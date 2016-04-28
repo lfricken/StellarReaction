@@ -20,7 +20,8 @@ public:
 	Minimap(const MinimapData& rData);
 	virtual ~Minimap();
 
-	/// Set a dot at the given position.
+	/// \brief Set a particular dot at the given position with a color.
+	///
 	/// index indicates the dot count.
 	/// teamFlag has values -1,0,1 for Neutral, Enemy, Friendly.
 	void setDot(b2Vec2 center, int index, int teamFlag);

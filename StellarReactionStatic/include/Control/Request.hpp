@@ -1,6 +1,7 @@
 #pragma once
 
-/// Things a controller can request from a chunk.
+/// \brief Things a controller can request from a chunk.
+///
 /// Usually for displaying as data on the HUD.
 enum class Request
 {

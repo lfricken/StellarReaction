@@ -6,7 +6,8 @@
 
 class Chunk;
 
-/// This class holds pointers to all the chunks.
+/// \brief This class holds pointers to all the chunks.
+///
 /// When a controller wants to control a chunk, it goes through us to find it.
 class SlaveLocator : NonCopyable
 {

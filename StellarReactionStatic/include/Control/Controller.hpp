@@ -27,7 +27,8 @@ struct ControllerData
 };
 
 
-/// A controller sends commands to ships.
+/// \brief A controller sends commands to ships.
+///
 /// A local players' commands are sent to a designated controller, who's state is updated between games.
 /// Those commands are duplicated between games, and those commands are sent to the targets.
 class Controller

@@ -3,7 +3,8 @@
 #include "EventTypes.hpp"
 
 
-/// Used to determine whether a value should trigger a message to be sent.
+/// \brief Used to determine whether a value should trigger a message to be sent.
+///
 /// It is given a comparison operator from the following list, and uses it
 /// to evaluate an int when requested. It also can be told to or not to repeat.
 /// It evaluates as:

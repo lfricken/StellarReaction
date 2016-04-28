@@ -21,6 +21,8 @@ public:
 	LinearMeter(const LinearMeterData& rData);
 	virtual ~LinearMeter();
 	
+	/// \brief Set the meter full percentage.
+	/// 
 	/// Determines where on the texture to read.
 	/// At 0, it will read the default texture tile it normally would.
 	/// As percent goes to 1, it moves the tile being read to the tile below.

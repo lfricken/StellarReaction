@@ -29,9 +29,7 @@ struct BeamData : public QuadComponentData
 };
 
 
-/// Beam is a special type of GraphicsComponent made
-/// easier for drawing lasers, they have a texture,
-/// as well as start and endpoint textures
+/// \brief Beam is a special type of GraphicsComponent made for easier drawing of lasers.
 class Beam : protected QuadComponent
 {
 public:
