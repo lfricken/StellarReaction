@@ -85,11 +85,15 @@ void Overlay::loadMenus()
 	leon::ButtonData htpButData;
 	htpButData.size = sf::Vector2f(275, 50);
 	htpButData.buttonText = "Multiplayer";
+	htpButData.ioComp.name = "multiplayer_button";
 	htpButData.screenCoords = sf::Vector2f(20, 400);
 	Courier htpMessage;
 	htpMessage.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
 	htpMessage.message.reset("multiplayer_connect", "toggleHidden", voidPacket, 0, false);
 	htpButData.ioComp.courierList.push_back(htpMessage);
+	htpMessage.message.reset("multiplayer_button", "toggleHidden", voidPacket, 0, false);
+	htpButData.ioComp.courierList.push_back(htpMessage);
+
 	leon::WidgetBase* pHTP = new leon::Button(*pMain_menu->getPanelPtr(), htpButData);
 	pMain_menu->add(sptr<leon::WidgetBase>(pHTP));
 	/**====EXIT====**/

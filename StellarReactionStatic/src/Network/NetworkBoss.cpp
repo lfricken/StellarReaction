@@ -322,7 +322,6 @@ void NetworkBoss::setState(NWState state, bool open, bool acceptsLocal, bool hid
 	}
 
 
-
 	sf::Packet pack2;
 	pack2 << hideConnectScreen;
 	Message hideMult("multiplayer_connect", "setHidden", pack2, 0, true); //hide multiplayer panel
