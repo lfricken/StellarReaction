@@ -14,8 +14,7 @@ public:
 	AnimAlloc();
 	virtual ~AnimAlloc();
 
-	/// Returns a pointer to the AnimSet loaded from the file given.
-	/// The path is relative to the texture folder.
+	/// \brief Returns a pointer to the AnimSet loaded from the file given. The path is relative to the texture folder.
 	const AnimSet* request(const std::string& rAnimFile);
 
 protected:
