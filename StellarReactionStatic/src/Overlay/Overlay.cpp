@@ -446,7 +446,7 @@ void Overlay::loadMenus()
 	/**HUD**/
 
 	/**PANEL**/
-	sf::Vector2f textPanelSize = sf::Vector2f(200, 100);
+	sf::Vector2f textPanelSize = sf::Vector2f(600, 100);
 	leon::PanelData hudPanelData;
 	hudPanelData.ioComp.name = "hud_panel";
 	hudPanelData.startHidden = true;
@@ -469,6 +469,14 @@ void Overlay::loadMenus()
 	hudMoney.buttonText = "";
 	hudMoney.screenCoords = sf::Vector2f(0, 30);
 	pLobby->add(sptr<leon::WidgetBase>(new leon::Button(*pHudPanel->getPanelPtr(), hudMoney)));
+
+	/**WEAPON CONTROL GROUPS**/
+	leon::ButtonData hudControl;
+	hudControl.ioComp.name = "hud_control";
+	hudControl.size = sf::Vector2f(500, 30);
+	hudControl.buttonText = "All Enabled";
+	hudControl.screenCoords = sf::Vector2f(0, 60);
+	pLobby->add(sptr<leon::WidgetBase>(new leon::Button(*pHudPanel->getPanelPtr(), hudControl)));
 	/**HUD**/
 	/**HUD**/
 
@@ -671,19 +679,18 @@ void Overlay::toggleScoreboard(bool show)
 
 	sf::Packet hideScoreboard;
 	hideScoreboard << (!show);
-	sf::Packet hideHudScore;
-	hideHudScore << (show);
-	sf::Packet hideHudMoney;
-	hideHudMoney << (show);
+	sf::Packet hideHud;
+	hideHud << (show);
 
 	Message mes1("main_scoreboard", "setHidden", hideScoreboard, 0, false);
-	Message mes2("hud_score", "setHidden", hideHudScore, 0, false);
-	Message mes3("hud_money", "setHidden", hideHudMoney, 0, false);
+	Message mes2("hud_score", "setHidden", hideHud, 0, false);
+	Message mes3("hud_money", "setHidden", hideHud, 0, false);
+	Message mes4("hud_control", "setHidden", hideHud, 0, false);
 	
 	game.getCoreIO().recieve(mes1);
 	game.getCoreIO().recieve(mes2);
 	game.getCoreIO().recieve(mes3);
-
+	game.getCoreIO().recieve(mes4);
 }
 void Overlay::input(const std::string rCommand, sf::Packet rData)
 {
