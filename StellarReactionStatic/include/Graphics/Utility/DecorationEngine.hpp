@@ -17,9 +17,9 @@ public:
 
 	void loadJson(const Json::Value& root);
 
-private:
-	//void tile(const DecorationData& decor, const QuadComponentData& quad);//tile these
+	void initSpawns(const Vec2& cameraPos, const Vec2& maxHalf);
 
+private:
 	vector<sptr<Decoration> > m_decorations;
 
 	Timer m_deltaTime;

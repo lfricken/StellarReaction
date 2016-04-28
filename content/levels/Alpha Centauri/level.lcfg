@@ -1,6 +1,25 @@
 {
-	"AdditionalBlueprints:comment": "Additional directories to find more blueprints in. Default always loaded.",
-	"AdditionalBlueprints": [],
+	"decorations": [{
+		"count": 10,
+		"quadData": {
+			"layer": "BackgroundFar",
+			"dimensions": [2048, 2048],
+			"texName": "backgrounds/debris/debris1.png",
+			"animSheetName": "backgrounds/debris/debris.acfg",
+			"color": [96,96,96,255]
+		},
+		"decorData": {
+			"movementScale": 0.8,
+			"sizeScale": 0.02,
+			"repeatsRandom": true,
+			"positionRandom": true,
+			"maxSpinRate": 20,
+			"minSpinRate": -20,
+			"maxVelocity": [0,0],
+			"minVelocity": [-1, -1],
+			"realPosition": [0,0]
+		}
+	}],
 	"MapBounds": [150, 150],
 	"HazardFields": [{
 		"HazardName": "Asteroid",
@@ -62,8 +81,7 @@
 		"Radius": 40,
 		"OriginX": 62,
 		"OriginY": 62
-	}
-	],
+	}],
 	"SpawnPoints": [{
 		"Team": 1,
 		"Points": [
@@ -128,16 +146,12 @@
 		"Coordinates": [-40, -5, 0]
 	}, {
 		"Title": "StationBlue",
-		"Coordinates": [
-			-135,
-			-0,
+		"Coordinates": [-135, -0,
 			270
 		]
 	}, {
 		"Title": "battlestationBlue",
-		"Coordinates": [
-			-174,
-			-0,
+		"Coordinates": [-174, -0,
 			0
 		]
 	}, {
@@ -157,29 +171,24 @@
 	}, {
 		"Title": "battlestationGreen2",
 		"Coordinates": [
-			172,
-			-22,
+			172, -22,
 			0
 		]
 	}, {
 		"Title": "StationYellow",
 		"Coordinates": [
-			0,
-			-135,
+			0, -135,
 			0
 		]
 	}, {
 		"Title": "battlestationYellow1",
 		"Coordinates": [
-			28,
-			-172,
+			28, -172,
 			90
 		]
 	}, {
 		"Title": "battlestationYellow2",
-		"Coordinates": [
-			-28,
-			-172,
+		"Coordinates": [-28, -172,
 			90
 		]
 	}, {
@@ -198,43 +207,37 @@
 		]
 	}, {
 		"Title": "battlestationPink2",
-		"Coordinates": [
-			-22,
+		"Coordinates": [-22,
 			172,
 			0
 		]
 	}, {
 		"Title": "CapturePointCCW",
-		"Coordinates": [
-			-40,
+		"Coordinates": [-40,
 			40,
 			0
 		]
 	}, {
 		"Title": "CapturePointCCW",
 		"Coordinates": [
-			40,
-			-40,
+			40, -40,
 			0
 		]
 	}, {
 		"Title": "CapturePointCW",
-		"Coordinates": [
-			-100,
+		"Coordinates": [-100,
 			100,
 			0
 		]
 	}, {
 		"Title": "CapturePointCW",
 		"Coordinates": [
-			100,
-			-100,
+			100, -100,
 			0
 		]
 	}, {
 		"Title": "CapturePointCCW",
-		"Coordinates": [
-			-100,
+		"Coordinates": [-100,
 			0,
 			0
 		]
@@ -255,15 +258,12 @@
 	}, {
 		"Title": "CapturePointCW",
 		"Coordinates": [
-			0,
-			-100,
+			0, -100,
 			0
 		]
 	}, {
 		"Title": "CapturePointCCW",
-		"Coordinates": [
-			-22,
-			-22,
+		"Coordinates": [-22, -22,
 			0
 		]
 	}, {
@@ -282,32 +282,20 @@
 		]
 	}, {
 		"Title": "CapturePointCW",
-		"Coordinates": [
-			-100,
-			-100,
+		"Coordinates": [-100, -100,
 			0
 		]
 	}, {
 		"Title": "BlackHole",
 		"Coordinates": [
-		    0,
+			0,
 			0,
 			0
 		]
 	}, {
 		"Title": "Pluto",
-		"Coordinates": [
-		    -130,
-			-130,
+		"Coordinates": [-130, -130,
 			0
 		]
-	}],
-	"decorations": {
-		"static": [{
-			"Title": "Background0"
-		}],
-		"dynamic": [{
-			"Title": "Comet"
-		}]
-	}
+	}]
 }

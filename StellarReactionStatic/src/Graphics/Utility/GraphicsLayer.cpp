@@ -9,7 +9,7 @@ GraphicsLayer ChooseLayer(const std::string& rStr)
 
 	if(rStr == "BackgroundFar")
 		return GraphicsLayer::BackgroundFar;
-	if(rStr == "BackgroundFar")
+	if(rStr == "BackgroundMid")
 		return GraphicsLayer::BackgroundMid;
 	if(rStr == "BackgroundClose")
 		return GraphicsLayer::BackgroundClose;
