@@ -644,17 +644,22 @@ void Overlay::toggleMenu(bool show)//display menu, assume gui control, send paus
 
 	Universe* x = &game.getUniverse();
 
-	Message mes1("main_menu", "setHidden", hideMenu, 0, false);
-	Message mes2("local_player", "setGuiMode", guiMode, 0, false);
-	Message mes3("universe", "setPause", pause, 0, false);
-	Message mes4("hud_panel", "setHidden", hideHUD, 0, false);
-	Message mes5("resume_button", "setHidden", hideMenu, 0, false);
+	if (x->started){
 
-	game.getCoreIO().recieve(mes1);
-	game.getCoreIO().recieve(mes2);
-	game.getCoreIO().recieve(mes3);
-	game.getCoreIO().recieve(mes4);
-	game.getCoreIO().recieve(mes5);
+		Message mes1("main_menu", "setHidden", hideMenu, 0, false);
+		Message mes2("local_player", "setGuiMode", guiMode, 0, false);
+		Message mes3("universe", "setPause", pause, 0, false);
+		Message mes4("hud_panel", "setHidden", hideHUD, 0, false);
+		Message mes5("resume_button", "setHidden", hideMenu, 0, false);
+
+		game.getCoreIO().recieve(mes1);
+		game.getCoreIO().recieve(mes2);
+		game.getCoreIO().recieve(mes3);
+		game.getCoreIO().recieve(mes4);
+		game.getCoreIO().recieve(mes5);
+
+	}
+
 }
 void Overlay::toggleScoreboard(bool show)
 {

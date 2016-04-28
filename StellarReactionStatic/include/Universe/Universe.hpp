@@ -79,7 +79,7 @@ public:
 	bool isClear(b2Vec2 position, float radius, const b2Body* exception);
 	b2Vec2 getAvailableSpawn(int team, float radius, const b2Body* exception);
 
-
+	bool started = true; //tell whether this is the initial universe created by Game, or a later one
 
 protected:
 	void loadBlueprints(const std::string& bluePrints);//loads blueprints
