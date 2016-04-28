@@ -7,13 +7,15 @@
 
 struct LaserWeaponData;
 
+/// A weapon that fires bursts of lasers to do damage.
 class LaserWeapon : public Weapon
 {
 public:
 	LaserWeapon(const LaserWeaponData& rData);
 	virtual ~LaserWeapon();
-
+	///Actions to be processed before a shot is taken.
 	void preShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation);
+	///Actions to be processed after a shot is taken.
 	void postShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation);
 protected:
 	virtual Vec2 collisionHandle(const RayData& data);
@@ -27,8 +29,7 @@ private:
 
 };
 
-
-
+///Blueprint for LaserWeapon.
 struct LaserWeaponData : public WeaponData
 {
 	LaserWeaponData() :
@@ -50,18 +51,20 @@ struct LaserWeaponData : public WeaponData
 
 	int beamWidth;
 	sf::Color beamColor;
-	float showTime;//how long to display the beam per shot
+	//how long to display the beam per shot
+	float showTime;
 	BeamData beamComp;
-
+	///Create LaserWeapon object from this data object.
 	virtual Weapon* generate() const
 	{
 		return new LaserWeapon(*this);
 	}
+	///Create new copy of this data object.
 	virtual LaserWeaponData* clone() const
 	{
 		return new LaserWeaponData(*this);
 	}
-
+	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
 
 	MyType(WeaponData, LaserWeaponData);

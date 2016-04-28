@@ -1,31 +1,32 @@
-#ifndef BATCHLAYERS_HPP
-#define BATCHLAYERS_HPP
+#pragma once
 
 #include "QuadBatchContainer.hpp"
 #include "GraphicsLayer.hpp"
 #include "NonCopyable.hpp"
 
-/// <summary>
-/// allows more than one layer of drawing. So all the Textures of one layer get drawn
+/// \brief Stores a Batch for each layer.
+/// 
+/// Allows more than one layer of drawing.
+/// So all the Textures of one layer get drawn
 /// then the next layer, etc.
 /// To control layering, examine GraphicsLayer.hpp
-/// </summary>
 class BatchLayers : NonCopyable
 {
 public:
 	BatchLayers();
 	virtual ~BatchLayers();
 
-	QuadData request(const std::string& rTexName, GraphicsLayer layer);//gives 4 texture vertexes
+	/// Return an array and indexes for drawing a rectangle.
+	QuadData request(const std::string& rTexName, GraphicsLayer layer);
 
+	/// Draw everything that is not the Overlay in order.
 	void drawWorld(sf::RenderTarget& rTarget);
+	/// Draw the overlay in order.
 	void drawOverlay(sf::RenderTarget& rTarget);
 
 
 protected:
 private:
-
+	/// List of each layer, and its batch.
 	std::map<GraphicsLayer, QuadBatchContainer> m_batches;
 };
-
-#endif // BATCHLAYERS_HPP

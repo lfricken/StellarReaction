@@ -7,24 +7,31 @@
 class Controller;
 class NetworkFactory;
 
-/// <summary>
-/// Holds the controllers
-/// </summary>
+
+/// Holds a list of all the Controllers.
 class ControlFactory : NonCopyable
 {
 public:
 	ControlFactory();
 	virtual ~ControlFactory();
 
-	void processAllDirectives();//call processDirectives on all intelligences
-	void addController(const std::string& slave);//creates a new controller with a specified slave
-	void resetControllers(const std::vector<std::string>& slaves);//delete current controllers and just have these
-	int getSize();//returns the size of controll list
+	///Have all controllers send their commands to their targets.
+	void processAllDirectives();
+	///Creates a new controller with a specified target.
+	void addController(const std::string& target);
+	///Delete current controllers, and make a new set of controllers with these targets.
+	void resetControllers(const std::vector<std::string>& targets);
+	///How many controllers are there?
+	int getSize();
+	///Set all controllers to be not local.
 	void unsetLocal();
+	///Return a particular controller, given it's index.
 	Controller& getController(int index);
+	///Return reference to the network factory for these controllers.
 	NetworkFactory& getNWFactory();
-
-	sptr<NetworkFactory> m_spNWFactory;//must come before the controllers so that everything is destroyed 
+	///Network factory for these controllers.
+	sptr<NetworkFactory> m_spNWFactory;
+	//must come before the controllers so that everything is destroyed 
 	//in the right order, otherwise m_spControlList controllers Network Components cause a crash
 
 	std::vector<sptr<Controller> > m_spControlList;//list of all controllers
@@ -32,8 +39,8 @@ public:
 
 protected:
 private:
-
-	sptr<Controller> m_spBackupController;//if we need to return a reference to a controller, but none exist, we give this one
+	///If we need to return a reference to a controller, but none exist, we give this one.
+	sptr<Controller> m_spBackupController;
 };
 
 #endif // ControlFACTORY_HPP

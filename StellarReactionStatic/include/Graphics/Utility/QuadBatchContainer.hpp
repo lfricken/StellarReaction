@@ -1,47 +1,51 @@
-#ifndef QUADBATCHCONTAINER_HPP
-#define QUADBATCHCONTAINER_HPP
+#pragma once
 
 #include "stdafx.hpp"
 #include "TextureAllocator.hpp"
 #include "NonCopyable.hpp"
 
-/// <summary>
-/// For a particular texture, a pointer to our verts
-/// </summary>
+
+/// For a particular texture, a pointer to our verts that get drawn.
 struct QuadData
 {
-	int firstElement;//marks the first vertex element that we own
-	sf::VertexArray* vertexList;//list of all vertices for this textures
+	/// Marks the first vertex element that we own.
+	int firstElement;//
+	/// List of all vertices for this texture.
+	sf::VertexArray* vertexList;
 };
 
-/// <summary>
-/// Holds a pointer to a texture and a list of vertices
-/// By having all the vertices for a texture in an array, it becomes much faster to draw them
-/// </summary>
+
+
+/// \brief Holds a pointer to a texture and a list of vertices.
+/// 
+/// By having all the vertices for a texture in an array, it becomes much faster to draw them.
 struct Batch
 {
+	/// The texture to draw.
 	const sf::Texture* pTexture;
+	/// The array that holds all the vertexes.
 	sf::VertexArray vertexList;
 };
 
 
-/// <summary>
-/// Stores Batches for each texture requested
-/// </summary>
+
+/// Stores a Batch for each Texture.
 class QuadBatchContainer : public sf::Drawable, NonCopyable
 {
 public:
 	QuadBatchContainer();
 	virtual ~QuadBatchContainer();
 
-	QuadData request(const std::string& rTexName);//gives 4 texture vertexes
-	void draw(sf::RenderTarget& rTarget, sf::RenderStates states) const;//draws all the quads with their textures!
+	/// Returns 4 vertices for a a particular texture.
+	QuadData request(const std::string& rTexName);
+	/// Draws all the vertices with their textures.
+	void draw(sf::RenderTarget& rTarget, sf::RenderStates states) const;
 
 protected:
 private:
-
-	std::map<std::string, sptr<Batch> > m_vertexLists;//contains all QUAD vertexes for all
+	/// Map of texture names to vertex lists and texture (Batch).
+	std::map<std::string, sptr<Batch> > m_vertexLists;
 
 };
 
-#endif // QUADBATCHCONTAINER_HPP
+

@@ -5,8 +5,10 @@
 #include "IOComponent.hpp"
 #include "NonCopyable.hpp"
 
+/// A wrapper around TGUI Widgets.
 namespace leon
 {
+	/// All data necessary to create a new Widget.
 	struct WidgetBaseData
 	{
 		WidgetBaseData() :
@@ -28,6 +30,7 @@ namespace leon
 		IOComponentData ioComp;
 	};
 
+	/// Widget base class for all GUI items.
 	class WidgetBase : NonCopyable
 	{
 	public:
@@ -35,15 +38,23 @@ namespace leon
 		WidgetBase(tgui::Container& rContainer, const WidgetBaseData& rData);
 		virtual ~WidgetBase();
 
+		/// Allow this Widget to receive events.
 		void enable();
+		/// Stop this Wdiget from receiving events.
 		void disable();
+		/// Make this Widget visible.
 		void show();
+		/// Make this Widget invisible (also disables it).
 		void hide();
 		
+		/// Toggle whether this widget is hidden.
 		void toggleHidden(bool hidden);
+		/// Toggle whether this widget is enabled.
 		void toggleEnabled(bool enabled);
 
+		/// Set the position of this Widgets top right corner in window coordinates.
 		virtual void setPosition(const sf::Vector2f& newPos);
+		/// Return the position of this Widgets top right corner in window coordinates.
 		virtual const sf::Vector2f& getPosition() const;
 
 	protected:

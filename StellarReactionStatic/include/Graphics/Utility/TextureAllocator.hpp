@@ -1,26 +1,28 @@
-#ifndef TEXTUREALLOCATOR_H
-#define TEXTUREALLOCATOR_H
+#pragma once
 
 #include "stdafx.hpp"
 
-/// <summary>
-/// Loads textures once and keeps the only copy
+/// \brief Loads textures once and keeps the only copy
+/// 
 /// so we don't have to waste memory with 1 texture copied repeatedly
 /// (this works since nothing modifies the texture, just how it is drawn)
-/// </summary>
 class TextureAllocator
 {
 public:
 	TextureAllocator(bool shouldSmoothTextures);
 	~TextureAllocator();
 
-	void smoothTextures(bool smooth);//loops through our textures and either smooths them or not, and sets m_smoothTextures apropriatly
+	/// Set whether all textures should be smoothed. An SFML feature.
+	void smoothTextures(bool smooth);
+	/// Get a texture pointer.
+	/// Will load the texture if necessary.
 	sf::Texture* request(const std::string& rFilePath);
 protected:
 private:
+	/// Name of default texture to return
+	/// if the requested one cannot be found.
 	std::string defaultTex;
 	bool m_smoothTextures;
+	/// Map of texture name to the texture.
 	std::map<std::string, sptr<sf::Texture> > m_textures;
 };
-
-#endif // TEXTUREALLOCATOR_H

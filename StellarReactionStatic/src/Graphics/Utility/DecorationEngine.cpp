@@ -145,9 +145,7 @@ void DecorationEngine::initSpawns(const Vec2& cameraPos, const Vec2& maxHalf)
 	{
 		if((**it).isRandSpawn())
 		{
-
-
-
+			// TODO random spawn
 		}
 	}
 }

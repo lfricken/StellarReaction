@@ -35,29 +35,20 @@ bool Condition::isRepeatable() const
 {
 	return m_isRepeatable;
 }
-/// <summary>
-/// 
-/// > value is greater
-/// < value is less than
-/// = value is equal to
-/// ! value is not equal to
-/// d value changed (delta)
-/// 
-/// </summary>
-/// <param name="value">new value</param>
-/// <returns></returns>
 bool Condition::evaluate(int value) const
 {
 	if(m_op == '>')
 		return value > m_value;
 	if(m_op == '<')
-		return value > m_value;
+		return value < m_value;
 	if(m_op == '=')
 		return value == m_value;
 	if(m_op == '!')
 		return value != m_value;
 	if(m_op == 'd')
 		return true;
+
+	cout << FILELINE;
 
 	return false;
 }

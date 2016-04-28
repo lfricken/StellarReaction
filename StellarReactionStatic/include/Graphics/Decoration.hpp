@@ -1,5 +1,4 @@
-#ifndef DECORATION_HPP
-#define DECORATION_HPP
+#pragma once
 
 #include "IOComponent.hpp"
 #include "Globals.hpp"
@@ -8,31 +7,43 @@
 class GraphicsComponent;
 struct DecorationData;
 
-/// <summary>
-/// The generic decoration type. Needs to implement a specific type of graphic for GraphicsComponent
-/// </summary>
+
+/// \brief A graphics object designed for simulating background
+///
+/// and far away objects. Can simulate paralax for movement
+/// and zoom. Configured in a level.cfg file.
 class Decoration final
 {
 public:
 	Decoration(const DecorationData& rData, GraphicsComponent* pGfx);
 	virtual ~Decoration();
 
+	/// \brief Set the position of this Decoration
+	///
+	/// so that it will apear to the camera at its current position
+	/// that it is at that location. (Meaning it accounts for movementScale)
 	void setPosition(const Vec2& rWorld);
-	void setRotation(float radiansCCW);
+	/// Set the absolute rotation in radians counterclockwise.
+	void setRotation(float radCCW);
+	/// Set the current animation and the duration of the animation.
 	void setAnimation(const std::string& rAnimName, float duration);
+	/// Control the size of the object. 1 is default. 2 would double the width and height.
 	void setScale(float scale);
 
+	/// Returns whether this Decoration wanted a random spawn.
 	bool isRandSpawn() const;
-
+	/// Updates the position of this Decoration with respect to the Camera. Used to simulate paralax.
 	void updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bottomLeft, const Vec2& topRight, const float zoom, const float dTime);
 
-	void input(std::string rCommand, sf::Packet rData);
 protected:
-
+	void input(std::string rCommand, sf::Packet rData);
 private:
+	/// Set our velocity to be random.
 	void randVel();
+	/// Set our spin rate to be random.
 	void randSpin();
 
+	/// The graphics object this Decoration controls.
 	sptr<GraphicsComponent> m_spGfx;
 	IOComponent m_io;
 
@@ -46,11 +57,13 @@ private:
 	Vec2 m_maxVel;
 	Vec2 m_minVel;
 
+	/// Current spin rate.
 	float m_spinRate;
+	/// Current velocity.
 	Vec2 m_velocity;
 
-
-	Vec2 m_realPosition;//absolute (where it actually would be in a 3d world)
+	/// The position that we WOULD be in a 3D world.
+	Vec2 m_realPosition;
 
 	bool m_spawnRandom;
 	bool m_repeats;
@@ -58,7 +71,7 @@ private:
 };
 
 
-
+/// Data necessary for constructing a Decoration.
 struct DecorationData
 {
 	DecorationData() :
@@ -81,13 +94,22 @@ struct DecorationData
 	}
 
 	IOComponentData ioComp;
-	float sizeScale;//recommended to be equal to movement scale
+
+	/// Value used to simulate zooming paralax.
+	/// 0 means an object will
+	/// appear in the plane of the camera target.
+	/// 1 means an object is infinitely far away.
+	/// Values in between simulate the middle ground.
+	float sizeScale;
+
+	/// Value used to simulate movement paralax.
+	/// Examples imagine you are looking out of a speeding car at another speeding car next to you
+	/// an object super far      1 (it follows the camera 1:1 and always stays in view) (stars in night sky)
+	/// an object kind of far  0.5 (it follows the camera, but moves slowly) (grain silo a mile away)
+	/// an object same plane     0 (it doesnt follow the camera) (the ground under the other car)
+	/// an object closer      -0.5 (it flies past the camera) (the ground between you and the other car)
 	float movementScale;
-	//Examples imagine you are looking out of a speeding car at another speeding car next to you
-	//an object super far      1 (it follows the camera 1:1 and always stays in view) (stars in night sky)
-	//an object kind of far  0.5 (it follows the camera, but moves slowly) (grain silo a mile away)
-	//an object same plane     0 (it doesnt follow the camera) (the ground under the other car)
-	//an object closer      -0.5 (it flies past the camera) (the ground between you and the other car)
+
 
 
 	Vec2 realPosition;
@@ -101,8 +123,7 @@ struct DecorationData
 	bool repeatsRandom;
 	bool spawnRandom;
 
+	/// Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
 };
 
-
-#endif // DECORATION_HPP

@@ -4,6 +4,7 @@
 
 namespace leon
 {
+	/// Data to initialize a Button.
 	struct ButtonData : public WidgetBaseData
 	{
 		ButtonData() :
@@ -15,7 +16,7 @@ namespace leon
 		std::string buttonText;
 	};
 
-
+	/// A clickable Button.
 	class Button : public WidgetBase
 	{
 	public:
@@ -23,9 +24,8 @@ namespace leon
 		Button(tgui::Container& container, const ButtonData& data);
 		virtual ~Button();
 
-		virtual bool inputHook(const std::string rCommand, sf::Packet rData);
-
 	protected:
+		virtual bool inputHook(const std::string rCommand, sf::Packet rData);
 		tgui::Button::Ptr m_pButton;//pointer to our button in the gui
 		virtual bool callbackHook(const tgui::Callback& callback) final;
 		virtual bool callbackHook2(const tgui::Callback& callback);

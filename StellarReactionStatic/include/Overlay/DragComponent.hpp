@@ -7,6 +7,9 @@ namespace leon
 {
 	class DragUpdater;
 
+	/// \brief A small class to get the mouse coordinates when being dragged.
+	///
+	/// Probably should not be this complicated. Should be build into Draggable.
 	class DragComponent : NonCopyable
 	{
 	public:
@@ -20,8 +23,11 @@ namespace leon
 		}
 		~DragComponent();
 
+		/// Return whether this object is being dragged.
 		bool isDragging() const;
+		/// Set whether this object is being dragged.
 		void toggleDragging(bool dragging);
+		/// Tell our parent object where we are being dragged to.
 		void updateDrag(const sf::Vector2f& rPos);
 
 	protected:

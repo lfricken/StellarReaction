@@ -6,13 +6,17 @@
 
 struct CaptureGraphicData;
 
+
+
+/// CaptureArea graphical components are used to show which team has captured a capture area.
 class CaptureGraphic : public Module
 {
 public:
 	CaptureGraphic(const CaptureGraphicData& rData);
 	virtual ~CaptureGraphic();
-
+	///Actions to process on object before performing physics updates.
 	virtual void prePhysUpdate();
+	///Actions to process on object after performing physics updates.
 	virtual void postPhysUpdate();
 
 protected:
@@ -38,7 +42,7 @@ private:
 };
 
 
-
+/// Initialize CaptureGraphic
 struct CaptureGraphicData : public ModuleData
 {
 	CaptureGraphicData() :
@@ -59,7 +63,7 @@ struct CaptureGraphicData : public ModuleData
 	SpinnerData yellowLights;
 	SpinnerData pinkLights;
 	SpinnerData redLights;
-
+	///Create CaptureGraphics object from this data object.
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{
 		CaptureGraphicData copy(*this);
@@ -68,10 +72,12 @@ struct CaptureGraphicData : public ModuleData
 		copy.chunkParent = parent;
 		return new CaptureGraphic(copy);
 	}
+	///Create new copy of this data object.
 	virtual ModuleData* clone() const
 	{
 		return new CaptureGraphicData(*this);
 	}
+	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
 
 	MyType(ModuleData, CaptureGraphicData);
