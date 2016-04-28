@@ -167,6 +167,9 @@ private:
 	sptr<QuadComponent> m_energyMeter;
 	sptr<QuadComponent> m_energyDanger;
 	sptr<QuadComponent> m_boundsDanger;
+
+	vector<sptr<QuadComponent>> m_groupIcon;
+
 	sptr<LinearMeter> m_energyMeterFill;
 	sptr<Minimap> m_minimap;
 
@@ -179,8 +182,6 @@ private:
 	int m_radarsize;
 
 	IOComponent m_io;
-
-	string genControlString(); //helper function to populate hud with the player's weapon control groups.
 };
 
 #endif // PLAYER_HPP
