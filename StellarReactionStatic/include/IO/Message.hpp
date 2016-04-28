@@ -1,16 +1,14 @@
-#ifndef MESSAGE_HPP
-#define MESSAGE_HPP
+#pragma once
 
 #include "stdafx.hpp"
 
-/// <summary>
-/// Message which is sent to IOComponents
+/// \brief Message which is sent to IOComponents.
+///
 /// Contains a target, either a name or an IOComponent Position,
-/// a command, which the object uses to determine what the intended action was
+/// a command, which the target object uses to determine what the intended action was
 /// a data packet for any additional data to be sent with the action
 /// a delay, so the message may not be recieved immediately
-/// a boolean to determine whether the data packet should contain Run Time Information <--use false unless you know what you are doing
-/// </summary>
+/// a boolean to determine whether the data packet should contain Run Time Information (use false unless you know what you are doing)
 class Message
 {
 public:
@@ -18,26 +16,39 @@ public:
 	Message(const std::string& rTargetName, const std::string& rCommand, const sf::Packet& rData, float delay, bool replaceData);
 	Message(unsigned rTargetPosition, const std::string& rCommand, const sf::Packet& rData, float delay, bool replaceData);
 	virtual ~Message();
+	/// Resets the Message object with given target name, command, and packet info.
 	void reset(const std::string& rTargetName, const std::string& rCommand, const sf::Packet& rData, float delay, bool replaceData);
+	/// Resets the Message object with given target position, command, and packet info.
 	void reset(unsigned rTargetPosition, const std::string& rCommand, const sf::Packet& rData, float delay, bool replaceData);
-
+	/// Attempt to replace the target position's with packet's target position.
 	void tryReplaceTargetPos(const sf::Packet& rData);
+	/// Attempt to replace the data with this packet.
+	/// If this message has the replaceData flag set to true,
+	/// it will accept the data.
 	void tryReplaceData(const sf::Packet& rData);
-	void changeDelay(float change);//the m_delay will be changed by that much (used by IOManager)
-
+	/// Change delay.
+	void changeDelay(float change);
+	/// Sets data.
 	void setData(const sf::Packet& rData);
+	/// Set name.
 	void setName(const std::string rName);
-
+	/// Set shouldSendOverNW.
 	void sendOverNW(bool shouldSend);
+	/// Returns shouldSendOverNW.
 	bool sendOverNW() const;
-
+	/// Returns targetPosition.
 	unsigned getTargetPosition() const;
+	/// Returns targetName.
 	const std::string& getTargetName() const;
+	/// Returns command.
 	const std::string& getCommand() const;
+	/// Returns data.
 	const sf::Packet& getData() const;
+	/// Returns the delay.
 	float getDelay() const;
 
-	bool m_replaceTargetPos;//true if we should replace our data with the data sent by the calling object
+	/// True if we should replace our data with the data sent by the calling object.
+	bool m_replaceTargetPos;
 
 protected:
 private:
@@ -51,4 +62,3 @@ private:
 	bool m_replaceData;//true if we should replace our data with the data sent by the calling object
 };
 
-#endif // MESSAGE_HPP

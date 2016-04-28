@@ -5,12 +5,13 @@
 
 struct BlackHoleGraphicData;
 
+/// A Module with the specific purpose of a making graphics appear.
 class BlackHoleGraphic : public Module
 {
 public:
 	BlackHoleGraphic(const BlackHoleGraphicData& rData);
 	virtual ~BlackHoleGraphic();
-
+	///Actions to process on object before performing physics updates.
 	virtual void prePhysUpdate();
 
 protected:
@@ -18,7 +19,7 @@ protected:
 };
 
 
-
+/// Initialize BlackHoleGraphic.
 struct BlackHoleGraphicData : public ModuleData
 {
 	BlackHoleGraphicData() :
@@ -36,6 +37,7 @@ struct BlackHoleGraphicData : public ModuleData
 	SpinnerData middleDecor;
 	SpinnerData outerDecor;
 
+	///Create BlackHoleGraphic object from this data object.
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{
 		BlackHoleGraphicData copy(*this);
@@ -44,10 +46,12 @@ struct BlackHoleGraphicData : public ModuleData
 		copy.chunkParent = parent;
 		return new BlackHoleGraphic(copy);
 	}
+	///Create new copy of this data object.
 	virtual ModuleData* clone() const
 	{
 		return new BlackHoleGraphicData(*this);
 	}
+	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
 
 	MyType(ModuleData, BlackHoleGraphicData);

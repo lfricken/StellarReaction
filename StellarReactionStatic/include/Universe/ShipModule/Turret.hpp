@@ -6,19 +6,26 @@
 
 struct TurretData;
 
+
+/// Holds a Weapon that it controls.
 class Turret : public ShipModule
 {
 public:
 	Turret(const TurretData& rData);
 	virtual ~Turret();
-
+	///Set the weapon for this turret.
 	void setWep(sptr<const WeaponData> spWep);
+	///Remove the weapon from this turret.
 	void removeWep();
-
+	///Actions to process on object before performing physics updates.
 	void prePhysUpdate() final;
+	///Actions to process on object after performing physics updates.
 	void postPhysUpdate() final;
+	///Set the aim of the turret.
 	virtual void setAim(const b2Vec2& rTarget);
+	///Send commands to a target.
 	virtual void directive(const CommandInfo& commands);
+	///Set the stealth state.
 	virtual void toggleStealth(bool toggle);
 
 protected:
@@ -32,7 +39,7 @@ private:
 	float32 m_lastAngle;//used to preserve the orientation of a broken turret
 };
 
-
+/// Blueprint for Weapon.
 struct TurretData : public ShipModuleData
 {
 	TurretData() :
@@ -45,7 +52,7 @@ struct TurretData : public ShipModuleData
 
 	int controlGroup;
 	sptr<const WeaponData> startWep;
-
+	///Create Turret object from this data object.
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{
 		TurretData copy(*this);
@@ -54,10 +61,12 @@ struct TurretData : public ShipModuleData
 		copy.chunkParent = parent;
 		return new Turret(copy);
 	}
+	///Create new copy of this data object.
 	virtual ModuleData* clone() const
 	{
 		return new TurretData(*this);
 	}
+	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
 
 	MyType(ModuleData, TurretData);

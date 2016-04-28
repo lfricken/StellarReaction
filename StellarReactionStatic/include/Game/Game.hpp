@@ -25,125 +25,115 @@ namespace leon
 	class DragUpdater;
 }
 
-/// <summary>
-/// Game is global access point for state
-/// ultimately holds everything
-/// </summary>
+/// \brief Game is the global access point for data and state.
+///
+/// Contains all objects and memory.
+/// Built to rely on a single global instance of itself.
 class Game : NonCopyable
 {
 public:
 	Game();
 	virtual ~Game();
 
+	/// Return reference to local Player.
 	Player& getLocalPlayer();
-
+	/// Return current time since Game was initialized.
 	float getTime() const;
+	/// Return RenderWindow, (the Game Window).
 	sf::RenderWindow& getWindow();
+	/// Return Overlay.
 	leon::Overlay& getOverlay();
+	/// Return core IOManager.
 	IOManager& getCoreIO();
+	/// Return NetworkBoss.
 	NetworkBoss& getNwBoss();
+	/// Return TextureAllocator.
 	TextureAllocator& getTextureAllocator();
+	/// Return AnimAlloc (Animation Allocator).
 	AnimAlloc& getAnimAlloc();
+	/// Return SoundManager.
 	SoundManager& getSound();
+	/// Return DragUpdater.
 	leon::DragUpdater& getDragUpdater();
+	/// Return Scoreboard.
 	Scoreboard& getScoreboard();
+	/// Return SFML View that renders to the standard Window coordinates.
 	sf::View& getStaticView();
-
+	/// Return Universe.
 	Universe& getUniverse();
+	/// Return Directory.
 	const Directory& getDir() const;
-	/**should go in UNIVERSE to be reset upon game reload**/	
-
+	
+	/// Launch a game with the given GameLaunchData.
 	void launchGame(const GameLaunchData& data);
+	/// A function to be called by tests to reset the global Game object.
 	void restartTest(const std::string& level = "Testbed");
+	/// If the Window is resized, we should resize the default view as well.
 	void resizeStaticView();
 
-
-	void run();//runs the game on a loop
-	void runTicks(int ticks);//run game for a certain number of ticks
-	void runTime(float time);//run the game for a certain amount of time
-
+	/// Runs the game on an infinite loop.
+	void run();
+	/// Run the game for a certain amount of ticks, variable time.
+	/// A tick is a single iteration of the game loop.
+	void runTicks(int ticks);
+	/// Run the game for a certain amount of time, variable ticks.
+	void runTime(float time);
+	/// Close the game.
 	void exit();
 
 protected:
 	void input(std::string rCommand, sf::Packet rData);
 
 private:
-	void tick(float frameTime);//increment the game loop one step, telling it that frameTime has passed
+	/// Increment the game loop one step, telling it that frameTime seconds have passed.
+	void tick(float frameTime);
+	/// Loads player data from a file.
 	void loadPlayer(const std::string& rFileName);
+	/// Load window with specified settings in a file.
 	void loadWindow(const std::string& windowFile);
+	/// Load the universe. Input does nothing at the moment.
 	void loadUniverse(const std::string& stuff);
 
 
-	/// <summary>
 	/// Icon for game.
-	/// </summary>
 	sptr<sf::Image> m_spIcon;
-	/// <summary>
 	/// IO component for global "game"
-	/// </summary>
 	sptr<leon::DragUpdater> m_spDragUpdater;
-	/// <summary>
 	/// The Global IO Manager for the game, which controlls all events (aka not networked or in game related, such as menus).
-	/// </summary>
 	sptr<IOManager> m_spCoreIO;
-	/// <summary>
 	/// Controls all sound for the game.
-	/// </summary>
 	sptr<SoundManager> m_spSound;
-	/// <summary>
 	/// Manages Network Connections.
-	/// </summary>
 	sptr<NetworkBoss> m_spNetworkBoss;
-	/// <summary>
 	/// The player on this computer and all info regarding them.
-	/// </summary>
 	sptr<Player> m_spLocalPlayer;
-	/// <summary>
 	/// SFML window.
-	/// </summary>
 	sptr<sf::RenderWindow> m_spWindow;
-	/// <summary>
 	/// View that does not move. (HUD elements)
-	/// </summary>
 	sptr<sf::View> m_spStaticView;
-	/// <summary>
 	/// Wrapper for tgui GUI
-	/// </summary>
 	sptr<leon::Overlay> m_spOverlay;
-	/// <summary>
 	/// Allocates textures for game.
-	/// </summary>
 	sptr<TextureAllocator> m_spTexAlloc;
-	/// <summary>
 	/// Loads and stores animations for QuadComponents
-	/// </summary>
 	sptr<AnimAlloc> m_spAnimAlloc;
-	/// <summary>
 	/// Manages physics world
-	/// </summary>
 	sptr<Universe> m_spUniverse;
-	/// <summary>
 	/// IO component for global "game"
-	/// </summary>
 	sptr<IOComponent> m_spIO;	
-	/// <summary>
 	/// Directory handler
-	/// </summary>
 	sptr<const Directory> m_spDir;
-
+	/// Score board. TODO this should be in Universe.
 	sptr<Scoreboard> m_spScoreboard;
-
+	/// Used for a few calculations.
 	const float m_estimatedFrameTime = (1.f / 60.f);
-
+	/// Places limit on max FPS.
 	double m_targetFPS;
-	/// <summary>
-	/// global clock never paused
-	/// </summary>
+	/// Global clock that is never paused.
 	sf::Clock m_clock;	
-	/// <summary>
+
 	/// hold data to stop calling the clock 1000's of times per 
 	/// frame (which takes a lot of cpu time for some reason)
-	/// </summary>
 	mutable float m_lastTime;
 	mutable int m_sampleClock;
 	mutable int m_sampleFreq;

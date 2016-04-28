@@ -12,21 +12,27 @@ struct WeaponData;
 struct StaticDecorData;
 struct DynamicDecorData;
 
+/// Handles the loading of Blueprints from files.
 class BlueprintLoader : NonCopyable
 {
 public:
 	BlueprintLoader();
 	virtual ~BlueprintLoader();
-
+	///Loads blueprints from the given directory.
 	void loadBlueprints(const std::string& rDir);
-
+	///Returns a shared pointer to the ModuleData object created from the given blueprint.
 	sptr<const ModuleData> getModuleSPtr(const std::string& rBPName) const;
+	///Returns a shared pointer to the ChunkData object created from the given blueprint.
 	sptr<const ChunkData> getChunkSPtr(const std::string& rBPName) const;
+	///Returns a shared pointer to the WeaponData object created from the given blueprint.
 	sptr<const WeaponData> getWeaponSPtr(const std::string& rBPName) const;
+	///Returns a shared pointer to the ProjectileData object created from the given blueprint.
 	sptr<const ProjectileData> getProjectileSPtr(const std::string& rBPName) const;
+	///Returns a shared pointer to the StaticDecorData object created from the given blueprint.
 	sptr<const StaticDecorData> getStaticDecorSPtr(const std::string& rBPName) const;
+	///Returns a shared pointer to the DynamicDecorData object created from the given blueprint.
 	sptr<const DynamicDecorData> getDynamicDecorSPtr(const std::string& rBPName) const;
-
+	///Loads a color from the JSON object.
 	static sf::Color loadColor(const Json::Value& root);
 protected:
 private:

@@ -3,6 +3,7 @@
 #include "stdafx.hpp"
 #include "CollisionCategory.hpp"
 
+/// Data returned by a RayCastCallback.
 struct RayData
 {
 	b2Fixture* pFixture;//fixture we collided with
@@ -11,18 +12,23 @@ struct RayData
 	//1 to 2 with endpoint 1.5 is a fraction of 0.5 (except all in 2d not 1d)
 };
 
+/// Used to cast a ray through the world and find things that collide with it. Used by LaserWeapon.
 class RayCastCallback : public b2RayCastCallback
 {
 public:
 	RayCastCallback();
 	virtual ~RayCastCallback();
-
+	///Attempts to collide vector with given fixture.
 	virtual float32 ReportFixture(b2Fixture* pFixture, const b2Vec2& point, const b2Vec2& normal, float32 fraction);
+	///Set body to be ignored by raycasting.
 	void setIgnoreBody(b2Body* pBody);
+	///Adds a mask when raycasting.
 	void addMask(Mask ignore);
+	///Removes a mask when raycasting.
 	void removeMask(Mask ignore);
-
+	///Returns a map of collisions and the RayData for each collision.
 	const Map<float, RayData>& getLatest() const;
+	///Resets map of collisions.
 	void reset();
 
 protected:

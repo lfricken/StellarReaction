@@ -3,7 +3,7 @@
 #include "stdafx.hpp"
 #include "Money.hpp"
 
-///Used to launch a game!
+///Data necessary to launch the game.
 struct GameLaunchData
 {
 	struct PlayerData

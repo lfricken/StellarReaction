@@ -15,16 +15,16 @@
 		{
 			"dimensions": [200, 600],
 			"center": [-240, 965],
-			"texName": "hulls/afterb1.png",
-			"animSheetName": "hulls/afterb1.acfg",
+			"texName": "effects/thrust.png",
+			"animSheetName": "effects/thrust.acfg",
 			"layer": "ShipModules",
 			"permanentRot": -2
 		},
 		{
 			"dimensions": [200, 600],
 			"center": [240, 965],
-			"texName": "hulls/afterb1.png",
-			"animSheetName": "hulls/afterb1.acfg",
+			"texName": "effects/thrust.png",
+			"animSheetName": "effects/thrust.acfg",
 			"layer": "ShipModules",
 			"permanentRot": 2
 		}
@@ -33,16 +33,16 @@
 		{
 			"dimensions": [200, 1400],
 			"center": [-240, 1280],
-			"texName": "hulls/afterb1.png",
-			"animSheetName": "hulls/afterb1_thrust.acfg",
+			"texName": "effects/boost.png",
+			"animSheetName": "effects/boost.acfg",
 			"layer": "ShipModules",
 			"permanentRot": -2
 		},
 		{
 			"dimensions": [200, 1400],
 			"center": [240, 1280],
-			"texName": "hulls/afterb1.png",
-			"animSheetName": "hulls/afterb1_thrust.acfg",
+			"texName": "effects/boost.png",
+			"animSheetName": "effects/boost.acfg",
 			"layer": "ShipModules",
 			"permanentRot": 2
 		}

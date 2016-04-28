@@ -4,7 +4,7 @@
 
 namespace leon
 {
-
+	/// Data to initialize a Picture.
 	struct PictureData : public WidgetBaseData
 	{
 		PictureData() :
@@ -15,6 +15,7 @@ namespace leon
 		std::string texName;
 	};
 
+	/// A picture to display on the GUI.
 	class Picture : public WidgetBase
 	{
 	public:

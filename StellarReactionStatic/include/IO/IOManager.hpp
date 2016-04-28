@@ -1,5 +1,4 @@
-#ifndef IOMANAGER_HPP
-#define IOMANAGER_HPP
+#pragma once
 
 #include "Timer.hpp"
 #include "Courier.hpp"
@@ -8,32 +7,31 @@
 class NetworkComponent;
 class IOComponent;
 
-/// <summary>
-/// Controlls the sending of Messages throughout the program
-/// and stores all the io components in a list
-/// </summary>
+
+/// Controls the sending of Messages throughout the program and stores all the IOComponents in a list.
 class IOManager : NonCopyable
 {
 public:
 	IOManager(bool acceptsLocalMessages, bool networked = false);
 	virtual ~IOManager();
 
-	/**SEND/RECIEVE MESSAGES**/
-	void recieve(const Message& rMessage);//Put a message in here to have it sent
-	void update(float dT);//check if any packages should be sent out after that deltaTime
-	/// <summary>
-	/// Toggles whether messages coming from local items should be processed or not
-	/// if we are in a multiplayer game, and are the client, we should ignore local events
-	/// </summary>
-	/// <param name="acceptsLocal">if set to.</param>
+	/// Put a message in here to have it sent.
+	void recieve(const Message& rMessage);
+	/// Check if any packages should be sent, since dT time has passed.
+	void update(float dT);
+	/// \brief Toggles whether messages coming from local items should be processed or not.
+	///
+	/// If we are the client, we should ignore local events.
 	void toggleAcceptsLocal(bool acceptsLocal);
 
-	/**STORE/FREE COMPONENTS**/
-	int give(IOComponent* pComponent);//we recieve a pointer to a component and we store it and remember the name and position
-	void free(int position);//don't adjust the list, just mark the node as null and offer it as a position to future components
+	/// Recieves a pointer to a component and stores it and remember the name and position.
+	int give(IOComponent* pComponent);
+	/// Marks the position as null and opens it for other IOComponents.
+	void free(int position);
 
 protected:
 private:
+	/// Call to send a message.
 	void f_send(const Message& rMessage);
 	bool m_acceptsLocal;//if false, we ignore messages coming to receive function
 
@@ -51,9 +49,5 @@ private:
 
 	bool m_networked;
 };
-
-#endif // IOMANAGER_HPP
-
-
 
 

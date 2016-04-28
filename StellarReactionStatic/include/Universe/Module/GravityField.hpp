@@ -4,12 +4,14 @@
 
 struct GravityFieldData;
 
+
+///GravityFields pull other objects into them by applying forces within their Sensor.
 class GravityField : public Sensor
 {
 public:
 	GravityField(const GravityFieldData& rData);
 	~GravityField();
-
+	///Actions to process on object before performing physics updates.
 	virtual void prePhysUpdate();
 
 protected:
@@ -19,6 +21,7 @@ protected:
 private:
 };
 
+/// Initialize GravityField.
 struct GravityFieldData : public SensorData
 {
 	GravityFieldData() :
@@ -30,7 +33,7 @@ struct GravityFieldData : public SensorData
 
 	float maxForce;
 	float minForce;
-
+	///Create GravityField object from this data object.
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{
 		GravityFieldData copy(*this);
@@ -39,10 +42,12 @@ struct GravityFieldData : public SensorData
 		copy.chunkParent = parent;
 		return new GravityField(copy);
 	}
+	///Create new copy of this data object.
 	virtual ModuleData* clone() const
 	{
 		return new GravityFieldData(*this);
 	}
+	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
 
 	MyType(ModuleData, GravityFieldData);

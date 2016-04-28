@@ -1,5 +1,0 @@
-duplicate
-motion blur left 50, recenter
-hard light
-curves on both layers to brighten
- - didn't end up using

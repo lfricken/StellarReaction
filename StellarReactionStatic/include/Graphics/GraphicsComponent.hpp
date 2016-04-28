@@ -1,5 +1,4 @@
-#ifndef GRAPHICSCOMPONENT_HPP
-#define GRAPHICSCOMPONENT_HPP
+#pragma once
 
 #include "stdafx.hpp"
 #include "GraphicsLayer.hpp"
@@ -8,6 +7,7 @@
 
 class GraphicsComponentUpdater;
 
+/// Blueprint for a GraphicsComponent.
 struct GraphicsComponentData
 {
 	GraphicsComponentData()
@@ -29,38 +29,55 @@ struct GraphicsComponentData
 	GraphicsLayer layer;
 	sf::Color color;
 
+	/// Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
 };
-/// <summary>
-/// Base type for all game related graphics
-/// </summary>
+
+
+/// \brief Base type for all game related graphics.
+///
+/// Does not handle most GUI graphics.
 class GraphicsComponent : NonCopyable
 {
 public:
 	GraphicsComponent(const GraphicsComponentData& rData);
 	virtual ~GraphicsComponent();
 
-	/**SETTERS**/
-	void setPosition(const b2Vec2& rWorldCoords);//set our position in the world (absolute)
-	virtual void setRotation(float radiansCCW);//set our rotation in radians CCW (absolute)
-	void setOffset(const sf::Vector2f pixels);//offsets us in pixels (from center of us)
+	/// Set the position of this object in world coordinates.
+	void setPosition(const b2Vec2& rWorldCoords);
+	/// Set our rotation in radians counterclockwise.
+	void setRotation(float radCCW);
+	/// Offset where we are drawn in pixels from our center.
+	void setOffset(const sf::Vector2f pixels);
+	/// \brief Set the color that is multiplied with our texture.
+	///
+	/// Basically turns the image this color.
 	void setColor(sf::Color);
+	/// Return Animator that animates us.
 	Animator& getAnimator();
+	/// Control the size of the object. 1 is default. 2 would double the width and height.
 	void setScale(float scale);
-
+	/// Changes our transparency.
+	/// Explicitly modify only the alpha value of our color.
 	void setAlpha(int alphaValue);
 
-	/**GETTERS**/
+	/// Return our scale.
 	float getScale() const;
+	/// Return our dimensions in world coordinates.
 	Vec2 getSize() const;
+	/// Return our position in world coordinates.
 	const b2Vec2& getPosition() const;
+	/// Return our rotation in radians counterclockwise.
 	float getRotation() const;
+	/// Return our offset in pixels from our center.
 	const sf::Vector2f& getOffset() const;
+	/// Return our current color.
 	const sf::Color getColor() const;
 
-	/**UPDATE**/
+	/// Update the positions of our vertices in case we have moved.
 	void update();
-	virtual void postUpdate() = 0;//used to update animation, and other things
+	/// Called after update so this GraphicsComponent can modify itself if needed.
+	virtual void postUpdate() = 0;
 
 protected:
 	sf::Transform getTransform() const;
@@ -91,4 +108,3 @@ private:
 	float m_scale;
 };
 
-#endif // GRAPHICSCOMPONENT_HPP

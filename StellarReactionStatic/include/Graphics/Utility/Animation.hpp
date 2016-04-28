@@ -1,24 +1,24 @@
-#ifndef ANIMATION_HPP
-#define ANIMATION_HPP
+#pragma once
 
-/// <summary>
-/// A particular set of animation tiles, like "Run"
-/// </summary>
+/// A particular set of animation tiles, like "Run".
 struct Animation
 {
-	std::string name;//name of this state
-	bool repeats;//should we repeat
-	std::vector<std::pair<sf::Vector2i, float> > tileSet;//texture tiles, %time to be on each one
+	/// Name of this state.
+	std::string name;
+	/// Whether this Animation should repeat when done.
+	bool repeats;
+	/// Map of animations and the percent of time to spend on that tile.
+	std::vector<std::pair<sf::Vector2i, float> > tileSet;
 };
 
-/// <summary>
-/// Stores animations like ["Run","Jump"] etc.
-/// </summary>
+/// Stores a list of animations like ["Run","Jump"] etc.
 struct AnimSet
 {
-	std::string setName;//name of our file including directory MINUS textures/
-	sf::Vector2f tileSize;//size of texture tiles
-	std::map<std::string, Animation> animations;//name of <Animation, the Animation>
+	/// Name of our file path from textures folder.
+	std::string setName;
+	/// Dimensions of a single frame of an animation.
+	sf::Vector2f tileSize;
+	/// Map of animation name and the actual Animation.
+	std::map<std::string, Animation> animations;
 };
 
-#endif // ANIMATION_HPP

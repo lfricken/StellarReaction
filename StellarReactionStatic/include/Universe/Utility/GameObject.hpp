@@ -6,6 +6,7 @@
 #include "Universe.hpp"
 #include "NonCopyable.hpp"
 
+/// Blueprint for GameObject.
 struct GameObjectData
 {
 	GameObjectData() : 
@@ -19,20 +20,17 @@ struct GameObjectData
 	NetworkComponentData nwComp;
 };
 
-/// <summary>
-/// Things owned by Universe, such as Chunks... (what else?)
-/// Contains Networking and IO/Eventing
-/// pre/post phys update
-/// </summary>
+/// Base object to allow networking and IO interaction.
 class GameObject : NonCopyable
 {
 public:
 	GameObject(const GameObjectData& rData);
 	virtual ~GameObject();
-
-	virtual void prePhysUpdate() = 0;//called just before physics step (do extra physics)
-	virtual void postPhysUpdate() = 0;//called just after physics step (do corrections, or graphics stuff)
-
+	///Pure virtual function to process actions on object before performing physics updates.
+	virtual void prePhysUpdate() = 0;
+	///Pure virtual function to process actions on object after performing physics updates.
+	virtual void postPhysUpdate() = 0;
+	///Pure virtual function to return the score of the game object.
 	virtual int getScore() = 0;
 
 	IOComponent m_io;

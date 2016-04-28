@@ -1,12 +1,10 @@
-#ifndef GRAPHICSLAYER_H
-#define GRAPHICSLAYER_H
+#pragma once
 
 #include "stdafx.hpp"
 
-/// <summary>
+
 /// Controls the order that an item is drawn to screen, 0 is 
-/// drawn lowest, everything after is drawn on top of each subsequent layer
-/// </summary>
+/// drawn lowest, everything after is drawn on top of each subsequent layer.
 enum class GraphicsLayer
 {
 	BackgroundVeryBack = 0,
@@ -37,4 +35,3 @@ enum class GraphicsLayer
 
 GraphicsLayer ChooseLayer(const std::string& rStr);
 
-#endif // GRAPHICSLAYER_H

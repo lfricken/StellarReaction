@@ -6,19 +6,24 @@
 
 struct ProjectileModuleData;
 
+
+/// Detects when colliding with something a potentially dealing damage.
 class ProjectileModule : public Sensor
 {
 public:
 	ProjectileModule(const ProjectileModuleData& rData);
 	virtual ~ProjectileModule();
-
+	///Actions to process on object after performing physics updates.
 	void postPhysUpdate();
+	///Set the damage, parent, and number of allowed collisions.
 	void setPayload(int damage, const FixtureComponent* pParent, int collisions);
-
+	///Actions to process when fixture component enters our sensor. May be called multiple times in a single step.
 	virtual void entered(FixtureComponent* pOther);
+	///Actions to process when fixture component exits our sensor. May be called multiple times in a single step.
 	virtual void exited(FixtureComponent* pOther);
+	///Should this projectile be freed?
 	virtual bool shouldTerminate() const;
-
+	///Input commands to this object.
 	virtual void input(std::string rCommand, sf::Packet rData);
 
 protected:
@@ -26,18 +31,18 @@ protected:
 	int m_damage;
 	const b2Body* m_pParent;
 	std::vector<sptr<GraphicsComponent> > m_decors;
-	int m_currentCollisions;//how many collisions have we had so far
-	int m_maxCollisions;//how many collisions should we do
+	///how many collisions have we had so far.
+	int m_currentCollisions;
+	///how many collisions should we do.
+	int m_maxCollisions;
 
-	/// <summary>
-	/// Damages the specified fixture (which has a module)
-	/// </summary>
+	/// Damages the specified fixture (which has a module).
 	void damage(FixtureComponent* pFix, int damage);
 private:
 
 };
 
-
+/// Initialize ProjectileModule
 struct ProjectileModuleData : public SensorData
 {
 	ProjectileModuleData() :
@@ -52,7 +57,7 @@ struct ProjectileModuleData : public SensorData
 	}
 
 	QuadComponentData baseDecor;
-
+	///Create ProjectileModule object from this data object.
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{
 		ProjectileModuleData copy(*this);
@@ -61,10 +66,12 @@ struct ProjectileModuleData : public SensorData
 		copy.chunkParent = parent;
 		return new ProjectileModule(copy);
 	}
+	///Create new copy of this data object.
 	virtual ModuleData* clone() const
 	{
 		return new ProjectileModuleData(*this);
 	}
+	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
 
 	MyType(ModuleData, ProjectileModuleData);
