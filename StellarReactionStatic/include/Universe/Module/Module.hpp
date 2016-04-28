@@ -68,7 +68,7 @@ protected:
 private:
 };
 
-
+/// Blueprint for Module
 struct ModuleData : public BlueprintData
 {
 	ModuleData() :

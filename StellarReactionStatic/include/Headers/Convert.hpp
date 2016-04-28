@@ -4,11 +4,9 @@
 #include "Globals.hpp"
 
 
-/// Useful conversions.
+
 namespace leon
 {
-
-
 	template<typename T>
 	/// Convert from degrees to radians.
 	inline float degToRad(T value)

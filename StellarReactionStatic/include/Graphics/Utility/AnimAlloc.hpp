@@ -5,8 +5,8 @@
 
 struct AnimSet;
 
-/// Animation Allocator.
-/// Stores animations so we don't have to load them from json repeatedly for no reason.
+/// \brief Stores animations so we don't have to load them from json repeatedly for no reason.
+/// 
 /// Similar to TextureAllocator.
 class AnimAlloc : NonCopyable
 {

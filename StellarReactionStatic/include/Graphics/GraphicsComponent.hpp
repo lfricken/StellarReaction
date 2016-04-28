@@ -7,6 +7,7 @@
 
 class GraphicsComponentUpdater;
 
+/// Blueprint for a GraphicsComponent.
 struct GraphicsComponentData
 {
 	GraphicsComponentData()

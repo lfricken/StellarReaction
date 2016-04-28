@@ -5,6 +5,7 @@
 #include "IOComponent.hpp"
 #include "NonCopyable.hpp"
 
+/// A wrapper around TGUI Widgets.
 namespace leon
 {
 	/// All data necessary to create a new Widget.

@@ -16,7 +16,8 @@ struct QuadData
 
 
 
-/// Holds a pointer to a texture and a list of vertices.
+/// \brief Holds a pointer to a texture and a list of vertices.
+/// 
 /// By having all the vertices for a texture in an array, it becomes much faster to draw them.
 struct Batch
 {
