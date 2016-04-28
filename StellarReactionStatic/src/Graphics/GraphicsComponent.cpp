@@ -55,8 +55,7 @@ void GraphicsComponent::setPosition(const b2Vec2& rWorldCoords)
 }
 void GraphicsComponent::setRotation(float radCCW)
 {
-	m_rotation = radCCW;
-	m_rotation = leon::normRad(radiansCCW);
+	m_rotation = leon::normRad(radCCW);
 }
 void GraphicsComponent::setOffset(const sf::Vector2f pixels)//sets the origin of us
 {

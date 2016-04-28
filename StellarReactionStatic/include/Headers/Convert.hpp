@@ -5,20 +5,6 @@
 
 
 
-namespace leon
-{
-	template<typename T>
-	/// Convert from degrees to radians.
-	inline float degToRad(T value)
-	{
-		return (pi*value)/180.0f;
-	}
-	template<typename T>
-	/// Convert from radians to degrees.
-	inline float radToDeg(T value)
-	{
-		return (180.0f*value)/pi;
-	}
 /// <summary>
 /// Useful conversions
 /// </summary>
