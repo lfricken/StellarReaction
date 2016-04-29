@@ -15,16 +15,19 @@ enum class Category
 
 	All = 0xFFFF,
 };
+///Converts Category string into enum class.
 Category ChooseCategory(const std::string& rChoice);
-
+///Bitwise OR between integer and category.
 inline int operator |(int a, Category b)
 {
 	return static_cast<int>(a) | static_cast<int>(b);
 }
+///Bitwise OR between category and category.
 inline int operator |(Category a, Category b)
 {
 	return static_cast<int>(static_cast<int>(a) | static_cast<int>(b));
 }
+///Bitwise AND between category and category.
 inline int operator &(Category a, Category b)
 {
 	return static_cast<int>(static_cast<int>(a) & static_cast<int>(b));
@@ -44,4 +47,5 @@ enum class Mask
 
 	All = static_cast<int>(Category::All),
 };
+///Converts Mask string into enum class.
 Mask ChooseMask(const std::string& rChoice);

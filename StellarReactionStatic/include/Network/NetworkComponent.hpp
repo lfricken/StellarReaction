@@ -1,10 +1,10 @@
-#ifndef NETWORKCOMPONENT_HPP
-#define NETWORKCOMPONENT_HPP
+#pragma once
 
 #include "stdafx.hpp"
 #include "NetworkBoss.hpp"
 #include "NonCopyable.hpp"
 
+/// \brief Data do initialize NetworkComponent
 struct NetworkComponentData
 {
 	NetworkComponentData()
@@ -12,11 +12,12 @@ struct NetworkComponentData
 
 	}
 
+	/// Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
 };
 
-
-class NetworkComponent : NonCopyable // for syncing data between objects on different computers
+/// \brief Syncs data between objects on different computers.
+class NetworkComponent : NonCopyable
 {
 public:
 	template <typename T>
@@ -30,11 +31,15 @@ public:
 	}
 	virtual ~NetworkComponent();
 
+	/// Put data into packet to be sent to clone on another computer.
 	void pack(sf::Packet& rPacket);
+	/// Extract data from packet, which was data sent from another computer.
 	void unpack(sf::Packet& rPacket);
 
-	bool toggleNewData(bool newData);//set new data
-	bool hasNewData();//do we have new data
+	/// Toggle flag whether we have new data to send.
+	bool toggleNewData(bool newData);
+	/// Return whether we have new data to send.
+	bool hasNewData();
 
 protected:
 private:
@@ -46,4 +51,3 @@ private:
 	bool m_newData;//is there new data to be sent?
 };
 
-#endif // NETWORKCOMPONENT_HPP

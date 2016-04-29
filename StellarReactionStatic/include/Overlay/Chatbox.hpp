@@ -7,6 +7,7 @@
 
 namespace leon
 {
+	/// Data to initialize a Chatbox
 	struct ChatboxData : public WidgetBaseData
 	{
 		ChatboxData() :
@@ -23,7 +24,7 @@ namespace leon
 		std::string backgroundTex;//background texture
 	};
 
-
+	/// Provides a way to send text messages between players in the same lobby.
 	class Chatbox : public WidgetBase
 	{
 	public:
@@ -31,6 +32,7 @@ namespace leon
 		Chatbox(tgui::Container& container, const ChatboxData& rData);
 		virtual ~Chatbox();
 
+		/// Add a line of text to this Chatbox.
 		void addLine(const std::string& rText);
 
 	protected:

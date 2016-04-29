@@ -353,6 +353,19 @@ IOComponent& Player::getIOComp()
 {
 	return m_io;
 }
+QuadComponentData createUI(sf::Vector2f size, String displayName, sf::Vector2f center = sf::Vector2f())
+{
+	QuadComponentData data;
+	data.dimensions = size;
+	data.texName = displayName + ".png";
+	data.animSheetName = displayName + ".acfg";
+	data.layer = GraphicsLayer::OverlayBottom;
+
+	if (center != sf::Vector2f())
+		data.center = center;
+
+	return data;
+}
 void Player::loadOverlay(const std::string& rOverlay)
 {
 	b2Vec2 emeterPos = b2Vec2(0.05f, -0.05f);
@@ -366,38 +379,42 @@ void Player::loadOverlay(const std::string& rOverlay)
 	m_energyMeterFill->setPosition(emeterPos);
 
 	MinimapData mapData;
-	mapData.controller = m_controller;
 	mapData.layer = GraphicsLayer::OverlayMiddle;
 	m_minimap.reset(new Minimap(mapData));
 	m_minimap->setPosition(b2Vec2(2.4f, -1.2f));
 
 	//Energy Bar
-	QuadComponentData data;
-	data.dimensions = sf::Vector2f(32, 128);
-	data.texName = "overlay/meter.png";
-	data.animSheetName = "overlay/meter.acfg";
-	data.layer = GraphicsLayer::OverlayBottom;
-	data.center = sf::Vector2f(-data.dimensions.x / 2, data.dimensions.y / 2);
+	sf::Vector2f dimensions = sf::Vector2f(32, 128);
+	QuadComponentData data = createUI(dimensions, "overlay/meter", sf::Vector2f(-dimensions.x / 2, dimensions.y / 2));
 	m_energyMeter.reset(new QuadComponent(data));
 	m_energyMeter->setPosition(emeterPos);
 
 	//Energy Warning
-	QuadComponentData datawarn;
-	datawarn.dimensions = sf::Vector2f(86, 73);
-	datawarn.texName = "overlay/warning_energy.png";
-	datawarn.animSheetName = "overlay/warning_energy.acfg";
-	datawarn.layer = GraphicsLayer::OverlayBottom;
+	QuadComponentData datawarn = createUI(sf::Vector2f(86, 74), "overlay/warning_energy");
 	m_energyDanger.reset(new QuadComponent(datawarn));
-	m_energyDanger->setPosition(emeterPos + b2Vec2(0.f, -0.4f));
+	m_energyDanger->setPosition(emeterPos + b2Vec2(0.05f, -0.4f));
 
 	//Out of Bounds Warning
-	QuadComponentData dataWarnBounds;
-	dataWarnBounds.dimensions = sf::Vector2f(250, 73);
-	dataWarnBounds.texName = "overlay/warning_bounds.png";
-	dataWarnBounds.animSheetName = "overlay/warning_bounds.acfg";
-	dataWarnBounds.layer = GraphicsLayer::OverlayBottom;
+	QuadComponentData dataWarnBounds = createUI(sf::Vector2f(250, 73), "overlay/warning_bounds");
 	m_boundsDanger.reset(new QuadComponent(dataWarnBounds));
 	m_boundsDanger->setPosition(b2Vec2(1.35f, -0.3f));
+
+
+
+	// Create a group icon for each possible group.
+	for(int group = 0; group < 4; ++group)
+	{
+		// Create one for each group.
+		QuadComponentData groupData = createUI(sf::Vector2f(100, 50), "overlay/control_group");
+
+		// Generate a new sptr to grouping icon.
+		sptr<QuadComponent> groupIcon;
+		groupIcon.reset(new QuadComponent(groupData));
+		groupIcon->setPosition(b2Vec2(1 + 0.2*group, 0) + emeterPos);
+
+		m_groupIcon.push_back(groupIcon);
+	}
+
 }
 void Player::universeDestroyed()
 {
@@ -406,6 +423,12 @@ void Player::universeDestroyed()
 	m_energyDanger.reset();
 	m_minimap.reset();
 	m_boundsDanger.reset();
+
+	// Clear, because otherwise, when we go 
+	// to add 4 more to it, the old null
+	// pointers are left behind and cause a crash.
+	m_groupIcon.clear();
+
 	setMoney(0);
 }
 bool Player::toggleFocus(bool isWindowFocused)
@@ -417,15 +440,24 @@ bool Player::hasFocus() const
 {
 	return m_hasFocus;
 }
+
 bool Player::toggleControlGroup(int group, bool on)
 {
+	// HUD Icons.
+	int index = group - 1;
+	if(index < m_groupIcon.size())
+	{
+		if(on)
+			m_groupIcon[index]->getAnimator().setAnimation("On", 1);
+		else
+			m_groupIcon[index]->getAnimator().setAnimation("Off", 1);
+	}
+
 	return m_weaponGroups[group] = on;
-	return m_weaponGroups[group];
 }
 bool Player::toggleControlGroup(int group)
 {
-	m_weaponGroups[group] = !m_weaponGroups[group];
-	return m_weaponGroups[group];
+	return toggleControlGroup(group, !m_weaponGroups[group]);
 }
 void Player::input(std::string rCommand, sf::Packet rData)
 {

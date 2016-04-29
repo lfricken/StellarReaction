@@ -92,9 +92,9 @@ void Decoration::setPosition(const Vec2& rDesiredWorldPos)
 	randVel();
 	randSpin();
 }
-void Decoration::setRotation(float radiansCCW)
+void Decoration::setRotation(float radCCW)
 {
-	m_spGfx->setRotation(radiansCCW);
+	m_spGfx->setRotation(radCCW);
 }
 void Decoration::setAnimation(const std::string& rAnimName, float duration)
 {

@@ -13,45 +13,31 @@
 struct WeaponData;
 class FixtureComponent;
 
-/// <summary>
-/// Base Class for all weapon types.
-/// Derived weapons override only preshot and postshot
-/// </summary>
+/// Basic object that provides easier interface for making complex types of weapons.
 class Weapon : NonCopyable
 {
 public:
 	Weapon(const WeaponData& rData);
 	virtual ~Weapon();
-	/// <summary>
-	/// called when the controller wants to fire. This activates and consumes any ammo,
+	/// Called when the controller wants to fire. This activates and consumes any ammo,
 	/// and sets the weapon so it will fire on preShot and postShot.
-	/// returns true if we will fire
-	/// </summary>
+	/// returns true if we will fire.
 	bool fire(const FixtureComponent& pParent, Pool<Energy>* pEnergy, Pool<Ballistic>* pBall, Pool<Missiles>* pMis);
-	/// <summary>
 	/// Called by our parent module
-	/// </summary>
-	/// <param name="pBody">The parent body.</param>
 	virtual void prePhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation);
-	/// <summary>
 	/// Called by our parent module
-	/// </summary>
-	/// <param name="pBody">The parent body.</param>
 	virtual void postPhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation);
-	//// <summary>
 	/// Called before physics update if this weapon should fire this tick
 	/// Look at laser and projectile weapon.
 	/// Overwrite this when making a new weapon.
-	/// </summary>
 	virtual void preShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation) = 0;
-	//// <summary>
 	/// Called after physics update if this weapon fired this tick
 	/// Overwrite this when making a new weapon.
 	/// Look at laser and projectile weapon.
-	/// </summary>
-
-	static void damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmount, int ioCausePos, int team);
 	virtual void postShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation) = 0;
+	///Does damage to target.
+	static void damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmount, int ioCausePos, int team);
+	///Gets the decoration object corresponding to this weapon.
 	QuadComponent* getDecor();
 
 protected:
@@ -64,9 +50,7 @@ protected:
 	float m_range;
 	int m_collisions;//how many collisions should we do? MODULE PENETRATION LOGIC
 	//TODO m_collisions is not used in the laser weapon type
-	/// <summary>
 	/// Damages the specified fixture (which has a module)
-	/// </summary>
 	void damage(b2Fixture* pFix, int damage, int team);
 private:
 	QuadComponent m_decor;//the weapon sprite
@@ -87,7 +71,7 @@ private:
 	bool m_shotThisTick;//did we fire this tick?
 };
 
-
+/// Blueprint for Weapon.
 struct WeaponData : public BlueprintData
 {
 	WeaponData() :
@@ -131,19 +115,20 @@ struct WeaponData : public BlueprintData
 
 	QuadComponentData weaponQuad;
 
-
+	///Returns null and prints out the file and line that attempted to instantiate this virtual object.
 	virtual Weapon* generate() const
 	{
 		WeaponData copy(*this);
 		std::cout << FILELINE;
 		return NULL;
 	}
+	///Create new copy of this data object and prints out the file and line that attempted to clone this data object.
 	virtual WeaponData* clone() const
 	{
 		std::cout << FILELINE;
 		return new WeaponData(*this);
 	}
-
+	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
 
 	MyType(WeaponData, WeaponData);

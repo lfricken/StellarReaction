@@ -3,6 +3,11 @@
 #include "Stealth.hpp"
 #include "Universe.hpp"
 #include "BlueprintLoader.hpp"
+
+
+// Decorations aren't ready for testing yet.
+
+
 //#include "StaticDecor.hpp"
 //#include "DynamicDecor.hpp"
 //

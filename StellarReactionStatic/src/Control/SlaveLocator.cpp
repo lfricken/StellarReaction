@@ -69,8 +69,11 @@ Chunk* SlaveLocator::find(int position)
 	else
 		return NULL;
 }
-Chunk* SlaveLocator::findHack(const std::string& rName)
+Chunk* SlaveLocator::find(const std::string& rName)
 {
 	int index = findPos(rName);
-	return find(index);
+	if(index == -1)
+		return find(index);
+	else
+		return NULL;
 }

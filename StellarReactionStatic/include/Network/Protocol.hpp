@@ -1,7 +1,7 @@
-#ifndef PROTOCOL_HPP
-#define PROTOCOL_HPP
+#pragma once
 
-enum class Protocol//indicate which type of message it is
+/// Used to determine a data packets intentional function.
+enum class Protocol
 {
 	/**UDP**/
 	Control,//what the player is doing in terms of actions, aim, ect
@@ -19,4 +19,3 @@ enum class Protocol//indicate which type of message it is
 	End,//end of protocol, or ignore this packet
 };
 
-#endif // PROTOCOL_HPP

@@ -5,6 +5,7 @@
 #include "NetworkComponent.hpp"
 #include "NonCopyable.hpp"
 
+/// Initializes BodyComponent
 struct BodyComponentData
 {
 	BodyComponentData() :
@@ -27,27 +28,35 @@ struct BodyComponentData
 	float linearDampening;
 	float angularDampening;
 	NetworkComponentData nwComp;
-
+	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
 };
 
 
+
+/// Wrapper for Box2D Body.
 class BodyComponent : NonCopyable
 {
 public:
 	BodyComponent(const BodyComponentData& rData);
 	virtual ~BodyComponent();
-
+	///Returns the position of the body in world coordinates.
 	const b2Vec2& getPosition() const;
+	///Returns a pointer to the Box2D body object.
 	b2Body* getBodyPtr();
+	///Returns a reference to the network component of the body.
 	NetworkComponent& getNWComp();
-
+	///Returns true if the body is not sleeping.
 	bool isAwake() const;
+	///Causes the body to sleep.
 	void sleep();
+	///Wakes the body from sleep.
 	void wake();
+	///Wake the body with a given position and velocity.
 	void wake(const b2Vec2& rCoords, float radiansCCW, const b2Vec2& rVel, float angularVel);
-
+	///Sets the team of the Ship this body represents.
 	void setTeam(int team);
+	///Returns the team of the Ship this body represents.
 	int getTeam() const;
 
 protected:
