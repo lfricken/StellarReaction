@@ -88,13 +88,16 @@ public:
 	bool isPaused();
 	/// Set whether debug draw is on or not.
 	void toggleDebugDraw();
-	/// Return pointer to nearest Chunk, ignoring exception.
-	GameObject* getNearestChunkExcept(const b2Vec2& target, const b2Body* exception);
+	/// Find station that isnt on specified team
+	Chunk* getNearestStation(const b2Vec2& target, int team);
+	/// Return pointer to the nearest Chunk, ignoring exception.
+	Chunk* getNearestChunkExcept(const b2Vec2& target, const Chunk* exception);
 	/// Return pointer to the nearest BodyComponent.
 	BodyComponent* getNearestBody(const b2Vec2& target);
-	/// Return pointer to the nearest Chunk.
-	Chunk* getNearestChunk(const b2Vec2& target, const Chunk* me);
-
+	/// Find Chunk that is on one of the specified teams
+	Chunk* getNearestChunkOnTeam(const b2Vec2& target, const Chunk* exception, std::list<int> teams);
+	bool listContains(std::list<int> teams, int value);
+	
 	/// Get a bed positions for a Chunk to sleep at.
 	b2Vec2 getBed();
 	/// Someone is no longer sleeping at a position. Other people can sleep there.
@@ -105,12 +108,13 @@ public:
 	void add(GameObject* pGO);
 	/// Return list of GameObject.
 	std::vector<sptr<GameObject> > getgoList();
+
 	/// Return whether a position is clear of other objects.
-	bool isClear(b2Vec2 position, float radius, const b2Body* exception);
+	bool isClear(b2Vec2 position, float radius, const Chunk* exception);
 	/// Return a spawn point for this team.
-	b2Vec2 getAvailableSpawn(int team, float radius, const b2Body* exception);
 
 	bool started = true; //tell whether this is the initial universe created by Game, or a later one
+	b2Vec2 getAvailableSpawn(int team, float radius, const Chunk* exception);
 
 protected:
 	void loadBlueprints(const std::string& bluePrints);//loads blueprints
@@ -159,6 +163,7 @@ private:
 	/**Ships, AI**/
 	std::vector<sptr<GameObject> > m_goList;//list of game objects that WE need to keep track of
 	std::vector<sptr<ShipAI> > m_shipAI;
+	std::vector<Chunk*> m_capturePoints;
 
 	/**Hazards**/
 	std::vector<sptr<HazardField> > hazardFields;
