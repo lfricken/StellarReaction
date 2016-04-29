@@ -54,7 +54,7 @@ void Teleport::directive(const CommandInfo& commands)
 				target = diff + orgPos;
 			}
 			//check if the destination is clear
-			if(game.getUniverse().isClear(target, m_parentChunk->getRadius(), m_parentChunk->getBodyPtr()))
+			if(game.getUniverse().isClear(target, m_parentChunk->getRadius(), m_parentChunk))
 			{
 				//restart timer, consume energy, perfrom teleport
 				m_teleTimer.restartCountDown();

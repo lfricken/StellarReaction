@@ -131,11 +131,11 @@ b2Vec2 Chunk::getSpawn()
 }
 b2Vec2 Chunk::getClearSpawn()
 {
-	if(game.getUniverse().isClear(m_spawnPoint, getRadius(), m_body.getBodyPtr()))
+	if(game.getUniverse().isClear(m_spawnPoint, getRadius(), this))
 		return m_spawnPoint;
 	else
 	{
-		return game.getUniverse().getAvailableSpawn(m_body.getTeam(), getRadius(), m_body.getBodyPtr());
+		return game.getUniverse().getAvailableSpawn(m_body.getTeam(), getRadius(), this);
 	}
 }
 void Chunk::setSpawn(float x, float y)
