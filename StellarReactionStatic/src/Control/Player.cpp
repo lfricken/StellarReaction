@@ -320,10 +320,9 @@ void Player::updateView()
 		int index = 0;
 		float offset_x = 2.40f;
 		float offset_y = -1.20f;
-		m_radarsize = 0;
+		m_radarsize = goList.size();
 		for(auto it = goList.begin(); it != goList.end(); ++it)
 		{
-			m_radarsize++;
 			GameObject* p = it->get();
 			Chunk* object = dynamic_cast<Chunk*>(p);
 			int other_team = object->getBodyComponent().getTeam();
