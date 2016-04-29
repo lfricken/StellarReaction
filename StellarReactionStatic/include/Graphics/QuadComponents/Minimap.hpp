@@ -28,6 +28,10 @@ public:
 	/// Clear the map of dots by putting the dots off map.
 	void cleanMap(int index);
 
+	/// \brief Get a particular dot from the minimap.
+	///
+	/// index indicates the dot count.
+	sptr<QuadComponent> getDot(int index);
 protected:
 	std::vector<sptr<QuadComponent> > map_points;
 private:

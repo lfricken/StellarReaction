@@ -5,33 +5,49 @@
 
 
 
+/// <summary>
+/// Useful conversions
+/// </summary>
 namespace leon
 {
-	template<typename T>
-	/// Convert from degrees to radians.
-	inline float degToRad(T value)
-	{
-		return (pi*value)/180.0f;
-	}
-	template<typename T>
-	/// Convert from radians to degrees.
-	inline float radToDeg(T value)
-	{
-		return (180.0f*value)/pi;
-	}
+	/** Normalize Radians and Degrees **/
 	template<typename T>
 	/// Normalize radians to between 0 and 2PI.
 	inline float normRad(T value)
 	{
 		float pi2 = 2.f * pi;
-		while(value > pi2)
+		while (value > pi2)
 			value -= pi2;
 
-		while(value < 0.f)
+		while (value < 0.f)
 			value += pi2;
 
 		return value;
 	}
+	template<typename T>
+	inline float normDeg(T value)
+	{
+		while (value > 360.f)
+			value -= 360.f;
+
+		while (value < 0.f)
+			value += 360.f;
+
+		return value;
+	}
+
+	/**=====RADIANS AND DEGREES=====**/
+	template<typename T>
+	inline float degToRad(T value)
+	{
+		return (pi*value) / 180.0f;
+	}
+	template<typename T>
+	inline float radToDeg(T value)
+	{
+		return (180.0f*value) / pi;
+	}
+	
 
 
 

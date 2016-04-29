@@ -6,7 +6,8 @@
 class Directory
 {
 public:
-	Directory(const std::string& rContentDir);
+	Directory(const std::string& r
+		);
 	~Directory();
 	
 

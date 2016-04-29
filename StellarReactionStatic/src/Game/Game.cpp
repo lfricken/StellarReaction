@@ -62,6 +62,7 @@ Game::Game()
 
 	loadUniverse("RANDOMTEXT");//TODO RANDOMTEXT
 	m_spUniverse->togglePause(true);
+	m_spUniverse->started = false;
 
 	m_spDir = sptr<Directory>(new Directory(contentDir()));
 

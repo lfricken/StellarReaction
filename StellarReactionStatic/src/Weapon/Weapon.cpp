@@ -159,4 +159,3 @@ QuadComponent* Weapon::getDecor()
 	return &m_decor;
 }
 
-

@@ -112,6 +112,8 @@ public:
 	/// Return whether a position is clear of other objects.
 	bool isClear(b2Vec2 position, float radius, const Chunk* exception);
 	/// Return a spawn point for this team.
+
+	bool started = true; //tell whether this is the initial universe created by Game, or a later one
 	b2Vec2 getAvailableSpawn(int team, float radius, const Chunk* exception);
 
 protected:

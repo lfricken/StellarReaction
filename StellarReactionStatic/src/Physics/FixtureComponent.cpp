@@ -1,5 +1,6 @@
 #include "FixtureComponent.hpp"
 #include "Globals.hpp"
+#include "Convert.hpp"
 #include "Universe.hpp"
 #include "JSON.hpp"
 
@@ -119,7 +120,8 @@ b2Vec2 FixtureComponent::getCenter() const
 }
 float FixtureComponent::getAngle() const//RADIANS CCW
 {
-	return m_pFixture->GetBody()->GetAngle();
+	float ret = m_pFixture->GetBody()->GetAngle();
+	return leon::normRad(ret);
 }
 int FixtureComponent::getIOPos() const
 {

@@ -1,6 +1,6 @@
 #include "GraphicsComponent.hpp"
 
-#include "convert.hpp"
+#include "Convert.hpp"
 #include "Universe.hpp"
 #include "GraphicsComponentUpdater.hpp"
 #include "JSON.hpp"
@@ -55,7 +55,7 @@ void GraphicsComponent::setPosition(const b2Vec2& rWorldCoords)
 }
 void GraphicsComponent::setRotation(float radCCW)
 {
-	m_rotation = radCCW;
+	m_rotation = leon::normRad(radCCW);
 }
 void GraphicsComponent::setOffset(const sf::Vector2f pixels)//sets the origin of us
 {
@@ -63,6 +63,7 @@ void GraphicsComponent::setOffset(const sf::Vector2f pixels)//sets the origin of
 }
 void GraphicsComponent::setColor(sf::Color color)
 {
+	m_color = color;
 	for(int i = 0; i < m_numVerts; ++i)
 		(*m_pVerts)[i + m_startVert].color = color;//make them transparent so they can no longer be seen
 }
@@ -81,7 +82,7 @@ const b2Vec2& GraphicsComponent::getPosition() const
 }
 float GraphicsComponent::getRotation() const
 {
-	return m_rotation;
+	return leon::normRad(m_rotation);
 }
 const sf::Vector2f& GraphicsComponent::getOffset() const
 {

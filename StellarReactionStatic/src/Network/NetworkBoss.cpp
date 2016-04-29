@@ -310,11 +310,25 @@ void NetworkBoss::setState(NWState state, bool open, bool acceptsLocal, bool hid
 	pack1 << hideLobby;
 	Message hideLobbyMes("lobby", "setHidden", pack1, 0, true);//show lobby
 	game.getCoreIO().recieve(hideLobbyMes);
+	
+	sf::Packet pack3;
+	if (state == NWState::Client){
+		pack3 << true;
+		Message hideLaunchButton("lobby_launch", "setHidden", pack3, 0, true);//hide launch
+		game.getCoreIO().recieve(hideLaunchButton);
+	}
+	else{
+		pack3 << false;
+		Message hideLaunchButton("lobby_launch", "setHidden", pack3, 0, true);//show launch
+		game.getCoreIO().recieve(hideLaunchButton);
+	}
+
 
 	sf::Packet pack2;
 	pack2 << hideConnectScreen;
 	Message hideMult("multiplayer_connect", "setHidden", pack2, 0, true); //hide multiplayer panel
 	game.getCoreIO().recieve(hideMult);
+	
 }
 /// <summary>
 /// Listen for data, and send data.

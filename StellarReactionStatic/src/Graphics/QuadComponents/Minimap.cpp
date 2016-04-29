@@ -39,6 +39,10 @@ void Minimap::setDot(b2Vec2 center, int index, int team)
 	else
 		map_points[index]->setColor(sf::Color::Blue);
 }
+sptr<QuadComponent> Minimap::getDot(int index)
+{
+	return map_points[index];
+}
 void Minimap::cleanMap(int index)
 {
 	if(index < (signed)map_points.size())

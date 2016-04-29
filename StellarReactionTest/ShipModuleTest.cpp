@@ -16,7 +16,6 @@ extern Game game;
 TEST(ShipModuleTest, FriendlyFire)
 {
 	game.restartTest();
-
 	////Ship
 	ChunkData* c = game.getUniverse().getBlueprints().getChunkSPtr("Anubis")->clone();
 	c->bodyComp.coords = b2Vec2(2, 2);
