@@ -22,6 +22,8 @@ public:
 	void respawn();
 protected:
 private:
+	//heals modules to max hp
+	void healModules();
 	///Energy per second.
 	Energy m_rate;
 	///Tracks respawn time

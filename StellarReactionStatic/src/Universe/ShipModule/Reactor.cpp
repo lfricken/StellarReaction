@@ -31,7 +31,7 @@ void Reactor::prePhysUpdate()
 void Reactor::postPhysUpdate()
 {
 	//check if we should respawn or operate normally
-	if(isFunctioning() && m_respawned)
+	if(isFunctioning() && m_health.getHealth()>=0 && m_respawned)
 		m_pEnergyPool->changeValue(game.getUniverse().getTimeStep()*m_rate);
 	else
 		respawn();
@@ -41,12 +41,7 @@ void Reactor::postPhysUpdate()
 		//stop waiting
 		m_waiting = false;
 		m_respawned = true;
-		//heal all modules to max hp
-		std::vector<sptr<Module>> moduleList = m_parentChunk->getModuleList();
-		for(auto it = moduleList.begin(); it != moduleList.end(); ++it)
-		{
-			(*it)->healToMax();
-		}
+		healModules();
 	}
 	//halt all ship movement
 	if(m_waiting)
@@ -54,7 +49,6 @@ void Reactor::postPhysUpdate()
 		m_parentChunk->getBodyPtr()->SetLinearVelocity(b2Vec2_zero);
 		m_parentChunk->getBodyPtr()->SetAngularVelocity(0);
 	}
-
 	ShipModule::postPhysUpdate();
 }
 void Reactor::directive(const CommandInfo& commands)
@@ -87,9 +81,19 @@ void Reactor::respawn()
 		b2Vec2 spawn = m_parentChunk->getClearSpawn();// +displacement;
 		float angle = atan2(spawn.y, spawn.x) + (pi / 2.f);
 		ship->SetTransform(spawn, angle);
+		healModules();
 		//ship is waiting now
 		m_waiting = true;
 		return;
 	}
+}
 
+void Reactor::healModules()
+{
+	//heal all modules to max hp
+	std::vector<sptr<Module>> moduleList = m_parentChunk->getModuleList();
+	for (auto it = moduleList.begin(); it != moduleList.end(); ++it)
+	{
+		(*it)->healToMax();
+	}
 }
