@@ -96,6 +96,7 @@
     <ClCompile Include="DecorTest.cpp" />
     <ClCompile Include="GameTest.cpp" />
     <ClCompile Include="Health.cpp" />
+    <ClCompile Include="Pool.cpp" />
     <ClCompile Include="ReactorTest.cpp" />
     <ClCompile Include="MinimapTest.cpp" />
     <ClCompile Include="ScoreboardTest.cpp" />

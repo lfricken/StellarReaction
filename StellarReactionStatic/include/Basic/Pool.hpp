@@ -50,9 +50,9 @@ class Pool
 public:
 	Pool(const PoolData<T>& rData)
 	{
-		m_max = rData.Max;
 		m_min = rData.Min;
-		m_value = rData.Value;
+		setMax(rData.Max);
+		setValue(rData.Value);
 	}
 	virtual ~Pool() {}
 
