@@ -29,7 +29,7 @@ void teleportParamTest(const vector<b2Vec2>& cases)
 		EXPECT_FALSE(game.getUniverse().isClear(far, 3.0f, NULL));
 
 		//Should Be Clear if it's us
-		EXPECT_TRUE(game.getUniverse().isClear(far, 3.0f, testShip->getBodyPtr()));
+		EXPECT_TRUE(game.getUniverse().isClear(far, 3.0f, testShip));
 	}
 }
 
