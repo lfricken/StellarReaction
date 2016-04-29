@@ -241,7 +241,8 @@ void Overlay::loadMenus()
 	select.ioComp.name = "lobby_shipSelect";
 
 	leon::SelectableItemData data1;
-	data1.texName = "menu/red_menu.png";
+	//data1.texName = "menu/red_menu.png";
+	data1.texName = "menu/Red_menu_button.png";
 	leon::LabelData label1;
 	data1.labelData.push_back(label1);
 
@@ -297,19 +298,23 @@ void Overlay::loadMenus()
 
 	data.labelData.back().text = "Team 1";
 	data.id = "1";
-	data.texName = "menu/blue_menu.png";
+	//data.texName = "menu/blue_menu.png";
+	data.texName = "menu/Blue_menu_button.png";
 	selectTeam.items.push_back(data);
 	data.labelData.back().text = "Team 2";
 	data.id = "2";
-	data.texName = "menu/green_menu.png";
+	//data.texName = "menu/green_menu.png";
+	data.texName = "menu/Green_menu_button.png";
 	selectTeam.items.push_back(data);
 	data.labelData.back().text = "Team 3";
 	data.id = "3";
-	data.texName = "menu/yellow_menu.png";
+	//data.texName = "menu/yellow_menu.png";
+	data.texName = "menu/Orange_menu_button.png";
 	selectTeam.items.push_back(data);
 	data.labelData.back().text = "Team 4";
 	data.id = "4";
-	data.texName = "menu/pink_menu.png";
+	//data.texName = "menu/pink_menu.png";
+	data.texName = "menu/Purple_menu_button.png";
 	selectTeam.items.push_back(data);
 
 	pLobby->add(sptr<leon::WidgetBase>(new leon::NetworkedSelection(*pLobby->getPanelPtr(), selectTeam)));
@@ -446,7 +451,7 @@ void Overlay::loadMenus()
 	/**HUD**/
 
 	/**PANEL**/
-	sf::Vector2f textPanelSize = sf::Vector2f(600, 100);
+	sf::Vector2f textPanelSize = sf::Vector2f(100, 100);
 	leon::PanelData hudPanelData;
 	hudPanelData.ioComp.name = "hud_panel";
 	hudPanelData.startHidden = true;
@@ -469,14 +474,6 @@ void Overlay::loadMenus()
 	hudMoney.buttonText = "";
 	hudMoney.screenCoords = sf::Vector2f(0, 30);
 	pLobby->add(sptr<leon::WidgetBase>(new leon::Button(*pHudPanel->getPanelPtr(), hudMoney)));
-
-	/**WEAPON CONTROL GROUPS**/
-	leon::ButtonData hudControl;
-	hudControl.ioComp.name = "hud_control";
-	hudControl.size = sf::Vector2f(500, 30);
-	hudControl.buttonText = "All Enabled";
-	hudControl.screenCoords = sf::Vector2f(0, 60);
-	pLobby->add(sptr<leon::WidgetBase>(new leon::Button(*pHudPanel->getPanelPtr(), hudControl)));
 	/**HUD**/
 	/**HUD**/
 
@@ -530,9 +527,10 @@ void Overlay::loadScoreboard(const GameLaunchData& data)
 	select.ioComp.name = "team1_score";
 
 	leon::SelectableItemData data1;
-	data1.texName = "menu/blue_menu.png";
+	data1.texName = "menu/Blue_menu_button.png";
 	leon::LabelData label1;
 	data1.labelData.push_back(label1);
+	data1.labelData.back().textSize = 16;
 	
 	Courier buttonClick;
 	data1.buttData.ioComp.courierList.push_back(buttonClick);
@@ -547,9 +545,10 @@ void Overlay::loadScoreboard(const GameLaunchData& data)
 	select2.ioComp.name = "team2_score";
 
 	leon::SelectableItemData data2;
-	data2.texName = "menu/green_menu.png";
+	data2.texName = "menu/Green_menu_button.png";
 	leon::LabelData label2;
 	data2.labelData.push_back(label2);
+	data2.labelData.back().textSize = 16;
 
 	Courier buttonClick2;
 	data2.buttData.ioComp.courierList.push_back(buttonClick2);
@@ -564,9 +563,10 @@ void Overlay::loadScoreboard(const GameLaunchData& data)
 	select3.ioComp.name = "team3_score";
 
 	leon::SelectableItemData data3;
-	data3.texName = "menu/yellow_menu.png";
+	data3.texName = "menu/Orange_menu_button.png";
 	leon::LabelData label3;
 	data3.labelData.push_back(label3);
+	data3.labelData.back().textSize = 16;
 
 	Courier buttonClick3;
 	data3.buttData.ioComp.courierList.push_back(buttonClick3);
@@ -581,9 +581,10 @@ void Overlay::loadScoreboard(const GameLaunchData& data)
 	select4.ioComp.name = "team4_score";
 
 	leon::SelectableItemData data4;
-	data4.texName = "menu/pink_menu.png";
+	data4.texName = "menu/Purple_menu_button.png";
 	leon::LabelData label4;
 	data4.labelData.push_back(label4);
+	data4.labelData.back().textSize = 16;
 
 	Courier buttonClick4;
 	data4.buttData.ioComp.courierList.push_back(buttonClick4);
