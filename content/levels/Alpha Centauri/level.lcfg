@@ -19,8 +19,8 @@
 		"quadData": {
 			"layer": "BackgroundFar",
 			"dimensions": [1024, 1024],
-			"texName": "planets/desert_planet.png",
-			"animSheetName": "planets/desert_planet.acfg"
+			"texName": "planets/desert.png",
+			"animSheetName": "planets/desert.acfg"
 		},
 		"decorData": {
             "zPos": 1024,
@@ -32,8 +32,8 @@
 		"quadData": {
 			"layer": "BackgroundVeryFar",
 			"dimensions": [512, 512],
-			"texName": "planets/pluto.png",
-			"animSheetName": "planets/pluto.acfg"
+			"texName": "planets/rocky.png",
+			"animSheetName": "planets/rocky.acfg"
 		},
 		"decorData": {
             "zPos": 2048,
