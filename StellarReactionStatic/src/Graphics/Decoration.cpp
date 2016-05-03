@@ -8,16 +8,16 @@
 void DecorationData::loadJson(const Json::Value& root)
 {
 	LOADJSON(ioComp);
-	GETJSON(sizeScale);
-	GETJSON(movementScale);
-
-	GETJSON(realPosition);
 
 	GETJSON(minSpinRate);
 	GETJSON(maxSpinRate);
 	GETJSON(minVelocity);
 	GETJSON(maxVelocity);
 
+	GETJSON(realPosition);
+	GETJSON(zPos);
+
+	GETJSON(infiniteZ);
 	GETJSON(repeats);
 	GETJSON(repeatsRandom);
 	GETJSON(spawnRandom);
@@ -25,25 +25,25 @@ void DecorationData::loadJson(const Json::Value& root)
 Decoration::Decoration(const DecorationData& data, GraphicsComponent* pGfx) : m_io(data.ioComp, &Decoration::input, this)
 {
 	m_spGfx.reset(pGfx);
-	m_sizeScale = data.sizeScale;
-	m_movementScale = data.movementScale;
-
-
-	setPosition(data.realPosition);
-
 
 	m_minSpin = leon::degToRad(data.minSpinRate);
 	m_maxSpin = leon::degToRad(data.maxSpinRate);
 	m_minVel = data.minVelocity;
 	m_maxVel = data.maxVelocity;
-	randSpin();
-	randVel();
 
+	m_realPosition = data.realPosition;
+	m_zPos = data.zPos;
+
+	m_infiniteZ = data.infiniteZ;
 	m_repeats = data.repeats;
 	m_repeatsRandom = data.repeatsRandom;
 	m_spawnRandom = data.spawnRandom;
 
+
 	m_lastCameraPos = Vec2(0, 0);
+	m_maxZoom = game.getLocalPlayer().getCamera().m_maxZoom;
+	randSpin();
+	randVel();
 }
 Decoration::~Decoration()
 {
@@ -89,7 +89,18 @@ void Decoration::input(std::string rCommand, sf::Packet rData)
 }
 void Decoration::setPosition(const Vec2& rDesiredWorldPos)
 {
-	m_realPosition = rDesiredWorldPos - Vec2(m_lastCameraPos.x*m_movementScale, m_lastCameraPos.y*m_movementScale);
+	{
+		float x = rDesiredWorldPos.x - m_lastCameraPos.x;//x dist from camera
+		const float slope = x / m_maxZoom;//slope
+		const float zDist = m_maxZoom + m_zPos;//z dist from camera to source
+		m_realPosition.x = zDist*slope + rDesiredWorldPos.x;//xPos
+	}
+	{
+		float y = rDesiredWorldPos.y - m_lastCameraPos.y;//y dist from camera
+		const float slope = y / m_maxZoom;//slope
+		const float zDist = m_maxZoom + m_zPos;//z dist from camera to source
+		m_realPosition.y = zDist*slope + rDesiredWorldPos.y;//yPos
+	}
 	randVel();
 	randSpin();
 }
@@ -112,41 +123,48 @@ bool Decoration::isRandSpawn() const
 void Decoration::updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bottomLeft, const Vec2& topRight, const float zoom, const float dTime)
 {
 	m_lastCameraPos = rCameraCenter;
+	const float zDist = zoom + m_zPos;//z dist from camera to source
+	const Vec2 halfSize(m_spGfx->getSize().x / 2.f, m_spGfx->getSize().y / 2.f);
 
 	/**Spins**/
 	{
-		float total = m_spGfx->getRotation() + (dTime * m_spinRate);
+		const float total = m_spGfx->getRotation() + (dTime * m_spinRate);
 		m_spGfx->setRotation(total);
 	}
 
 	/**Follows Camera**/
 	{
-		float zoom = game.getLocalPlayer().getCamera().getZoom();
-		float max = game.getLocalPlayer().getCamera().m_maxZoom;
+		m_realPosition += Vec2(m_velocity.x * dTime, m_velocity.y * dTime);
+		Vec2 appearPos(0, 0);
+		if(!m_infiniteZ)
+		{
+			const float zoom = game.getLocalPlayer().getCamera().getZoom();
+			const float xDist = m_realPosition.x - rCameraCenter.x;
+			const float yDist = m_realPosition.y - rCameraCenter.y;
+			{
+				const float slope = xDist / zDist;
+				appearPos.x = slope*zoom;
+			}
+			{
+				const float slope = yDist / zDist;
+				appearPos.y = slope*zoom;
+			}
+		}
+		else
+			appearPos = m_realPosition;
 
-		m_realPosition += Vec2(m_velocity.x * dTime * (1.f - m_movementScale), m_velocity.y * dTime * (1.f - m_movementScale));
-		const Vec2 finalPos = m_realPosition + Vec2(rCameraCenter.x*m_movementScale, rCameraCenter.y*m_movementScale);
-
-		//float mod = 0;
-		//if(m_sizeScale > 0.4)
-		//	mod = 1;
-
-		Vec2 zoomMod = rCameraCenter - finalPos;
-		zoomMod.x *= ((zoom)*(-1.f / max) + 1) * m_sizeScale;
-		zoomMod.y *= ((zoom)*(-1.f / max) + 1) * m_sizeScale;
-
-		m_spGfx->setPosition(finalPos + zoomMod);
+		m_spGfx->setPosition(appearPos + rCameraCenter);
 	}
 
 
 	/**Repeats itself over view box**/
+	/**Relies on graphics object so position is by appearance**/
 	{
-		const Vec2 halfSize(m_spGfx->getSize().x / 2.f, m_spGfx->getSize().y / 2.f);
 		const Vec2 pos(m_spGfx->getPosition());
 		const Vec2 ourBotLeft = pos - halfSize;
 		const Vec2 ourTopRight = pos + halfSize;
 
-		if(m_repeats || m_repeatsRandom)
+		if(m_repeatsRandom || m_repeats)
 		{
 			if(ourTopRight.x < bottomLeft.x)//has exited left
 			{
@@ -184,12 +202,21 @@ void Decoration::updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bot
 
 				setPosition(Vec2(starting, topRight.y));
 			}
-
 		}
 	}
 
 
 	/**Scales with zoom out**/
-	setScale(m_sizeScale*(zoom - 1) + 1);
+	const float staticSize = (1 * (zoom - 1) + 1);//counters the zoom scaling
+	if(m_infiniteZ)
+	{
+		setScale(staticSize);
+	}
+	else
+	{
+		const float staticZoom = (m_maxZoom + m_zPos);
+		const float angle = atan(halfSize.x / zDist);
+		setScale(angle*staticSize*staticZoom);
+	}
 }
 

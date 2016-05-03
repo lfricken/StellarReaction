@@ -36,6 +36,7 @@ public:
 	void updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bottomLeft, const Vec2& topRight, const float zoom, const float dTime);
 
 	Vec2 m_lastCameraPos;
+	float m_maxZoom;
 protected:
 	void input(std::string rCommand, sf::Packet rData);
 private:
@@ -47,10 +48,6 @@ private:
 	/// The graphics object this Decoration controls.
 	sptr<GraphicsComponent> m_spGfx;
 	IOComponent m_io;
-
-	float m_sizeScale;
-	float m_movementScale;
-
 
 
 	float m_minSpin;
@@ -65,7 +62,10 @@ private:
 
 	/// The position that we WOULD be in a 3D world.
 	Vec2 m_realPosition;
+	/// Controlls all paralaxing. Used to calculate paralaxing and zoom.
+	float m_zPos;
 
+	bool m_infiniteZ;
 	bool m_spawnRandom;
 	bool m_repeats;
 	bool m_repeatsRandom;
@@ -77,49 +77,33 @@ struct DecorationData
 {
 	DecorationData() :
 		ioComp(&game.getUniverse().getUniverseIO()),
-		sizeScale(0),
-		movementScale(0),
-
-		realPosition(0, 0),
 
 		minSpinRate(0),
 		maxSpinRate(0),
 		minVelocity(0, 0),
 		maxVelocity(0, 0),
 
+		realPosition(0, 0),
+		zPos(0),
+
+		infiniteZ(false),
 		repeats(false),
 		repeatsRandom(false),
 		spawnRandom(false)
 	{
 
 	}
-
 	IOComponentData ioComp;
-
-	/// Value used to simulate zooming paralax.
-	/// 0 means an object will
-	/// appear in the plane of the camera target.
-	/// 1 means an object is infinitely far away.
-	/// Values in between simulate the middle ground.
-	float sizeScale;
-
-	/// Value used to simulate movement paralax.
-	/// Examples imagine you are looking out of a speeding car at another speeding car next to you
-	/// an object super far      1 (it follows the camera 1:1 and always stays in view) (stars in night sky)
-	/// an object kind of far  0.5 (it follows the camera, but moves slowly) (grain silo a mile away)
-	/// an object same plane     0 (it doesnt follow the camera) (the ground under the other car)
-	/// an object closer      -0.5 (it flies past the camera) (the ground between you and the other car)
-	float movementScale;
-
-
-
-	Vec2 realPosition;
 
 	float minSpinRate;
 	float maxSpinRate;
 	Vec2 minVelocity;
 	Vec2 maxVelocity;
 
+	Vec2 realPosition;
+	float zPos;
+
+	bool infiniteZ;
 	bool repeats;
 	bool repeatsRandom;
 	bool spawnRandom;
