@@ -1,5 +1,5 @@
 #include "DecorationEngine.hpp"
-
+#include "Random.hpp"
 #include "QuadComponent.hpp"
 #include "Decoration.hpp"
 #include "Spinner.hpp"
@@ -60,84 +60,6 @@ void DecorationEngine::loadJson(const Json::Value& decorations)
 			m_decorations.push_back(sptr<Decoration>(pDecor));
 		}
 	}
-
-	//{
-	//	Decoration* pDecor = NULL;
-	//	QuadComponent* pQuad = NULL;
-	//	QuadComponentData quadData;
-	//	DecorationData decorData;
-
-		//quadData.layer = GraphicsLayer::BackgroundFar;
-		//quadData.dimensions.x = 2048;
-		//quadData.dimensions.y = 2048;
-		//quadData.texName = "backgrounds/debris/debris1.png";
-		//quadData.animSheetName = "backgrounds/debris/debris.acfg";
-		//quadData.color = sf::Color(96, 96, 96);
-
-		//decorData.movementScale = 0.8f;
-		//decorData.sizeScale = 0.02f;
-
-		//decorData.repeatsRandom = true;
-		//decorData.positionRandom = true;
-		//decorData.maxSpinRate = 20;
-		//decorData.minSpinRate = -20;
-
-		//decorData.maxVelocity = Vec2(1, 1);
-		//decorData.minVelocity = Vec2(-1, -1);
-		//decorData.realPosition = Vec2(0, 0);
-
-	//	pQuad = new QuadComponent(quadData);
-	//	pDecor = new Decoration(decorData, pQuad);
-	//	m_decorations.push_back(sptr<Decoration>(pDecor));
-	//}
-	//{
-	//	Decoration* pDecor = NULL;
-	//	QuadComponent* pQuad = NULL;
-	//	QuadComponentData quadData;
-	//	DecorationData decorData;
-
-	//	quadData.layer = GraphicsLayer::BackgroundFar;
-	//	quadData.dimensions.x = 1024;
-	//	quadData.dimensions.y = 1024;
-	//	quadData.texName = "backgrounds/debris/debris1.png";
-	//	quadData.animSheetName = "backgrounds/debris/debris.acfg";
-
-	//	decorData.movementScale = 0.0f;
-	//	decorData.sizeScale = 0.0f;
-
-	//	decorData.repeatsRandom = true;
-	//	decorData.positionRandom = true;
-	//	decorData.maxSpinRate = 20;
-	//	decorData.minSpinRate = -20;
-	//	decorData.maxVelocity = Vec2(1, 1);
-	//	decorData.minVelocity = Vec2(-1, -1);
-	//	decorData.realPosition = Vec2(0, 0);
-
-	//	pQuad = new QuadComponent(quadData);
-	//	pDecor = new Decoration(decorData, pQuad);
-	//	m_decorations.push_back(sptr<Decoration>(pDecor));
-	//}
-	//{
-	//	Decoration* pDecor = NULL;
-	//	QuadComponent* pQuad = NULL;
-	//	QuadComponentData quadData;
-	//	DecorationData decorData;
-
-
-	//	quadData.layer = GraphicsLayer::BackgroundVeryBack;
-	//	decorData.movementScale = 1.f;
-	//	decorData.sizeScale = 0.90f;
-	//	quadData.dimensions.x = 2000;
-	//	quadData.dimensions.y = 2000;
-	//	decorData.realPosition = Vec2(0, 0);
-	//	quadData.texName = "backgrounds/bg5.png";
-	//	quadData.animSheetName = "backgrounds/bg5.acfg";
-
-
-	//	pQuad = new QuadComponent(quadData);
-	//	pDecor = new Decoration(decorData, pQuad);
-	//	m_decorations.push_back(sptr<Decoration>(pDecor));
-	//}
 }
 void DecorationEngine::initSpawns(const Vec2& cameraPos, const Vec2& maxHalf)
 {
@@ -145,7 +67,10 @@ void DecorationEngine::initSpawns(const Vec2& cameraPos, const Vec2& maxHalf)
 	{
 		if((**it).isRandSpawn())
 		{
-			// TODO random spawn
+			(**it).m_lastCameraPos = cameraPos;
+			float x = Random::get(-maxHalf.x, maxHalf.x);
+			float y = Random::get(-maxHalf.y, maxHalf.y);
+			(**it).setPosition(cameraPos + Vec2(x,y));
 		}
 	}
 }

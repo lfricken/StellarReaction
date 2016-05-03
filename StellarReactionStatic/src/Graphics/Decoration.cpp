@@ -3,6 +3,7 @@
 #include "JSON.hpp"
 #include "Random.hpp"
 #include "Convert.hpp"
+#include "Player.hpp"
 
 void DecorationData::loadJson(const Json::Value& root)
 {
@@ -120,9 +121,21 @@ void Decoration::updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bot
 
 	/**Follows Camera**/
 	{
+		float zoom = game.getLocalPlayer().getCamera().getZoom();
+		float max = game.getLocalPlayer().getCamera().m_maxZoom;
+
 		m_realPosition += Vec2(m_velocity.x * dTime * (1.f - m_movementScale), m_velocity.y * dTime * (1.f - m_movementScale));
 		const Vec2 finalPos = m_realPosition + Vec2(rCameraCenter.x*m_movementScale, rCameraCenter.y*m_movementScale);
-		m_spGfx->setPosition(finalPos);
+
+		//float mod = 0;
+		//if(m_sizeScale > 0.4)
+		//	mod = 1;
+
+		Vec2 zoomMod = rCameraCenter - finalPos;
+		zoomMod.x *= ((zoom)*(-1.f / max) + 1) * m_sizeScale;
+		zoomMod.y *= ((zoom)*(-1.f / max) + 1) * m_sizeScale;
+
+		m_spGfx->setPosition(finalPos + zoomMod);
 	}
 
 

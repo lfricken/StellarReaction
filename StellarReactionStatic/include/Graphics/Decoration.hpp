@@ -35,6 +35,7 @@ public:
 	/// Updates the position of this Decoration with respect to the Camera. Used to simulate paralax.
 	void updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bottomLeft, const Vec2& topRight, const float zoom, const float dTime);
 
+	Vec2 m_lastCameraPos;
 protected:
 	void input(std::string rCommand, sf::Packet rData);
 private:
@@ -50,7 +51,7 @@ private:
 	float m_sizeScale;
 	float m_movementScale;
 
-	Vec2 m_lastCameraPos;
+
 
 	float m_minSpin;
 	float m_maxSpin;

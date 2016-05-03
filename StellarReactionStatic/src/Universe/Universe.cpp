@@ -193,11 +193,12 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 	for(auto it = hazardFields.begin(); it != hazardFields.end(); ++it)
 		(**it).spawn();
 
-	//m_spControlFactory->getController(data.localController)
-
-
-	//const Vec2 pos = 
-	//m_spDecorEngine->initSpawns(
+	
+	/**Initialize Background**/
+	const Vec2 pos = m_spControlFactory->getController(data.localController).getBodyPtr()->GetPosition();
+	float maxZoom = game.getLocalPlayer().getCamera().m_maxZoom * 0.6f;
+	float size = game.getWindow().getSize().x / scale;
+	m_spDecorEngine->initSpawns(pos, Vec2(maxZoom* size, maxZoom* size));
 }
 Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input, this), m_physWorld(b2Vec2(0, 0))
 {
