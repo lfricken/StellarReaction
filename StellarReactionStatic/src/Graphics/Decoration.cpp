@@ -52,6 +52,8 @@ Decoration::~Decoration()
 void Decoration::randVel()
 {
 	m_spinRate = Random::get(m_minSpin, m_maxSpin);
+	if(m_minSpin != 0.f)
+		m_spGfx->setRotation(Random::get(0.f, 2.f * pi));
 }
 void Decoration::randSpin()
 {
@@ -89,17 +91,18 @@ void Decoration::input(std::string rCommand, sf::Packet rData)
 }
 void Decoration::setPosition(const Vec2& rDesiredWorldPos)
 {
+	float zoom = game.getLocalPlayer().getCamera().getZoom();
 	{
 		float x = rDesiredWorldPos.x - m_lastCameraPos.x;//x dist from camera
 		const float slope = x / m_maxZoom;//slope
 		const float zDist = m_maxZoom + m_zPos;//z dist from camera to source
-		m_realPosition.x = zDist*slope + rDesiredWorldPos.x;//xPos
+		m_realPosition.x = zDist*slope + m_lastCameraPos.x;//xPos
 	}
 	{
 		float y = rDesiredWorldPos.y - m_lastCameraPos.y;//y dist from camera
 		const float slope = y / m_maxZoom;//slope
 		const float zDist = m_maxZoom + m_zPos;//z dist from camera to source
-		m_realPosition.y = zDist*slope + rDesiredWorldPos.y;//yPos
+		m_realPosition.y = zDist*slope + m_lastCameraPos.y;//yPos
 	}
 	randVel();
 	randSpin();

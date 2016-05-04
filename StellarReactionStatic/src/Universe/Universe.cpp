@@ -196,7 +196,7 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 	
 	/**Initialize Background**/
 	const Vec2 pos = m_spControlFactory->getController(data.localController).getBodyPtr()->GetPosition();
-	float maxZoom = game.getLocalPlayer().getCamera().m_maxZoom * 0.6f;
+	float maxZoom = game.getLocalPlayer().getCamera().m_maxZoom * 0.4f;
 	float size = game.getWindow().getSize().x / scale;
 	m_spDecorEngine->initSpawns(pos, Vec2(maxZoom* size, maxZoom* size));
 }
