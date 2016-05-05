@@ -42,6 +42,7 @@ TEST(ReactorTest, ShipMovesOnDeath)
 	Weapon::damage(&game.getUniverse().getUniverseIO(), pos, 1000, pos, 0);
 
 	game.runTime(0.3f);
+	// Make sure we respawn somewhere when killed.
 	b2Vec2 afterDeathPos = testChunk->getBodyPtr()->GetPosition();
 	ASSERT_NE(origPos.x, afterDeathPos.x);
 	ASSERT_GT(afterDeathPos.x, 97);
@@ -77,13 +78,8 @@ TEST(ReactorTest, ShipHealsOnDeath)
 	int pos = testChunk->getModuleList()[0]->getFixtureComponent().getIOPos();
 	Weapon::damage(&game.getUniverse().getUniverseIO(), pos, 1000, pos, 0);
 
-	//Run Test
+	//Make sure the ship heals itself after death.
 	game.runTime(0.3f);
 	EXPECT_TRUE(dynamic_cast<ShipModule*>(testChunk->getModuleList()[0].get())->isFunctioning());
 }
-TEST(ReactorTest, NoDebris)
-{
-	//Deleted Test.
-	//Debris system causes lag.
-	//Debris system either needs to be graphics only or have preallocated debris chunks.
-}
+
