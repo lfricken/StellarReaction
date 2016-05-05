@@ -52,10 +52,9 @@ TEST(BlackHoleTest, DealsDamage)
 	game.getUniverse().add(testShip);
 
 	//Taken Damage
-	game.runTime(0.4f);
+	game.runTime(0.9f);
 	int currentHealth = dynamic_cast<ShipModule*>(testShip->getModuleList()[0].get())->getHealth().getHealth();
 	int maxHealth = dynamic_cast<ShipModule*>(testShip->getModuleList()[0].get())->getHealth().getMaxHealth();
-	b2Vec2 pos = testShip->getBodyComponent().getPosition();
 	EXPECT_LT(currentHealth, maxHealth);// || pos.x != 100
 
 }

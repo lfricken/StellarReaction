@@ -471,7 +471,7 @@ void Game::restartTest(const std::string& level)
 	GameLaunchData data;
 
 	data.level = level;
-	data.localController = 0;
+	data.localController = -1;
 	game.launchGame(data);
 
 	game.runTicks(10);
