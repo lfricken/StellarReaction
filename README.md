@@ -9,18 +9,18 @@ Stellar Reaction is a real-time, multiplayer, space combat video game. Gameplay 
 3. Run command: doxygen doc/doxygen.cfg
 
 # Contributors
-Leon Frickensmith
-Dylan Schlaht
-Henry Lee
-Shaan Iqbal
-Yuto Otaguro
-Alexander McArthur
-Andrew Borg
-Sahil Suhag
-Michael Wojciak
-Evan Defend
-
-updated: 2016-05-05
+Leon Frickensmith<br />
+Dylan Schlaht<br />
+Henry Lee<br />
+Shaan Iqbal<br />
+Yuto Otaguro<br />
+Alexander McArthur<br />
+Andrew Borg<br />
+Sahil Suhag<br />
+Michael Wojciak<br />
+Evan Defend<br />
+<br />
+updated: 2016-05-05<br />
 
 
 
