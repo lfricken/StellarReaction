@@ -24,7 +24,7 @@ updated: 2016-05-05<br />
 
 
 
-# Gameplay Details:
+# Gameplay Details
 
 ## Modular Ships
 Ships consist entirely of modules which provide all the functionality to a ship. More modules can be bought at a store for some amount of money, but there is a limit to the number of modules that can be put on a ship, and on where they can be placed. Individual modules control all of the following: Camera Zooming, Cloaking, Firing Weapons, Energy Production, Ship Propulsion, and Teleportation.

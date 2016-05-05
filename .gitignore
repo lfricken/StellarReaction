@@ -10,7 +10,8 @@
 *.idb
 *.xml
 *.db
-*.db
+*.psess
+*.vsp
 
 *.coverage
 *.ipch
