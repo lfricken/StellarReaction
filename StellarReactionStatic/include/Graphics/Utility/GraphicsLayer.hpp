@@ -7,8 +7,14 @@
 /// drawn lowest, everything after is drawn on top of each subsequent layer.
 enum class GraphicsLayer
 {
-	BackgroundVeryBack = 0,
-	BackgroundVeryFar,
+	Back8,
+	Back7,
+	Back6,
+	Back5,
+	Back4,
+	Back3,
+	Back2,
+	Back1,
 
 	BackgroundFar,//scenery
 	BackgroundMid,//scenery

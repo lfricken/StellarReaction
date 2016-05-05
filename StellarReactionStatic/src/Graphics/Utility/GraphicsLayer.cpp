@@ -2,10 +2,23 @@
 
 GraphicsLayer ChooseLayer(const std::string& rStr)
 {
-	if(rStr == "BackgroundVeryBack")
-		return GraphicsLayer::BackgroundVeryBack;
-	if(rStr == "BackgroundVeryFar")
-		return GraphicsLayer::BackgroundVeryFar;
+	if(rStr == "Back8")
+		return GraphicsLayer::Back8;
+	if(rStr == "Back7")
+		return GraphicsLayer::Back7;
+	if(rStr == "Back6")
+		return GraphicsLayer::Back6;
+	if(rStr == "Back5")
+		return GraphicsLayer::Back5;
+	if(rStr == "Back4")
+		return GraphicsLayer::Back4;
+	if(rStr == "Back3")
+		return GraphicsLayer::Back3;
+	if(rStr == "Back2")
+		return GraphicsLayer::Back2;
+	if(rStr == "Back1")
+		return GraphicsLayer::Back1;
+
 
 	if(rStr == "BackgroundFar")
 		return GraphicsLayer::BackgroundFar;

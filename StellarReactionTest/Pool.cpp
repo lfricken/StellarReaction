@@ -16,6 +16,7 @@ void initPoolParamTest(const vector<int>& cases)
 		data.Max = *it;
 		data.Value = *it * 10.f;
 		Poolf obj(data);
+		// Make sure value cannot be initialized to larger than Max.
 		EXPECT_EQ(*it, obj.getMax());
 		EXPECT_EQ(*it, obj.getValue());
 	}
@@ -32,6 +33,8 @@ TEST(Pool, MaxValueFloat)
 }
 TEST(Pool, ChangeValueFloat)
 {
+	// Make sure changeValue function on pool works.
+
 	PoolDataf data;
 	data.Max = 100.f;
 	data.Min = 0.f;

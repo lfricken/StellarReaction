@@ -126,7 +126,7 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 
 
 	/**Create player ships**/
-	cout << "\nCreating Player Ships: ";
+	assert(cout << "\nCreating Player Ships: ");
 	sptr<ChunkData> spCnk;
 	m_spControlFactory.reset(new ControlFactory);
 	for(auto it = data.playerList.cbegin(); it != data.playerList.cend(); ++it)
@@ -148,7 +148,7 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 
 		if(it->isAI && !game.getNwBoss().isClient())
 		{
-			cout << "\n" << it->slaveName << " controlled by " << m_spControlFactory->getSize() - 1;
+			assert(cout << "\n" << it->slaveName << " controlled by " << m_spControlFactory->getSize() - 1);
 			sptr<ShipAI> ai = sptr<ShipAI>(new ShipAI(it->team, m_spControlFactory->getSize() - 1));
 			m_shipAI.push_back(ai);
 		}

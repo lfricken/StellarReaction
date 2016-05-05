@@ -12,9 +12,11 @@ TEST(BlueprintLoaderTest, LoadWeapon)
 {
 	game.restartTest();
 
+	//Load Weapon blueprint.
 	game.getUniverse().getBlueprints().loadBlueprints("../StellarReactionTest/testblueprints/");
 	const WeaponData* const pWeaponData = game.getUniverse().getBlueprints().getWeaponSPtr("test_weapon").get();
 
+	//That bluprint has expected values now?
 	ASSERT_TRUE(pWeaponData);
 
 	EXPECT_EQ(pWeaponData->energyConsumption, 1);
@@ -35,9 +37,11 @@ TEST(BlueprintLoaderTest, LoadModule)
 {
 	game.restartTest();
 
+	//Load Module blueprint.
 	game.getUniverse().getBlueprints().loadBlueprints("../StellarReactionTest/testblueprints/");
 	const ModuleData* const pData = game.getUniverse().getBlueprints().getModuleSPtr("test_module").get();
 
+	//That bluprint has expected values now?
 	ASSERT_TRUE(pData);
 	auto& data = *pData;
 
@@ -50,9 +54,11 @@ TEST(BlueprintLoaderTest, LoadChunk)
 {
 	game.restartTest();
 
+	//Load Chunk Blueprint.
 	game.getUniverse().getBlueprints().loadBlueprints("../StellarReactionTest/testblueprints/");
 	const ChunkData* const pData = game.getUniverse().getBlueprints().getChunkSPtr("test_chunk").get();
 
+	//That bluprint has expected values now?
 	ASSERT_TRUE(pData);
 	auto& data = *pData;
 

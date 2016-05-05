@@ -3,7 +3,7 @@
     {
 		"count": 1,
 		"quadData": {
-			"layer": "BackgroundVeryBack",
+			"layer": "Back8",
 			"dimensions": [2400, 1200],
 			"texName": "backgrounds/bg6.png",
 			"animSheetName": "backgrounds/bg6.acfg"
@@ -17,33 +17,33 @@
     {
 		"count": 1,
 		"quadData": {
-			"layer": "BackgroundVeryFar",
+			"layer": "Back7",
 			"dimensions": [400, 400],
 			"texName": "planets/rocky.png",
 			"animSheetName": "planets/rocky.acfg"
 		},
 		"decorData": {
-            "zPos": 2048,
-			"realPosition": [200,0]
+            "zPos": 1024,
+			"realPosition": [300,0]
 		}
 	},
     {
 		"count": 1,
 		"quadData": {
-			"layer": "BackgroundFar",
+			"layer": "Back6",
 			"dimensions": [800, 800],
 			"texName": "planets/desert.png",
 			"animSheetName": "planets/desert.acfg"
 		},
 		"decorData": {
-            "zPos": 1024,
-			"realPosition": [-600,0]
+            "zPos": 760,
+			"realPosition": [-300,0]
 		}
 	},
     {
-		"count": 3,
+		"count": 9,
 		"quadData": {
-			"layer": "BackgroundMid",
+			"layer": "Back5",
 			"dimensions": [256, 256],
 			"texName": "backgrounds/debris/debris10.png",
 			"animSheetName": "backgrounds/debris/debris.acfg",
@@ -55,7 +55,6 @@
 			"maxVelocity": [4,4],
 			"minVelocity": [-4, -4],
         
-            "realPosition": [-100,0],
             "zPos": 256,
             
             "repeatsRandom": true,
@@ -63,21 +62,20 @@
 		}
 	},
     {
-		"count": 0,
+		"count": 9,
 		"quadData": {
-			"layer": "BackgroundMid",
+			"layer": "Back4",
 			"dimensions": [256, 256],
 			"texName": "backgrounds/debris/debris7.png",
 			"animSheetName": "backgrounds/debris/debris.acfg",
 			"color": [96,96,96,255]
 		},
 		"decorData": {
-            "maxSpinRate": 3,
-			"minSpinRate": -10,
+            "maxSpinRate": 10,
+			"minSpinRate": -20,
 			"maxVelocity": [2,2],
 			"minVelocity": [-2, -2],
         
-            "realPosition": [-100,0],
             "zPos": 128,
             
             "repeatsRandom": true,
@@ -85,21 +83,20 @@
 		}
 	},
     {
-		"count": 1,
+		"count": 9,
 		"quadData": {
-			"layer": "BackgroundClose",
+			"layer": "Back3",
 			"dimensions": [256, 256],
 			"texName": "backgrounds/debris/debris2.png",
 			"animSheetName": "backgrounds/debris/debris.acfg",
 			"color": [96,96,96,255]
 		},
 		"decorData": {
-            "maxSpinRate": 3,
+            "maxSpinRate": 10,
 			"minSpinRate": -10,
 			"maxVelocity": [2,2],
 			"minVelocity": [-2, -2],
         
-            "realPosition": [-100,0],
             "zPos": 32,
             
             "repeatsRandom": true,

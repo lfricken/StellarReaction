@@ -16,6 +16,8 @@ TEST(MiniMapTest, NumberOfMarkers)
 
 	game.runTicks(3);
 
+	// Make sure the number of items on minimap is equal to the number of things,
+	// that it should be detecting.
 	int totalItems = game.getUniverse().getgoList().size();
 	int radarItems = game.getLocalPlayer().radarsize();
 
@@ -40,6 +42,7 @@ TEST(MiniMapTest, DotColorEnemy)
 
 	sf::Color dotColor = dot->getColor();
 
+	//Make sure dot set to be "enemy" appears red.
 	EXPECT_EQ(dotColor, sf::Color::Red);
 }
 
@@ -60,7 +63,7 @@ TEST(MiniMapTest, DotColorTeam)
 	sptr<QuadComponent> dot = minimap->getDot(0);
 
 	sf::Color dotColor = dot->getColor();
-
+	//Make sure dot set to be "friendly" appears green.
 	EXPECT_EQ(dotColor, sf::Color::Green);
 }
 
@@ -81,6 +84,6 @@ TEST(MiniMapTest, DotColorOther)
 	sptr<QuadComponent> dot = minimap->getDot(0);
 
 	sf::Color dotColor = dot->getColor();
-
+	//Make sure dot set to be "neutral" appears blue.
 	EXPECT_EQ(dotColor, sf::Color::Blue);
 }

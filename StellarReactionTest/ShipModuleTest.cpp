@@ -29,7 +29,7 @@ TEST(ShipModuleTest, FriendlyFire)
 	int modulePos = module->getFixtureComponent().getIOPos();
 	Weapon::damage(&game.getUniverse().getUniverseIO(), modulePos, 1000, modulePos, 1);
 
-	//Moved
+	//Make sure damage from the same team has no effect.
 	game.runTicks(2);
 	EXPECT_EQ(module->getHealth().getHealth(), initialHealth);
 }

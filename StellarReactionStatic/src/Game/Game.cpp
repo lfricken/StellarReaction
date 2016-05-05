@@ -290,7 +290,6 @@ void Game::tick(float frameTime)
 	getLocalPlayer().getWindowEvents(rWindow);
 	const Vec2 camPos = getLocalPlayer().getCamera().getPosition();
 	const Vec2 halfSize = leon::sfTob2(sf::Vector2f(rWindow.getSize().x / 2, -(signed)rWindow.getSize().y / 2));
-	const float maxZoom = getLocalPlayer().getCamera().m_maxZoom * 0.1;
 	const Vec2 maxHalfSize(halfSize.x * maxZoom, halfSize.y * maxZoom);
 	const float zoom = getLocalPlayer().getCamera().getZoom();
 	getUniverse().getDecors().update(camPos, maxHalfSize, zoom);

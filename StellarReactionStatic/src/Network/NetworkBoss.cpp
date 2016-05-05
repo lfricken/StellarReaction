@@ -92,7 +92,7 @@ void NetworkBoss::launchMultiplayerGame()
 		string aiSlaveName = std::to_string(m_connections.size() + 20 + i);
 		string aiShipName = "Anubis";
 		int aiTeam = i;
-		cout << "\nAISlave:[" << aiSlaveName << "] title:[" << "AI_PLAYER" << "].";
+		assert(cout << "\nAISlave:[" << aiSlaveName << "] title:[" << "AI_PLAYER" << "].");
 		data << aiSlaveName;
 		data << "AI_PLAYER";
 		data << (int)0;

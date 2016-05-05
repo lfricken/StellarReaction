@@ -10,21 +10,26 @@ TEST(GameTest, RunTicks)
 {
 	game.restartTest();
 
+	//Run the game for a specific number of ticks.
 	game.runTicks(5);
+	//Ensure the game knows it should be paused.
 	EXPECT_EQ(true, game.getUniverse().isPaused());
 }
 TEST(GameTest, RunTime)
 {
 	game.restartTest();
-
+	//Run the game for a specific amount of time.
 	game.runTime(0.2f);
+	//Ensure the game knows it should be paused.
 	EXPECT_EQ(true, game.getUniverse().isPaused());
 }
 TEST(GameTest, RestartingManyTimes)
 {
+	//Ensure the game can restart many times in different ways without crashing.
 	const int numRestarts = 2;
 	for(int i = 0; i < numRestarts; ++i)
 	{
+
 		game.restartTest();
 	}
 	for(int i = 0; i < numRestarts; ++i)
@@ -36,6 +41,4 @@ TEST(GameTest, RestartingManyTimes)
 	{
 		game.restartTest();
 	}
-
-	EXPECT_EQ(true, true);
 }

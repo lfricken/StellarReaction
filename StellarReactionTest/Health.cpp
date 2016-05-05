@@ -19,6 +19,7 @@ void initHealthParamTest(const vector<int>& cases)
 };
 TEST(Health, InitializeHealth)
 {
+	//Ensure health can be initialized with all sorts of values.
 	HealthData data;
 
 	Random::seed();
@@ -46,6 +47,7 @@ TEST(Health, InitializeHealth)
 
 TEST(Health, RecieveDamage)
 {
+	//Check to see that damage is applied properly.
 	HealthData data;
 
 	Random::seed();
@@ -67,6 +69,7 @@ TEST(Health, RecieveDamage)
 }
 TEST(Health, RecieveLowDamage)
 {
+	//Ensure taking damage lower than armor amount will stop all of the damage.
 	HealthData data;
 
 	Random::seed();
@@ -105,6 +108,7 @@ void damageHealthParamTest(const vector<int>& cases)
 };
 TEST(Health, DamageBeyondZero)
 {
+	//Ensure Health can't drop below 0.
 	HealthData data;
 
 	Random::seed();
@@ -133,6 +137,7 @@ TEST(Health, DamageBeyondZero)
 }
 TEST(Health, Healing)
 {
+	//Make sure healing works as expected.
 	HealthData data;
 
 	Random::seed();
@@ -153,6 +158,7 @@ TEST(Health, Healing)
 }
 TEST(Health, HealBeyondMax)
 {
+	//Make sure we can't heal ourselves beyond max health.
 	HealthData data;
 
 	Random::seed();

@@ -21,7 +21,7 @@ TEST(ScoreboardTest, initalScores)
 	//create Chunk
 	Chunk* testChunk = testChunkData->generate(&game.getUniverse());
 
-	//Add chunk to universe
+	//Ensure a player starts with 0 score.
 	game.getUniverse().add(testChunk);
 	game.runTicks(1);
 
@@ -50,6 +50,7 @@ TEST(ScoreboardTest, increaseScore)
 	int pos = testChunk->getModuleList()[0]->getFixtureComponent().getIOPos();
 	Weapon::damage(&game.getUniverse().getUniverseIO(), pos, 1000, pos, 0);
 
+	//Make sure we get points for killing a module.
 	game.runTicks(1);
 
 	int score = testChunk->getScore();
