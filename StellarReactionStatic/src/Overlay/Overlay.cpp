@@ -200,6 +200,20 @@ void Overlay::loadMenus()
 
 	pLobby->add(sptr<leon::WidgetBase>(new leon::Button(*pLobby->getPanelPtr(), disconnect)));
 
+
+	leon::ButtonData addAI;
+	addAI.size = sf::Vector2f(150, 50);
+	addAI.buttonText = "AI+";
+	addAI.screenCoords = sf::Vector2f(5, lobbyPanelSize.y - (addAI.size.y + 5 + 50));
+	Courier aiMessage1;
+	aiMessage1.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
+	aiMessage1.message.reset("networkboss", "addAI", voidPacket, 0, false);
+
+	addAI.ioComp.courierList.push_back(aiMessage1);
+
+	pLobby->add(sptr<leon::WidgetBase>(new leon::Button(*pLobby->getPanelPtr(), addAI)));
+
+
 	/**Launch**/
 	leon::ButtonData launch;
 	launch.ioComp.name = "lobby_launch";

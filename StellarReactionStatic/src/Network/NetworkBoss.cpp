@@ -51,13 +51,12 @@ void NetworkBoss::recieveLevel(sf::Packet& data)
 /// </summary>
 void NetworkBoss::launchMultiplayerGame()
 {
-	int num_ai = 1;
 	sf::Packet data;
 
 	std::string level = "Alpha Centauri";
 
 	data << level;
-	data << static_cast<int32_t>(m_connections.size() + 1 + num_ai);//number of controllers +1 for host +num_ai for number of AI
+	data << static_cast<int32_t>(m_connections.size() + 1 + m_numAI);//number of controllers +1 for host +num_ai for number of AI
 
 	//host
 	data << "1";
@@ -87,11 +86,11 @@ void NetworkBoss::launchMultiplayerGame()
 
 
 	//for ai
-	for (int i = 1; i <= num_ai; ++i)
+	for(int i = 1; i <= m_numAI; ++i)
 	{
 		string aiSlaveName = std::to_string(m_connections.size() + 20 + i);
 		string aiShipName = "Anubis";
-		int aiTeam = i;
+		int aiTeam = ((i-1)%4)+1;
 		assert(cout << "\nAISlave:[" << aiSlaveName << "] title:[" << "AI_PLAYER" << "].");
 		data << aiSlaveName;
 		data << "AI_PLAYER";
@@ -100,6 +99,7 @@ void NetworkBoss::launchMultiplayerGame()
 		data << aiTeam;
 		data << true;
 	}
+	m_numAI = 0;//reset this value
 	
 
 	int32_t controller = 0;
@@ -120,6 +120,7 @@ void NetworkBoss::launchMultiplayerGame()
 }
 NetworkBoss::NetworkBoss(const NetworkBossData& rData) : m_io(rData.ioComp, &NetworkBoss::input, this), m_nwFactory("standard"), m_nwFactoryTcp("tcp")
 {
+	m_numAI = 0;
 	m_state = NWState::Local;
 	m_udp.unbind();
 	m_udp.setBlocking(false);
@@ -709,6 +710,11 @@ void NetworkBoss::input(const std::string rCommand, sf::Packet rData)
 	{
 		if(m_state != NWState::Client)
 			launchMultiplayerGame();
+	}
+	else if(rCommand == "addAI")
+	{
+		m_numAI += 4;
+		messageLobby("AI on each team: " + std::to_string(m_numAI/4));
 	}
 	///If we are the host, handle our own message.
 	///If we are a client, send it to the server.

@@ -120,6 +120,7 @@ private:
 	bool m_nwGameStarted;//has the game started for us yet?
 	bool m_isOpen;//are we accepting connections
 	NWState m_state;//are we Client, Server, Local
+	int m_numAI;
 
 	sf::TcpListener m_listener;
 	sf::UdpSocket m_udp;

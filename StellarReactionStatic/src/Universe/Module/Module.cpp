@@ -100,9 +100,8 @@ void Module::input(std::string rCommand, sf::Packet rData)
 	}
 	if(rCommand == "damage")//dont spam console!
 	{
-	
+
 	}
-	else
-		cout << "\nCommand [" << rCommand << "] not found in [" << m_io.getName() << "]." << FILELINE;
+	assert(else cout << "\nCommand [" << rCommand << "] not found in [" << m_io.getName() << "]." << FILELINE);
 }
 
