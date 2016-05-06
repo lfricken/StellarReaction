@@ -41,15 +41,6 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 
 	bool parsedSuccess = reader.parse(level, root, false);
 
-
-
-	//SHIP AI TODO
-	//m_shipAI.push_back(sptr<ShipAI>(new ShipAI));
-	//m_shipAI.back()->setController(rControllerList.size() - 1);
-
-
-
-
 	if(!parsedSuccess)
 	{
 		cout << "\nParse Failed [" << thisLevelFolder + levelFile << "].\n" << FILELINE;
@@ -126,7 +117,6 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 
 
 	/**Create player ships**/
-	assert(cout << "\nCreating Player Ships: ");
 	sptr<ChunkData> spCnk;
 	m_spControlFactory.reset(new ControlFactory);
 	for(auto it = data.playerList.cbegin(); it != data.playerList.cend(); ++it)

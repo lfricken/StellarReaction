@@ -93,6 +93,7 @@
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\StellarReactionStatic\include\Universe\Decoration;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <ClCompile Include="CapturePointTest.cpp" />
+    <ClCompile Include="FindNearestTest.cpp" />
     <ClCompile Include="GameTest.cpp" />
     <ClCompile Include="Health.cpp" />
     <ClCompile Include="Pool.cpp" />

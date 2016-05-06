@@ -15,6 +15,7 @@
     <ClCompile Include="Health.cpp" />
     <ClCompile Include="ShipModuleTest.cpp" />
     <ClCompile Include="Pool.cpp" />
+    <ClCompile Include="FindNearestTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />

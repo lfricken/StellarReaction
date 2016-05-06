@@ -75,7 +75,7 @@ void NetworkBoss::launchMultiplayerGame()
 		Money playerMoney = client->getMoney();
 		string shipName = client->getShipChoice();
 		int team = client->getTeam();
-		cout << "\nSlave:[" << slaveName << "] title:[" << shipName << "].";
+		assert(cout << "\nSlave:[" << slaveName << "] title:[" << shipName << "].");
 		data << slaveName;
 		data << playerName;
 		data << playerMoney;
