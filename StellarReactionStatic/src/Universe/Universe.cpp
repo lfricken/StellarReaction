@@ -163,7 +163,6 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 		auto list = pCnk->getModules();
 		for(auto it = list.cbegin(); it != list.cend(); ++it)
 		{
-			//cout << "\nUniverse: " << it->second.x << it->second.y;
 			sf::Packet pack;
 			pack << "addModule";
 			pack << it->first;

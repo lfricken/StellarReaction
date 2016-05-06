@@ -35,13 +35,10 @@ void NetworkBoss::recieveLevel(sf::Packet& data)
 		data >> playerInstance.ship;
 		data >> playerInstance.team;
 		data >> playerInstance.isAI;
-		//cout << "\nControllers: " << numControllers;
-		//cout << "\nSlaveName:[" << playerInstance.slaveName << "] Ship Choice:[" << playerInstance.ship << "] Team:[" << playerInstance.team << "]";
 		launchData.playerList.push_back(playerInstance);
 	}
 	/**Local Controller**/
 	data >> launchData.localController;
-	///cout << "\nLocal Controller: [" << launchData.localController << "]";
 
 	/**Launch the game!**/
 	game.launchGame(launchData);
@@ -374,10 +371,6 @@ void NetworkBoss::udpRecieve()
 							pCon->recievePlayerTraits(data);
 						else
 							cout << "\n" << FILELINE << " [" << static_cast<int32_t>(proto) << "]";
-					}
-					else
-					{
-						//cout << FILELINE;
 					}
 				}
 				else//if we don't regonize the remoteAddress, we should ignore it
