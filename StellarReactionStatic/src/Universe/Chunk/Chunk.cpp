@@ -183,7 +183,9 @@ void Chunk::add(const ModuleData& rData)
 		myPools.zoomPool = &m_zoomPool;
 		myPools.missilePool = &m_missilePool;
 		myPools.energyPool = &m_energyPool;
-		m_modules.push_back(sptr<Module>(rData.generate(m_body.getBodyPtr(), myPools, this)));
+		sptr<ModuleData> t(rData.clone());
+		t->ioComp.pMyManager = &game.getUniverse().getUniverseIO();
+		m_modules.push_back(sptr<Module>(t->generate(m_body.getBodyPtr(), myPools, this)));
 	}
 	else
 		cout << FILELINE;

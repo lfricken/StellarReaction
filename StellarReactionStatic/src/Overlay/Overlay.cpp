@@ -369,31 +369,31 @@ void Overlay::loadMenus()
 	store.command = "buyModule";
 
 	data2.labelData.back().text = "70mm Autoturret";
-	data2.id = "Razor_Ballistic1";
+	data2.id = "BallisticTurret";
 	store.items.push_back(data2);
 
 	data2.labelData.back().text = "Razor 2.5GW Pulse";
-	data2.id = "Razor_Laser1";
+	data2.id = "LaserTurret";
 	store.items.push_back(data2);
 
-	data2.labelData.back().text = "10GW Fusion Reactor";
-	data2.id = "DefaultReactor";
+	data2.labelData.back().text = "Homing Missile";
+	data2.id = "MissileTurret";
 	store.items.push_back(data2);
 
 	data2.labelData.back().text = "Titanium Alloy Plate";
-	data2.id = "DefaultPlating";
+	data2.id = "Plating";
 	store.items.push_back(data2);
 
 	data2.labelData.back().text = "100Gigajoule Capacitor";
-	data2.id = "DefaultCapacitor";
+	data2.id = "Capacitor";
 	store.items.push_back(data2);
 
-	data2.labelData.back().text = "Maxus L2 Engine TM";
-	data2.id = "DefaultThruster";
+	data2.labelData.back().text = "Maxus L2 Engine";
+	data2.id = "Thruster";
 	store.items.push_back(data2);
 
 	data2.labelData.back().text = "Omni Sensor Array";
-	data2.id = "DefaultRadar";
+	data2.id = "Radar";
 	store.items.push_back(data2);
 
 	pStore->add(sptr<leon::WidgetBase>(new leon::NetworkedSelection(*pStore->getPanelPtr(), store)));

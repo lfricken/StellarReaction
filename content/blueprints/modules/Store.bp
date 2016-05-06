@@ -1,0 +1,66 @@
+{
+    "ClassName": "SensorData",
+    "ioComp": {
+        "name": "NONAMEBP",
+        "courierList": [
+            {
+                "message": {
+                    "target": "",
+                    "command": "setStore",
+                    "data": [
+                        "string",
+                        "store_default"
+                    ],
+                    "delay": 0,
+                    "sendValue": false,
+                    "sendOverNW": true,
+                    "replaceTargetPosition": true
+                },
+                "condition": {
+                    "event": "OnEnter",
+                    "value": 0,
+                    "comparator": "d",
+                    "repeatable": true
+                }
+            },
+            {
+                "message": {
+                    "target": "",
+                    "command": "setStore",
+                    "data": [
+                        "string",
+                        ""
+                    ],
+                    "delay": 0,
+                    "sendValue": false,
+                    "sendOverNW": true,
+                    "replaceTargetPosition": true
+                },
+                "condition": {
+                    "event": "OnExit",
+                    "value": 0,
+                    "comparator": "d",
+                    "repeatable": true
+                }
+            }
+        ]
+    },
+    "fixComp": {
+        "offset": [
+            0,
+            0
+        ],
+        "size": [
+            15,
+            0
+        ],
+        "shape": "circle",
+        "density": 0,
+        "isSensor": true,
+        "colCat": "Trigger",
+        "colMask": "Trigger"
+    }
+}
+	
+		
+		

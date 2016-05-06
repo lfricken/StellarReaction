@@ -59,7 +59,7 @@ int SlaveLocator::findPos(const std::string& slaveTarget)
 	{
 		cout << "\nTarget [" << slaveTarget << "] was not found." << FILELINE;
 		///ERROR LOG
-		return 0;
+		return -1;
 	}
 }
 Chunk* SlaveLocator::find(int position)
@@ -72,7 +72,7 @@ Chunk* SlaveLocator::find(int position)
 Chunk* SlaveLocator::find(const std::string& rName)
 {
 	int index = findPos(rName);
-	if(index == -1)
+	if(index != -1)
 		return find(index);
 	else
 		return NULL;

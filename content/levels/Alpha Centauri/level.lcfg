@@ -231,12 +231,12 @@
 	}, {
 		"Title": "StationBlue",
 		"Coordinates": [-135, -0,
-			270
+			240
 		]
 	}, {
 		"Title": "battlestationBlue",
 		"Coordinates": [-174, -0,
-			0
+			20
 		]
 	}, {
 		"Title": "StationGreen",

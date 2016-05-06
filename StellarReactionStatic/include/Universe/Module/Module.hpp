@@ -74,7 +74,7 @@ struct ModuleData : public BlueprintData
 	ModuleData() :
 		name("defaultName"),
 		collisionDamage(0),
-		cost(1),
+		cost(100),
 		ioComp(&game.getUniverse().getUniverseIO()),
 		nwComp(),
 		fixComp(),
