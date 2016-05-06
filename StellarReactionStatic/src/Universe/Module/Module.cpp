@@ -102,6 +102,9 @@ void Module::input(std::string rCommand, sf::Packet rData)
 	{
 
 	}
-	assert(else cout << "\nCommand [" << rCommand << "] not found in [" << m_io.getName() << "]." << FILELINE);
+	else
+	{
+		assert(cout << "\nCommand [" << rCommand << "] not found in [" << m_io.getName() << "]." << FILELINE);
+	}
 }
 
