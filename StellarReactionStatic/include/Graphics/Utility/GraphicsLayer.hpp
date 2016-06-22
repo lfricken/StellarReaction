@@ -2,7 +2,7 @@
 
 #include "stdafx.hpp"
 
-
+/** @file */
 /// Controls the order that an item is drawn to screen, 0 is 
 /// drawn lowest, everything after is drawn on top of each subsequent layer.
 enum class GraphicsLayer

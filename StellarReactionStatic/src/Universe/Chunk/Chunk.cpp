@@ -13,6 +13,7 @@ using namespace std;
 
 void ChunkData::loadJson(const Json::Value& root)
 {
+	GETJSON(team);
 	LOADJSON(ioComp);
 	LOADJSON(nwComp);
 	LOADJSON(bodyComp);
@@ -63,6 +64,7 @@ void ChunkData::loadJson(const Json::Value& root)
 }
 Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp), m_zoomPool(rData.zoomData), m_energyPool(rData.energyData), m_ballisticPool(rData.ballisticData), m_missilePool(rData.missileData)
 {
+	m_body.setTeam(rData.team);//important that team is set before module creation
 	m_spawnPoint = m_body.getBodyPtr()->GetPosition();
 	m_radius = -1.f;
 	m_deaths = 0;
@@ -71,32 +73,24 @@ Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp)
 	m_stealth = false;
 	m_timer.setCountDown(1);
 	m_timer.restartCountDown();
-	PoolCollection myPools;
-	myPools.ballisticPool = &m_ballisticPool;
-	myPools.zoomPool = &m_zoomPool;
-	myPools.missilePool = &m_missilePool;
-	myPools.energyPool = &m_energyPool;
 
+
+	//Set valid module positions.
 	m_validOffsets = rData.validPos;
 
-	//Make a copy 
-	std::vector<sptr<ModuleData> > thisData;
-	for(auto it = rData.moduleData.begin(); it != rData.moduleData.end(); ++it)
-		thisData.push_back(sptr<ModuleData>((*it)->clone()));
+	//Add Modules.
+	for(auto it = rData.moduleData.cbegin(); it != rData.moduleData.cend(); ++it)
+		add(**it);
 
-	for(auto it = thisData.begin(); it != thisData.end(); ++it)
-		(*it)->ioComp.pMyManager = rData.ioComp.pMyManager;
-
-	for(auto it = thisData.begin(); it != thisData.end(); ++it)
-		m_modules.push_back(sptr<Module>((*it)->generate(m_body.getBodyPtr(), myPools, this)));
-
+	//Register for controlling.
 	m_slavePosition = m_rParent.getSlaveLocator().give(this);
 
 
-
+	//Hull Sprite
 	hull = sptr<GraphicsComponent>(new QuadComponent(rData.hullSpriteData));
 	hull->setPosition(m_body.getPosition());
 	hull->setRotation(m_body.getBodyPtr()->GetAngle());
+	//Thrust sprite.
 	for(auto it = rData.afterburnerSpriteData.begin(); it != rData.afterburnerSpriteData.end(); ++it)
 	{
 		sptr<GraphicsComponent> temp = sptr<GraphicsComponent>(new QuadComponent(*it));
@@ -104,6 +98,7 @@ Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp)
 		temp->setRotation(m_body.getBodyPtr()->GetAngle());
 		afterburners.push_back(temp);
 	}
+	//Boost sprite.
 	for(auto it = rData.afterburnerThrustSpriteData.begin(); it != rData.afterburnerThrustSpriteData.end(); ++it)
 	{
 		sptr<GraphicsComponent> temp = sptr<GraphicsComponent>(new QuadComponent(*it));
@@ -112,9 +107,9 @@ Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp)
 		afterburners_boost.push_back(temp);
 	}
 
+	//For sounds.
 	m_thrustNoiseIndex = -1;
 	m_boostNoiseIndex = -1;
-	m_body.setTeam(rData.team);
 }
 Chunk::~Chunk()
 {
@@ -183,9 +178,9 @@ void Chunk::add(const ModuleData& rData)
 		myPools.zoomPool = &m_zoomPool;
 		myPools.missilePool = &m_missilePool;
 		myPools.energyPool = &m_energyPool;
-		sptr<ModuleData> t(rData.clone());
-		t->ioComp.pMyManager = &game.getUniverse().getUniverseIO();
-		m_modules.push_back(sptr<Module>(t->generate(m_body.getBodyPtr(), myPools, this)));
+		sptr<ModuleData> moduleDataCopy(rData.clone());
+		moduleDataCopy->ioComp.pMyManager = &game.getUniverse().getUniverseIO();
+		m_modules.push_back(sptr<Module>(moduleDataCopy->generate(m_body.getBodyPtr(), myPools, this)));
 	}
 	else
 		cout << FILELINE;

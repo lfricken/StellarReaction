@@ -65,6 +65,8 @@ void Turret::setWep(sptr<const WeaponData> spWep)
 {
 	assert(spWep.get());
 	m_spWep.reset(spWep->generate());
+	int team = m_parentChunk->getBodyComponent().getTeam();
+	m_spWep->setTeam(team);
 }
 void Turret::removeWep()
 {

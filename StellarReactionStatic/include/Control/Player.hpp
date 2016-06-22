@@ -40,6 +40,7 @@ struct InputConfig
 
 		/**OTHER**/
 		store(sf::Keyboard::B),
+		respawn(sf::Keyboard::R),
 
 		cameraUp(sf::Keyboard::Up),
 		cameraDown(sf::Keyboard::Down),
@@ -70,6 +71,7 @@ struct InputConfig
 
 	/**OTHER**/
 	sf::Keyboard::Key store;
+	sf::Keyboard::Key respawn;
 
 	sf::Keyboard::Key cameraUp;
 	sf::Keyboard::Key cameraDown;

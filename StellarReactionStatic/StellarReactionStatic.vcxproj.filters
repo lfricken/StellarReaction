@@ -401,6 +401,7 @@
     <ClInclude Include="include\Graphics\QuadComponents\Spinner.hpp" />
     <ClInclude Include="include\Graphics\QuadComponents\Minimap.hpp" />
     <ClInclude Include="include\Graphics\QuadComponents\LinearMeter.hpp" />
+    <ClInclude Include="include\Basic\Team.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\API\SFML\Audio\SoundFileFactory.inl" />

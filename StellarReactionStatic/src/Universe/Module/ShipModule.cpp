@@ -82,7 +82,7 @@ void ShipModule::unpack(sf::Packet& rPacket)
 }
 void ShipModule::input(std::string rCommand, sf::Packet rData)
 {
-	const float damagedPercent = 0.25;
+	const float damagedPercent = 0.25;// TODO should be some global constant
 
 	if(rCommand == "damage")
 	{
@@ -91,7 +91,12 @@ void ShipModule::input(std::string rCommand, sf::Packet rData)
 		int team;
 		rData >> val >> cause >> team;
 		int myTeam = m_parentChunk->getBodyComponent().getTeam();
-		if ((val > 0 && team != myTeam) || (myTeam != 1 && myTeam != 2 && myTeam != 3 && myTeam != 4))
+
+		const bool notSameTeam = team != myTeam;
+		const bool damagePositive = val > 0;
+		const bool notInvincible = myTeam != -1;
+
+		if(damagePositive && notSameTeam && notInvincible)
 		{
 			m_health.damage(val);
 			m_io.event(EventType::Health, m_health.getHealth(), voidPacket);
@@ -127,7 +132,7 @@ void ShipModule::input(std::string rCommand, sf::Packet rData)
 		if(m_health.getHealthPercent() >= damagedPercent)
 			setHealthState(HealthState::Nominal);
 	}
-	else if (rCommand == "increase_score")
+	else if(rCommand == "increase_score")
 	{
 		int val;
 		rData >> val;
@@ -184,7 +189,7 @@ void ShipModule::f_died()
 }
 void ShipModule::toggleStealth(bool toggle)
 {
-	if (toggle)
+	if(toggle)
 		m_decors[m_baseDecor]->setAlpha(alpha_stealth_on);
 	else
 		m_decors[m_baseDecor]->setAlpha(alpha_stealth_off);

@@ -81,6 +81,6 @@ void LaserWeapon::postShot(const b2Vec2& center, const b2Vec2& aim, float radCCW
 }
 Vec2 LaserWeapon::collisionHandle(const RayData& data)
 {
-	damage(data.pFixture, m_damage, game.getLocalPlayer().getTeam());
+	damage(data.pFixture, m_damage);
 	return data.point;
 }

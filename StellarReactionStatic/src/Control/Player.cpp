@@ -121,8 +121,6 @@ void Player::getLiveInput()
 			m_directives[Directive::Stealth] = true;
 		if(Keyboard::isKeyPressed(m_inCfg.teleport))
 			m_directives[Directive::Teleport] = true;
-		if(Keyboard::isKeyPressed(Keyboard::K))
-			m_directives[Directive::Respawn] = true;
 
 		if(Keyboard::isKeyPressed(m_inCfg.shield))
 			m_directives[Directive::Shield] = true;
@@ -130,6 +128,8 @@ void Player::getLiveInput()
 		/**== SPECIAL ==**/
 		if(Keyboard::isKeyPressed(m_inCfg.store))
 			m_directives[Directive::ShowStore] = true;
+		if(Keyboard::isKeyPressed(m_inCfg.respawn))
+			m_directives[Directive::Respawn] = true;
 
 
 		/**== MOUSE ==**/

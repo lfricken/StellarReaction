@@ -10,6 +10,7 @@ Stellar Reaction is a real-time, multiplayer, space combat video game. Gameplay 
 
 # Contributors
 Leon Frickensmith<br />
+Evan Defend<br />
 Dylan Schlaht<br />
 Henry Lee<br />
 Shaan Iqbal<br />
@@ -18,10 +19,8 @@ Alexander McArthur<br />
 Andrew Borg<br />
 Sahil Suhag<br />
 Michael Wojciak<br />
-Evan Defend<br />
 <br />
-updated: 2016-05-05<br />
-
+updated: 2016-06-22<br />
 
 
 # Gameplay Details

@@ -39,8 +39,12 @@ public:
 	static void damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmount, int ioCausePos, int team);
 	///Gets the decoration object corresponding to this weapon.
 	QuadComponent* getDecor();
+	///Tell this weapon which team it is working for.
+	void setTeam(int newTeam);
 
 protected:
+	///Team that owns this wep.
+	int m_team;
 	b2Body* m_pBody;
 	const FixtureComponent* m_pTempParent;
 	int m_shots;//how many shots we do upon each fire command
@@ -50,8 +54,8 @@ protected:
 	float m_range;
 	int m_collisions;//how many collisions should we do? MODULE PENETRATION LOGIC
 	//TODO m_collisions is not used in the laser weapon type
-	/// Damages the specified fixture (which has a module)
-	void damage(b2Fixture* pFix, int damage, int team);
+	/// Damages the specified fixture (which has a module). Meant to be called by a weapon only.
+	void damage(b2Fixture* pFix, int damage);
 private:
 	QuadComponent m_decor;//the weapon sprite
 
