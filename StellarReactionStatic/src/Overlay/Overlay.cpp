@@ -516,147 +516,147 @@ void Overlay::loadMenus()
 }
 void Overlay::loadScoreboard(const GameLaunchData& data)
 {
-	//TODO these buttons probably shouldn't be networked. They also shouldn't be buttons.
+	////TODO these buttons probably shouldn't be networked. They also shouldn't be buttons.
 
-	// main scoreboard panel
-	sf::Vector2f scorebordPanelSize = sf::Vector2f(1280, 720);
-	leon::PanelData mainMenuData;
-	mainMenuData.ioComp.name = "main_scoreboard";
-	mainMenuData.startHidden = true;
-	mainMenuData.backgroundColor = sf::Color(50, 50, 50, 128);
-	mainMenuData.screenCoords = sf::Vector2f(game.getWindow().getSize().x / 2 - scorebordPanelSize.x / 2, game.getWindow().getSize().y / 2 - scorebordPanelSize.y / 2);
-	mainMenuData.size = sf::Vector2f(scorebordPanelSize.x, scorebordPanelSize.y);
-	leon::Panel* pMain_menu = new leon::Panel(game.getOverlay().getGui(), mainMenuData);
+	//// main scoreboard panel
+	//sf::Vector2f scorebordPanelSize = sf::Vector2f(1280, 720);
+	//leon::PanelData mainMenuData;
+	//mainMenuData.ioComp.name = "main_scoreboard";
+	//mainMenuData.startHidden = true;
+	//mainMenuData.backgroundColor = sf::Color(50, 50, 50, 128);
+	//mainMenuData.screenCoords = sf::Vector2f(game.getWindow().getSize().x / 2 - scorebordPanelSize.x / 2, game.getWindow().getSize().y / 2 - scorebordPanelSize.y / 2);
+	//mainMenuData.size = sf::Vector2f(scorebordPanelSize.x, scorebordPanelSize.y);
+	//leon::Panel* pMain_menu = new leon::Panel(game.getOverlay().getGui(), mainMenuData);
 
-	//all rows in scoreboard are clickable, but currently do nothing. This can be used in the future to do
-	//something useful upon clicking a player's name, such as showing more detailed information about them
+	////all rows in scoreboard are clickable, but currently do nothing. This can be used in the future to do
+	////something useful upon clicking a player's name, such as showing more detailed information about them
 
-	//section for team 1, the box will be outlined with blue
-	leon::NetworkedSelectionData select;
-	select.size = sf::Vector2f(1000, 170);
-	select.itemSize = sf::Vector2f(1000, 34);
-	select.screenCoords = sf::Vector2f(200, 40);
-	select.backgroundColor = sf::Color(50, 50, 50, 128);
-	select.startHidden = false;
-	select.ioComp.name = "team1_score";
+	////section for team 1, the box will be outlined with blue
+	//leon::NetworkedSelectionData select;
+	//select.size = sf::Vector2f(1000, 170);
+	//select.itemSize = sf::Vector2f(1000, 34);
+	//select.screenCoords = sf::Vector2f(200, 40);
+	//select.backgroundColor = sf::Color(50, 50, 50, 128);
+	//select.startHidden = false;
+	//select.ioComp.name = "team1_score";
 
-	leon::SelectableItemData data1;
-	data1.texName = "menu/Blue_menu_button.png";
-	leon::LabelData label1;
-	data1.labelData.push_back(label1);
-	data1.labelData.back().textSize = 16;
-	
-	Courier buttonClick;
-	data1.buttData.ioComp.courierList.push_back(buttonClick);
+	//leon::SelectableItemData data1;
+	//data1.texName = "menu/Blue_menu_button.png";
+	//leon::LabelData label1;
+	//data1.labelData.push_back(label1);
+	//data1.labelData.back().textSize = 16;
+	//
+	//Courier buttonClick;
+	//data1.buttData.ioComp.courierList.push_back(buttonClick);
 
-	//section for team 2, the box will be outlined with green
-	leon::NetworkedSelectionData select2;
-	select2.size = sf::Vector2f(1000, 170);
-	select2.itemSize = sf::Vector2f(1000, 34);
-	select2.screenCoords = sf::Vector2f(200, 210);
-	select2.backgroundColor = sf::Color(50, 50, 50, 128);
-	select2.startHidden = false;
-	select2.ioComp.name = "team2_score";
+	////section for team 2, the box will be outlined with green
+	//leon::NetworkedSelectionData select2;
+	//select2.size = sf::Vector2f(1000, 170);
+	//select2.itemSize = sf::Vector2f(1000, 34);
+	//select2.screenCoords = sf::Vector2f(200, 210);
+	//select2.backgroundColor = sf::Color(50, 50, 50, 128);
+	//select2.startHidden = false;
+	//select2.ioComp.name = "team2_score";
 
-	leon::SelectableItemData data2;
-	data2.texName = "menu/Green_menu_button.png";
-	leon::LabelData label2;
-	data2.labelData.push_back(label2);
-	data2.labelData.back().textSize = 16;
+	//leon::SelectableItemData data2;
+	//data2.texName = "menu/Green_menu_button.png";
+	//leon::LabelData label2;
+	//data2.labelData.push_back(label2);
+	//data2.labelData.back().textSize = 16;
 
-	Courier buttonClick2;
-	data2.buttData.ioComp.courierList.push_back(buttonClick2);
+	//Courier buttonClick2;
+	//data2.buttData.ioComp.courierList.push_back(buttonClick2);
 
-	//section for team 3, the box will be outlined with yellow
-	leon::NetworkedSelectionData select3;
-	select3.size = sf::Vector2f(1000, 170);
-	select3.itemSize = sf::Vector2f(1000, 34);
-	select3.screenCoords = sf::Vector2f(200, 380);
-	select3.backgroundColor = sf::Color(50, 50, 50, 128);
-	select3.startHidden = false;
-	select3.ioComp.name = "team3_score";
+	////section for team 3, the box will be outlined with yellow
+	//leon::NetworkedSelectionData select3;
+	//select3.size = sf::Vector2f(1000, 170);
+	//select3.itemSize = sf::Vector2f(1000, 34);
+	//select3.screenCoords = sf::Vector2f(200, 380);
+	//select3.backgroundColor = sf::Color(50, 50, 50, 128);
+	//select3.startHidden = false;
+	//select3.ioComp.name = "team3_score";
 
-	leon::SelectableItemData data3;
-	data3.texName = "menu/Orange_menu_button.png";
-	leon::LabelData label3;
-	data3.labelData.push_back(label3);
-	data3.labelData.back().textSize = 16;
+	//leon::SelectableItemData data3;
+	//data3.texName = "menu/Orange_menu_button.png";
+	//leon::LabelData label3;
+	//data3.labelData.push_back(label3);
+	//data3.labelData.back().textSize = 16;
 
-	Courier buttonClick3;
-	data3.buttData.ioComp.courierList.push_back(buttonClick3);
+	//Courier buttonClick3;
+	//data3.buttData.ioComp.courierList.push_back(buttonClick3);
 
-	//section for team 4, the box will be outlined with pink
-	leon::NetworkedSelectionData select4;
-	select4.size = sf::Vector2f(1000, 170);
-	select4.itemSize = sf::Vector2f(1000, 34);
-	select4.screenCoords = sf::Vector2f(200, 550);
-	select4.backgroundColor = sf::Color(50, 50, 50, 128);
-	select4.startHidden = false;
-	select4.ioComp.name = "team4_score";
+	////section for team 4, the box will be outlined with pink
+	//leon::NetworkedSelectionData select4;
+	//select4.size = sf::Vector2f(1000, 170);
+	//select4.itemSize = sf::Vector2f(1000, 34);
+	//select4.screenCoords = sf::Vector2f(200, 550);
+	//select4.backgroundColor = sf::Color(50, 50, 50, 128);
+	//select4.startHidden = false;
+	//select4.ioComp.name = "team4_score";
 
-	leon::SelectableItemData data4;
-	data4.texName = "menu/Purple_menu_button.png";
-	leon::LabelData label4;
-	data4.labelData.push_back(label4);
-	data4.labelData.back().textSize = 16;
+	//leon::SelectableItemData data4;
+	//data4.texName = "menu/Purple_menu_button.png";
+	//leon::LabelData label4;
+	//data4.labelData.push_back(label4);
+	//data4.labelData.back().textSize = 16;
 
-	Courier buttonClick4;
-	data4.buttData.ioComp.courierList.push_back(buttonClick4);
+	//Courier buttonClick4;
+	//data4.buttData.ioComp.courierList.push_back(buttonClick4);
 
-	for (auto it = data.playerList.begin(); it != data.playerList.end(); ++it)
-	{
-		int team = it->team;
-		switch (team) {
-		case 1:
-			data1.labelData.back().text = it->playerName + "                                                             " + "0" + "  " + to_string(it->playerMoney);
-			data1.id = it->playerName;
-			select.items.push_back(data1);
-			break;
-		case 2:
-			data2.labelData.back().text = it->playerName + "                                                             " + "0" + "  " + to_string(it->playerMoney);
-			data2.id = it->playerName;
-			select2.items.push_back(data2);
-			break;
-		case 3:
-			data3.labelData.back().text = it->playerName + "                                                             " + "0" + "  " + to_string(it->playerMoney);
-			data3.id = it->playerName;
-			select3.items.push_back(data3);
-			break;
-		case 4:
-			data4.labelData.back().text = it->playerName + "                                                             " + "0" + "  " + to_string(it->playerMoney);
-			data4.id = it->playerName;
-			select4.items.push_back(data4);
-			break;
-		}
+	//for (auto it = data.playerList.begin(); it != data.playerList.end(); ++it)
+	//{
+	//	int team = it->team;
+	//	switch (team) {
+	//	case 1:
+	//		data1.labelData.back().text = it->playerName + "                                                             " + "0" + "  " + to_string(it->playerMoney);
+	//		data1.id = it->playerName;
+	//		select.items.push_back(data1);
+	//		break;
+	//	case 2:
+	//		data2.labelData.back().text = it->playerName + "                                                             " + "0" + "  " + to_string(it->playerMoney);
+	//		data2.id = it->playerName;
+	//		select2.items.push_back(data2);
+	//		break;
+	//	case 3:
+	//		data3.labelData.back().text = it->playerName + "                                                             " + "0" + "  " + to_string(it->playerMoney);
+	//		data3.id = it->playerName;
+	//		select3.items.push_back(data3);
+	//		break;
+	//	case 4:
+	//		data4.labelData.back().text = it->playerName + "                                                             " + "0" + "  " + to_string(it->playerMoney);
+	//		data4.id = it->playerName;
+	//		select4.items.push_back(data4);
+	//		break;
+	//	}
 
-	}
+	//}
 
 
-	pMain_menu->add(sptr<leon::WidgetBase>(new leon::NetworkedSelection(*pMain_menu->getPanelPtr(), select)));
-	pMain_menu->add(sptr<leon::WidgetBase>(new leon::NetworkedSelection(*pMain_menu->getPanelPtr(), select2)));
-	pMain_menu->add(sptr<leon::WidgetBase>(new leon::NetworkedSelection(*pMain_menu->getPanelPtr(), select3)));
-	pMain_menu->add(sptr<leon::WidgetBase>(new leon::NetworkedSelection(*pMain_menu->getPanelPtr(), select4)));
+	//pMain_menu->add(sptr<leon::WidgetBase>(new leon::NetworkedSelection(*pMain_menu->getPanelPtr(), select)));
+	//pMain_menu->add(sptr<leon::WidgetBase>(new leon::NetworkedSelection(*pMain_menu->getPanelPtr(), select2)));
+	//pMain_menu->add(sptr<leon::WidgetBase>(new leon::NetworkedSelection(*pMain_menu->getPanelPtr(), select3)));
+	//pMain_menu->add(sptr<leon::WidgetBase>(new leon::NetworkedSelection(*pMain_menu->getPanelPtr(), select4)));
 
-	leon::ButtonData scoreboardLabelName;
-	scoreboardLabelName.ioComp.name = "label_name";
-	scoreboardLabelName.size = sf::Vector2f(200, 30);
-	scoreboardLabelName.buttonText = "Player Name";
-	scoreboardLabelName.screenCoords = sf::Vector2f(250, 5);
-	pMain_menu->add(sptr<leon::WidgetBase>(new leon::Button(*pMain_menu->getPanelPtr(), scoreboardLabelName)));
+	//leon::ButtonData scoreboardLabelName;
+	//scoreboardLabelName.ioComp.name = "label_name";
+	//scoreboardLabelName.size = sf::Vector2f(200, 30);
+	//scoreboardLabelName.buttonText = "Player Name";
+	//scoreboardLabelName.screenCoords = sf::Vector2f(250, 5);
+	//pMain_menu->add(sptr<leon::WidgetBase>(new leon::Button(*pMain_menu->getPanelPtr(), scoreboardLabelName)));
 
-	leon::ButtonData scoreboardLabelScore;
-	scoreboardLabelName.ioComp.name = "label_score";
-	scoreboardLabelName.size = sf::Vector2f(200, 30);
-	scoreboardLabelName.buttonText = "Score";
-	scoreboardLabelName.screenCoords = sf::Vector2f(800, 5);
-	pMain_menu->add(sptr<leon::WidgetBase>(new leon::Button(*pMain_menu->getPanelPtr(), scoreboardLabelName)));
+	//leon::ButtonData scoreboardLabelScore;
+	//scoreboardLabelName.ioComp.name = "label_score";
+	//scoreboardLabelName.size = sf::Vector2f(200, 30);
+	//scoreboardLabelName.buttonText = "Score";
+	//scoreboardLabelName.screenCoords = sf::Vector2f(800, 5);
+	//pMain_menu->add(sptr<leon::WidgetBase>(new leon::Button(*pMain_menu->getPanelPtr(), scoreboardLabelName)));
 
-	leon::ButtonData scoreboardLabelMoney;
-	scoreboardLabelMoney.ioComp.name = "label_money";
-	scoreboardLabelMoney.size = sf::Vector2f(200, 30);
-	scoreboardLabelMoney.buttonText = "Money";
-	scoreboardLabelMoney.screenCoords = sf::Vector2f(1000, 5);
-	pMain_menu->add(sptr<leon::WidgetBase>(new leon::Button(*pMain_menu->getPanelPtr(), scoreboardLabelMoney)));
+	//leon::ButtonData scoreboardLabelMoney;
+	//scoreboardLabelMoney.ioComp.name = "label_money";
+	//scoreboardLabelMoney.size = sf::Vector2f(200, 30);
+	//scoreboardLabelMoney.buttonText = "Money";
+	//scoreboardLabelMoney.screenCoords = sf::Vector2f(1000, 5);
+	//pMain_menu->add(sptr<leon::WidgetBase>(new leon::Button(*pMain_menu->getPanelPtr(), scoreboardLabelMoney)));
 }
 void Overlay::toggleMenu(bool show)//display menu, assume gui control, send pause game command
 {

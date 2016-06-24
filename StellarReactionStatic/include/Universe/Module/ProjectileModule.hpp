@@ -5,6 +5,7 @@
 #include "QuadComponent.hpp"
 
 struct ProjectileModuleData;
+enum class Team;
 
 
 /// Detects when colliding with something a potentially dealing damage.
@@ -31,7 +32,7 @@ protected:
 	int m_damage;
 
 	///Which team is this damage coming from?
-	int m_team;
+	Team m_team;
 	///Which physics body?
 	const b2Body* m_pParent;
 	///IO position?

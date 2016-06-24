@@ -11,6 +11,7 @@
 #include "ShipAI.hpp"
 #include "LaunchGame.hpp"
 #include "NonCopyable.hpp"
+#include "Team.hpp"
 
 class BatchLayers;
 class GraphicsComponentUpdater;
@@ -89,13 +90,13 @@ public:
 	/// Set whether debug draw is on or not.
 	void toggleDebugDraw();
 	/// Find station that isnt on specified team
-	Chunk* getNearestStation(const b2Vec2& target, int team);
+	Chunk* getNearestStation(const b2Vec2& target, Team team);
 	/// Return pointer to the nearest Chunk, ignoring exception.
 	Chunk* getNearestChunkExcept(const b2Vec2& target, const Chunk* exception);
 	/// Return pointer to the nearest BodyComponent.
 	BodyComponent* getNearestBody(const b2Vec2& target);
 	/// Find Chunk that is on one of the specified teams
-	Chunk* getNearestChunkOnTeam(const b2Vec2& target, const Chunk* exception, std::list<int> teams);
+	Chunk* getNearestChunkOnTeam(const b2Vec2& target, const Chunk* exception, std::list<Team> teams);
 	bool listContains(std::list<int> teams, int value);
 	
 	/// Get a bed positions for a Chunk to sleep at.
@@ -153,7 +154,7 @@ private:
 	sptr<ProjectileMan> m_spProjMan;//manages projectiles
 	sptr<DecorationEngine> m_spDecorEngine;//list of decorations for the world
 
-	std::map<int, std::vector<b2Vec2> > m_spawnPoints;//places for people to spawn, int is team
+	std::map<Team, std::vector<b2Vec2> > m_spawnPoints;//places for people to spawn, int is team
 
 	/**Money**/
 	std::map<int, Money> m_captures;//how much money does each team get for capture points

@@ -2,7 +2,7 @@
 
 #include "stdafx.hpp"
 #include "Money.hpp"
-
+#include "Team.hpp"
 
 /// \brief Holds information about each player.
 /// 
@@ -14,9 +14,9 @@ public:
 	virtual ~BasePlayerTraits();
 
 	///Set our team.
-	void setTeam(int team);
+	void setTeam(Team team);
 	///Return which team we are on.
-	int getTeam() const;
+	Team getTeam() const;
 
 
 	///Set which controller does this entity control.
@@ -61,7 +61,7 @@ private:
 	///In game name.
 	std::string m_name;
 	///Which team this player is on.
-	int m_team;
+	Team m_team;
 	///Total current money this player owns.
 	Money m_balance;
 };

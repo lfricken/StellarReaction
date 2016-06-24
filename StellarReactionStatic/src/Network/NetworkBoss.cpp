@@ -28,12 +28,14 @@ void NetworkBoss::recieveLevel(sf::Packet& data)
 	for(int32_t i = 0; i < numControllers; ++i)
 	{
 		GameLaunchData::PlayerData playerInstance;
+		int tempTeam;
 
 		data >> playerInstance.slaveName;
 		data >> playerInstance.playerName;
 		data >> playerInstance.playerMoney;
 		data >> playerInstance.ship;
-		data >> playerInstance.team;
+		data >> tempTeam;
+		playerInstance.team = (Team)tempTeam;
 		data >> playerInstance.isAI;
 		launchData.playerList.push_back(playerInstance);
 	}
@@ -60,7 +62,7 @@ void NetworkBoss::launchMultiplayerGame()
 	data << game.getLocalPlayer().getName();
 	data << game.getLocalPlayer().getMoney();
 	data << game.getLocalPlayer().getShipChoice();
-	data << game.getLocalPlayer().getTeam();
+	data << (int)game.getLocalPlayer().getTeam();
 	data << false;
 
 	//for clients
@@ -71,13 +73,13 @@ void NetworkBoss::launchMultiplayerGame()
 		string playerName = client->getName();
 		Money playerMoney = client->getMoney();
 		string shipName = client->getShipChoice();
-		int team = client->getTeam();
+		Team team = client->getTeam();
 		assert(cout << "\nSlave:[" << slaveName << "] title:[" << shipName << "].");
 		data << slaveName;
 		data << playerName;
 		data << playerMoney;
 		data << shipName;
-		data << team;
+		data << (int)team;
 		data << false;//is ai
 	}
 
@@ -566,7 +568,7 @@ void NetworkBoss::playerOption(sf::Packet& rData, BasePlayerTraits* pFrom)
 		string steam;
 		rData >> steam;
 		int team = stoi(steam);
-		pFrom->setTeam(team);
+		pFrom->setTeam((Team)team);
 		messageLobby(pFrom->getName() + " changed to team [" + to_string(team) + "].");
 	}
 	else if(command == "setName")

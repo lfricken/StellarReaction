@@ -1,6 +1,7 @@
 #include "ShipModule.hpp"
 #include "SoundManager.hpp"
 #include "Player.hpp"
+#include "Team.hpp"
 
 using namespace std;
 
@@ -88,14 +89,16 @@ void ShipModule::input(std::string rCommand, sf::Packet rData)
 	{
 		int val;
 		int cause;
-		int team;
-		rData >> val >> cause >> team;
-		int myTeam = m_parentChunk->getBodyComponent().getTeam();
+		Team team;
+		int teamTemp;
+		rData >> val >> cause >> teamTemp;
+		team = static_cast<Team>(teamTemp);
+		Team myTeam = m_parentChunk->getBodyComponent().getTeam();
 
 		const bool notSameTeam = team != myTeam;
 		const bool damagePositive = val > 0;
 		const bool notInvincible = myTeam != -1;
-		const bool notInvalidTeam = team != 0;
+		const bool notInvalidTeam = team != Team::Invalid;
 
 		if(damagePositive && notSameTeam && notInvincible && notInvalidTeam)
 		{

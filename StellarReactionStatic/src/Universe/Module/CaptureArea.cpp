@@ -17,8 +17,8 @@ CaptureArea::CaptureArea(const CaptureAreaData& rData) : Sensor(rData)
 	m_progress = 0;
 	m_oldProgress = 0;
 	m_owned = false;
-	m_currentTeam = -1;
-	m_capTeam = -1;
+	m_currentTeam = Team::Invalid;
+	m_capTeam = Team::Invalid;
 	m_conflicted = false;
 
 	m_value = rData.value;
@@ -32,7 +32,7 @@ CaptureArea::~CaptureArea()
 bool CaptureArea::isConflicted(){
 	return m_conflicted;
 }
-int CaptureArea::getCurrentTeam(){
+Team CaptureArea::getCurrentTeam(){
 	return m_currentTeam;
 }
 float CaptureArea::getProgress(){

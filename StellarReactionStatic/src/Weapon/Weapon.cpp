@@ -7,6 +7,7 @@
 #include "Player.hpp"
 #include "Random.hpp"
 #include "Convert.hpp"
+#include "Team.hpp"
 
 using namespace std;
 
@@ -57,7 +58,7 @@ Weapon::Weapon(const WeaponData& rData) : m_decor(rData.weaponQuad)
 
 	m_shotThisTick = false;
 
-	m_team = -794;
+	m_team = Team::Invalid;
 }
 Weapon::~Weapon()
 {
@@ -143,10 +144,10 @@ void Weapon::postPhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 rad
 		game.getSound().playSound(m_endSound);
 	}
 }
-void Weapon::damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmount, int ioCausePos, int team)
+void Weapon::damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmount, int ioCausePos, Team team)
 {
 	sf::Packet packet;
-	packet << damageAmount << ioCausePos << team;
+	packet << damageAmount << ioCausePos << static_cast<int>(team);
 
 	Message mess;
 	mess.reset(ioTargetPos, "damage", packet, 0.f, false);
@@ -162,7 +163,7 @@ QuadComponent* Weapon::getDecor()
 {
 	return &m_decor;
 }
-void Weapon::setTeam(int newTeam)
+void Weapon::setTeam(Team newTeam)
 {
 	m_team = newTeam;
 }

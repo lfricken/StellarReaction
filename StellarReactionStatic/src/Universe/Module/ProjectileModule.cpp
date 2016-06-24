@@ -17,7 +17,7 @@ ProjectileModule::ProjectileModule(const ProjectileModuleData& rData) : Sensor(r
 	m_currentCollisions = 0;
 	m_maxCollisions = 2;
 	m_damage = 0;
-	m_team = 0;
+	m_team = Team::Invalid;
 	m_sourceIOPos = -1;
 }
 ProjectileModule::~ProjectileModule()

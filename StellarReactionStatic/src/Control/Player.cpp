@@ -299,6 +299,7 @@ void Player::updateView()
 
 			if(oldScore == 10)
 			{
+				// TODO this should not have a win condition
 				scoreString = "You Win";
 				game.getUniverse().togglePause();
 			}
@@ -326,12 +327,18 @@ void Player::updateView()
 			//Determine team.
 			GameObject* p = it->get();
 			Chunk* object = dynamic_cast<Chunk*>(p);
-			int other_team = object->getBodyComponent().getTeam();
-			int colorFlag = 0;
-			if(other_team == getTeam())
-				colorFlag = 1;
-			else if(other_team < 0)
-				colorFlag = -1;
+			Team other_team = object->getBodyComponent().getTeam();
+			
+			sf::Color dotColor(sf::Color::Blue);
+
+			if(other_team == Team::Neutral)
+				dotColor = sf::Color::Blue;
+			else if(other_team == Team::Capturable)
+				dotColor = sf::Color(255, 140, 0);
+			else if(other_team == this->getTeam())
+				dotColor = sf::Color::Green;
+			else
+				dotColor = sf::Color::Red;
 
 			if(object != NULL && !object->isStealth())
 			{
@@ -342,7 +349,7 @@ void Player::updateView()
 				{
 
 					dif *= mapScale;
-					m_minimap->setDot(miniMapCenter + dif, index, colorFlag);
+					m_minimap->setDot(miniMapCenter + dif, index, dotColor);
 					index++;
 				}
 			}

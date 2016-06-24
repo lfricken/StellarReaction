@@ -420,7 +420,7 @@ Chunk* Universe::getNearestChunkOnTeam(const b2Vec2& target, const Chunk* except
 /// <summary>
 /// returns chunk pointer to nearest Capture Point that isn't owned by the specified team
 /// </summary>
-Chunk* Universe::getNearestStation(const b2Vec2& target, int team)
+Chunk* Universe::getNearestStation(const b2Vec2& target, Team team)
 {
 	float prevDist = -1;
 	Chunk* closest = NULL;

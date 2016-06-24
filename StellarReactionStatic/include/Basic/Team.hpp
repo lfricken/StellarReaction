@@ -1,14 +1,19 @@
+#pragma once
 
 enum class Team
 {
-	One,
-	Two,
-	Three,
-	Four,
+	One = 1,
+	Two = 2,
+	Three = 3,
+	Four = 4,
 
-	Neutral,//damaged by anyone
+	Neutral = 0,//cannot send or recieve damage
+	Invinicible = -1,///Damaged by no one.
+	Alone = -2,
 
-	Invinicible,///Damaged by no one.
+	Capturable = -3,
+
+	Invalid = -784,
 };
 
 

@@ -5,6 +5,8 @@
 #include "NetworkComponent.hpp"
 #include "NonCopyable.hpp"
 
+enum class Team;
+
 /// Initializes BodyComponent
 struct BodyComponentData
 {
@@ -55,9 +57,9 @@ public:
 	///Wake the body with a given position and velocity.
 	void wake(const b2Vec2& rCoords, float radiansCCW, const b2Vec2& rVel, float angularVel);
 	///Sets the team of the Ship this body represents.
-	void setTeam(int team);
+	void setTeam(Team team);
 	///Returns the team of the Ship this body represents.
-	int getTeam() const;
+	Team getTeam() const;
 
 protected:
 	virtual void pack(sf::Packet& rPacket);
@@ -71,7 +73,7 @@ private:
 	b2Vec2 m_oldPos;//used for sleep
 	float m_oldAngle;//used for sleep
 
-	int m_team;
+	Team m_team;
 	// 1-4 is blue, green, yellow, pink teams
 	// 12 is capture station
 	//-784 everything else

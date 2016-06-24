@@ -23,7 +23,6 @@ TEST(ReactorTest, ShipMovesOnDeath)
 	//create ReactorData
 	ReactorData* testReactorData = new ReactorData();
 	testReactorData->respawnTime = 0.05f;
-	testReactorData->waitTime = 0.05f;
 	testChunkData.moduleData.push_back(sptr<ModuleData>(testReactorData));
 
 	//Add Chunk
@@ -62,7 +61,6 @@ TEST(ReactorTest, ShipHealsOnDeath)
 	//create ReactorData
 	ReactorData* testReactorData = new ReactorData();
 	testReactorData->respawnTime = 0.05f;
-	testReactorData->waitTime = 0.05f;
 	testChunkData->moduleData.push_back(sptr<ModuleData>(testReactorData));
 
 	//Add Chunk

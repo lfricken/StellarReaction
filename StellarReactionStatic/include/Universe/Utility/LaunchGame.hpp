@@ -2,6 +2,7 @@
 
 #include "stdafx.hpp"
 #include "Money.hpp"
+#include "Team.hpp"
 
 ///Data necessary to launch the game.
 struct GameLaunchData
@@ -12,7 +13,7 @@ struct GameLaunchData
 		string playerName;
 		Money playerMoney;
 		string ship;//which ship?
-		int team;//which team are they on
+		Team team;//which team are they on
 		bool isAI;//is it an AI Player?
 	};
 

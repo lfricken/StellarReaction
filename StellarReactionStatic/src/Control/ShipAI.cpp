@@ -9,7 +9,7 @@
 
 using namespace std;
 
-ShipAI::ShipAI(int team, int controller_index) : BasePlayerTraits("ai")
+ShipAI::ShipAI(Team team, int controller_index) : BasePlayerTraits("ai")
 {
 	m_currentBehavior = 2;
 	m_numBehaviors = 2;
@@ -52,8 +52,8 @@ void ShipAI::updateDecision()
 		//check for a new target
 		if (m_targetTimer.isTimeUp()) {
 			m_targetTimer.restartCountDown();
-			int teams[] = {1,2,3,4};
-			std::list<int> teamList(teams, teams + 4);
+			Team teams[] = {Team::One, Team::Two, Team::Three, Team::Four};
+			std::list<Team> teamList(teams, teams + 4);
 			teamList.remove(getTeam());
 			m_pCurrentTarget = game.getUniverse().getNearestChunkOnTeam(pBody->GetPosition(), rController.getSlave(), teamList);
 		}
@@ -106,7 +106,7 @@ void ShipAI::updateDecision()
 			if (m_targetTimer.isTimeUp()) {
 				m_targetTimer.restartCountDown();
 				int teams[] = { 1, 2, 3, 4 };
-				std::list<int> teamList(teams, teams + 4);
+				std::list<Team> teamList(teams, teams + 4);
 				teamList.remove(getTeam());
 				m_pCurrentTarget = game.getUniverse().getNearestChunkOnTeam(pBody->GetPosition(), rController.getSlave(), teamList);
 			}

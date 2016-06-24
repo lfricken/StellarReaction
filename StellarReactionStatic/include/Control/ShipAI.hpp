@@ -14,7 +14,7 @@ enum class Directive;
 class ShipAI : public BasePlayerTraits, NonCopyable
 {
 public:
-	ShipAI(int team, int controller_index);
+	ShipAI(Team team, int controller_index);
 	~ShipAI();
 
 	/// Update what the AI is trying to do.

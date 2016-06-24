@@ -20,7 +20,7 @@ Minimap::~Minimap()
 {
 
 }
-void Minimap::setDot(b2Vec2 center, int index, int team)
+void Minimap::setDot(b2Vec2 center, int index, sf::Color dotColor)
 {
 	if(index >= (signed)map_points.size())
 	{
@@ -32,12 +32,7 @@ void Minimap::setDot(b2Vec2 center, int index, int team)
 	}
 
 	map_points[index]->setPosition(center);
-	if(team == 1)
-		map_points[index]->setColor(sf::Color::Green);
-	else if(team == 0)
-		map_points[index]->setColor(sf::Color::Red);
-	else
-		map_points[index]->setColor(sf::Color::Blue);
+	map_points[index]->setColor(dotColor);
 }
 sptr<QuadComponent> Minimap::getDot(int index)
 {

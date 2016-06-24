@@ -7,7 +7,7 @@ using namespace std;
 
 BasePlayerTraits::BasePlayerTraits(const std::string& rName)
 {
-	m_team = 1;
+	m_team = Team::One;
 	m_shipChoice = "Anubis";
 	m_name = rName;
 	m_balance = 0;
@@ -33,11 +33,11 @@ const std::string& BasePlayerTraits::getName() const
 {
 	return m_name;
 }
-void BasePlayerTraits::setTeam(int team)
+void BasePlayerTraits::setTeam(Team team)
 {
 	m_team = team;
 }
-int BasePlayerTraits::getTeam() const
+Team BasePlayerTraits::getTeam() const
 {
 	return m_team;
 }

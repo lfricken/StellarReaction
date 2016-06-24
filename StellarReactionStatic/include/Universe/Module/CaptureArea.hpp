@@ -17,7 +17,7 @@ public:
 	///Is this capture area being contested?
 	bool isConflicted();
 	//Get the team that has captured this area.
-	int getCurrentTeam();
+	Team getCurrentTeam();
 	//Get current capture status.
 	float getProgress();
 
@@ -27,8 +27,8 @@ private:
 	float m_capPercent;
 	float m_captureTime;//how long does it take to capture this?
 
-	int m_currentTeam;//team that owns this point currently
-	int m_capTeam;//team is currently capturing this point
+	Team m_currentTeam;//team that owns this point currently
+	Team m_capTeam;//team is currently capturing this point
 	bool m_conflicted;
 	float m_progress;
 	float m_oldProgress;

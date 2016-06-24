@@ -47,7 +47,7 @@ void CaptureGraphic::prePhysUpdate()
 	if (m_cap == NULL) 
 	{
 		m_cap = dynamic_cast<CaptureArea*>((&*m_parentChunk->getModuleList()[0]));
-		m_parentChunk->getBodyComponent().setTeam(12);
+		m_parentChunk->getBodyComponent().setTeam(Team::Capturable);
 	}
 }
 void CaptureGraphic::postPhysUpdate()
@@ -55,7 +55,7 @@ void CaptureGraphic::postPhysUpdate()
 	if (m_cap == NULL)
 		return;
 
-	int cur_team = m_cap->getCurrentTeam();
+	Team cur_team = m_cap->getCurrentTeam();
 	float prog = m_cap->getProgress();
 
 	//check if the red lights should be turned on or off
@@ -63,7 +63,7 @@ void CaptureGraphic::postPhysUpdate()
 	if (!m_cap->isConflicted() && cur_team > 0){
 		//adjust light alpha based on capture progress
 		//set the current light
-		m_light2 = cur_team;
+		m_light2 = (int)cur_team;
 		//m_light1 is the default light
 		int newAlpha = 255 * (1.f - prog);
 		if (newAlpha < 0)

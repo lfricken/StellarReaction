@@ -10,6 +10,7 @@
 #include "BlueprintData.hpp"
 #include "NonCopyable.hpp"
 
+enum class Team;
 struct WeaponData;
 class FixtureComponent;
 
@@ -36,15 +37,15 @@ public:
 	/// Look at laser and projectile weapon.
 	virtual void postShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation) = 0;
 	///Does damage to target.
-	static void damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmount, int ioCausePos, int team);
+	static void damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmount, int ioCausePos, Team team);
 	///Gets the decoration object corresponding to this weapon.
 	QuadComponent* getDecor();
 	///Tell this weapon which team it is working for.
-	void setTeam(int newTeam);
+	void setTeam(Team newTeam);
 
 protected:
 	///Team that owns this wep.
-	int m_team;
+	Team m_team;
 	b2Body* m_pBody;
 	const FixtureComponent* m_pTempParent;
 	int m_shots;//how many shots we do upon each fire command
