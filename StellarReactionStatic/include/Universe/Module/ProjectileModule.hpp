@@ -29,15 +29,22 @@ public:
 protected:
 	bool m_freeThisProjectile;
 	int m_damage;
+
+	///Which team is this damage coming from?
+	int m_team;
+	///Which physics body?
 	const b2Body* m_pParent;
+	///IO position?
+	int m_sourceIOPos;
+
+
+
 	std::vector<sptr<GraphicsComponent> > m_decors;
 	///how many collisions have we had so far.
 	int m_currentCollisions;
 	///how many collisions should we do.
 	int m_maxCollisions;
 
-	/// Damages the specified fixture (which has a module).
-	void damage(FixtureComponent* pFix, int damage);
 private:
 
 };

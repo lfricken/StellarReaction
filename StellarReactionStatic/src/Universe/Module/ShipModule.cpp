@@ -95,8 +95,9 @@ void ShipModule::input(std::string rCommand, sf::Packet rData)
 		const bool notSameTeam = team != myTeam;
 		const bool damagePositive = val > 0;
 		const bool notInvincible = myTeam != -1;
+		const bool notInvalidTeam = team != 0;
 
-		if(damagePositive && notSameTeam && notInvincible)
+		if(damagePositive && notSameTeam && notInvincible && notInvalidTeam)
 		{
 			m_health.damage(val);
 			m_io.event(EventType::Health, m_health.getHealth(), voidPacket);
