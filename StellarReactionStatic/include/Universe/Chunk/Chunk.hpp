@@ -7,6 +7,7 @@
 #include "QuadComponent.hpp"
 #include "BlueprintData.hpp"
 #include "NonCopyable.hpp"
+#include "Team.hpp"
 
 struct ChunkData;
 class Module;
@@ -106,7 +107,7 @@ struct ChunkData : public GameObjectData, public BlueprintData
 	ChunkData() :
 		GameObjectData(),
 		bodyComp(),
-		team(-784)
+		team(Team::Alone)
 	{
 		title = "CHUNK_DEFAULT_TITLE";
 
@@ -128,7 +129,7 @@ struct ChunkData : public GameObjectData, public BlueprintData
 
 	std::vector<b2Vec2> validPos;
 
-	int team;
+	Team team;
 	BodyComponentData bodyComp;
 	std::vector<sptr<const ModuleData> > moduleData;
 

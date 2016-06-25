@@ -95,12 +95,11 @@ void ShipModule::input(std::string rCommand, sf::Packet rData)
 		team = static_cast<Team>(teamTemp);
 		Team myTeam = m_parentChunk->getBodyComponent().getTeam();
 
-		const bool notSameTeam = team != myTeam;
 		const bool damagePositive = val > 0;
-		const bool notInvincible = myTeam != -1;
-		const bool notInvalidTeam = team != Team::Invalid;
+		const bool differentTeams = team != myTeam || team == Team::Alone;
+		const bool validTeams = (team != Team::Invalid && team != Team::Neutral && team != Team::Capturable) && (myTeam != Team::Invalid && myTeam != Team::Neutral && myTeam != Team::Capturable);
 
-		if(damagePositive && notSameTeam && notInvincible && notInvalidTeam)
+		if(damagePositive && differentTeams && validTeams)
 		{
 			m_health.damage(val);
 			m_io.event(EventType::Health, m_health.getHealth(), voidPacket);

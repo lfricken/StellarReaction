@@ -7,14 +7,11 @@ enum class Team
 	Three = 3,
 	Four = 4,
 
-	Neutral = 0,//cannot send or recieve damage
-	Invinicible = -1,///Damaged by no one.
-	Alone = -2,
+	Alone = 0,
 
-	Capturable = -3,
-
+	///These cannot interact damage wise.
+	Neutral = -1,
+	Capturable = -2,
 	Invalid = -784,
 };
-
-
 

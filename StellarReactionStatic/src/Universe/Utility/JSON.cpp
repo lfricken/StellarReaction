@@ -66,4 +66,10 @@ bool JSON::get(const Json::Value& root, const std::string& fieldName, bool defau
 	else
 		return root[fieldName].asBool();
 }
-
+Team JSON::get(const Json::Value& root, const std::string& fieldName, Team defaultValue)
+{
+	if(root[fieldName].isNull())
+		return defaultValue;
+	else
+		return (Team)root[fieldName].asInt();
+}

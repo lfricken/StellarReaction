@@ -60,7 +60,7 @@ void CaptureGraphic::postPhysUpdate()
 
 	//check if the red lights should be turned on or off
 	redLights(m_cap->isConflicted());
-	if (!m_cap->isConflicted() && cur_team > 0){
+	if (!m_cap->isConflicted() && cur_team != Team::Invalid){
 		//adjust light alpha based on capture progress
 		//set the current light
 		m_light2 = (int)cur_team;

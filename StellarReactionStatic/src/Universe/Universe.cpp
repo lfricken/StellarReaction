@@ -81,7 +81,7 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 				{
 					points.push_back(b2Vec2((*itPoint)[0].asFloat(), (*itPoint)[1].asFloat()));
 				}
-				m_spawnPoints[(*it)["Team"].asInt()] = points;
+				m_spawnPoints[(Team)(*it)["Team"].asInt()] = points;
 			}
 		}
 		/**Map Chunks**/
@@ -223,7 +223,7 @@ Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input,
 	m_restartedMoneyTimer = false;
 
 	for(int i = minTeam; i <= maxTeam; ++i)
-		m_captures[i] = defaultTickMoney;
+		m_captures[(Team)i] = defaultTickMoney;
 
 
 	/**PHYControlCS**/
@@ -340,7 +340,7 @@ void Universe::prePhysUpdate()
 		m_spProjMan->prePhysUpdate();
 	}
 }
-void Universe::changeTeamMoney(int team, Money money)
+void Universe::changeTeamMoney(Team team, Money money)
 {
 	this->m_captures[team] += money;
 }
@@ -395,7 +395,7 @@ BodyComponent* Universe::getNearestBody(const b2Vec2& target)
 /// finds nearest chunk on a team that is within the team list
 /// if the team list is empty it will consider all teams
 /// </summary>
-Chunk* Universe::getNearestChunkOnTeam(const b2Vec2& target, const Chunk* exception, std::list<int> teams)
+Chunk* Universe::getNearestChunkOnTeam(const b2Vec2& target, const Chunk* exception, std::list<Team> teams)
 {
 	float prevDist = -1;
 	Chunk* closest = NULL;
@@ -430,7 +430,7 @@ Chunk* Universe::getNearestStation(const b2Vec2& target, Team team)
 		{
 			GameObject* p = it->get();
 			Chunk* object = dynamic_cast<Chunk*>(p);
-			if(object != NULL && object->getBodyComponent().getTeam() == 12)
+			if(object != NULL && object->getBodyComponent().getTeam() == Team::Capturable)
 			{
 				m_capturePoints.push_back(object);
 				CaptureArea* ca = dynamic_cast<CaptureArea*>((&*object->getModuleList()[0]));
@@ -471,12 +471,12 @@ Chunk* Universe::getNearestStation(const b2Vec2& target, Team team)
 /// <summary>
 /// returns true if list contains value or list is empty
 /// </summary>
-bool Universe::listContains(std::list<int> intList, int value)
+bool Universe::listContains(std::list<Team> intList, Team value)
 {
 	if(intList.empty())
 		return true;
 
-	for(std::list<int>::iterator it = intList.begin(); it != intList.end(); ++it)
+	for(std::list<Team>::iterator it = intList.begin(); it != intList.end(); ++it)
 	{
 		if((*it) == value)
 			return true;
@@ -620,7 +620,7 @@ bool Universe::isClear(b2Vec2 position, float radius, const Chunk* exception)
 	}
 	return true;
 }
-b2Vec2 Universe::getAvailableSpawn(int team, float radius, const Chunk* exception)
+b2Vec2 Universe::getAvailableSpawn(Team team, float radius, const Chunk* exception)
 {
 	for(auto it = m_spawnPoints[team].begin(); it != m_spawnPoints[team].end(); it++)
 	{

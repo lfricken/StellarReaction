@@ -105,7 +105,7 @@ void ShipAI::updateDecision()
 			//check for enemies along the way
 			if (m_targetTimer.isTimeUp()) {
 				m_targetTimer.restartCountDown();
-				int teams[] = { 1, 2, 3, 4 };
+				Team teams[] = { Team::One, Team::Two, Team::Three, Team::Four };
 				std::list<Team> teamList(teams, teams + 4);
 				teamList.remove(getTeam());
 				m_pCurrentTarget = game.getUniverse().getNearestChunkOnTeam(pBody->GetPosition(), rController.getSlave(), teamList);

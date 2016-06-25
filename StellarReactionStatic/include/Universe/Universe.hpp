@@ -75,7 +75,7 @@ public:
 	void updateShipAI();
 
 	/// Change the Money a team gets each tick.
-	void changeTeamMoney(int team, Money money);
+	void changeTeamMoney(Team team, Money money);
 
 	/// Is debug draw on or not?
 	bool debugDraw() const;
@@ -97,7 +97,7 @@ public:
 	BodyComponent* getNearestBody(const b2Vec2& target);
 	/// Find Chunk that is on one of the specified teams
 	Chunk* getNearestChunkOnTeam(const b2Vec2& target, const Chunk* exception, std::list<Team> teams);
-	bool listContains(std::list<int> teams, int value);
+	bool listContains(std::list<Team> teams, Team value);
 	
 	/// Get a bed positions for a Chunk to sleep at.
 	b2Vec2 getBed();
@@ -115,7 +115,7 @@ public:
 	/// Return a spawn point for this team.
 
 	bool started = true; //tell whether this is the initial universe created by Game, or a later one
-	b2Vec2 getAvailableSpawn(int team, float radius, const Chunk* exception);
+	b2Vec2 getAvailableSpawn(Team team, float radius, const Chunk* exception);
 
 protected:
 	void loadBlueprints(const std::string& bluePrints);//loads blueprints
@@ -157,7 +157,7 @@ private:
 	std::map<Team, std::vector<b2Vec2> > m_spawnPoints;//places for people to spawn, int is team
 
 	/**Money**/
-	std::map<int, Money> m_captures;//how much money does each team get for capture points
+	std::map<Team, Money> m_captures;//how much money does each team get for capture points
 	bool m_restartedMoneyTimer;
 	sptr<Timer> m_spMoneyTimer;//how long to wait for each money gift
 

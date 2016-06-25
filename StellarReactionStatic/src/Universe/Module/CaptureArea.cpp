@@ -29,62 +29,73 @@ CaptureArea::~CaptureArea()
 {
 
 }
-bool CaptureArea::isConflicted(){
+bool CaptureArea::isConflicted()
+{
 	return m_conflicted;
 }
-Team CaptureArea::getCurrentTeam(){
+Team CaptureArea::getCurrentTeam()
+{
 	return m_currentTeam;
 }
-float CaptureArea::getProgress(){
+float CaptureArea::getProgress()
+{
 	return m_progress / m_captureTime;
 }
 void CaptureArea::prePhysUpdate()
 {
-	m_conflicted = false;
 	float time = m_capTimer.getTimeElapsed();
-	m_capTeam = -1;
+	m_conflicted = false;
+	m_capTeam = Team::Invalid;
 
-	for (auto it = m_guests.cbegin(); it != m_guests.cend(); ++it)
+	Team firstGuestTeam = Team::Invalid;
+	for(auto it = m_guests.cbegin(); it != m_guests.cend(); ++it)
 	{
 		void* p = (*it)->getBodyPtr()->GetUserData();
-		int thisTeam = static_cast<BodyComponent*>(p)->getTeam();
-		if (thisTeam != -784){//ignore asteroids
-			if (m_capTeam == -1 || m_capTeam == thisTeam)
+		Team thisTeam = static_cast<BodyComponent*>(p)->getTeam();
+
+
+		if(thisTeam != Team::Neutral)//ignore asteroids
+		{
+			if(firstGuestTeam == Team::Invalid)//record the first team in here.
+			{
+				firstGuestTeam = thisTeam;
 				m_capTeam = thisTeam;
-			else
+			}
+			if(firstGuestTeam != thisTeam)//if any team in here is not equal to the first, then it is conflicted.
 			{
 				m_conflicted = true;
-				m_capTeam = -1;
+				m_capTeam = Team::Invalid;
 				break;
 			}
 		}
 	}
 
-	if (!m_conflicted && m_capTeam > 0)
+	//progress the state to captured
+	if(m_capTeam != Team::Invalid)
 	{
-		if (m_capTeam == m_currentTeam)
+		if(m_capTeam == m_currentTeam)//if capture team == owning team, add capture value
 		{
 			m_progress += time;
-			if (m_progress >= m_captureTime)
+			if(m_progress >= m_captureTime)
 				m_progress = m_captureTime;
 		}
-		else
+		else//otherwise lower capture value
 		{
 			m_progress -= time;
-			if (m_progress <= 0)
+			if(m_progress <= 0)
 				m_currentTeam = m_capTeam;
 		}
 	}
 
 	//we transitioned to owning it
-	if ((m_oldProgress / m_captureTime) < m_capPercent && (m_progress / m_captureTime) >= m_capPercent)
+	if((m_oldProgress / m_captureTime) < m_capPercent && (m_progress / m_captureTime) >= m_capPercent)
 	{
 		std::cout << "\nOwned";
 		m_owned = true;
 		game.getUniverse().changeTeamMoney(m_currentTeam, m_value);
 	}
 	//we transitioned to not owning it
-	else if ((m_oldProgress / m_captureTime) > m_capPercent && (m_progress / m_captureTime) <= m_capPercent)
+	else if((m_oldProgress / m_captureTime) > m_capPercent && (m_progress / m_captureTime) <= m_capPercent)
 	{
 		std::cout << "\nNot Owned";
 		m_owned = false;
