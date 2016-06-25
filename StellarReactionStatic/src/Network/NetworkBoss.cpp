@@ -50,6 +50,7 @@ void NetworkBoss::recieveLevel(sf::Packet& data)
 /// </summary>
 void NetworkBoss::launchMultiplayerGame()
 {
+	const int initialMoney = 50;
 	sf::Packet data;
 
 	std::string level = "Alpha Centauri";
@@ -58,16 +59,21 @@ void NetworkBoss::launchMultiplayerGame()
 	data << static_cast<int32_t>(m_connections.size() + 1 + m_numAI);//number of controllers +1 for host +num_ai for number of AI
 
 	//host
-	data << "1";
-	data << game.getLocalPlayer().getName();
-	data << game.getLocalPlayer().getMoney();
-	data << game.getLocalPlayer().getShipChoice();
-	data << (int)game.getLocalPlayer().getTeam();
-	data << false;
+	{
+		game.getLocalPlayer().setMoney(initialMoney);
 
+		data << "1";
+		data << game.getLocalPlayer().getName();
+		data << game.getLocalPlayer().getMoney();
+		data << game.getLocalPlayer().getShipChoice();
+		data << (int)game.getLocalPlayer().getTeam();
+		data << false;
+	}
 	//for clients
 	for(int32_t i = 0; i < (signed)m_connections.size(); ++i)
 	{
+		m_connections[i]->setMoney(initialMoney);
+
 		string slaveName = std::to_string(i + 1 + 1);//+1 for host, +1 for index offset
 		sptr<Connection> client = m_connections[i];
 		string playerName = client->getName();

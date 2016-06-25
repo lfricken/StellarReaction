@@ -283,11 +283,6 @@
     <ClInclude Include="include\IO\IOComponent.hpp" />
     <ClInclude Include="include\IO\IOManager.hpp" />
     <ClInclude Include="include\IO\Message.hpp" />
-    <ClInclude Include="include\Network\Connection.hpp" />
-    <ClInclude Include="include\Network\NetworkBoss.hpp" />
-    <ClInclude Include="include\Network\NetworkComponent.hpp" />
-    <ClInclude Include="include\Network\NetworkFactory.hpp" />
-    <ClInclude Include="include\Network\Protocol.hpp" />
     <ClInclude Include="include\Overlay\Button.hpp" />
     <ClInclude Include="include\Overlay\Chatbox.hpp" />
     <ClInclude Include="include\Overlay\DragComponent.hpp" />
@@ -402,6 +397,11 @@
     <ClInclude Include="include\Graphics\QuadComponents\Minimap.hpp" />
     <ClInclude Include="include\Graphics\QuadComponents\LinearMeter.hpp" />
     <ClInclude Include="include\Basic\Team.hpp" />
+    <ClInclude Include="include\Network\Connection.hpp" />
+    <ClInclude Include="include\Network\NetworkBoss.hpp" />
+    <ClInclude Include="include\Network\NetworkComponent.hpp" />
+    <ClInclude Include="include\Network\NetworkFactory.hpp" />
+    <ClInclude Include="include\Network\Protocol.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\API\SFML\Audio\SoundFileFactory.inl" />

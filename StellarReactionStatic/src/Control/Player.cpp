@@ -443,8 +443,6 @@ void Player::universeDestroyed()
 	// to add 4 more to it, the old null
 	// pointers are left behind and cause a crash.
 	m_groupIcon.clear();
-
-	setMoney(0);
 }
 bool Player::toggleFocus(bool isWindowFocused)
 {
