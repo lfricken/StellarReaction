@@ -1,5 +1,6 @@
 {
     "ClassName": "ChunkData",
+	"team": -1,
     "bodyComp": {
 		"linearDampening": 0.0,
 		"angularDampening": 0.0

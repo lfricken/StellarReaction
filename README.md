@@ -1,3 +1,5 @@
+Project Started 2014-02-13
+
 # StellarReaction
 Stellar Reaction is a real-time, multiplayer, space combat video game. Gameplay consists of four teams of Human or AI players controlling space ships, which are used to attack enemy ships, and to capture objective points to earn money.
 

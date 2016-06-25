@@ -89,15 +89,15 @@ void ShipModule::input(std::string rCommand, sf::Packet rData)
 	{
 		int val;
 		int cause;
-		Team team;
+		Team damagingTeam;
 		int teamTemp;
 		rData >> val >> cause >> teamTemp;
-		team = static_cast<Team>(teamTemp);
+		damagingTeam = static_cast<Team>(teamTemp);
 		Team myTeam = m_parentChunk->getBodyComponent().getTeam();
 
 		const bool damagePositive = val > 0;
-		const bool differentTeams = team != myTeam || team == Team::Alone;
-		const bool validTeams = (team != Team::Invalid && team != Team::Neutral && team != Team::Capturable) && (myTeam != Team::Invalid && myTeam != Team::Neutral && myTeam != Team::Capturable);
+		const bool differentTeams = damagingTeam != myTeam || damagingTeam == Team::Alone;
+		const bool validTeams = (damagingTeam != Team::Invalid && damagingTeam != Team::Capturable) && (myTeam != Team::Invalid && myTeam != Team::Neutral && myTeam != Team::Capturable);
 
 		if(damagePositive && differentTeams && validTeams)
 		{

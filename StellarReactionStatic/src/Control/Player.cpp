@@ -335,6 +335,8 @@ void Player::updateView()
 				dotColor = sf::Color::Blue;
 			else if(other_team == Team::Capturable)
 				dotColor = sf::Color(255, 140, 0);
+			else if(other_team == Team::Invalid)
+				dotColor = sf::Color::Magenta;
 			else if(other_team == this->getTeam())
 				dotColor = sf::Color::Green;
 			else

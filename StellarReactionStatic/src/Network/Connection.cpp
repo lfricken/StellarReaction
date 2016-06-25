@@ -86,7 +86,7 @@ void Connection::recievePlayerTraits(sf::Packet mes)
 {
 	int32_t money;
 
-	mes >> money;
+	mes >> money; 
 
 	game.getLocalPlayer().setMoney(money);
 }
