@@ -1,7 +1,7 @@
 {
     "ClassName": "SensorData",
     "ioComp": {
-        "name": "NONAMEBP",
+        "name": "StoreBP",
         "courierList": [
             {
                 "message": {
@@ -51,10 +51,10 @@
             0
         ],
         "size": [
-            15,
-            0
+            30,
+            20
         ],
-        "shape": "circle",
+        "shape": "rectangle",
         "density": 0,
         "isSensor": true,
         "colCat": "Trigger",

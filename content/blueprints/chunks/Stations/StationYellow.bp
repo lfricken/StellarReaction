@@ -9,14 +9,14 @@
 		"center": [0,0],
 		"texName": "core/yellow_core.png",
 		"animSheetName": "core/station.acfg",
-		"layer": "ShipHull"
+		"layer": "ShipUnder"
 	},
     "moduleData": [
         {
-            "title": "CoreCapacitor",
+            "title": "Store",
             "Position": [
-                -1,
-                -1
+                0,
+                0
             ]
         }
     ]

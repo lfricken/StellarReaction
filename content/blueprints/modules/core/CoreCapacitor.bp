@@ -1,4 +1,5 @@
 {
+	"Comments": "used by stations to just have some fixture",
     "ClassName": "CapacitorData",
 	"storage": 100,
     "baseDecor": {

@@ -187,16 +187,13 @@ void Chunk::prePhysUpdate()
 {
 	//push chunk in bounds if out of bounds
 	b2Vec2 location = m_body.getBodyPtr()->GetPosition();
-	vector<int> bounds = game.getUniverse().getBounds();
-	if(abs(location.x) > bounds[0] || abs(location.y) > bounds[1])
+	b2Vec2 bounds = game.getUniverse().getBounds();
+	if(abs(location.x) > bounds.x || abs(location.y) > bounds.y)
 	{
 		b2Vec2 force = b2Vec2(-location.x, -location.y);
+		float diff = std::max(abs(location.x) - bounds.x, abs(location.y) - bounds.y);
 		force.Normalize();
-		force *= 10;
-		if(abs(location.x) > bounds[0])
-			force.x *= abs(location.x) - bounds[0];
-		if(abs(location.y) > bounds[1])
-			force.y *= abs(location.y) - bounds[1];
+		force *= 10 * diff;
 		m_body.getBodyPtr()->ApplyForceToCenter(force, true);
 	}
 

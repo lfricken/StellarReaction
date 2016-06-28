@@ -229,9 +229,9 @@
 		"Title": "Dante",
 		"Coordinates": [-40, -5, 0]
 	}, {
-		"Title": "StationBlue",
+		"Title": "Store",
 		"Coordinates": [-135, -0,
-			240
+			12
 		]
 	}, {
 		"Title": "battlestationBlue",

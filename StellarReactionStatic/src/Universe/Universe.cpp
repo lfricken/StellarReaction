@@ -61,14 +61,10 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 		if(!root["MapBounds"].isNull())
 		{
 			const Json::Value boundsList = root["MapBounds"];
-			m_bounds.push_back(root["MapBounds"][0].asInt());
-			m_bounds.push_back(root["MapBounds"][1].asInt());
+			m_bounds.x = (boundsList[0].asInt());
+			m_bounds.y = (boundsList[1].asInt());
 		}
-		else
-		{
-			m_bounds.push_back(10000);
-			m_bounds.push_back(10000);
-		}
+
 		/**Spawn Points**/
 		if(!root["SpawnPoints"].isNull())
 		{
@@ -233,6 +229,7 @@ Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input,
 
 	m_inc = 10;
 	m_currentBed = b2Vec2(-10000, 10000);
+	m_bounds = b2Vec2(10000, 10000);
 
 	m_physWorld.SetContactListener(&m_contactListener);
 	m_physWorld.SetDebugDraw(&m_debugDraw);
@@ -290,22 +287,13 @@ Scoreboard& Universe::getScoreboard()
 {
 	return *m_scoreboard;
 }
-vector<int> Universe::getBounds()
+const b2Vec2& Universe::getBounds() const
 {
 	return m_bounds;
 }
-void Universe::setBounds(int x, int y)
+void Universe::setBounds(const b2Vec2& bounds)
 {
-	if(m_bounds.size() == 0)
-	{
-		m_bounds.push_back(x);
-		m_bounds.push_back(y);
-	}
-	else
-	{
-		m_bounds[0] = x;
-		m_bounds[1] = y;
-	}
+	m_bounds = bounds;
 }
 void Universe::updateShipAI()
 {

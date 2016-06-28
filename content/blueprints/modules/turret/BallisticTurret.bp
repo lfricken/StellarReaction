@@ -5,5 +5,6 @@
     "baseDecor": {
         "texName": "turret/turret_base.png",
         "animSheetName": "turret/turret_base.acfg"
-    }
+    },
+	"cost": 150
 }

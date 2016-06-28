@@ -55,9 +55,9 @@ public:
 	/// Return the Scoreboard for this Universe.
 	Scoreboard& getScoreboard();
 	/// Return the bounds of this Universe. // TODO wtf why is this an std::vector?
-	std::vector<int> getBounds();
+	const b2Vec2& getBounds() const;
 	/// Set the bounds of the Universe. Leaving bounds pushes you back to the game.
-	void setBounds(int x, int y);
+	void setBounds(const b2Vec2& bounds);
 
 	/// Return the physics time step. (how much the b2World's time increment is)
 	float getTimeStep() const;
@@ -173,5 +173,5 @@ private:
 	IOComponent m_io;
 	float m_lastTime;//used for update method//cant use timer because timer references us!
 	bool m_debugDrawEnabled;
-	std::vector<int> m_bounds;
+	b2Vec2 m_bounds;
 };

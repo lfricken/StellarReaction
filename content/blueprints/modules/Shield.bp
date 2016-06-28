@@ -7,5 +7,6 @@
 	"baseDecor": {
 		"texName": "shield/shield.png",
 		"animSheetName": "shield/shield.acfg"
-	}
+	},
+	"cost": 200
 }

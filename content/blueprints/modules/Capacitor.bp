@@ -4,5 +4,6 @@
     "baseDecor": {
         "texName": "capacitor/capacitor_base.png",
         "animSheetName": "capacitor/capacitor_base.acfg"
-    }
+    },
+	"cost": 50
 }

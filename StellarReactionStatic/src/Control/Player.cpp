@@ -281,8 +281,8 @@ void Player::updateView()
 
 		//Out of Bounds
 		b2Vec2 location = pBody->GetPosition();
-		vector<int> bounds = game.getUniverse().getBounds();
-		if(abs(location.x) > bounds[0] || abs(location.y) > bounds[1])//if out of bounds
+		b2Vec2 bounds = game.getUniverse().getBounds();
+		if(abs(location.x) > bounds.x || abs(location.y) > bounds.y)//if out of bounds
 			m_boundsDanger->getAnimator().setAnimation("Default", 2.f);
 
 

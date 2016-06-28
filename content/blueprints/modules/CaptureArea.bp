@@ -15,7 +15,7 @@
 		"colCat": "Trigger",
 		"colMask": "Trigger"
 	},
-	"value": 10,
+	"value": 1,
 	"captureTime": 5,
 	"capturePercent": 0.80,
     "baseDecor": {

@@ -5,18 +5,18 @@
         "isDynamic": false
     },
 	"hullSpriteData": {
-		"dimensions": [5880, 10052],
+		"dimensions": [15240, 9000],
 		"center": [0,0],
-		"texName": "core/qwer.png",
-		"animSheetName": "core/station.acfg",
-		"layer": "ShipHull"
+		"texName": "hulls/store.png",
+		"animSheetName": "hulls/store.acfg",
+		"layer": "ShipUnder"
 	},
     "moduleData": [
         {
-            "title": "CoreCapacitor",
+            "title": "Store",
             "Position": [
-                -1,
-                -1
+                0,
+                0
             ]
         }
     ]
