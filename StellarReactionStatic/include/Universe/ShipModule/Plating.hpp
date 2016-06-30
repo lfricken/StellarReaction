@@ -22,8 +22,6 @@ struct PlatingData : public ShipModuleData
 	PlatingData() :
 		ShipModuleData()
 	{
-		baseDecor.texName = "radar/radar_base.png";
-		baseDecor.animSheetName = "radar/radar_base.acfg";
 	}
 	///Create CaptureGraphics object from this data object.
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const

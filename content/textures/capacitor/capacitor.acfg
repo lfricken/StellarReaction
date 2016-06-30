@@ -6,7 +6,7 @@
     "stateList": [
         {
             "state": "Default",
-            "repeats": false,
+            "repeats": true,
             "tileList": [
 				{
                     "x": 0,

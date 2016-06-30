@@ -3,8 +3,8 @@
 	"rate": 10,
 	"respawnTime": 3,
     "baseDecor": {
-        "texName": "reactor/reactor_base.png",
-        "animSheetName": "reactor/reactor_base.acfg"
+        "texName": "reactor/reactor.png",
+        "animSheetName": "reactor/reactor.acfg"
     },
 	"cost": 150
 }

@@ -4,8 +4,8 @@
 	"teleRange": 20,
 	"teleCooldown": 10,
 	"baseDecor": {
-		"texName": "plating/plating_base.png",
-		"animSheetName": "plating/plating_base.acfg"
+		"texName": "teleport/teleport1.png",
+		"animSheetName": "teleport/teleport.acfg"
 	},
 	"cost": 150
 }

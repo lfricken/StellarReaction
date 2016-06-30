@@ -33,8 +33,6 @@ struct TeleportData : public ShipModuleData
 		teleRange(15),
 		teleCooldown(20)
 	{
-		baseDecor.texName = "radar/radar_base.png";
-		baseDecor.animSheetName = "radar/radar_base.acfg";
 	}
 
 	float energyConsumption;

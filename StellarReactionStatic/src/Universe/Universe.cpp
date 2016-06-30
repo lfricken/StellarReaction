@@ -192,8 +192,8 @@ Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input,
 {
 	const Money defaultTickMoney = 1;
 	const float moneyTickTime = 1.f;
-	const int minTeam = 1;
-	const int maxTeam = 4;
+	const int minTeam = (int)Team::One;
+	const int maxTeam = (int)Team::Four;
 
 	m_velocityIterations = 1;
 	m_positionIterations = 1;
@@ -219,7 +219,7 @@ Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input,
 	m_restartedMoneyTimer = false;
 
 	for(int i = minTeam; i <= maxTeam; ++i)
-		m_captures[(Team)i] = defaultTickMoney;
+		m_income[(Team)i] = defaultTickMoney;
 
 
 	/**PHYControlCS**/
@@ -330,7 +330,7 @@ void Universe::prePhysUpdate()
 }
 void Universe::changeTeamMoney(Team team, Money money)
 {
-	this->m_captures[team] += money;
+	this->m_income[team] += money;
 }
 void Universe::physUpdate()
 {
@@ -485,13 +485,15 @@ void Universe::teamMoneyUpdate()
 	if(game.getNwBoss().getNWState() == NWState::Server)
 		if(m_spMoneyTimer->isTimeUp())
 		{
+			for(auto it = m_income.cbegin(); it != m_income.cend(); ++it)
+				m_moneyTotals[it->first] += it->second;
+			
 			std::vector<sptr<Connection> > cons = game.getNwBoss().getConnections();
 			for(auto it = cons.begin(); it != cons.end(); ++it)
-			{
-				(*it)->changeMoney(m_captures[(*it)->getTeam()]);
-			}
+				(**it).changeMoney(m_income[(**it).getTeam()]);
+
 			//also give money to host!
-			game.getLocalPlayer().changeMoney(m_captures[game.getLocalPlayer().getTeam()]);
+			game.getLocalPlayer().changeMoney(m_income[game.getLocalPlayer().getTeam()]);
 			m_spMoneyTimer->restartCountDown();
 		}
 }

@@ -71,6 +71,8 @@ struct ShipModuleData : public ModuleData
 		initHealthState(HealthState::Nominal),///NOT IN DATA
 		functionsDamaged(false)///NOT IN DATA
 	{
+		baseDecor.texName = "default.png";
+		baseDecor.animSheetName = "default.acfg";
 		baseDecor.layer = GraphicsLayer::ShipModules;
 	}
 

@@ -34,9 +34,6 @@ struct RadarData : public ShipModuleData
 		ShipModuleData(),
 		zoomAddition(1)///units?
 	{
-		baseDecor.texName = "radar/radar_base.png";
-		baseDecor.animSheetName = "radar/radar_base.acfg";
-
 		dish.texName = "radar/dish.png";
 		dish.animSheetName = "radar/dish.acfg";
 		dish.randomRot = true;

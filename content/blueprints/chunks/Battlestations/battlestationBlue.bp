@@ -12,12 +12,5 @@
 		"layer": "ShipHull"
 	},
     "moduleData": [
-        {
-            "title": "CoreCapacitor",
-            "Position": [
-                -1,
-                -1
-            ]
-        }
     ]
 }

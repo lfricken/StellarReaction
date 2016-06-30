@@ -2,8 +2,8 @@
     "ClassName": "CapacitorData",
 	"storage": 100,
     "baseDecor": {
-        "texName": "capacitor/capacitor_base.png",
-        "animSheetName": "capacitor/capacitor_base.acfg"
+        "texName": "capacitor/capacitor.png",
+        "animSheetName": "capacitor/capacitor.acfg"
     },
 	"cost": 50
 }

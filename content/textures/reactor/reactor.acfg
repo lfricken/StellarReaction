@@ -1,22 +1,22 @@
 {
     "texTileSize": [
-        256,
-        256
+        128,
+        128
     ],
     "stateList": [
         {
             "state": "Default",
-            "repeats": false,
+            "repeats": true,
             "tileList": [
 				{
                     "x": 0,
                     "y": 0,
-                    "t": 1.0
+                    "t": 1
                 }
             ]
         },
         {
-            "state": "Error",
+			"state": "Error",
             "repeats": true,
             "tileList": [
                 {
