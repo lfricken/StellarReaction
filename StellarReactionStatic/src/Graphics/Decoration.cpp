@@ -43,6 +43,9 @@ Decoration::Decoration(const DecorationData& data, GraphicsComponent* pGfx) : m_
 	m_maxZoom = game.getLocalPlayer().getCamera().m_maxZoom;
 	randSpin();
 	randVel();
+	m_isFading = false;
+	m_totalFadeTime = 1;
+	m_fadeTimeElapsed = 0;
 }
 Decoration::~Decoration()
 {
@@ -221,5 +224,18 @@ void Decoration::updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bot
 		const float angle = atan(halfSize.x / zDist);
 		setScale(angle*staticSize*staticZoom);
 	}
+
+
+	if(m_isFading && m_fadeTimeElapsed < m_totalFadeTime)
+	{
+		m_fadeTimeElapsed += dTime;
+		m_spGfx->setAlpha((m_fadeTimeElapsed / m_totalFadeTime) * 255);
+	}
+}
+void Decoration::startFade(float time)
+{
+	m_isFading = true;
+	m_totalFadeTime = time;
+	m_fadeTimeElapsed = 0;
 }
 

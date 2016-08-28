@@ -34,6 +34,8 @@ public:
 	bool isRandSpawn() const;
 	/// Updates the position of this Decoration with respect to the Camera. Used to simulate paralax.
 	void updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bottomLeft, const Vec2& topRight, const float zoom, const float dTime);
+	/// Begins reducing the alpha to 0, given how long it should take.
+	void startFade(float time);
 
 	Vec2 m_lastCameraPos;
 	float m_maxZoom;
@@ -69,6 +71,10 @@ private:
 	bool m_spawnRandom;
 	bool m_repeats;
 	bool m_repeatsRandom;
+
+	bool m_isFading;
+	float m_totalFadeTime;
+	float m_fadeTimeElapsed;
 };
 
 

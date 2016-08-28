@@ -16,11 +16,11 @@
 class JSON
 {
 public:
-	///Get a 2d vector box2D struct from JSON.
+	///Get a Vec2 from JSON array.
 	static Vec2 get(const Json::Value& root, const std::string& fieldName, const Vec2& defaultValue);
 	///Get a color from JSON.
 	static sf::Color get(const Json::Value& root, const std::string& fieldName, const sf::Color& defaultValue);
-	///Get a 2d vector from JSON.
+	///Get a sf::Vector2f from a JSON array.
 	static sf::Vector2f get(const Json::Value& root, const std::string& fieldName, const sf::Vector2f& defaultValue);
 	///Get a string from JSON.
 	static std::string get(const Json::Value& root, const std::string& fieldName, const std::string& defaultValue);

@@ -38,7 +38,7 @@ std::string JSON::get(const Json::Value& root, const std::string& fieldName, con
 }
 std::string JSON::get(const Json::Value& root, const std::string& fieldName, const char* pString)
 {
-	std::string defaultValue(pString);//string is double overloaded because string literals decay to pointers, which decay to bools
+	std::string defaultValue(pString);//string is double overloaded because string literals decay to pointers, which decay to bools and then call the JSON::get(bool stuff)
 
 	if(root[fieldName].isNull())
 		return defaultValue;
