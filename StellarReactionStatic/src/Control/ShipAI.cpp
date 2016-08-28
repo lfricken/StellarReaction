@@ -15,7 +15,8 @@ ShipAI::ShipAI(Team team, int controller_index) : BasePlayerTraits("ai")
 	m_numBehaviors = 2;
 	m_pCurrentTarget = NULL;
 	m_pCurrentDest = NULL;
-	m_huntingTimer.setCountDown((rand() % 15) + 15);
+	
+	m_huntingTimer.setCountDown(Rand::get(15.f,30.f));
 	m_targetTimer.setCountDown(5.f);
 	m_stuckTimer.setCountDown(2.f);
 	m_unstuckTimer.setCountDown(1.f);

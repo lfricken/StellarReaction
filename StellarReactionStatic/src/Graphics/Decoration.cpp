@@ -1,7 +1,6 @@
 #include "Decoration.hpp"
 #include "GraphicsComponent.hpp"
 #include "JSON.hpp"
-#include "Random.hpp"
 #include "Convert.hpp"
 #include "Player.hpp"
 
@@ -51,14 +50,14 @@ Decoration::~Decoration()
 }
 void Decoration::randVel()
 {
-	m_spinRate = Random::get(m_minSpin, m_maxSpin);
+	m_spinRate = Rand::get(m_minSpin, m_maxSpin);
 	if(m_minSpin != 0.f)
-		m_spGfx->setRotation(Random::get(0.f, 2.f * pi));
+		m_spGfx->setRotation(Rand::get(0.f, 2.f * pi));
 }
 void Decoration::randSpin()
 {
-	m_velocity.x = Random::get(m_minVel.x, m_maxVel.x);
-	m_velocity.y = Random::get(m_minVel.y, m_maxVel.y);
+	m_velocity.x = Rand::get(m_minVel.x, m_maxVel.x);
+	m_velocity.y = Rand::get(m_minVel.y, m_maxVel.y);
 }
 void Decoration::input(std::string rCommand, sf::Packet rData)
 {
@@ -163,7 +162,8 @@ void Decoration::updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bot
 	/**Repeats itself over view box**/
 	/**Relies on graphics object so position is by appearance**/
 	{
-		const Vec2 pos(m_spGfx->getPosition());
+
+		const Vec2 pos = m_spGfx->getPosition();
 		const Vec2 ourBotLeft = pos - halfSize;
 		const Vec2 ourTopRight = pos + halfSize;
 
@@ -174,7 +174,7 @@ void Decoration::updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bot
 				float starting = m_spGfx->getPosition().y;
 
 				if(m_repeatsRandom)
-					starting = Random::get(bottomLeft.y, topRight.y);
+					starting = Rand::get(bottomLeft.y, topRight.y);
 
 				setPosition(Vec2(topRight.x, starting));
 			}
@@ -183,7 +183,7 @@ void Decoration::updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bot
 				float starting = m_spGfx->getPosition().y;
 
 				if(m_repeatsRandom)
-					starting = Random::get(bottomLeft.y, topRight.y);
+					starting = Rand::get(bottomLeft.y, topRight.y);
 
 				setPosition(Vec2(bottomLeft.x, starting));
 			}
@@ -192,7 +192,7 @@ void Decoration::updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bot
 				float starting = m_spGfx->getPosition().x;
 
 				if(m_repeatsRandom)
-					starting = Random::get(bottomLeft.x, topRight.x);
+					starting = Rand::get(bottomLeft.x, topRight.x);
 
 				setPosition(Vec2(starting, bottomLeft.y));
 			}
@@ -201,7 +201,7 @@ void Decoration::updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bot
 				float starting = m_spGfx->getPosition().x;
 
 				if(m_repeatsRandom)
-					starting = Random::get(bottomLeft.x, topRight.x);
+					starting = Rand::get(bottomLeft.x, topRight.x);
 
 				setPosition(Vec2(starting, topRight.y));
 			}

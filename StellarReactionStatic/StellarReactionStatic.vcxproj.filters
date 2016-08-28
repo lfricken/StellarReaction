@@ -78,7 +78,6 @@
     <ClCompile Include="src\Universe\Utility\ProjectileMan.cpp" />
     <ClCompile Include="src\Universe\Utility\RayCastCallback.cpp" />
     <ClCompile Include="src\Universe\Utility\UniversalContactListener.cpp" />
-    <ClCompile Include="src\Headers\Random.cpp" />
     <ClCompile Include="src\Universe\Utility\JSON.cpp" />
     <ClCompile Include="src\Weapon\BallisticWeapon.cpp" />
     <ClCompile Include="src\Weapon\GrappleWeapon.cpp" />
@@ -322,7 +321,6 @@
     <ClInclude Include="include\Universe\ShipModule\Turret.hpp" />
     <ClInclude Include="include\Universe\Universe.hpp" />
     <ClInclude Include="include\Control\ShipAI.hpp" />
-    <ClInclude Include="include\Headers\Random.hpp" />
     <ClInclude Include="include\Weapon\Weapon.hpp" />
     <ClInclude Include="include\Weapon\WeaponRegistration.hpp" />
     <ClInclude Include="include\Weapon\MissileWeapon.hpp" />
@@ -402,6 +400,12 @@
     <ClInclude Include="include\Network\NetworkComponent.hpp" />
     <ClInclude Include="include\Network\NetworkFactory.hpp" />
     <ClInclude Include="include\Network\Protocol.hpp" />
+    <ClInclude Include="include\API\Math\Constant.hpp" />
+    <ClInclude Include="include\API\Math\Convert.hpp" />
+    <ClInclude Include="include\API\Math\Math.hpp" />
+    <ClInclude Include="include\API\Math\OOCore.hpp" />
+    <ClInclude Include="include\API\Math\Random.hpp" />
+    <ClInclude Include="include\API\Math\Vec2.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\API\SFML\Audio\SoundFileFactory.inl" />

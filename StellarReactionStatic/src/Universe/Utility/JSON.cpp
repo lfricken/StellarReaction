@@ -1,11 +1,11 @@
 #include "JSON.hpp"
 
-b2Vec2 JSON::get(const Json::Value& root, const std::string& fieldName, const b2Vec2& defaultValue)
+Vec2 JSON::get(const Json::Value& root, const std::string& fieldName, const Vec2& defaultValue)
 {
 	if(root[fieldName].isNull())
 		return defaultValue;
 	else
-		return b2Vec2(root[fieldName][0].asFloat(), root[fieldName][1].asFloat());
+		return Vec2(root[fieldName][0].asFloat(), root[fieldName][1].asFloat());
 }
 sf::Vector2f JSON::get(const Json::Value& root, const std::string& fieldName, const sf::Vector2f& defaultValue)
 {
@@ -19,7 +19,7 @@ sf::Color JSON::get(const Json::Value& root, const std::string& fieldName, const
 	if(root[fieldName].isNull())
 		return defaultValue;
 	else
-		return sf::Color(root[fieldName][0].asFloat(), root[fieldName][1].asFloat(), root[fieldName][2].asFloat(), root[fieldName][3].asFloat());
+		return sf::Color(root[fieldName][0].asInt(), root[fieldName][1].asInt(), root[fieldName][2].asInt(), root[fieldName][3].asInt());
 }
 
 

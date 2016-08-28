@@ -61,8 +61,8 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 		if(!root["MapBounds"].isNull())
 		{
 			const Json::Value boundsList = root["MapBounds"];
-			m_bounds.x = (boundsList[0].asInt());
-			m_bounds.y = (boundsList[1].asInt());
+			m_bounds.x = (float)(boundsList[0].asInt());
+			m_bounds.y = (float)(boundsList[1].asInt());
 		}
 
 		/**Spawn Points**/
@@ -184,7 +184,7 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 	{
 		const Vec2 pos = m_spControlFactory->getController(data.localController).getBodyPtr()->GetPosition();
 		float maxZoom = game.getLocalPlayer().getCamera().m_maxZoom * 0.4f;
-		float size = game.getWindow().getSize().x / scale;
+		float size = (float)game.getWindow().getSize().x / scale;
 		m_spDecorEngine->initSpawns(pos, Vec2(maxZoom* size, maxZoom* size));
 	}
 }
@@ -618,4 +618,13 @@ b2Vec2 Universe::getAvailableSpawn(Team team, float radius, const Chunk* excepti
 			return (*it);
 	}
 	return b2Vec2_zero;
+}
+void Universe::spawnParticles(int number, const Vec2& spawn, float radArc, const Vec2& velocity, float randVel, float randSpin)
+{
+	for(int i = 0; i < number; ++i)
+	{
+		float arc = Rand::get(-radArc, radArc);
+		float spin = Rand::get(-randSpin, randSpin);
+
+	}
 }

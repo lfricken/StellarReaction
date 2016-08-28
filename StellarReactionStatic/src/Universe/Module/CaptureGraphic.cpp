@@ -65,12 +65,12 @@ void CaptureGraphic::postPhysUpdate()
 		//set the current light
 		m_light2 = (int)cur_team;
 		//m_light1 is the default light
-		int newAlpha = 255 * (1.f - prog);
+		int newAlpha = (int)(255 * (1.f - prog));
 		if (newAlpha < 0)
 			newAlpha = 0;
 		m_lights[m_light1]->setAlpha(newAlpha);
 		//m_light2 is the current owner of the base
-		newAlpha = 255 * prog;
+		newAlpha = (int)(255 * prog);
 		if (newAlpha < 0)
 			newAlpha = 0;
 		m_lights[m_light2]->setAlpha(newAlpha);

@@ -1,5 +1,4 @@
 #include "DecorationEngine.hpp"
-#include "Random.hpp"
 #include "QuadComponent.hpp"
 #include "Decoration.hpp"
 #include "Spinner.hpp"
@@ -36,7 +35,7 @@ void DecorationEngine::loadJson(const Json::Value& decorations)
 	m_deltaTime.getTimeElapsed();
 
 	const float maxZoom = game.getLocalPlayer().getCamera().m_maxZoom;
-	const float maxDim = std::max(game.getWindow().getSize().x / 2, game.getWindow().getSize().y / 2) / scale;
+	const float maxDim = (float)Math::max(game.getWindow().getSize().x / 2, game.getWindow().getSize().y / 2) / scale;
 	const float halfSize = maxZoom * maxDim;
 
 
@@ -68,8 +67,8 @@ void DecorationEngine::initSpawns(const Vec2& cameraPos, const Vec2& maxHalf)
 		if((**it).isRandSpawn())
 		{
 			(**it).m_lastCameraPos = cameraPos;
-			float x = Random::get(-maxHalf.x, maxHalf.x);
-			float y = Random::get(-maxHalf.y, maxHalf.y);
+			float x = Rand::get(-maxHalf.x, maxHalf.x);
+			float y = Rand::get(-maxHalf.y, maxHalf.y);
 			(**it).setPosition(cameraPos + Vec2(x,y));
 		}
 	}

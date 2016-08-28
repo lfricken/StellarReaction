@@ -23,7 +23,6 @@
 #include "RayCastCallback.hpp"
 #include "Projectile.hpp"
 #include "Directory.hpp"
-#include "Random.hpp"
 #include "DecorationEngine.hpp"
 
 using namespace std;
@@ -289,8 +288,8 @@ void Game::tick(float frameTime)
 	rWindow.setView(*m_spStaticView);
 	getLocalPlayer().getWindowEvents(rWindow);
 	const Vec2 camPos = getLocalPlayer().getCamera().getPosition();
-	const Vec2 halfSize = leon::sfTob2(sf::Vector2f(rWindow.getSize().x / 2, -(signed)rWindow.getSize().y / 2));
-	const float maxZoom = getLocalPlayer().getCamera().m_maxZoom * 1;// TODO should access ships max zoom
+	const Vec2 halfSize = leon::sfTob2(sf::Vector2f(rWindow.getSize().x / 2.f, -(signed)rWindow.getSize().y / 2.f));
+	const float maxZoom = getLocalPlayer().getCamera().m_maxZoom * 1;// TODO should access ships max zoom UPDATE this should be fine
 	const Vec2 maxHalfSize(halfSize.x * maxZoom, halfSize.y * maxZoom);
 	const float zoom = getLocalPlayer().getCamera().getZoom();
 	getUniverse().getDecors().update(camPos, maxHalfSize, zoom);
@@ -437,7 +436,7 @@ void Game::loadWindow(const std::string& windowFile)
 }
 void Game::resizeStaticView()
 {
-	m_spStaticView.reset(new sf::View(sf::Vector2f(m_spWindow->getSize().x / 2, m_spWindow->getSize().y / 2), static_cast<sf::Vector2f>(m_spWindow->getSize())));
+	m_spStaticView.reset(new sf::View(sf::Vector2f(m_spWindow->getSize().x / 2.f, m_spWindow->getSize().y / 2.f), static_cast<sf::Vector2f>(m_spWindow->getSize())));
 }
 /// <summary>
 /// process the command

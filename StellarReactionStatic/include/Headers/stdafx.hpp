@@ -41,23 +41,57 @@
 
 #include <JSON/json.h>/**JSON**/
 
+#include <Math/Math.hpp>/**LEON MATH**/
+
 
 template<typename T>
 using sptr = std::shared_ptr<T>;
 
-template<typename T>
-using Sp = std::shared_ptr<T>;
+class Vec2 : public Math::Vec2
+{
+public:
+	Vec2()
+	{
 
-template<typename T>
-using Wp = std::weak_ptr<T>;
+	}
+	Vec2(float xi, float yi)
+	{
+		x = xi;
+		y = yi;
+	}
 
-template<typename T>
-using List = std::vector<T>;
-
-template<typename T, typename R>
-using Map = std::map<T, R>;
-
-using Vec2 = b2Vec2;
+	///Cast for using inherited functions.
+	Vec2(const Math::Vec2& cast)
+	{
+		x = cast.x;
+		y = cast.y;
+	}
+	operator Math::Vec2() const
+	{
+		return Math::Vec2(x, y);
+	}
+	///Cast for Box2D
+	Vec2(const b2Vec2& cast)
+	{
+		x = cast.x;
+		y = cast.y;
+	}
+	operator b2Vec2() const
+	{
+		return b2Vec2(x,y);
+	}
+	///Cast for SFML
+	explicit Vec2(const sf::Vector2f& cast)
+	{
+		x = cast.x;
+		y = cast.y;
+	}
+	explicit operator sf::Vector2f() const
+	{
+		return sf::Vector2f(x, y);
+	}
+};
+//using Vec2 = b2Vec2;
 
 using std::vector;
 using std::string;

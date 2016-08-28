@@ -17,7 +17,7 @@ class JSON
 {
 public:
 	///Get a 2d vector box2D struct from JSON.
-	static b2Vec2 get(const Json::Value& root, const std::string& fieldName, const b2Vec2& defaultValue);
+	static Vec2 get(const Json::Value& root, const std::string& fieldName, const Vec2& defaultValue);
 	///Get a color from JSON.
 	static sf::Color get(const Json::Value& root, const std::string& fieldName, const sf::Color& defaultValue);
 	///Get a 2d vector from JSON.

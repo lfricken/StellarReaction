@@ -1,7 +1,6 @@
 #include "Spinner.hpp"
 
 #include "Convert.hpp"
-#include "Random.hpp"
 #include "JSON.hpp"
 
 using namespace std;
@@ -20,7 +19,7 @@ Spinner::Spinner(const SpinnerData& rData) : QuadComponent(rData)
 	setRotationRate(rData.rate);
 
 	if(rData.randomRot)
-		m_permanentRot += Random::get(0.f, 2.f * pi);
+		m_permanentRot += Rand::get(0.f, 2.f * pi);
 
 	toggleOn(rData.startOn);
 }

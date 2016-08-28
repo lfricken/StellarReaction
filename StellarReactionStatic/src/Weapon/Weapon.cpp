@@ -5,7 +5,7 @@
 #include "IOManager.hpp"
 #include "SoundManager.hpp"
 #include "Player.hpp"
-#include "Random.hpp"
+
 #include "Convert.hpp"
 #include "Team.hpp"
 
@@ -101,7 +101,7 @@ void Weapon::prePhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 radC
 			float v_x = aim.x - center.x;
 			float v_y = aim.y - center.y;
 			b2Vec2 v_vec(v_x, v_y);
-			float randomArc = Random::get(-m_fireArc, m_fireArc);
+			float randomArc = Rand::get(-m_fireArc, m_fireArc);
 			float cs = cos(randomArc);
 			float sn = sin(randomArc);
 			float new_x = v_vec.x * cs - v_vec.y * sn;
@@ -127,7 +127,7 @@ void Weapon::postPhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 rad
 			float v_x = aim.x - center.x;
 			float v_y = aim.y - center.y;
 			b2Vec2 v_vec(v_x, v_y);
-			float randomArc = Random::get(-m_fireArc, m_fireArc);
+			float randomArc = Rand::get(-m_fireArc, m_fireArc);
 			float cs = cos(randomArc);
 			float sn = sin(randomArc);
 			float new_x = v_vec.x * cs - v_vec.y * sn;

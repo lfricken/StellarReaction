@@ -109,6 +109,9 @@ public:
 	void add(GameObject* pGO);
 	/// Return list of GameObject.
 	std::vector<sptr<GameObject> > getgoList();
+	/// Used to create impact particles.
+	void spawnParticles(int number, const Vec2& spawn, float radArc, const Vec2& velocity, float randVel, float randSpin);
+
 
 	/// Return whether a position is clear of other objects.
 	bool isClear(b2Vec2 position, float radius, const Chunk* exception);

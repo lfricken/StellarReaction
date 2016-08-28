@@ -11,6 +11,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\API\Math\Constant.hpp" />
+    <ClInclude Include="include\API\Math\Convert.hpp" />
+    <ClInclude Include="include\API\Math\Math.hpp" />
+    <ClInclude Include="include\API\Math\OOCore.hpp" />
+    <ClInclude Include="include\API\Math\Random.hpp" />
+    <ClInclude Include="include\API\Math\Vec2.hpp" />
     <ClInclude Include="include\Graphics\Utility\DecorationEngine.hpp" />
     <ClInclude Include="include\API\TGUI\AnimatedPicture.hpp" />
     <ClInclude Include="include\API\TGUI\Borders.hpp" />
@@ -312,7 +318,6 @@
     <ClInclude Include="include\Universe\Utility\RayCastCallback.hpp" />
     <ClInclude Include="include\Universe\Utility\UniversalContactListener.hpp" />
     <ClInclude Include="include\Control\ShipAI.hpp" />
-    <ClInclude Include="include\Headers\Random.hpp" />
     <ClInclude Include="include\Universe\Utility\JSON.hpp" />
     <ClInclude Include="include\Basic\Team.hpp" />
   </ItemGroup>
@@ -321,7 +326,6 @@
     <ClCompile Include="src\Universe\Module\BlackHoleGraphic.cpp" />
     <ClCompile Include="src\Universe\Module\CaptureGraphic.cpp" />
     <ClCompile Include="src\Universe\Utility\JSON.cpp" />
-    <ClCompile Include="src\Headers\Random.cpp" />
     <ClCompile Include="src\Weapon\GrappleWeapon.cpp" />
     <ClCompile Include="src\Control\ShipAI.cpp" />
     <ClCompile Include="src\Game\Directory.cpp" />
@@ -464,11 +468,12 @@
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level2</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>..\StellarReactionStatic\include\Weapon;..\StellarReactionStatic\include\Universe\Utility;..\StellarReactionStatic\include\Universe\ShipModule;..\StellarReactionStatic\include\Universe\Module;..\StellarReactionStatic\include\Universe\Chunk;..\StellarReactionStatic\include\Graphics\Utility;..\StellarReactionStatic\include\Universe;..\StellarReactionStatic\include\Physics;..\StellarReactionStatic\include\Overlay;..\StellarReactionStatic\include\Network;..\StellarReactionStatic\include\IO;..\StellarReactionStatic\include\Headers;..\StellarReactionStatic\include\Graphics;..\StellarReactionStatic\include\Game;..\StellarReactionStatic\include\Control;..\StellarReactionStatic\include\Basic;..\StellarReactionStatic\include\Audio;..\StellarReactionStatic\include\API;..\StellarReactionStatic\include\Graphics\QuadComponents</AdditionalIncludeDirectories>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

@@ -219,8 +219,8 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 			if(pBody != NULL)
 			{
 				float zoomValue = rController.get(Request::Zoom);
-				float x1 = game.getWindow().getSize().x; //getting the siz of x
-				float y1 = game.getWindow().getSize().y; //getting the size of y
+				float x1 = (float)game.getWindow().getSize().x; //getting the siz of x
+				float y1 = (float)game.getWindow().getSize().y; //getting the size of y
 				float area = 1920 * 1080; // setting a fixed resolution
 				float area1 = x1*y1;
 
@@ -287,7 +287,7 @@ void Player::updateView()
 
 
 		//Score and Money
-		int score = rController.get(Request::Score);
+		int score = (int)rController.get(Request::Score);
 		static int oldScore = -1;
 		string scoreString = "Score: ";
 		string moneyString = "Money: " + to_string(getMoney());
@@ -363,7 +363,7 @@ IOComponent& Player::getIOComp()
 {
 	return m_io;
 }
-QuadComponentData createUI(sf::Vector2f size, String displayName, sf::Vector2f center = sf::Vector2f())
+QuadComponentData createUI(sf::Vector2f size, std::string displayName, sf::Vector2f center = sf::Vector2f())
 {
 	QuadComponentData data;
 	data.dimensions = size;

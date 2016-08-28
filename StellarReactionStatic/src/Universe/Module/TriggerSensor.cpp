@@ -34,7 +34,7 @@ void TriggerSensor::prePhysUpdate()
 
 			float fractionToCenter = 1 - (direction.Length() / m_radius);
 
-			int damage = fractionToCenter * m_maxDamage;
+			int damage = (int)(fractionToCenter * m_maxDamage);
 			if(damage < m_minDamage)
 				damage = m_minDamage;
 

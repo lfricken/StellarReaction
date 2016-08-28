@@ -49,7 +49,7 @@ float GraphicsComponent::getScale() const
 {
 	return m_scale;
 }
-void GraphicsComponent::setPosition(const b2Vec2& rWorldCoords)
+void GraphicsComponent::setPosition(const Vec2& rWorldCoords)
 {
 	coordinates = rWorldCoords;
 }
@@ -76,7 +76,7 @@ Animator& GraphicsComponent::getAnimator()
 {
 	return m_animator;
 }
-const b2Vec2& GraphicsComponent::getPosition() const
+const Vec2& GraphicsComponent::getPosition() const
 {
 	return coordinates;
 }

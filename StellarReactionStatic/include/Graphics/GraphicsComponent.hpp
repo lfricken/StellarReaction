@@ -44,7 +44,7 @@ public:
 	virtual ~GraphicsComponent();
 
 	/// Set the position of this object in world coordinates.
-	void setPosition(const b2Vec2& rWorldCoords);
+	void setPosition(const Vec2& rWorldCoords);
 	/// Set our rotation in radians counterclockwise.
 	void setRotation(float radCCW);
 	/// Offset where we are drawn in pixels from our center.
@@ -66,7 +66,7 @@ public:
 	/// Return our dimensions in world coordinates.
 	Vec2 getSize() const;
 	/// Return our position in world coordinates.
-	const b2Vec2& getPosition() const;
+	const Vec2& getPosition() const;
 	/// Return our rotation in radians counterclockwise.
 	float getRotation() const;
 	/// Return our offset in pixels from our center.
@@ -83,7 +83,7 @@ protected:
 	sf::Transform getTransform() const;
 
 	/**ADJUSTMENTS**/
-	b2Vec2 coordinates;//the latest position of us in world coordinates
+	Vec2 coordinates;//the latest position of us in world coordinates
 	float m_rotation;//our rotation compared to normal RADIANS CCW
 	sf::Vector2f m_offset;//pixels in cartesian coordinates that the image is pushed (in that direction)
 

@@ -2,7 +2,7 @@
 #include "Chunk.hpp"
 #include "Universe.hpp"
 #include "BlueprintLoader.hpp"
-#include "Random.hpp"
+
 #include "JSON.hpp"
 
 HazardField::HazardField(Universe* universe, const Json::Value& root) : m_io(IOComponentData(&universe->getUniverseIO()), &HazardField::input, this)
@@ -19,9 +19,9 @@ void HazardField::spawn()
 {
 	for(int i = 0; i < m_numHazards; ++i)
 	{
-		float rx = Random::get(-m_radius, m_radius);
-		float ry = Random::get(-m_radius, m_radius);
-		float32 rotation = Random::get(0.f, 360.f);
+		float rx = Rand::get(-m_radius, m_radius);
+		float ry = Rand::get(-m_radius, m_radius);
+		float32 rotation = Rand::get(0.f, 360.f);
 
 		float32 x = m_origin.x + rx;
 		float32 y = m_origin.y + ry;
