@@ -5,17 +5,15 @@
 
 Timer::Timer()
 {
-	m_lastElapsedTime = game.getUniverse().getTime();
-	m_lastCountDownTime = game.getUniverse().getTime();
+	m_lastElapsedTime = getTime();
 	m_countDownTime = 1.f;
-	m_countDownTimeRemain = 0.f;
+	m_timeUpTime = getTime() + m_countDownTime;
 }
 Timer::Timer(float time)
 {
 	m_lastElapsedTime = time;
-	m_lastCountDownTime = time;
 	m_countDownTime = 1.f;
-	m_countDownTimeRemain = 0.f;
+	m_timeUpTime = time + m_countDownTime;
 }
 Timer::~Timer()
 {
@@ -33,9 +31,7 @@ float Timer::getTimeElapsed()//get time elapsed since we last called this functi
 }
 bool Timer::isTimeUp() const
 {
-	m_countDownTimeRemain -= (game.getUniverse().getTime() - m_lastCountDownTime);
-	m_lastCountDownTime = game.getUniverse().getTime();
-	return (m_countDownTimeRemain <= 0);
+	return getTime() > m_timeUpTime;
 }
 void Timer::setCountDown(float countDown)
 {
@@ -43,6 +39,5 @@ void Timer::setCountDown(float countDown)
 }
 void Timer::restartCountDown()
 {
-	m_lastCountDownTime = getTime();
-	m_countDownTimeRemain = m_countDownTime;
+	m_timeUpTime = getTime() + m_countDownTime;
 }

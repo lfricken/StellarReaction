@@ -2,6 +2,7 @@
 
 #include "stdafx.hpp"
 #include "Timer.hpp"
+#include "QuadComponent.hpp"
 
 class Camera;
 class Decoration;
@@ -12,14 +13,42 @@ class DecorationEngine
 public:
 	struct Particles
 	{
+		Particles()
+		{
+			duration = 1;
+			fadeTime = 1;
+			number = 1;
+
+			spawn = Vec2(0, 0);
+			velocity = Vec2(1, 1);
+			randRadArc = Math::toRad(45.f);
+
+			randVelScalarMax = 1.1f;
+			initialOrientation = Math::toRad(0.f);
+
+			minSpinRate = Math::toRad(200.f);
+			maxSpinRate = Math::toRad(200.f);
+		}
 		float duration;
 		float fadeTime;
 		int number;
+
 		Vec2 spawn;
-		float radArc;
+		float randRadArc;
+		///Initial velocity 
 		Vec2 velocity;
+
+		///Choose between this and 1 as velocity multiplier.
 		float randVelScalarMax;
-		float randSpin;
+		///Initial Orientation in rad CCW
+		float initialOrientation;
+
+		///Min radians CCW ps 
+		float minSpinRate;
+		///Max radians CCW ps 
+		float maxSpinRate;
+
+		QuadComponentData quadData;
 	};
 
 	DecorationEngine();
@@ -37,21 +66,13 @@ public:
 	void spawnParticles(const Particles& effect);
 private:
 
-	struct ParticleSet
-	{
-		ParticleSet()
-		{
-			startedFade = false;
-		}
-		Decoration* beginSet;
-		int numParticles;
-		float timeRemain;
-		float fadeTimeRemain;
-		bool startedFade;
-	};
+
 	/// List of all decorations.
 	vector<sptr<Decoration> > m_decorations;
-	vector<ParticleSet> m_particleSets;
+	/// List of particles <fade time, expire time> that haven't started to fade.
+	Map<Pair<float,float>, sptr<Decoration> > m_fullParticles;
+	/// List of particles <expire time> that have started to fade.
+	Map<float, sptr<Decoration> > m_fadingParticles;
 	/// Used to determine how much time has passed.
 	Timer m_deltaTime;
 };

@@ -1,6 +1,4 @@
-#ifndef TIMER_H
-#define TIMER_H
-
+#pragma once
 
 /// \brief Timer for in game items, NOT FOR GUI.
 ///
@@ -30,8 +28,5 @@ private:
 	float m_lastElapsedTime;
 
 	float m_countDownTime;
-	mutable float m_lastCountDownTime;
-	mutable float m_countDownTimeRemain;
+	float m_timeUpTime;
 };
-
-#endif // TIMER_H

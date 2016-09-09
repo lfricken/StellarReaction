@@ -9,7 +9,7 @@ namespace Math
 	template<typename T>
 	T toRad(T value)
 	{
-		return (Constant::Tau*value) / Constant::Degrees;
+		return (Math::Tau*static_cast<float>(value)) / Math::Degrees;
 	}
 
 	/// <summary>
@@ -18,7 +18,7 @@ namespace Math
 	template<typename T>
 	T toDeg(T value)
 	{
-		return (Constant::Degrees*value) / Constant::Tau;
+		return (Math::Degrees*static_cast<float>(value)) / Math::Tau;
 	}
 
 	/// <summary>
@@ -27,11 +27,11 @@ namespace Math
 	template<typename T>
 	T normalizeRad(T value)
 	{
-		while(value > Constant::Tau)
-			value -= Constant::Tau;
+		while(value > Math::Tau)
+			value -= Math::Tau;
 
 		while(value < 0.f)
-			value += Constant::Tau;
+			value += Math::Tau;
 
 		return value;
 	}

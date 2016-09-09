@@ -9,6 +9,7 @@
 #include "Minimap.hpp"
 #include "Chunk.hpp"
 #include "CommandInfo.hpp"
+#include "DecorationEngine.hpp"
 
 using namespace std;
 using namespace sf;
@@ -141,8 +142,33 @@ void Player::getLiveInput()
 		m_aim = leon::sfTob2(game.getWindow().mapPixelToCoords(Mouse::getPosition(game.getWindow()), m_camera.getView()));
 
 		/**== DEVELOPER ==**/
+		static Timer spawnTimer;
 		if(Keyboard::isKeyPressed(Keyboard::Numpad8))
-			cout << "\n(" << m_aim.x << ",\t" << m_aim.y << ")";
+		{
+			//cout << "\n(" << m_aim.x << ",\t" << m_aim.y << ")";
+
+			if(spawnTimer.isTimeUp())
+			{
+				DecorationEngine::Particles part;
+				part.quadData.texName = "default.png";
+				part.quadData.animSheetName = "default.acfg";
+				part.quadData.dimensions = (sf::Vector2f)Vec2(16, 16);
+				part.number = 20;
+				part.spawn = m_aim;
+				part.duration = 0.8;
+				part.fadeTime = 0.4;
+				part.velocity = Vec2(8, 8);
+				part.randVelScalarMax = 2;
+				part.randRadArc = Math::toRad(10.f);
+
+				spawnTimer.setCountDown(0.3f);
+				spawnTimer.restartCountDown();
+				//cout << "\nhi";
+				game.getUniverse().getDecors().spawnParticles(part);
+			}
+
+
+		}
 
 		Controller& rController = game.getUniverse().getControllerFactory().getController(m_controller);
 

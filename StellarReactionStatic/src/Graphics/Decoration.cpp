@@ -53,14 +53,14 @@ Decoration::~Decoration()
 }
 void Decoration::randVel()
 {
-	m_spinRate = Rand::get(m_minSpin, m_maxSpin);
-	if(m_minSpin != 0.f)
-		m_spGfx->setRotation(Rand::get(0.f, 2.f * pi));
+	m_velocity.x = Rand::get(m_minVel.x, m_maxVel.x);
+	m_velocity.y = Rand::get(m_minVel.y, m_maxVel.y);
 }
 void Decoration::randSpin()
 {
-	m_velocity.x = Rand::get(m_minVel.x, m_maxVel.x);
-	m_velocity.y = Rand::get(m_minVel.y, m_maxVel.y);
+	m_spinRate = Rand::get(m_minSpin, m_maxSpin);
+	if(m_minSpin != 0.f)
+		m_spGfx->setRotation(Rand::get(0.f, 2.f * pi));
 }
 void Decoration::input(std::string rCommand, sf::Packet rData)
 {
@@ -139,7 +139,7 @@ void Decoration::updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bot
 
 	/**Follows Camera**/
 	{
-		m_realPosition += Vec2(m_velocity.x * dTime, m_velocity.y * dTime);
+		m_realPosition += m_velocity*dTime;
 		Vec2 appearPos(0, 0);
 		if(!m_infiniteZ)
 		{
@@ -226,10 +226,10 @@ void Decoration::updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bot
 	}
 
 
-	if(m_isFading && m_fadeTimeElapsed < m_totalFadeTime)
+	if(m_isFading && m_fadeTimeElapsed <= m_totalFadeTime)
 	{
 		m_fadeTimeElapsed += dTime;
-		m_spGfx->setAlpha((m_fadeTimeElapsed / m_totalFadeTime) * 255);
+		m_spGfx->setAlpha((int)(255 - (m_fadeTimeElapsed / m_totalFadeTime) * 255));
 	}
 }
 void Decoration::startFade(float time)

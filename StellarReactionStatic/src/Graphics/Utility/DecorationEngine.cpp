@@ -23,28 +23,46 @@ DecorationEngine::~DecorationEngine()
 /// <param name="halfSize">Size of the half.</param>
 void DecorationEngine::update(const Vec2& cameraPos, const Vec2& halfSize, const float zoom)
 {
+	const Vec2 bottomLeft = cameraPos - halfSize;
+	const Vec2 topRight = cameraPos + halfSize;
 	const float dTime = m_deltaTime.getTimeElapsed();
+	const float currentTime = game.getUniverse().getTime();
 
-	for(auto it = m_particleSets.begin(); it != m_particleSets.end(); ++it)
 	{
-		it->timeRemain -= dTime;
-		if(dTime <= 0)
+
+		auto lastIt = m_fullParticles.end();
+		for(auto it = m_fullParticles.begin(); it != m_fullParticles.end(); ++it)
 		{
-			for(auto decorIt = m_decorations.begin(); decorIt != m_decorations.end(); ++decorIt)
-				if(decorIt->get() == it->beginSet)
-				{
-					if(!it->startedFade)
-						(**decorIt).startFade(it->fadeTimeRemain);
-					it->fadeTimeRemain -= dTime;
-				}
-			it->startedFade = true;
+			if(it->first.first <= currentTime)//this should start fading
+			{
+				lastIt = it;//remember the last one we did
+				m_fadingParticles[it->first.second] = it->second;//copy to fading list
+				it->second->startFade(it->first.second - currentTime);
+			}
+			else
+				(it->second)->updateScaledPosition(cameraPos, bottomLeft, topRight, zoom, dTime);
 		}
+
+		if(lastIt != m_fullParticles.end())//remove from front
+			m_fullParticles.erase(m_fullParticles.begin(), ++lastIt);
+
 	}
 	{
-		Vec2 bottomLeft = cameraPos - halfSize;
-		Vec2 topRight = cameraPos + halfSize;
 
+		auto lastIt = m_fadingParticles.end();
+		for(auto it = m_fadingParticles.begin(); it != m_fadingParticles.end(); ++it)
+		{
+			if(it->first <= currentTime)//this should expire
+				lastIt = it;//find the last one to expire
+			else
+				(it->second)->updateScaledPosition(cameraPos, bottomLeft, topRight, zoom, dTime);
+		}
 
+		if(lastIt != m_fadingParticles.end())//remove from front
+			m_fadingParticles.erase(m_fadingParticles.begin(), ++lastIt);
+
+	}
+	{
 		for(auto it = m_decorations.begin(); it != m_decorations.end(); ++it)
 			(**it).updateScaledPosition(cameraPos, bottomLeft, topRight, zoom, dTime);
 	}
@@ -96,18 +114,34 @@ void DecorationEngine::spawnParticles(const Particles& effect)
 {
 	Decoration* pDecor = NULL;
 	QuadComponent* pQuad = NULL;
-	QuadComponentData quadData;
+
 	DecorationData decorData;
+	Pair<float, float> expiration;
+	decorData.spawnRandom = false;
+	decorData.infiniteZ = false;
+	decorData.repeats = false;
+	decorData.realPosition = effect.spawn;
+	decorData.zPos = 0;
+	
+	float time = game.getUniverse().getTime();
 
 	for(int i = 0; i < effect.number; ++i)
 	{
-		float arc = Rand::get(-effect.radArc, effect.radArc);
-		float spin = Rand::get(-effect.randSpin, effect.randSpin);
-		float velScalar = Rand::get(1.f, effect.randVelScalarMax);
-		Vec2 vel(effect.velocity.x*velScalar, effect.velocity.y*velScalar);
 
-		pQuad = new QuadComponent(quadData);
+		float arc = Rand::get(-effect.randRadArc, effect.randRadArc);
+		const Vec2 trueVel = effect.velocity.rotate(Rand::get(-effect.randRadArc, effect.randRadArc));
+
+		decorData.maxVelocity = trueVel * effect.randVelScalarMax;
+		decorData.minVelocity = trueVel;
+
+		decorData.maxSpinRate = Math::toDeg(effect.maxSpinRate);
+		decorData.minSpinRate = Math::toDeg(effect.minSpinRate);
+
+		pQuad = new QuadComponent(effect.quadData);
 		pDecor = new Decoration(decorData, pQuad);
-		m_decorations.push_back(sptr<Decoration>(pDecor));
+		expiration.first = time + effect.duration + 0.001*i;
+		expiration.second = expiration.first + effect.fadeTime;
+		m_fullParticles[expiration] = sptr<Decoration>(pDecor);
 	}
+
 }
