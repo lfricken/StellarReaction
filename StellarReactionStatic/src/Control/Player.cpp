@@ -10,6 +10,7 @@
 #include "Chunk.hpp"
 #include "CommandInfo.hpp"
 #include "DecorationEngine.hpp"
+#include "SoundManager.hpp"
 
 using namespace std;
 using namespace sf;
@@ -153,7 +154,7 @@ void Player::getLiveInput()
 				part.quadData.texName = "default.png";
 				part.quadData.animSheetName = "default.acfg";
 				part.quadData.dimensions = (sf::Vector2f)Vec2(16, 16);
-				part.number = 20;
+				part.number = 50;
 				part.spawn = m_aim;
 				part.duration = 0.8;
 				part.fadeTime = 0.4;
@@ -161,10 +162,17 @@ void Player::getLiveInput()
 				part.randVelScalarMax = 2;
 				part.randRadArc = Math::toRad(10.f);
 
-				spawnTimer.setCountDown(0.3f);
+				spawnTimer.setCountDown(0.1f);
 				spawnTimer.restartCountDown();
 				//cout << "\nhi";
 				game.getUniverse().getDecors().spawnParticles(part);
+
+				sf::Vector3f d = sf::Listener::getDirection();
+				sf::Vector3f p = sf::Listener::getPosition();
+				cout << "\n" << d.x << ", " << d.y << ", " << d.z;
+				cout << "\n" << p.x << ", " << p.y << ", " << p.z;
+
+				game.getSound().playSound("HitSmall.wav", 100, 15, 1, m_aim, true, false);
 			}
 
 

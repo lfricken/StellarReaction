@@ -270,13 +270,15 @@ void Chunk::directive(const CommandInfo& commands)//send command to target
 	{
 		for(auto it = afterburners.begin(); it != afterburners.end(); ++it)
 			(*it)->getAnimator().setAnimation("Activated", 0.20f);
-		m_thrustNoiseIndex = game.getSound().playSound("Thruster.wav", 60, 20, 20, getBodyPtr()->GetPosition(), true, true);
+		//Sound needed.
+		//m_thrustNoiseIndex = game.getSound().playSound("Afterburner.wav", 100, 20, 2, getBodyPtr()->GetPosition(), true, true);
 	}
 	if(startBoosting)
 	{
 		for(auto it = afterburners_boost.begin(); it != afterburners_boost.end(); ++it)
 			(*it)->getAnimator().setAnimation("Activated", 0.20f);
-		m_boostNoiseIndex = game.getSound().playSound("Afterburner.wav", 100, 20, 20, getBodyPtr()->GetPosition(), true, true);
+		//Sound needed.
+		//m_boostNoiseIndex = game.getSound().playSound("Afterburner.wav", 100, 20, 2, getBodyPtr()->GetPosition(), true, true);
 	}
 
 
@@ -285,13 +287,15 @@ void Chunk::directive(const CommandInfo& commands)//send command to target
 	{
 		for(auto it = afterburners.begin(); it != afterburners.end(); ++it)
 			(*it)->getAnimator().setAnimation("Default", 1.0f);
-		m_thrustNoiseIndex = game.getSound().stopSound(m_thrustNoiseIndex);
+		//Sound needed.
+		//m_thrustNoiseIndex = game.getSound().stopSound(m_thrustNoiseIndex);
 	}
 	if(!rIssues[Directive::Up] || !rIssues[Directive::Boost])
 	{
 		for(auto it = afterburners_boost.begin(); it != afterburners_boost.end(); ++it)
 			(*it)->getAnimator().setAnimation("Default", 1.0f);
-		m_boostNoiseIndex = game.getSound().stopSound(m_boostNoiseIndex);
+		//Sound needed.
+		//m_boostNoiseIndex = game.getSound().stopSound(m_boostNoiseIndex);
 	}
 
 	m_wasThrusting = rIssues[Directive::Up];

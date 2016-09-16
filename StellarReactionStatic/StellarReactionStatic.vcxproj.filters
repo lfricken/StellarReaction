@@ -247,7 +247,6 @@
     <ClInclude Include="include\API\SFML\Window\WindowHandle.hpp" />
     <ClInclude Include="include\API\SFML\Window\WindowStyle.hpp" />
     <ClInclude Include="include\Audio\Sound.hpp" />
-    <ClInclude Include="include\Audio\SoundData.hpp" />
     <ClInclude Include="include\Audio\SoundManager.hpp" />
     <ClInclude Include="include\Basic\ClassRegister.hpp" />
     <ClInclude Include="include\Basic\Health.hpp" />

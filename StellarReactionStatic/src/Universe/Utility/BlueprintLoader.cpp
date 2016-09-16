@@ -23,6 +23,7 @@ void BlueprintLoader::loadBlueprints(const std::string& rDir)
 	vector<pair<string, string> > modules = game.getDir().getAllFiles(rDir + "modules", ".bp");
 	vector<pair<string, string> > chunks = game.getDir().getAllFiles(rDir + "chunks", ".bp");
 	vector<pair<string, string> > projectiles = game.getDir().getAllFiles(rDir + "projectiles", ".bp");
+	vector<pair<string, string> > particles = game.getDir().getAllFiles(rDir + "particles", ".bp");
 
 
 	for(auto it = weapons.begin(); it != weapons.end(); ++it)
@@ -36,6 +37,9 @@ void BlueprintLoader::loadBlueprints(const std::string& rDir)
 
 	for(auto it = projectiles.begin(); it != projectiles.end(); ++it)
 		storeData<ProjectileData>(it->first, it->second, m_prjBP);
+
+	for(auto it = particles.begin(); it != particles.end(); ++it)
+		storeData<DecorationEngine::Particles>(it->first, it->second, m_particles);
 }
 sptr<const ChunkData> BlueprintLoader::getChunkSPtr(const std::string& rBPName) const
 {

@@ -5,10 +5,10 @@
 #include "Pool.hpp"
 #include "QuadComponent.hpp"
 #include "Globals.hpp"
-#include "SoundData.hpp"
 #include "ClassRegister.hpp"
 #include "BlueprintData.hpp"
 #include "NonCopyable.hpp"
+#include "Sound.hpp"
 
 enum class Team;
 struct WeaponData;
@@ -60,9 +60,9 @@ protected:
 private:
 	QuadComponent m_decor;//the weapon sprite
 
-	SoundData m_startSound;//when we start firing
-	SoundData m_shotSound;//when we take a shot
-	SoundData m_endSound;//when last shot is taken
+	leon::Sound m_startSound;//when we start firing
+	leon::Sound m_shotSound;//when we take a shot
+	leon::Sound m_endSound;//when last shot is taken
 	
 
 	Timer m_shotTimer;// Records how often we can "shot"
@@ -106,7 +106,7 @@ struct WeaponData : public BlueprintData
 	Ballistic ballisticConsumption;//ballistics consumed per fire
 	Missiles missileConsumption;//missiles consumed per fire
 
-	SoundData startSound, shotSound, endSound;
+	leon::Sound startSound, shotSound, endSound;
 
 	int shots;//how many shots per fire
 	int shotsInSpread;// if this weapon is a shotgun, how many shots in its spread

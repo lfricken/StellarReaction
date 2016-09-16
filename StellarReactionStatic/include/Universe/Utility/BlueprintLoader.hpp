@@ -4,6 +4,7 @@
 #include "Globals.hpp"
 #include "JSON.hpp"
 #include "NonCopyable.hpp"
+#include "DecorationEngine.hpp"
 
 struct ModuleData;
 struct ProjectileData;
@@ -62,7 +63,7 @@ private:
 		sptr<const T> spMod;
 		std::string ClassName = "garbage";
 		GETJSON(ClassName);
-		
+
 		if(ClassName == "garbage")
 			std::cout << "\nClassName not found in [" << title << "].\n" << FILELINE;
 
@@ -100,4 +101,5 @@ private:
 	std::map<std::string, sptr<const ProjectileData> > m_prjBP;
 	std::map<std::string, sptr<const StaticDecorData> > m_sdcBP;
 	std::map<std::string, sptr<const DynamicDecorData> > m_ddcBP;
+	std::map<std::string, sptr<const DecorationEngine::Particles> > m_particles;
 };

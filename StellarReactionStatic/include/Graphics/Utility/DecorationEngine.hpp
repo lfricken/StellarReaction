@@ -3,6 +3,7 @@
 #include "stdafx.hpp"
 #include "Timer.hpp"
 #include "QuadComponent.hpp"
+#include "BlueprintData.hpp"
 
 class Camera;
 class Decoration;
@@ -11,8 +12,9 @@ class Decoration;
 class DecorationEngine
 {
 public:
-	struct Particles
+	class Particles : public BlueprintData
 	{
+	public:
 		Particles()
 		{
 			duration = 1;
@@ -28,6 +30,8 @@ public:
 
 			minSpinRate = Math::toRad(200.f);
 			maxSpinRate = Math::toRad(200.f);
+
+
 		}
 		float duration;
 		float fadeTime;
@@ -49,6 +53,9 @@ public:
 		float maxSpinRate;
 
 		QuadComponentData quadData;
+
+		virtual void loadJson(const Json::Value& root);
+		virtual Particles* clone() const;
 	};
 
 	DecorationEngine();

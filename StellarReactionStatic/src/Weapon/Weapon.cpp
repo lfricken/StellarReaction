@@ -70,8 +70,7 @@ bool Weapon::fire(const FixtureComponent& pParent, Pool<Energy>* pEnergy, Pool<B
 	if(m_fireTimer.isTimeUp() && pEnergy->getValue() >= m_energy && pBall->getValue() >= m_ballistic && pMis->getValue() >= m_missiles)
 	{
 		m_pTempParent = &pParent;
-		m_startSound.pos = m_decor.getPosition();
-		game.getSound().playSound(m_startSound);
+		m_startSound.play(m_decor.getPosition());
 		m_decor.getAnimator().setAnimation("Fire", m_fireDelay);
 		m_fireTimer.restartCountDown();
 		pEnergy->changeValue(-m_energy);
@@ -91,8 +90,7 @@ void Weapon::prePhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 radC
 	if(m_shotsRemain > 0 && m_shotTimer.isTimeUp())
 	{
 		--m_shotsRemain;
-		m_shotSound.pos = center;
-		game.getSound().playSound(m_shotSound);
+		m_shotSound.play(m_decor.getPosition());
 		m_shotTimer.restartCountDown();
 		m_shotThisTick = true;
 
@@ -140,8 +138,7 @@ void Weapon::postPhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 rad
 
 	if(m_shotsRemain == 0)
 	{
-		m_endSound.pos = center;
-		game.getSound().playSound(m_endSound);
+		m_endSound.play(center);
 	}
 }
 void Weapon::damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmount, int ioCausePos, Team team)
