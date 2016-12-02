@@ -83,7 +83,7 @@ bool Weapon::fire(const FixtureComponent& pParent, Pool<Energy>* pEnergy, Pool<B
 	else
 		return false;
 }
-void Weapon::prePhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation)//we are checking whether we should take a shot
+void Weapon::prePhysUpdate(const Vec2& center, const Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation)//we are checking whether we should take a shot
 {
 	m_pBody = pBody;
 
@@ -95,22 +95,10 @@ void Weapon::prePhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 radC
 		m_shotThisTick = true;
 
 		for(int i = 0; i < m_shotsInSpread; i++)
-		{
-			float v_x = aim.x - center.x;
-			float v_y = aim.y - center.y;
-			b2Vec2 v_vec(v_x, v_y);
-			float randomArc = Rand::get(-m_fireArc, m_fireArc);
-			float cs = cos(randomArc);
-			float sn = sin(randomArc);
-			float new_x = v_vec.x * cs - v_vec.y * sn;
-			float new_y = v_vec.x * sn + v_vec.y * cs;
-			b2Vec2 perp(new_x, new_y);
-			b2Vec2 newAim = center + perp;
-			preShot(center, newAim, radCCW, module_orientation);
-		}
+			preShot(center, randArc(center, aim), radCCW, module_orientation);
 	}
 }
-void Weapon::postPhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation)//we are determining our next shot
+void Weapon::postPhysUpdate(const Vec2& center, const Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation)//we are determining our next shot
 {
 	m_pBody = pBody;
 	m_decor.setRotation(radCCW);
@@ -121,25 +109,11 @@ void Weapon::postPhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 rad
 		m_shotThisTick = false;
 
 		for(int i = 0; i < m_shotsInSpread; i++)
-		{
-			float v_x = aim.x - center.x;
-			float v_y = aim.y - center.y;
-			b2Vec2 v_vec(v_x, v_y);
-			float randomArc = Rand::get(-m_fireArc, m_fireArc);
-			float cs = cos(randomArc);
-			float sn = sin(randomArc);
-			float new_x = v_vec.x * cs - v_vec.y * sn;
-			float new_y = v_vec.x * sn + v_vec.y * cs;
-			b2Vec2 perp(new_x, new_y);
-			b2Vec2 newAim = center + perp;
-			postShot(center, newAim, radCCW, module_orientation);
-		}
+			postShot(center, randArc(center, aim), radCCW, module_orientation);
 	}
 
 	if(m_shotsRemain == 0)
-	{
 		m_endSound.play(center);
-	}
 }
 void Weapon::damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmount, int ioCausePos, Team team)
 {
@@ -163,4 +137,9 @@ QuadComponent* Weapon::getDecor()
 void Weapon::setTeam(Team newTeam)
 {
 	m_team = newTeam;
+}
+Vec2 Weapon::randArc(const Vec2& center, const Vec2& aim) const
+{
+	auto relativeVec = center.to(aim);
+	return relativeVec.rotate(Rand::get(-m_fireArc, m_fireArc)) + center;
 }

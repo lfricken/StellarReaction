@@ -4,9 +4,10 @@
 
 using namespace leon;
 
-Sound::Sound(const std::string& rSoundName, int volume, float minDist, float dropOff, bool relative, bool looping)
+Sound::Sound(const std::string& rSoundName, const Vec2& pos, int volume, float minDist, float dropOff, bool relative, bool looping, bool acquiresLock)
 {
 	this->name = rSoundName;
+	this->pos = pos;
 	this->volume = volume;
 
 	this->minDist = minDist;
@@ -15,36 +16,60 @@ Sound::Sound(const std::string& rSoundName, int volume, float minDist, float dro
 	this->relative = relative;
 	this->shouldLoop = looping;
 
+	this->m_acquiresLock = acquiresLock;
+
 	m_soundHandle = -1;
 }
 Sound::~Sound()
 {
 
-
+}
+bool Sound::haveHandle() const
+{
+	return (m_soundHandle != -1);
+}
+void Sound::play()
+{
+	m_soundHandle = game.getSound().playSound(*this);
 }
 void Sound::play(const Vec2& rPos)
 {
-	game.getSound().playSound(name, volume, minDist, dropOff, rPos, relative, shouldLoop);//
+	pos = rPos;
+	m_soundHandle = game.getSound().playSound(*this);
+}
+void Sound::restart()//restarts from beginning no matter what
+{
+	if(haveHandle())
+	{
+		auto& sound = game.getSound().get(m_soundHandle);
+		sound.stop();//reset playing position
+		sound.play();//play from beginning
+	}
+	else
+		m_soundHandle = game.getSound().playSound(*this);
+}
+void Sound::resume()
+{
+	if(haveHandle())
+	{
+		auto& sound = game.getSound().get(m_soundHandle);
+
+		if(sound.getStatus() != sf::SoundSource::Status::Playing)
+			sound.play();
+	}
+	else
+		play();
+}
+
+void Sound::pause()//pause the sound
+{
+	if(haveHandle())
+		game.getSound().get(m_soundHandle).pause();
 }
 void Sound::setPos(const Vec2& rPos)
 {
-	game.getSound().get(m_soundHandle).setPosition(sf::Vector3f(rPos.x, rPos.y, 0));
-}
-void Sound::restart(const Vec2& rPos)//restarts from beginning no matter what
-{
-	game.getSound().get(m_soundHandle).stop();//reset position
-	game.getSound().get(m_soundHandle).play();//play from beginning
-	game.getSound().get(m_soundHandle).setPosition(sf::Vector3f(rPos.x, rPos.y, 0));
-}
-void Sound::resume(const Vec2& rPos)
-{
-	if(game.getSound().get(m_soundHandle).getStatus() != sf::SoundSource::Status::Playing)
-	{
-		game.getSound().get(m_soundHandle).play();
-		game.getSound().get(m_soundHandle).setPosition(sf::Vector3f(rPos.x, rPos.y, 0));
-	}
-}
-void Sound::pause()//pause the sound
-{
-	game.getSound().get(m_soundHandle).pause();
+	pos = rPos;
+
+	if(haveHandle())
+		game.getSound().get(m_soundHandle).setPosition(sf::Vector3f(pos.x, pos.y, 0));
 }

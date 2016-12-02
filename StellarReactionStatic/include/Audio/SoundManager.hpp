@@ -1,7 +1,6 @@
 #pragma once
 
 #include "stdafx.hpp"
-#include "Sound.hpp"
 #include "NonCopyable.hpp"
 
 namespace leon
@@ -23,7 +22,9 @@ public:
 	virtual ~SoundManager();
 
 	///Play a sound, and return a handle to it so we can manipulate the sound later.
-	int playSound(const std::string& rSoundName, int volume = 100, float minDist = 15, float dropOff = 1, const b2Vec2& rPos = b2Vec2(10,0), bool relative = true, bool looping = false);
+	int playSound(const leon::Sound& sound);
+	///Play a sound, and return a handle to it so we can manipulate the sound later.
+	int playSound(const String& rSoundName, const Vec2& rPos = Vec2(10, 0), int volume = 100, float minDist = 15, float dropOff = 1, bool relative = true, bool looping = false, bool aquireLock = false);
 	///Get a sound.
 	sf::Sound& get(int noiseIndex);
 	
@@ -34,23 +35,28 @@ private:
 	{
 		Noise()
 		{
-			m_name = "";
-			m_startTime = -100;
+			locked = false;
 		}
-		std::string m_name;///what sound we are playing now
-		sf::Sound m_sound;///here is the sound, get the status
-		float m_startTime;///from game time
+		sf::Sound sound;///here is the sound, get the status
+		/// If locked, a sound is being referenced by a handle and should not be repurposed.
+		bool locked;
 	};
 
-	/// minimum delay between playing sounds.
-	static const float m_minDelay;
-	static const std::string m_directory;	
+	///Load a sound into buffer if needed.
+	sf::SoundBuffer* loadSoundBuffer(const String& rSoundName);
+	///Gets a noise that isn't doing anything right now.
+	int getFreeNoise() const;
+
+
+
+	/// Audio directory from content folder.
+	static const String m_directory;
 	/// Max sounds that can play (don't mess with this)
-	static const int m_numNoises = 256;//citation: http://www.sfml-dev.org/tutorials/2.0/audio-sounds.php
-	/// Actual sounds that are playing or have played.
+	static const int m_numNoises = 250;//256 citation: http://www.sfml-dev.org/tutorials/2.0/audio-sounds.php
+	/// Sprite instances with a max number at once.
 	Noise m_noises[m_numNoises];
-	/// Actual sounds
-	std::map<std::string, sf::SoundBuffer> m_buffers;
-
-
+	/// Textures, unlimited at once.
+	std::map<String, sf::SoundBuffer> m_buffers;
+	/// Default Noise
+	Noise m_defaultNoise;
 };

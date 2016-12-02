@@ -93,6 +93,7 @@ struct ModuleData : public BlueprintData
 	FixtureComponentData fixComp;
 	PoolCollection pools;
 
+
 	///Create Module object from this data object.
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{
@@ -108,4 +109,10 @@ struct ModuleData : public BlueprintData
 	virtual void loadJson(const Json::Value& root);
 
 	MyType(ModuleData, ModuleData);
+
+protected:
+	virtual void inherit(const ModuleData& parent)
+	{
+		*this = parent;
+	}
 };

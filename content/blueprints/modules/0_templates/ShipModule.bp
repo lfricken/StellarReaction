@@ -16,12 +16,15 @@
     },
     "health": {
         "Max": 1000,
-		"Min": 0,
+        "Min": 0,
         "Value": 1000,
         "Armor": 0
     },
     "fixComp": {
-		"colCat": "ShipModule",
-		"colMask": "ShipModule"	
-	}
+        "colCat": "ShipModule",
+        "colMask": "ShipModule"
+    },
+    "deathSound": {
+        "name": "ExplodeSmall.wav"
+    }
 }

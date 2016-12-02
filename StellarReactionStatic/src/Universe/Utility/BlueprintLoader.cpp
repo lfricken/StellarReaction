@@ -30,7 +30,10 @@ void BlueprintLoader::loadBlueprints(const std::string& rDir)
 		storeData<WeaponData>(it->first, it->second, m_wepBP);
 
 	for(auto it = modules.begin(); it != modules.end(); ++it)
+	{
 		storeData<ModuleData>(it->first, it->second, m_modBP);
+		cout << "\n" << it->second;
+	}
 
 	for(auto it = chunks.begin(); it != chunks.end(); ++it)
 		storeData<ChunkData>(it->first, it->second, m_cnkBP);

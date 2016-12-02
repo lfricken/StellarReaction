@@ -8,7 +8,6 @@ namespace Math
 	public:
 		Vec2();
 		Vec2(float xi, float yi);
-		virtual ~Vec2();
 
 		float x;
 		float y;
@@ -63,7 +62,7 @@ namespace Math
 		/// </summary>
 		Vec2 unit() const;
 		/// <summary>
-		/// Gets a bounced ray off of a surface vector.
+		/// Gets a bounced ray off of a surface normal vector.
 		/// </summary>
 		Vec2 bounce(const Vec2& normal) const;
 		/// <summary>

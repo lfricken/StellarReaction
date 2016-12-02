@@ -25,9 +25,9 @@ public:
 	/// returns true if we will fire.
 	bool fire(const FixtureComponent& pParent, Pool<Energy>* pEnergy, Pool<Ballistic>* pBall, Pool<Missiles>* pMis);
 	/// Called by our parent module
-	virtual void prePhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation);
+	virtual void prePhysUpdate(const Vec2& center, const Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation);
 	/// Called by our parent module
-	virtual void postPhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation);
+	virtual void postPhysUpdate(const Vec2& center, const Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation);
 	/// Called before physics update if this weapon should fire this tick
 	/// Look at laser and projectile weapon.
 	/// Overwrite this when making a new weapon.
@@ -58,6 +58,7 @@ protected:
 	/// Damages the specified fixture (which has a module). Meant to be called by a weapon only.
 	void damage(b2Fixture* pFix, int damage);
 private:
+	Vec2 randArc(const Vec2& center, const Vec2& aim) const;
 	QuadComponent m_decor;//the weapon sprite
 
 	leon::Sound m_startSound;//when we start firing

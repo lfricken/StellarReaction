@@ -7,19 +7,19 @@
 #include <string>
 
 template<typename T>
-using sp = std::shared_ptr<T>;
+using sp = std::shared_ptr < T > ;
 
 template<typename T>
-using wp = std::weak_ptr<T>;
+using wp = std::weak_ptr < T > ;
 
 template<typename T>
-using List = std::vector<T>;
+using List = std::vector < T > ;
 
 template<typename T, typename R>
-using Map = std::map<T, R>;
+using Map = std::map < T, R > ;
 
 template<typename T, typename R>
-using Pair = std::pair<T, R>;
+using Pair = std::pair < T, R > ;
 
 class String : public std::string
 {
@@ -48,6 +48,28 @@ public:
 	void from(T num)
 	{
 		this->assign(std::to_string(num));
+		trimZeros();
+	}
+
+	String(const std::string& other)
+	{
+		*this = other.c_str();
+	}
+	operator std::string() const
+	{
+		return static_cast<std::string>(*this);
+	}
+private:
+	void trimZeros()
+	{
+		for(int x = length() - 1; x >= 0; --x)
+		{
+			if((*this)[x] != '0' && (*this)[x] != '.')
+			{
+				(*this).resize(x+1);
+				break;
+			}
+		}
 	}
 };
 

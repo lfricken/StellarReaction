@@ -156,8 +156,8 @@ void Player::getLiveInput()
 				part.quadData.dimensions = (sf::Vector2f)Vec2(16, 16);
 				part.number = 50;
 				part.spawn = m_aim;
-				part.duration = 0.8;
-				part.fadeTime = 0.4;
+				part.duration = 0.8f;
+				part.fadeTime = 0.4f;
 				part.velocity = Vec2(8, 8);
 				part.randVelScalarMax = 2;
 				part.randRadArc = Math::toRad(10.f);
@@ -172,7 +172,7 @@ void Player::getLiveInput()
 				cout << "\n" << d.x << ", " << d.y << ", " << d.z;
 				cout << "\n" << p.x << ", " << p.y << ", " << p.z;
 
-				game.getSound().playSound("HitSmall.wav", 100, 15, 1, m_aim, true, false);
+				game.getSound().playSound("HitSmall.wav", m_aim);
 			}
 
 

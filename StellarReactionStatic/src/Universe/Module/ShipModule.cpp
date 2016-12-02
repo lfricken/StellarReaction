@@ -9,13 +9,14 @@ void ShipModuleData::loadJson(const Json::Value& root)
 {
 	LOADJSON(health);
 	LOADJSON(baseDecor);
-
+	LOADJSON(deathSound);
 
 	ModuleData::loadJson(root);
 }
 
 ShipModule::ShipModule(const ShipModuleData& rData) : Module(rData), m_health(rData.health)
 {
+	m_deathSound = rData.deathSound;
 	m_decors.push_back(sptr<GraphicsComponent>(new QuadComponent(rData.baseDecor)));
 	m_baseDecor = m_decors.size() - 1;
 
@@ -179,11 +180,13 @@ void ShipModule::setHealthStateHook(HealthState newState)
 }
 void ShipModule::f_died()
 {
-	b2Vec2 center = m_fix.getCenter();
+	Vec2 center = m_fix.getCenter();
 	m_decors[m_hitDecorIndex]->getAnimator().setAnimation("Default", 1.0f);
 
 	m_decors[m_explosionIndex]->getAnimator().setAnimation("Explode", 1.0f);
 	m_decors[m_explosionIndex]->setPosition(center);
+
+	m_deathSound.play(center);
 
 	//Sound needed.
 	//SoundData sound;

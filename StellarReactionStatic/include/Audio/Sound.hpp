@@ -9,23 +9,26 @@ namespace leon
 	class Sound
 	{
 	public:
-		Sound(const std::string& rSoundName = "", int volume = 100, float minDist = 15, float dropOff = 1, bool relative = true, bool looping = false);
+		Sound(const std::string& rSoundName = "", const Vec2& pos = Vec2(0,0), int volume = 50, float minDist = 15, float dropOff = 1, bool relative = true, bool looping = false, bool acquiresLock = false);
 		virtual ~Sound();
 
 		///Play this sound and allow an old sound to keep playing.
+		void play();
+		///Play this sound and allow an old sound to keep playing.
 		void play(const Vec2& rPos);
 		///Play sound from beginning.
-		void restart(const Vec2& rPos);
+		void restart();
 		///Continue playing sound, no effect if already playing.
-		void resume(const Vec2& rPos);
+		void resume();
 		///Pause this sound.
 		void pause();
-
 
 		///Update position of this sound.
 		void setPos(const Vec2& rPos);
 
-		std::string name;
+
+		String name;
+		Vec2 pos;
 		int volume;
 
 		float minDist;
@@ -38,6 +41,7 @@ namespace leon
 		virtual void loadJson(const Json::Value& root)
 		{
 			GETJSON(name);
+			GETJSON(pos);
 			GETJSON(volume);
 
 			GETJSON(minDist);
@@ -48,6 +52,11 @@ namespace leon
 		}
 
 	private:
+		friend class SoundManager;
+
+
+		bool haveHandle() const;
 		int m_soundHandle;
+		bool m_acquiresLock;
 	};
 }

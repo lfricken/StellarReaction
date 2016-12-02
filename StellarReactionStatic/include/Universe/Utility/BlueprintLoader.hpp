@@ -42,7 +42,7 @@ private:
 	/** Changing this file doesn't always trigger a recompile, you may need to manually do it!
 	**/
 	template <typename T>
-	void storeData(const std::string& fileName, const std::string& fullPath, std::map<std::string, sptr<const T> >& blueprints)//load that blueprint
+	void storeData(const std::string& title, const std::string& fullPath, std::map<std::string, sptr<const T> >& blueprints)//load that blueprint
 	{
 		std::ifstream stream(fullPath, std::ifstream::binary);
 		Json::Reader reader;
@@ -50,16 +50,14 @@ private:
 		bool parsedSuccess = reader.parse(stream, root, false);
 
 		if(parsedSuccess)
-		{
-			const std::string title = fileName;
 			blueprints[title] = loadData<T>(title, root);
-		}
 		else
 			std::cout << "\nParse Failed [" << fullPath << "].\n" << FILELINE;
 	}
 	template <typename T>
 	sptr<const T> loadData(const std::string& title, const Json::Value& root)
 	{
+		static_assert(std::is_base_of<BlueprintData, T>::value, "T1 must derive from Base");
 		sptr<const T> spMod;
 		std::string ClassName = "garbage";
 		GETJSON(ClassName);

@@ -4,6 +4,7 @@
 #include "Module.hpp"
 #include "QuadComponent.hpp"
 #include "Health.hpp"
+#include "Sound.hpp"
 
 enum class HealthState
 {
@@ -12,9 +13,7 @@ enum class HealthState
 	Broken,//the module is severely damaged and does not work
 };
 
-
 struct ShipModuleData;
-
 
 /// Represent functional components of a ship, which go on a Chunk.
 class ShipModule : public Module
@@ -56,6 +55,8 @@ protected:
 	int m_hitDecorIndex;
 	///index in m_decors where the exposion sprite is.
 	int m_explosionIndex;
+	/// Death Sound.
+	leon::Sound m_deathSound;//when last shot is taken
 
 	const int alpha_stealth_on = 50;
 	const int alpha_stealth_off = 255;
@@ -74,12 +75,15 @@ struct ShipModuleData : public ModuleData
 		baseDecor.texName = "default.png";
 		baseDecor.animSheetName = "default.acfg";
 		baseDecor.layer = GraphicsLayer::ShipModules;
+		deathSound.name = "ExplodeSmall.wav";
 	}
 
 	QuadComponentData baseDecor;
 	HealthData health;
 	HealthState initHealthState;
 	bool functionsDamaged;//does this module still function when damaged?
+	leon::Sound deathSound;
+
 	///Returns NULL and prints the file and line that attempted to instantiate this virtual class.
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{
@@ -95,6 +99,12 @@ struct ShipModuleData : public ModuleData
 	virtual void loadJson(const Json::Value& root);
 
 	MyType(ModuleData, ShipModuleData);
+
+protected:
+	virtual void inherit(const ShipModuleData& parent)
+	{
+		*this = parent;
+	}
 };
 
 

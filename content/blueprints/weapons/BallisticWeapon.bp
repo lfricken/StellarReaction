@@ -7,6 +7,7 @@
 	
     "shots": 3,
 	"shotDelay": 0.2,
+	"fireArc": 2,
 	
 	"range": 100,
 	
