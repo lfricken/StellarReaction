@@ -17,7 +17,7 @@ namespace leon
 		virtual ~Overlay();
 
 		/// Return a particular Panel based on its name.
-		leon::Panel& getPanel(const std::string& rPanelName);
+		leon::Panel& getPanel(const String& rPanelName);
 		/// Add a Panel to the list.
 		void addPanel(sptr<leon::Panel> spPanel);
 
@@ -36,7 +36,7 @@ namespace leon
 		void toggleScoreboard(bool show);
 
 	protected:
-		void input(const std::string rCommand, sf::Packet rData);
+		void input(const String rCommand, sf::Packet rData);
 
 	private:
 		bool m_menuShowing;//true if menu is showing
@@ -44,6 +44,6 @@ namespace leon
 
 		IOComponent m_io;
 		tgui::Gui m_gui;//the TGUI gui that handles most things
-		std::vector<sptr<leon::Panel> > m_panelList;//all the Panels that can get displayed, each item can be active or inactive, if its active, it gets displayed.
+		List<sptr<leon::Panel> > m_panelList;//all the Panels that can get displayed, each item can be active or inactive, if its active, it gets displayed.
 	};
 }

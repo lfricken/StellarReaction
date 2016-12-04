@@ -20,9 +20,9 @@ Thruster::Thruster(const ThrusterData& rData) : ShipModule(rData)
 	m_torque = rData.torque * sizeScalingFactor * sizeScalingFactor;
 
 	m_boostThrust = rData.boostThrustMult;
-	m_boostCost = rData.boostCostMult;
+	m_boostCostMulti = rData.boostCostMult;
 
-	m_forceVec = b2Vec2(0,1);
+	m_forceVec = Vec2(0,1);
 	m_isCCW = true;
 }
 Thruster::~Thruster()
@@ -44,25 +44,25 @@ void Thruster::directive(const CommandInfo& commands)
 	if(rIssues[Directive::Up])
 	{
 		if(rIssues[Directive::Boost])
-			thrust(b2Vec2(0, m_boostThrust));
+			thrust(Vec2(0, m_boostThrust));
 		else
-			thrust(b2Vec2(0, 1));
+			thrust(Vec2(0, 1));
 	}
 	if(rIssues[Directive::Down])
-		thrust(b2Vec2(0,-1));
+		thrust(Vec2(0,-1));
 	if(rIssues[Directive::RollCCW])
 		torque(true);
 	if(rIssues[Directive::RollCW])
 		torque(false);
 }
-void Thruster::thrust(const b2Vec2& rDirection)
+void Thruster::thrust(const Vec2& rDirMultiplier)
 {
 	if(isFunctioning())
 	{
 		float eThisStep = m_eConsump*game.getUniverse().getTimeStep();
+		if(rDirMultiplier.len() > 1.0f)//if they are boosting at all
+			eThisStep *= m_boostCostMulti;//Boosting costs more.
 
-		if(rDirection.Length() > 1.0f)//if they are boosting at all
-			eThisStep *= m_boostCost;//Boosting costs 10 times as much
 
 		if(eThisStep <= m_pEnergyPool->getValue())
 		{
@@ -70,12 +70,8 @@ void Thruster::thrust(const b2Vec2& rDirection)
 
 			float angle = m_fix.getAngle();
 
-			b2Vec2 forceVec;
-			forceVec.x = cos(-angle)*rDirection.x + sin(-angle)*rDirection.y;//negative because THAT IS CORRECT, go lookup the equation!
-			forceVec.y = -sin(-angle)*rDirection.x + cos(-angle)*rDirection.y;
-
-			forceVec.x *= m_force;
-			forceVec.y *= m_force;
+			Vec2 forceVec = rDirMultiplier.rotate(angle);
+			forceVec *= m_force;
 
 			m_fix.applyForce(forceVec);
 		}

@@ -25,8 +25,8 @@ Decoration::Decoration(const DecorationData& data, GraphicsComponent* pGfx) : m_
 {
 	m_spGfx.reset(pGfx);
 
-	m_minSpin = leon::degToRad(data.minSpinRate);
-	m_maxSpin = leon::degToRad(data.maxSpinRate);
+	m_minSpin = Math::toRad(data.minSpinRate);
+	m_maxSpin = Math::toRad(data.maxSpinRate);
 	m_minVel = data.minVelocity;
 	m_maxVel = data.maxVelocity;
 
@@ -62,11 +62,11 @@ void Decoration::randSpin()
 	if(m_minSpin != 0.f)
 		m_spGfx->setRotation(Rand::get(0.f, 2.f * pi));
 }
-void Decoration::input(std::string rCommand, sf::Packet rData)
+void Decoration::input(String rCommand, sf::Packet rData)
 {
 	if(rCommand == "setPosition")
 	{
-		b2Vec2 pos;
+		Vec2 pos;
 		rData >> pos.x;
 		rData >> pos.y;
 		setPosition(pos);
@@ -79,7 +79,7 @@ void Decoration::input(std::string rCommand, sf::Packet rData)
 	}
 	else if(rCommand == "setAnimation")
 	{
-		string anim;
+		String anim;
 		float duration;
 		rData >> anim;
 		rData >> duration;
@@ -113,7 +113,7 @@ void Decoration::setRotation(float radCCW)
 {
 	m_spGfx->setRotation(radCCW);
 }
-void Decoration::setAnimation(const std::string& rAnimName, float duration)
+void Decoration::setAnimation(const String& rAnimName, float duration)
 {
 	m_spGfx->getAnimator().setAnimation(rAnimName, duration);
 }
@@ -228,8 +228,9 @@ void Decoration::updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bot
 
 	if(m_isFading && m_fadeTimeElapsed <= m_totalFadeTime)
 	{
-		m_fadeTimeElapsed += dTime;
-		m_spGfx->setAlpha((int)(255 - (m_fadeTimeElapsed / m_totalFadeTime) * 255));
+		m_fadeTimeElapsed += dTime;//if we dont take min of 1,x then it can go past 255 alpha and reappear for a second
+		int alpha = (int)(255.f - Math::min(1.f, (m_fadeTimeElapsed / m_totalFadeTime)) * 255.f);
+		m_spGfx->setAlpha(alpha);
 	}
 }
 void Decoration::startFade(float time)

@@ -77,7 +77,7 @@ bool ProjectileModule::shouldTerminate() const
 {
 	return m_freeThisProjectile;
 }
-void ProjectileModule::input(std::string rCommand, sf::Packet rData)
+void ProjectileModule::input(String rCommand, sf::Packet rData)
 {
 	if(rCommand == "damage")
 	{

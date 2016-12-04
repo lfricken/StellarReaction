@@ -26,7 +26,7 @@ public:
 	/// Set the absolute rotation in radians counterclockwise.
 	void setRotation(float radCCW);
 	/// Set the current animation and the duration of the animation.
-	void setAnimation(const std::string& rAnimName, float duration);
+	void setAnimation(const String& rAnimName, float duration);
 	/// Control the size of the object. 1 is default. 2 would double the width and height.
 	void setScale(float scale);
 
@@ -40,7 +40,7 @@ public:
 	Vec2 m_lastCameraPos;
 	float m_maxZoom;
 protected:
-	void input(std::string rCommand, sf::Packet rData);
+	void input(String rCommand, sf::Packet rData);
 private:
 	/// Set our velocity to be random.
 	void randVel();

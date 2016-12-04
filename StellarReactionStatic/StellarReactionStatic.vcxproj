@@ -17,6 +17,7 @@
     <ClInclude Include="include\API\Math\OOCore.hpp" />
     <ClInclude Include="include\API\Math\Random.hpp" />
     <ClInclude Include="include\API\Math\Vec2.hpp" />
+    <ClInclude Include="include\Graphics\Particles.hpp" />
     <ClInclude Include="include\Graphics\Utility\DecorationEngine.hpp" />
     <ClInclude Include="include\API\TGUI\AnimatedPicture.hpp" />
     <ClInclude Include="include\API\TGUI\Borders.hpp" />
@@ -321,6 +322,7 @@
     <ClInclude Include="include\Basic\Team.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Graphics\Particles.cpp" />
     <ClCompile Include="src\Graphics\Utility\DecorationEngine.cpp" />
     <ClCompile Include="src\Universe\Module\BlackHoleGraphic.cpp" />
     <ClCompile Include="src\Universe\Module\CaptureGraphic.cpp" />

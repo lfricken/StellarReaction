@@ -11,7 +11,7 @@ void FixtureComponentData::loadJson(const Json::Value& root)
 {
 	if(!root["shape"].isNull())
 	{
-		string temp = root["shape"].asString();
+		String temp = root["shape"].asString();
 		if(temp == "rectangle")
 			shape = leon::Shape::Rectangle;
 		else if(temp == "circle")
@@ -43,7 +43,7 @@ FixtureComponent::FixtureComponent(const FixtureComponentData& rData)
 	if(rData.shape == leon::Shape::Rectangle)
 	{
 		m_spShape = sptr<b2Shape>(new b2PolygonShape);
-		b2Vec2 offset(m_offset.x * sizeScalingFactor, m_offset.y * sizeScalingFactor);
+		Vec2 offset(m_offset.x * sizeScalingFactor, m_offset.y * sizeScalingFactor);
 		static_cast<b2PolygonShape*>(m_spShape.get())->SetAsBox(rData.size.x / 2.f * sizeScalingFactor, rData.size.y / 2.f * sizeScalingFactor, offset, 0);
 	}
 	/**CIRCLE**/
@@ -84,16 +84,16 @@ void FixtureComponent::endContact(FixtureComponent* pOther)
 {
 	m_endCB(pOther);
 }
-const b2Vec2 FixtureComponent::getOffset() const
+const Vec2 FixtureComponent::getOffset() const
 {
 	return m_offset;
 }
 /// <summary>
 /// Finds the center in world coordinates of the fixture
 /// </summary>
-b2Vec2 FixtureComponent::getCenter() const
+Vec2 FixtureComponent::getCenter() const
 {
-	b2Vec2 center(0,0);
+	Vec2 center(0,0);
 
 	if(m_spShape->GetType() == b2Shape::e_polygon)
 	{
@@ -101,7 +101,7 @@ b2Vec2 FixtureComponent::getCenter() const
 
 		int num = pPShape->GetVertexCount();
 		for(int i = 0; i<num; ++i)
-			center += pPShape->GetVertex(i);
+			center += (Vec2)pPShape->GetVertex(i);
 
 		center.x /= num;
 		center.y /= num;
@@ -142,7 +142,7 @@ void FixtureComponent::setIOPos(int ioPos)
 /// <summary>
 /// Applies force to center of body(Newtons)
 /// </summary>
-void FixtureComponent::applyForce(const b2Vec2& rForce)//applies force to center of body(Newtons)
+void FixtureComponent::applyForce(const Vec2& rForce)//applies force to center of body(Newtons)
 {
 	if(!game.getUniverse().isPaused())
 		m_pFixture->GetBody()->ApplyForceToCenter(rForce, true);
@@ -150,7 +150,7 @@ void FixtureComponent::applyForce(const b2Vec2& rForce)//applies force to center
 /// <summary>
 /// Applies force to center of this fixture(Newtons)
 /// </summary>
-void FixtureComponent::applyForceFixture(const b2Vec2& rForce)//applies force at the center of fixture(Newtons)
+void FixtureComponent::applyForceFixture(const Vec2& rForce)//applies force at the center of fixture(Newtons)
 {
 	if(!game.getUniverse().isPaused())
 		m_pFixture->GetBody()->ApplyForce(rForce, getCenter(), true);
@@ -175,11 +175,11 @@ void FixtureComponent::setMask(Mask mask)
 	filter.maskBits = static_cast<uint16_t>(mask);
 	m_pFixture->SetFilterData(filter);
 }
-void FixtureComponent::setStore(const std::string& rTargetName)
+void FixtureComponent::setStore(const String& rTargetName)
 {
 	m_store = rTargetName;
 }
-const std::string& FixtureComponent::getStore() const
+const String& FixtureComponent::getStore() const
 {
 	return m_store;
 }

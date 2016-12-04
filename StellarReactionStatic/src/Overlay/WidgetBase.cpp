@@ -71,7 +71,7 @@ const sf::Vector2f& WidgetBase::getPosition() const
 	return m_pWidget->getPosition();
 }
 /**IO**/
-void WidgetBase::input(std::string rCommand, sf::Packet rData)
+void WidgetBase::input(String rCommand, sf::Packet rData)
 {
 	if(inputHook(rCommand, rData))
 	{
@@ -174,7 +174,7 @@ void WidgetBase::f_trigger()
 /// <summary>
 /// Hooks
 /// </summary>
-bool WidgetBase::inputHook(const std::string rCommand, sf::Packet rData)
+bool WidgetBase::inputHook(const String rCommand, sf::Packet rData)
 {
 	return false;
 }

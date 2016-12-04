@@ -40,12 +40,12 @@ private:
 
 	sptr<NetworkComponent> m_spNw;
 
-	std::vector<Message> m_latest;
+	List<Message> m_latest;
 
-	std::vector<Message> m_messageList;
-	std::vector<IOComponent*> m_componentPtrs;//where we keep a pointer to all IOCompontents
-	std::vector<int> m_freeIndexes;//spots where the ptr is null and we can give a position out!
-	std::map<std::string, int> m_nameLookup;//where we lookup the position of an IOComponent after we are told its name
+	List<Message> m_messageList;
+	List<IOComponent*> m_componentPtrs;//where we keep a pointer to all IOCompontents
+	List<int> m_freeIndexes;//spots where the ptr is null and we can give a position out!
+	std::map<String, int> m_nameLookup;//where we lookup the position of an IOComponent after we are told its name
 
 	bool m_networked;
 };

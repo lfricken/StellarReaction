@@ -17,13 +17,13 @@ BlueprintLoader::~BlueprintLoader()
 {
 
 }
-void BlueprintLoader::loadBlueprints(const std::string& rDir)
+void BlueprintLoader::loadBlueprints(const String& rDir)
 {
-	vector<pair<string, string> > weapons = game.getDir().getAllFiles(rDir + "weapons", ".bp");
-	vector<pair<string, string> > modules = game.getDir().getAllFiles(rDir + "modules", ".bp");
-	vector<pair<string, string> > chunks = game.getDir().getAllFiles(rDir + "chunks", ".bp");
-	vector<pair<string, string> > projectiles = game.getDir().getAllFiles(rDir + "projectiles", ".bp");
-	vector<pair<string, string> > particles = game.getDir().getAllFiles(rDir + "particles", ".bp");
+	List<pair<String, String> > weapons = game.getDir().getAllFiles(rDir + "weapons", ".bp");
+	List<pair<String, String> > modules = game.getDir().getAllFiles(rDir + "modules", ".bp");
+	List<pair<String, String> > chunks = game.getDir().getAllFiles(rDir + "chunks", ".bp");
+	List<pair<String, String> > projectiles = game.getDir().getAllFiles(rDir + "projectiles", ".bp");
+	List<pair<String, String> > particles = game.getDir().getAllFiles(rDir + "particles", ".bp");
 
 
 	for(auto it = weapons.begin(); it != weapons.end(); ++it)
@@ -42,38 +42,33 @@ void BlueprintLoader::loadBlueprints(const std::string& rDir)
 		storeData<ProjectileData>(it->first, it->second, m_prjBP);
 
 	for(auto it = particles.begin(); it != particles.end(); ++it)
-		storeData<DecorationEngine::Particles>(it->first, it->second, m_particles);
+		storeData<Particles>(it->first, it->second, m_particlesBP);
 }
-sptr<const ChunkData> BlueprintLoader::getChunkSPtr(const std::string& rBPName) const
+sptr<const ChunkData> BlueprintLoader::getChunkSPtr(const String& rBPName) const
 {
 	return getData<ChunkData>(rBPName, m_cnkBP);
 }
-sptr<const ProjectileData> BlueprintLoader::getProjectileSPtr(const std::string& rBPName) const
+sptr<const Particles> BlueprintLoader::getParticleSPtr(const String& rBPName) const
+{
+	return getData<Particles>(rBPName, m_particlesBP);
+}
+sptr<const ProjectileData> BlueprintLoader::getProjectileSPtr(const String& rBPName) const
 {
 	return getData<ProjectileData>(rBPName, m_prjBP);
 }
-sptr<const ModuleData> BlueprintLoader::getModuleSPtr(const std::string& rBPName) const
+sptr<const ModuleData> BlueprintLoader::getModuleSPtr(const String& rBPName) const
 {
 	return getData<ModuleData>(rBPName, m_modBP);
 }
-sptr<const WeaponData> BlueprintLoader::getWeaponSPtr(const std::string& rBPName) const
+sptr<const WeaponData> BlueprintLoader::getWeaponSPtr(const String& rBPName) const
 {
 	return getData<WeaponData>(rBPName, m_wepBP);
 }
-sptr<const StaticDecorData> BlueprintLoader::getStaticDecorSPtr(const std::string& rBPName) const
+sptr<const StaticDecorData> BlueprintLoader::getStaticDecorSPtr(const String& rBPName) const
 {
 	return getData<StaticDecorData>(rBPName, m_sdcBP);
 }
-sptr<const DynamicDecorData> BlueprintLoader::getDynamicDecorSPtr(const std::string& rBPName) const
+sptr<const DynamicDecorData> BlueprintLoader::getDynamicDecorSPtr(const String& rBPName) const
 {
 	return getData<DynamicDecorData>(rBPName, m_ddcBP);
-}
-sf::Color BlueprintLoader::loadColor(const Json::Value& root)
-{
-	sf::Color color;
-	color.r = root[0].asInt();
-	color.g = root[1].asInt();
-	color.b = root[2].asInt();
-	color.a = root[3].asInt();
-	return color;
 }

@@ -32,6 +32,11 @@ public:
 	{
 		this->assign(init);
 	}
+	template<typename T>
+	String(T num)
+	{
+		from(num);
+	}
 	int toInt()
 	{
 		return std::stoi(*this);

@@ -10,11 +10,11 @@ struct BlueprintData
 		title = "DEFAULT_TITLE";
 	}
 
-	std::string title;
+	String title;
 
 	virtual void inheritPreHook(const BlueprintData& parent)
 	{
-		const std::string titleTemp;
+		const String titleTemp;
 		inherit(parent);
 		title = titleTemp;
 	}

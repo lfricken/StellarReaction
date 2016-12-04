@@ -27,7 +27,7 @@ MissileWeapon::~MissileWeapon()
 {
 
 }
-void MissileWeapon::preShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation)
+void MissileWeapon::preShot(const Vec2& center, const Vec2& aim, float radCCW, float module_orientation)
 {
 	/**Fire projectiles**/
 	Projectile* pProj = game.getUniverse().getProjMan().getProjectile(m_projName);
@@ -36,7 +36,7 @@ void MissileWeapon::preShot(const b2Vec2& center, const b2Vec2& aim, float radCC
 	dynamic_cast<Missile*>(pProj)->missileLaunch(center, target, module_orientation, m_init_velocity, m_acceleration, m_max_velocity, m_damage / m_shots, m_pTempParent, m_collisions);
 
 }
-void MissileWeapon::postShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation)
+void MissileWeapon::postShot(const Vec2& center, const Vec2& aim, float radCCW, float module_orientation)
 {
 
 }

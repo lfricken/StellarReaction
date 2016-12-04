@@ -24,8 +24,8 @@ struct GraphicsComponentData
 	sf::Vector2f dimensions;//full x,y in pixels
 	float permanentRot;//default rotation when told to be 0, degrees CCW
 	sf::Vector2f center;//this is the center of us
-	std::string texName;//name of our texture
-	std::string animSheetName;//name of our animation sheet
+	String texName;//name of our texture
+	String animSheetName;//name of our animation sheet
 	GraphicsLayer layer;
 	sf::Color color;
 
@@ -97,8 +97,8 @@ protected:
 	sf::Vector2f m_dimensions;
 	sf::VertexArray* m_pVerts;
 	sf::Color m_color;
-	std::vector<sf::Vector2f> m_originPos;//positions of the vertices relative to 0,0 and no rot
-	std::vector<sf::Vector2f> m_originTex;//positinos of vertices in texture relative to 0,0
+	List<sf::Vector2f> m_originPos;//positions of the vertices relative to 0,0 and no rot
+	List<sf::Vector2f> m_originTex;//positinos of vertices in texture relative to 0,0
 	GraphicsComponentUpdater& m_rUpdater;
 
 	Animator m_animator;

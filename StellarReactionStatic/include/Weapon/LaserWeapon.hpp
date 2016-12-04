@@ -14,9 +14,9 @@ public:
 	LaserWeapon(const LaserWeaponData& rData);
 	virtual ~LaserWeapon();
 	///Actions to be processed before a shot is taken.
-	void preShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation);
+	void preShot(const Vec2& center, const Vec2& aim, float radCCW, float module_orientation);
 	///Actions to be processed after a shot is taken.
-	void postShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation);
+	void postShot(const Vec2& center, const Vec2& aim, float radCCW, float module_orientation);
 protected:
 	virtual Vec2 collisionHandle(const RayData& data);
 

@@ -6,9 +6,9 @@
 
 #include <iostream>
 #include <stdio.h>
-#include <vector>
+#include <List>
 #include <algorithm>
-#include <string>
+#include <String>
 #include <sstream>
 #include <cmath>
 #include <unordered_map>
@@ -71,6 +71,15 @@ public:
 		return Math::Vec2(x, y);
 	}
 	///Cast for Box2D
+	//Vec2(const Vec2& cast)
+	//{
+	//	x = cast.x;
+	//	y = cast.y;
+	//}
+	//operator Vec2() const
+	//{
+	//	return Vec2(x,y);
+	//}
 	Vec2(const b2Vec2& cast)
 	{
 		x = cast.x;
@@ -78,7 +87,7 @@ public:
 	}
 	operator b2Vec2() const
 	{
-		return b2Vec2(x,y);
+		return b2Vec2(x, y);
 	}
 	///Cast for SFML
 	explicit Vec2(const sf::Vector2f& cast)
@@ -91,12 +100,6 @@ public:
 		return sf::Vector2f(x, y);
 	}
 };
-//using Vec2 = b2Vec2;
-
-using std::vector;
-using std::string;
-
-
 
 
 /**I would have written less code, but I don't have the time.**/
@@ -130,7 +133,7 @@ Never use any "using namespace" in header files.
 Comment things that aren't obvious, but don't comment things that are obvious, like getVariableName and setVariableName
 Most struct and POD objects should have a constructor that creates a really generic version of itself with some properties for testing
 
-Pass stuff around by value if its an individual STL data type, like in or string, const reference when its more complex data
+Pass stuff around by value if its an individual STL data type, like in or String, const reference when its more complex data
 Use pointers if the lifetime of an object is not known.
 Use const when possible
 
@@ -138,13 +141,13 @@ Use const when possible
 POINTERS:
 Things that cause pointers to go wrong are:
 Objects getting destroyed when you think they aren't going to be.
-std::vectors destroy and realloc when you add or remove
+Lists destroy and realloc when you add or remove
 Any STL containers for that matter.
 
 
 SFML:
 Use Vector2f for dealing with screen coordinates only.
-Try to use b2Vec2 for everything else. They are the standard unit of measurement
+Try to use Vec2 for everything else. They are the standard unit of measurement
 
 
 

@@ -22,7 +22,8 @@ public:
 
 protected:
 private:
-	void thrust(const b2Vec2& rDirection);
+	/// Apply force in a direction (relative to angle of module).
+	void thrust(const Vec2& rDirMultiplier);
 	void torque(bool CCW);
 
 	float m_eConsump;//per second
@@ -30,9 +31,9 @@ private:
 	float m_torque;
 
 	float m_boostThrust;
-	float m_boostCost;
+	float m_boostCostMulti;
 
-	b2Vec2 m_forceVec;//the force vector this tick?
+	Vec2 m_forceVec;//the force List this tick?
 	bool m_isCCW;//do we go CCW this tick?
 };
 

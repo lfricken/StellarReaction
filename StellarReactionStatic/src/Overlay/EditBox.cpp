@@ -23,32 +23,32 @@ void EditBox::f_initialize(const EditBoxData& data)
 	m_pEditBox->setText(data.startingText);
 	m_pEditBox->setSize(data.size.x, data.size.y);
 }
-bool EditBox::inputHook(const std::string rCommand, sf::Packet rData)
+bool EditBox::inputHook(const String rCommand, sf::Packet rData)
 {
 	if(rCommand == "setText")
 	{
-		std::string text;
+		String text;
 		rData >> text;
 		setText(text);
 		return true;
 	}
 	return false;
 }
-void EditBox::setText(const std::string& rText)
+void EditBox::setText(const String& rText)
 {
 	m_pEditBox->setText(rText);
 }
 void EditBox::f_TextChanged()
 {
 	sf::Packet text;
-	std::string stuff = m_pEditBox->getText();
+	String stuff = m_pEditBox->getText().toAnsiString();
 	text << stuff;
 	m_io.event(EventType::TextChanged, 0, text);
 }
 void EditBox::f_ReturnKeyPressed()
 {
 	sf::Packet text;
-	std::string stuff = m_pEditBox->getText();
+	String stuff = m_pEditBox->getText().toAnsiString();
 	text << stuff;
 	m_io.event(EventType::ReturnKeyPressed, 0, text);
 }

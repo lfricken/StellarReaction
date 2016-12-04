@@ -12,7 +12,7 @@ namespace leon
 			texName("default.png")
 		{
 		}
-		std::string texName;
+		String texName;
 	};
 
 	/// A picture to display on the GUI.

@@ -22,10 +22,10 @@ public:
 
 protected:
 private:
-	bool isStuck(b2Vec2 curPos);//check if we are stuck
+	bool isStuck(Vec2 curPos);//check if we are stuck
 	Timer m_stuckTimer; //how often we check our position to see if we are stuck
 	Timer m_unstuckTimer; //how long we go in reverse to get unstuck
-	b2Vec2 oldPos;
+	Vec2 oldPos;
 
 	Timer m_huntingTimer; //timer for how long we should hunt enemies for
 	Timer m_targetTimer; //timer for switching to a closer enemy

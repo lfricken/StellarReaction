@@ -22,7 +22,7 @@ public:
 	///Actions to process on object after performing physics updates.
 	void postPhysUpdate() final;
 	///Set the aim of the turret.
-	virtual void setAim(const b2Vec2& rTarget);
+	virtual void setAim(const Vec2& rTarget);
 	///Send commands to a target.
 	virtual void directive(const CommandInfo& commands);
 	///Set the stealth state.
@@ -35,7 +35,7 @@ private:
 	sptr<Weapon> m_spWep;
 	int m_shotsRemain;//shots remaining in this volley
 
-	b2Vec2 m_lastAim; //current aim of controller
+	Vec2 m_lastAim; //current aim of controller
 	float32 m_lastAngle;//used to preserve the orientation of a broken turret
 };
 

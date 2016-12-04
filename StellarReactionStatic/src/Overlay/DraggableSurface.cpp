@@ -22,7 +22,7 @@ void DraggableSurface::f_initialize(const DraggableSurfaceData& rData)
 {
 	m_gridSize = rData.gridSize;
 }
-void DraggableSurface::setCountedCoordinates(const std::vector<sf::Vector2f>& rCoords)//which coordinates should we return for getElementPositions
+void DraggableSurface::setCountedCoordinates(const List<sf::Vector2f>& rCoords)//which coordinates should we return for getElementPositions
 {
 	m_validCoords = rCoords;
 }
@@ -35,24 +35,24 @@ void DraggableSurface::addDraggable(const DraggableData& rData)
 	sptr<WidgetBase> spDrag(new Draggable(*this->getPanelPtr(), copy));
 	this->add(spDrag);
 }
-//std::vector<std::pair<std::string, sf::Vector2f> > DraggableSurface::getValidPositions() const
+//List<std::pair<String, sf::Vector2f> > DraggableSurface::getValidPositions() const
 //{
-//	//vector<std::pair<std::string, sf::Vector2f> > pairing;
+//	//List<std::pair<String, sf::Vector2f> > pairing;
 //	//for(auto it = m_widgetList.begin(); it != m_widgetList.end(); ++it)
 //	//{
 //	//	Draggable* pDrag = dynamic_cast<Draggable*>((*it).get());
 //	//	if(std::find(m_validCoords.begin(), m_validCoords.end(), pDrag->getPosition()) != m_validCoords.end())//if it contains
-//	//		pairing.push_back(pair<string, sf::Vector2f>(pDrag->getMetaData(), pDrag->getPosition()));
+//	//		pairing.push_back(pair<String, sf::Vector2f>(pDrag->getMetaData(), pDrag->getPosition()));
 //	//}
 //	//return pairing;
 //}
-std::vector<std::pair<std::string, sf::Vector2f> > DraggableSurface::getElementPositions() const
+List<std::pair<String, sf::Vector2f> > DraggableSurface::getElementPositions() const
 {
-	vector<std::pair<std::string, sf::Vector2f> > pairing;
+	List<std::pair<String, sf::Vector2f> > pairing;
 	for(auto it = m_widgetList.begin(); it != m_widgetList.end(); ++it)
 	{
 		Draggable* pDrag = dynamic_cast<Draggable*>((*it).get());
-		pairing.push_back(pair<string, sf::Vector2f>(pDrag->getMetaData(), pDrag->getPosition()));
+		pairing.push_back(pair<String, sf::Vector2f>(pDrag->getMetaData(), pDrag->getPosition()));
 	}
 	return pairing;
 }
@@ -64,13 +64,13 @@ bool DraggableSurface::hasOneAt(const sf::Vector2f& gridPos) const
 			++count;
 	return (count >= 1);
 }
-bool DraggableSurface::inputHook(const std::string rCommand, sf::Packet rData)
+bool DraggableSurface::inputHook(const String rCommand, sf::Packet rData)
 {
 	if(rCommand == "sendState")
 	{
 		cout << "\nsendState";
 
-		vector<std::pair<string, sf::Vector2f> > modules = this->getElementPositions();
+		List<std::pair<String, sf::Vector2f> > modules = this->getElementPositions();
 
 		sf::Packet pack;
 		pack << "rebuild";
@@ -93,7 +93,7 @@ bool DraggableSurface::inputHook(const std::string rCommand, sf::Packet rData)
 	}
 	else if(rCommand == "addItem")
 	{
-		string title;
+		String title;
 		float x;
 		float y;
 

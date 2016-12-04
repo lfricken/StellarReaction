@@ -19,11 +19,11 @@ namespace leon
 
 		}
 		int textSize;
-		std::string configFile;
+		String configFile;
 		sf::Vector2f position;
 		sf::Vector2f size;
 		sf::Color color;
-		std::string text;
+		String text;
 	};
 
 	/// Used to intialize SelectableItem
@@ -39,9 +39,9 @@ namespace leon
 			buttData.buttonText = "";
 		}
 		ButtonData buttData;
-		std::string texName;
-		std::vector<LabelData> labelData;
-		std::string id;
+		String texName;
+		List<LabelData> labelData;
+		String id;
 	};
 
 	/// An object that goes in a NetworkedSelection list. Implements a button to send a special command.
@@ -53,11 +53,11 @@ namespace leon
 		virtual ~SelectableItem();
 
 		/// The data held by this SelectableItem.
-		std::string m_id;
+		String m_id;
 		/// The visual part of this.
 		tgui::Picture::Ptr m_pic;
 		/// A textual TGUI::Label.
-		std::vector<sptr<tgui::Label::Ptr> > m_labels;
+		List<sptr<tgui::Label::Ptr> > m_labels;
 		/// The Button which handles clicking.
 		sptr<Button> m_spButt;
 

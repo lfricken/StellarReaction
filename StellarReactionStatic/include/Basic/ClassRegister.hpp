@@ -9,14 +9,14 @@
 	Registerer<BASE, TYPE> TYPE::reg(#TYPE)
 
 template<class B>
-///Deduce which derived class a string refers to, given a base type.
+///Deduce which derived class a String refers to, given a base type.
 class Deduce
 {
 public:
-	///Deduce which derived class a string refers to, given a base type.
-	static B* from(const std::string& name, B* instance = NULL)
+	///Deduce which derived class a String refers to, given a base type.
+	static B* from(const String& name, B* instance = NULL)
 	{
-		static std::map<std::string, B*> mapping;
+		static std::map<String, B*> mapping;
 		if(instance != NULL)
 		{
 			mapping[name] = instance;
@@ -34,7 +34,7 @@ class Registerer
 {
 public:
 	///Register a class with this name.
-	Registerer(const std::string& name)
+	Registerer(const String& name)
 	{
 		Deduce<B>::from(name, new D);//actually add
 	}

@@ -39,7 +39,7 @@ sf::Vector2f Draggable::getGridPosition() const
 	cur.y /= m_gridSize.y;
 	return cur;
 }
-const std::string& Draggable::getMetaData() const
+const String& Draggable::getMetaData() const
 {
 	return m_metaData;
 }

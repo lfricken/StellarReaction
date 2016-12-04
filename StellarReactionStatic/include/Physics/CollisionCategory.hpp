@@ -15,8 +15,8 @@ enum class Category
 
 	All = 0xFFFF,
 };
-///Converts Category string into enum class.
-Category ChooseCategory(const std::string& rChoice);
+///Converts Category String into enum class.
+Category ChooseCategory(const String& rChoice);
 ///Bitwise OR between integer and category.
 inline int operator |(int a, Category b)
 {
@@ -47,5 +47,5 @@ enum class Mask
 
 	All = static_cast<int>(Category::All),
 };
-///Converts Mask string into enum class.
-Mask ChooseMask(const std::string& rChoice);
+///Converts Mask String into enum class.
+Mask ChooseMask(const String& rChoice);

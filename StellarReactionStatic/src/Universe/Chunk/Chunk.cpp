@@ -46,7 +46,7 @@ void ChunkData::loadJson(const Json::Value& root)
 		{
 			if(!(*it)["title"].isNull() && (*it)["ClassName"].isNull())//from title
 			{
-				string title = (*it)["title"].asString();
+				String title = (*it)["title"].asString();
 				spMod.reset(game.getUniverse().getBlueprints().getModuleSPtr(title)->clone());
 
 				spMod->fixComp.offset.x = (*it)["Position"][0].asFloat();
@@ -120,11 +120,11 @@ int Chunk::incDeaths()
 {
 	return m_deaths++;
 }
-b2Vec2 Chunk::getSpawn()
+Vec2 Chunk::getSpawn()
 {
 	return m_spawnPoint;
 }
-b2Vec2 Chunk::getClearSpawn()
+Vec2 Chunk::getClearSpawn()
 {
 	if(game.getUniverse().isClear(m_spawnPoint, getRadius(), this))
 		return m_spawnPoint;
@@ -133,7 +133,7 @@ b2Vec2 Chunk::getClearSpawn()
 }
 void Chunk::setSpawn(float x, float y)
 {
-	m_spawnPoint = b2Vec2(x, y);
+	m_spawnPoint = Vec2(x, y);
 }
 void Chunk::setStealth(bool stealthToggle)
 {
@@ -147,11 +147,11 @@ sptr<GraphicsComponent> Chunk::getHull() const
 {
 	return hull;
 }
-std::vector<sptr<Module>> Chunk::getModuleList() const
+List<sptr<Module>> Chunk::getModuleList() const
 {
 	return m_modules;
 }
-bool Chunk::allows(const b2Vec2& rGridPos)
+bool Chunk::allows(const Vec2& rGridPos)
 {
 	return (std::find(m_validOffsets.begin(), m_validOffsets.end(), rGridPos) != m_validOffsets.end());
 }
@@ -186,13 +186,13 @@ void Chunk::add(const ModuleData& rData)
 void Chunk::prePhysUpdate()
 {
 	//push chunk in bounds if out of bounds
-	b2Vec2 location = m_body.getBodyPtr()->GetPosition();
-	b2Vec2 bounds = game.getUniverse().getBounds();
+	Vec2 location = m_body.getBodyPtr()->GetPosition();
+	Vec2 bounds = game.getUniverse().getBounds();
 	if(abs(location.x) > bounds.x || abs(location.y) > bounds.y)
 	{
-		b2Vec2 force = b2Vec2(-location.x, -location.y);
+		Vec2 force = Vec2(-location.x, -location.y);
 		float diff = std::max(abs(location.x) - bounds.x, abs(location.y) - bounds.y);
-		force.Normalize();
+		force = force.unit();
 		force *= 10 * diff;
 		m_body.getBodyPtr()->ApplyForceToCenter(force, true);
 	}
@@ -222,11 +222,11 @@ void Chunk::postPhysUpdate()
 		(*it)->setRotation(m_body.getBodyPtr()->GetAngle());
 	}
 }
-const std::string& Chunk::getName() const
+const String& Chunk::getName() const
 {
 	return m_io.getName();
 }
-void Chunk::setAim(const b2Vec2& world)//send our aim coordinates
+void Chunk::setAim(const Vec2& world)//send our aim coordinates
 {
 	for(auto it = m_modules.begin(); it != m_modules.end(); ++it)
 		(*it)->setAim(world);
@@ -243,7 +243,7 @@ void Chunk::directive(const CommandInfo& commands)//send command to target
 	{
 		if(m_timer.isTimeUp())
 		{
-			std::string store;
+			String store;
 			for(auto it = m_modules.begin(); it != m_modules.end(); ++it)
 			{
 				store = (*it)->getStore();
@@ -257,6 +257,8 @@ void Chunk::directive(const CommandInfo& commands)//send command to target
 				game.getCoreIO().recieve(toggle);
 				game.getCoreIO().recieve(mes2);
 			}
+			else
+				assert(Print << "Store name [" + store + "]." << FILELINE);
 			m_timer.restartCountDown();
 		}
 	}
@@ -341,7 +343,7 @@ float Chunk::get(Request value) const//return the requested value
 /// <summary>
 /// returns the title of the module at that position, otherwise ""
 /// </summary>
-std::string Chunk::hasModuleAt(const b2Vec2 offset) const
+String Chunk::hasModuleAt(const Vec2 offset) const
 {
 	for(auto it = m_modules.begin(); it != m_modules.end(); ++it)
 		if(offset == (*it)->getOffset())
@@ -351,15 +353,15 @@ std::string Chunk::hasModuleAt(const b2Vec2 offset) const
 /// <summary>
 /// List of module BP names and 
 /// </summary>
-std::vector<std::pair<std::string, b2Vec2> > Chunk::getModules() const
+List<std::pair<String, Vec2> > Chunk::getModules() const
 {
-	std::vector<std::pair<std::string, b2Vec2> > list;
+	List<std::pair<String, Vec2> > list;
 	for(auto it = m_modules.cbegin(); it != m_modules.cend(); ++it)
 	{
 		if(dynamic_cast<ShipModule*>(it->get()) != NULL)//make sure it's not a strange item, like a ShieldComponent
 		{
 			//cout << "\nChunk: " << (*it)->getOffset().x << (*it)->getOffset().y;
-			list.push_back(std::pair<std::string, b2Vec2>((*it)->getTitle(), b2Vec2((*it)->getOffset())));
+			list.push_back(std::pair<String, Vec2>((*it)->getTitle(), Vec2((*it)->getOffset())));
 		}
 	}
 	return list;
@@ -372,7 +374,7 @@ void Chunk::clear()
 {
 	m_modules.clear();
 }
-void Chunk::input(std::string rCommand, sf::Packet rData)
+void Chunk::input(String rCommand, sf::Packet rData)
 {
 	if(rCommand == "clear")
 	{
@@ -380,7 +382,7 @@ void Chunk::input(std::string rCommand, sf::Packet rData)
 	}
 	else if(rCommand == "attachModule")
 	{
-		std::string bpName;
+		String bpName;
 		float x;
 		float y;
 
@@ -391,7 +393,7 @@ void Chunk::input(std::string rCommand, sf::Packet rData)
 		sptr<ModuleData> pNewModuleData = sptr<ModuleData>(m_rParent.getBlueprints().getModuleSPtr(bpName)->clone());
 		if(pNewModuleData != NULL)
 		{
-			pNewModuleData->fixComp.offset = b2Vec2(x, y);
+			pNewModuleData->fixComp.offset = Vec2(x, y);
 			this->add(*pNewModuleData);
 		}
 		else
@@ -407,7 +409,7 @@ void Chunk::input(std::string rCommand, sf::Packet rData)
 		rData >> x;
 		rData >> y;
 
-		b2Vec2 targetOffset(x, y);//the offset we are looking to remove
+		Vec2 targetOffset(x, y);//the offset we are looking to remove
 
 		bool found = false;
 		for(auto it = m_modules.begin(); it != m_modules.end(); ++it)
@@ -429,15 +431,15 @@ float Chunk::getRadius()
 {
 	if(m_radius > 0.f)
 		return m_radius;
-	b2Vec2 max = b2Vec2_zero;
+	Vec2 max(0,0);
 	for(auto it = m_modules.cbegin(); it != m_modules.cend(); ++it)
 	{
-		if(max.Length() < b2Vec2((*it)->getOffset()).Length())
+		if(max.len() < Vec2((*it)->getOffset()).len())
 		{
-			max = b2Vec2((*it)->getOffset());
+			max = Vec2((*it)->getOffset());
 		}
 	}
-	m_radius = max.Length();
+	m_radius = max.len();
 	return m_radius;
 }
 

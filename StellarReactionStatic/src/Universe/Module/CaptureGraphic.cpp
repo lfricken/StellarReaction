@@ -29,7 +29,7 @@ CaptureGraphic::CaptureGraphic(const CaptureGraphicData& rData) : Module(rData)
 	m_lights.push_back(sptr<GraphicsComponent>(new Spinner(rData.pinkLights)));
 	m_lights.push_back(sptr<GraphicsComponent>(new Spinner(rData.redLights)));
 
-	b2Vec2 parentPos = m_parentChunk->getBodyPtr()->GetPosition();
+	Vec2 parentPos = m_parentChunk->getBodyPtr()->GetPosition();
 	m_base_decor->setPosition(parentPos);
 	for (auto light = m_lights.begin(); light != m_lights.end(); ++light)
 	{

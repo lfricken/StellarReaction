@@ -23,6 +23,9 @@
 #include "Module.hpp"
 
 #include "Shield.hpp"
+#include "DecorationEngine.hpp"
+
+#include "Particles.hpp"
 
 
 
@@ -54,4 +57,4 @@ RegisterClass(ModuleData, ShieldComponentData);
 
 
 
-
+RegisterClass(Particles, Particles);

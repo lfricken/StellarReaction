@@ -15,7 +15,7 @@ public:
 	GrappleWeapon(const GrappleWeaponData& rData);
 	virtual ~GrappleWeapon();
 	///Actions to process on object after performing physics updates.
-	void postPhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation);
+	void postPhysUpdate(const Vec2& center, const Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation);
 protected:
 	virtual Vec2 collisionHandle(const RayData& data);
 private:

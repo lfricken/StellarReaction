@@ -28,7 +28,7 @@ void ShieldComponent::exited(FixtureComponent* pOther)
 {
 
 }
-void ShieldComponent::input(std::string rCommand, sf::Packet rData)
+void ShieldComponent::input(String rCommand, sf::Packet rData)
 {
 
 }

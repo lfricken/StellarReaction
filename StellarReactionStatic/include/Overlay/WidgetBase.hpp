@@ -22,7 +22,7 @@ namespace leon
 		{
 		}
 		bool startHidden;/**should this widget start invisible**/
-		std::string configFile;/**TGUI config file**/
+		String configFile;/**TGUI config file**/
 		sf::Vector2f screenCoords;/**upper left corner**/
 		sf::Vector2f size;/**pixels**/
 		unsigned char transparency;
@@ -74,7 +74,7 @@ namespace leon
 
 
 		/**events HOOKS**/
-		virtual bool inputHook(const std::string rCommand, sf::Packet rData);
+		virtual bool inputHook(const String rCommand, sf::Packet rData);
 		virtual bool callbackHook(const tgui::Callback& callback);
 
 		virtual void mouseEnteredHook(sf::Packet& rPack);
@@ -86,7 +86,7 @@ namespace leon
 		virtual void triggerHook(sf::Packet& rPack);
 
 	private:
-		void input(const std::string rCommand, sf::Packet rData);
+		void input(const String rCommand, sf::Packet rData);
 		void f_callback(const tgui::Callback& callback);
 
 		bool m_startHidden;

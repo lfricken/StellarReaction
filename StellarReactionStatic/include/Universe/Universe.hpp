@@ -54,10 +54,10 @@ public:
 	BlueprintLoader& getBlueprints();
 	/// Return the Scoreboard for this Universe.
 	Scoreboard& getScoreboard();
-	/// Return the bounds of this Universe. // TODO wtf why is this an std::vector?
-	const b2Vec2& getBounds() const;
+	/// Return the bounds of this Universe.
+	const Vec2& getBounds() const;
 	/// Set the bounds of the Universe. Leaving bounds pushes you back to the game.
-	void setBounds(const b2Vec2& bounds);
+	void setBounds(const Vec2& bounds);
 
 	/// Return the physics time step. (how much the b2World's time increment is)
 	float getTimeStep() const;
@@ -70,7 +70,7 @@ public:
 	/// Send money out to all the teams.
 	void teamMoneyUpdate();
 	/// Updated the positions of decorations to simulate paralax.
-	void updateDecorationPosition(const b2Vec2& rCameraPos, float zoom);
+	void updateDecorationPosition(const Vec2& rCameraPos, float zoom);
 	/// Tell the AI to determine
 	void updateShipAI();
 
@@ -90,46 +90,46 @@ public:
 	/// Set whether debug draw is on or not.
 	void toggleDebugDraw();
 	/// Find station that isnt on specified team
-	Chunk* getNearestStation(const b2Vec2& target, Team team);
+	Chunk* getNearestStation(const Vec2& target, Team team);
 	/// Return pointer to the nearest Chunk, ignoring exception.
-	Chunk* getNearestChunkExcept(const b2Vec2& target, const Chunk* exception);
+	Chunk* getNearestChunkExcept(const Vec2& target, const Chunk* exception);
 	/// Return pointer to the nearest BodyComponent.
-	BodyComponent* getNearestBody(const b2Vec2& target);
+	BodyComponent* getNearestBody(const Vec2& target);
 	/// Find Chunk that is on one of the specified teams
-	Chunk* getNearestChunkOnTeam(const b2Vec2& target, const Chunk* exception, std::list<Team> teams);
+	Chunk* getNearestChunkOnTeam(const Vec2& target, const Chunk* exception, std::list<Team> teams);
 	bool listContains(std::list<Team> teams, Team value);
 	
 	/// Get a bed positions for a Chunk to sleep at.
-	b2Vec2 getBed();
+	Vec2 getBed();
 	/// Someone is no longer sleeping at a position. Other people can sleep there.
-	void addBed(const b2Vec2& rBed);
+	void addBed(const Vec2& rBed);
 	/// Load a level using Blueprints.
 	void loadLevel(const GameLaunchData& data);
 	/// Add a Chunk to the Universe.
 	void add(GameObject* pGO);
 	/// Return list of GameObject.
-	std::vector<sptr<GameObject> > getgoList();
+	List<sptr<GameObject> > getgoList();
 	/// Used to create impact particles.
-	void spawnParticles(int number, const Vec2& spawn, float radArc, const Vec2& velocity, float randVelScalarMax, float randSpin);
+	void spawnParticles(const String& particleBP, const Vec2& pos, const Vec2& dir);
 
 
 	/// Return whether a position is clear of other objects.
-	bool isClear(b2Vec2 position, float radius, const Chunk* exception);
+	bool isClear(Vec2 position, float radius, const Chunk* exception);
 	/// Return a spawn point for this team.
 
 	bool started = true; //tell whether this is the initial universe created by Game, or a later one
-	b2Vec2 getAvailableSpawn(Team team, float radius, const Chunk* exception);
+	Vec2 getAvailableSpawn(Team team, float radius, const Chunk* exception);
 
 protected:
-	void loadBlueprints(const std::string& bluePrints);//loads blueprints
+	void loadBlueprints(const String& bluePrints);//loads blueprints
 
-	void input(std::string rCommand, sf::Packet rData);
+	void input(String rCommand, sf::Packet rData);
 
 private:
 	/**SLEEP**/
-	std::vector<b2Vec2> m_beds;
+	List<Vec2> m_beds;
 	int m_inc;
-	b2Vec2 m_currentBed;
+	Vec2 m_currentBed;
 	/**SLEEP**/
 
 
@@ -157,7 +157,7 @@ private:
 	sptr<ProjectileMan> m_spProjMan;//manages projectiles
 	sptr<DecorationEngine> m_spDecorEngine;//list of decorations for the world
 
-	std::map<Team, std::vector<b2Vec2> > m_spawnPoints;//places for people to spawn, int is team
+	std::map<Team, List<Vec2> > m_spawnPoints;//places for people to spawn, int is team
 
 	/**Money**/
 	std::map<Team, Money> m_moneyTotals;
@@ -166,16 +166,16 @@ private:
 	sptr<Timer> m_spMoneyTimer;//how long to wait for each money gift
 
 	/**Ships, AI**/
-	std::vector<sptr<GameObject> > m_goList;//list of game objects that WE need to keep track of
-	std::vector<sptr<ShipAI> > m_shipAI;
-	std::vector<Chunk*> m_capturePoints;
+	List<sptr<GameObject> > m_goList;//list of game objects that WE need to keep track of
+	List<sptr<ShipAI> > m_shipAI;
+	List<Chunk*> m_capturePoints;
 
 	/**Hazards**/
-	std::vector<sptr<HazardField> > hazardFields;
+	List<sptr<HazardField> > hazardFields;
 
 
 	IOComponent m_io;
 	float m_lastTime;//used for update method//cant use timer because timer references us!
 	bool m_debugDrawEnabled;
-	b2Vec2 m_bounds;
+	Vec2 m_bounds;
 };

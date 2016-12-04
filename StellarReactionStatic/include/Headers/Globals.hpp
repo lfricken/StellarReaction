@@ -3,7 +3,7 @@
 #include "Game.hpp"
 
 /// Returns the path of the directory that all content is in.
-const std::string& contentDir();
+const String& contentDir();
 /// A packet with nothing in it, which gets used for sending messages without extra data.
 const sf::Packet voidPacket;
 

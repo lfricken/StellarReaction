@@ -30,7 +30,7 @@ int SlaveLocator::give(Chunk* pSlave)//we recieve a pointer to a component and w
 
 	m_slavePtrs[position] = pSlave;
 
-	string name = pSlave->getName();
+	String name = pSlave->getName();
 	m_nameLookup[name] = position;
 
 	return position;
@@ -48,7 +48,7 @@ void SlaveLocator::free(int position)//don't adjust the list, just mark the node
 		///ERROR LOG
 	}
 }
-int SlaveLocator::findPos(const std::string& slaveTarget)
+int SlaveLocator::findPos(const String& slaveTarget)
 {
 	auto it = m_nameLookup.find(slaveTarget);
 	if(it != m_nameLookup.end())
@@ -69,7 +69,7 @@ Chunk* SlaveLocator::find(int position)
 	else
 		return NULL;
 }
-Chunk* SlaveLocator::find(const std::string& rName)
+Chunk* SlaveLocator::find(const String& rName)
 {
 	int index = findPos(rName);
 	if(index != -1)

@@ -64,7 +64,7 @@ void Reactor::respawn()
 	b2Body* ship = m_parentChunk->getBodyPtr();
 	m_parentChunk->incDeaths();
 	//move ship to spawn point, orient toward origin
-	b2Vec2 spawn = m_parentChunk->getClearSpawn();// +displacement;
+	Vec2 spawn = m_parentChunk->getClearSpawn();// +displacement;
 	float angle = atan2(spawn.y, spawn.x) + (pi / 2.f);
 	ship->SetTransform(spawn, angle);
 	healModules();
@@ -72,7 +72,7 @@ void Reactor::respawn()
 void Reactor::healModules()
 {
 	//heal all modules to max hp
-	std::vector<sptr<Module>> moduleList = m_parentChunk->getModuleList();
+	List<sptr<Module>> moduleList = m_parentChunk->getModuleList();
 	for(auto it = moduleList.begin(); it != moduleList.end(); ++it)
 	{
 		(*it)->healToMax();

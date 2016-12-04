@@ -11,7 +11,7 @@
 #include "Draggable.hpp"
 #include "DraggableSurface.hpp"
 #include "Chunk.hpp"
-#include <string>
+#include <String>
 
 using namespace std;
 using namespace leon;
@@ -608,22 +608,22 @@ void Overlay::loadScoreboard(const GameLaunchData& data)
 	//	int team = it->team;
 	//	switch (team) {
 	//	case 1:
-	//		data1.labelData.back().text = it->playerName + "                                                             " + "0" + "  " + to_string(it->playerMoney);
+	//		data1.labelData.back().text = it->playerName + "                                                             " + "0" + "  " + to_String(it->playerMoney);
 	//		data1.id = it->playerName;
 	//		select.items.push_back(data1);
 	//		break;
 	//	case 2:
-	//		data2.labelData.back().text = it->playerName + "                                                             " + "0" + "  " + to_string(it->playerMoney);
+	//		data2.labelData.back().text = it->playerName + "                                                             " + "0" + "  " + to_String(it->playerMoney);
 	//		data2.id = it->playerName;
 	//		select2.items.push_back(data2);
 	//		break;
 	//	case 3:
-	//		data3.labelData.back().text = it->playerName + "                                                             " + "0" + "  " + to_string(it->playerMoney);
+	//		data3.labelData.back().text = it->playerName + "                                                             " + "0" + "  " + to_String(it->playerMoney);
 	//		data3.id = it->playerName;
 	//		select3.items.push_back(data3);
 	//		break;
 	//	case 4:
-	//		data4.labelData.back().text = it->playerName + "                                                             " + "0" + "  " + to_string(it->playerMoney);
+	//		data4.labelData.back().text = it->playerName + "                                                             " + "0" + "  " + to_String(it->playerMoney);
 	//		data4.id = it->playerName;
 	//		select4.items.push_back(data4);
 	//		break;
@@ -709,7 +709,7 @@ void Overlay::toggleScoreboard(bool show)
 	game.getCoreIO().recieve(mes3);
 	game.getCoreIO().recieve(mes4);
 }
-void Overlay::input(const std::string rCommand, sf::Packet rData)
+void Overlay::input(const String rCommand, sf::Packet rData)
 {
 	if(rCommand == "toggleMenu")
 	{

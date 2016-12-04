@@ -26,7 +26,7 @@ protected:
 	bool m_onlyRed; //only red lights on
 
 	sptr<GraphicsComponent> m_base_decor;
-	std::vector<sptr<GraphicsComponent> > m_lights;
+	List<sptr<GraphicsComponent> > m_lights;
 	//list of lights as follows
 	//0 = white/neutral
 	//1 = blue

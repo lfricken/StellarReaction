@@ -28,27 +28,27 @@ namespace leon
 		~DraggableSurface();
 
 		/// Which coordinates should the Draggable objects be considered. Has no effect at the moment.
-		void setCountedCoordinates(const std::vector<sf::Vector2f>& rCoords);
+		void setCountedCoordinates(const List<sf::Vector2f>& rCoords);
 		/// Add a draggable object.
 		void addDraggable(const DraggableData& rData);
 
 		// Currently commented out for unknown reason.
-		//std::vector<std::pair<std::string, sf::Vector2f> > getValidPositions() const;
+		//List<std::pair<String, sf::Vector2f> > getValidPositions() const;
 
 		/// Get a list of the Draggable data, as well as their positions.
-		std::vector<std::pair<std::string, sf::Vector2f> > getElementPositions() const;
+		List<std::pair<String, sf::Vector2f> > getElementPositions() const;
 		/// Returns true whether we have a Draggable at the specified grid position. Used by Draggable::trySetPosition
 		bool hasOneAt(const sf::Vector2f& gridPos) const;
 
 
 	protected:
 		/**events HOOKS**/
-		virtual bool inputHook(const std::string rCommand, sf::Packet rData);
+		virtual bool inputHook(const String rCommand, sf::Packet rData);
 
 	private:
 		void f_initialize(const DraggableSurfaceData& data);
 
 		sf::Vector2f m_gridSize;
-		std::vector<sf::Vector2f> m_validCoords;//the list of acceptable coordinates
+		List<sf::Vector2f> m_validCoords;//the list of acceptable coordinates
 	};
 }

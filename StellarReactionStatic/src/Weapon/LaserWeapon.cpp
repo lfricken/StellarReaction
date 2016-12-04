@@ -14,8 +14,7 @@ void LaserWeaponData::loadJson(const Json::Value& root)
 	WeaponData::loadJson(root);
 
 	GETJSON(beamWidth);
-	if(!root["beamColor"].isNull())
-		beamColor = BlueprintLoader::loadColor(root["beamColor"]);
+	GETJSON(beamColor);
 	GETJSON(showTime);
 	LOADJSON(beamComp.start);
 	LOADJSON(beamComp.end);
@@ -39,12 +38,12 @@ LaserWeapon::~LaserWeapon()
 /// <param name="center">The center.</param>
 /// <param name="aim">The aim.</param>
 /// <param name="radCCW">The RAD CCW.</param>
-void LaserWeapon::preShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation)
+void LaserWeapon::preShot(const Vec2& center, const Vec2& aim, float radCCW, float module_orientation)
 {
 	m_ray.setIgnoreBody(m_pBody);
 
 	float mult = m_range / leon::Dist(aim, center);
-	b2Vec2 end = b2Vec2(center.x + (aim.x - center.x)*mult, center.y + (aim.y - center.y)*mult);
+	Vec2 end = Vec2(center.x + (aim.x - center.x)*mult, center.y + (aim.y - center.y)*mult);
 	game.getUniverse().getWorld().RayCast(&m_ray, center, end);
 }
 /// <summary>
@@ -53,16 +52,16 @@ void LaserWeapon::preShot(const b2Vec2& center, const b2Vec2& aim, float radCCW,
 /// <param name="center">The center.</param>
 /// <param name="aim">The aim.</param>
 /// <param name="radCCW">The RAD CCW.</param>
-void LaserWeapon::postShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation)
+void LaserWeapon::postShot(const Vec2& center, const Vec2& aim, float radCCW, float module_orientation)
 {
 	const Map<float, RayData>& collisions = m_ray.getLatest();
 
-	b2Vec2 end;
+	Vec2 end;
 
 	if(collisions.empty())
 	{
 		float mult = m_range / leon::Dist(aim, center);
-		end = b2Vec2(center.x + (aim.x - center.x)*mult, center.y + (aim.y - center.y)*mult);
+		end = Vec2(center.x + (aim.x - center.x)*mult, center.y + (aim.y - center.y)*mult);
 	}
 	else
 	{

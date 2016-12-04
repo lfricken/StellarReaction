@@ -23,6 +23,6 @@ namespace leon
 		void free(leon::DragComponent* pCompToDelete);
 
 	private:
-		std::vector<leon::DragComponent*> m_components;
+		List<leon::DragComponent*> m_components;
 	};
 }

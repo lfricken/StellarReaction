@@ -89,7 +89,7 @@ struct PlayerData
 		ioComp.name = "local_player";
 		name = "default_local_player_name";
 	}
-	std::string name;
+	String name;
 	IOComponentData ioComp;
 	InputConfig keyConfig;
 	bool tracking;
@@ -130,7 +130,7 @@ public:
 	/// Set the position of the players cursor in window coordinates.
 	void setMouseWindowPos(const sf::Vector2f& rPos);
 	/// Return the position of the cursor in world coordinates.
-	b2Vec2 getMouseInWorld();
+	Vec2 getMouseInWorld();
 
 	/// Get direct feed from keyboard and mouse. Gets their states only, not events.
 	void getLiveInput();
@@ -140,7 +140,7 @@ public:
 	/// Update HUD elements.
 	void updateView();
 	/// Initially load HUD elements.
-	void loadOverlay(const std::string& rOverlay);
+	void loadOverlay(const String& rOverlay);
 
 	/// Tells Player that the universe no longer exists.
 	/// This means the sprites for the HUD need to be destroyed if they existed in universe.
@@ -153,24 +153,24 @@ public:
 	int radarsize();
 
 protected:
-	void input(std::string rCommand, sf::Packet rData);
+	void input(String rCommand, sf::Packet rData);
 
 private:
 	///Where we are aiming in world coordinates.
-	b2Vec2 m_aim;
+	Vec2 m_aim;
 	sf::Vector2f m_mouseWindowPos;//where is the players mouse on the screen?
-	std::map<Directive, bool> m_directives;//up, down, rollCW, roll CCW, ect.
-	std::map<int, bool> m_weaponGroups;//group, is active
+	Map<Directive, bool> m_directives;//up, down, rollCW, roll CCW, ect.
+	Map<int, bool> m_weaponGroups;//group, is active
 
 	float m_desiredZoom;//for smooth zooming
-	b2Vec2 m_desiredCameraPos;//for smooth zooming
+	Vec2 m_desiredCameraPos;//for smooth zooming
 
 	///TEMPORARY
 	sptr<QuadComponent> m_energyMeter;
 	sptr<QuadComponent> m_energyDanger;
 	sptr<QuadComponent> m_boundsDanger;
 
-	vector<sptr<QuadComponent>> m_groupIcon;
+	List<sptr<QuadComponent>> m_groupIcon;
 
 	sptr<LinearMeter> m_energyMeterFill;
 	sptr<Minimap> m_minimap;

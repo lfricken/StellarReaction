@@ -2,7 +2,7 @@
 
 
 
-EventType ChooseEvent(const std::string& rStr)
+EventType ChooseEvent(const String& rStr)
 {
 	if(rStr == "Triggered")
 		return EventType::Triggered;

@@ -6,7 +6,7 @@
 using namespace std;
 
 
-NetworkFactory::NetworkFactory(std::string name)
+NetworkFactory::NetworkFactory(String name)
 {
 	m_name = name;
 	m_lastSendID = 0;
@@ -54,7 +54,7 @@ void NetworkFactory::clean()
 /// </summary>
 void NetworkFactory::getComponentData(sf::Packet& rPacket)
 {
-	std::vector<NetworkComponent*>& rPtr = m_componentPtrs;
+	List<NetworkComponent*>& rPtr = m_componentPtrs;
 	for(int32_t i = 0; i < (signed)rPtr.size(); ++i)
 	{
 		if(rPtr[i] != NULL)

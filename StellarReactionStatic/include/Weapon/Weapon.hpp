@@ -31,11 +31,11 @@ public:
 	/// Called before physics update if this weapon should fire this tick
 	/// Look at laser and projectile weapon.
 	/// Overwrite this when making a new weapon.
-	virtual void preShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation) = 0;
+	virtual void preShot(const Vec2& center, const Vec2& aim, float radCCW, float module_orientation) = 0;
 	/// Called after physics update if this weapon fired this tick
 	/// Overwrite this when making a new weapon.
 	/// Look at laser and projectile weapon.
-	virtual void postShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation) = 0;
+	virtual void postShot(const Vec2& center, const Vec2& aim, float radCCW, float module_orientation) = 0;
 	///Does damage to target.
 	static void damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmount, int ioCausePos, Team team);
 	///Gets the decoration object corresponding to this weapon.

@@ -39,7 +39,7 @@ public:
 	virtual void healToMax();
 
 protected:
-	virtual void input(std::string rCommand, sf::Packet rData);
+	virtual void input(String rCommand, sf::Packet rData);
 	virtual void pack(sf::Packet& rPacket);
 	virtual void unpack(sf::Packet& rPacket);
 	virtual void f_died();
@@ -48,7 +48,7 @@ protected:
 	HealthState m_healthState;
 	bool m_functionsDamaged;
 
-	std::vector<sptr<GraphicsComponent> > m_decors;
+	List<sptr<GraphicsComponent> > m_decors;
 	///index in m_decors where the module sprite is.
 	int m_baseDecor;
 	///index in m_decors where the hit sprite is.

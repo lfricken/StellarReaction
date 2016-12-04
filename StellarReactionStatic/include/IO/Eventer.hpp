@@ -15,14 +15,14 @@ public:
 	/// Stores the Courier so we can check events on it later.
 	void add(const Courier& rCourier);
 	/// Stores multiple Couriers so we can call events on them later.
-	void add(const std::vector<Courier>& rCourierList);
+	void add(const List<Courier>& rCourierList);
 	/// Called when an event happens, and we check to see if any of our conditions are met.
 	/// If they are met, we send the corresponding message.
 	void event(EventType type, int value, const sf::Packet& rData);
 
 protected:
 private:
-	std::map<EventType, std::vector<Courier> > m_courierMap;//holds all the couriers for this object
+	std::map<EventType, List<Courier> > m_courierMap;//holds all the couriers for this object
 	IOManager& m_rIOManager;//reference to our manager
 };
 

@@ -15,13 +15,13 @@ public:
 	///Spawns a hazard in a random location within the field.
 	void spawn();
 	///Recieve commands.
-	void input(std::string command, sf::Packet data);
+	void input(String command, sf::Packet data);
 private:
 	Universe* m_pUniverse;
-	std::string m_hazardName;
+	String m_hazardName;
 	int m_numHazards;
 	float m_radius;
-	b2Vec2 m_origin;
+	Vec2 m_origin;
 
 	IOComponent m_io;
 };

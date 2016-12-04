@@ -13,7 +13,7 @@ AnimAlloc::~AnimAlloc()
 {
 
 }
-const AnimSet* AnimAlloc::request(const std::string& rAnimFile)
+const AnimSet* AnimAlloc::request(const String& rAnimFile)
 {
 	const AnimSet* pSet = NULL;
 	auto it_find = m_animationSets.find(rAnimFile);
@@ -29,7 +29,7 @@ const AnimSet* AnimAlloc::request(const std::string& rAnimFile)
 		Animation animation;
 
 
-		const std::string fullPath = contentDir() + "textures/" + rAnimFile;
+		const String fullPath = contentDir() + "textures/" + rAnimFile;
 		Json::Value root;
 		Json::Reader reader;
 		std::ifstream inputFStream(fullPath, std::ifstream::binary);

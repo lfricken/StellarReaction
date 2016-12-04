@@ -6,8 +6,8 @@ using namespace std;
 
 Beam::Beam(const BeamData& rData) : QuadComponent(rData), m_start(rData.start), m_end(rData.end)
 {
-	m_startPos = (b2Vec2(0,0));
-	m_endPos = (b2Vec2(0,0));
+	m_startPos = (Vec2(0,0));
+	m_endPos = (Vec2(0,0));
 
 	m_deactivateTimer.setCountDown(0);
 
@@ -21,11 +21,11 @@ Beam::~Beam()
 {
 
 }
-void Beam::setStart(const b2Vec2& rStart)
+void Beam::setStart(const Vec2& rStart)
 {
 	m_startPos = rStart;
 }
-void Beam::setEnd(const b2Vec2& rEnd)
+void Beam::setEnd(const Vec2& rEnd)
 {
 	m_endPos = rEnd;
 }
@@ -35,7 +35,7 @@ void Beam::activate(float secs, int beamWidth, const sf::Color& color)//seconds 
 	m_start.setColor(color);
 	m_end.setColor(color);
 
-	b2Vec2 midpoint;
+	Vec2 midpoint;
 	midpoint.x = (m_startPos.x+m_endPos.x)/2;
 	midpoint.y = (m_startPos.y+m_endPos.y)/2;
 	float angle = atan2(m_startPos.y - m_endPos.y, m_startPos.x - m_endPos.x);

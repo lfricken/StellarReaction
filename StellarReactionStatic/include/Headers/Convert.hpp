@@ -65,13 +65,13 @@ namespace leon
 	}
 	template<typename T>
 	/// Take a coordinate from SFML world coordinates (pixels) to Box2D world coordinates (meters).
-	inline b2Vec2 sfTob2(const T& screenCoords)
+	inline Vec2 sfTob2(const T& screenCoords)
 	{
-		return b2Vec2(screenCoords.x/scale, -screenCoords.y/scale);
+		return Vec2(screenCoords.x/scale, -screenCoords.y/scale);
 	}
 	template<typename T>
 	/// Take a coordinate from Box2D world coordinates (meters) to SFML world coordinates (pixels).
-	inline sf::Vector2<T> b2Tosf(const b2Vec2& worldCoords)
+	inline sf::Vector2<T> b2Tosf(const Vec2& worldCoords)
 	{
 		return sf::Vector2<T>(worldCoords.x*scale, -worldCoords.y*scale);
 	}

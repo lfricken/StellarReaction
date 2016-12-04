@@ -25,7 +25,7 @@ namespace leon
 			icon.size = sf::Vector2f(64, 64);
 		}
 
-		std::string metaData;
+		String metaData;
 
 		DraggableSurface* parentPtr;
 		sf::Vector2f gridPosition;//if this isn't -1,-1, we will override our screen coordinates and set to this grid position
@@ -49,7 +49,7 @@ namespace leon
 		/// Set the grid coordinate defined by DraggableSurface.
 		void setGridPosition(const sf::Vector2f& rPos);
 		/// Get data this Draggable is holding.
-		const std::string& getMetaData() const;
+		const String& getMetaData() const;
 		/// Check whether the DraggableSurface already has a Draggable at that position before setting position.
 		bool trySetPosition(const sf::Vector2f& rPos);
 		/// Set the position of this draggable to a particular coordinate.
@@ -62,7 +62,7 @@ namespace leon
 		sf::Vector2f getClosestPosition(const sf::Vector2f& rCurrent);
 
 	private:
-		std::string m_metaData;//data this draggable holds
+		String m_metaData;//data this draggable holds
 		void f_update(const sf::Vector2f& rPos);
 		void f_initialize(const DraggableData& rData);
 		sptr<DragComponent> m_spDrag;

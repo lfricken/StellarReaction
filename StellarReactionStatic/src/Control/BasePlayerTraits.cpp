@@ -5,7 +5,7 @@
 
 using namespace std;
 
-BasePlayerTraits::BasePlayerTraits(const std::string& rName)
+BasePlayerTraits::BasePlayerTraits(const String& rName)
 {
 	m_team = Team::One;
 	m_shipChoice = "Anubis";
@@ -17,19 +17,19 @@ BasePlayerTraits::~BasePlayerTraits()
 {
 
 }
-void BasePlayerTraits::setShipChoice(const std::string& rTitle)
+void BasePlayerTraits::setShipChoice(const String& rTitle)
 {
 	m_shipChoice = rTitle;
 }
-const std::string&  BasePlayerTraits::getShipChoice() const
+const String&  BasePlayerTraits::getShipChoice() const
 {
 	return m_shipChoice;
 }
-void BasePlayerTraits::setName(const std::string& rTitle)
+void BasePlayerTraits::setName(const String& rTitle)
 {
 	m_name = rTitle;
 }
-const std::string& BasePlayerTraits::getName() const
+const String& BasePlayerTraits::getName() const
 {
 	return m_name;
 }
@@ -61,9 +61,9 @@ int BasePlayerTraits::getController() const
 {
 	return m_controller;
 }
-void BasePlayerTraits::addModule(const std::string& newTitle, const b2Vec2& rPos)
+void BasePlayerTraits::addModule(const String& newTitle, const Vec2& rPos)
 {
-	m_owned.push_back(pair<string, b2Vec2>(newTitle, rPos));
+	m_owned.push_back(pair<String, Vec2>(newTitle, rPos));
 	sf::Packet pack;
 	pack << newTitle;
 	pack << (float)rPos.x;
@@ -71,7 +71,7 @@ void BasePlayerTraits::addModule(const std::string& newTitle, const b2Vec2& rPos
 	Message modAdded("ship_editor", "addItem", pack, 0.f, false);
 	game.getCoreIO().recieve(modAdded);
 }
-bool BasePlayerTraits::removeModule(const std::string& oldTitle)
+bool BasePlayerTraits::removeModule(const String& oldTitle)
 {
 	for(auto it = m_owned.begin(); it != m_owned.end(); ++it)
 		if(it->first == oldTitle)
@@ -82,7 +82,7 @@ bool BasePlayerTraits::removeModule(const std::string& oldTitle)
 
 	return false;
 }
-const std::vector<std::pair<std::string, b2Vec2> >& BasePlayerTraits::getOwnedModuleTitles() const
+const List<std::pair<String, Vec2> >& BasePlayerTraits::getOwnedModuleTitles() const
 {
 	return m_owned;
 }

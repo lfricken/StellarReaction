@@ -20,7 +20,7 @@ public:
 	///Actions to process when fixture component exits our sensor. May be called multiple times in a single step.
 	virtual void exited(FixtureComponent* pOther);
 protected:
-	virtual void input(std::string rCommand, sf::Packet rData);
+	virtual void input(String rCommand, sf::Packet rData);
 	Shield* m_pParentShieldModule;
 };
 

@@ -66,7 +66,7 @@ void ShipModule::prePhysUpdate()
 }
 void ShipModule::postPhysUpdate()
 {
-	b2Vec2 center = m_fix.getCenter();
+	Vec2 center = m_fix.getCenter();
 	float angle = m_fix.getAngle();
 	for(int i = 0; i < (signed)m_decors.size(); ++i)
 	{
@@ -82,7 +82,7 @@ void ShipModule::unpack(sf::Packet& rPacket)
 {
 
 }
-void ShipModule::input(std::string rCommand, sf::Packet rData)
+void ShipModule::input(String rCommand, sf::Packet rData)
 {
 	const float damagedPercent = 0.25;// TODO should be some global constant
 

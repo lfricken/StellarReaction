@@ -6,26 +6,9 @@
 #include "Convert.hpp"
 #include "Player.hpp"
 #include "JSON.hpp"
+#include "BlueprintLoader.hpp"
+#include "Particles.hpp"
 
-void DecorationEngine::Particles::loadJson(const Json::Value& root)
-{
-	GETJSON(duration);
-	GETJSON(fadeTime);
-	GETJSON(number);
-	GETJSON(spawn);
-	GETJSON(randRadArc);
-	GETJSON(velocity);
-	GETJSON(randVelScalarMax);
-	GETJSON(initialOrientation);
-	GETJSON(minSpinRate);
-	GETJSON(maxSpinRate);
-
-	LOADJSON(quadData);
-}
-DecorationEngine::Particles* DecorationEngine::Particles::clone() const
-{
-	return new Particles(*this);
-}
 
 DecorationEngine::DecorationEngine() : m_deltaTime(0)
 {
@@ -130,8 +113,14 @@ void DecorationEngine::initSpawns(const Vec2& cameraPos, const Vec2& maxHalf)
 		}
 	}
 }
-void DecorationEngine::spawnParticles(const Particles& effect)
+void DecorationEngine::spawnParticles(const String& particleBP, const Vec2& pos, Vec2 dir)
 {
+	if(dir.len() == 0)
+		dir = Vec2(1, 1);
+	dir = dir.unit();
+
+
+	const Particles& effect = *game.getUniverse().getBlueprints().getParticleSPtr(particleBP);
 	Decoration* pDecor = NULL;
 	QuadComponent* pQuad = NULL;
 
@@ -140,19 +129,19 @@ void DecorationEngine::spawnParticles(const Particles& effect)
 	decorData.spawnRandom = false;
 	decorData.infiniteZ = false;
 	decorData.repeats = false;
-	decorData.realPosition = effect.spawn;
+	decorData.realPosition = pos;
 	decorData.zPos = 0;
-	
+
 	float time = game.getUniverse().getTime();
 
 	for(int i = 0; i < effect.number; ++i)
 	{
+		dir = dir.rotate(Rand::get(-effect.randRadArc, effect.randRadArc));
+		float vel = Rand::get(1.f, effect.randVelScalarMax) * effect.velocity;
+		dir *= vel;
 
-		float arc = Rand::get(-effect.randRadArc, effect.randRadArc);
-		const Vec2 trueVel = effect.velocity.rotate(Rand::get(-effect.randRadArc, effect.randRadArc));
-
-		decorData.maxVelocity = trueVel * effect.randVelScalarMax;
-		decorData.minVelocity = trueVel;
+		decorData.maxVelocity = dir;
+		decorData.minVelocity = dir;
 
 		decorData.maxSpinRate = Math::toDeg(effect.maxSpinRate);
 		decorData.minSpinRate = Math::toDeg(effect.minSpinRate);
@@ -163,5 +152,4 @@ void DecorationEngine::spawnParticles(const Particles& effect)
 		expiration.second = expiration.first + effect.fadeTime;
 		m_fullParticles[expiration] = sptr<Decoration>(pDecor);
 	}
-
 }

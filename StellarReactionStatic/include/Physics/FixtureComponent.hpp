@@ -30,11 +30,11 @@ struct FixtureComponentData
 	{
 
 	}
-	b2Vec2 offset;//offset from center of body
+	Vec2 offset;//offset from center of body
 	b2Body* pBody;//who owns us
 	leon::Shape shape;
 
-	b2Vec2 size;//width and height in world coordinates
+	Vec2 size;//width and height in world coordinates
 	float density;
 	float friction;
 	float restitution;//how bouncy are we?
@@ -58,21 +58,21 @@ public:
 	/// Returns if this object is a sensor.
 	bool isSensor() const;
 	/// Returns the current center position.
-	b2Vec2 getCenter() const;
-	/// Returns the current angle.
-	float getAngle() const;//RADIANS CCW	
+	Vec2 getCenter() const;
+	/// Returns the angle in RADCCW of the fixture.
+	float getAngle() const;	
 	/// Gets the io position of our owner.
 	int getIOPos() const;
 	/// Returns a pointer to the box2D body pointer.
 	b2Body* getBodyPtr();
 	/// Returns a const pointer to the box2D body pointer.
 	const b2Body* getBodyPtr() const;
-	/// Returns a const offset vector.
-	const b2Vec2 getOffset() const;
+	/// Returns a const offset List.
+	const Vec2 getOffset() const;
 	/// Applies the given force to the center of the body.
-	void applyForce(const b2Vec2& rForce);
+	void applyForce(const Vec2& rForce);
 	/// Applies the given force to the fixture.
-	void applyForceFixture(const b2Vec2& rForce);
+	void applyForceFixture(const Vec2& rForce);
 	/// Applies the given rotation to the body.
 	void applyTorque(float radiansCCW);
 	/// Sets the category of the FixtureComponent.
@@ -80,9 +80,9 @@ public:
 	/// Sets the mask of the FixtureComponent.
 	void setMask(Mask mask);
 	/// Sets the store.
-	void setStore(const std::string& rTargetName);
+	void setStore(const String& rTargetName);
 	/// Returns the store.
-	const std::string& getStore() const;
+	const String& getStore() const;
 
 protected:
 private:
@@ -112,6 +112,6 @@ private:
 	b2Fixture* m_pFixture;
 	int m_ioPos;
 
-	std::string m_store;
-	b2Vec2 m_offset;
+	String m_store;
+	Vec2 m_offset;
 };

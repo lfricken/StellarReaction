@@ -61,7 +61,7 @@ void ShipAI::updateDecision()
 		//fire at and fly toward target if we have one
 		if (m_pCurrentTarget != NULL)
 		{
-			b2Vec2 targetPos = m_pCurrentTarget->getBodyPtr()->GetPosition();
+			Vec2 targetPos = m_pCurrentTarget->getBodyPtr()->GetPosition();
 			rController.setAim(targetPos);
 
 			flyTowardsChunk(m_pCurrentTarget);
@@ -115,7 +115,7 @@ void ShipAI::updateDecision()
 			//fire at enemies along the way, but don't fly toward them
 			if (m_pCurrentTarget != NULL)
 			{
-				b2Vec2 targetPos = m_pCurrentTarget->getBodyPtr()->GetPosition();
+				Vec2 targetPos = m_pCurrentTarget->getBodyPtr()->GetPosition();
 				rController.setAim(targetPos);
 
 				fireAtTarget();
@@ -146,12 +146,12 @@ void ShipAI::flyTowardsChunk(Chunk* target)
 	b2Body* pBody = rController.getBodyPtr();
 
 	float ourAngle = leon::normRad(pBody->GetAngle() + pi/2);
-	b2Vec2 ourPos = pBody->GetPosition();
-	b2Vec2 targetPos = target->getBodyComponent().getPosition();
+	Vec2 ourPos = pBody->GetPosition();
+	Vec2 targetPos = target->getBodyComponent().getPosition();
 
-	b2Vec2 diff = targetPos - ourPos;
+	Vec2 diff = targetPos - ourPos;
 
-	float dist = diff.Length();
+	float dist = diff.len();
 
 	float targetAngle = leon::normRad(atan2(diff.y, diff.x));
 
@@ -170,14 +170,14 @@ void ShipAI::flyTowardsChunk(Chunk* target)
 	else 
 	{
 		//find new perpendicular angle to avoid collision
-		b2Vec2 perpVec = b2Vec2_zero;
+		Vec2 perpVec(0,0);
 		if (diffAngle < pi)
 		{
-			perpVec = b2Vec2(diff.y, -diff.x);
+			perpVec = Vec2(diff.y, -diff.x);
 		}
 		else
 		{
-			perpVec = b2Vec2(-diff.y, diff.x);
+			perpVec = Vec2(-diff.y, diff.x);
 		}
 
 		targetAngle = leon::normRad(atan2(perpVec.y, perpVec.x));
@@ -198,12 +198,12 @@ void ShipAI::fireAtTarget()
 	Controller& rController = game.getUniverse().getControllerFactory().getController(m_controller);
 	b2Body* pBody = rController.getBodyPtr();
 
-	b2Vec2 ourPos = pBody->GetPosition();
-	b2Vec2 targetPos = m_pCurrentTarget->getBodyComponent().getPosition();
+	Vec2 ourPos = pBody->GetPosition();
+	Vec2 targetPos = m_pCurrentTarget->getBodyComponent().getPosition();
 
-	b2Vec2 diff = targetPos - ourPos;
+	Vec2 diff = targetPos - ourPos;
 
-	if(diff.Length() < 40)
+	if(diff.len() < 40)
 	{
 		m_directives[Directive::FirePrimary] = true;
 	}
@@ -211,7 +211,7 @@ void ShipAI::fireAtTarget()
 
 }
 
-bool ShipAI::isStuck(b2Vec2 curPos)
+bool ShipAI::isStuck(Vec2 curPos)
 {
 	if (m_stuckTimer.isTimeUp()){
 		m_stuckTimer.restartCountDown();

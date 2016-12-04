@@ -97,9 +97,9 @@ void Connection::recievePlayerTraits(sf::Packet mes)
 /// </summary>
 /// <param name="newTitle">The new title.</param>
 /// <param name="rPos">The r position.</param>
-void Connection::addModule(const std::string& newTitle, const b2Vec2& rPos)
+void Connection::addModule(const String& newTitle, const Vec2& rPos)
 {
-	m_owned.push_back(pair<string, b2Vec2>(newTitle, rPos));
+	m_owned.push_back(pair<String, Vec2>(newTitle, rPos));
 	sf::Packet pack;
 	pack << newTitle;
 	pack << (float)rPos.x;
@@ -135,8 +135,8 @@ void Connection::sendSpecialIo(const Message& mes)
 void Connection::recieveSpecialIo(sf::Packet& rPacket)
 {
 		int32_t pos;
-		std::string name;
-		std::string command;
+		String name;
+		String command;
 		int32_t size;
 		int8_t* pData;
 		sf::Packet messageData;

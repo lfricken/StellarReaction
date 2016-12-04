@@ -15,7 +15,7 @@ public:
 	virtual void prePhysUpdate();
 
 protected:
-	std::vector<sptr<GraphicsComponent> > m_decors;
+	List<sptr<GraphicsComponent> > m_decors;
 };
 
 

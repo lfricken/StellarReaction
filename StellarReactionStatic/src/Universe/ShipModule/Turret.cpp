@@ -72,7 +72,7 @@ void Turret::removeWep()
 {
 	m_spWep.reset();
 }
-void Turret::setAim(const b2Vec2& rTarget)
+void Turret::setAim(const Vec2& rTarget)
 {
 	m_lastAim = rTarget;
 }

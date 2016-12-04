@@ -30,7 +30,7 @@ BodyComponent::~BodyComponent()
 {
 
 }
-const b2Vec2& BodyComponent::getPosition() const
+const Vec2 BodyComponent::getPosition() const
 {
 	return m_pBody->GetPosition();
 }
@@ -53,8 +53,8 @@ void BodyComponent::pack(sf::Packet& rPacket)
 }
 void BodyComponent::unpack(sf::Packet& rPacket)
 {
-	b2Vec2 pos;
-	b2Vec2 vel;
+	Vec2 pos;
+	Vec2 vel;
 	float32 posX, posY, velX, velY;
 	float32 angle;
 	float32 angleVel;
@@ -94,7 +94,7 @@ void BodyComponent::sleep()
 	m_pBody->SetAwake(false);
 
 	m_pBody->SetAngularVelocity(0);
-	m_pBody->SetLinearVelocity(b2Vec2(0, 0));
+	m_pBody->SetLinearVelocity(Vec2(0, 0));
 	m_pBody->SetTransform(game.getUniverse().getBed(), 0);
 	//}
 	//else
@@ -113,7 +113,7 @@ void BodyComponent::wake()
 	else
 		cout << FILELINE;
 }
-void BodyComponent::wake(const b2Vec2& rCoords, float radiansCCW, const b2Vec2& rVel, float angularVel)
+void BodyComponent::wake(const Vec2& rCoords, float radiansCCW, const Vec2& rVel, float angularVel)
 {
 	//cout << "\nWake2";
 	m_pBody->SetActive(true);

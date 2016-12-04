@@ -33,7 +33,7 @@ void HazardField::spawn()
 		m_pUniverse->getUniverseIO().recieve(makeHazard);
 	}
 }
-void HazardField::input(std::string command, sf::Packet data)
+void HazardField::input(String command, sf::Packet data)
 {
 	if(command == "createHazard")
 	{
@@ -43,7 +43,7 @@ void HazardField::input(std::string command, sf::Packet data)
 		data >> x >> y >> rotation;
 
 		sptr<ChunkData> data(m_pUniverse->getBlueprints().getChunkSPtr(m_hazardName)->clone());
-		data->bodyComp.coords = b2Vec2(x, y);
+		data->bodyComp.coords = Vec2(x, y);
 		data->bodyComp.rotation = rotation;
 
 		Chunk* asteroid = data->generate(m_pUniverse);

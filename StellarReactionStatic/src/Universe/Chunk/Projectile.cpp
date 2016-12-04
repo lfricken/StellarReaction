@@ -46,7 +46,7 @@ Projectile::Projectile(const ProjectileData& rData) : m_body(rData.body), m_ener
 	myPools.energyPool = &m_energyPool;
 
 
-	std::vector<sptr<ModuleData> > thisData;
+	List<sptr<ModuleData> > thisData;
 	for(auto it = rData.moduleData.begin(); it != rData.moduleData.end(); ++it)
 		thisData.push_back(sptr<ModuleData>((*it)->clone()));
 
@@ -60,7 +60,7 @@ Projectile::~Projectile()
 {
 
 }
-void Projectile::launch(const b2Vec2& rStart, const b2Vec2& rVel, float radCCW, float radCCWps, float lifetime, int damage, const FixtureComponent* pParent, int collisions)
+void Projectile::launch(const Vec2& rStart, const Vec2& rVel, float radCCW, float radCCWps, float lifetime, int damage, const FixtureComponent* pParent, int collisions)
 {
 	m_inPlay = true;
 	m_timer.setCountDown(lifetime);
@@ -104,7 +104,7 @@ void Projectile::postPhysUpdate()
 	}
 	//update hull
 }
-const std::string& Projectile::getTitle() const
+const String& Projectile::getTitle() const
 {
 	return m_title;
 }

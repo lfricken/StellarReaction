@@ -27,12 +27,12 @@ Controller::~Controller()
 {
 
 }
-void Controller::setSlave(const std::string& rSlaveName)
+void Controller::setSlave(const String& rSlaveName)
 {
 	m_slaveName = rSlaveName;
 	m_slavePosition = game.getUniverse().getSlaveLocator().findPos(m_slaveName);
 }
-const std::string& Controller::getSlaveName() const
+const String& Controller::getSlaveName() const
 {
 	return m_slaveName;
 }
@@ -44,13 +44,13 @@ IOComponent& Controller::getIOComp()
 {
 	return m_io;
 }
-void Controller::setAim(const b2Vec2& world)//send our aim coordinates
+void Controller::setAim(const Vec2& world)//send our aim coordinates
 {
 	m_nw.toggleNewData(true);
 	m_aim = world;
 }
 
-const b2Vec2& Controller::getAim() const
+const Vec2& Controller::getAim() const
 {
 	return m_aim;
 }
@@ -117,11 +117,11 @@ void Controller::locallyUpdate(const CommandInfo& commands)
 		m_weaponGroups = commands.weaponGroups;
 	}
 }
-void Controller::setPlayerName(const std::string& rPlayerName)
+void Controller::setPlayerName(const String& rPlayerName)
 {
 	m_playerName = rPlayerName;
 }
-const std::string& Controller::getPlayerName() const
+const String& Controller::getPlayerName() const
 {
 	return m_playerName;
 }
@@ -171,7 +171,7 @@ void Controller::unpack(sf::Packet& rPacket)
 
 	if(!m_local)//if we are locally controlled, we shouldnt unpack that stuff
 	{
-		setAim(b2Vec2(aimX, aimY));
+		setAim(Vec2(aimX, aimY));
 		m_directives = directives;
 		m_weaponGroups = weaponGroups;
 	}
@@ -181,12 +181,12 @@ bool Controller::isLocal() const
 {
 	return m_local;
 }
-void Controller::input(std::string rCommand, sf::Packet rData)
+void Controller::input(String rCommand, sf::Packet rData)
 {
 	sf::Packet data(rData);
 	if(rCommand == "setPlayerName")
 	{
-		std::string name;
+		String name;
 		data >> name;
 		setPlayerName(name);
 	}

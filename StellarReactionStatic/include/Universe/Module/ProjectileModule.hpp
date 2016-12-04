@@ -25,7 +25,7 @@ public:
 	///Should this projectile be freed?
 	virtual bool shouldTerminate() const;
 	///Input commands to this object.
-	virtual void input(std::string rCommand, sf::Packet rData);
+	virtual void input(String rCommand, sf::Packet rData);
 
 protected:
 	bool m_freeThisProjectile;
@@ -40,7 +40,7 @@ protected:
 
 
 
-	std::vector<sptr<GraphicsComponent> > m_decors;
+	List<sptr<GraphicsComponent> > m_decors;
 	///how many collisions have we had so far.
 	int m_currentCollisions;
 	///how many collisions should we do.

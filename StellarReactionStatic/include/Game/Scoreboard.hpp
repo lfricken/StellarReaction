@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Timer.hpp"
-#include <map>
+#include "stdafx.hpp"
 
 struct ScoreboardData;
 struct PlayerScore;
@@ -25,14 +25,14 @@ public:
 	/// Determine which game mode we are in.
 	GameType getGameType();
 	/// Get the list of scores, and names of the players.
-	std::map<std::string, PlayerScore> getScoreMap();
+	Map<String, PlayerScore> getScoreMap();
 
 protected:
 	/*virtual void pack(sf::Packet& rPacket);
 	virtual void unpack(sf::Packet& rPacket);*/
 private:
 	GameType m_gameType;
-	std::map<std::string, PlayerScore> m_scoreMap;
+	Map<String, PlayerScore> m_scoreMap;
 };
 
 /// All the information the scoreboard needs to display accurately.
@@ -46,7 +46,7 @@ struct ScoreboardData
 	}
 
 	GameType gameType;
-	std::map<std::string, PlayerScore> scoreMap;
+	Map<String, PlayerScore> scoreMap;
 };
 
 /// Score information for an individual player.

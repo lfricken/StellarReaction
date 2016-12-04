@@ -11,11 +11,11 @@ Eventer::~Eventer()
 {
 
 }
-void Eventer::add(const Courier& rCourier)//gets sent a courier and puts it into its vector to be checked later
+void Eventer::add(const Courier& rCourier)//gets sent a courier and puts it into its List to be checked later
 {
 	m_courierMap[rCourier.condition.getEventType()].push_back(rCourier);
 }
-void Eventer::add(const std::vector<Courier>& rCourierList)
+void Eventer::add(const List<Courier>& rCourierList)
 {
 	for(auto it = rCourierList.cbegin(); it!=rCourierList.cend(); ++it)
 		add(*it);
@@ -28,7 +28,7 @@ void Eventer::event(EventType type, int value, const sf::Packet& rData)
 	{
 		for(int i = 0; i<(signed)typeIt->second.size(); ++i)//each courier of that type
 		{
-			vector<Courier>& rList = typeIt->second;
+			List<Courier>& rList = typeIt->second;
 
 			if(rList[i].condition.evaluate(value))
 			{

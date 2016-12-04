@@ -26,7 +26,7 @@ GrappleWeapon::~GrappleWeapon()
 {
 
 }
-void GrappleWeapon::postPhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation)
+void GrappleWeapon::postPhysUpdate(const Vec2& center, const Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation)
 {
 	LaserWeapon::postPhysUpdate(center, aim, radCCW, pBody, module_orientation);
 	if(!m_grappleTimer.isTimeUp())
@@ -36,14 +36,14 @@ void GrappleWeapon::grappleTo()
 {
 	if(m_target != NULL)
 	{
-		b2Vec2 targetPos = m_target->getBodyPtr()->GetPosition();
-		b2Vec2 ourPos = m_pBody->GetPosition();
-		b2Vec2 appliedForce = (targetPos - ourPos);
+		Vec2 targetPos = m_target->getBodyPtr()->GetPosition();
+		Vec2 ourPos = m_pBody->GetPosition();
+		Vec2 appliedForce = (targetPos - ourPos);
 
-		appliedForce.Normalize();
+		appliedForce = appliedForce.unit();
 		appliedForce *= m_pullStrength;
 		m_pBody->ApplyForceToCenter(appliedForce, true);
-		m_target->getBodyPtr()->ApplyForceToCenter(b2Vec2(-appliedForce.x, -appliedForce.y), true);
+		m_target->getBodyPtr()->ApplyForceToCenter(Vec2(-appliedForce.x, -appliedForce.y), true);
 	}
 }
 Vec2 GrappleWeapon::collisionHandle(const RayData& data)

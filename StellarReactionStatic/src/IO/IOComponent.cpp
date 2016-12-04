@@ -13,11 +13,11 @@ void IOComponent::event(EventType type, int value, const sf::Packet& rData)
 {
 	m_eventer.event(type, value, rData);
 }
-void IOComponent::recieve(const std::string& rCommand, const sf::Packet& rData)
+void IOComponent::recieve(const String& rCommand, const sf::Packet& rData)
 {
 	m_cbFunction(rCommand, rData);
 }
-const std::string& IOComponent::getName() const
+const String& IOComponent::getName() const
 {
 	return m_name;
 }
@@ -35,25 +35,27 @@ void IOComponentData::loadJson(const Json::Value& root)
 		{
 			Courier c;
 
-			string target = (*it)["message"]["target"].asString();
-			string command = (*it)["message"]["command"].asString();
+			String target = (*it)["message"]["target"].asString();
+			String command = (*it)["message"]["command"].asString();
 
 			sf::Packet packData;
 			const Json::Value dataList = (*it)["message"]["data"];
 			if(dataList.size() % 2 == 0)//if it's divisible by two
 				for(auto it = dataList.begin(); it != dataList.end(); ++it)
 				{
-					string type = it->asString();
+					String type = it->asString();
 
 					++it;
 					if(type == "bool")
 						packData << it->asBool();
-					if(type == "int")
+					else if(type == "int")
 						packData << it->asInt();
-					if(type == "float")
+					else if(type == "float")
 						packData << it->asFloat();
-					if(type == "string")
+					else if(type == "string")
 						packData << it->asString();
+					else
+						cout << "\nError: " << FILELINE;
 				}
 			else
 			{

@@ -13,13 +13,13 @@ public:
 	Missile(const MissileData& rData);
 	virtual ~Missile();
 	///Launches a missle with given direction, parent, target, position and acceleration.
-	void missileLaunch(b2Vec2 rStart, BodyComponent* target, float radCCW, float init_velocity, float acceleration, float max_velocity, int damage, const FixtureComponent* pParent, int collisions);
+	void missileLaunch(Vec2 rStart, BodyComponent* target, float radCCW, float init_velocity, float acceleration, float max_velocity, int damage, const FixtureComponent* pParent, int collisions);
 	///Actions to process on object before performing physics updates.
 	void prePhysUpdate();
 	///Actions to process on chunk after performing physics updates.
 	void postPhysUpdate();
 protected:
-	b2Vec2 getTargetPos();
+	Vec2 getTargetPos();
 	void minimizeAngle(float& angle);
 	void normalizeAngle(float& angle);
 	BodyComponent* m_pTarget;

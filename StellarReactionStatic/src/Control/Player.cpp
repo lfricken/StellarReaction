@@ -9,11 +9,8 @@
 #include "Minimap.hpp"
 #include "Chunk.hpp"
 #include "CommandInfo.hpp"
-#include "DecorationEngine.hpp"
+#include "Particles.hpp"
 #include "SoundManager.hpp"
-
-using namespace std;
-using namespace sf;
 
 Player::Player(const PlayerData& rData) : m_io(rData.ioComp, &Player::input, this), BasePlayerTraits(rData.name)
 {
@@ -27,13 +24,13 @@ Player::Player(const PlayerData& rData) : m_io(rData.ioComp, &Player::input, thi
 }
 Player::~Player()
 {
-	cout << "\nPlayer Destroying...";
+	Print << "\nPlayer Destroying...";
 }
 Camera& Player::getCamera()
 {
 	return m_camera;
 }
-b2Vec2 Player::getMouseInWorld()
+Vec2 Player::getMouseInWorld()
 {
 	return m_aim;
 }
@@ -98,83 +95,75 @@ void Player::getLiveInput()
 	{
 		/**== CAMERA ==**/
 		const float speed = 0.05f;
-		if(Keyboard::isKeyPressed(m_inCfg.cameraUp))
-			m_camera.move(b2Vec2(0, speed));
-		if(Keyboard::isKeyPressed(m_inCfg.cameraDown))
-			m_camera.move(b2Vec2(0, -speed));
-		if(Keyboard::isKeyPressed(m_inCfg.cameraLeft))
-			m_camera.move(b2Vec2(-speed, 0));
-		if(Keyboard::isKeyPressed(m_inCfg.cameraRight))
-			m_camera.move(b2Vec2(speed, 0));
+		if(sf::Keyboard::isKeyPressed(m_inCfg.cameraUp))
+			m_camera.move(Vec2(0, speed));
+		if(sf::Keyboard::isKeyPressed(m_inCfg.cameraDown))
+			m_camera.move(Vec2(0, -speed));
+		if(sf::Keyboard::isKeyPressed(m_inCfg.cameraLeft))
+			m_camera.move(Vec2(-speed, 0));
+		if(sf::Keyboard::isKeyPressed(m_inCfg.cameraRight))
+			m_camera.move(Vec2(speed, 0));
 
 
 		/**== KEYBOARD ==**/
-		if(Keyboard::isKeyPressed(m_inCfg.up))
+		if(sf::Keyboard::isKeyPressed(m_inCfg.up))
 			m_directives[Directive::Up] = true;
-		if(Keyboard::isKeyPressed(m_inCfg.down))
+		if(sf::Keyboard::isKeyPressed(m_inCfg.down))
 			m_directives[Directive::Down] = true;
-		if(Keyboard::isKeyPressed(m_inCfg.rollCCW))
+		if(sf::Keyboard::isKeyPressed(m_inCfg.rollCCW))
 			m_directives[Directive::RollCCW] = true;
-		if(Keyboard::isKeyPressed(m_inCfg.rollCW))
+		if(sf::Keyboard::isKeyPressed(m_inCfg.rollCW))
 			m_directives[Directive::RollCW] = true;
-		if(Keyboard::isKeyPressed(m_inCfg.boost))
+		if(sf::Keyboard::isKeyPressed(m_inCfg.boost))
 			m_directives[Directive::Boost] = true;
-		if(Keyboard::isKeyPressed(m_inCfg.stealth))
+		if(sf::Keyboard::isKeyPressed(m_inCfg.stealth))
 			m_directives[Directive::Stealth] = true;
-		if(Keyboard::isKeyPressed(m_inCfg.teleport))
+		if(sf::Keyboard::isKeyPressed(m_inCfg.teleport))
 			m_directives[Directive::Teleport] = true;
 
-		if(Keyboard::isKeyPressed(m_inCfg.shield))
+		if(sf::Keyboard::isKeyPressed(m_inCfg.shield))
 			m_directives[Directive::Shield] = true;
 
 		/**== SPECIAL ==**/
-		if(Keyboard::isKeyPressed(m_inCfg.store))
+		if(sf::Keyboard::isKeyPressed(m_inCfg.store))
 			m_directives[Directive::ShowStore] = true;
-		if(Keyboard::isKeyPressed(m_inCfg.respawn))
+		if(sf::Keyboard::isKeyPressed(m_inCfg.respawn))
 			m_directives[Directive::Respawn] = true;
 
 
 		/**== MOUSE ==**/
-		if(Mouse::isButtonPressed(m_inCfg.primary))
+		if(sf::Mouse::isButtonPressed(m_inCfg.primary))
 			m_directives[Directive::FirePrimary] = true;
-		if(Mouse::isButtonPressed(m_inCfg.secondary))
+		if(sf::Mouse::isButtonPressed(m_inCfg.secondary))
 			m_directives[Directive::FireSecondary] = true;
 
-		m_aim = leon::sfTob2(game.getWindow().mapPixelToCoords(Mouse::getPosition(game.getWindow()), m_camera.getView()));
+		m_aim = leon::sfTob2(game.getWindow().mapPixelToCoords(sf::Mouse::getPosition(game.getWindow()), m_camera.getView()));
 
 		/**== DEVELOPER ==**/
 		static Timer spawnTimer;
-		if(Keyboard::isKeyPressed(Keyboard::Numpad8))
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad8))
 		{
 			//cout << "\n(" << m_aim.x << ",\t" << m_aim.y << ")";
 
 			if(spawnTimer.isTimeUp())
 			{
-				DecorationEngine::Particles part;
-				part.quadData.texName = "default.png";
-				part.quadData.animSheetName = "default.acfg";
-				part.quadData.dimensions = (sf::Vector2f)Vec2(16, 16);
-				part.number = 50;
-				part.spawn = m_aim;
-				part.duration = 0.8f;
-				part.fadeTime = 0.4f;
-				part.velocity = Vec2(8, 8);
-				part.randVelScalarMax = 2;
-				part.randRadArc = Math::toRad(10.f);
-
 				spawnTimer.setCountDown(0.1f);
 				spawnTimer.restartCountDown();
-				//cout << "\nhi";
-				game.getUniverse().getDecors().spawnParticles(part);
 
-				sf::Vector3f d = sf::Listener::getDirection();
-				sf::Vector3f p = sf::Listener::getPosition();
-				cout << "\n" << d.x << ", " << d.y << ", " << d.z;
-				cout << "\n" << p.x << ", " << p.y << ", " << p.z;
-
-				game.getSound().playSound("HitSmall.wav", m_aim);
+				game.getUniverse().spawnParticles("LowSparks", m_aim, Vec2(0, 0));
+				game.getSound().playSound("default.wav", m_aim);
 			}
-
+			//Particles part;
+			//part.quadData.texName = "default.png";
+			//part.quadData.animSheetName = "default.acfg";
+			//part.quadData.dimensions = (sf::Vector2f)Vec2(16, 16);
+			//part.number = 50;
+			//part.spawn = m_aim;
+			//part.duration = 0.8f;
+			//part.fadeTime = 0.4f;
+			//part.velocity = Vec2(8, 8);
+			//part.randVelScalarMax = 2;
+			//part.randRadArc = Math::toRad(10.f);
 
 		}
 
@@ -182,7 +171,7 @@ void Player::getLiveInput()
 
 	}
 
-	m_mouseWindowPos = game.getWindow().mapPixelToCoords(Mouse::getPosition(game.getWindow()), game.getStaticView());
+	m_mouseWindowPos = game.getWindow().mapPixelToCoords(sf::Mouse::getPosition(game.getWindow()), game.getStaticView());
 
 	CommandInfo commands;
 	commands.directives = m_directives;
@@ -216,16 +205,16 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 		/** CLOSE **/
 		if(event.type == sf::Event::Closed)
 			rWindow.close();
-		if(event.type == Event::KeyPressed)
+		if(event.type == sf::Event::KeyPressed)
 		{
 			/**== MAIN MENU ==**/
-			if(event.key.code == Keyboard::Escape)
+			if(event.key.code == sf::Keyboard::Escape)
 			{
 				Message menu("overlay", "toggleMenu", voidPacket, 0, false);
 				game.getCoreIO().recieve(menu);
 			}
 			/**== SCOREBOARD ==**/
-			if(event.key.code == Keyboard::Tab)
+			if(event.key.code == sf::Keyboard::Tab)
 			{
 				Message scoreboard("overlay", "toggleScoreboard", voidPacket, 0, false);
 				game.getCoreIO().recieve(scoreboard);
@@ -266,7 +255,7 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 
 
 
-			if(event.type == Event::KeyPressed)
+			if(event.type == sf::Event::KeyPressed)
 			{
 				/**== Press Event ==**/
 				if(event.key.code == m_inCfg.cgroup_1)
@@ -280,11 +269,11 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 
 
 				/**== DEVELOPER OPTIONS ==**/
-				if(event.key.code == Keyboard::Numpad9)
+				if(event.key.code == sf::Keyboard::Numpad9)
 					game.getUniverse().toggleDebugDraw();
-				if(event.key.code == Keyboard::Numpad5)
+				if(event.key.code == sf::Keyboard::Numpad5)
 					m_tracking = !m_tracking;
-				if(event.key.code == Keyboard::Numpad0)
+				if(event.key.code == sf::Keyboard::Numpad0)
 					game.getUniverse().togglePause();
 			}
 		}
@@ -314,8 +303,8 @@ void Player::updateView()
 			m_energyDanger->getAnimator().setAnimation("Default", 2.f);
 
 		//Out of Bounds
-		b2Vec2 location = pBody->GetPosition();
-		b2Vec2 bounds = game.getUniverse().getBounds();
+		Vec2 location = pBody->GetPosition();
+		Vec2 bounds = game.getUniverse().getBounds();
 		if(abs(location.x) > bounds.x || abs(location.y) > bounds.y)//if out of bounds
 			m_boundsDanger->getAnimator().setAnimation("Default", 2.f);
 
@@ -323,13 +312,13 @@ void Player::updateView()
 		//Score and Money
 		int score = (int)rController.get(Request::Score);
 		static int oldScore = -1;
-		string scoreString = "Score: ";
-		string moneyString = "Money: " + to_string(getMoney());
+		String scoreString = "Score: ";
+		String moneyString = "Money: " + String(getMoney());
 
 		if(score != oldScore)
 		{
 			oldScore = score;
-			scoreString += to_string(oldScore);
+			scoreString += String(oldScore);
 
 			if(oldScore == 10)
 			{
@@ -338,19 +327,19 @@ void Player::updateView()
 				game.getUniverse().togglePause();
 			}
 
-			Packet scorePack;
+			sf::Packet scorePack;
 			scorePack << scoreString;
 			Message setScore("hud_score", "setText", scorePack, 0, false);
 			game.getCoreIO().recieve(setScore);
 		}
-		Packet moneyPack;
+		sf::Packet moneyPack;
 		moneyPack << moneyString;
 		Message setMoney("hud_money", "setText", moneyPack, 0, false);
 		game.getCoreIO().recieve(setMoney);
 
 
 		//Radar TODO THIS ALL SHOULD BE IN THE MINIMAP CLASS
-		std::vector<sptr<GameObject> > goList = game.getUniverse().getgoList();
+		List<sptr<GameObject> > goList = game.getUniverse().getgoList();
 		int index = 0;
 		float maxRange = 50.f;
 		float mapScale = -0.005f;
@@ -378,8 +367,8 @@ void Player::updateView()
 
 			if(object != NULL && !object->isStealth())
 			{
-				b2Vec2 dif = pBody->GetPosition() - object->getBodyPtr()->GetPosition();
-				float dist = dif.Length();
+				Vec2 dif = pBody->GetPosition() - object->getBodyPtr()->GetPosition();
+				float dist = dif.len();
 
 				if(dist < maxRange)// TODO fix magic number horror
 				{
@@ -397,7 +386,7 @@ IOComponent& Player::getIOComp()
 {
 	return m_io;
 }
-QuadComponentData createUI(sf::Vector2f size, std::string displayName, sf::Vector2f center = sf::Vector2f())
+QuadComponentData createUI(sf::Vector2f size, String displayName, sf::Vector2f center = sf::Vector2f())
 {
 	QuadComponentData data;
 	data.dimensions = size;
@@ -410,9 +399,9 @@ QuadComponentData createUI(sf::Vector2f size, std::string displayName, sf::Vecto
 
 	return data;
 }
-void Player::loadOverlay(const std::string& rOverlay)
+void Player::loadOverlay(const String& rOverlay)
 {
-	b2Vec2 emeterPos = b2Vec2(0.05f, -0.05f);
+	Vec2 emeterPos = Vec2(0.05f, -0.05f);
 	Vec2 winDim(leon::sfTob2((sf::Vector2f)game.getWindow().getSize()));
 
 	//Thing covering fill
@@ -443,12 +432,12 @@ void Player::loadOverlay(const std::string& rOverlay)
 	//Energy Warning
 	QuadComponentData datawarn = createUI(sf::Vector2f(86, 74), "overlay/warning_energy");
 	m_energyDanger.reset(new QuadComponent(datawarn));
-	m_energyDanger->setPosition(emeterPos + b2Vec2(0.05f, -0.4f));
+	m_energyDanger->setPosition(emeterPos + Vec2(0.05f, -0.4f));
 
 	//Out of Bounds Warning
 	QuadComponentData dataWarnBounds = createUI(sf::Vector2f(250, 73), "overlay/warning_bounds");
 	m_boundsDanger.reset(new QuadComponent(dataWarnBounds));
-	m_boundsDanger->setPosition(b2Vec2(1.35f, -0.3f));
+	m_boundsDanger->setPosition(Vec2(1.35f, -0.3f));
 
 
 
@@ -461,7 +450,7 @@ void Player::loadOverlay(const std::string& rOverlay)
 		// Generate a new sptr to grouping icon.
 		sptr<QuadComponent> groupIcon;
 		groupIcon.reset(new QuadComponent(groupData));
-		groupIcon->setPosition(b2Vec2(1 + 0.2*group, 0) + emeterPos);
+		groupIcon->setPosition(Vec2(1 + 0.2*group, 0) + emeterPos);
 
 		m_groupIcon.push_back(groupIcon);
 	}
@@ -508,7 +497,7 @@ bool Player::toggleControlGroup(int group)
 {
 	return toggleControlGroup(group, !m_weaponGroups[group]);
 }
-void Player::input(std::string rCommand, sf::Packet rData)
+void Player::input(String rCommand, sf::Packet rData)
 {
 	sf::Packet data(rData);
 	if(rCommand == "toggleGuiMode")

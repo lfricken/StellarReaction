@@ -26,7 +26,7 @@ protected:
 	void startContactCB(FixtureComponent* pOther) final;
 	void endContactCB(FixtureComponent* pOther) final;
 
-	std::vector<FixtureComponent*> m_guests;
+	List<FixtureComponent*> m_guests;
 private:
 	bool m_enabled;
 };

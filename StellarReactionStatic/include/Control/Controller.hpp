@@ -23,7 +23,7 @@ struct ControllerData
 
 	NetworkComponentData nwComp;
 	IOComponentData ioComp;
-	std::string slaveName;
+	String slaveName;
 };
 
 
@@ -38,20 +38,20 @@ public:
 	virtual ~Controller();
 
 	/// Set the players name. From some BasePlayerTraits object.
-	void setPlayerName(const std::string& rPlayerName);
+	void setPlayerName(const String& rPlayerName);
 	/// Designate a name for us to control.
-	void setSlave(const std::string& rSlaveName);
+	void setSlave(const String& rSlaveName);
 	/// Set where we are aiming.
-	void setAim(const b2Vec2& world);
+	void setAim(const Vec2& world);
 
 	/// Return players name.
-	const std::string& getPlayerName() const;
+	const String& getPlayerName() const;
 	/// Return name of ship we are controlling.
-	const std::string& getSlaveName() const;
+	const String& getSlaveName() const;
 	/// Return the actualy ship we are controlling.
 	Chunk* getSlave() const;
 	/// Find where this controller is aiming.
-	const b2Vec2& getAim() const;
+	const Vec2& getAim() const;
 	/// Get a value from our ship.
 	float get(Request value);
 	/// Get pointer to body of ship.
@@ -73,13 +73,13 @@ public:
 	bool isLocal() const;
 
 protected:
-	virtual void input(std::string rCommand, sf::Packet rData);
+	virtual void input(String rCommand, sf::Packet rData);
 	virtual void pack(sf::Packet& rPacket) final;
 	virtual void unpack(sf::Packet& rPacket) final;
 
 	int m_slavePosition;//position of our slave in the list
-	std::string m_slaveName;//name of the game thing we sends commands to
-	b2Vec2 m_aim;//where we are aiming in the world ATM
+	String m_slaveName;//name of the game thing we sends commands to
+	Vec2 m_aim;//where we are aiming in the world ATM
 	std::map<Directive, bool> m_directives;//up, down, rollCW, roll CCW, ect.
 	Map<int, bool> m_weaponGroups;//decides which weapon groups are on or off
 
@@ -88,6 +88,6 @@ protected:
 private:
 	bool m_local;//true if this is controlled by a local player and shouldn't be unpacked(NW) into
 	IOComponent m_io;
-	std::string m_playerName;//name of us in game, like BobbyLolcatz99, not used for anything but player reading
+	String m_playerName;//name of us in game, like BobbyLolcatz99, not used for anything but player reading
 };
 

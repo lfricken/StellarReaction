@@ -15,11 +15,11 @@ Button::~Button()
 {
 
 }
-bool Button::inputHook(const std::string rCommand, sf::Packet rData)
+bool Button::inputHook(const String rCommand, sf::Packet rData)
 {
 	if (rCommand == "setText")
 	{
-		std::string text;
+		String text;
 		rData >> text;
 		m_pButton->setText(text);
 		return true;

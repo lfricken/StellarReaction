@@ -175,8 +175,8 @@ void IOManager::unpack(sf::Packet& rPacket)//process data from our twin
 		for(int32_t i = 0; i < total; ++i)
 		{
 			int32_t pos;
-			std::string name;
-			std::string command;
+			String name;
+			String command;
 			int32_t size;
 			int8_t* pData;
 			sf::Packet messageData;

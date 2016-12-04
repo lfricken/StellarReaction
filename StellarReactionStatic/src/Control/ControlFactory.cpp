@@ -16,13 +16,13 @@ void ControlFactory::processAllDirectives()
 	for(auto it = m_spControlList.begin(); it != m_spControlList.end(); ++it)
 		(*it)->processDirectives();
 }
-void ControlFactory::addController(const std::string& slave)
+void ControlFactory::addController(const String& slave)
 {
 	ControllerData data;
 	data.slaveName = slave;
 	m_spControlList.push_back(sptr<Controller>(new Controller(data)));
 }
-void ControlFactory::resetControllers(const std::vector<std::string>& slaves)
+void ControlFactory::resetControllers(const List<String>& slaves)
 {
 	m_spControlList.clear();
 	for(auto it = slaves.begin(); it != slaves.end(); ++it)

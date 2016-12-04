@@ -6,13 +6,13 @@ Message::Message()
 	m_replaceTargetPos = false;
 	m_shouldSendOverNW = false;
 }
-Message::Message(const std::string& rTargetName, const std::string& rCommand, const sf::Packet& rData, float delay, bool replaceData)
+Message::Message(const String& rTargetName, const String& rCommand, const sf::Packet& rData, float delay, bool replaceData)
 {
 	reset(rTargetName, rCommand, rData, delay, replaceData);
 	m_replaceTargetPos = false;
 	m_shouldSendOverNW = false;
 }
-Message::Message(unsigned rTargetPosition, const std::string& rCommand, const sf::Packet& rData, float delay, bool replaceData)
+Message::Message(unsigned rTargetPosition, const String& rCommand, const sf::Packet& rData, float delay, bool replaceData)
 {
 	reset(rTargetPosition, rCommand, rData, delay, replaceData);
 	m_replaceTargetPos = false;
@@ -22,7 +22,7 @@ Message::~Message()
 {
 
 }
-void Message::reset(const std::string& rTargetName, const std::string& rCommand, const sf::Packet& rData, float delay, bool replaceData)
+void Message::reset(const String& rTargetName, const String& rCommand, const sf::Packet& rData, float delay, bool replaceData)
 {
 	m_targetPosition = -1;
 	m_targetName = rTargetName;
@@ -31,7 +31,7 @@ void Message::reset(const std::string& rTargetName, const std::string& rCommand,
 	m_delay = delay;
 	m_replaceData = replaceData;
 }
-void Message::reset(unsigned rTargetPosition, const std::string& rCommand, const sf::Packet& rData, float delay, bool replaceData)
+void Message::reset(unsigned rTargetPosition, const String& rCommand, const sf::Packet& rData, float delay, bool replaceData)
 {
 	m_targetPosition = rTargetPosition;
 	m_targetName = "";
@@ -63,11 +63,11 @@ unsigned Message::getTargetPosition() const
 {
 	return m_targetPosition;
 }
-const std::string& Message::getTargetName() const
+const String& Message::getTargetName() const
 {
 	return m_targetName;
 }
-const std::string& Message::getCommand() const
+const String& Message::getCommand() const
 {
 	return m_command;
 }
@@ -83,7 +83,7 @@ void Message::setData(const sf::Packet& rData)
 {
 	m_data = sf::Packet(rData);
 }
-void Message::setName(const std::string rName)
+void Message::setName(const String rName)
 {
 	m_targetName = rName;
 }

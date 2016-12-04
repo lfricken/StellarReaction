@@ -42,7 +42,7 @@ void Module::directive(const CommandInfo& commands)
 {
 
 }
-void Module::setAim(const b2Vec2& rTarget)
+void Module::setAim(const Vec2& rTarget)
 {
 
 }
@@ -62,19 +62,19 @@ void Module::unpack(sf::Packet& rPacket)
 {
 
 }
-const std::string& Module::getStore() const
+const String& Module::getStore() const
 {
 	return m_fix.getStore();
 }
-const b2Vec2& Module::getOffset() const
+const Vec2& Module::getOffset() const
 {
 	return m_fix.getOffset();
 }
-const std::string& Module::getTitle() const
+const String& Module::getTitle() const
 {
 	return m_title;
 }
-const std::string& Module::getName() const
+const String& Module::getName() const
 {
 	return m_name;
 }
@@ -90,15 +90,15 @@ void Module::toggleStealth(bool toggle)
 void Module::healToMax(){
 
 }
-void Module::input(std::string rCommand, sf::Packet rData)
+void Module::input(String rCommand, sf::Packet rData)
 {
 	if(rCommand == "setStore")
 	{
-		std::string name;
+		String name;
 		rData >> name;
 		m_fix.setStore(name);
 	}
-	if(rCommand == "damage")//dont spam console!
+	else if(rCommand == "damage")//dont spam console!
 	{
 
 	}

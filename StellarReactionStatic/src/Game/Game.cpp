@@ -25,10 +25,7 @@
 #include "Directory.hpp"
 #include "DecorationEngine.hpp"
 
-using namespace std;
-using namespace sf;
 using namespace leon;
-
 
 Game::Game()
 {
@@ -74,10 +71,10 @@ Game::Game()
 }
 Game::~Game()
 {
-	cout << "\nGame Destroying...";
-	cout << "\nExpect to see (0x8000FFFF) upon exit due to SFML audio.";
+	Print << "\nGame Destroying...";
+	Print << "\nExpect to see (0x8000FFFF) upon exit due to SFML audio.";
 }
-void Game::loadPlayer(const std::string& rFileName)
+void Game::loadPlayer(const String& rFileName)
 {
 	PlayerData data;
 
@@ -187,7 +184,7 @@ void Game::runTicks(int ticks)
 	if(game.getUniverse().isPaused())
 		game.getUniverse().togglePause();
 
-	RenderWindow& rWindow = *m_spWindow;
+	sf::RenderWindow& rWindow = *m_spWindow;
 	float frameTime = 0;
 	float lastTime = m_clock.getElapsedTime().asSeconds() - m_estimatedFrameTime;
 
@@ -206,7 +203,7 @@ void Game::runTime(float time)
 	if(game.getUniverse().isPaused())
 		game.getUniverse().togglePause();
 
-	RenderWindow& rWindow = *m_spWindow;
+	sf::RenderWindow& rWindow = *m_spWindow;
 	float frameTime = 0;
 	float lastTime = m_clock.getElapsedTime().asSeconds() - m_estimatedFrameTime;
 
@@ -226,7 +223,7 @@ void Game::runTime(float time)
 /// </summary>
 void Game::run()
 {
-	RenderWindow& rWindow = *m_spWindow;
+	sf::RenderWindow& rWindow = *m_spWindow;
 	float frameTime = 0;
 	float lastTime = m_clock.getElapsedTime().asSeconds();
 
@@ -240,7 +237,7 @@ void Game::run()
 }
 void Game::tick(float frameTime)
 {
-	RenderWindow& rWindow = *m_spWindow;
+	sf::RenderWindow& rWindow = *m_spWindow;
 
 	static float physTickTimeRemaining = 0;
 	static const float timeStep = getUniverse().getTimeStep();
@@ -325,7 +322,7 @@ void Game::exit()
 /// <summary>
 /// Destroys old universe and makes new one!
 /// </summary>
-void Game::loadUniverse(const std::string& stuff)
+void Game::loadUniverse(const String& stuff)
 {
 	IOComponentData universeData(&getCoreIO());
 	universeData.name = "universe";
@@ -345,7 +342,7 @@ sf::View& Game::getStaticView()
 /// <summary>
 /// Initializes the window from a json file with the needed data.
 /// </summary>
-void Game::loadWindow(const std::string& windowFile)
+void Game::loadWindow(const String& windowFile)
 {
 	sf::ContextSettings settings;
 	struct WindowInitData
@@ -363,7 +360,7 @@ void Game::loadWindow(const std::string& windowFile)
 			vSinc = false;
 			targetFPS = 10;
 		}
-		std::string windowName;//name of window to display
+		String windowName;//name of window to display
 		bool windowed;//windowed vs fullscreen
 
 		sf::VideoMode mode;
@@ -443,7 +440,7 @@ void Game::resizeStaticView()
 /// </summary>
 /// <param name="rCommand">The r command.</param>
 /// <param name="rData">The r data.</param>
-void Game::input(std::string rCommand, sf::Packet rData)
+void Game::input(String rCommand, sf::Packet rData)
 {
 	if(rCommand == "exit")
 	{
@@ -455,16 +452,16 @@ void Game::input(std::string rCommand, sf::Packet rData)
 	}
 	else if(rCommand == "printToConsole")
 	{
-		string str;
+		String str;
 		rData >> str;
-		cout << "\n" << str;
+		Print << "\n" << str;
 	}
 	else
 	{
-		cout << "Game: [" << rCommand << "] not found.";
+		Print << "Game: [" << rCommand << "] not found.";
 	}
 }
-void Game::restartTest(const std::string& level)
+void Game::restartTest(const String& level)
 {
 	PlayerData player;
 	GameLaunchData data;

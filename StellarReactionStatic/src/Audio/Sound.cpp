@@ -4,7 +4,7 @@
 
 using namespace leon;
 
-Sound::Sound(const std::string& rSoundName, const Vec2& pos, int volume, float minDist, float dropOff, bool relative, bool looping, bool acquiresLock)
+Sound::Sound(const String& rSoundName, const Vec2& pos, int volume, float minDist, float dropOff, bool relative, bool looping, bool acquiresLock)
 {
 	this->name = rSoundName;
 	this->pos = pos;

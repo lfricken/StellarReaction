@@ -94,6 +94,7 @@
     <ClCompile Include="src\Graphics\QuadComponents\Minimap.cpp" />
     <ClCompile Include="src\Graphics\QuadComponents\LinearMeter.cpp" />
     <ClCompile Include="src\Graphics\QuadComponents\Beam.cpp" />
+    <ClCompile Include="src\Graphics\Particles.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Game\Directory.hpp" />
@@ -405,6 +406,7 @@
     <ClInclude Include="include\API\Math\OOCore.hpp" />
     <ClInclude Include="include\API\Math\Random.hpp" />
     <ClInclude Include="include\API\Math\Vec2.hpp" />
+    <ClInclude Include="include\Graphics\Particles.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\API\SFML\Audio\SoundFileFactory.inl" />

@@ -16,13 +16,13 @@ public:
 	void smoothTextures(bool smooth);
 	/// Get a texture pointer.
 	/// Will load the texture if necessary.
-	sf::Texture* request(const std::string& rFilePath);
+	sf::Texture* request(const String& rFilePath);
 protected:
 private:
 	/// Name of default texture to return
 	/// if the requested one cannot be found.
-	std::string defaultTex;
+	String defaultTex;
 	bool m_smoothTextures;
 	/// Map of texture name to the texture.
-	std::map<std::string, sptr<sf::Texture> > m_textures;
+	std::map<String, sptr<sf::Texture> > m_textures;
 };

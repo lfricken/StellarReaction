@@ -9,7 +9,7 @@ namespace leon
 	class Sound
 	{
 	public:
-		Sound(const std::string& rSoundName = "", const Vec2& pos = Vec2(0,0), int volume = 50, float minDist = 15, float dropOff = 1, bool relative = true, bool looping = false, bool acquiresLock = false);
+		Sound(const String& rSoundName = "", const Vec2& pos = Vec2(0,0), int volume = 50, float minDist = 15, float dropOff = 1, bool relative = true, bool looping = false, bool acquiresLock = false);
 		virtual ~Sound();
 
 		///Play this sound and allow an old sound to keep playing.

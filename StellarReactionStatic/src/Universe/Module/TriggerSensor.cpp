@@ -28,11 +28,11 @@ void TriggerSensor::prePhysUpdate()
 		for(auto it = m_guests.cbegin(); it != m_guests.cend(); ++it)
 		{
 			b2Body* bod = (*it)->getBodyPtr();
-			b2Vec2 myPos = m_fix.getCenter();
-			b2Vec2 targetPos = bod->GetPosition();
-			b2Vec2 direction = myPos - targetPos;
+			Vec2 myPos = m_fix.getCenter();
+			Vec2 targetPos = bod->GetPosition();
+			Vec2 direction = myPos - targetPos;
 
-			float fractionToCenter = 1 - (direction.Length() / m_radius);
+			float fractionToCenter = 1 - (direction.len() / m_radius);
 
 			int damage = (int)(fractionToCenter * m_maxDamage);
 			if(damage < m_minDamage)

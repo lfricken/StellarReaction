@@ -37,7 +37,7 @@ public:
 	NetworkComponent m_nw;
 
 protected:
-	virtual void input(std::string rCommand, sf::Packet rData);
+	virtual void input(String rCommand, sf::Packet rData);
 	virtual void pack(sf::Packet& rPacket) final;
 	virtual void unpack(sf::Packet& rPacket) final;
 

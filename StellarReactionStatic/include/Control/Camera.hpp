@@ -12,9 +12,9 @@ public:
 	virtual ~Camera();
 
 	///Set the camera center to a world coordinate.
-	void setPosition(const b2Vec2& rPos);
+	void setPosition(const Vec2& rPos);
 	///Move the camera center by a certain amount.
-	void move(const b2Vec2& change);
+	void move(const Vec2& change);
 	///Set the zoom level. Higher zoom makes the camera further away, so it can see more.
 	void setZoom(float level);
 	///Set the rotation of the camera in radians counter clockwise.
@@ -25,7 +25,7 @@ public:
 	void resize();
 
 	///Return the current camera center.
-	b2Vec2 getPosition() const;
+	Vec2 getPosition() const;
 	///Return the zoom value.
 	float getZoom() const;
 	///Return the rotation value.

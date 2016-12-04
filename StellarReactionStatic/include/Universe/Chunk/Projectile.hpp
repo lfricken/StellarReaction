@@ -17,7 +17,7 @@ public:
 	Projectile(const ProjectileData& rData);
 	virtual ~Projectile();
 	///Launches projectile with given coordinates, direction, damage and lifetime.
-	void launch(const b2Vec2& rStart, const b2Vec2& rVel, float radCCW, float radCCWps, float lifetime, int damage, const FixtureComponent* pParent, int collisions);
+	void launch(const Vec2& rStart, const Vec2& rVel, float radCCW, float radCCWps, float lifetime, int damage, const FixtureComponent* pParent, int collisions);
 	///Return this projectile back into projectile pool of parent.
 	void reset();
 	///Actions to process on object before performing physics updates.
@@ -25,12 +25,12 @@ public:
 	///Actions to process on object after performing physics updates.
 	virtual void postPhysUpdate();
 	///Return the title of this object.
-	const std::string& getTitle() const;
+	const String& getTitle() const;
 
 protected:
 	BodyComponent m_body;
-	std::vector<sptr<ProjectileModule> > m_modules;
-	std::string m_title;
+	List<sptr<ProjectileModule> > m_modules;
+	String m_title;
 	Timer m_timer;
 	bool m_inPlay;
 private:
@@ -49,7 +49,7 @@ struct ProjectileData : public BlueprintData
 	{
 		title = "PROJECTILE_DEFAULT_TITLE";
 		body.angularDampening = 0;
-		body.coords = b2Vec2(0, 5);
+		body.coords = Vec2(0, 5);
 		body.isBullet = true;
 		body.isDynamic = true;
 		body.linearDampening = 0;
@@ -63,7 +63,7 @@ struct ProjectileData : public BlueprintData
 	PoolData<Zoom> zoomData;
 
 	BodyComponentData body;
-	std::vector<sptr<const ModuleData> > moduleData;
+	List<sptr<const ModuleData> > moduleData;
 	float lifetime;//time in seconds that the projectile poof out of existence if not already colided
 
 	///Create Projectile object from this data object.

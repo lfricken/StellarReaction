@@ -50,15 +50,15 @@ void Chatbox::f_initialize(const ChatboxData& rData)
 
 	m_spEditBox.reset(new leon::EditBox(*m_pChatBox->getParent(), ebd));
 }
-void Chatbox::addLine(const std::string& rText)
+void Chatbox::addLine(const String& rText)
 {
 	m_pChatBox->addLine(rText);
 }
-bool Chatbox::inputHook(const std::string rCommand, sf::Packet rData)
+bool Chatbox::inputHook(const String rCommand, sf::Packet rData)
 {
 	if(rCommand == "chat")
 	{
-		string text;
+		String text;
 		rData >> text;
 		text = game.getLocalPlayer().getName() + ": " + text;
 
@@ -71,7 +71,7 @@ bool Chatbox::inputHook(const std::string rCommand, sf::Packet rData)
 	}
 	else if(rCommand == "addLine")
 	{
-		string text;
+		String text;
 		rData >> text;
 
 		m_latest = text;
@@ -83,7 +83,7 @@ bool Chatbox::inputHook(const std::string rCommand, sf::Packet rData)
 	}
 	else if(rCommand == "addLineLocal")
 	{
-		std::string line;
+		String line;
 		rData >> line;
 		addLine(line);
 		return true;
@@ -103,7 +103,7 @@ void Chatbox::pack(sf::Packet& rPacket)//give us data to send to the twin in the
 void Chatbox::unpack(sf::Packet& rPacket)//process data from our twin
 {
 	cout << "\nChatbox unpack.";
-	std::string line;
+	String line;
 	rPacket >> line;
 	addLine(line);
 	if(game.getNwBoss().getNWState() == NWState::Server)
