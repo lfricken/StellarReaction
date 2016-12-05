@@ -113,16 +113,14 @@ void DecorationEngine::initSpawns(const Vec2& cameraPos, const Vec2& maxHalf)
 		}
 	}
 }
-void DecorationEngine::spawnParticles(const String& particleBP, const Vec2& pos, Vec2 dir)
+void DecorationEngine::spawnParticles(const String& particleBP, const Vec2& pos, const Vec2& dir, const Vec2& transverse)
 {
-	if(dir.len() == 0)
-		dir = Vec2(1, 1);
-	dir = dir.unit();
-
+	auto direction = dir;
+	if(direction.len() == 0)
+		direction = Vec2(1, 1);
+	direction = direction.unit();
 
 	const Particles& effect = *game.getUniverse().getBlueprints().getParticleSPtr(particleBP);
-	Decoration* pDecor = NULL;
-	QuadComponent* pQuad = NULL;
 
 	DecorationData decorData;
 	Pair<float, float> expiration;
@@ -134,22 +132,36 @@ void DecorationEngine::spawnParticles(const String& particleBP, const Vec2& pos,
 
 	float time = game.getUniverse().getTime();
 
+	assert(!isinf(direction.x) && !isinf(direction.y));
+
 	for(int i = 0; i < effect.number; ++i)
-	{
-		dir = dir.rotate(Rand::get(-effect.randRadArc, effect.randRadArc));
-		float vel = Rand::get(1.f, effect.randVelScalarMax) * effect.velocity;
-		dir *= vel;
+		spawnParticle(decorData, effect, direction, transverse, time, i);
 
-		decorData.maxVelocity = dir;
-		decorData.minVelocity = dir;
+}
+void DecorationEngine::spawnParticle(DecorationData decorData, const Particles& effectConst, const Vec2& dir, const Vec2& transverse, float time, int i)
+{
+	Pair<float, float> expiration;
+	Particles effect = effectConst;
 
-		decorData.maxSpinRate = Math::toDeg(effect.maxSpinRate);
-		decorData.minSpinRate = Math::toDeg(effect.minSpinRate);
+	Vec2 randDir = dir;
+	auto rot = Rand::get(-effect.randArc, effect.randArc);
+	randDir = dir.rotate(Math::toRad(rot));
 
-		pQuad = new QuadComponent(effect.quadData);
-		pDecor = new Decoration(decorData, pQuad);
-		expiration.first = time + effect.duration + 0.001*i;
-		expiration.second = expiration.first + effect.fadeTime;
-		m_fullParticles[expiration] = sptr<Decoration>(pDecor);
-	}
+	float vel = Rand::get(1.f, effect.randVelScalarMax) * effect.velocity;
+	randDir *= vel;
+
+	decorData.maxSpinRate = (effect.maxSpinRate);
+	decorData.minSpinRate = (effect.minSpinRate);
+
+	effect.quadData.permanentRot = Math::toDeg(randDir.toAngle());
+
+	randDir += transverse;
+	decorData.maxVelocity = randDir;
+	decorData.minVelocity = randDir;
+
+	auto pQuad = new QuadComponent(effect.quadData);
+	auto pDecor = new Decoration(decorData, pQuad);
+	expiration.first = time + effect.duration + 0.001*i;
+	expiration.second = expiration.first + effect.fadeTime;
+	m_fullParticles[expiration] = sptr<Decoration>(pDecor);
 }

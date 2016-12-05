@@ -14,6 +14,13 @@ enum class Team;
 struct WeaponData;
 class FixtureComponent;
 
+struct HitEffect
+{
+	String effect;
+	Vec2 pos;
+	Vec2 normal;
+};
+
 /// Basic object that provides easier interface for making complex types of weapons.
 class Weapon : NonCopyable
 {

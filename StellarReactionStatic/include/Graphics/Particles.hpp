@@ -15,7 +15,7 @@ public:
 		number = 1;
 
 		velocity = 2;
-		randRadArc = Math::toRad(45.f);
+		randArc = 45.f;
 
 		randVelScalarMax = 1.1f;
 		initialOrientation = 0.f;
@@ -31,7 +31,8 @@ public:
 	float fadeTime;
 	int number;
 
-	float randRadArc;
+	///Arc of trajectory in Deg
+	float randArc;
 	///Initial velocity 
 	float velocity;
 
@@ -40,9 +41,9 @@ public:
 	///Initial Orientation in rad CCW
 	float initialOrientation;
 
-	///Min radians CCW ps 
+	///Min deg CCW ps 
 	float minSpinRate;
-	///Max radians CCW ps 
+	///Max deg CCW ps 
 	float maxSpinRate;
 
 	QuadComponentData quadData;

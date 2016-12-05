@@ -6,6 +6,8 @@
 
 class Camera;
 class Decoration;
+struct DecorationData;
+struct Particles;
 
 /// Manages Decorations, probably this code should just be in Universe.
 class DecorationEngine
@@ -23,9 +25,9 @@ public:
 	/// So we call this after the player is created.
 	void initSpawns(const Vec2& cameraPos, const Vec2& maxHalf);
 	/// Creates particle effects.
-	void spawnParticles(const String& particleBP, const Vec2& pos, Vec2 dir);
+	void spawnParticles(const String& particleBP, const Vec2& pos, const Vec2& dir, const Vec2& transverse);
 private:
-
+	void spawnParticle(DecorationData decorData, const Particles& effect, const Vec2& dir, const Vec2& transverse, float time, int i);
 
 	/// List of all decorations.
 	List<sptr<Decoration> > m_decorations;

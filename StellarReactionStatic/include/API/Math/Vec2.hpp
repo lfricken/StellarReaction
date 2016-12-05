@@ -69,7 +69,10 @@ namespace Math
 		/// Compute dot product of two vectors.
 		/// </summary>
 		float dot(const Vec2& other) const;
-
+		/// <summary>
+		/// This vector to an angle.
+		/// </summary>
+		float toAngle() const;
 
 		/// <summary>
 		/// Print this vector.

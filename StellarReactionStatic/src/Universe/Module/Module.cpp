@@ -48,6 +48,10 @@ void Module::setAim(const Vec2& rTarget)
 }
 void Module::startContactCB(FixtureComponent* pOther)
 {
+	//HitEffect e;
+	//e.effect = "";
+	//e.normal = pOther->getCenter().to(this->m_fix.getCenter());
+	//e.pos
 	Weapon::damage(&game.getUniverse().getUniverseIO(), pOther->getIOPos(), m_collisionDamage, m_io.getPosition(), m_parentChunk->getBodyComponent().getTeam());
 }
 void Module::endContactCB(FixtureComponent* pOther)

@@ -101,7 +101,9 @@ struct DecorationData
 	}
 	IOComponentData ioComp;
 
+	///Degrees CCW
 	float minSpinRate;
+	///Degrees CCW
 	float maxSpinRate;
 	Vec2 minVelocity;
 	Vec2 maxVelocity;

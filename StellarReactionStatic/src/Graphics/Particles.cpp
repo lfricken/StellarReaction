@@ -6,7 +6,7 @@ void Particles::loadJson(const Json::Value& root)
 	GETJSON(duration);
 	GETJSON(fadeTime);
 	GETJSON(number);
-	GETJSON(randRadArc);
+	GETJSON(randArc);
 	GETJSON(velocity);
 	GETJSON(randVelScalarMax);
 	GETJSON(initialOrientation);

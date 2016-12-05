@@ -86,7 +86,7 @@ void ShipModule::input(String rCommand, sf::Packet rData)
 {
 	const float damagedPercent = 0.25;// TODO should be some global constant
 
-	if(rCommand == "damage")
+	if(rCommand == "damage")//TODO huge if statement needs refactor
 	{
 		int val;
 		int cause;
@@ -103,6 +103,7 @@ void ShipModule::input(String rCommand, sf::Packet rData)
 		if(damagePositive && differentTeams && validTeams)
 		{
 			m_health.damage(val);
+			game.getUniverse().spawnParticles("LowSparks", m_fix.getCenter(), Vec2(-1, 0), Vec2(0, 0));
 			m_io.event(EventType::Health, m_health.getHealth(), voidPacket);
 
 			m_decors[m_hitDecorIndex]->getAnimator().setAnimation("Hit", 0.20f);

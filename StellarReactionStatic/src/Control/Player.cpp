@@ -143,32 +143,17 @@ void Player::getLiveInput()
 		static Timer spawnTimer;
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad8))
 		{
-			//cout << "\n(" << m_aim.x << ",\t" << m_aim.y << ")";
-
 			if(spawnTimer.isTimeUp())
 			{
 				spawnTimer.setCountDown(0.1f);
 				spawnTimer.restartCountDown();
 
-				game.getUniverse().spawnParticles("LowSparks", m_aim, Vec2(0, 0));
+				game.getUniverse().spawnParticles("LowSparks", m_aim, Vec2(0, 0), Vec2(0, 0));
 				game.getSound().playSound("default.wav", m_aim);
 			}
-			//Particles part;
-			//part.quadData.texName = "default.png";
-			//part.quadData.animSheetName = "default.acfg";
-			//part.quadData.dimensions = (sf::Vector2f)Vec2(16, 16);
-			//part.number = 50;
-			//part.spawn = m_aim;
-			//part.duration = 0.8f;
-			//part.fadeTime = 0.4f;
-			//part.velocity = Vec2(8, 8);
-			//part.randVelScalarMax = 2;
-			//part.randRadArc = Math::toRad(10.f);
-
 		}
 
 		Controller& rController = game.getUniverse().getControllerFactory().getController(m_controller);
-
 	}
 
 	m_mouseWindowPos = game.getWindow().mapPixelToCoords(sf::Mouse::getPosition(game.getWindow()), game.getStaticView());
@@ -351,7 +336,7 @@ void Player::updateView()
 			GameObject* p = it->get();
 			Chunk* object = dynamic_cast<Chunk*>(p);
 			Team other_team = object->getBodyComponent().getTeam();
-			
+
 			sf::Color dotColor(sf::Color::Blue);
 
 			if(other_team == Team::Neutral)

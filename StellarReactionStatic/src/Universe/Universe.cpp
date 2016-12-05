@@ -619,7 +619,7 @@ Vec2 Universe::getAvailableSpawn(Team team, float radius, const Chunk* exception
 	}
 	return Vec2(0,0);
 }
-void Universe::spawnParticles(const String& particleBP, const Vec2& pos, const Vec2& dir)
+void Universe::spawnParticles(const String& particleBP, const Vec2& pos, const Vec2& dir, const Vec2& transverse)
 {
-	m_spDecorEngine->spawnParticles(particleBP, pos, dir);
+	m_spDecorEngine->spawnParticles(particleBP, pos, dir, transverse);
 }

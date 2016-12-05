@@ -1,10 +1,20 @@
 #include "UniversalContactListener.hpp"
 #include "FixtureComponent.hpp"
 
-using namespace std;
-
 void UniversalContactListener::BeginContact(b2Contact* contact)
 {
+	//b2WorldManifold man;
+	//contact->GetWorldManifold(&man);
+
+	//Vec2 p1(man.points[0]);
+	//Vec2 p2(man.points[1]);
+
+	//Print << man.points[0].x << "\n";
+	//Print << man.points[1].x << "\n";
+	//Print << Vec2(man.normal) << "\n";
+	//Print << man.separations[0] << "\n";
+	//Print << man.separations[1] << "\n";
+
 	FixtureComponent* fixA = static_cast<FixtureComponent*>(contact->GetFixtureA()->GetUserData());
 	FixtureComponent* fixB = static_cast<FixtureComponent*>(contact->GetFixtureB()->GetUserData());
 
@@ -15,6 +25,15 @@ void UniversalContactListener::EndContact(b2Contact* contact)
 {
 	FixtureComponent* fixA = static_cast<FixtureComponent*>(contact->GetFixtureA()->GetUserData());
 	FixtureComponent* fixB = static_cast<FixtureComponent*>(contact->GetFixtureB()->GetUserData());
+
+	//b2WorldManifold man;
+	//contact->GetWorldManifold(&man);
+
+	//Vec2 p1(man.points[0]);
+	//Vec2 p2(man.points[1]);
+
+	//Print << man.points[0].x << "\n";
+
 
 	fixA->endContact(fixB);
 	fixB->endContact(fixA);
