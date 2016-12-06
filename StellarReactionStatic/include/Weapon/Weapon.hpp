@@ -43,8 +43,8 @@ public:
 	/// Overwrite this when making a new weapon.
 	/// Look at laser and projectile weapon.
 	virtual void postShot(const Vec2& center, const Vec2& aim, float radCCW, float module_orientation) = 0;
-	///Does damage to target.
-	static void damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmount, int ioCausePos, Team team);
+	///Does damage to target. Leave last param blank for no visual effects.
+	static void damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmount, int ioCausePos, Team team, const Vec2& point = Vec2(0,0));
 	///Gets the decoration object corresponding to this weapon.
 	QuadComponent* getDecor();
 	///Tell this weapon which team it is working for.
@@ -62,8 +62,8 @@ protected:
 	float m_range;
 	int m_collisions;//how many collisions should we do? MODULE PENETRATION LOGIC
 	//TODO m_collisions is not used in the laser weapon type
-	/// Damages the specified fixture (which has a module). Meant to be called by a weapon only.
-	void damage(b2Fixture* pFix, int damage);
+	/// Damages the specified fixture (which has a module). Meant to be called by a weapon only. Leave last param blank for no visual effects.
+	void damage(b2Fixture* pFix, int damage, const Vec2& point = Vec2(0,0));
 private:
 	Vec2 randArc(const Vec2& center, const Vec2& aim) const;
 	QuadComponent m_decor;//the weapon sprite

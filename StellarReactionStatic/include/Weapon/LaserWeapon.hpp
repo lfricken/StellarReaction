@@ -18,7 +18,6 @@ public:
 	///Actions to be processed after a shot is taken.
 	void postShot(const Vec2& center, const Vec2& aim, float radCCW, float module_orientation);
 protected:
-	virtual Vec2 collisionHandle(const RayData& data);
 
 	RayCastCallback m_ray;
 	int m_beamWidth;

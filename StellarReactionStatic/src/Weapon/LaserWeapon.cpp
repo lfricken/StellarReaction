@@ -68,7 +68,8 @@ void LaserWeapon::postShot(const Vec2& center, const Vec2& aim, float radCCW, fl
 		int i = 0;
 		for(auto it = collisions.cbegin(); i < m_collisions && it != collisions.cend(); ++it, ++i)
 		{
-			end = collisionHandle(it->second);
+			damage(it->second.pFixture, m_damage, it->second.point);
+			end = it->second.point;
 		}
 	}
 
@@ -77,9 +78,4 @@ void LaserWeapon::postShot(const Vec2& center, const Vec2& aim, float radCCW, fl
 	m_beam.activate(m_showTime, m_beamWidth, m_beamColor);
 
 	m_ray.reset();
-}
-Vec2 LaserWeapon::collisionHandle(const RayData& data)
-{
-	damage(data.pFixture, m_damage);
-	return data.point;
 }

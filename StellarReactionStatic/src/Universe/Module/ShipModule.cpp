@@ -92,7 +92,8 @@ void ShipModule::input(String rCommand, sf::Packet rData)
 		int cause;
 		Team damagingTeam;
 		int teamTemp;
-		rData >> val >> cause >> teamTemp;
+		Vec2 hitPoint;
+		rData >> val >> cause >> teamTemp >> hitPoint.x >> hitPoint.y;
 		damagingTeam = static_cast<Team>(teamTemp);
 		Team myTeam = m_parentChunk->getBodyComponent().getTeam();
 
@@ -103,7 +104,12 @@ void ShipModule::input(String rCommand, sf::Packet rData)
 		if(damagePositive && differentTeams && validTeams)
 		{
 			m_health.damage(val);
-			game.getUniverse().spawnParticles("LowSparks", m_fix.getCenter(), Vec2(-1, 0), Vec2(0, 0));
+			if(hitPoint.x != 0 || hitPoint.y != 0)
+			{
+				game.getUniverse().spawnParticles("LowSparks", hitPoint, m_fix.getCenter().to(hitPoint), m_fix.getBodyPtr()->GetLinearVelocity());
+			}
+
+
 			m_io.event(EventType::Health, m_health.getHealth(), voidPacket);
 
 			m_decors[m_hitDecorIndex]->getAnimator().setAnimation("Hit", 0.20f);

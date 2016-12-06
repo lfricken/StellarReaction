@@ -115,20 +115,20 @@ void Weapon::postPhysUpdate(const Vec2& center, const Vec2& aim, float32 radCCW,
 	if(m_shotsRemain == 0)
 		m_endSound.play(center);
 }
-void Weapon::damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmount, int ioCausePos, Team team)
+void Weapon::damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmount, int ioCausePos, Team team, const Vec2& point)
 {
 	sf::Packet packet;
-	packet << damageAmount << ioCausePos << static_cast<int>(team);
+	packet << damageAmount << ioCausePos << static_cast<int>(team) << point.x << point.y;
 
 	Message mess;
 	mess.reset(ioTargetPos, "damage", packet, 0.f, false);
 
 	pMessageReciever->recieve(mess);
 }
-void Weapon::damage(b2Fixture* pFix, int damage)
+void Weapon::damage(b2Fixture* pFix, int damage, const Vec2& point)
 {
 	FixtureComponent& rComp = *static_cast<FixtureComponent*>(pFix->GetUserData());
-	Weapon::damage(&game.getUniverse().getUniverseIO(), rComp.getIOPos(), (m_damage / m_shots), m_pTempParent->getIOPos(), m_team);
+	Weapon::damage(&game.getUniverse().getUniverseIO(), rComp.getIOPos(), (m_damage / m_shots), m_pTempParent->getIOPos(), m_team, point);
 }
 QuadComponent* Weapon::getDecor()
 {
