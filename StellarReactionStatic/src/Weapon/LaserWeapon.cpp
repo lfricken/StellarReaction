@@ -68,6 +68,8 @@ void LaserWeapon::postShot(const Vec2& center, const Vec2& aim, float radCCW, fl
 		int i = 0;
 		for(auto it = collisions.cbegin(); i < m_collisions && it != collisions.cend(); ++it, ++i)
 		{
+			Vec2 untrue
+
 			damage(it->second.pFixture, m_damage, it->second.point);
 			end = it->second.point;
 		}
