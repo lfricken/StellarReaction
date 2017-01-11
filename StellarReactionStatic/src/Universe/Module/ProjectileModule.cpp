@@ -46,7 +46,7 @@ void ProjectileModule::setPayload(int damage, const FixtureComponent* pParent, i
 }
 void ProjectileModule::postPhysUpdate()
 {
-	for(int i = 0; i<(signed)m_decors.size(); ++i)
+	for(int i = 0; i < (signed)m_decors.size(); ++i)
 	{
 		m_decors[i]->setPosition(m_fix.getCenter());
 		m_decors[i]->setRotation(m_fix.getAngle());
@@ -59,7 +59,8 @@ void ProjectileModule::entered(FixtureComponent* pOther)
 {
 	if(pOther->getBodyPtr() != m_pParent && m_currentCollisions < m_maxCollisions && !pOther->isSensor())
 	{
-		Weapon::damage(&game.getUniverse().getUniverseIO(), pOther->getIOPos(), m_damage, m_sourceIOPos, m_team);
+		const Vec2 dir = m_fix.getBodyPtr()->GetLinearVelocity();
+		Weapon::damage(&game.getUniverse().getUniverseIO(), pOther->getIOPos(), m_damage, m_sourceIOPos, m_team, m_fix.getCenter(), dir, "LowSparks");
 
 		++m_currentCollisions;
 		if(m_currentCollisions >= m_maxCollisions)

@@ -16,6 +16,10 @@ namespace Math
 		/// Applies compontents pairwise.
 		/// </summary>
 		bool operator==(const Vec2& other) const;
+		bool operator!=(const Vec2& other) const
+		{
+			return !(*this == other);
+		}
 
 		Vec2 operator+(const Vec2& other) const;
 		Vec2 operator-(const Vec2& other) const;

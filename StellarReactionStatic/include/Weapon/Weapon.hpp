@@ -44,7 +44,7 @@ public:
 	/// Look at laser and projectile weapon.
 	virtual void postShot(const Vec2& center, const Vec2& aim, float radCCW, float module_orientation) = 0;
 	///Does damage to target. Leave last param blank for no visual effects.
-	static void damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmount, int ioCausePos, Team team, const Vec2& point = Vec2(0,0));
+	static void damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmount, int ioCausePos, Team team, const Vec2& collisionPoint, const Vec2& fromDirection, const String& effect);
 	///Gets the decoration object corresponding to this weapon.
 	QuadComponent* getDecor();
 	///Tell this weapon which team it is working for.
@@ -63,7 +63,7 @@ protected:
 	int m_collisions;//how many collisions should we do? MODULE PENETRATION LOGIC
 	//TODO m_collisions is not used in the laser weapon type
 	/// Damages the specified fixture (which has a module). Meant to be called by a weapon only. Leave last param blank for no visual effects.
-	void damage(b2Fixture* pFix, int damage, const Vec2& point = Vec2(0,0));
+	void damage(b2Fixture* pFixtureDoingDamage, int damageAmount, const Vec2& collisionPoint = Vec2(0, 0), const Vec2& fromDirection = Vec2(0, 0));
 private:
 	Vec2 randArc(const Vec2& center, const Vec2& aim) const;
 	QuadComponent m_decor;//the weapon sprite
@@ -71,11 +71,11 @@ private:
 	leon::Sound m_startSound;//when we start firing
 	leon::Sound m_shotSound;//when we take a shot
 	leon::Sound m_endSound;//when last shot is taken
-	
+
 
 	Timer m_shotTimer;// Records how often we can "shot"
 	int m_shotsRemain;//how many shots we have remaining on this fire
-	
+
 	Energy m_energy;// How much do we consume from parent pool.
 	Ballistic m_ballistic;// How much do we consume from parent pool.
 	Missiles m_missiles;//How much do we consume from parent pool.

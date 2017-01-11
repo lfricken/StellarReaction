@@ -52,30 +52,29 @@ void LaserWeapon::preShot(const Vec2& center, const Vec2& aim, float radCCW, flo
 /// <param name="center">The center.</param>
 /// <param name="aim">The aim.</param>
 /// <param name="radCCW">The RAD CCW.</param>
-void LaserWeapon::postShot(const Vec2& center, const Vec2& aim, float radCCW, float module_orientation)
+void LaserWeapon::postShot(const Vec2& fixtureDoingDamageCenter, const Vec2& aim, float radCCW, float module_orientation)
 {
 	const Map<float, RayData>& collisions = m_ray.getLatest();
 
 	Vec2 end;
-
+	const Vec2 shotDir = fixtureDoingDamageCenter.to(aim);
 	if(collisions.empty())
 	{
-		float mult = m_range / leon::Dist(aim, center);
-		end = Vec2(center.x + (aim.x - center.x)*mult, center.y + (aim.y - center.y)*mult);
+		float mult = m_range / leon::Dist(aim, fixtureDoingDamageCenter);
+		end = fixtureDoingDamageCenter + shotDir * mult;
 	}
 	else
 	{
 		int i = 0;
 		for(auto it = collisions.cbegin(); i < m_collisions && it != collisions.cend(); ++it, ++i)
 		{
-			Vec2 untrue
-
-			damage(it->second.pFixture, m_damage, it->second.point);
-			end = it->second.point;
+			const Vec2 hit = it->second.point;
+			damage(it->second.pFixture, m_damage, hit, shotDir);
+			end = hit;
 		}
 	}
 
-	m_beam.setStart(center);
+	m_beam.setStart(fixtureDoingDamageCenter);
 	m_beam.setEnd(end);
 	m_beam.activate(m_showTime, m_beamWidth, m_beamColor);
 

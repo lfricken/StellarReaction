@@ -52,7 +52,7 @@ void Module::startContactCB(FixtureComponent* pOther)
 	//e.effect = "";
 	//e.normal = pOther->getCenter().to(this->m_fix.getCenter());
 	//e.pos
-	Weapon::damage(&game.getUniverse().getUniverseIO(), pOther->getIOPos(), m_collisionDamage, m_io.getPosition(), m_parentChunk->getBodyComponent().getTeam());
+	Weapon::damage(&game.getUniverse().getUniverseIO(), pOther->getIOPos(), m_collisionDamage, m_io.getPosition(), m_parentChunk->getBodyComponent().getTeam(), Vec2(0, 0), Vec2(0, 0), "");
 }
 void Module::endContactCB(FixtureComponent* pOther)
 {
@@ -91,7 +91,8 @@ void Module::toggleStealth(bool toggle)
 
 }
 
-void Module::healToMax(){
+void Module::healToMax()
+{
 
 }
 void Module::input(String rCommand, sf::Packet rData)
