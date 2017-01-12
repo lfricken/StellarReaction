@@ -3,7 +3,7 @@ Project Started 2014-02-13
 # StellarReaction
 Stellar Reaction is a real-time, multiplayer, space combat video game. Gameplay consists of four teams of Human or AI players controlling space ships, which are used to attack enemy ships, and to capture objective points to earn money.
 
-
+# [Gameplay Mechanics](https://github.com/Strikerklm96/StellarReaction/wiki/Gameplay-Mechanics)
 
 # Generate Documentation
 1. Install Doxygen.
@@ -31,7 +31,7 @@ updated: 2016-06-22<br />
 Ships consist entirely of modules which provide all the functionality to a ship. More modules can be bought at a store for some amount of money, but there is a limit to the number of modules that can be put on a ship, and on where they can be placed. Individual modules control all of the following: Camera Zooming, Cloaking, Firing Weapons, Energy Production, Ship Propulsion, and Teleportation.
 
 ## Combat
-Combat features ships firing at one another, and using their environment to their advantage. Damage is dealt to a ship by reducing the health of the ships modules. When modules have less than 25% health, they no longer provide whatever functionality they used to. In addition, there are hazards around the different maps that can be used to one’s advantage. A player can control which weapons fire at a given time by toggling their weapon control groups to on or off.
+Combat features ships firing at one another, and using their environment to their advantage. Damage is dealt to a ship by reducing the health of the ships modules. When modules have less than 25% health, they no longer provide whatever functionality they used to. In addition, there are hazards around the different maps that can be used to oneâ€™s advantage. A player can control which weapons fire at a given time by toggling their weapon control groups to on or off.
 
 ## Hazards
 Black Holes pull objects toward it that come too close. When an object approaches the center of the Black Hole, damage is dealt to the object, potentially destroying a ship. Ships can escape a Black Hole with the right technique and tools however. Asteroids are another hazard that players should be wary of. They have a large amount of mass, and will damage a player's ship if they run into it. Dense asteroid fields can provide a route of escape for a losing ship, or graveyard for careless pilots.
