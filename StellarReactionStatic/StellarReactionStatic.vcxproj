@@ -320,8 +320,10 @@
     <ClInclude Include="include\Control\ShipAI.hpp" />
     <ClInclude Include="include\Universe\Utility\JSON.hpp" />
     <ClInclude Include="include\Basic\Team.hpp" />
+    <ClInclude Include="include\Network\ShipBuilder.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Network\ShipBuilder.cpp" />
     <ClCompile Include="src\Graphics\Particles.cpp" />
     <ClCompile Include="src\Graphics\Utility\DecorationEngine.cpp" />
     <ClCompile Include="src\Universe\Module\BlackHoleGraphic.cpp" />

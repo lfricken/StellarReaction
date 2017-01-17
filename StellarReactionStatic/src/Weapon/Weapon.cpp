@@ -29,11 +29,14 @@ void WeaponData::loadJson(const Json::Value& root)
 	GETJSON(fireDelay);
 	GETJSON(range);
 	GETJSON(collisions);
+	GETJSON(effectName);
 
 	LOADJSON(weaponQuad);
 }
 Weapon::Weapon(const WeaponData& rData) : m_decor(rData.weaponQuad)
 {
+	m_effectName = rData.effectName;
+
 	m_startSound = rData.startSound;
 	m_shotSound = rData.shotSound;
 	m_endSound = rData.endSound;

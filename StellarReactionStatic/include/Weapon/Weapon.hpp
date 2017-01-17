@@ -56,6 +56,7 @@ protected:
 	b2Body* m_pBody;
 	const FixtureComponent* m_pTempParent;
 	int m_shots;//how many shots we do upon each fire command
+	String m_effectName;
 	int m_shotsInSpread; //how many shots per spread
 	float m_fireArc;
 	int m_damage;
@@ -94,13 +95,14 @@ struct WeaponData : public BlueprintData
 
 		shots(1),
 		shotsInSpread(1),
-		fireArc(0),//degrees
+		fireArc(1),//degrees
 		damage(50),
 
 		shotDelay(1.f),
 		fireDelay(1.f),
 		collisions(1),
-		range(45.f)
+		range(45.f),
+		effectName("LowSparks")
 	{
 		title = "WEAPON_DEFAULT_TITLE";
 
@@ -125,6 +127,7 @@ struct WeaponData : public BlueprintData
 	float fireDelay;//reload time
 	int collisions;//TODO works for projectiles atm, but not lasers
 	float range;//how far can this shoot
+	String effectName;
 
 	QuadComponentData weaponQuad;
 
