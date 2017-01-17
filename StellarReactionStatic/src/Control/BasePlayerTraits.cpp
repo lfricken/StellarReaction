@@ -63,7 +63,7 @@ int BasePlayerTraits::getController() const
 }
 void BasePlayerTraits::addModule(const String& newTitle, const Vec2& rPos)
 {
-	m_owned.push_back(pair<String, Vec2>(newTitle, rPos));
+	//m_owned.push_back(pair<String, Vec2>(newTitle, rPos));
 	sf::Packet pack;
 	pack << newTitle;
 	pack << (float)rPos.x;
@@ -71,18 +71,4 @@ void BasePlayerTraits::addModule(const String& newTitle, const Vec2& rPos)
 	Message modAdded("ship_editor", "addItem", pack, 0.f, false);
 	game.getCoreIO().recieve(modAdded);
 }
-bool BasePlayerTraits::removeModule(const String& oldTitle)
-{
-	for(auto it = m_owned.begin(); it != m_owned.end(); ++it)
-		if(it->first == oldTitle)
-		{
-			m_owned.erase(it);
-			return true;
-		}
 
-	return false;
-}
-const List<std::pair<String, Vec2> >& BasePlayerTraits::getOwnedModuleTitles() const
-{
-	return m_owned;
-}

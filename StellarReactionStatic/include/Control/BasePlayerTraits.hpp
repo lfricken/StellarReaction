@@ -37,11 +37,7 @@ public:
 
 	/// Give this player another module of this type.
 	virtual void addModule(const String& newTitle, const Vec2& rPos);
-	/// Take from this player another module of this type.
-	virtual bool removeModule(const String& oldTitle);
 
-	/// Get the List of modules this player has, as well as their positions.
-	const List<std::pair<String, Vec2> >& getOwnedModuleTitles() const;
 	/// Set this players money value.
 	void setMoney(Money amount);
 	/// Change this players money by a certain amount.
@@ -52,8 +48,8 @@ public:
 protected:
 	///Which controller do we have, 0, 1, 2, ect.(points to a controller in the list)
 	int m_controller;
-	///Llist of modules and where they exist on the ship.
-	List<std::pair<String, Vec2> > m_owned;
+	/////List of modules and where they exist on the ship.
+	//List<std::pair<String, Vec2> > m_owned;
 
 private:
 	///Name of ship this player wants (blueprint name).

@@ -47,7 +47,7 @@ void ShipBuilder::rebuild(const String& rCommand, sf::Packet& rData, BasePlayerT
 	clean.sendOverNW(true);
 	game.getUniverse().getUniverseIO().recieve(clean);
 
-	List<std::pair<String, Vec2> > available = pFrom->getOwnedModuleTitles();
+	//List<std::pair<String, Vec2> > available = pFrom->getOwnedModuleTitles();
 
 	int num;
 	rData >> num;
@@ -57,29 +57,14 @@ void ShipBuilder::rebuild(const String& rCommand, sf::Packet& rData, BasePlayerT
 		rData >> x;
 		rData >> y;
 
-		bool canAdd = false;
-		//can we add this module?
-		for(auto it = available.begin(); it != available.end(); ++it)
-		{
-			if(it->first == bpName)
-			{
-				canAdd = true;
-				available.erase(it);
-				break;
-			}
-		}
+		sf::Packet pack;
+		pack << bpName;
+		pack << x;
+		pack << y;
 
-		if(canAdd)//if the user had that in their inventory
-		{//then we just removed it, and we should add it to thier ship
-			sf::Packet pack;
-			pack << bpName;
-			pack << x;
-			pack << y;
-
-			Message attach((unsigned)targetPos, "attachModule", pack, 0, false);
-			attach.sendOverNW(true);
-			game.getUniverse().getUniverseIO().recieve(attach);
-		}
+		Message attach((unsigned)targetPos, "attachModule", pack, 0, false);
+		attach.sendOverNW(true);
+		game.getUniverse().getUniverseIO().recieve(attach);
 	}
 }
 void ShipBuilder::buyModule(const String& rCommand, sf::Packet& rData, BasePlayerTraits* pFrom)
@@ -118,4 +103,13 @@ void ShipBuilder::addModule(const String& rCommand, sf::Packet& rData, BasePlaye
 	else
 		Print << FILELINE;
 }
+static void extractModules(sf::Packet& rData, List<std::pair<String, sf::Vector2f> >* list)
+{
 
+
+}
+static void insertModules(sf::Packet& rData, const List<std::pair<String, sf::Vector2f> >& list)
+{
+
+
+}

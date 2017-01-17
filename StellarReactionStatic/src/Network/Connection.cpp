@@ -99,7 +99,7 @@ void Connection::recievePlayerTraits(sf::Packet mes)
 /// <param name="rPos">The r position.</param>
 void Connection::addModule(const String& newTitle, const Vec2& rPos)
 {
-	m_owned.push_back(pair<String, Vec2>(newTitle, rPos));
+	//m_owned.push_back(pair<String, Vec2>(newTitle, rPos));
 	sf::Packet pack;
 	pack << newTitle;
 	pack << (float)rPos.x;

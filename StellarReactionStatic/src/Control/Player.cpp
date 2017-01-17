@@ -468,7 +468,7 @@ bool Player::toggleControlGroup(int group, bool on)
 {
 	// HUD Icons.
 	int index = group - 1;
-	if(index < m_groupIcon.size())
+	if(index < (int)m_groupIcon.size())
 	{
 		if(on)
 			m_groupIcon[index]->getAnimator().setAnimation("On", 1);
