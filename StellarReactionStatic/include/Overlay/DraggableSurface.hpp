@@ -11,12 +11,13 @@ namespace leon
 	struct DraggableSurfaceData : public PanelData
 	{
 		DraggableSurfaceData() :
-			PanelData()
+			PanelData(),
+			gridOffset(3, 3)
 		{
 
 		}
-
-		sf::Vector2f gridSize;//how many pixels should represent 1 offset, note that this controls how much can fit on screen
+		/// Size in pixels of one grid slot.
+		sf::Vector2i gridOffset;
 	};
 	
 	/// A Panel specialized to for the Draggable.
@@ -28,7 +29,7 @@ namespace leon
 		~DraggableSurface();
 
 		/// Which coordinates should the Draggable objects be considered. Has no effect at the moment.
-		void setCountedCoordinates(const List<sf::Vector2f>& rCoords);
+		void setCountedCoordinates(const List<sf::Vector2i>& rCoords);
 		/// Add a draggable object.
 		void addDraggable(const DraggableData& rData);
 
@@ -36,10 +37,12 @@ namespace leon
 		//List<std::pair<String, sf::Vector2f> > getValidPositions() const;
 
 		/// Get a list of the Draggable data, as well as their positions.
-		List<std::pair<String, sf::Vector2f> > getElementPositions() const;
+		List<std::pair<String, sf::Vector2i> > getElementGridPositions() const;
 		/// Returns true whether we have a Draggable at the specified grid position. Used by Draggable::trySetPosition
-		bool hasOneAt(const sf::Vector2f& gridPos) const;
+		bool hasOneAt(const sf::Vector2i& gridPos) const;
 
+		Vec2 toWorldCoords(const sf::Vector2i& gridCoord) const;
+		sf::Vector2i fromWorldCoords(const Vec2& worldCoord) const;
 
 	protected:
 		/**events HOOKS**/
@@ -48,7 +51,8 @@ namespace leon
 	private:
 		void f_initialize(const DraggableSurfaceData& data);
 
-		sf::Vector2f m_gridSize;
-		List<sf::Vector2f> m_validCoords;//the list of acceptable coordinates
+		/// Size in pixels of one grid slot.
+		sf::Vector2i m_gridOffset;
+		List<sf::Vector2i> m_validGridCoords;//the list of acceptable coordinates
 	};
 }

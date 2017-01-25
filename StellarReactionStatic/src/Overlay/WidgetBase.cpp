@@ -5,17 +5,23 @@ using namespace std;
 
 WidgetBase::WidgetBase(tgui::Gui& gui, const WidgetBaseData& rData) : m_io(rData.ioComp, &leon::WidgetBase::input, this)
 {
-	m_startHidden = rData.startHidden;
-	m_tempTransparency = rData.transparency;
 	pCon = NULL;
 	pGui = &gui;
+	init(rData);
 }
 WidgetBase::WidgetBase(tgui::Container& rContainer, const WidgetBaseData& rData) : m_io(rData.ioComp, &leon::WidgetBase::input, this)
 {
-	m_startHidden = rData.startHidden;
-	m_tempTransparency = rData.transparency;
 	pCon = &rContainer;
 	pGui = NULL;
+	init(rData);
+}
+void WidgetBase::init(const WidgetBaseData& rData)
+{
+	m_startHidden = rData.startHidden;
+	m_tempTransparency = rData.transparency;
+
+	m_gridSize = rData.gridSize;
+
 }
 void WidgetBase::f_assign(tgui::Widget* pWidget)
 {
@@ -62,13 +68,45 @@ void WidgetBase::toggleEnabled(bool enabled)
 	else
 		disable();
 }
-void WidgetBase::setPosition(const sf::Vector2f& newPos)
+void WidgetBase::setPosition(const sf::Vector2f& realPos)
 {
-	m_pWidget->setPosition(newPos);
+	m_pWidget->setPosition(realPos);
 }
 const sf::Vector2f& WidgetBase::getPosition() const
 {
 	return m_pWidget->getPosition();
+}
+void WidgetBase::setGridPosition(sf::Vector2i gridPos)
+{
+	gridPos.x *= m_gridSize.x;
+	gridPos.y *= m_gridSize.y;
+	setPosition((sf::Vector2f)gridPos);
+	m_lastGridPosition = getGridPosition();
+}
+sf::Vector2i WidgetBase::getGridPosition() const
+{
+	sf::Vector2f gridPos = getPosition();
+	gridPos.x /= m_gridSize.x;
+	gridPos.y /= m_gridSize.y;
+	return (sf::Vector2i)gridPos;
+}
+sf::Vector2i WidgetBase::getLastGridPosition() const
+{
+	return m_lastGridPosition;
+}
+sf::Vector2i WidgetBase::toGrid(sf::Vector2f realPos) const
+{
+	sf::Vector2f gridHalf(m_gridSize.x / 2.f, m_gridSize.y / 2.f);
+	sf::Vector2f calculatedReal = (realPos + gridHalf);
+	sf::Vector2i newGridPos;
+	newGridPos.x = (int)calculatedReal.x / m_gridSize.x;
+	newGridPos.y = (int)calculatedReal.y / m_gridSize.y;
+
+	return newGridPos;
+}
+sf::Vector2f WidgetBase::fromGrid(sf::Vector2i gridPos) const
+{
+	return sf::Vector2f((float)(gridPos.x * m_gridSize.x), (float)(gridPos.y * m_gridSize.y));
 }
 /**IO**/
 void WidgetBase::input(String rCommand, sf::Packet rData)

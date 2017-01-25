@@ -406,7 +406,7 @@ void Player::loadOverlay(const String& rOverlay)
 	mapData.dimensions = sf::Vector2f(dims, dims);
 	mapData.layer = GraphicsLayer::OverlayMiddle;
 	m_minimap.reset(new Minimap(mapData));
-	m_minimap->setPosition(Vec2(winDim.x - (dims*0.5 / scale), winDim.y + (dims*0.5 / scale)));
+	m_minimap->setPosition(Vec2(winDim.x - (dims*0.5f / scale), winDim.y + (dims*0.5f / scale)));
 
 	//Energy Bar
 	sf::Vector2f dimensions = sf::Vector2f(32, 128);
@@ -435,7 +435,7 @@ void Player::loadOverlay(const String& rOverlay)
 		// Generate a new sptr to grouping icon.
 		sptr<QuadComponent> groupIcon;
 		groupIcon.reset(new QuadComponent(groupData));
-		groupIcon->setPosition(Vec2(1 + 0.2*group, 0) + emeterPos);
+		groupIcon->setPosition(Vec2(1.f + 0.2f*group, 0.f) + emeterPos);
 
 		m_groupIcon.push_back(groupIcon);
 	}

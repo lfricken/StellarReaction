@@ -402,7 +402,7 @@ void Overlay::loadMenus()
 	DraggableSurfaceData surfaceData;
 	surfaceData.ioComp.name = "ship_editor";
 	surfaceData.screenCoords = sf::Vector2f(200, 0);
-	surfaceData.gridSize = sf::Vector2f(64, 64);
+	surfaceData.gridSize = sf::Vector2i(64, 64);
 	surfaceData.size = sf::Vector2f(640, 640);
 	surfaceData.backgroundColor = sf::Color(32, 32, 32, 128);
 

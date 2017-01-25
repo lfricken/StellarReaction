@@ -383,17 +383,16 @@ void Chunk::input(String rCommand, sf::Packet rData)
 	else if(rCommand == "attachModule")
 	{
 		String bpName;
-		float x;
-		float y;
+		Vec2 offset;
 
 		rData >> bpName;
-		rData >> x;
-		rData >> y;
+		rData >> offset.x;
+		rData >> offset.y;
 
-		sptr<ModuleData> pNewModuleData = sptr<ModuleData>(m_rParent.getBlueprints().getModuleSPtr(bpName)->clone());
+		auto pNewModuleData = sptr<ModuleData>(m_rParent.getBlueprints().getModuleSPtr(bpName)->clone());
 		if(pNewModuleData != NULL)
 		{
-			pNewModuleData->fixComp.offset = Vec2(x, y);
+			pNewModuleData->fixComp.offset = offset;
 			this->add(*pNewModuleData);
 		}
 		else
@@ -403,13 +402,10 @@ void Chunk::input(String rCommand, sf::Packet rData)
 	}
 	else if(rCommand == "detachModule")
 	{
-		float x;
-		float y;
+		Vec2 targetOffset;//the offset we are looking to remove
 
-		rData >> x;
-		rData >> y;
-
-		Vec2 targetOffset(x, y);//the offset we are looking to remove
+		rData >> targetOffset.x;
+		rData >> targetOffset.y;
 
 		bool found = false;
 		for(auto it = m_modules.begin(); it != m_modules.end(); ++it)
@@ -422,7 +418,7 @@ void Chunk::input(String rCommand, sf::Packet rData)
 			}
 		}
 		if(!found)
-			cout << "\nThere was no module at " << x << "," << y << " " << FILELINE;
+			cout << "\nThere was no module at " << targetOffset.x << "," << targetOffset.y << " " << FILELINE;
 	}
 	else
 		cout << "\nCommand not found in [" << m_io.getName() << "]." << FILELINE;

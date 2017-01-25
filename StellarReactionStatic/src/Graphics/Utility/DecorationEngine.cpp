@@ -161,7 +161,7 @@ void DecorationEngine::spawnParticle(DecorationData decorData, const Particles& 
 
 	auto pQuad = new QuadComponent(effect.quadData);
 	auto pDecor = new Decoration(decorData, pQuad);
-	expiration.first = time + effect.duration + 0.001*i;
+	expiration.first = time + effect.duration + 0.001f*i;
 	expiration.second = expiration.first + effect.fadeTime;
 	m_fullParticles[expiration] = sptr<Decoration>(pDecor);
 }
