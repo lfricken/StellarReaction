@@ -97,13 +97,13 @@ void Connection::recievePlayerTraits(sf::Packet mes)
 /// </summary>
 /// <param name="newTitle">The new title.</param>
 /// <param name="rPos">The r position.</param>
-void Connection::addModule(const String& newTitle, const Vec2& rPos)
+void Connection::addModule(const String& newTitle, const sf::Vector2i& rPos)
 {
 	//m_owned.push_back(pair<String, Vec2>(newTitle, rPos));
 	sf::Packet pack;
 	pack << newTitle;
-	pack << (float)rPos.x;
-	pack << (float)rPos.y;
+	pack << rPos.x;
+	pack << rPos.y;
 	Message modAdded("ship_editor", "addItem", pack, 0.f, false);
 	this->sendSpecialIo(modAdded);
 }

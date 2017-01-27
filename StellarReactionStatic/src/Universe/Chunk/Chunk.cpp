@@ -343,25 +343,30 @@ float Chunk::get(Request value) const//return the requested value
 /// <summary>
 /// returns the title of the module at that position, otherwise ""
 /// </summary>
-String Chunk::hasModuleAt(const Vec2 offset) const
+String Chunk::hasModuleAt(const sf::Vector2i offset) const
 {
 	for(auto it = m_modules.begin(); it != m_modules.end(); ++it)
-		if(offset == (*it)->getOffset())
+	{
+		Vec2 pos = (*it)->getOffset();
+		if(offset == sf::Vector2i((int)pos.x, (int)pos.y))
 			return (*it)->getTitle();
+
+	}
 	return "";
 }
 /// <summary>
 /// List of module BP names and 
 /// </summary>
-List<std::pair<String, Vec2> > Chunk::getModules() const
+List<std::pair<String, sf::Vector2i> > Chunk::getModules() const
 {
-	List<std::pair<String, Vec2> > list;
+	List<std::pair<String, sf::Vector2i> > list;
 	for(auto it = m_modules.cbegin(); it != m_modules.cend(); ++it)
 	{
 		if(dynamic_cast<ShipModule*>(it->get()) != NULL)//make sure it's not a strange item, like a ShieldComponent
 		{
 			//cout << "\nChunk: " << (*it)->getOffset().x << (*it)->getOffset().y;
-			list.push_back(std::pair<String, Vec2>((*it)->getTitle(), Vec2((*it)->getOffset())));
+			Vec2 pos = (*it)->getOffset();
+			list.push_back(std::pair<String, sf::Vector2i>((*it)->getTitle(), sf::Vector2i((int)pos.x, (int)pos.y)));
 		}
 	}
 	return list;
@@ -383,16 +388,16 @@ void Chunk::input(String rCommand, sf::Packet rData)
 	else if(rCommand == "attachModule")
 	{
 		String bpName;
-		Vec2 offset;
+		sf::Vector2i pos;
 
 		rData >> bpName;
-		rData >> offset.x;
-		rData >> offset.y;
+		rData >> pos.x;
+		rData >> pos.y;
 
 		auto pNewModuleData = sptr<ModuleData>(m_rParent.getBlueprints().getModuleSPtr(bpName)->clone());
 		if(pNewModuleData != NULL)
 		{
-			pNewModuleData->fixComp.offset = offset;
+			pNewModuleData->fixComp.offset = Vec2((float)pos.x, (float)pos.y);
 			this->add(*pNewModuleData);
 		}
 		else
@@ -402,10 +407,12 @@ void Chunk::input(String rCommand, sf::Packet rData)
 	}
 	else if(rCommand == "detachModule")
 	{
-		Vec2 targetOffset;//the offset we are looking to remove
+		sf::Vector2i pos;//the offset we are looking to remove
 
-		rData >> targetOffset.x;
-		rData >> targetOffset.y;
+		rData >> pos.x;
+		rData >> pos.y;
+
+		Vec2 targetOffset((float)pos.x, (float)pos.y);
 
 		bool found = false;
 		for(auto it = m_modules.begin(); it != m_modules.end(); ++it)

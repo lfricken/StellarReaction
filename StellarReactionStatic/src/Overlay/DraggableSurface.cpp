@@ -64,13 +64,13 @@ bool DraggableSurface::hasOneAt(const sf::Vector2i& gridPos) const
 			return true;
 	return false;
 }
-Vec2 DraggableSurface::toWorldCoords(const sf::Vector2i& gridCoord) const
+sf::Vector2i DraggableSurface::toWorldCoords(const sf::Vector2i& gridCoord) const
 {
-	return Vec2(static_cast<float>(gridCoord.x - m_gridOffset.x), -static_cast<float>(gridCoord.y - m_gridOffset.y));//make negative because view coords vs world
+	return sf::Vector2i(gridCoord.x - m_gridOffset.x, -(gridCoord.y - m_gridOffset.y));//make negative because view coords vs world
 }
-sf::Vector2i DraggableSurface::fromWorldCoords(const Vec2& worldCoord) const
+sf::Vector2i DraggableSurface::fromWorldCoords(const sf::Vector2i& worldCoord) const
 {
-	return sf::Vector2i(static_cast<int>(worldCoord.x + m_gridOffset.x), static_cast<int>(-worldCoord.y + m_gridOffset.y));//make negative because view coords vs world
+	return sf::Vector2i(worldCoord.x + m_gridOffset.x, (-worldCoord.y) + m_gridOffset.y);//make negative because view coords vs world
 }
 bool DraggableSurface::inputHook(const String rCommand, sf::Packet rData)
 {
@@ -86,7 +86,7 @@ bool DraggableSurface::inputHook(const String rCommand, sf::Packet rData)
 
 		for(auto it = modules.begin(); it != modules.end(); ++it)
 		{
-			Vec2 moduleOffset = toWorldCoords(it->second);
+			sf::Vector2i moduleOffset = toWorldCoords(it->second);
 			pack << it->first; //name of module
 			pack << moduleOffset.x;//grid position x
 			pack << moduleOffset.y;//grid position y
@@ -101,7 +101,7 @@ bool DraggableSurface::inputHook(const String rCommand, sf::Packet rData)
 	else if(rCommand == "addItem")
 	{
 		String title;
-		Vec2 shipModulePos;
+		sf::Vector2i shipModulePos;
 
 		rData >> title;
 		rData >> shipModulePos.x;

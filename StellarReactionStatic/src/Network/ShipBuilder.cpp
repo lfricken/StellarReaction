@@ -24,50 +24,29 @@ bool ShipBuilder::handleCommand(const String& rCommand, sf::Packet& rData, BaseP
 	if(rCommand == "rebuild")//a player wants to attach a module to thier ship, from their inventory
 		rebuild(rCommand, rData, pFrom);
 	else if(rCommand == "buyModule")
-		buyModule(rCommand, rData, pFrom);
+		Gui::buyModule(rCommand, rData, pFrom);
 	else if(rCommand == "addModule")
-		addModule(rCommand, rData, pFrom);
+		Gui::addModule(rCommand, rData, pFrom);
 	else
 		return false;
 	return true;
 }
 void ShipBuilder::rebuild(const String& rCommand, sf::Packet& rData, BasePlayerTraits* pFrom)
 {
-	String bpName;
-	float x;
-	float y;
-	List<std::pair<String, sf::Vector2f> > modules;
-
 	Controller* pCon = &game.getUniverse().getControllerFactory().getController(pFrom->getController());
 	String slaveName = pCon->getSlaveName();
-	Chunk* pTemp = game.getUniverse().getSlaveLocator().find(slaveName);
-	int targetPos = pTemp->m_io.getPosition();
+	Chunk* ship = game.getUniverse().getSlaveLocator().find(slaveName);
 
-	Message clean((unsigned)targetPos, "clear", voidPacket, 0, false);
-	clean.sendOverNW(true);
-	game.getUniverse().getUniverseIO().recieve(clean);
+	List<Pair<String, sf::Vector2i> > moduleList;
+	extractModules(rData, &moduleList);
 
-	//List<std::pair<String, Vec2> > available = pFrom->getOwnedModuleTitles();
-
-	int num;
-	rData >> num;
-	for(int i = 0; i < num; ++i)
+	cleanShip(ship);
+	for(auto it = moduleList.cbegin(); it != moduleList.cend(); ++it)
 	{
-		rData >> bpName;
-		rData >> x;
-		rData >> y;
-
-		sf::Packet pack;
-		pack << bpName;
-		pack << x;
-		pack << y;
-
-		Message attach((unsigned)targetPos, "attachModule", pack, 0, false);
-		attach.sendOverNW(true);
-		game.getUniverse().getUniverseIO().recieve(attach);
+		attachModule(ship, it->first, it->second);
 	}
 }
-void ShipBuilder::buyModule(const String& rCommand, sf::Packet& rData, BasePlayerTraits* pFrom)
+void ShipBuilder::Gui::buyModule(const String& rCommand, sf::Packet& rData, BasePlayerTraits* pFrom)
 {
 	String bpName;
 	rData >> bpName;
@@ -78,38 +57,75 @@ void ShipBuilder::buyModule(const String& rCommand, sf::Packet& rData, BasePlaye
 		Money cost = pMod->cost;//see if we can afford it
 		if(pFrom->getMoney() >= cost)
 		{
-			pFrom->addModule(bpName, Vec2(0, 0));//tell whoever this command came from to add a module to their gui
+			pFrom->addModule(bpName, sf::Vector2i(0, 0));//tell whoever this command came from to add a module to their gui
 			pFrom->changeMoney(-cost);
 		}
 	}
 	else
 		Print << FILELINE;
 }
-void ShipBuilder::addModule(const String& rCommand, sf::Packet& rData, BasePlayerTraits* pFrom)
+void ShipBuilder::Gui::addModule(const String& rCommand, sf::Packet& rData, BasePlayerTraits* pFrom)
 {
-
 	String bpName;
-	float x = 0;
-	float y = 0;
+	sf::Vector2i pos;
 	rData >> bpName;
-	rData >> x;
-	rData >> y;
+	rData >> pos.x;
+	rData >> pos.y;
 	const ModuleData* pMod = game.getUniverse().getBlueprints().getModuleSPtr(bpName).get();
 	if(pMod != NULL)
 	{
-		pFrom->addModule(bpName, Vec2(x, y));//tell whoever this command came from to add a module to their gui
+		pFrom->addModule(bpName, pos);//tell whoever this command came from to add a module to their gui
 		//just assume they already paid for it, or aquired it otherwise
 	}
 	else
 		Print << FILELINE;
 }
-static void extractModules(sf::Packet& rData, List<std::pair<String, sf::Vector2f> >* list)
+void ShipBuilder::cleanShip(const Chunk* ship)
 {
+	int targetPos = ship->m_io.getPosition();
 
-
+	Message clean((unsigned)targetPos, "clear", voidPacket, 0, false);
+	clean.sendOverNW(true);
+	game.getUniverse().getUniverseIO().recieve(clean);
 }
-static void insertModules(sf::Packet& rData, const List<std::pair<String, sf::Vector2f> >& list)
+void ShipBuilder::attachModule(Chunk* ship, const String& bpName, const sf::Vector2i offset)
 {
+	sf::Packet pack;
+	pack << bpName;
+	pack << offset.x;
+	pack << offset.y;
+	int targetPos = ship->m_io.getPosition();
 
+	Message attachment((unsigned)targetPos, "attachModule", pack, 0, false);
+	attachment.sendOverNW(true);
+	game.getUniverse().getUniverseIO().recieve(attachment);
+}
+void ShipBuilder::extractModules(sf::Packet& rData, List<Pair<String, sf::Vector2i> >* list)
+{
+	String bpName;
+	sf::Vector2i pos;
+	int num;
+	rData >> num;
+	for(int i = 0; i < num; ++i)
+	{
+		rData >> bpName;
+		rData >> pos.x;
+		rData >> pos.y;
+		list->push_back(Pair<String, sf::Vector2i>(bpName, pos));
+	}
+}
+void ShipBuilder::insertModules(sf::Packet& rData, const List<Pair<String, sf::Vector2i> >& list)
+{
+	//for(auto it = list.cbegin(); it != list.cend(); ++it)
+	//{
+	//	sf::Packet pack;
+	//	pack << bpName;
+	//	pack << x;
+	//	pack << y;
+
+	//	Message attach((unsigned)targetPos, "attachModule", pack, 0, false);
+	//	attach.sendOverNW(true);
+	//	game.getUniverse().getUniverseIO().recieve(attach);
+	//}
 
 }

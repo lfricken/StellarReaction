@@ -46,7 +46,7 @@ public:
 	/// \brief Called when this Connection is a clients connection on the Server.
 	///
 	/// The server has determined that a module should be added to this clients list of useable modules.
-	virtual void addModule(const String& newTitle, const Vec2& rPos);
+	virtual void addModule(const String& newTitle, const sf::Vector2i& rPos);
 
 protected:
 private:

@@ -43,9 +43,9 @@ public:
 	///Get a reference to the body component wrapper object.
 	BodyComponent& getBodyComponent();
 	///Returns the title of the module at that position, otherwise returns empty String.
-	String hasModuleAt(const Vec2 offset) const;
+	String hasModuleAt(const sf::Vector2i offset) const;
 	///Return a list of module names and positions in chunk.
-	List<std::pair<String, Vec2> > getModules() const;
+	List<std::pair<String, sf::Vector2i> > getModules() const;
 	///Returns the graphical component for the hull.
 	sptr<GraphicsComponent> getHull() const;
 	///Returns the list of modules on in chunk.

@@ -41,8 +41,8 @@ namespace leon
 		/// Returns true whether we have a Draggable at the specified grid position. Used by Draggable::trySetPosition
 		bool hasOneAt(const sf::Vector2i& gridPos) const;
 
-		Vec2 toWorldCoords(const sf::Vector2i& gridCoord) const;
-		sf::Vector2i fromWorldCoords(const Vec2& worldCoord) const;
+		sf::Vector2i toWorldCoords(const sf::Vector2i& gridCoord) const;
+		sf::Vector2i fromWorldCoords(const sf::Vector2i& worldCoord) const;
 
 	protected:
 		/**events HOOKS**/

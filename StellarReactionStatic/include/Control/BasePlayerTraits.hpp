@@ -36,7 +36,7 @@ public:
 	const String& getName() const;
 
 	/// Give this player another module of this type.
-	virtual void addModule(const String& newTitle, const Vec2& rPos);
+	virtual void addModule(const String& newTitle, const sf::Vector2i& rPos);
 
 	/// Set this players money value.
 	void setMoney(Money amount);

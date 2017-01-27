@@ -162,8 +162,8 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 			sf::Packet pack;
 			pack << "addModule";
 			pack << it->first;
-			pack << (float)it->second.x;
-			pack << (float)it->second.y;
+			pack << it->second.x;
+			pack << it->second.y;
 
 
 			Message mes("networkboss", "sendTcpToHost", pack, 0, false);
