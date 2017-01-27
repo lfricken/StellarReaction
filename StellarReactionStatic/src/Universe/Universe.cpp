@@ -153,25 +153,23 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 	game.getCoreIO().recieve(mes);
 
 	Controller* pController = &this->getControllerFactory().getController(data.localController);
-	Chunk* pCnk = pController->getSlave();
-	if(pCnk != NULL)
-	{
-		auto list = pCnk->getModules();
-		for(auto it = list.cbegin(); it != list.cend(); ++it)
-		{
-			sf::Packet pack;
-			pack << "addModule";
-			pack << it->first;
-			pack << it->second.x;
-			pack << it->second.y;
+	//Chunk* pCnk = pController->getSlave();
+	//if(pCnk != NULL)
+	//{
+	//	auto list = pCnk->getModules();
+	//	for(auto it = list.cbegin(); it != list.cend(); ++it)
+	//	{
+	//		sf::Packet pack;
+	//		pack << "addModule";
+	//		pack << it->first;
+	//		pack << it->second.x;
+	//		pack << it->second.y;
 
 
-			Message mes("networkboss", "sendTcpToHost", pack, 0, false);
-			game.getCoreIO().recieve(mes);
-		}
-	}
-	//else
-	//	std::cout << "\nNo slave! " << FILELINE;
+	//		Message mes("networkboss", "sendTcpToHost", pack, 0, false);
+	//		game.getCoreIO().recieve(mes);
+	//	}
+	//}
 
 
 	/**Hazard Field Spawn Hazards**/
