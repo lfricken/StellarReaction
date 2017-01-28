@@ -1,4 +1,5 @@
 #include "WidgetBase.hpp"
+#include "Debugging.hpp"
 
 using namespace leon;
 using namespace std;

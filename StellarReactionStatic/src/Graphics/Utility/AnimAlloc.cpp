@@ -1,6 +1,6 @@
 #include "AnimAlloc.hpp"
 #include "Animation.hpp"
-
+#include "Debugging.hpp"
 #include "Globals.hpp"
 
 using namespace std;

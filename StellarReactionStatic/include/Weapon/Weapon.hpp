@@ -9,6 +9,7 @@
 #include "BlueprintData.hpp"
 #include "NonCopyable.hpp"
 #include "Sound.hpp"
+#include "Debugging.hpp"
 
 enum class Team;
 struct WeaponData;

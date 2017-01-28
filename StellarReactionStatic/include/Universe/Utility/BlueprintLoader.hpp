@@ -4,6 +4,7 @@
 #include "Globals.hpp"
 #include "JSON.hpp"
 #include "NonCopyable.hpp"
+#include "Debugging.hpp"
 
 struct ModuleData;
 struct ProjectileData;

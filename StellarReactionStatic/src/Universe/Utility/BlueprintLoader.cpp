@@ -6,6 +6,7 @@
 #include "WeaponRegistration.hpp"
 #include "ChunkRegistration.hpp"
 #include "ProjectileRegistration.hpp"
+#include "Debugging.hpp"
 
 using namespace std;
 

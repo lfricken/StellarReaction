@@ -3,6 +3,7 @@
 #include "Convert.hpp"
 #include "Universe.hpp"
 #include "JSON.hpp"
+#include "Debugging.hpp"
 
 using namespace std;
 

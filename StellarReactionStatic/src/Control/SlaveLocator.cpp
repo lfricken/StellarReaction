@@ -2,6 +2,7 @@
 
 #include "Globals.hpp"
 #include "Chunk.hpp"
+#include "Debugging.hpp"
 
 using namespace std;
 

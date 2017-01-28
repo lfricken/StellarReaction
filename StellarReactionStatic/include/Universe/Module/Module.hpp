@@ -11,6 +11,7 @@
 #include "JSON.hpp"
 #include "CommandInfo.hpp"
 #include "NonCopyable.hpp"
+#include "Debugging.hpp"
 
 struct ModuleData;
 

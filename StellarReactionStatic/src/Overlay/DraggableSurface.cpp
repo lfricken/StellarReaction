@@ -48,15 +48,38 @@ void DraggableSurface::addDraggable(const DraggableData& rData)
 //	//}
 //	//return pairing;
 //}
-List<std::pair<String, sf::Vector2i> > DraggableSurface::getElementGridPositions() const
+List<Pair<String, sf::Vector2i> > DraggableSurface::getElementGridPositions() const
 {
-	List<std::pair<String, sf::Vector2i> > pairing;
+	List<Pair<String, sf::Vector2i> > pairing;
 	for(auto it = m_widgetList.begin(); it != m_widgetList.end(); ++it)
 	{
 		Draggable* pDrag = dynamic_cast<Draggable*>((*it).get());
 		pairing.push_back(pair<String, sf::Vector2i>(pDrag->getMetaData(), pDrag->getGridPosition()));
 	}
 	return pairing;
+}
+List<Pair<String, sf::Vector2i> > DraggableSurface::getRealPositions() const
+{
+	List<Pair<String, sf::Vector2i> > modules = this->getElementGridPositions();
+
+	for(auto it = modules.begin(); it != modules.end(); ++it)
+		it->second = toWorldCoords(it->second);
+
+	return modules;
+}
+void DraggableSurface::setRealPositions(const List<Pair<String, sf::Vector2i> >& pos)
+{
+	for(auto it = pos.cbegin(); it != pos.cend(); ++it)
+	{
+		auto pNewModuleData = dynamic_cast<const ShipModuleData*>(game.getUniverse().getBlueprints().getModuleSPtr(it->first).get());
+
+		DraggableData draggable;
+		draggable.metaData = it->first;
+		draggable.icon.texName = pNewModuleData->baseDecor.texName;
+		draggable.gridPosition = fromWorldCoords(it->second);
+
+		this->addDraggable(draggable);
+	}
 }
 bool DraggableSurface::hasOneAt(const sf::Vector2i& gridPos) const
 {
@@ -74,33 +97,29 @@ sf::Vector2i DraggableSurface::fromWorldCoords(const sf::Vector2i& worldCoord) c
 {
 	return sf::Vector2i(worldCoord.x + m_gridOffset.x, (-worldCoord.y) + m_gridOffset.y);//make negative because view coords vs world
 }
-bool DraggableSurface::inputHook(const String rCommand, sf::Packet rData)
+bool DraggableSurface::inputHook(const String rCommand, sf::Packet data)
 {
+	dout << rCommand;
+
 	if(rCommand == "getState")
 	{
-		cout << "\ngetState";
-
-		List<Pair<String, sf::Vector2i> > modules = this->getElementGridPositions();
-		for(auto it = modules.begin(); it != modules.end(); ++it)
-		{
-			it->second = toWorldCoords(it->second);
-		}
-
+		List<Pair<String, sf::Vector2i> > modules = this->getRealPositions();
 		sf::Packet pack;
 		pack << "rebuild";
-		pack << m_targetShip;
-		pack << (int32_t)modules.size();
-
-		for(auto it = modules.begin(); it != modules.end(); ++it)
-		{
-			sf::Vector2i moduleOffset = toWorldCoords(it->second);
-			pack << it->first; //name of module
-			pack << it->second.x;//grid position x
-			pack << it->second.y;//grid position y
-		}
+		ShipBuilder::Client::writeToPacket(m_targetShip, modules, &pack);
 
 		//Tell server that we moved a module. It is then moved there as well.
 		Network::toHostAtomic(pack);
+
+		return true;
+	}
+	else if(rCommand == "setState")//setState
+	{
+		m_widgetList.clear();
+
+		List<Pair<String, sf::Vector2i> > modules;
+		ShipBuilder::Client::readFromPacket(&m_targetShip, &modules, data);
+		setRealPositions(modules);
 
 		return true;
 	}
@@ -109,9 +128,9 @@ bool DraggableSurface::inputHook(const String rCommand, sf::Packet rData)
 		String title;
 		sf::Vector2i shipModulePos;
 
-		rData >> title;
-		rData >> shipModulePos.x;   
-		rData >> shipModulePos.y;
+		data >> title;
+		data >> shipModulePos.x;
+		data >> shipModulePos.y;
 
 		cout << "\naddModuleToGui: " << shipModulePos.x << shipModulePos.y;
 

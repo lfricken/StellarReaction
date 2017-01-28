@@ -411,6 +411,7 @@
     <ClInclude Include="include\Graphics\Particles.hpp" />
     <ClInclude Include="include\Network\ShipBuilder.hpp" />
     <ClInclude Include="include\Network\Network.hpp" />
+    <ClInclude Include="include\Headers\Debugging.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\API\SFML\Audio\SoundFileFactory.inl" />

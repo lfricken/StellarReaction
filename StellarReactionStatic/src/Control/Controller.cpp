@@ -3,6 +3,7 @@
 #include "SlaveLocator.hpp"
 #include "Chunk.hpp"
 #include "CommandInfo.hpp"
+#include "Debugging.hpp"
 
 using namespace std;
 

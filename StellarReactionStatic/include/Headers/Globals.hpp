@@ -15,8 +15,6 @@ extern const int standardModuleSize;//size in pixels of module at 1 zoom
 extern const float sizeScalingFactor;// = 0.5 atm
 /// PI
 extern const float pi;
-/// Useful debugging item.
-#define FILELINE "file:{"<<__FILE__<<"}line:{"<<__LINE__<<"}"
 
 /// \brief Globally accessible instance of Game.
 ///

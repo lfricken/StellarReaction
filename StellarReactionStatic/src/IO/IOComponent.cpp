@@ -2,6 +2,7 @@
 #include "Globals.hpp"
 #include "Universe.hpp"
 #include "JSON.hpp"
+#include "Debugging.hpp"
 
 using namespace std;
 

@@ -1,8 +1,7 @@
 #include "Animator.hpp"
-
 #include "Globals.hpp"
 #include "AnimAlloc.hpp"
-
+#include "Debugging.hpp"
 #include "Animation.hpp"
 
 using namespace std;

@@ -1,6 +1,7 @@
 #include "SoundManager.hpp"
 #include "Sound.hpp"
-#include "globals.hpp"
+#include "Globals.hpp"
+#include "Debugging.hpp"
 
 using namespace std;
 

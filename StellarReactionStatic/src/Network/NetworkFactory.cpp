@@ -2,6 +2,7 @@
 #include "Globals.hpp"
 #include "NetworkComponent.hpp"
 #include "Protocol.hpp"
+#include "Debugging.hpp"
 
 using namespace std;
 

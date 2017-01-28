@@ -37,7 +37,12 @@ namespace leon
 		//List<std::pair<String, sf::Vector2f> > getValidPositions() const;
 
 		/// Get a list of the Draggable data, as well as their positions.
-		List<std::pair<String, sf::Vector2i> > getElementGridPositions() const;
+		List<Pair<String, sf::Vector2i> > getElementGridPositions() const;
+		/// <summary>
+		/// Gets the adjusted positions and names of the elements.
+		/// </summary>
+		List<Pair<String, sf::Vector2i> > getRealPositions() const;
+		void setRealPositions(const List<Pair<String, sf::Vector2i> >& pos);
 		/// Returns true whether we have a Draggable at the specified grid position. Used by Draggable::trySetPosition
 		bool hasOneAt(const sf::Vector2i& gridPos) const;
 

@@ -1,6 +1,7 @@
 #include "Condition.hpp"
 #include "stdafx.hpp"
 #include "Globals.hpp"
+#include "Debugging.hpp"
 
 using namespace std;
 

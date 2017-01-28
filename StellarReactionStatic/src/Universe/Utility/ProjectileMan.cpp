@@ -2,6 +2,7 @@
 #include "Globals.hpp"
 #include "Projectile.hpp"
 #include "BlueprintLoader.hpp"
+#include "Debugging.hpp"
 
 using namespace std;
 

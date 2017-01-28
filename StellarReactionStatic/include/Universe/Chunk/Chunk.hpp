@@ -69,9 +69,6 @@ public:
 	///Increment score.
 	void increaseScore();
 
-	static void writeToPacket(int targetIOpos, const List<Pair<String, sf::Vector2i> >& modules, sf::Packet* data);
-	static void readFromPacket(int* targetIOpos, List<Pair<String, sf::Vector2i> >* modules, sf::Packet data);
-
 protected:
 	virtual void input(String rCommand, sf::Packet rData);
 	bool allows(const Vec2& rGridPos);

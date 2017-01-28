@@ -39,16 +39,39 @@ void ShipBuilder::Client::shipToGui(const Chunk* ship)
 	if(ship != NULL)
 	{
 		auto list = ship->getModules();
-		for(auto it = list.cbegin(); it != list.cend(); ++it)
-		{
-			sf::Packet pack;
-			pack << "addModule";
-			pack << it->first;
-			pack << it->second.x;
-			pack << it->second.y;
+		sf::Packet data;
+		ShipBuilder::Client::writeToPacket(ship->m_io.getPosition(), list, &data);
 
-			Network::toHostAtomic(pack);
-		}
+		Message ship("ship_editor", "setState", data, 0, false);
+		game.getCoreIO().recieve(ship);
+	}
+}
+void ShipBuilder::Client::writeToPacket(int targetIOpos, const List<Pair<String, sf::Vector2i> >& modules, sf::Packet* data)
+{
+	sf::Packet& pack = *data;
+	pack << targetIOpos;
+	pack << (int32_t)modules.size();
+
+	for(auto it = modules.begin(); it != modules.end(); ++it)
+	{
+		pack << it->first; //name of module
+		pack << it->second.x;//grid position x
+		pack << it->second.y;//grid position y
+	}
+}
+void ShipBuilder::Client::readFromPacket(int* targetIOpos, List<Pair<String, sf::Vector2i> >* pModules, sf::Packet data)
+{
+	auto& modules = *pModules;
+	int size;
+
+	data >> *targetIOpos;
+	data >> (int32_t)size; modules.resize(size);
+
+	for(auto it = modules.begin(); it != modules.end(); ++it)
+	{
+		data >> it->first; //name of module
+		data >> it->second.x;//grid position x
+		data >> it->second.y;//grid position y
 	}
 }
 //void ShipBuilder::Client::addModuleToGui(const String& newTitle, const sf::Vector2i& rPos)

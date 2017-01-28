@@ -11,7 +11,7 @@
 #include "Draggable.hpp"
 #include "DraggableSurface.hpp"
 #include "Chunk.hpp"
-#include <String>
+#include "Debugging.hpp"
 
 using namespace std;
 using namespace leon;

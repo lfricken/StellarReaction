@@ -63,6 +63,7 @@
     <ClInclude Include="include\API\TGUI\Transformable.hpp" />
     <ClInclude Include="include\API\TGUI\Widget.hpp" />
     <ClInclude Include="include\Basic\BlueprintData.hpp" />
+    <ClInclude Include="include\Headers\Debugging.hpp" />
     <ClInclude Include="include\Universe\Module\CaptureGraphic.hpp" />
     <ClInclude Include="include\Basic\NonCopyable.hpp" />
     <ClInclude Include="include\Control\Directive.hpp" />

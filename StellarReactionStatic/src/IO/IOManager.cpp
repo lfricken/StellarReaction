@@ -4,6 +4,7 @@
 #include "IOComponent.hpp"
 #include "NetworkBoss.hpp"
 #include "NetworkComponent.hpp"
+#include "Debugging.hpp"
 
 using namespace std;
 
@@ -155,9 +156,9 @@ void IOManager::pack(sf::Packet& rPacket)//give us data to send to the twin in t
 			rPacket << (int32_t)dataSize;
 
 			int8_t* pByte = (int8_t*)m_latest[i].getData().getData();
-			for(int chard = 0; chard < dataSize; ++chard)
+			for(int index = 0; index < dataSize; ++index)
 			{
-				int8_t byte = pByte[chard];
+				int8_t byte = pByte[index];
 				rPacket << byte;
 			}
 
@@ -189,11 +190,11 @@ void IOManager::unpack(sf::Packet& rPacket)//process data from our twin
 			rPacket >> size;
 
 			pData = new int8_t[size];
-			for(int chard = 0; chard < size; ++chard)
+			for(int index = 0; index < size; ++index)
 			{
 				int8_t byte;
 				rPacket >> byte;
-				pData[chard] = byte;
+				pData[index] = byte;
 			}
 			messageData.append(pData, size);
 

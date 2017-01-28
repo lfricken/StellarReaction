@@ -5,6 +5,7 @@
 #include "QuadComponent.hpp"
 #include "Health.hpp"
 #include "Sound.hpp"
+#include "Debugging.hpp"
 
 enum class HealthState
 {

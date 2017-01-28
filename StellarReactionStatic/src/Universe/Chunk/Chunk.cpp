@@ -453,14 +453,7 @@ float Chunk::getRadius()
 	m_radius = max.len();
 	return m_radius;
 }
-void Chunk::writeToPacket(int targetIOpos, const List<Pair<String, sf::Vector2i> >& modules, sf::Packet* data)
-{
 
-}
-void Chunk::readFromPacket(int* targetIOpos, List<Pair<String, sf::Vector2i> >* modules, sf::Packet data)
-{
-
-}
 
 
 
