@@ -2,6 +2,7 @@
 #include "Draggable.hpp"
 #include "ShipModule.hpp"
 #include "BlueprintLoader.hpp"
+#include "Network.hpp"
 
 using namespace leon;
 using namespace std;
@@ -20,6 +21,7 @@ DraggableSurface::~DraggableSurface()
 }
 void DraggableSurface::f_initialize(const DraggableSurfaceData& rData)
 {
+	m_targetShip = -1;
 	m_gridOffset = rData.gridOffset;
 }
 void DraggableSurface::setCountedCoordinates(const List<sf::Vector2i>& rCoords)//which coordinates should we return for getElementPositions
@@ -74,40 +76,44 @@ sf::Vector2i DraggableSurface::fromWorldCoords(const sf::Vector2i& worldCoord) c
 }
 bool DraggableSurface::inputHook(const String rCommand, sf::Packet rData)
 {
-	if(rCommand == "sendState")
+	if(rCommand == "getState")
 	{
-		cout << "\nsendState";
+		cout << "\ngetState";
 
-		List<std::pair<String, sf::Vector2i> > modules = this->getElementGridPositions();
+		List<Pair<String, sf::Vector2i> > modules = this->getElementGridPositions();
+		for(auto it = modules.begin(); it != modules.end(); ++it)
+		{
+			it->second = toWorldCoords(it->second);
+		}
 
 		sf::Packet pack;
 		pack << "rebuild";
+		pack << m_targetShip;
 		pack << (int32_t)modules.size();
 
 		for(auto it = modules.begin(); it != modules.end(); ++it)
 		{
 			sf::Vector2i moduleOffset = toWorldCoords(it->second);
 			pack << it->first; //name of module
-			pack << moduleOffset.x;//grid position x
-			pack << moduleOffset.y;//grid position y
+			pack << it->second.x;//grid position x
+			pack << it->second.y;//grid position y
 		}
 
 		//Tell server that we moved a module. It is then moved there as well.
-		Message mes("networkboss", "sendTcpToHost", pack, 0, false);
-		game.getCoreIO().recieve(mes);
+		Network::toHostAtomic(pack);
 
 		return true;
 	}
-	else if(rCommand == "addItem")
+	else if(rCommand == "addModuleToGui")//setState
 	{
 		String title;
 		sf::Vector2i shipModulePos;
 
 		rData >> title;
-		rData >> shipModulePos.x;
+		rData >> shipModulePos.x;   
 		rData >> shipModulePos.y;
 
-		cout << "\nAddItem: " << shipModulePos.x << shipModulePos.y;
+		cout << "\naddModuleToGui: " << shipModulePos.x << shipModulePos.y;
 
 		sptr<ShipModuleData> pNewModuleData = sptr<ShipModuleData>(dynamic_cast<ShipModuleData*>(game.getUniverse().getBlueprints().getModuleSPtr(title)->clone()));
 

@@ -321,8 +321,10 @@
     <ClInclude Include="include\Universe\Utility\JSON.hpp" />
     <ClInclude Include="include\Basic\Team.hpp" />
     <ClInclude Include="include\Network\ShipBuilder.hpp" />
+    <ClInclude Include="include\Network\Network.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Network\Network.cpp" />
     <ClCompile Include="src\Network\ShipBuilder.cpp" />
     <ClCompile Include="src\Graphics\Particles.cpp" />
     <ClCompile Include="src\Graphics\Utility\DecorationEngine.cpp" />

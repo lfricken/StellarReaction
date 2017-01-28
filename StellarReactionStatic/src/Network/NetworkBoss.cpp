@@ -554,7 +554,7 @@ void NetworkBoss::updateConnections()
 /// pFrom is the target player. This could be us, in which case we are a BasePlayerTrait,
 /// or it could be a Connection, representing a client
 /// </summary>
-void NetworkBoss::playerOption(sf::Packet& rData, BasePlayerTraits* pFrom)
+void NetworkBoss::playerOption(sf::Packet rData, BasePlayerTraits* pFrom)
 {
 	String command;
 	rData >> command;

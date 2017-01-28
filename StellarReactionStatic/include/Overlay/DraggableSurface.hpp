@@ -50,6 +50,7 @@ namespace leon
 
 	private:
 		void f_initialize(const DraggableSurfaceData& data);
+		int m_targetShip;
 
 		/// Size in pixels of one grid slot.
 		sf::Vector2i m_gridOffset;

@@ -96,6 +96,7 @@
     <ClCompile Include="src\Graphics\QuadComponents\Beam.cpp" />
     <ClCompile Include="src\Graphics\Particles.cpp" />
     <ClCompile Include="src\Network\ShipBuilder.cpp" />
+    <ClCompile Include="src\Network\Network.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Game\Directory.hpp" />
@@ -409,6 +410,7 @@
     <ClInclude Include="include\API\Math\Vec2.hpp" />
     <ClInclude Include="include\Graphics\Particles.hpp" />
     <ClInclude Include="include\Network\ShipBuilder.hpp" />
+    <ClInclude Include="include\Network\Network.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\API\SFML\Audio\SoundFileFactory.inl" />

@@ -228,8 +228,9 @@ const String& Chunk::getName() const
 }
 void Chunk::setAim(const Vec2& world)//send our aim coordinates
 {
+	m_lastAim = world;
 	for(auto it = m_modules.begin(); it != m_modules.end(); ++it)
-		(*it)->setAim(world);
+		(*it)->setAim(m_lastAim);
 }
 void Chunk::directive(const CommandInfo& commands)//send command to target
 {
@@ -243,6 +244,7 @@ void Chunk::directive(const CommandInfo& commands)//send command to target
 	{
 		if(m_timer.isTimeUp())
 		{
+			m_lastAim;
 			String store;
 			for(auto it = m_modules.begin(); it != m_modules.end(); ++it)
 			{
@@ -250,15 +252,21 @@ void Chunk::directive(const CommandInfo& commands)//send command to target
 				if(store != "")
 					break;
 			}
-			if(store != "")
-			{
-				Message toggle(store, "toggleHidden", voidPacket, 0, false);
-				Message mes2("local_player", "toggleGuiMode", voidPacket, 0, false);
-				game.getCoreIO().recieve(toggle);
-				game.getCoreIO().recieve(mes2);
-			}
-			else
-				assert(Print << "Store name [" + store + "]." << FILELINE);
+			//if(store != "")
+			//{
+			//	Message toggle(store, "toggleHidden", voidPacket, 0, false);
+			//	Message mes2("local_player", "toggleGuiMode", voidPacket, 0, false);
+			//	game.getCoreIO().recieve(toggle);
+			//	game.getCoreIO().recieve(mes2);
+			//}
+			//else
+			//	assert(Print << "Store name [" + store + "]." << FILELINE);
+
+			Message toggle(store, "toggleHidden", voidPacket, 0, false);
+			Message mes2("local_player", "toggleGuiMode", voidPacket, 0, false);
+			game.getCoreIO().recieve(toggle);
+			game.getCoreIO().recieve(mes2);
+
 			m_timer.restartCountDown();
 		}
 	}
@@ -445,4 +453,14 @@ float Chunk::getRadius()
 	m_radius = max.len();
 	return m_radius;
 }
+void Chunk::writeToPacket(int targetIOpos, const List<Pair<String, sf::Vector2i> >& modules, sf::Packet* data)
+{
+
+}
+void Chunk::readFromPacket(int* targetIOpos, List<Pair<String, sf::Vector2i> >* modules, sf::Packet data)
+{
+
+}
+
+
 

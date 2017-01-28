@@ -433,7 +433,7 @@ void Overlay::loadMenus()
 
 	Courier reconstructButton;
 	reconstructButton.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
-	reconstructButton.message.reset("ship_editor", "sendState", voidPacket, 0, false);
+	reconstructButton.message.reset("ship_editor", "getState", voidPacket, 0, false);
 	reconstructData.ioComp.courierList.push_back(reconstructButton);
 
 	pStore->add(sptr<leon::WidgetBase>(new Button(*pStore->getPanelPtr(), reconstructData)));

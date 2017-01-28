@@ -68,7 +68,7 @@ void BasePlayerTraits::addModule(const String& newTitle, const sf::Vector2i& rPo
 	pack << newTitle;
 	pack << rPos.x;
 	pack << rPos.y;
-	Message modAdded("ship_editor", "addItem", pack, 0.f, false);
+	Message modAdded("ship_editor", "addModuleToGui", pack, 0.f, false);
 	game.getCoreIO().recieve(modAdded);
 }
 

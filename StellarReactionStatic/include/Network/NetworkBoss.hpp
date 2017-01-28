@@ -86,7 +86,7 @@ public:
 	/**REDUCTION**/
 
 	/// Called by Server when receiving a player option, such as changing teams or ships, buying modules, etc.
-	void playerOption(sf::Packet& rData, BasePlayerTraits* pFrom);
+	void playerOption(sf::Packet rData, BasePlayerTraits* pFrom);
 	/// We are being told to start the game. data contains the game information.
 	void recieveLevel(sf::Packet& data);
 	/// Called by Server when player clicks Launch. Sends data to Clients.

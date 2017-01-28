@@ -112,4 +112,3 @@ void Module::input(String rCommand, sf::Packet rData)
 		assert(cout << "\nCommand [" << rCommand << "] not found in [" << m_io.getName() << "]." << FILELINE);
 	}
 }
-

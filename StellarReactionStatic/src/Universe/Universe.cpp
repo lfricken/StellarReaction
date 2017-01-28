@@ -153,7 +153,8 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 	game.getCoreIO().recieve(mes);
 
 	Controller* pController = &this->getControllerFactory().getController(data.localController);
-	//Chunk* pCnk = pController->getSlave();
+	Chunk* ship = pController->getSlave();
+	ShipBuilder::Client::shipToGui(ship);
 	//if(pCnk != NULL)
 	//{
 	//	auto list = pCnk->getModules();

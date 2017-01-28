@@ -10,22 +10,41 @@ public:
 	ShipBuilder();
 	~ShipBuilder();
 
-	/// Input function to decide what to do with a message.
-	class Gui
+	/// <summary>
+	/// Handle a command being recieved by either a client or host.
+	/// </summary>
+	static bool handleCommand(const String& rCommand, sf::Packet rData, BasePlayerTraits* pFrom);
+
+	/// <summary>
+	/// Called only on the individual client.
+	/// </summary>
+	class Client
 	{
 	public:
-		static void buyModule(const String& rCommand, sf::Packet& rData, BasePlayerTraits* pFrom);
-		static void addModule(const String& rCommand, sf::Packet& rData, BasePlayerTraits* pFrom);
+		/// <summary>
+		/// Takes a chunk and sets the local editor to edit this.
+		/// </summary>
+		static void shipToGui(const Chunk* ship);
 	};
 
-	static bool handleCommand(const String& rCommand, sf::Packet& rData, BasePlayerTraits* pFrom);
-	static void rebuild(const String& rCommand, sf::Packet& rData, BasePlayerTraits* pFrom);
 
-	static void extractModules(sf::Packet& rData, List<Pair<String, sf::Vector2i> >* list);
-	static void insertModules(sf::Packet& rData, const List<Pair<String, sf::Vector2i> >& list);
 
-	static void attachModule(Chunk* ship, const String& bpName, const sf::Vector2i offset);
-	static void cleanShip(const Chunk* ship);
+	/// <summary>
+	/// Only called by Host
+	/// </summary>
+	class Server
+	{
+	public:
+		static void addModule(const String& rCommand, sf::Packet& rData, BasePlayerTraits* pFrom);
+		static void buyModule(const String& rCommand, sf::Packet& rData, BasePlayerTraits* pFrom);
+
+		static void rebuild(const String& rCommand, sf::Packet& rData, BasePlayerTraits* pFrom);
+		static void attachModule(Chunk* ship, const String& bpName, const sf::Vector2i offset);
+		static void cleanShip(const Chunk* ship);
+		static void extractModules(sf::Packet& rData, List<Pair<String, sf::Vector2i> >* list);
+	};
+
+
 
 	List<std::pair<String, sf::Vector2i> > getModules();
 };

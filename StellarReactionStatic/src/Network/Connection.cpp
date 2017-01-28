@@ -104,7 +104,7 @@ void Connection::addModule(const String& newTitle, const sf::Vector2i& rPos)
 	pack << newTitle;
 	pack << rPos.x;
 	pack << rPos.y;
-	Message modAdded("ship_editor", "addItem", pack, 0.f, false);
+	Message modAdded("ship_editor", "addModuleToGui", pack, 0.f, false);
 	this->sendSpecialIo(modAdded);
 }
 void Connection::sendSpecialIo(const Message& mes)
