@@ -4,8 +4,8 @@
 #define FILELINE "file:{"<<__FILE__<<"}line:{"<<__LINE__<<"}"
 
 #ifdef _DEBUG
-#define dout cout
+#define dout std::cout
 #else
-#define dout 0 && cout
+#define dout 0 && std::cout
 #endif
 

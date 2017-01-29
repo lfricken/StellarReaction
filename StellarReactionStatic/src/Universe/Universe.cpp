@@ -1,5 +1,4 @@
 #include "Universe.hpp"
-
 #include "BlueprintLoader.hpp"
 #include "Globals.hpp"
 #include "SlaveLocator.hpp"
@@ -149,29 +148,12 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 
 
 	/**Load Ship Into Store**/
-	Message mes("ship_editor", "clear", voidPacket, 0, false);
+	Message mes("ship_editor", "clearEditor", voidPacket, 0, false);
 	game.getCoreIO().recieve(mes);
 
 	Controller* pController = &this->getControllerFactory().getController(data.localController);
 	Chunk* ship = pController->getSlave();
 	ShipBuilder::Client::shipToGui(ship);
-	//if(pCnk != NULL)
-	//{
-	//	auto list = pCnk->getModules();
-	//	for(auto it = list.cbegin(); it != list.cend(); ++it)
-	//	{
-	//		sf::Packet pack;
-	//		pack << "addModule";
-	//		pack << it->first;
-	//		pack << it->second.x;
-	//		pack << it->second.y;
-
-
-	//		Message mes("networkboss", "sendTcpToHost", pack, 0, false);
-	//		game.getCoreIO().recieve(mes);
-	//	}
-	//}
-
 
 	/**Hazard Field Spawn Hazards**/
 	for(auto it = hazardFields.begin(); it != hazardFields.end(); ++it)

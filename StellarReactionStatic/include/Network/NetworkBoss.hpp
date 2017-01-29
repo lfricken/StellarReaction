@@ -39,7 +39,7 @@ public:
 
 
 	/// Returns thet NetworkFactory that syncs via udp.
-	NetworkFactory& getNWFactory();
+	NetworkFactory& getNWDataFactory();
 	/// Returns thet NetworkFactory that syncs via tcp.
 	NetworkFactory& getNWFactoryTcp();
 
@@ -130,7 +130,10 @@ private:
 	List<sptr<Connection> > m_connections;
 
 	NetworkFactory m_nwFactoryTcp;
-	NetworkFactory m_nwFactory;
+	/// <summary>
+	/// ships, modules
+	/// </summary>
+	NetworkFactory m_dataProtocol;
 };
 
 #endif // NETWORKBOSS_HPP

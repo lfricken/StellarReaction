@@ -97,16 +97,16 @@ void Connection::recievePlayerTraits(sf::Packet mes)
 /// </summary>
 /// <param name="newTitle">The new title.</param>
 /// <param name="rPos">The r position.</param>
-void Connection::addModule(const String& newTitle, const sf::Vector2i& rPos)
-{
-	//m_owned.push_back(pair<String, Vec2>(newTitle, rPos));
-	sf::Packet pack;
-	pack << newTitle;
-	pack << rPos.x;
-	pack << rPos.y;
-	Message modAdded("ship_editor", "addModuleToGui", pack, 0.f, false);
-	this->sendSpecialIo(modAdded);
-}
+//void Connection::addModule(const String& newTitle, const sf::Vector2i& rPos)
+//{
+//	//m_owned.push_back(pair<String, Vec2>(newTitle, rPos));
+//	sf::Packet pack;
+//	pack << newTitle;
+//	pack << rPos.x;
+//	pack << rPos.y;
+//	Message modAdded("ship_editor", "addModule ToGui", pack, 0.f, false);
+//	this->sendSpecialIo(modAdded);
+//}
 void Connection::sendSpecialIo(const Message& mes)
 {
 	sf::Packet packet;

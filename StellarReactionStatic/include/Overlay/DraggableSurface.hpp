@@ -33,6 +33,8 @@ namespace leon
 		/// Add a draggable object.
 		void addDraggable(const DraggableData& rData);
 
+		void addModule(const String& title, sf::Vector2i shipModulePos);
+
 		// Currently commented out for unknown reason.
 		//List<std::pair<String, sf::Vector2f> > getValidPositions() const;
 

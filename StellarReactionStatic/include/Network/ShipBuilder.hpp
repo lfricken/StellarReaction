@@ -25,8 +25,11 @@ public:
 		/// Takes a chunk and sets the local editor to edit this.
 		/// </summary>
 		static void shipToGui(const Chunk* ship);
-		static void writeToPacket(int targetIOpos, const List<Pair<String, sf::Vector2i> >& modules, sf::Packet* data);
-		static void readFromPacket(int* targetIOpos, List<Pair<String, sf::Vector2i> >* modules, sf::Packet data);
+		static void buyModule(sf::Packet& rData);
+		static void addModuleToGui(const String& newTitle, const sf::Vector2i& rPos);
+
+		static void writeToPacket(int targetShipIOPosition, const List<Pair<String, sf::Vector2i> >& modules, sf::Packet* data);
+		static void readFromPacket(int* targetShipIOPosition, List<Pair<String, sf::Vector2i> >* modules, sf::Packet data);
 
 	};
 
@@ -38,12 +41,10 @@ public:
 	class Server
 	{
 	public:
-		static void addModule(const String& rCommand, sf::Packet& rData, BasePlayerTraits* pFrom);
-		static void buyModule(const String& rCommand, sf::Packet& rData, BasePlayerTraits* pFrom);
-
-		static void rebuild(const String& rCommand, sf::Packet& rData, BasePlayerTraits* pFrom);
-		static void attachModule(Chunk* ship, const String& bpName, const sf::Vector2i offset);
-		static void cleanShip(const Chunk* ship);
+		static void rebuild(sf::Packet& rData);
+	private:
+		static void attachModule(int targetShipIOPosition, const String& bpName, const sf::Vector2i offset);
+		static void cleanShip(int targetShipIOPosition);
 		static void extractModules(sf::Packet& rData, List<Pair<String, sf::Vector2i> >* list);
 	};
 

@@ -14,6 +14,6 @@ Network::~Network()
 }
 void Network::toHostAtomic(sf::Packet data)
 {
-	Message mes("networkboss", "sendTcpToHost", data, 0, false);
+	Message mes("networkboss", "Protocol::PlayerOption", data, 0, false);
 	game.getCoreIO().recieve(mes);
 }

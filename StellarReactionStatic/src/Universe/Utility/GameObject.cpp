@@ -2,7 +2,7 @@
 
 using namespace std;
 
-GameObject::GameObject(const GameObjectData& rData) : m_io(rData.ioComp, &GameObject::input, this), m_nw(rData.nwComp, &GameObject::pack, &GameObject::unpack, this, game.getNwBoss().getNWFactory()), m_rParent(*rData.pParent)
+GameObject::GameObject(const GameObjectData& rData) : m_io(rData.ioComp, &GameObject::input, this), m_nw(rData.nwComp, &GameObject::pack, &GameObject::unpack, this, game.getNwBoss().getNWDataFactory()), m_rParent(*rData.pParent)
 {
 	if(rData.pParent == NULL)
 		cout << rData.ioComp.name;

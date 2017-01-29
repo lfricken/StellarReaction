@@ -254,36 +254,39 @@ void Overlay::loadMenus()
 	select.startHidden = false;
 	select.ioComp.name = "lobby_shipSelect";
 
-	leon::SelectableItemData data1;
+	leon::SelectableItemData item;
 	//data1.texName = "menu/red_menu.png";
-	data1.texName = "menu/Red_menu_button.png";
+	item.texName = "menu/Red_menu_button.png";
 	leon::LabelData label1;
-	data1.labelData.push_back(label1);
+	item.labelData.push_back(label1);
 
+	/// <summary>
+	/// Action when a networked item is selected.
+	/// </summary>
 	Courier buttonClick;
 	buttonClick.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
-	buttonClick.message.reset("networkboss", "sendTcpToHost", voidPacket, 0, false);
-	data1.buttData.ioComp.courierList.push_back(buttonClick);
-	data1.labelData.back().textSize = 16;
+	buttonClick.message.reset("networkboss", "Protocol::PlayerOption", voidPacket, 0, false);//selecting ship
+	item.buttData.ioComp.courierList.push_back(buttonClick);
+	item.labelData.back().textSize = 16;
 
 
 	select.command = "setShip";
 
-	data1.labelData.back().text = "Anubis";
-	data1.id = "Anubis";
-	select.items.push_back(data1);
+	item.labelData.back().text = "Anubis";
+	item.id = "Anubis";
+	select.items.push_back(item);
 
-	data1.labelData.back().text = "Caterina";
-	data1.id = "Caterina";
-	select.items.push_back(data1);
+	item.labelData.back().text = "Caterina";
+	item.id = "Caterina";
+	select.items.push_back(item);
 
-	data1.labelData.back().text = "Caterina";
-	data1.id = "Caterina";
-	select.items.push_back(data1);
+	item.labelData.back().text = "Caterina";
+	item.id = "Caterina";
+	select.items.push_back(item);
 
-	data1.labelData.back().text = "Dante";
-	data1.id = "Dante";
-	select.items.push_back(data1);
+	item.labelData.back().text = "Dante";
+	item.id = "Dante";
+	select.items.push_back(item);
 
 	pLobby->add(sptr<leon::WidgetBase>(new leon::NetworkedSelection(*pLobby->getPanelPtr(), select)));
 
@@ -306,7 +309,7 @@ void Overlay::loadMenus()
 
 	Courier mes;
 	mes.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
-	mes.message.reset("networkboss", "sendTcpToHost", voidPacket, 0, false);
+	mes.message.reset("networkboss", "Protocol::PlayerOption", voidPacket, 0, false);
 	data.buttData.ioComp.courierList.push_back(mes);
 	selectTeam.command = "setTeam";
 
@@ -346,57 +349,79 @@ void Overlay::loadMenus()
 	storePanelData.screenCoords = sf::Vector2f(game.getWindow().getSize().x / 2 - storePanelSize.x / 2, game.getWindow().getSize().y / 2 - storePanelSize.y / 2);
 	storePanelData.size = sf::Vector2f(storePanelSize.x, storePanelSize.y);
 	leon::Panel* pStore = new leon::Panel(game.getOverlay().getGui(), storePanelData);
-	/**STORE**/
-	leon::NetworkedSelectionData store;
-	store.size = sf::Vector2f(200, 400);
-	store.itemSize = sf::Vector2f(200, 40);
-	store.screenCoords = sf::Vector2f(0, 0);
-	store.backgroundColor = sf::Color(50, 50, 50, 128);
-	store.startHidden = false;
-	store.ioComp.name = "";
-	leon::SelectableItemData data2;
-	data2.texName = "menu/default_menu.png";
-	leon::LabelData buyLabel;
-	data2.labelData.push_back(buyLabel);
+	///**STORE**/
+	//leon::NetworkedSelectionData store;
+	//store.size = sf::Vector2f(200, 400);
+	//store.itemSize = sf::Vector2f(200, 40);
+	//store.screenCoords = sf::Vector2f(0, 0);
+	//store.backgroundColor = sf::Color(50, 50, 50, 128);
+	//store.startHidden = false;
+	//store.ioComp.name = "";
+	//leon::SelectableItemData data2;
+	//data2.texName = "menu/default_menu.png";
+	//leon::LabelData buyLabel;
+	//data2.labelData.push_back(buyLabel);
 
-	Courier storeBuy;
-	storeBuy.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
-	storeBuy.message.reset("networkboss", "sendTcpToHost", voidPacket, 0, false);
-	data2.buttData.ioComp.courierList.push_back(storeBuy);
-	data2.labelData.back().textSize = 16;
+	//Courier storeBuy;
+	//storeBuy.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
+	//storeBuy.message.reset("ship_editor", "addModuleToGui", voidPacket, 0, false);
+	//data2.buttData.ioComp.courierList.push_back(storeBuy);
+	//data2.labelData.back().textSize = 16;
 
 
-	store.command = "buyModule";
+	//store.command = "buyModule";
 
-	data2.labelData.back().text = "70mm Autoturret";
-	data2.id = "BallisticTurret";
-	store.items.push_back(data2);
+	//data2.labelData.back().text = "70mm Autoturret";
+	//data2.id = "BallisticTurret";
+	//store.items.push_back(data2);
 
-	data2.labelData.back().text = "Razor 2.5GW Pulse";
-	data2.id = "LaserTurret";
-	store.items.push_back(data2);
+	//data2.labelData.back().text = "Razor 2.5GW Pulse";
+	//data2.id = "LaserTurret";
+	//store.items.push_back(data2);
 
-	data2.labelData.back().text = "Homing Missile";
-	data2.id = "MissileTurret";
-	store.items.push_back(data2);
+	//data2.labelData.back().text = "Homing Missile";
+	//data2.id = "MissileTurret";
+	//store.items.push_back(data2);
 
-	data2.labelData.back().text = "Titanium Alloy Plate";
-	data2.id = "Plating";
-	store.items.push_back(data2);
+	//data2.labelData.back().text = "Titanium Alloy Plate";
+	//data2.id = "Plating";
+	//store.items.push_back(data2);
 
-	data2.labelData.back().text = "100Gigajoule Capacitor";
-	data2.id = "Capacitor";
-	store.items.push_back(data2);
+	//data2.labelData.back().text = "100Gigajoule Capacitor";
+	//data2.id = "Capacitor";
+	//store.items.push_back(data2);
 
-	data2.labelData.back().text = "Maxus L2 Engine";
-	data2.id = "Thruster";
-	store.items.push_back(data2);
+	//data2.labelData.back().text = "Maxus L2 Engine";
+	//data2.id = "Thruster";
+	//store.items.push_back(data2);
 
-	data2.labelData.back().text = "Omni Sensor Array";
-	data2.id = "Radar";
-	store.items.push_back(data2);
+	//data2.labelData.back().text = "Omni Sensor Array";
+	//data2.id = "Radar";
+	//store.items.push_back(data2);
 
-	pStore->add(sptr<leon::WidgetBase>(new leon::NetworkedSelection(*pStore->getPanelPtr(), store)));
+	//pStore->add(sptr<leon::WidgetBase>(new leon::NetworkedSelection(*pStore->getPanelPtr(), store)));
+
+	/**Close Store**/
+	leon::ButtonData buy1;
+	buy1.ioComp.name = "buy1";
+	buy1.screenCoords = sf::Vector2f(0, 0);
+	buy1.size = sf::Vector2f(200, 40);
+	buy1.buttonText = "buy thing";
+	buy1.startHidden = false;
+	//Courier closeMes;
+	//closeMes.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
+	//closeMes.message.reset("store_default", "toggleHidden", voidPacket, 0, false);
+	//close.ioComp.courierList.push_back(closeMes);
+	Courier buy;
+	buy.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
+	sf::Packet moduleInfo;
+	sf::Vector2i pos(0, 0);
+	moduleInfo << "Plating";
+	moduleInfo << pos.x << pos.y;
+	buy.message.reset("ship_editor", "addModuleToGui", moduleInfo, 0, false);
+	buy1.ioComp.courierList.push_back(buy);
+	pStore->add(sptr<leon::WidgetBase>(new leon::Button(*pStore->getPanelPtr(), buy1)));
+
 
 	/**SHIP EDITOR**/
 	DraggableSurfaceData surfaceData;

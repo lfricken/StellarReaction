@@ -97,15 +97,27 @@ sf::Vector2i DraggableSurface::fromWorldCoords(const sf::Vector2i& worldCoord) c
 {
 	return sf::Vector2i(worldCoord.x + m_gridOffset.x, (-worldCoord.y) + m_gridOffset.y);//make negative because view coords vs world
 }
+void DraggableSurface::addModule(const String& title, sf::Vector2i shipModulePos)
+{
+	sptr<ShipModuleData> pNewModuleData = sptr<ShipModuleData>(dynamic_cast<ShipModuleData*>(game.getUniverse().getBlueprints().getModuleSPtr(title)->clone()));
+
+	DraggableData draggable;
+	draggable.metaData = title;
+	draggable.icon.texName = pNewModuleData->baseDecor.texName;
+	draggable.gridPosition = fromWorldCoords(shipModulePos);
+
+	this->addDraggable(draggable);
+}
 bool DraggableSurface::inputHook(const String rCommand, sf::Packet data)
 {
-	dout << rCommand;
+	dout << "\n" << rCommand;
 
 	if(rCommand == "getState")
 	{
 		List<Pair<String, sf::Vector2i> > modules = this->getRealPositions();
 		sf::Packet pack;
 		pack << "rebuild";
+
 		ShipBuilder::Client::writeToPacket(m_targetShip, modules, &pack);
 
 		//Tell server that we moved a module. It is then moved there as well.
@@ -132,20 +144,17 @@ bool DraggableSurface::inputHook(const String rCommand, sf::Packet data)
 		data >> shipModulePos.x;
 		data >> shipModulePos.y;
 
-		cout << "\naddModuleToGui: " << shipModulePos.x << shipModulePos.y;
+		dout << shipModulePos.x << shipModulePos.y;
 
-		sptr<ShipModuleData> pNewModuleData = sptr<ShipModuleData>(dynamic_cast<ShipModuleData*>(game.getUniverse().getBlueprints().getModuleSPtr(title)->clone()));
-
-		DraggableData draggable;
-		draggable.metaData = title;
-		draggable.icon.texName = pNewModuleData->baseDecor.texName;
-		draggable.gridPosition = fromWorldCoords(shipModulePos);
-
-		this->addDraggable(draggable);
+		addModule(title, shipModulePos);
 
 		return true;
 	}
-	else if(rCommand == "clear")
+	else if(rCommand == "buyModule")//setState
+	{
+		return true;
+	}
+	else if(rCommand == "clearEditor")
 	{
 		m_widgetList.clear();
 

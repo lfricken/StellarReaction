@@ -122,7 +122,7 @@ void NetworkBoss::launchMultiplayerGame()
 
 	recieveLevel(hostData);
 }
-NetworkBoss::NetworkBoss(const NetworkBossData& rData) : m_io(rData.ioComp, &NetworkBoss::input, this), m_nwFactory("standard"), m_nwFactoryTcp("tcp")
+NetworkBoss::NetworkBoss(const NetworkBossData& rData) : m_io(rData.ioComp, &NetworkBoss::input, this), m_dataProtocol("standard"), m_nwFactoryTcp("tcp")
 {
 	m_numAI = 0;
 	m_state = NWState::Local;
@@ -146,9 +146,9 @@ bool NetworkBoss::gameHasStarted() const
 {
 	return m_nwGameStarted;
 }
-NetworkFactory& NetworkBoss::getNWFactory()
+NetworkFactory& NetworkBoss::getNWDataFactory()
 {
-	return m_nwFactory;
+	return m_dataProtocol;
 }
 NetworkFactory& NetworkBoss::getNWFactoryTcp()
 {
@@ -346,6 +346,9 @@ void NetworkBoss::update()
 	sendUdp();
 	sendTcp();
 }
+/// <summary>
+/// Process data about control state, ship position, module health, etc.
+/// </summary>
 void NetworkBoss::udpRecieve()
 {
 	if(m_nwGameStarted)
@@ -370,7 +373,7 @@ void NetworkBoss::udpRecieve()
 						if(proto == Protocol::Control)
 							game.getUniverse().getControllerFactory().getNWFactory().process(data);
 						else if(proto == Protocol::Data)
-							m_nwFactory.process(data);
+							m_dataProtocol.process(data);
 						else if(proto == Protocol::PlayerTraits)
 							pCon->recievePlayerTraits(data);
 						else
@@ -476,7 +479,7 @@ void NetworkBoss::sendUdp()
 		//universe component data
 		if(getNWState() == NWState::Server)
 		{
-			m_nwFactory.getComponentData(udpPacket);
+			m_dataProtocol.getComponentData(udpPacket);
 			for(int32_t i = 0; i < (signed)m_connections.size(); ++i)
 				m_connections[i]->sendUdp(Protocol::Data, udpPacket);
 		}
@@ -579,9 +582,9 @@ void NetworkBoss::playerOption(sf::Packet rData, BasePlayerTraits* pFrom)
 		rData >> name;
 		pFrom->setName(name);
 	}
-	else if(ShipBuilder::handleCommand(command, rData, pFrom))
+	else if(command == "rebuild")
 	{
-
+		ShipBuilder::Server::rebuild(rData);
 	}
 	else
 		Print << FILELINE;
@@ -633,7 +636,7 @@ void NetworkBoss::input(const String rCommand, sf::Packet rData)
 	}
 	///If we are the host, handle our own message.
 	///If we are a client, send it to the server.
-	else if(rCommand == "sendTcpToHost")
+	else if(rCommand == "Protocol::PlayerOption")
 	{
 		if(getNWState() == NWState::Server)
 			playerOption(rData, &game.getLocalPlayer());
@@ -643,6 +646,6 @@ void NetworkBoss::input(const String rCommand, sf::Packet rData)
 	}
 	else
 	{
-		Print << "\n" << FILELINE;
+		Print << "\n" << rCommand << FILELINE;
 	}
 }

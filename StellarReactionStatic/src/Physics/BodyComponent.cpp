@@ -8,7 +8,7 @@
 
 using namespace std;
 
-BodyComponent::BodyComponent(const BodyComponentData& rData) : m_nw(rData.nwComp, &BodyComponent::pack, &BodyComponent::unpack, this, game.getNwBoss().getNWFactory())
+BodyComponent::BodyComponent(const BodyComponentData& rData) : m_nw(rData.nwComp, &BodyComponent::pack, &BodyComponent::unpack, this, game.getNwBoss().getNWDataFactory())
 {
 	if(rData.isDynamic)
 		m_bodyDef.type = b2BodyType::b2_dynamicBody;
