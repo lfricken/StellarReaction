@@ -3,6 +3,7 @@
 #include "ShipModule.hpp"
 #include "BlueprintLoader.hpp"
 #include "Network.hpp"
+#include "Player.hpp"
 
 using namespace leon;
 using namespace std;
@@ -97,7 +98,7 @@ sf::Vector2i DraggableSurface::fromWorldCoords(const sf::Vector2i& worldCoord) c
 {
 	return sf::Vector2i(worldCoord.x + m_gridOffset.x, (-worldCoord.y) + m_gridOffset.y);//make negative because view coords vs world
 }
-void DraggableSurface::addModule(const String& title, sf::Vector2i shipModulePos)
+void DraggableSurface::addModuleToEditor(const String& title, sf::Vector2i shipModulePos)
 {
 	sptr<ShipModuleData> pNewModuleData = sptr<ShipModuleData>(dynamic_cast<ShipModuleData*>(game.getUniverse().getBlueprints().getModuleSPtr(title)->clone()));
 
@@ -146,12 +147,36 @@ bool DraggableSurface::inputHook(const String rCommand, sf::Packet data)
 
 		dout << shipModulePos.x << shipModulePos.y;
 
-		addModule(title, shipModulePos);
+		addModuleToEditor(title, shipModulePos);
 
 		return true;
 	}
 	else if(rCommand == "buyModule")//setState
 	{
+		BasePlayerTraits& buyer = game.getLocalPlayer();
+
+		String title;
+		sf::Vector2i shipModulePos;
+
+		data >> title;
+		data >> shipModulePos.x;
+		data >> shipModulePos.y;
+
+		dout << shipModulePos.x << shipModulePos.y;
+
+		const ModuleData* module = game.getUniverse().getBlueprints().getModuleSPtr(title).get();
+		if(module != nullptr)
+		{
+			Money cost = module->cost;//see if we can afford it
+			if(buyer.getMoney() >= cost)
+			{
+				addModuleToEditor(title, shipModulePos);
+				buyer.changeMoney(-cost);
+			}
+		}
+		else
+			Print << FILELINE;
+
 		return true;
 	}
 	else if(rCommand == "clearEditor")

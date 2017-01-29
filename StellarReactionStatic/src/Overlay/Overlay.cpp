@@ -418,7 +418,7 @@ void Overlay::loadMenus()
 	sf::Vector2i pos(0, 0);
 	moduleInfo << "Plating";
 	moduleInfo << pos.x << pos.y;
-	buy.message.reset("ship_editor", "addModuleToGui", moduleInfo, 0, false);
+	buy.message.reset("ship_editor", "buyModule", moduleInfo, 0, false);
 	buy1.ioComp.courierList.push_back(buy);
 	pStore->add(sptr<leon::WidgetBase>(new leon::Button(*pStore->getPanelPtr(), buy1)));
 

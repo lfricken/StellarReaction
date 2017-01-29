@@ -21,20 +21,6 @@ ShipBuilder::~ShipBuilder()
 {
 
 }
-bool ShipBuilder::handleCommand(const String& rCommand, sf::Packet rData, BasePlayerTraits* pFrom)
-{
-	//if(rCommand == "rebuild")//a player wants to attach a module to thier ship, from their inventory
-	//	
-	//else if(rCommand == "buyModule")
-	//	Client::buyModule(rData);
-	////else if(rCommand == "addModule")
-	////	Server::addModule(rCommand, rData, pFrom);
-	//else
-	//	return false;
-	return true;
-}
-
-
 void ShipBuilder::Client::shipToGui(const Chunk* ship)
 {
 	if(ship != NULL)
@@ -76,57 +62,6 @@ void ShipBuilder::Client::readFromPacket(int* targetShipIOPosition, List<Pair<St
 		data >> it->second.x;//grid position x
 		data >> it->second.y;//grid position y
 	}
-}
-void ShipBuilder::Client::addModuleToGui(const String& newTitle, const sf::Vector2i& rPos)
-{
-	//m_owned.push_back(pair<String, Vec2>(newTitle, rPos));
-	sf::Packet pack;
-	pack << newTitle;
-	pack << rPos.x;
-	pack << rPos.y;
-	Message modAdded("ship_editor", "addModuleToGui", pack, 0.f, false);
-	game.getCoreIO().recieve(modAdded);
-}
-
-
-//void ShipBuilder::Server::addModule(const String& rCommand, sf::Packet& rData, BasePlayerTraits* pFrom)
-//{
-//	String bpName;
-//	sf::Vector2i pos;
-//	rData >> bpName;
-//	rData >> pos.x;
-//	rData >> pos.y;
-//	const ModuleData* pMod = game.getUniverse().getBlueprints().getModuleSPtr(bpName).get();
-//	if(pMod != nullptr)
-//	{
-//		pFrom->addModule(bpName, pos);//tell whoever this command came from to add a module to their gui
-//		//just assume they already paid for it, or aquired it otherwise
-//	}
-//	else
-//		Print << FILELINE;
-//}
-void ShipBuilder::Client::buyModule(sf::Packet& rData)
-{
-	BasePlayerTraits& buyer = game.getLocalPlayer();
-
-	String bpName;
-	sf::Vector2i pos;
-	rData >> bpName;
-	rData >> pos.x;
-	rData >> pos.y;
-
-	const ModuleData* module = game.getUniverse().getBlueprints().getModuleSPtr(bpName).get();
-	if(module != nullptr)
-	{
-		Money cost = module->cost;//see if we can afford it
-		if(buyer.getMoney() >= cost)
-		{
-			Client::addModuleToGui(bpName, pos);//tell whoever this command came from to add a module to their gui
-			buyer.changeMoney(-cost);
-		}
-	}
-	else
-		Print << FILELINE;
 }
 
 

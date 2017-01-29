@@ -11,11 +11,6 @@ public:
 	~ShipBuilder();
 
 	/// <summary>
-	/// Handle a command being recieved by either a client or host.
-	/// </summary>
-	static bool handleCommand(const String& rCommand, sf::Packet rData, BasePlayerTraits* pFrom);
-
-	/// <summary>
 	/// Called only on the individual client.
 	/// </summary>
 	class Client
@@ -25,8 +20,6 @@ public:
 		/// Takes a chunk and sets the local editor to edit this.
 		/// </summary>
 		static void shipToGui(const Chunk* ship);
-		static void buyModule(sf::Packet& rData);
-		static void addModuleToGui(const String& newTitle, const sf::Vector2i& rPos);
 
 		static void writeToPacket(int targetShipIOPosition, const List<Pair<String, sf::Vector2i> >& modules, sf::Packet* data);
 		static void readFromPacket(int* targetShipIOPosition, List<Pair<String, sf::Vector2i> >* modules, sf::Packet data);

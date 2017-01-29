@@ -126,7 +126,14 @@ void Player::getLiveInput()
 
 		/**== SPECIAL ==**/
 		if(sf::Keyboard::isKeyPressed(m_inCfg.store))
+		{
 			m_directives[Directive::ShowStore] = true;
+			std::list<Team> l;
+			l.push_back(this->getTeam());
+			Chunk* ship = game.getUniverse().getNearestChunkOnTeam(m_aim, NULL, l);
+
+			ShipBuilder::Client::shipToGui(ship);
+		}
 		if(sf::Keyboard::isKeyPressed(m_inCfg.respawn))
 			m_directives[Directive::Respawn] = true;
 

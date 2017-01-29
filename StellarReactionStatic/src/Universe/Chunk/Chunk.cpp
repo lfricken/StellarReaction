@@ -262,6 +262,8 @@ void Chunk::directive(const CommandInfo& commands)//send command to target
 			//else
 			//	assert(Print << "Store name [" + store + "]." << FILELINE);
 
+			store = "store_default";
+
 			Message toggle(store, "toggleHidden", voidPacket, 0, false);
 			Message mes2("local_player", "toggleGuiMode", voidPacket, 0, false);
 			game.getCoreIO().recieve(toggle);
