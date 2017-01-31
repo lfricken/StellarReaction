@@ -113,6 +113,7 @@ public:
 	void spawnParticles(const String& particleBP, const Vec2& pos, const Vec2& dir, const Vec2& transverse);
 
 
+	void createControllers(Team team, bool isAnAI, const String& slaveName);
 	/// Return whether a position is clear of other objects.
 	bool isClear(Vec2 position, float radius, const Chunk* exception);
 	/// Return a spawn point for this team.

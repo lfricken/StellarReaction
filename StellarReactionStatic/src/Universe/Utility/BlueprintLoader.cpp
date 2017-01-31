@@ -37,7 +37,10 @@ void BlueprintLoader::loadBlueprints(const String& rDir)
 	}
 
 	for(auto it = chunks.begin(); it != chunks.end(); ++it)
+	{
 		storeData<ChunkData>(it->first, it->second, m_cnkBP);
+		cout << "\n" << it->second;
+	}
 
 	for(auto it = projectiles.begin(); it != projectiles.end(); ++it)
 		storeData<ProjectileData>(it->first, it->second, m_prjBP);

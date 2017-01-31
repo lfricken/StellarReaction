@@ -230,9 +230,12 @@
 		"Coordinates": [-40, -5, 0]
 	}, {
 		"Title": "Store",
-		"Coordinates": [-135, -0,
-			12
-		]
+		"Coordinates": [-135, -0, 12]
+	}, {
+		"Title": "PrimaryDefenseTurret",
+		"Coordinates": [-50, -0, 0],
+		"isAutomated": true,
+		"team": 1
 	}, {
 		"Title": "battlestationBlue",
 		"Coordinates": [-174, -0,

@@ -27,6 +27,9 @@ using namespace std;
 
 void Universe::loadLevel(const GameLaunchData& data)//loads a level using blueprints
 {
+	sptr<ChunkData> spCnk;
+	m_spControlFactory.reset(new ControlFactory);//remove all controllers.
+
 	loadBlueprints("blueprints/");
 
 	const String levelFile = "level.lcfg";
@@ -79,23 +82,83 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 				m_spawnPoints[(Team)(*it)["Team"].asInt()] = points;
 			}
 		}
+
+		/**Create player ships**/
+
+		for(auto it = data.playerList.cbegin(); it != data.playerList.cend(); ++it)
+		{
+			spCnk.reset(m_spBPLoader->getChunkSPtr(it->ship)->clone());
+			Vec2 spawn = m_spawnPoints[it->team][it - data.playerList.cbegin()];
+			spCnk->bodyComp.coords = spawn;
+			float angle = atan2(spawn.y, spawn.x) + (pi / 2.f);
+			spCnk->bodyComp.rotation = angle;
+			spCnk->ioComp.name = it->slaveName;
+			spCnk->team = it->team;
+			Chunk* newChnk = spCnk->generate(this);
+			add(newChnk);
+			newChnk->getBodyPtr()->SetTransform(spawn, angle);
+
+			//add controller after we add the ship with the name
+			//otherwise the controller cant find the intended ship
+			createControllers(it->team, it->isAI, it->slaveName);
+		}
+
+		/**Load Local Player Overlay**/
+		game.getLocalPlayer().loadOverlay("overlayconfig");
+
+
+		/**Set Local Controller**/
+		game.getLocalPlayer().setController(data.localController);
+
+
+		/**Load Ship Into Store**/
+		Message mes("ship_editor", "clearEditor", voidPacket, 0, false);
+		game.getCoreIO().recieve(mes);
+
+		Controller* pController = &this->getControllerFactory().getController(data.localController);
+		Chunk* ship = pController->getSlave();
+		ShipBuilder::Client::shipToGui(ship);
+
+		/**Hazard Field Spawn Hazards**/
+		for(auto it = hazardFields.begin(); it != hazardFields.end(); ++it)
+			(**it).spawn();
+
+
+
 		/**Map Chunks**/
-		sptr<ChunkData> spCnk;
+
 		if(!root["Chunks"].isNull())
 		{
 			const Json::Value chunks = root["Chunks"];
+			const String namePrefix = "map_chunk_";
+			int i = 0;
 			for(auto it = chunks.begin(); it != chunks.end(); ++it)
 			{
+				sptr<ChunkData> spCnk;
+				bool isAutomated = false;
+				int team = (int)Team::Neutral;
+				String slaveName = namePrefix + String(i);
+
 				if(!(*it)["Title"].isNull())
 				{
 					spCnk.reset(m_spBPLoader->getChunkSPtr((*it)["Title"].asString())->clone());
 					spCnk->bodyComp.coords.x = (*it)["Coordinates"][0].asFloat();
 					spCnk->bodyComp.coords.y = (*it)["Coordinates"][1].asFloat();
 					spCnk->bodyComp.rotation = (*it)["Coordinates"][2].asFloat();
+					spCnk->ioComp.name = slaveName;
+					isAutomated = (*it)["isAutomated"].asBool();
+					team = (*it)["team"].asBool();
+					spCnk->team = (Team)team;
 				}
 				else
 					cout << "\n" << FILELINE;
+
+				//spCnk->
 				add(spCnk->generate(this));
+				if(isAutomated)
+					createControllers((Team)team, isAutomated, slaveName);
+
+				++i;
 			}
 		}
 		/**Hazard Fields**/
@@ -111,53 +174,7 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 	}
 
 
-	/**Create player ships**/
-	sptr<ChunkData> spCnk;
-	m_spControlFactory.reset(new ControlFactory);
-	for(auto it = data.playerList.cbegin(); it != data.playerList.cend(); ++it)
-	{
-		spCnk.reset(m_spBPLoader->getChunkSPtr(it->ship)->clone());
-		Vec2 spawn = m_spawnPoints[it->team][it - data.playerList.cbegin()];
-		spCnk->bodyComp.coords = spawn;
-		float angle = atan2(spawn.y, spawn.x) + (pi / 2.f);
-		spCnk->bodyComp.rotation = angle;
-		spCnk->ioComp.name = it->slaveName;
-		spCnk->team = it->team;
-		Chunk* newChnk = spCnk->generate(this);
-		add(newChnk);
-		newChnk->getBodyPtr()->SetTransform(spawn, angle);
 
-		//add controller after we add the ship with the name
-		//otherwise the controller cant find the intended ship
-		m_spControlFactory->addController(it->slaveName);
-
-		if(it->isAI && !game.getNwBoss().isClient())
-		{
-			assert(cout << "\n" << it->slaveName << " controlled by " << m_spControlFactory->getSize() - 1);
-			sptr<ShipAI> ai = sptr<ShipAI>(new ShipAI(it->team, m_spControlFactory->getSize() - 1));
-			m_shipAI.push_back(ai);
-		}
-	}
-
-	/**Load Local Player Overlay**/
-	game.getLocalPlayer().loadOverlay("overlayconfig");
-
-
-	/**Set Local Controller**/
-	game.getLocalPlayer().setController(data.localController);
-
-
-	/**Load Ship Into Store**/
-	Message mes("ship_editor", "clearEditor", voidPacket, 0, false);
-	game.getCoreIO().recieve(mes);
-
-	Controller* pController = &this->getControllerFactory().getController(data.localController);
-	Chunk* ship = pController->getSlave();
-	ShipBuilder::Client::shipToGui(ship);
-
-	/**Hazard Field Spawn Hazards**/
-	for(auto it = hazardFields.begin(); it != hazardFields.end(); ++it)
-		(**it).spawn();
 
 
 	/**Initialize Background**/
@@ -167,6 +184,17 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 		float maxZoom = game.getLocalPlayer().getCamera().m_maxZoom * 0.4f;
 		float size = (float)game.getWindow().getSize().x / scale;
 		m_spDecorEngine->initSpawns(pos, Vec2(maxZoom* size, maxZoom* size));
+	}
+}
+void Universe::createControllers(Team team, bool isAnAI, const String& slaveName)
+{
+	m_spControlFactory->addController(slaveName);
+
+	if(isAnAI && !game.getNwBoss().isClient())
+	{
+		assert(cout << "\n" << slaveName << " controlled by " << m_spControlFactory->getSize() - 1);
+		sptr<ShipAI> ai = sptr<ShipAI>(new ShipAI(team, m_spControlFactory->getSize() - 1));
+		m_shipAI.push_back(ai);
 	}
 }
 Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input, this), m_physWorld(Vec2(0, 0))
@@ -468,7 +496,7 @@ void Universe::teamMoneyUpdate()
 		{
 			for(auto it = m_income.cbegin(); it != m_income.cend(); ++it)
 				m_moneyTotals[it->first] += it->second;
-			
+
 			List<sptr<Connection> > cons = game.getNwBoss().getConnections();
 			for(auto it = cons.begin(); it != cons.end(); ++it)
 				(**it).changeMoney(m_income[(**it).getTeam()]);
@@ -598,7 +626,7 @@ Vec2 Universe::getAvailableSpawn(Team team, float radius, const Chunk* exception
 		if(isClear((*it), radius, exception))
 			return (*it);
 	}
-	return Vec2(0,0);
+	return Vec2(0, 0);
 }
 void Universe::spawnParticles(const String& particleBP, const Vec2& pos, const Vec2& dir, const Vec2& transverse)
 {
