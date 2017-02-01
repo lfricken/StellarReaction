@@ -88,7 +88,8 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 		for(auto it = data.playerList.cbegin(); it != data.playerList.cend(); ++it)
 		{
 			spCnk.reset(m_spBPLoader->getChunkSPtr(it->ship)->clone());
-			Vec2 spawn = m_spawnPoints[it->team][it - data.playerList.cbegin()];
+			int num = it - data.playerList.cbegin();
+			Vec2 spawn = m_spawnPoints[it->team][num];
 			spCnk->bodyComp.coords = spawn;
 			float angle = atan2(spawn.y, spawn.x) + (pi / 2.f);
 			spCnk->bodyComp.rotation = angle;
@@ -172,9 +173,6 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 		DecorationEngine& decorations = *m_spDecorEngine;
 		LOADJSON(decorations);
 	}
-
-
-
 
 
 	/**Initialize Background**/
