@@ -105,15 +105,13 @@ public:
 	void addBed(const Vec2& rBed);
 	/// Load a level using Blueprints.
 	void loadLevel(const GameLaunchData& data);
-	/// Add a Chunk to the Universe.
-	void add(GameObject* pGO);
+
 	/// Return list of GameObject.
 	List<sptr<GameObject> > getgoList();
 	/// Used to create impact particles.
 	void spawnParticles(const String& particleBP, const Vec2& pos, const Vec2& dir, const Vec2& transverse);
 
 
-	void createControllers(Team team, bool isAnAI, const String& slaveName);
 	/// Return whether a position is clear of other objects.
 	bool isClear(Vec2 position, float radius, const Chunk* exception);
 	/// Return a spawn point for this team.
@@ -121,12 +119,30 @@ public:
 	bool started = true; //tell whether this is the initial universe created by Game, or a later one
 	Vec2 getAvailableSpawn(Team team, float radius, const Chunk* exception);
 
+	/// Add a Chunk to the Universe.
+	void add(GameObject* pGO);
+
 protected:
 	void loadBlueprints(const String& bluePrints);//loads blueprints
 
 	void input(String rCommand, sf::Packet rData);
 
 private:
+
+	/**Atomic Actions**/
+
+	/// <summary>
+	/// Create a controller, decide whether it's controlled by an AI, and give it a ship to control.
+	/// </summary>
+	void createControllers(Team team, bool isAnAI, const String& slaveName);
+
+
+
+	/**Atomic Actions**/
+
+
+
+
 	/**SLEEP**/
 	List<Vec2> m_beds;
 	int m_inc;

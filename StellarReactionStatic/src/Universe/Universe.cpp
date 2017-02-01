@@ -135,31 +135,10 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 			int i = 0;
 			for(auto it = chunks.begin(); it != chunks.end(); ++it)
 			{
-				sptr<ChunkData> spCnk;
-				bool isAutomated = false;
-				int team = (int)Team::Neutral;
-				String slaveName = namePrefix + String(i);
-
-				if(!(*it)["Title"].isNull())
-				{
-					spCnk.reset(m_spBPLoader->getChunkSPtr((*it)["Title"].asString())->clone());
-					spCnk->bodyComp.coords.x = (*it)["Coordinates"][0].asFloat();
-					spCnk->bodyComp.coords.y = (*it)["Coordinates"][1].asFloat();
-					spCnk->bodyComp.rotation = (*it)["Coordinates"][2].asFloat();
-					spCnk->ioComp.name = slaveName;
-					isAutomated = (*it)["isAutomated"].asBool();
-					team = (*it)["team"].asBool();
-					spCnk->team = (Team)team;
-				}
-				else
-					cout << "\n" << FILELINE;
-
-				//spCnk->
-				add(spCnk->generate(this));
-				if(isAutomated)
-					createControllers((Team)team, isAutomated, slaveName);
-
+				ChunkDataMessage messageData;
+				messageData.loadJson(*it);
 				++i;
+				messageData.slaveName = namePrefix + String(i);
 			}
 		}
 		/**Hazard Fields**/
@@ -592,6 +571,38 @@ void Universe::input(String rCommand, sf::Packet rData)
 		bool mode;
 		data >> mode;
 		togglePause(mode);
+	}
+	else if(rCommand == "createChunk")
+	{
+		String blueprintName;
+		Vec2 startCoordinates;
+		float rotationDegCCW;
+		int team;
+		String slaveName;
+		bool needsController;
+		bool needsAI;
+
+		rData >> blueprintName;
+		rData >> startCoordinates.x >> startCoordinates.y;
+		rData >> rotationDegCCW;
+		rData >> team;
+		rData >> slaveName;
+		rData >> needsController;
+		rData >> needsAI;
+
+		auto chunkData(m_spBPLoader->getChunkSPtr(blueprintName)->clone());
+		chunkData->bodyComp.coords = startCoordinates;
+		chunkData->bodyComp.rotation = rotationDegCCW;
+		chunkData->team = (Team)team;
+		chunkData->ioComp.name = slaveName;
+
+
+		auto chunk = sptr<Chunk>(new Chunk(*chunkData));
+
+		add(chunk.get());
+
+		if(needsController)
+			createControllers((Team)team, needsAI, slaveName);
 	}
 	else
 	{

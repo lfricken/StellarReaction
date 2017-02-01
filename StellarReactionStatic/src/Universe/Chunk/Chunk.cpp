@@ -11,6 +11,26 @@
 
 using namespace std;
 
+void ChunkDataMessage::loadJson(const Json::Value& root)
+{
+	GETJSON(blueprintName);
+	GETJSON(coordinates);
+	GETJSON(rotation);
+	GETJSON(team);
+	GETJSON(needsController);
+	GETJSON(aiControlled);
+
+	if(aiControlled)
+		needsController = true;
+}
+void ChunkDataMessage::pack(sf::Packet* data)
+{
+
+}
+void ChunkDataMessage::unpack(const sf::Packet& data)
+{
+
+}
 void ChunkData::loadJson(const Json::Value& root)
 {
 	GETJSON(team);

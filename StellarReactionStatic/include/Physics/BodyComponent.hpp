@@ -23,6 +23,9 @@ struct BodyComponentData
 
 	}
 	Vec2 coords;
+	/// <summary>
+	/// Rotation in Degrees CCW
+	/// </summary>
 	float rotation;
 	bool isDynamic;
 	bool isBullet;

@@ -220,168 +220,168 @@
 		]
 	}],
 	"Chunks": [{
-		"Title": "Anubis",
-		"Coordinates": [-60, -5, 0]
+		"blueprintName": "Anubis",
+		"coordinates": [-60, -5, 0]
 	}, {
-		"Title": "Caterina",
-		"Coordinates": [-50, -5, 0]
+		"blueprintName": "Caterina",
+		"coordinates": [-50, -5, 0]
 	}, {
-		"Title": "Dante",
-		"Coordinates": [-40, -5, 0]
+		"blueprintName": "Dante",
+		"coordinates": [-40, -5, 0]
 	}, {
-		"Title": "Store",
-		"Coordinates": [-135, -0, 12]
+		"blueprintName": "Store",
+		"coordinates": [-135, -0, 12]
 	}, {
-		"Title": "PrimaryDefenseTurret",
-		"Coordinates": [-50, -0, 0],
-		"isAutomated": true,
+		"blueprintName": "PrimaryDefenseTurret",
+		"coordinates": [-50, -0, 0],
+		"aiControlled": true,
 		"team": 1
 	}, {
-		"Title": "battlestationBlue",
-		"Coordinates": [-174, -0,
+		"blueprintName": "battlestationBlue",
+		"coordinates": [-174, -0,
 			20
 		]
 	}, {
-		"Title": "StationGreen",
-		"Coordinates": [
+		"blueprintName": "StationGreen",
+		"coordinates": [
 			135,
 			0,
 			90
 		]
 	}, {
-		"Title": "battlestationGreen1",
-		"Coordinates": [
+		"blueprintName": "battlestationGreen1",
+		"coordinates": [
 			172,
 			22,
 			0
 		]
 	}, {
-		"Title": "battlestationGreen2",
-		"Coordinates": [
+		"blueprintName": "battlestationGreen2",
+		"coordinates": [
 			172, -22,
 			0
 		]
 	}, {
-		"Title": "StationYellow",
-		"Coordinates": [
+		"blueprintName": "StationYellow",
+		"coordinates": [
 			0, -135,
 			0
 		]
 	}, {
-		"Title": "battlestationYellow1",
-		"Coordinates": [
+		"blueprintName": "battlestationYellow1",
+		"coordinates": [
 			28, -172,
 			90
 		]
 	}, {
-		"Title": "battlestationYellow2",
-		"Coordinates": [-28, -172,
+		"blueprintName": "battlestationYellow2",
+		"coordinates": [-28, -172,
 			90
 		]
 	}, {
-		"Title": "StationPink",
-		"Coordinates": [
+		"blueprintName": "StationPink",
+		"coordinates": [
 			0,
 			135,
 			180
 		]
 	}, {
-		"Title": "battlestationPink1",
-		"Coordinates": [
+		"blueprintName": "battlestationPink1",
+		"coordinates": [
 			22,
 			172,
 			0
 		]
 	}, {
-		"Title": "battlestationPink2",
-		"Coordinates": [-22,
+		"blueprintName": "battlestationPink2",
+		"coordinates": [-22,
 			172,
 			0
 		]
 	}, {
-		"Title": "CapturePointCCW",
-		"Coordinates": [-40,
+		"blueprintName": "CapturePointCCW",
+		"coordinates": [-40,
 			40,
 			0
 		]
 	}, {
-		"Title": "CapturePointCCW",
-		"Coordinates": [
+		"blueprintName": "CapturePointCCW",
+		"coordinates": [
 			40, -40,
 			0
 		]
 	}, {
-		"Title": "CapturePointCW",
-		"Coordinates": [-100,
+		"blueprintName": "CapturePointCW",
+		"coordinates": [-100,
 			100,
 			0
 		]
 	}, {
-		"Title": "CapturePointCW",
-		"Coordinates": [
+		"blueprintName": "CapturePointCW",
+		"coordinates": [
 			100, -100,
 			0
 		]
 	}, {
-		"Title": "CapturePointCCW",
-		"Coordinates": [-100,
+		"blueprintName": "CapturePointCCW",
+		"coordinates": [-100,
 			0,
 			0
 		]
 	}, {
-		"Title": "CapturePointCCW",
-		"Coordinates": [
+		"blueprintName": "CapturePointCCW",
+		"coordinates": [
 			100,
 			0,
 			0
 		]
 	}, {
-		"Title": "CapturePointCW",
-		"Coordinates": [
+		"blueprintName": "CapturePointCW",
+		"coordinates": [
 			0,
 			100,
 			0
 		]
 	}, {
-		"Title": "CapturePointCW",
-		"Coordinates": [
+		"blueprintName": "CapturePointCW",
+		"coordinates": [
 			0, -100,
 			0
 		]
 	}, {
-		"Title": "CapturePointCCW",
-		"Coordinates": [-22, -22,
+		"blueprintName": "CapturePointCCW",
+		"coordinates": [-22, -22,
 			0
 		]
 	}, {
-		"Title": "CapturePointCW",
-		"Coordinates": [
+		"blueprintName": "CapturePointCW",
+		"coordinates": [
 			22,
 			22,
 			0
 		]
 	}, {
-		"Title": "CapturePointCCW",
-		"Coordinates": [
+		"blueprintName": "CapturePointCCW",
+		"coordinates": [
 			100,
 			100,
 			0
 		]
 	}, {
-		"Title": "CapturePointCW",
-		"Coordinates": [-100, -100,
+		"blueprintName": "CapturePointCW",
+		"coordinates": [-100, -100,
 			0
 		]
 	}, {
-		"Title": "BlackHole",
-		"Coordinates": [
+		"blueprintName": "BlackHole",
+		"coordinates": [
 			0,
 			0,
 			0
 		]
 	}, {
-		"Title": "Pluto",
-		"Coordinates": [-130, -130,
+		"blueprintName": "Pluto",
+		"coordinates": [-130, -130,
 			0
 		]
 	}]

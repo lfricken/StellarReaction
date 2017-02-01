@@ -158,3 +158,29 @@ private:
 	void loadModules(const Json::Value& root);
 	MyType(ChunkData, ChunkData);
 };
+
+struct ChunkDataMessage
+{
+	ChunkDataMessage()
+	{
+		blueprintName = "default";
+		coordinates = Vec2(0, 0);
+		rotation = 0;
+		team = -1;
+		slaveName = "NOSLAVE";
+		needsController = false;
+		aiControlled = false;
+	}
+	String blueprintName;
+	Vec2 coordinates;
+	float rotation;
+	int team;
+	String slaveName;
+	bool needsController;
+	bool aiControlled;
+
+	void pack(sf::Packet* data);
+	void unpack(const sf::Packet& data);
+
+	void loadJson(const Json::Value& root);
+};

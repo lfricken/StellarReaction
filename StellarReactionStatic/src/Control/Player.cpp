@@ -331,47 +331,47 @@ void Player::updateView()
 
 
 		//Radar TODO THIS ALL SHOULD BE IN THE MINIMAP CLASS
-		List<sptr<GameObject> > goList = game.getUniverse().getgoList();
-		int index = 0;
-		float maxRange = 50.f;
-		float mapScale = -0.005f;
-		const static Vec2 miniMapCenter = m_minimap->getPosition();
-		m_radarsize = goList.size();
-		for(auto it = goList.begin(); it != goList.end(); ++it)
-		{
-			//Determine team.
-			GameObject* p = it->get();
-			Chunk* object = dynamic_cast<Chunk*>(p);
-			Team other_team = object->getBodyComponent().getTeam();
+		//List<sptr<GameObject> > goList = game.getUniverse().getgoList();
+		//int index = 0;
+		//float maxRange = 50.f;
+		//float mapScale = -0.005f;
+		//const static Vec2 miniMapCenter = m_minimap->getPosition();
+		//m_radarsize = goList.size();
+		//for(auto it = goList.begin(); it != goList.end(); ++it)
+		//{
+		//	//Determine team.
+		//	GameObject* p = it->get();
+		//	Chunk* object = dynamic_cast<Chunk*>(p);
+		//	Team other_team = object->getBodyComponent().getTeam();
 
-			sf::Color dotColor(sf::Color::Blue);
+		//	sf::Color dotColor(sf::Color::Blue);
 
-			if(other_team == Team::Neutral)
-				dotColor = sf::Color::Blue;
-			else if(other_team == Team::Capturable)
-				dotColor = sf::Color(255, 140, 0);
-			else if(other_team == Team::Invalid)
-				dotColor = sf::Color::Magenta;
-			else if(other_team == this->getTeam())
-				dotColor = sf::Color::Green;
-			else
-				dotColor = sf::Color::Red;
+		//	if(other_team == Team::Neutral)
+		//		dotColor = sf::Color::Blue;
+		//	else if(other_team == Team::Capturable)
+		//		dotColor = sf::Color(255, 140, 0);
+		//	else if(other_team == Team::Invalid)
+		//		dotColor = sf::Color::Magenta;
+		//	else if(other_team == this->getTeam())
+		//		dotColor = sf::Color::Green;
+		//	else
+		//		dotColor = sf::Color::Red;
 
-			if(object != NULL && !object->isStealth())
-			{
-				Vec2 dif = pBody->GetPosition() - object->getBodyPtr()->GetPosition();
-				float dist = dif.len();
+		//	if(object != NULL && !object->isStealth())
+		//	{
+		//		Vec2 dif = pBody->GetPosition() - object->getBodyPtr()->GetPosition();
+		//		float dist = dif.len();
 
-				if(dist < maxRange)// TODO fix magic number horror
-				{
+		//		if(dist < maxRange)// TODO fix magic number horror
+		//		{
 
-					dif *= mapScale;
-					m_minimap->setDot(miniMapCenter + dif, index, dotColor);
-					index++;
-				}
-			}
-		}
-		m_minimap->cleanMap(index);
+		//			dif *= mapScale;
+		//			m_minimap->setDot(miniMapCenter + dif, index, dotColor);
+		//			index++;
+		//		}
+		//	}
+		//}
+		//m_minimap->cleanMap(index);
 	}
 }
 IOComponent& Player::getIOComp()
