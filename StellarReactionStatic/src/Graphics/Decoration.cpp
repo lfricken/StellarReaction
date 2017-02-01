@@ -21,7 +21,7 @@ void DecorationData::loadJson(const Json::Value& root)
 	GETJSON(repeatsRandom);
 	GETJSON(spawnRandom);
 }
-Decoration::Decoration(const DecorationData& data, GraphicsComponent* pGfx) : m_io(data.ioComp, &Decoration::input, this)
+Decoration::Decoration(const DecorationData& data, GraphicsComponent* pGfx)// : m_io(data.ioComp, &Decoration::input, this)
 {
 	m_spGfx.reset(pGfx);
 
@@ -62,35 +62,35 @@ void Decoration::randSpin()
 	if(m_minSpin != 0.f)
 		m_spGfx->setRotation(Rand::get(0.f, 2.f * pi));
 }
-void Decoration::input(String rCommand, sf::Packet rData)
-{
-	if(rCommand == "setPosition")
-	{
-		Vec2 pos;
-		rData >> pos.x;
-		rData >> pos.y;
-		setPosition(pos);
-	}
-	else if(rCommand == "setRotation")
-	{
-		float rotCCW;
-		rData >> rotCCW;
-		setRotation(rotCCW);
-	}
-	else if(rCommand == "setAnimation")
-	{
-		String anim;
-		float duration;
-		rData >> anim;
-		rData >> duration;
-		m_spGfx->getAnimator().setAnimation(anim, duration);
-	}
-	else
-	{
-		std::cout << "\n[" << rCommand << "] was not found in [" << m_io.getName() << "].";
-		///ERROR LOG
-	}
-}
+//void Decoration::input(String rCommand, sf::Packet rData)
+//{
+//	if(rCommand == "setPosition")
+//	{
+//		Vec2 pos;
+//		rData >> pos.x;
+//		rData >> pos.y;
+//		setPosition(pos);
+//	}
+//	else if(rCommand == "setRotation")
+//	{
+//		float rotCCW;
+//		rData >> rotCCW;
+//		setRotation(rotCCW);
+//	}
+//	else if(rCommand == "setAnimation")
+//	{
+//		String anim;
+//		float duration;
+//		rData >> anim;
+//		rData >> duration;
+//		m_spGfx->getAnimator().setAnimation(anim, duration);
+//	}
+//	else
+//	{
+//		std::cout << "\n[" << rCommand << "] was not found in [" << m_io.getName() << "].";
+//		///ERROR LOG
+//	}
+//}
 void Decoration::setPosition(const Vec2& rDesiredWorldPos)
 {
 	float zoom = game.getLocalPlayer().getCamera().getZoom();

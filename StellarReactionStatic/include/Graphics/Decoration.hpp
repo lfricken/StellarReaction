@@ -40,7 +40,7 @@ public:
 	Vec2 m_lastCameraPos;
 	float m_maxZoom;
 protected:
-	void input(String rCommand, sf::Packet rData);
+	//void input(String rCommand, sf::Packet rData);
 private:
 	/// Set our velocity to be random.
 	void randVel();
@@ -49,7 +49,7 @@ private:
 
 	/// The graphics object this Decoration controls.
 	sptr<GraphicsComponent> m_spGfx;
-	IOComponent m_io;
+	//IOComponent m_io;
 
 
 	float m_minSpin;

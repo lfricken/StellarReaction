@@ -83,6 +83,9 @@ int IOManager::give(IOComponent* pComponent)//we recieve a pointer to a componen
 
 	m_nameLookup[pComponent->getName()] = position;
 
+	if(m_networked)
+		dout << "\nElements: [" << m_componentPtrs.size() << "]";
+
 	return position;
 }
 void IOManager::free(int position)//don't adjust the list, just mark the node as null and offer it as a position to future customers

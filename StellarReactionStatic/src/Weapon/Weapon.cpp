@@ -125,12 +125,12 @@ void Weapon::damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmou
 
 	Message mess;
 	mess.reset(ioTargetPos, "damage", packet, 0.f, false);
-
+	dout << "\nDamage Target [" << ioTargetPos << "]";
 	pMessageReciever->recieve(mess);
 }
-void Weapon::damage(b2Fixture* pFixtureDoingDamage, int damageAmount, const Vec2& collisionPoint, const Vec2& fromDirection)
+void Weapon::damage(b2Fixture* pFixtureTakingDamage, int damageAmount, const Vec2& collisionPoint, const Vec2& fromDirection)
 {
-	FixtureComponent& rComp = *static_cast<FixtureComponent*>(pFixtureDoingDamage->GetUserData());
+	FixtureComponent& rComp = *static_cast<FixtureComponent*>(pFixtureTakingDamage->GetUserData());
 	Weapon::damage(&game.getUniverse().getUniverseIO(), rComp.getIOPos(), (damageAmount / m_shots), m_pTempParent->getIOPos(), m_team, collisionPoint, fromDirection, m_effectName);
 }
 QuadComponent* Weapon::getDecor()

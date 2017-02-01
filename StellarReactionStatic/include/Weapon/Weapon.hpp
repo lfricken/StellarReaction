@@ -65,7 +65,7 @@ protected:
 	int m_collisions;//how many collisions should we do? MODULE PENETRATION LOGIC
 	//TODO m_collisions is not used in the laser weapon type
 	/// Damages the specified fixture (which has a module). Meant to be called by a weapon only. Leave last param blank for no visual effects.
-	void damage(b2Fixture* pFixtureDoingDamage, int damageAmount, const Vec2& collisionPoint = Vec2(0, 0), const Vec2& fromDirection = Vec2(0, 0));
+	void damage(b2Fixture* pFixtureTakingDamage, int damageAmount, const Vec2& collisionPoint = Vec2(0, 0), const Vec2& fromDirection = Vec2(0, 0));
 private:
 	Vec2 randArc(const Vec2& center, const Vec2& aim) const;
 	QuadComponent m_decor;//the weapon sprite
