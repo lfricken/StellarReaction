@@ -34,9 +34,16 @@ public:
 	void setData(const sf::Packet& rData);
 	/// Set name.
 	void setName(const String rName);
-	/// Set shouldSendOverNW.
+	/// <summary>
+	/// Should this message be sent over network even if we are a Client?
+	/// It will be sent if we are the Server no matter what.
+	/// Used for
+	/// </summary>
 	void sendOverNW(bool shouldSend);
-	/// Returns shouldSendOverNW.
+	/// <summary>
+	/// Should this message be sent over network even if we are a Client?
+	/// It will be sent if we are the Server no matter what.
+	/// </summary>
 	bool sendOverNW() const;
 	/// Returns targetPosition.
 	unsigned getTargetPosition() const;

@@ -90,7 +90,7 @@ void NetworkFactory::process(sf::Packet& rPacket)
 			}
 			else
 			{
-				cout << "\n[" << id << "][" << old_id << "][" << m_componentPtrs.size() << FILELINE << m_name;
+				//cout << "\n[" << id << "][" << old_id << "][" << m_componentPtrs.size() << FILELINE << m_name;
 				///ERROR LOG
 				break;
 			}
@@ -99,6 +99,8 @@ void NetworkFactory::process(sf::Packet& rPacket)
 	}
 	else
 	{
-		dout << "\n[" << numElements << "][" << expectedNumElements << "][" << m_name << "]" << FILELINE;
+		//Desyinc detected
+		///ERROR LOG
+		//dout << "\nDesync Detected[" << numElements << "][" << expectedNumElements << "][" << m_name << "]" << FILELINE;
 	}
 }

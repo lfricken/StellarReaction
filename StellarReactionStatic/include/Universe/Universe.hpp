@@ -136,7 +136,7 @@ private:
 	/// </summary>
 	void createControllers(Team team, bool isAnAI, const String& slaveName);
 
-
+	int m_localController;
 
 	/**Atomic Actions**/
 

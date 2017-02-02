@@ -90,13 +90,11 @@ void ShipBuilder::Server::attachModule(int targetIOPos, const String& bpName, co
 	pack << offset.y;
 
 	Message attachment((unsigned)targetIOPos, "attachModule", pack, 0, false);
-	attachment.sendOverNW(true);
 	game.getUniverse().getUniverseIO().recieve(attachment);
 }
 void ShipBuilder::Server::cleanShip(int targetIOPos)
 {
 	Message clean((unsigned)targetIOPos, "clear", voidPacket, 0, false);
-	clean.sendOverNW(true);
 	game.getUniverse().getUniverseIO().recieve(clean);
 }
 void ShipBuilder::Server::extractModules(sf::Packet& rData, List<Pair<String, sf::Vector2i> >* list)

@@ -23,6 +23,8 @@ Controller::Controller(const ControllerData& rData) : m_aim(0, 0), m_io(rData.io
 	{
 		m_weaponGroups[i] = true;
 	}
+
+	cout << "\nController" << rData.slaveName;
 }
 Controller::~Controller()
 {

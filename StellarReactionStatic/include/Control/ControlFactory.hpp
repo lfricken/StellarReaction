@@ -24,7 +24,7 @@ public:
 	///How many controllers are there?
 	int getSize();
 	///Set all controllers to be not local.
-	void unsetLocal();
+	void setAllNonLocallyControlled();
 	///Return a particular controller, given it's index.
 	Controller& getController(int index);
 	///Return reference to the network factory for these controllers.

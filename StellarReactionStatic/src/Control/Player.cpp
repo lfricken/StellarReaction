@@ -74,11 +74,7 @@ void Player::setMouseWindowPos(const sf::Vector2f& rPos)
 /// </summary>
 void Player::setController(int index)
 {
-	game.getUniverse().getControllerFactory().unsetLocal();
-
 	m_controller = index;
-	Controller& rController2 = game.getUniverse().getControllerFactory().getController(m_controller);
-	rController2.toggleLocal(true);
 }
 /// <summary>
 /// Get's the state of keyboard and mouse at this exact moment.
@@ -86,7 +82,7 @@ void Player::setController(int index)
 void Player::getLiveInput()
 {
 	Controller& rController = game.getUniverse().getControllerFactory().getController(m_controller);
-
+	rController.toggleLocal(true);
 	//default to false
 	for(auto it = m_directives.begin(); it != m_directives.end(); ++it)
 		it->second = false;
@@ -159,8 +155,6 @@ void Player::getLiveInput()
 				game.getSound().playSound("default.wav", m_aim);
 			}
 		}
-
-		Controller& rController = game.getUniverse().getControllerFactory().getController(m_controller);
 	}
 
 	m_mouseWindowPos = game.getWindow().mapPixelToCoords(sf::Mouse::getPosition(game.getWindow()), game.getStaticView());

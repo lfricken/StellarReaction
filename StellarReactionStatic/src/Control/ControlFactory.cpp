@@ -28,7 +28,7 @@ void ControlFactory::resetControllers(const List<String>& slaves)
 	for(auto it = slaves.begin(); it != slaves.end(); ++it)
 		addController(*it);
 }
-void ControlFactory::unsetLocal()
+void ControlFactory::setAllNonLocallyControlled()
 {
 	for(auto it = m_spControlList.begin(); it != m_spControlList.end(); ++it)
 		(*it)->toggleLocal(false);

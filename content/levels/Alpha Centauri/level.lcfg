@@ -233,11 +233,6 @@
 		"coordinates": [-135, -0, 12]
 	}, {
 		"blueprintName": "PrimaryDefenseTurret",
-		"coordinates": [-50, -0, 0],
-		"aiControlled": true,
-		"team": 1
-	}, {
-		"blueprintName": "PrimaryDefenseTurret",
 		"coordinates": [-50, 10],
 		"rotation": 45,
 		"aiControlled": true,
