@@ -55,6 +55,7 @@ void NetworkFactory::clean()
 /// </summary>
 void NetworkFactory::getComponentData(sf::Packet& rPacket)
 {
+	rPacket << (int32_t)m_componentPtrs.size();
 	List<NetworkComponent*>& rPtr = m_componentPtrs;
 	for(int32_t i = 0; i < (signed)rPtr.size(); ++i)
 	{
@@ -71,23 +72,33 @@ void NetworkFactory::getComponentData(sf::Packet& rPacket)
 }
 void NetworkFactory::process(sf::Packet& rPacket)
 {
-	int32_t id;
-	int32_t old_id;
-	while(rPacket >> id && !rPacket.endOfPacket())
+	int32_t numElements;
+	rPacket >> numElements;
+	int32_t expectedNumElements = (int32_t)m_componentPtrs.size();
+	if(numElements == expectedNumElements)
 	{
-		old_id = id;
-		if(id < (signed)m_componentPtrs.size())
+		int32_t id;
+		int32_t old_id;//for debugging purposes remembers the last attempted id process
+		while(rPacket >> id && !rPacket.endOfPacket())
 		{
-			if(m_componentPtrs[id] != NULL)
+			if(id < (signed)m_componentPtrs.size())
 			{
-				m_componentPtrs[id]->unpack(rPacket);
+				if(m_componentPtrs[id] != NULL)
+				{
+					m_componentPtrs[id]->unpack(rPacket);
+				}
 			}
+			else
+			{
+				cout << "\n[" << id << "][" << old_id << "][" << m_componentPtrs.size() << FILELINE << m_name;
+				///ERROR LOG
+				break;
+			}
+			old_id = id;
 		}
-		else
-		{
-			cout << "\n[" << id << "][" << old_id << "]" << FILELINE << m_name;
-			///ERROR LOG
-			break;
-		}
+	}
+	else
+	{
+		dout << "\n[" << numElements << "][" << expectedNumElements << "][" << m_name << "]" << FILELINE;
 	}
 }
