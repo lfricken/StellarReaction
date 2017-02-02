@@ -25,11 +25,25 @@ void ChunkDataMessage::loadJson(const Json::Value& root)
 }
 void ChunkDataMessage::pack(sf::Packet* data)
 {
-
+	sf::Packet& pack = *data;
+	pack << blueprintName;
+	pack << coordinates.x << coordinates.y;
+	pack << rotation;
+	pack << team;
+	pack << slaveName;
+	pack << needsController;
+	pack << aiControlled;
 }
 void ChunkDataMessage::unpack(const sf::Packet& data)
 {
-
+	sf::Packet pack = data;
+	pack >> blueprintName;
+	pack >> coordinates.x >> coordinates.y;
+	pack >> rotation;
+	pack >> team;
+	pack >> slaveName;
+	pack >> needsController;
+	pack >> aiControlled;
 }
 void ChunkData::loadJson(const Json::Value& root)
 {

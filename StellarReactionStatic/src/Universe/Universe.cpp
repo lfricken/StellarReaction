@@ -135,10 +135,16 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 			int i = 0;
 			for(auto it = chunks.begin(); it != chunks.end(); ++it)
 			{
-				ChunkDataMessage messageData;
-				messageData.loadJson(*it);
+				ChunkDataMessage chunkMessageData;
+				chunkMessageData.loadJson(*it);
 				++i;
-				messageData.slaveName = namePrefix + String(i);
+				chunkMessageData.slaveName = namePrefix + String(i);
+
+				sf::Packet messageData;
+				chunkMessageData.pack(&messageData);
+
+				Message newChunk(this->m_io.getName(), "createChunkCommand", messageData, 0, false);
+				Message::SendUniverse(newChunk);
 			}
 		}
 		/**Hazard Fields**/
@@ -572,37 +578,21 @@ void Universe::input(String rCommand, sf::Packet rData)
 		data >> mode;
 		togglePause(mode);
 	}
-	else if(rCommand == "createChunk")
+	else if(rCommand == "createChunkCommand")
 	{
-		String blueprintName;
-		Vec2 startCoordinates;
-		float rotationDegCCW;
-		int team;
-		String slaveName;
-		bool needsController;
-		bool needsAI;
+		ChunkDataMessage data;
+		data.unpack(rData);
 
-		rData >> blueprintName;
-		rData >> startCoordinates.x >> startCoordinates.y;
-		rData >> rotationDegCCW;
-		rData >> team;
-		rData >> slaveName;
-		rData >> needsController;
-		rData >> needsAI;
+		auto chunkData(m_spBPLoader->getChunkSPtr(data.blueprintName)->clone());
+		chunkData->bodyComp.coords = data.coordinates;
+		chunkData->bodyComp.rotation = data.rotation;
+		chunkData->team = (Team)data.team;
+		chunkData->ioComp.name = data.slaveName;
 
-		auto chunkData(m_spBPLoader->getChunkSPtr(blueprintName)->clone());
-		chunkData->bodyComp.coords = startCoordinates;
-		chunkData->bodyComp.rotation = rotationDegCCW;
-		chunkData->team = (Team)team;
-		chunkData->ioComp.name = slaveName;
+		add(chunkData->generate(this));
 
-
-		auto chunk = sptr<Chunk>(new Chunk(*chunkData));
-
-		add(chunk.get());
-
-		if(needsController)
-			createControllers((Team)team, needsAI, slaveName);
+		if(data.needsController)
+			createControllers((Team)data.team, data.aiControlled, data.slaveName);
 	}
 	else
 	{

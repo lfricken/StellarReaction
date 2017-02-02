@@ -20,7 +20,7 @@ enum class Request;
 class Chunk : public GameObject
 {
 public:
-	Chunk(const ChunkData& rData);
+
 	virtual ~Chunk();
 	///Actions to process on object before performing physics updates.
 	virtual void prePhysUpdate();
@@ -72,7 +72,8 @@ public:
 protected:
 	virtual void input(String rCommand, sf::Packet rData);
 	bool allows(const Vec2& rGridPos);
-
+	Chunk(const ChunkData& rData);
+	friend struct ChunkData;
 private:
 	Pool<Ballistic> m_ballisticPool;
 	Pool<Missiles> m_missilePool;

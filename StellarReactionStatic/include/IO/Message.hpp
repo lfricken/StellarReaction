@@ -12,6 +12,8 @@
 class Message
 {
 public:
+	static void SendUniverse(const Message& mes);
+
 	Message();
 	Message(const String& rTargetName, const String& rCommand, const sf::Packet& rData, float delay, bool replaceData);
 	Message(unsigned rTargetPosition, const String& rCommand, const sf::Packet& rData, float delay, bool replaceData);

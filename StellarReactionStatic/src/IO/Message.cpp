@@ -1,4 +1,12 @@
 #include "Message.hpp"
+#include "Globals.hpp"
+#include "IOManager.hpp"
+#include "Universe.hpp"
+
+void Message::SendUniverse(const Message& mes)
+{
+	game.getUniverse().getUniverseIO().recieve(mes);
+}
 
 Message::Message()
 {
