@@ -27,7 +27,6 @@ using namespace std;
 
 void Universe::loadLevel(const GameLaunchData& data)//loads a level using blueprints
 {
-	sptr<ChunkData> spCnk;
 	m_spControlFactory.reset(new ControlFactory);//remove all controllers.
 
 	loadBlueprints("blueprints/");
@@ -84,50 +83,39 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 		}
 
 		/**Create player ships**/
-
 		for(auto it = data.playerList.cbegin(); it != data.playerList.cend(); ++it)
 		{
-			spCnk.reset(m_spBPLoader->getChunkSPtr(it->ship)->clone());
 			int num = it - data.playerList.cbegin();
 			Vec2 spawn = m_spawnPoints[it->team][num];
-			spCnk->bodyComp.coords = spawn;
-			float angle = atan2(spawn.y, spawn.x) + (pi / 2.f);
-			spCnk->bodyComp.rotation = angle;
-			spCnk->ioComp.name = it->slaveName;
-			spCnk->team = it->team;
-			Chunk* newChnk = spCnk->generate(this);
-			add(newChnk);
-			newChnk->getBodyPtr()->SetTransform(spawn, angle);
+			float angle = Math::toDeg(atan2(spawn.y, spawn.x) + (pi / 2.f));
 
-			//add controller after we add the ship with the name
-			//otherwise the controller cant find the intended ship
-			createControllers(it->team, it->isAI, it->slaveName);
+			ChunkDataMessage chunkMessageData;
+
+			chunkMessageData.blueprintName = it->ship;
+			chunkMessageData.coordinates = spawn;
+			chunkMessageData.rotation = angle;
+			chunkMessageData.team = (int)it->team;
+			chunkMessageData.slaveName = it->slaveName;
+			chunkMessageData.needsController = true;
+			chunkMessageData.aiControlled = false;
+
+			sf::Packet messageData;
+			chunkMessageData.pack(&messageData);
+			Message newChunk(this->m_io.getName(), "createChunkCommand", messageData, 0, false);
+			Message::SendUniverse(newChunk);
 		}
 
 		/**Load Local Player Overlay**/
 		game.getLocalPlayer().loadOverlay("overlayconfig");
 
-
 		/**Set Local Controller**/
 		game.getLocalPlayer().setController(data.localController);
-
-
-		/**Load Ship Into Store**/
-		Message mes("ship_editor", "clearEditor", voidPacket, 0, false);
-		game.getCoreIO().recieve(mes);
-
-		Controller* pController = &this->getControllerFactory().getController(data.localController);
-		Chunk* ship = pController->getSlave();
-		ShipBuilder::Client::shipToGui(ship);
 
 		/**Hazard Field Spawn Hazards**/
 		for(auto it = hazardFields.begin(); it != hazardFields.end(); ++it)
 			(**it).spawn();
 
-
-
 		/**Map Chunks**/
-
 		if(!root["Chunks"].isNull())
 		{
 			const Json::Value chunks = root["Chunks"];
@@ -159,15 +147,8 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 		LOADJSON(decorations);
 	}
 
-
-	/**Initialize Background**/
-	if(data.localController != -1)
-	{
-		const Vec2 pos = m_spControlFactory->getController(data.localController).getBodyPtr()->GetPosition();
-		float maxZoom = game.getLocalPlayer().getCamera().m_maxZoom * 0.4f;
-		float size = (float)game.getWindow().getSize().x / scale;
-		m_spDecorEngine->initSpawns(pos, Vec2(maxZoom* size, maxZoom* size));
-	}
+	Message initBackground(this->m_io.getName(), "initBackgroundCommand", voidPacket, 0, false);
+	Message::SendUniverse(initBackground);
 }
 void Universe::createControllers(Team team, bool isAnAI, const String& slaveName)
 {
@@ -577,6 +558,19 @@ void Universe::input(String rCommand, sf::Packet rData)
 		bool mode;
 		data >> mode;
 		togglePause(mode);
+	}
+	else if(rCommand == "initBackgroundCommand")
+	{
+		int controller = game.getLocalPlayer().getController();
+		if(controller != -1)
+		{
+			const Vec2 pos = m_spControlFactory->getController(controller).getBodyPtr()->GetPosition();
+			float maxZoom = game.getLocalPlayer().getCamera().m_maxZoom * 0.4f;
+			float size = (float)game.getWindow().getSize().x / scale;
+			m_spDecorEngine->initSpawns(pos, Vec2(maxZoom* size, maxZoom* size));
+		}
+
+		game.getUniverse().getControllerFactory().setAllNonLocallyControlled();
 	}
 	else if(rCommand == "createChunkCommand")
 	{
