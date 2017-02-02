@@ -99,6 +99,7 @@ void NetworkFactory::process(sf::Packet& rPacket)
 	}
 	else
 	{
+		int i = 9;
 		//Desyinc detected
 		///ERROR LOG
 		//dout << "\nDesync Detected[" << numElements << "][" << expectedNumElements << "][" << m_name << "]" << FILELINE;

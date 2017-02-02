@@ -83,8 +83,8 @@ int IOManager::give(IOComponent* pComponent)//we recieve a pointer to a componen
 
 	m_nameLookup[pComponent->getName()] = position;
 
-	if(m_networked)
-		dout << "\nElements: [" << m_componentPtrs.size() << "]";
+	//if(m_networked)
+	//	dout << "\nElements: [" << m_componentPtrs.size() << "]";
 
 	return position;
 }

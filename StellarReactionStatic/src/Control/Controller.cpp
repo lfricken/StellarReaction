@@ -14,6 +14,8 @@ Controller::Controller(const ControllerData& rData) : m_aim(0, 0), m_io(rData.io
 
 	if(rData.slaveName != "NOSLAVE")
 		setSlave(rData.slaveName);
+	else
+		cout << "wtf";
 
 	for(int i = 0; i < static_cast<int>(Directive::End); ++i)
 	{
@@ -25,6 +27,7 @@ Controller::Controller(const ControllerData& rData) : m_aim(0, 0), m_io(rData.io
 	}
 
 	cout << "\nController" << rData.slaveName;
+	//dout << FILELINE;
 }
 Controller::~Controller()
 {

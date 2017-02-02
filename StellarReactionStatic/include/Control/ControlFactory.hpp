@@ -34,11 +34,12 @@ public:
 	//must come before the controllers so that everything is destroyed 
 	//in the right order, otherwise m_spControlList controllers Network Components cause a crash
 
-	List<sptr<Controller> > m_spControlList;//list of all controllers
+
 
 
 protected:
 private:
+	List<sptr<Controller> > m_spControlList;//list of all controllers
 	///If we need to return a reference to a controller, but none exist, we give this one.
 	sptr<Controller> m_spBackupController;
 };

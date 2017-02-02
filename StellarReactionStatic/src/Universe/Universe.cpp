@@ -152,11 +152,13 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 }
 void Universe::createControllers(Team team, bool isAnAI, const String& slaveName)
 {
+	//cout << "\n" << slaveName;
+	//dout << FILELINE;
 	m_spControlFactory->addController(slaveName);
 
 	if(isAnAI && !game.getNwBoss().isClient())
 	{
-		assert(cout << "\n" << slaveName << " controlled by " << m_spControlFactory->getSize() - 1);
+		//assert(cout << "\n" << slaveName << " controlled by " << m_spControlFactory->getSize() - 1);
 		sptr<ShipAI> ai = sptr<ShipAI>(new ShipAI(team, m_spControlFactory->getSize() - 1));
 		m_shipAI.push_back(ai);
 	}
