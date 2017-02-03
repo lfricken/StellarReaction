@@ -32,7 +32,11 @@ ShipAI::~ShipAI()
 }
 void ShipAI::updateDecision()
 {
-	Controller& rController = game.getUniverse().getControllerFactory().getController(m_controller);
+	Controller* cont = game.getUniverse().getControllerFactory().getController(m_controller);
+	if(cont == NULL)
+		return;
+	Controller& rController = *cont;
+
 	b2Body* pBody = rController.getBodyPtr();
 	//set controller to be local
 	if (!rController.isLocal()){
@@ -142,7 +146,11 @@ void ShipAI::updateDecision()
 }
 void ShipAI::flyTowardsChunk(Chunk* target)
 {
-	Controller& rController = game.getUniverse().getControllerFactory().getController(m_controller);
+	Controller* cont = game.getUniverse().getControllerFactory().getController(m_controller);
+	if(cont == NULL)
+		return;
+	Controller& rController = *cont;
+
 	b2Body* pBody = rController.getBodyPtr();
 
 	float ourAngle = leon::normRad(pBody->GetAngle() + pi/2);
@@ -195,7 +203,11 @@ void ShipAI::flyTowardsChunk(Chunk* target)
 }
 void ShipAI::fireAtTarget()
 {
-	Controller& rController = game.getUniverse().getControllerFactory().getController(m_controller);
+	Controller* cont = game.getUniverse().getControllerFactory().getController(m_controller);
+	if(cont == NULL)
+		return;
+	Controller& rController = *cont;
+
 	b2Body* pBody = rController.getBodyPtr();
 
 	Vec2 ourPos = pBody->GetPosition();

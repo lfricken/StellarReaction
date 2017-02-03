@@ -26,7 +26,7 @@ public:
 	///Set all controllers to be not local.
 	void setAllNonLocallyControlled();
 	///Return a particular controller, given it's index.
-	Controller& getController(int index);
+	Controller* getController(int index);
 	///Return reference to the network factory for these controllers.
 	NetworkFactory& getNWFactory();
 	///Network factory for these controllers.

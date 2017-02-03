@@ -81,7 +81,11 @@ void Player::setController(int index)
 /// </summary>
 void Player::getLiveInput()
 {
-	Controller& rController = game.getUniverse().getControllerFactory().getController(m_controller);
+	Controller* cont = game.getUniverse().getControllerFactory().getController(m_controller);
+	if(cont == NULL)
+		return;
+	Controller& rController = *cont;
+
 	rController.toggleLocal(true);
 	//default to false
 	for(auto it = m_directives.begin(); it != m_directives.end(); ++it)
@@ -172,7 +176,9 @@ void Player::getLiveInput()
 void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 {
 	sf::Event event;
-	Controller& rController = game.getUniverse().getControllerFactory().getController(m_controller);
+
+	Controller* cont = game.getUniverse().getControllerFactory().getController(m_controller);
+
 
 	while(rWindow.pollEvent(event))
 	{
@@ -215,6 +221,10 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 			game.getOverlay().handleEvent(event);
 		else
 		{
+			if(cont == NULL)
+				return;
+			Controller& rController = *cont;
+
 			/**== ZOOM ==**/
 			if(event.type == sf::Event::MouseWheelMoved)
 			{
@@ -267,7 +277,11 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 }
 void Player::updateView()
 {
-	Controller& rController = game.getUniverse().getControllerFactory().getController(m_controller);
+	Controller* cont = game.getUniverse().getControllerFactory().getController(m_controller);
+	if(cont == NULL)
+		return;
+	Controller& rController = *cont;
+
 	b2Body* pBody = rController.getBodyPtr();
 	if(!m_inGuiMode && pBody != NULL)
 	{

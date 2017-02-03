@@ -33,17 +33,13 @@ void ControlFactory::setAllNonLocallyControlled()
 	for(auto it = m_spControlList.begin(); it != m_spControlList.end(); ++it)
 		(*it)->toggleLocal(false);
 }
-Controller& ControlFactory::getController(int index)
+Controller* ControlFactory::getController(int index)
 {
 	if((signed)m_spControlList.size() > index && index >= 0)
-		return *m_spControlList[index];
+		return m_spControlList[index].get();
 	else
 	{
-		if(!m_spBackupController)
-		{
-			m_spBackupController.reset(new Controller(ControllerData()));
-		}
-		return *m_spBackupController;
+		return NULL;
 	}
 }
 int ControlFactory::getSize()

@@ -566,7 +566,7 @@ void Universe::input(String rCommand, sf::Packet rData)
 		int controller = game.getLocalPlayer().getController();
 		if(controller != -1)
 		{
-			const Vec2 pos = m_spControlFactory->getController(controller).getBodyPtr()->GetPosition();
+			const Vec2 pos = m_spControlFactory->getController(controller)->getBodyPtr()->GetPosition();
 			float maxZoom = game.getLocalPlayer().getCamera().m_maxZoom * 0.4f;
 			float size = (float)game.getWindow().getSize().x / scale;
 			m_spDecorEngine->initSpawns(pos, Vec2(maxZoom* size, maxZoom* size));
