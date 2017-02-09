@@ -176,11 +176,14 @@ struct ChunkDataMessage
 	Vec2 coordinates;
 	float rotation;
 	int team;
+	/// <summary>
+	/// Leave this blank if you want an auto assignment.
+	/// </summary>
 	String slaveName;
 	bool needsController;
 	bool aiControlled;
 
-	void pack(sf::Packet* data);
+	void pack(sf::Packet* data) const;
 	void unpack(const sf::Packet& data);
 
 	void loadJson(const Json::Value& root);

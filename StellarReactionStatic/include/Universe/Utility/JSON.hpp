@@ -34,5 +34,21 @@ public:
 	static bool get(const Json::Value& root, const String& fieldName, bool defaultValue);
 	///Get a Team from JSON.
 	static Team get(const Json::Value& root, const String& fieldName, Team defaultValue);
+
+	template<typename T>
+	static std::vector<T> get(const Json::Value& root, const String& fieldName, std::vector<T> defaultValue)
+	{
+		if(root[fieldName].isNull())
+			return defaultValue;
+
+		T value;
+		std::vector<T> list;
+		for(Json::ValueConstIterator it = root.begin(); it != root.end(); ++it)
+		{
+			GETJSON(value)
+			list.push_back(value);
+		}
+		return list;
+	}
 };
 

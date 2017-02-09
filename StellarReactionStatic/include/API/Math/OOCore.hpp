@@ -67,12 +67,16 @@ public:
 private:
 	void trimZeros()
 	{
-		for(int x = length() - 1; x >= 0; --x)
+		//if it has a decimal place try removing 0s
+		if(this->find('.') != std::string::npos)
 		{
-			if((*this)[x] != '0' && (*this)[x] != '.')
+			for(int x = length() - 1; x >= 0; --x)
 			{
-				(*this).resize(x+1);
-				break;
+				if((*this)[x] != '0' && (*this)[x] != '.')
+				{
+					(*this).resize(x + 1);
+					break;
+				}
 			}
 		}
 	}

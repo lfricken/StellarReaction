@@ -293,7 +293,7 @@
     <ClInclude Include="include\Universe\Chunk\Missile.hpp" />
     <ClInclude Include="include\Universe\Chunk\Projectile.hpp" />
     <ClInclude Include="include\Universe\Chunk\ProjectileRegistration.hpp" />
-    <ClInclude Include="include\Universe\Utility\HazardField.hpp" />
+    <ClInclude Include="include\Universe\Utility\ChunkSpawner.hpp" />
     <ClInclude Include="include\Universe\Module\CaptureArea.hpp" />
     <ClInclude Include="include\Universe\Module\GravityField.hpp" />
     <ClInclude Include="include\Universe\Module\Module.hpp" />
@@ -397,7 +397,7 @@
     <ClCompile Include="src\Universe\Chunk\Chunk.cpp" />
     <ClCompile Include="src\Universe\Chunk\Missile.cpp" />
     <ClCompile Include="src\Universe\Chunk\Projectile.cpp" />
-    <ClCompile Include="src\Universe\Utility\HazardField.cpp" />
+    <ClCompile Include="src\Universe\Utility\ChunkSpawner.cpp" />
     <ClCompile Include="src\Universe\Module\CaptureArea.cpp" />
     <ClCompile Include="src\Universe\Module\GravityField.cpp" />
     <ClCompile Include="src\Universe\Module\Module.cpp" />

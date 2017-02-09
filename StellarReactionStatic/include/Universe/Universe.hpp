@@ -7,7 +7,7 @@
 #include "ControlFactory.hpp"
 #include "Money.hpp"
 #include "Scoreboard.hpp"
-#include "HazardField.hpp"
+#include "ChunkSpawner.hpp"
 #include "ShipAI.hpp"
 #include "LaunchGame.hpp"
 #include "NonCopyable.hpp"
@@ -188,7 +188,7 @@ private:
 	List<Chunk*> m_capturePoints;
 
 	/**Hazards**/
-	List<sptr<HazardField> > hazardFields;
+	List<sptr<ChunkSpawner> > hazardFields;
 
 
 	IOComponent m_io;

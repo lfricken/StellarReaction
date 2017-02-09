@@ -23,7 +23,7 @@ void ChunkDataMessage::loadJson(const Json::Value& root)
 	if(aiControlled)
 		needsController = true;
 }
-void ChunkDataMessage::pack(sf::Packet* data)
+void ChunkDataMessage::pack(sf::Packet* data) const
 {
 	sf::Packet& pack = *data;
 	pack << blueprintName;

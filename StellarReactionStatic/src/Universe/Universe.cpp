@@ -95,14 +95,10 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 			chunkMessageData.coordinates = spawn;
 			chunkMessageData.rotation = angle;
 			chunkMessageData.team = (int)it->team;
-			chunkMessageData.slaveName = it->slaveName;
 			chunkMessageData.needsController = true;
 			chunkMessageData.aiControlled = false;
 
-			sf::Packet messageData;
-			chunkMessageData.pack(&messageData);
-			Message newChunk(this->m_io.getName(), "createChunkCommand", messageData, 0, false);
-			Message::SendUniverse(newChunk);
+			ShipBuilder::Client::createChunk(chunkMessageData);
 		}
 
 		/**Load Local Player Overlay**/
@@ -112,27 +108,19 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 		game.getLocalPlayer().setController(data.localController);
 
 		/**Hazard Field Spawn Hazards**/
-		for(auto it = hazardFields.begin(); it != hazardFields.end(); ++it)
-			(**it).spawn();
+		//for(auto it = hazardFields.begin(); it != hazardFields.end(); ++it)
+		//	(**it).spawn();
 
 		/**Map Chunks**/
 		if(!root["Chunks"].isNull())
 		{
 			const Json::Value chunks = root["Chunks"];
-			const String namePrefix = "map_chunk_";
-			int i = 0;
 			for(auto it = chunks.begin(); it != chunks.end(); ++it)
 			{
 				ChunkDataMessage chunkMessageData;
 				chunkMessageData.loadJson(*it);
-				++i;
-				chunkMessageData.slaveName = namePrefix + String(i);
 
-				sf::Packet messageData;
-				chunkMessageData.pack(&messageData);
-
-				Message newChunk(this->m_io.getName(), "createChunkCommand", messageData, 0, false);
-				Message::SendUniverse(newChunk);
+				ShipBuilder::Client::createChunk(chunkMessageData);
 			}
 		}
 		/**Hazard Fields**/
@@ -140,7 +128,7 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 		{
 			const Json::Value spawnList = root["HazardFields"];
 			for(auto it = spawnList.begin(); it != spawnList.end(); ++it)
-				hazardFields.push_back(sptr<HazardField>(new HazardField(this, *it)));
+				hazardFields.push_back(sptr<ChunkSpawner>(new ChunkSpawner(this, *it)));
 		}
 		/**Decorations**/
 		DecorationEngine& decorations = *m_spDecorEngine;
@@ -576,19 +564,24 @@ void Universe::input(String rCommand, sf::Packet rData)
 	}
 	else if(rCommand == "createChunkCommand")
 	{
+		String slaveName;
 		ChunkDataMessage data;
 		data.unpack(rData);
+
+		if(data.needsController)
+			slaveName = ShipBuilder::Client::getNextSlaveName();
+
 
 		auto chunkData(m_spBPLoader->getChunkSPtr(data.blueprintName)->clone());
 		chunkData->bodyComp.coords = data.coordinates;
 		chunkData->bodyComp.rotation = data.rotation;
 		chunkData->team = (Team)data.team;
-		chunkData->ioComp.name = data.slaveName;
+		chunkData->ioComp.name = slaveName;// data.slaveName;
 
 		add(chunkData->generate(this));
 
 		if(data.needsController)
-			createControllers((Team)data.team, data.aiControlled, data.slaveName);
+			createControllers((Team)data.team, data.aiControlled, slaveName);// data.slaveName;
 	}
 	else
 	{

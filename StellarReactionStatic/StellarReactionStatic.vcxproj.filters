@@ -87,7 +87,6 @@
     <ClCompile Include="src\Universe\Module\CaptureGraphic.cpp" />
     <ClCompile Include="src\Universe\Module\BlackHoleGraphic.cpp" />
     <ClCompile Include="src\Graphics\Utility\DecorationEngine.cpp" />
-    <ClCompile Include="src\Universe\Utility\HazardField.cpp" />
     <ClCompile Include="src\Graphics\Utility\Animator.cpp" />
     <ClCompile Include="src\Graphics\Utility\GraphicsLayer.cpp" />
     <ClCompile Include="src\Graphics\QuadComponents\Spinner.cpp" />
@@ -97,6 +96,7 @@
     <ClCompile Include="src\Graphics\Particles.cpp" />
     <ClCompile Include="src\Network\ShipBuilder.cpp" />
     <ClCompile Include="src\Network\Network.cpp" />
+    <ClCompile Include="src\Universe\Utility\ChunkSpawner.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Game\Directory.hpp" />
@@ -390,7 +390,6 @@
     <ClInclude Include="include\API\TGUI\Transformable.hpp" />
     <ClInclude Include="include\API\TGUI\Widget.hpp" />
     <ClInclude Include="include\Graphics\Utility\DecorationEngine.hpp" />
-    <ClInclude Include="include\Universe\Utility\HazardField.hpp" />
     <ClInclude Include="include\Graphics\Utility\Animator.hpp" />
     <ClInclude Include="include\Graphics\QuadComponents\Beam.hpp" />
     <ClInclude Include="include\Graphics\QuadComponents\Spinner.hpp" />
@@ -412,6 +411,7 @@
     <ClInclude Include="include\Network\ShipBuilder.hpp" />
     <ClInclude Include="include\Network\Network.hpp" />
     <ClInclude Include="include\Headers\Debugging.hpp" />
+    <ClInclude Include="include\Universe\Utility\ChunkSpawner.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\API\SFML\Audio\SoundFileFactory.inl" />

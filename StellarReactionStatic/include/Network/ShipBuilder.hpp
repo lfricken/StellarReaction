@@ -3,6 +3,7 @@
 
 class BasePlayerTraits;
 class Chunk;
+struct ChunkDataMessage;
 /// \brief Handles ship manipulation messages.
 class ShipBuilder
 {
@@ -20,10 +21,15 @@ public:
 		/// Takes a chunk and sets the local editor to edit this.
 		/// </summary>
 		static void shipToGui(const Chunk* ship);
+		/// <summary>
+		/// Returns the next name for a slave.
+		/// </summary>
+		static String getNextSlaveName();
 
 		static void writeToPacket(int targetShipIOPosition, const List<Pair<String, sf::Vector2i> >& modules, sf::Packet* data);
 		static void readFromPacket(int* targetShipIOPosition, List<Pair<String, sf::Vector2i> >* modules, sf::Packet data);
 
+		static void createChunk(const ChunkDataMessage& data);
 	};
 
 
