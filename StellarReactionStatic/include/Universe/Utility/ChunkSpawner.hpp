@@ -18,6 +18,9 @@ public:
 	void input(String command, sf::Packet data);
 private:
 	void resetCountdown();
+	/// <summary>
+	/// Picks a random point in a circle.
+	/// </summary>
 	Vec2 pickRandPoint();
 
 	Universe* m_pUniverse;
@@ -41,7 +44,7 @@ private:
 	/// <summary>
 	/// Spawn limit. Can only spawn this many per game. -1 is unlimited.
 	/// </summary>
-	int m_maxNumber;
+	int m_spawnAmount;
 	/// <summary>
 	/// How often an enemy spawns.
 	/// </summary>

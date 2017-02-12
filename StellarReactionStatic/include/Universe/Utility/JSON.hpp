@@ -35,20 +35,63 @@ public:
 	///Get a Team from JSON.
 	static Team get(const Json::Value& root, const String& fieldName, Team defaultValue);
 
-	template<typename T>
-	static std::vector<T> get(const Json::Value& root, const String& fieldName, std::vector<T> defaultValue)
+	//template<typename T>
+	static List<String> get(const Json::Value& root, const String& fieldName, List<String> defaultValue)
 	{
 		if(root[fieldName].isNull())
 			return defaultValue;
 
-		T value;
-		std::vector<T> list;
-		for(Json::ValueConstIterator it = root.begin(); it != root.end(); ++it)
+		const Json::Value jsonList = root[fieldName];
+		List<String> list;
+		for(auto it = jsonList.begin(); it != jsonList.end(); ++it)
 		{
-			GETJSON(value)
-			list.push_back(value);
+			list.push_back(get<String>(it));//get<T>(it)
 		}
 		return list;
 	}
+
+private:
+	//template <typename T>
+	//T get() { return 0; };
+	//template < >
+	//float get<float>() { return 1.5; };
+	//template < >
+	//int get<int>() { return 2; };
+	//template < >
+	//double get<double>() { return 2.666666666; };
+	//template < >
+	//String get<String>() { return "lol"; };
+
+	template <typename T>
+	static T get(const Json::ValueConstIterator& itRef)
+	{
+		return itRef->asString();
+	}
+	template < >
+	static String get<String>(const Json::ValueConstIterator& itRef)
+	{
+		return itRef->asString();
+	}
+	template < >
+	static int get<int>(const Json::ValueConstIterator& itRef)
+	{
+		return itRef->asInt();
+	}
+	template < >
+	static float get<float>(const Json::ValueConstIterator& itRef)
+	{
+		return itRef->asFloat();
+	}
+	template < >
+	static double get<double>(const Json::ValueConstIterator& itRef)
+	{
+		return itRef->asDouble();
+	}
+	template < >
+	static bool get<bool>(const Json::ValueConstIterator& itRef)
+	{
+		return itRef->asBool();
+	}
 };
+
 

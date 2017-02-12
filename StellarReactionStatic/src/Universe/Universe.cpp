@@ -124,9 +124,9 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 			}
 		}
 		/**Hazard Fields**/
-		if(!root["HazardFields"].isNull())
+		if(!root["Spawners"].isNull())
 		{
-			const Json::Value spawnList = root["HazardFields"];
+			const Json::Value spawnList = root["Spawners"];
 			for(auto it = spawnList.begin(); it != spawnList.end(); ++it)
 				hazardFields.push_back(sptr<ChunkSpawner>(new ChunkSpawner(this, *it)));
 		}
@@ -312,6 +312,9 @@ void Universe::postPhysUpdate()
 		for(auto it = m_goList.begin(); it != m_goList.end(); ++it)
 			(*it)->postPhysUpdate();
 		m_spProjMan->postPhysUpdate();
+
+		for(auto it = hazardFields.begin(); it != hazardFields.end(); ++it)
+			(**it).update();
 	}
 }
 

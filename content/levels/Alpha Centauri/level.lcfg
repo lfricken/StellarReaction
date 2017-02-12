@@ -105,66 +105,16 @@
 	}
     ],
 	"MapBounds": [150, 150],
-	"HazardFields": [{
-		"HazardName": "Asteroid",
-		"NumHazards": 16,
-		"Radius": 40,
-		"OriginX": -70,
-		"OriginY": 70
-	}, {
-		"HazardName": "Asteroid",
-		"NumHazards": 16,
-		"Radius": 40,
-		"OriginX": 70,
-		"OriginY": -70
-	}, {
-		"HazardName": "Asteroid",
-		"NumHazards": 16,
-		"Radius": 30,
-		"OriginX": 120,
-		"OriginY": -120
-	}, {
-		"HazardName": "Asteroid",
-		"NumHazards": 16,
-		"Radius": 30,
-		"OriginX": -120,
-		"OriginY": 120
-	}, {
-		"HazardName": "Asteroid",
-		"NumHazards": 8,
-		"Radius": 16,
-		"OriginX": -135,
-		"OriginY": -50
-	}, {
-		"HazardName": "Asteroid",
-		"NumHazards": 8,
-		"Radius": 16,
-		"OriginX": -50,
-		"OriginY": -135
-	}, {
-		"HazardName": "Asteroid",
-		"NumHazards": 14,
-		"Radius": 18,
-		"OriginX": 75,
-		"OriginY": 130
-	}, {
-		"HazardName": "Asteroid",
-		"NumHazards": 20,
-		"Radius": 24,
-		"OriginX": 110,
-		"OriginY": 110
-	}, {
-		"HazardName": "Asteroid",
-		"NumHazards": 14,
-		"Radius": 18,
-		"OriginX": 130,
-		"OriginY": 75
-	}, {
-		"HazardName": "Asteroid",
-		"NumHazards": 30,
-		"Radius": 40,
-		"OriginX": 62,
-		"OriginY": 62
+	"Spawners": [{
+		"m_team": 2,
+		"m_makesAI": true,
+		"m_isEnabled": true,
+		"m_blueprints": ["Anubis", "Anubis", "Caterina"],
+		"m_spawnAmount": 5,
+		"m_spawnPeriod": 5,
+		"m_spawnPeriodVariance": 1,
+		"m_radius": 5,
+		"m_origin": [0,30]
 	}],
 	"SpawnPoints": [{
 		"Team": 1,
@@ -371,13 +321,6 @@
 	}, {
 		"blueprintName": "CapturePointCW",
 		"coordinates": [-100, -100,
-			0
-		]
-	}, {
-		"blueprintName": "BlackHole",
-		"coordinates": [
-			0,
-			0,
 			0
 		]
 	}, {

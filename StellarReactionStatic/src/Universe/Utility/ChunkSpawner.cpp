@@ -13,10 +13,12 @@ ChunkSpawner::ChunkSpawner(Universe* universe, const Json::Value& root)
 
 	m_io.reset(new IOComponent(io, &ChunkSpawner::input, this));
 
+	GETJSON(m_spawnPeriod);
+	GETJSON(m_makesAI);
 	GETJSON(m_isEnabled);
 	GETJSON(m_blueprints);
-	GETJSON(m_maxNumber);
-	GETJSON(m_spawnPeriod);
+	GETJSON(m_spawnAmount);
+
 	GETJSON(m_spawnPeriodVariance);
 	GETJSON(m_radius);
 	GETJSON(m_origin);
@@ -26,44 +28,26 @@ ChunkSpawner::ChunkSpawner(Universe* universe, const Json::Value& root)
 }
 void ChunkSpawner::resetCountdown()
 {
-
+	float randSec = Rand::get(-m_spawnPeriodVariance, m_spawnPeriodVariance);
+	m_timer.setCountDown(m_spawnPeriod + randSec);
+	m_timer.restartCountDown();
 }
 void ChunkSpawner::update()
 {
-	//if(m_timer.isTimeUp())
-	//{
-	//	Vec2 randPos = pickRandPoint();
+	if(m_spawnAmount > 0 && m_timer.isTimeUp())
+	{
+		ChunkDataMessage ship;
 
-	//	ChunkDataMessage ship;
-
-	//	ship.aiControlled = m_makesAI;
-	//	ship.needsController = m_makesAI;
-	//	ship.coordinates = randPos;
-	//	ship.blueprintName = m_blueprints[Rand::get(0,m_blueprints.size())];
-	//	ship.rotation = 0;
-	//	ship.team = (int)m_team;
-	//	ShipBuilder::Client::createChunk(ship);
-
-
-	//	m_timer.setCountDown(Rand::get(-m_spawnPeriodVariance, m_spawnPeriodVariance) + m_spawnPeriod);
-	//	m_timer.restartCountDown();
-	//}
-
-	//for(int i = 0; i < m_maxNumber; ++i)
-	//{
-	//	float rx = Rand::get(-m_radius, m_radius);
-	//	float ry = Rand::get(-m_radius, m_radius);
-	//	float32 rotation = Rand::get(0.f, 360.f);
-
-	//	float32 x = m_origin.x + rx;
-	//	float32 y = m_origin.y + ry;
-
-	//	sf::Packet pos;
-	//	pos << x << y << rotation;
-
-	//	Message makeHazard(m_io.getPosition(), "createHazard", pos, 0, false);
-	//	m_pUniverse->getUniverseIO().recieve(makeHazard);
-	//}
+		ship.aiControlled = m_makesAI;
+		ship.needsController = m_makesAI;
+		ship.coordinates = pickRandPoint();
+		ship.blueprintName = m_blueprints[Rand::get(0,m_blueprints.size()-1)];
+		ship.rotation = 0;
+		ship.team = (int)m_team;
+		ShipBuilder::Client::createChunk(ship);
+		--m_spawnAmount;
+		resetCountdown();
+	}
 }
 Vec2 ChunkSpawner::pickRandPoint()
 {
