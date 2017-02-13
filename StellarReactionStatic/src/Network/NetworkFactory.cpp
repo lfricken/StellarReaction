@@ -11,6 +11,7 @@ NetworkFactory::NetworkFactory(String name)
 {
 	m_name = name;
 	m_lastSendID = 0;
+	m_consecutiveDesyncs = 0;
 }
 NetworkFactory::~NetworkFactory()
 {
@@ -18,13 +19,14 @@ NetworkFactory::~NetworkFactory()
 }
 int NetworkFactory::give(NetworkComponent* pComponent)//we recieve a pointer to a component and we store it
 {
+
 	int position;
 
 	position = m_componentPtrs.size();
 	m_componentPtrs.resize(m_componentPtrs.size() + 1);//add one
 
 	m_componentPtrs[position] = pComponent;
-
+	Print << "\nNew Comp " << position;
 	return position;
 }
 void NetworkFactory::free(int position)//don't adjust the list, just mark the node as null and offer it as a position to future customers
@@ -77,6 +79,7 @@ void NetworkFactory::process(sf::Packet& rPacket)
 	int32_t expectedNumElements = (int32_t)m_componentPtrs.size();
 	if(numElements == expectedNumElements)
 	{
+		m_consecutiveDesyncs = 0;
 		int32_t id;
 		int32_t old_id;//for debugging purposes remembers the last attempted id process
 		while(rPacket >> id && !rPacket.endOfPacket())
@@ -99,9 +102,14 @@ void NetworkFactory::process(sf::Packet& rPacket)
 	}
 	else
 	{
+		m_consecutiveDesyncs++;
 		int i = 9;
 		//Desyinc detected
 		///ERROR LOG
 		//dout << "\nDesync Detected[" << numElements << "][" << expectedNumElements << "][" << m_name << "]" << FILELINE;
+	}
+	if(m_consecutiveDesyncs > 0 && m_consecutiveDesyncs % 60 == 0)
+	{
+		cout << "\nDesync Detected.";
 	}
 }

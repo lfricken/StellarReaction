@@ -13,6 +13,8 @@
 #include "Player.hpp"
 #include "Debugging.hpp"
 
+int counter = 0;
+
 ShipBuilder::ShipBuilder()
 {
 
@@ -73,10 +75,12 @@ void ShipBuilder::Client::createChunk(const ChunkDataMessage& data)
 }
 String ShipBuilder::Client::getNextSlaveName()
 {
-	static int counter = 0;
 	return "slv_" + String(counter++);
 }
-
+void ShipBuilder::Client::resetSlaveName()
+{
+	counter = 0;
+}
 
 
 

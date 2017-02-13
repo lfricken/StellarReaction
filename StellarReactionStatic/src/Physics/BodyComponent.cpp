@@ -8,8 +8,11 @@
 
 using namespace std;
 
-BodyComponent::BodyComponent(const BodyComponentData& rData) : m_nw(rData.nwComp, &BodyComponent::pack, &BodyComponent::unpack, this, game.getNwBoss().getNWDataFactory())
+BodyComponent::BodyComponent(const BodyComponentData& rData)
 {
+	if(rData.syncedNetwork)
+		m_nw.reset(new NetworkComponent(rData.nwComp, &BodyComponent::pack, &BodyComponent::unpack, this, game.getNwBoss().getNWDataFactory()));
+
 	if(rData.isDynamic)
 		m_bodyDef.type = b2BodyType::b2_dynamicBody;
 	else
@@ -41,7 +44,7 @@ b2Body* BodyComponent::getBodyPtr()
 }
 NetworkComponent& BodyComponent::getNWComp()
 {
-	return m_nw;
+	return *m_nw;
 }
 void BodyComponent::pack(sf::Packet& rPacket)
 {

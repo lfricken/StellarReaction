@@ -25,6 +25,7 @@ public:
 		/// Returns the next name for a slave.
 		/// </summary>
 		static String getNextSlaveName();
+		static void resetSlaveName();
 
 		static void writeToPacket(int targetShipIOPosition, const List<Pair<String, sf::Vector2i> >& modules, sf::Packet* data);
 		static void readFromPacket(int* targetShipIOPosition, List<Pair<String, sf::Vector2i> >* modules, sf::Packet data);

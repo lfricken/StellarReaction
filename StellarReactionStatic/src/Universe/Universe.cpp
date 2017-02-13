@@ -27,6 +27,7 @@ using namespace std;
 
 void Universe::loadLevel(const GameLaunchData& data)//loads a level using blueprints
 {
+	ShipBuilder::Client::resetSlaveName();
 	m_spControlFactory.reset(new ControlFactory);//remove all controllers.
 
 	loadBlueprints("blueprints/");

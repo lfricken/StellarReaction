@@ -31,5 +31,9 @@ private:
 	int m_lastSendID;
 
 	String m_name;
+	/// <summary>
+	/// How many times in a row have we gotten bad data.
+	/// </summary>
+	int m_consecutiveDesyncs;
 };
 

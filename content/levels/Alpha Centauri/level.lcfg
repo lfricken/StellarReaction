@@ -1,4 +1,15 @@
 {
+	"Spawners": [{
+		"m_team": 2,
+		"m_makesAI": true,
+		"m_isEnabled": true,
+		"m_blueprints": ["Anubis", "Anubis", "Caterina"],
+		"m_spawnAmount": 5,
+		"m_spawnPeriod": 8,
+		"m_spawnPeriodVariance": 1,
+		"m_radius": 5,
+		"m_origin": [0,30]
+	}],
 	"decorations": [
     {
 		"count": 1,
@@ -105,17 +116,6 @@
 	}
     ],
 	"MapBounds": [150, 150],
-	"Spawners": [{
-		"m_team": 2,
-		"m_makesAI": true,
-		"m_isEnabled": true,
-		"m_blueprints": ["Anubis", "Anubis", "Caterina"],
-		"m_spawnAmount": 5,
-		"m_spawnPeriod": 5,
-		"m_spawnPeriodVariance": 1,
-		"m_radius": 5,
-		"m_origin": [0,30]
-	}],
 	"SpawnPoints": [{
 		"Team": 1,
 		"Points": [

@@ -52,6 +52,7 @@ struct ProjectileData : public BlueprintData
 		body.coords = Vec2(0, 5);
 		body.isBullet = true;
 		body.isDynamic = true;
+		body.syncedNetwork = false;
 		body.linearDampening = 0;
 		body.rotation = 0;
 		body.startAwake = true;

@@ -16,6 +16,7 @@ struct BodyComponentData
 		isDynamic(true),
 		isBullet(false),
 		startAwake(true),
+		syncedNetwork(true),
 		linearDampening(1.5),
 		angularDampening(1.5),
 		nwComp()
@@ -30,6 +31,7 @@ struct BodyComponentData
 	bool isDynamic;
 	bool isBullet;
 	bool startAwake;
+	bool syncedNetwork;
 	float linearDampening;
 	float angularDampening;
 	NetworkComponentData nwComp;
@@ -69,7 +71,7 @@ protected:
 	virtual void unpack(sf::Packet& rPacket);
 
 private:
-	NetworkComponent m_nw;
+	sptr<NetworkComponent> m_nw;
 	b2Body* m_pBody;
 	b2BodyDef m_bodyDef;
 
