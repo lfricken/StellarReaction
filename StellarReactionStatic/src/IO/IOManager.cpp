@@ -24,18 +24,20 @@ IOManager::~IOManager()
 }
 void IOManager::recieve(const Message& rMessage)
 {
+
+	if(m_networked && rMessage.sendOverNW())//we are someone about to send an important message
+	{
+		m_spNw->toggleNewData(true);
+		m_latest.push_back(rMessage);
+	}
+	else if(m_networked && game.getNwBoss().getNWState() == NWState::Server)//we are the host with any info
+	{
+		m_spNw->toggleNewData(true);
+		m_latest.push_back(rMessage);
+	}
+
 	if(m_acceptsLocal)
 	{
-		if(m_networked && rMessage.sendOverNW())//we are someone about to send an important message
-		{
-			m_spNw->toggleNewData(true);
-			m_latest.push_back(rMessage);
-		}
-		else if(m_networked && game.getNwBoss().getNWState() == NWState::Server)//we are the host with any info
-		{
-			m_spNw->toggleNewData(true);
-			m_latest.push_back(rMessage);
-		}
 		m_messageList.push_back(rMessage);//if we accept local, otherwise ignore it
 	}
 }
@@ -144,68 +146,68 @@ void IOManager::f_send(const Message& rMessage)
 }
 void IOManager::pack(sf::Packet& rPacket)//give us data to send to the twin in the other world
 {
-	if(m_acceptsLocal)
+	//if(m_acceptsLocal)
+	//{
+	int32_t total = m_latest.size();
+	rPacket << total;
+	for(int32_t i = 0; i < (signed)m_latest.size(); ++i)
 	{
-		int32_t total = m_latest.size();
-		rPacket << total;
-		for(int32_t i = 0; i < (signed)m_latest.size(); ++i)
+		rPacket << (int32_t)m_latest[i].getTargetPosition();
+		rPacket << m_latest[i].getTargetName();
+		rPacket << m_latest[i].getCommand();
+
+		int dataSize = (signed)m_latest[i].getData().getDataSize();
+
+		rPacket << (int32_t)dataSize;
+
+		int8_t* pByte = (int8_t*)m_latest[i].getData().getData();
+		for(int index = 0; index < dataSize; ++index)
 		{
-			rPacket << (int32_t)m_latest[i].getTargetPosition();
-			rPacket << m_latest[i].getTargetName();
-			rPacket << m_latest[i].getCommand();
-
-			int dataSize = (signed)m_latest[i].getData().getDataSize();
-
-			rPacket << (int32_t)dataSize;
-
-			int8_t* pByte = (int8_t*)m_latest[i].getData().getData();
-			for(int index = 0; index < dataSize; ++index)
-			{
-				int8_t byte = pByte[index];
-				rPacket << byte;
-			}
-
-			rPacket << m_latest[i].getDelay();
+			int8_t byte = pByte[index];
+			rPacket << byte;
 		}
+
+		rPacket << m_latest[i].getDelay();
 	}
+	//}
 	m_latest.clear();
 }
 void IOManager::unpack(sf::Packet& rPacket)//process data from our twin
 {
-	if(!m_acceptsLocal)
+	//if(!m_acceptsLocal)
+	//{
+	int32_t total;
+	rPacket >> total;
+	for(int32_t i = 0; i < total; ++i)
 	{
-		int32_t total;
-		rPacket >> total;
-		for(int32_t i = 0; i < total; ++i)
+		int32_t pos;
+		String name;
+		String command;
+		int32_t size;
+		int8_t* pData;
+		sf::Packet messageData;
+		float delay;
+
+		rPacket >> pos;
+		rPacket >> name;
+		rPacket >> command;
+
+		rPacket >> size;
+
+		pData = new int8_t[size];
+		for(int index = 0; index < size; ++index)
 		{
-			int32_t pos;
-			String name;
-			String command;
-			int32_t size;
-			int8_t* pData;
-			sf::Packet messageData;
-			float delay;
-
-			rPacket >> pos;
-			rPacket >> name;
-			rPacket >> command;
-
-			rPacket >> size;
-
-			pData = new int8_t[size];
-			for(int index = 0; index < size; ++index)
-			{
-				int8_t byte;
-				rPacket >> byte;
-				pData[index] = byte;
-			}
-			messageData.append(pData, size);
-
-			rPacket >> delay;
-
-			m_messageList.push_back(Message((unsigned int)pos, command, messageData, delay, false));
-			m_messageList.back().setName(name);
-			delete pData;
+			int8_t byte;
+			rPacket >> byte;
+			pData[index] = byte;
 		}
+		messageData.append(pData, size);
+
+		rPacket >> delay;
+
+		m_messageList.push_back(Message((unsigned int)pos, command, messageData, delay, false));
+		m_messageList.back().setName(name);
+		delete pData;
 	}
+	//}
 }

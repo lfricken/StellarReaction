@@ -10,19 +10,20 @@ void ShieldComponentData::loadJson(const Json::Value& root)
 ShieldComponent::ShieldComponent(const ShieldComponentData& rData) : Sensor(rData)
 {
 	m_pParentShieldModule = rData.pParentShieldModule;
+
 }
 void ShieldComponent::entered(FixtureComponent* pOther)
 {
-	if(m_pParentShieldModule->hitConsumption())
-	{
-		sf::Packet cause;
-		int32_t ioPos = m_io.getPosition();
-		cause << ioPos;
-		Message mes(pOther->getIOPos(), "hitShield", cause, 0, false);
-		game.getUniverse().getUniverseIO().recieve(mes);
-	}
-	else
-		this->toggleEnabled(false);
+	//if(m_pParentShieldModule->hitConsumption())
+	//{
+	//	sf::Packet cause;
+	//	int32_t ioPos = m_io.getPosition();
+	//	cause << ioPos;
+	//	Message mes(pOther->getIOPos(), "hitShield", cause, 0, false);
+	//	game.getUniverse().getUniverseIO().recieve(mes);
+	//}
+	//else
+	//	this->toggleEnabled(false);
 }
 void ShieldComponent::exited(FixtureComponent* pOther)
 {
@@ -30,7 +31,15 @@ void ShieldComponent::exited(FixtureComponent* pOther)
 }
 void ShieldComponent::input(String rCommand, sf::Packet rData)
 {
+	if(rCommand == "damage")
+	{
+		if(m_pParentShieldModule->hitConsumption())
+		{
 
+		}
+		else
+			m_pParentShieldModule->triggerGroupDisable();
+	}
 }
 
 
@@ -61,6 +70,12 @@ Shield::Shield(const ShieldData& rData) : ShipModule(rData)
 	this->m_parentChunk->add(newShield);
 
 	m_pShield = dynamic_cast<ShieldComponent*>(this->m_parentChunk->getModuleList().back().get());
+	assert(m_pShield != NULL);
+
+	auto shieldArt = rData.shieldArt;
+	shieldArt.dimensions.x = leon::toScreen(rData.radius);
+	shieldArt.dimensions.y = leon::toScreen(rData.radius);
+	m_spShieldArt.reset(new QuadComponent(shieldArt));
 }
 void Shield::prePhysUpdate()
 {
@@ -68,7 +83,7 @@ void Shield::prePhysUpdate()
 
 	Energy thisTickConsumption = m_energyPerSecond*m_consumptionTimer.getTimeElapsed();
 	if(!isFunctioning() || m_pEnergyPool->getValue() < thisTickConsumption)
-		m_pShield->toggleEnabled(false);
+		triggerGroupDisable();
 
 	if(m_pShield->isEnabled())
 		m_pEnergyPool->changeValue(-thisTickConsumption);
@@ -80,13 +95,42 @@ bool Shield::hitConsumption()
 }
 void Shield::directive(const CommandInfo& commands)
 {
-	Map<Directive, bool> rIssues = commands.directives;
-	if(rIssues[Directive::Shield])
+	//this->input
+
+	//Map<Directive, bool> rIssues = commands.directives;
+	//if(rIssues[Directive::Shield])
+	//{
+	//	if(m_toggleTimer.isTimeUp())
+	//	{
+	//		m_toggleTimer.restartCountDown();
+	//		m_pShield->toggleEnabled(!m_pShield->isEnabled());
+	//	}
+	//}
+}
+void Shield::enableShield()
+{
+	m_pShield->toggleEnabled(true);
+}
+void Shield::disableShield()
+{
+	m_pShield->toggleEnabled(false);
+}
+void Shield::triggerGroupDisable()
+{
+	int target = m_parentChunk->m_io.getPosition();
+	Message off(target, "disableShields", voidPacket, 0, false);
+	Message::SendUniverse(off);
+}
+void Shield::postPhysUpdate()
+{
+	ShipModule::postPhysUpdate();
+
+	m_spShieldArt->setPosition(m_fix.getCenter());
+
+	if(m_pShield->isEnabled())
 	{
-		if(m_toggleTimer.isTimeUp())
-		{
-			m_toggleTimer.restartCountDown();
-			m_pShield->toggleEnabled(!m_pShield->isEnabled());
-		}
+		m_spShieldArt->setAlpha(255);
 	}
+	else
+		m_spShieldArt->setAlpha(0);
 }

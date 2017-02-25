@@ -71,4 +71,17 @@ Team JSON::get(const Json::Value& root, const String& fieldName, Team defaultVal
 
 	return (Team)root[fieldName].asInt();
 }
+Category JSON::get(const Json::Value& root, const String& fieldName, Category defaultValue)
+{
+	if(root[fieldName].isNull())
+		return defaultValue;
 
+	return ChooseCategory(root[fieldName].asString());
+}
+Mask JSON::get(const Json::Value& root, const String& fieldName, Mask defaultValue)
+{
+	if(root[fieldName].isNull())
+		return defaultValue;
+
+	return ChooseMask(root[fieldName].asString());
+}

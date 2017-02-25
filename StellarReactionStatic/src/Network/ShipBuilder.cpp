@@ -89,10 +89,9 @@ void ShipBuilder::Server::rebuild(sf::Packet& rData)
 {
 	int targetShip;
 
-	rData >> targetShip;
 
 	List<Pair<String, sf::Vector2i> > moduleList;
-	extractModules(rData, &moduleList);
+	Client::readFromPacket(&targetShip, &moduleList, rData);
 
 	cleanShip(targetShip);
 	for(auto it = moduleList.cbegin(); it != moduleList.cend(); ++it)
@@ -114,18 +113,4 @@ void ShipBuilder::Server::cleanShip(int targetIOPos)
 {
 	Message clean((unsigned)targetIOPos, "clear", voidPacket, 0, false);
 	game.getUniverse().getUniverseIO().recieve(clean);
-}
-void ShipBuilder::Server::extractModules(sf::Packet& rData, List<Pair<String, sf::Vector2i> >* list)
-{
-	String bpName;
-	sf::Vector2i pos;
-	int num;
-	rData >> num;
-	for(int i = 0; i < num; ++i)
-	{
-		rData >> bpName;
-		rData >> pos.x;
-		rData >> pos.y;
-		list->push_back(Pair<String, sf::Vector2i>(bpName, pos));
-	}
 }

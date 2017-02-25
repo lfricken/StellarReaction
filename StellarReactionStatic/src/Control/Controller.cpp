@@ -9,6 +9,9 @@ using namespace std;
 
 Controller::Controller(const ControllerData& rData) : m_aim(0, 0), m_io(rData.ioComp, &Controller::input, this), m_nw(rData.nwComp, &Controller::pack, &Controller::unpack, this, game.getUniverse().getControllerFactory().getNWFactory())
 {
+
+	m_shieldToggleTimer.setCountDown(0.5f);
+	m_shieldToggleTimer.restartCountDown();
 	m_local = false;
 	m_slavePosition = -1;
 
@@ -96,6 +99,26 @@ void Controller::processDirectives()//use our stored directives to send commands
 	Chunk* temp = game.getUniverse().getSlaveLocator().find(m_slavePosition);
 	if(temp != NULL)
 	{
+		if(m_directives[Directive::Shield] && m_shieldToggleTimer.isTimeUp())
+		{
+			bool enoughEnergy = (get(Request::Energy) / get(Request::MaxEnergy)) > 0.25f;
+			if(enoughEnergy)
+			{
+				m_shieldToggleTimer.restartCountDown();
+				bool shieldsOn = get(Request::ShieldState);
+
+				Message shield;
+
+				if(shieldsOn)
+					shield.reset(temp->m_io.getPosition(), "disableShields", voidPacket, 0, false);
+				else
+					shield.reset(temp->m_io.getPosition(), "enableShields", voidPacket, 0, false);
+
+				Message::SendUniverse(shield);
+			}
+		}
+
+
 		CommandInfo commands;
 		commands.directives = m_directives;
 		commands.isLocal = m_local;

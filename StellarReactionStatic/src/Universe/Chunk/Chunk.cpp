@@ -8,6 +8,7 @@
 #include "Animation.hpp"
 #include "ShipModule.hpp"
 #include "CommandInfo.hpp"
+#include "Shield.hpp"
 
 using namespace std;
 
@@ -107,7 +108,7 @@ Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp)
 	m_stealth = false;
 	m_timer.setCountDown(1);
 	m_timer.restartCountDown();
-
+	m_areShieldsOn = false;
 
 	//Set valid module positions.
 	m_validOffsets = rData.validPos;
@@ -379,6 +380,9 @@ float Chunk::get(Request value) const//return the requested value
 	case(Request::Score) :
 		return static_cast<float>(m_score);
 
+	case(Request::ShieldState) :
+		return static_cast<float>(m_areShieldsOn);
+
 
 	default:
 		return 0.f;
@@ -472,6 +476,26 @@ void Chunk::input(String rCommand, sf::Packet rData)
 		if(!found)
 			cout << "\nThere was no module at " << targetOffset.x << "," << targetOffset.y << " " << FILELINE;
 	}
+	else if(rCommand == "enableShields")
+	{
+		m_areShieldsOn = true;
+		for(auto it = m_modules.begin(); it != m_modules.end(); ++it)
+		{
+			Shield* pShield = dynamic_cast<Shield*>(it->get());
+			if(pShield)
+				pShield->enableShield();
+		}
+	}
+	else if(rCommand == "disableShields")
+	{
+		m_areShieldsOn = false;
+		for(auto it = m_modules.begin(); it != m_modules.end(); ++it)
+		{
+			Shield* pShield = dynamic_cast<Shield*>(it->get());
+			if(pShield)
+				pShield->disableShield();
+		}
+	}
 	else
 		cout << "\nCommand not found in [" << m_io.getName() << "]." << FILELINE;
 }
@@ -479,7 +503,7 @@ float Chunk::getRadius()
 {
 	if(m_radius > 0.f)
 		return m_radius;
-	Vec2 max(0,0);
+	Vec2 max(0, 0);
 	for(auto it = m_modules.cbegin(); it != m_modules.cend(); ++it)
 	{
 		if(max.len() < Vec2((*it)->getOffset()).len())

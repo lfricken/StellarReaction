@@ -41,11 +41,13 @@ public:
 	class Server
 	{
 	public:
+		/// <summary>
+		/// Build a ship using the writeToPacket return as input.
+		/// </summary>
 		static void rebuild(sf::Packet& rData);
 	private:
 		static void attachModule(int targetShipIOPosition, const String& bpName, const sf::Vector2i offset);
 		static void cleanShip(int targetShipIOPosition);
-		static void extractModules(sf::Packet& rData, List<Pair<String, sf::Vector2i> >* list);
 	};
 
 

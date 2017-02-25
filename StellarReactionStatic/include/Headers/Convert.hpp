@@ -16,10 +16,10 @@ namespace leon
 	inline float normRad(T value)
 	{
 		float pi2 = 2.f * pi;
-		while (value > pi2)
+		while(value > pi2)
 			value -= pi2;
 
-		while (value < 0.f)
+		while(value < 0.f)
 			value += pi2;
 
 		return value;
@@ -27,10 +27,10 @@ namespace leon
 	template<typename T>
 	inline float normDeg(T value)
 	{
-		while (value > 360.f)
+		while(value > 360.f)
 			value -= 360.f;
 
-		while (value < 0.f)
+		while(value < 0.f)
 			value += 360.f;
 
 		return value;
@@ -47,7 +47,7 @@ namespace leon
 	{
 		return (180.0f*value) / pi;
 	}
-	
+
 
 
 
@@ -55,24 +55,46 @@ namespace leon
 	/// Distance formula for two 2D points.
 	inline float Dist(const T& p1, const T& p2)
 	{
-		return sqrtf((p2.x-p1.x)*(p2.x-p1.x) + (p2.y-p1.y)*(p2.y-p1.y));
+		return sqrtf((p2.x - p1.x)*(p2.x - p1.x) + (p2.y - p1.y)*(p2.y - p1.y));
 	}
 	template<typename T>
+	/// <summary>
 	/// Negates y coordinate.
+	/// </summary>
 	inline T screenToCart(const T& screenCoords)//reverses y
 	{
 		return T(screenCoords.x, -screenCoords.y);
 	}
 	template<typename T>
+	/// <summary>
 	/// Take a coordinate from SFML world coordinates (pixels) to Box2D world coordinates (meters).
+	/// </summary>
 	inline Vec2 sfTob2(const T& screenCoords)
 	{
-		return Vec2(screenCoords.x/scale, -screenCoords.y/scale);
+		return Vec2(screenCoords.x / scale, -screenCoords.y / scale);
 	}
 	template<typename T>
+	/// <summary>
 	/// Take a coordinate from Box2D world coordinates (meters) to SFML world coordinates (pixels).
+	/// </summary>
 	inline sf::Vector2<T> b2Tosf(const Vec2& worldCoords)
 	{
 		return sf::Vector2<T>(worldCoords.x*scale, -worldCoords.y*scale);
+	}
+	template<typename T>
+	/// <summary>
+	/// Take a dimension from SFML world coordinates (pixels) to Box2D world coordinates (meters).
+	/// </summary>
+	inline T toWorld(const T& screenCoords)
+	{
+		return screenCoords / (scale * sizeScalingFactor);
+	}
+	template<typename T>
+	/// <summary>
+	/// Take a dimension from Box2D world coordinates (meters) to SFML world coordinates (pixels).
+	/// </summary>
+	inline T toScreen(const T& worldCoords)
+	{
+		return worldCoords * (scale * sizeScalingFactor);
 	}
 }

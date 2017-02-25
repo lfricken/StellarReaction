@@ -168,6 +168,7 @@ private:
 	///TEMPORARY
 	sptr<QuadComponent> m_energyMeter;
 	sptr<QuadComponent> m_energyDanger;
+	sptr<QuadComponent> m_shieldState;
 	sptr<QuadComponent> m_boundsDanger;
 
 	List<sptr<QuadComponent>> m_groupIcon;

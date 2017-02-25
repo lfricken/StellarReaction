@@ -10,6 +10,7 @@ void BallisticWeaponData::loadJson(const Json::Value& root)
 	WeaponData::loadJson(root);
 
 	GETJSON(projName);
+	GETJSON(velocity);
 }
 BallisticWeapon::BallisticWeapon(const BallisticWeaponData& rData) : Weapon(rData)
 {

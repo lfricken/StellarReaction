@@ -18,5 +18,7 @@ enum class Request
 	MaxMissiles,
 
 	Score,
+
+	ShieldState,
 };
 

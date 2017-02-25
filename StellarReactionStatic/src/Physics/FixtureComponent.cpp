@@ -30,11 +30,8 @@ void FixtureComponentData::loadJson(const Json::Value& root)
 	GETJSON(friction);
 	GETJSON(restitution);
 	GETJSON(isSensor);
-
-	if(!root["colCat"].isNull())
-		colCategory = ChooseCategory(root["colCat"].asString());
-	if(!root["colMask"].isNull())
-		colMask = ChooseMask(root["colMask"].asString());
+	GETJSON(colCategory);
+	GETJSON(colMask);
 }
 FixtureComponent::FixtureComponent(const FixtureComponentData& rData)
 {

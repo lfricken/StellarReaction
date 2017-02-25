@@ -94,13 +94,13 @@ private:
 	bool m_wasBoosting;
 	List<sptr<GraphicsComponent> > afterburners_boost;
 
+	bool m_areShieldsOn;
 	bool m_stealth;
 
 	int m_thrustNoiseIndex;
 	int m_boostNoiseIndex;
 	int m_deaths;
 	float m_radius;
-
 	Vec2 m_lastAim;
 };
 

@@ -43,7 +43,7 @@ enum class Mask
 	ShipForceField = static_cast<int>(Category::Projectile),
 	Trigger = static_cast<int>(Category::All),
 
-	Laser = static_cast<int>(Category::ShipModule),
+	Laser = static_cast<int>(Category::ShipModule) | static_cast<int>(Category::ShipForceField),
 
 	All = static_cast<int>(Category::All),
 };

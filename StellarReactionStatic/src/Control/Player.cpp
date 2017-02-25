@@ -302,6 +302,13 @@ void Player::updateView()
 		if(val / maxVal < 0.1f)
 			m_energyDanger->getAnimator().setAnimation("Default", 2.f);
 
+		//Shield State
+		if(rController.get(Request::ShieldState))
+			m_shieldState->getAnimator().setAnimation("On", 0.25f);
+		else
+			m_shieldState->getAnimator().setAnimation("Off", 0.25f);
+
+
 		//Out of Bounds
 		Vec2 location = pBody->GetPosition();
 		Vec2 bounds = game.getUniverse().getBounds();
@@ -401,16 +408,9 @@ QuadComponentData createUI(sf::Vector2f size, String displayName, sf::Vector2f c
 }
 void Player::loadOverlay(const String& rOverlay)
 {
-	Vec2 emeterPos = Vec2(0.05f, -0.05f);
 	Vec2 winDim(leon::sfTob2((sf::Vector2f)game.getWindow().getSize()));
 
-	//Thing covering fill
-	LinearMeterData fillData;
-	fillData.dimensions = sf::Vector2f(30, 124);
-	fillData.layer = GraphicsLayer::OverlayMiddle;
-	fillData.center = sf::Vector2f(-fillData.dimensions.x / 2, fillData.dimensions.y / 2);
-	m_energyMeterFill.reset(new LinearMeter(fillData));
-	m_energyMeterFill->setPosition(emeterPos);
+	const Vec2 pos = Vec2(0.05f, -0.05f);
 
 	//Mini Map
 	MinimapData mapData;
@@ -424,23 +424,39 @@ void Player::loadOverlay(const String& rOverlay)
 	m_minimap->setPosition(Vec2(winDim.x - (dims*0.5f / scale), winDim.y + (dims*0.5f / scale)));
 
 	//Energy Bar
-	sf::Vector2f dimensions = sf::Vector2f(32, 128);
-	QuadComponentData data = createUI(dimensions, "overlay/meter", sf::Vector2f(-dimensions.x / 2, dimensions.y / 2));
-	m_energyMeter.reset(new QuadComponent(data));
-	m_energyMeter->setPosition(emeterPos);
+	{
+		
+		sf::Vector2f dimensions = sf::Vector2f(32, 128);
+		QuadComponentData data = createUI(dimensions, "overlay/meter", sf::Vector2f(-dimensions.x / 2, dimensions.y / 2));
+		m_energyMeter.reset(new QuadComponent(data));
+		m_energyMeter->setPosition(pos);
+		//Thing covering fill
+		LinearMeterData fillData;
+		fillData.dimensions = sf::Vector2f(30, 124);
+		fillData.layer = GraphicsLayer::OverlayMiddle;
+		fillData.center = sf::Vector2f(-fillData.dimensions.x / 2, fillData.dimensions.y / 2);
+		m_energyMeterFill.reset(new LinearMeter(fillData));
+		m_energyMeterFill->setPosition(pos);
 
-	//Energy Warning
-	QuadComponentData datawarn = createUI(sf::Vector2f(86, 74), "overlay/warning_energy");
-	m_energyDanger.reset(new QuadComponent(datawarn));
-	m_energyDanger->setPosition(emeterPos + Vec2(0.05f, -0.4f));
+		QuadComponentData datawarn = createUI(sf::Vector2f(86, 74), "overlay/warning_energy");
+		m_energyDanger.reset(new QuadComponent(datawarn));
+		m_energyDanger->setPosition(pos + Vec2(0.05f, -0.4f));
 
+	}
+	//Shield Display
+	{
+		const Vec2 pos2 = Vec2(1.0f, -1.0f);
+		sf::Vector2f dimensions = sf::Vector2f(32, 128);
+		QuadComponentData shieldData = createUI(dimensions, "overlay/meter", sf::Vector2f(-dimensions.x / 2, dimensions.y / 2));
+		m_shieldState.reset(new QuadComponent(shieldData));
+		m_shieldState->setPosition(pos2);
+	}
 	//Out of Bounds Warning
-	QuadComponentData dataWarnBounds = createUI(sf::Vector2f(250, 73), "overlay/warning_bounds");
-	m_boundsDanger.reset(new QuadComponent(dataWarnBounds));
-	m_boundsDanger->setPosition(Vec2(1.35f, -0.3f));
-
-
-
+	{
+		QuadComponentData dataWarnBounds = createUI(sf::Vector2f(250, 73), "overlay/warning_bounds");
+		m_boundsDanger.reset(new QuadComponent(dataWarnBounds));
+		m_boundsDanger->setPosition(Vec2(1.35f, -0.3f));
+	}
 	// Create a group icon for each possible group.
 	for(int group = 0; group < 4; ++group)
 	{
@@ -450,7 +466,7 @@ void Player::loadOverlay(const String& rOverlay)
 		// Generate a new sptr to grouping icon.
 		sptr<QuadComponent> groupIcon;
 		groupIcon.reset(new QuadComponent(groupData));
-		groupIcon->setPosition(Vec2(1.f + 0.2f*group, 0.f) + emeterPos);
+		groupIcon->setPosition(Vec2(1.f + 0.2f*group, 0.f) + pos);
 
 		m_groupIcon.push_back(groupIcon);
 	}
@@ -459,6 +475,7 @@ void Player::loadOverlay(const String& rOverlay)
 void Player::universeDestroyed()
 {
 	m_energyMeter.reset();
+	m_shieldState.reset();
 	m_energyMeterFill.reset();
 	m_energyDanger.reset();
 	m_minimap.reset();

@@ -105,6 +105,14 @@ public:
 	{
 		return m_max;
 	}
+	///Returns the percentage between max and min.
+	float getPercent() const
+	{
+		float max = m_max - m_min;
+		float cur = m_value - m_min;
+
+		return cur / max;
+	}
 	///Returns min value.
 	T getMin() const
 	{

@@ -17,6 +17,8 @@ enum class Directive
 	Stealth,
 	Teleport,
 	Shield,
+	ShieldOn,
+	ShieldOff,
 	Boost,
 
 	Respawn,

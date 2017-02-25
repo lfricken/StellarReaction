@@ -1,8 +1,8 @@
 {
     "ClassName": "ShieldData",
-    "radius": 5,
-	"energyPerSecond": 2,
-  	"energyPerHit": 2,
+    "radius": 10,
+	"energyPerSecond": 10,
+  	"energyPerHit": 5,
 	"toggleFrequency": 1,
 	"baseDecor": {
 		"texName": "shield/shield.png",

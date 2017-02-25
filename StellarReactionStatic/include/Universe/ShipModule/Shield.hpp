@@ -3,6 +3,7 @@
 
 #include "ShipModule.hpp"
 #include "Sensor.hpp"
+#include "Convert.hpp"
 
 class Shield;
 struct ShieldData;
@@ -72,25 +73,39 @@ public:
 	void directive(const CommandInfo& commands);
 	///Actions to process on object before performing physics updates.
 	virtual void prePhysUpdate();
-	///After blocking a projectile, do we still have enough energy to maintain the shield?
-	bool hitConsumption();
+
+	void enableShield();
+	void disableShield();
+
+
+	virtual void postPhysUpdate();
 
 protected:
-
+	/// <summary>
+	/// Causes all shields on the ship to disable.
+	/// </summary>
+	void triggerGroupDisable();
+	/// <summary>
+	/// After blocking a projectile, do we still have enough energy to maintain the shield?
+	/// </summary>
+	bool hitConsumption();
 private:
 	Timer m_toggleTimer;
 	Timer m_consumptionTimer;
-	
+
 	float m_energyPerSecond;
 	float m_energyPerHit;
 
 	ShieldComponent* m_pShield;
+	sptr<QuadComponent> m_spShieldArt;
+
+	friend class ShieldComponent;
 };
 
 /// Blueprint for a Shield.
 struct ShieldData : public ShipModuleData
 {
-	ShieldData() : 
+	ShieldData() :
 		ShipModuleData(),
 		energyPerSecond(5),
 		energyPerHit(1),
@@ -99,6 +114,9 @@ struct ShieldData : public ShipModuleData
 	{
 		baseDecor.texName = "shield/shield.png";
 		baseDecor.animSheetName = "shield/shield.acfg";
+		shieldArt.dimensions = leon::b2Tosf<float>(Vec2(5, 5));
+		shieldArt.texName = "shield/barrier.png";
+		shieldArt.animSheetName = "shield/barrier.acfg";
 	}
 
 	///Energy consumed per second.
@@ -109,6 +127,8 @@ struct ShieldData : public ShipModuleData
 	float radius;
 	///How frequently we can turn it on or off.
 	float toggleFrequency;
+
+	QuadComponentData shieldArt;
 
 	///Create Shield object from this data object.
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
