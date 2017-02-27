@@ -19,6 +19,10 @@ void GraphicsComponentData::loadJson(const Json::Value& root)
 		layer = ChooseLayer(root["layer"].asString());
 	GETJSON(color);
 }
+void GraphicsComponentData::setCenterTopLeft()
+{
+	center = sf::Vector2f(-dimensions.x / 2, dimensions.y / 2);
+}
 GraphicsComponent::GraphicsComponent(const GraphicsComponentData& rData) : m_rUpdater(game.getUniverse().getGfxUpdater()), m_animator(rData.animSheetName)
 {
 	m_calculatedSize = false;
@@ -52,6 +56,10 @@ float GraphicsComponent::getScale() const
 void GraphicsComponent::setPosition(const Vec2& rWorldCoords)
 {
 	coordinates = rWorldCoords;
+}
+void GraphicsComponent::setGuiPosition(const sf::Vector2f& rScreenCoordinates)
+{
+	coordinates = leon::sfTob2(rScreenCoordinates);
 }
 void GraphicsComponent::setRotation(float radCCW)
 {

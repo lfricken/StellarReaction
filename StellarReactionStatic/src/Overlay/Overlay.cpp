@@ -495,7 +495,7 @@ void Overlay::loadMenus()
 	hudPanelData.ioComp.name = "hud_panel";
 	hudPanelData.startHidden = true;
 	hudPanelData.backgroundColor = sf::Color(50, 50, 50, 0);
-	hudPanelData.screenCoords = sf::Vector2f(200, 20);
+	hudPanelData.screenCoords = sf::Vector2f(768, 16);
 	hudPanelData.size = sf::Vector2f(textPanelSize.x, textPanelSize.y);
 	leon::Panel* pHudPanel = new leon::Panel(game.getOverlay().getGui(), hudPanelData);
 

@@ -11,6 +11,7 @@
 #include "CommandInfo.hpp"
 #include "Particles.hpp"
 #include "SoundManager.hpp"
+#include "Convert.hpp"
 
 Player::Player(const PlayerData& rData) : m_io(rData.ioComp, &Player::input, this), BasePlayerTraits(rData.name)
 {
@@ -303,7 +304,8 @@ void Player::updateView()
 			m_energyDanger->getAnimator().setAnimation("Default", 2.f);
 
 		//Shield State
-		if(rController.get(Request::ShieldState))
+		bool isShieldOn = rController.get(Request::ShieldState);
+		if(isShieldOn)
 			m_shieldState->getAnimator().setAnimation("On", 0.25f);
 		else
 			m_shieldState->getAnimator().setAnimation("Off", 0.25f);
@@ -393,7 +395,7 @@ IOComponent& Player::getIOComp()
 {
 	return m_io;
 }
-QuadComponentData createUI(sf::Vector2f size, String displayName, sf::Vector2f center = sf::Vector2f())
+QuadComponentData createUI(sf::Vector2f size, String displayName)
 {
 	QuadComponentData data;
 	data.dimensions = size;
@@ -401,8 +403,7 @@ QuadComponentData createUI(sf::Vector2f size, String displayName, sf::Vector2f c
 	data.animSheetName = displayName + ".acfg";
 	data.layer = GraphicsLayer::OverlayBottom;
 
-	if(center != sf::Vector2f())
-		data.center = center;
+	data.setCenterTopLeft();
 
 	return data;
 }
@@ -410,67 +411,66 @@ void Player::loadOverlay(const String& rOverlay)
 {
 	Vec2 winDim(leon::sfTob2((sf::Vector2f)game.getWindow().getSize()));
 
-	const Vec2 pos = Vec2(0.05f, -0.05f);
+	const sf::Vector2f topLeftStart = sf::Vector2f(16.f, 16.f);//Start of where the top left of the UI should be.
 
 	//Mini Map
-	MinimapData mapData;
-	float dims = 256;
-	mapData.animSheetName = "overlay/white.acfg";
-	mapData.texName = "overlay/white.png";
-	mapData.color = sf::Color(96, 96, 96, 32);
-	mapData.dimensions = sf::Vector2f(dims, dims);
-	mapData.layer = GraphicsLayer::OverlayMiddle;
-	m_minimap.reset(new Minimap(mapData));
-	m_minimap->setPosition(Vec2(winDim.x - (dims*0.5f / scale), winDim.y + (dims*0.5f / scale)));
-
+	{
+		MinimapData data;
+		float dims = 256.f;
+		data.animSheetName = "overlay/white.acfg";
+		data.texName = "overlay/white.png";
+		data.color = sf::Color(96, 96, 96, 32);
+		data.dimensions = sf::Vector2f(dims, dims);
+		data.setCenterTopLeft();
+		data.layer = GraphicsLayer::OverlayMiddle;
+		m_minimap.reset(new Minimap(data));
+		m_minimap->setGuiPosition(sf::Vector2f(winDim.x - dims, winDim.y + (dims)));
+	}
 	//Energy Bar
 	{
-		
-		sf::Vector2f dimensions = sf::Vector2f(32, 128);
-		QuadComponentData data = createUI(dimensions, "overlay/meter", sf::Vector2f(-dimensions.x / 2, dimensions.y / 2));
+		sf::Vector2f energyPos = topLeftStart;
+
+		QuadComponentData data = createUI(sf::Vector2f(32.f, 128.f), "overlay/meter");
 		m_energyMeter.reset(new QuadComponent(data));
-		m_energyMeter->setPosition(pos);
+		m_energyMeter->setGuiPosition(energyPos);
+
 		//Thing covering fill
-		LinearMeterData fillData;
-		fillData.dimensions = sf::Vector2f(30, 124);
-		fillData.layer = GraphicsLayer::OverlayMiddle;
-		fillData.center = sf::Vector2f(-fillData.dimensions.x / 2, fillData.dimensions.y / 2);
-		m_energyMeterFill.reset(new LinearMeter(fillData));
-		m_energyMeterFill->setPosition(pos);
-
-		QuadComponentData datawarn = createUI(sf::Vector2f(86, 74), "overlay/warning_energy");
-		m_energyDanger.reset(new QuadComponent(datawarn));
-		m_energyDanger->setPosition(pos + Vec2(0.05f, -0.4f));
-
+		LinearMeterData linearData;
+		linearData.dimensions = sf::Vector2f(30.f, 124.f);
+		linearData.texName = "fill/white.png";
+		linearData.animSheetName = "fill/white.acfg";
+		linearData.layer = GraphicsLayer::OverlayMiddle;
+		linearData.setCenterTopLeft();
+		m_energyMeterFill.reset(new LinearMeter(linearData));
+		m_energyMeterFill->setGuiPosition(energyPos);
+	}
+	//Energy Danger
+	{
+		QuadComponentData data = createUI(sf::Vector2f(86.f, 74.f), "overlay/warning_energy");
+		m_energyDanger.reset(new QuadComponent(data));
+		m_energyDanger->setGuiPosition(topLeftStart + sf::Vector2f(0.f, 150.f));
 	}
 	//Shield Display
 	{
-		const Vec2 pos2 = Vec2(1.0f, -1.0f);
-		sf::Vector2f dimensions = sf::Vector2f(32, 128);
-		QuadComponentData shieldData = createUI(dimensions, "overlay/meter", sf::Vector2f(-dimensions.x / 2, dimensions.y / 2));
-		m_shieldState.reset(new QuadComponent(shieldData));
-		m_shieldState->setPosition(pos2);
+		QuadComponentData data = createUI(sf::Vector2f(64.f, 64.f), "overlay/shield");
+		m_shieldState.reset(new QuadComponent(data));
+		m_shieldState->setGuiPosition(topLeftStart + sf::Vector2f(64.f, 0.f));
 	}
 	//Out of Bounds Warning
 	{
-		QuadComponentData dataWarnBounds = createUI(sf::Vector2f(250, 73), "overlay/warning_bounds");
+		QuadComponentData dataWarnBounds = createUI(sf::Vector2f(250.f, 73.f), "overlay/warning_bounds");
 		m_boundsDanger.reset(new QuadComponent(dataWarnBounds));
-		m_boundsDanger->setPosition(Vec2(1.35f, -0.3f));
+		m_boundsDanger->setGuiPosition(sf::Vector2f(512.f, -256.f));
 	}
 	// Create a group icon for each possible group.
 	for(int group = 0; group < 4; ++group)
 	{
-		// Create one for each group.
-		QuadComponentData groupData = createUI(sf::Vector2f(100, 50), "overlay/control_group");
-
-		// Generate a new sptr to grouping icon.
-		sptr<QuadComponent> groupIcon;
-		groupIcon.reset(new QuadComponent(groupData));
-		groupIcon->setPosition(Vec2(1.f + 0.2f*group, 0.f) + pos);
+		QuadComponentData groupData = createUI(sf::Vector2f(100.f, 50.f), "overlay/control_group");
+		sptr<QuadComponent> groupIcon(new QuadComponent(groupData));
+		groupIcon->setGuiPosition(topLeftStart + sf::Vector2f(256.f + 128.f*group, 0.f));
 
 		m_groupIcon.push_back(groupIcon);
 	}
-
 }
 void Player::universeDestroyed()
 {

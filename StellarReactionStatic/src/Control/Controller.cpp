@@ -101,21 +101,17 @@ void Controller::processDirectives()//use our stored directives to send commands
 	{
 		if(m_directives[Directive::Shield] && m_shieldToggleTimer.isTimeUp())
 		{
+			m_shieldToggleTimer.restartCountDown();
+			Message shield;
+
+			bool shieldsOn = get(Request::ShieldState);
 			bool enoughEnergy = (get(Request::Energy) / get(Request::MaxEnergy)) > 0.25f;
-			if(enoughEnergy)
-			{
-				m_shieldToggleTimer.restartCountDown();
-				bool shieldsOn = get(Request::ShieldState);
+			if(!shieldsOn && enoughEnergy)
+				shield.reset(temp->m_io.getPosition(), "enableShields", voidPacket, 0, false);
+			else
+				shield.reset(temp->m_io.getPosition(), "disableShields", voidPacket, 0, false);
 
-				Message shield;
-
-				if(shieldsOn)
-					shield.reset(temp->m_io.getPosition(), "disableShields", voidPacket, 0, false);
-				else
-					shield.reset(temp->m_io.getPosition(), "enableShields", voidPacket, 0, false);
-
-				Message::SendUniverse(shield);
-			}
+			Message::SendUniverse(shield);
 		}
 
 

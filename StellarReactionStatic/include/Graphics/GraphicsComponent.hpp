@@ -29,6 +29,8 @@ struct GraphicsComponentData
 	GraphicsLayer layer;
 	sf::Color color;
 
+	void setCenterTopLeft();
+
 	/// Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
 };
@@ -45,6 +47,8 @@ public:
 
 	/// Set the position of this object in world coordinates.
 	void setPosition(const Vec2& rWorldCoords);
+	/// <summary> Set the position of the Gui element. </summary>
+	void setGuiPosition(const sf::Vector2f& rScreenCoordinates);
 	/// Set our rotation in radians counterclockwise.
 	void setRotation(float radCCW);
 	/// Offset where we are drawn in pixels from our center.
