@@ -104,7 +104,7 @@ void Controller::processDirectives()//use our stored directives to send commands
 			m_shieldToggleTimer.restartCountDown();
 			Message shield;
 
-			bool shieldsOn = get(Request::ShieldState);
+			bool shieldsOn = (bool)get(Request::ShieldState);
 			bool enoughEnergy = (get(Request::Energy) / get(Request::MaxEnergy)) > 0.25f;
 			if(!shieldsOn && enoughEnergy)
 				shield.reset(temp->m_io.getPosition(), "enableShields", voidPacket, 0, false);

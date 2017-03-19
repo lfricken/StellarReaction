@@ -43,6 +43,8 @@ struct SensorData : public ModuleData
 	{
 		fixComp.isSensor = true;
 		fixComp.density = 0.f;
+		fixComp.colCategory = Category::Trigger;
+		fixComp.colMask = Mask::Trigger;
 	}
 
 	bool startEnabled;

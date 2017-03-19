@@ -5,7 +5,7 @@
 	"fireDelay": 2,
     "damage": 25,
 	
-    "shots": 4,
+    "shots": 5,
 	"shotDelay": 0.1,
 	
 	"range": 75,

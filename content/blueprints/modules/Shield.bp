@@ -1,7 +1,7 @@
 {
     "ClassName": "ShieldData",
     "radius": 10,
-	"energyPerSecond": 10,
+	"energyPerSecond": 2,
   	"energyPerHit": 5,
 	"toggleFrequency": 1,
 	"baseDecor": {

@@ -1,0 +1,80 @@
+{
+    "ClassName": "ChunkData",
+    "zoomData": {
+        "Max": 64,
+        "Value": 16
+    },
+	"hullSpriteData": {
+		"dimensions": [2600, 2371],
+		"center": [0,-600],
+		"texName": "hulls/raven1.png",
+		"animSheetName": "hulls/raven1.acfg",
+		"layer": "ShipHull"
+	},
+	"afterburnerSpriteData": [
+		{
+			"dimensions": [200, 600],
+			"center": [-150, 795],
+			"texName": "effects/thrust.png",
+			"animSheetName": "effects/thrust.acfg",
+			"layer": "ShipModules",
+			"permanentRot": -2
+		},
+		{
+			"dimensions": [200, 600],
+			"center": [150, 795],
+			"texName": "effects/thrust.png",
+			"animSheetName": "effects/thrust.acfg",
+			"layer": "ShipModules",
+			"permanentRot": 2
+		}
+	],
+	"afterburnerThrustSpriteData": [
+		{
+			"dimensions": [200, 1400],
+			"center": [-150, 1050],
+			"texName": "effects/boost.png",
+			"animSheetName": "effects/boost.acfg",
+			"layer": "ShipModules",
+			"permanentRot": -2
+		},
+		{
+			"dimensions": [200, 1400],
+			"center": [150, 1050],
+			"texName": "effects/boost.png",
+			"animSheetName": "effects/boost.acfg",
+			"layer": "ShipModules",
+			"permanentRot": 2
+		}
+	],
+    "moduleData": [
+        {
+            "title": "Reactor",
+            "Position": [
+                0,
+                1
+            ]
+        },
+        {
+            "title": "BallisticTurret",
+            "Position": [
+                1,
+                0
+            ]
+        },
+        {
+            "title": "Capacitor",
+            "Position": [
+                0,
+                0
+            ]
+        },
+        {
+            "title": "ThrusterWeak",
+            "Position": [
+                0,
+                -1
+            ]
+        }
+    ]
+}

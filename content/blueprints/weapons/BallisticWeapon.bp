@@ -3,10 +3,10 @@
 	"projName": "Ballistic",
 	"energyConsumption": 1,
 	"fireDelay": 5,
-    "damage": 75,
+    "damage": 80,
 	"velocity": 100,
 	
-    "shots": 3,
+    "shots": 2,
 	"shotDelay": 0.2,
 	"fireArc": 2,
 	

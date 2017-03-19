@@ -304,7 +304,7 @@ void Player::updateView()
 			m_energyDanger->getAnimator().setAnimation("Default", 2.f);
 
 		//Shield State
-		bool isShieldOn = rController.get(Request::ShieldState);
+		bool isShieldOn = (bool)rController.get(Request::ShieldState);
 		if(isShieldOn)
 			m_shieldState->getAnimator().setAnimation("On", 0.25f);
 		else
