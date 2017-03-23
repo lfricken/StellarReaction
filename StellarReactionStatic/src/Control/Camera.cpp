@@ -35,6 +35,7 @@ void Camera::move(const Vec2& change)
 }
 void Camera::setZoom(float level)//multiple of each dimension to find new
 {
+	//level = 12;
 	if(level>=m_minZoom && level<=m_maxZoom)
 	{
 		m_zoomLevel = level;

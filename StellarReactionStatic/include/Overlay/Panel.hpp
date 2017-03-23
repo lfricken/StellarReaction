@@ -30,11 +30,12 @@ namespace leon
 		/// Return pointer to TGUI::Panel.
 		tgui::Panel::Ptr getPanelPtr() const;
 		/// Add a WidgetBase to this Panel.
-		void add(sptr<WidgetBase> sp_widget);
+		virtual void add(sptr<WidgetBase> sp_widget);
 		/// Delete all objects held by this Panel.
 		void clear();
 
 	protected:
+		virtual void load(const String& fullFilePath);
 		tgui::Panel::Ptr m_pPanel;//the gui panel
 		List<sptr<WidgetBase> > m_widgetList;
 

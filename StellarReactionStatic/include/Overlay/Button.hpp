@@ -25,6 +25,7 @@ namespace leon
 		virtual ~Button();
 
 	protected:
+		virtual void load(const String& fullFilePath);
 		virtual bool inputHook(const String rCommand, sf::Packet rData);
 		tgui::Button::Ptr m_pButton;//pointer to our button in the gui
 		virtual bool callbackHook(const tgui::Callback& callback) final;

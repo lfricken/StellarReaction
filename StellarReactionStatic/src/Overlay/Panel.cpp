@@ -19,12 +19,15 @@ Panel::~Panel()
 }
 void Panel::f_initialize(const PanelData& rData)
 {
-	f_assign(m_pPanel.get());
-	m_pPanel->setPosition(rData.screenCoords);
-	m_pPanel->setSize(rData.size.x, rData.size.y);
+	f_assign(m_pPanel.get(), rData);
+
 	m_pPanel->setBackgroundColor(rData.backgroundColor);
 	if(rData.backgroundTex != "")
 		m_pPanel->setBackgroundTexture(game.getTextureAllocator().request(rData.backgroundTex));
+}
+void Panel::load(const String& fullFilePath)
+{
+	//Panels dont load stuff
 }
 tgui::Panel::Ptr Panel::getPanelPtr() const
 {

@@ -16,7 +16,9 @@ namespace leon
 		{
 
 		}
-		/// Size in pixels of one grid slot.
+		/// <summary>
+		/// 
+		/// </summary>
 		sf::Vector2i gridOffset;
 	};
 	

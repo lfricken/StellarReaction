@@ -24,7 +24,7 @@ namespace leon
 		virtual ~Picture();
 
 	protected:
-
+		void load(const String& fullFilePath);
 	private:
 		void f_initialize(const PictureData& data);
 

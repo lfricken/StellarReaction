@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Overlay\Grid.hpp" />
     <ClInclude Include="include\API\Math\Constant.hpp" />
     <ClInclude Include="include\API\Math\Convert.hpp" />
     <ClInclude Include="include\API\Math\Math.hpp" />
@@ -325,6 +326,7 @@
     <ClInclude Include="include\Network\Network.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Overlay\Grid.cpp" />
     <ClCompile Include="src\Network\Network.cpp" />
     <ClCompile Include="src\Network\ShipBuilder.cpp" />
     <ClCompile Include="src\Graphics\Particles.cpp" />

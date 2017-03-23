@@ -97,6 +97,7 @@
     <ClCompile Include="src\Network\ShipBuilder.cpp" />
     <ClCompile Include="src\Network\Network.cpp" />
     <ClCompile Include="src\Universe\Utility\ChunkSpawner.cpp" />
+    <ClCompile Include="src\Overlay\Grid.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Game\Directory.hpp" />
@@ -412,6 +413,7 @@
     <ClInclude Include="include\Network\Network.hpp" />
     <ClInclude Include="include\Headers\Debugging.hpp" />
     <ClInclude Include="include\Universe\Utility\ChunkSpawner.hpp" />
+    <ClInclude Include="include\Overlay\Grid.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\API\SFML\Audio\SoundFileFactory.inl" />

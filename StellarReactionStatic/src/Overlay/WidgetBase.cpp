@@ -18,20 +18,34 @@ WidgetBase::WidgetBase(tgui::Container& rContainer, const WidgetBaseData& rData)
 }
 void WidgetBase::init(const WidgetBaseData& rData)
 {
-	m_startHidden = rData.startHidden;
-	m_tempTransparency = rData.transparency;
-
-	m_gridSize = rData.gridSize;
 
 }
-void WidgetBase::f_assign(tgui::Widget* pWidget)
+void WidgetBase::f_assign(tgui::Widget* pWidget, const WidgetBaseData& rData)
 {
+	//Config file
+	load(contentDir() + rData.configFile);
+
+	//Start Hidden
 	m_pWidget = pWidget;
-	if(m_startHidden)
+	if(rData.startHidden)
 		m_pWidget->hide();
 
-	m_pWidget->setTransparency(m_tempTransparency);
-	m_pWidget->bindCallbackEx(&WidgetBase::f_callback, this, 4095);
+	//Transparency
+	m_pWidget->setTransparency(rData.transparency);
+
+	//Grid Size
+	m_gridSize = rData.gridSize;
+	//Grid Position
+	if(rData.gridPosition != sf::Vector2i(8482, 8482))
+		setGridPosition(rData.gridPosition);
+	else//Screen Position
+		setPosition(rData.screenCoords);
+	//Size
+	m_pWidget->setSize(rData.size.x, rData.size.y);
+
+
+	m_pWidget->bindCallbackEx(&WidgetBase::f_callback, this, 4095);//TODO where did this magic number come from?
+	//todo probably anding of tgui enums
 }
 WidgetBase::~WidgetBase()
 {
@@ -81,6 +95,7 @@ void WidgetBase::setGridPosition(sf::Vector2i gridPos)
 {
 	gridPos.x *= m_gridSize.x;
 	gridPos.y *= m_gridSize.y;
+
 	setPosition((sf::Vector2f)gridPos);
 	m_lastGridPosition = getGridPosition();
 }

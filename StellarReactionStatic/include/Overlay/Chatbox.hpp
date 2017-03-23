@@ -41,7 +41,7 @@ namespace leon
 
 		/**HOOK**/
 		virtual bool inputHook(const String rCommand, sf::Packet rData) final;
-
+		virtual void load(const String& fullFilePath);
 	private:
 		void f_initialize(const ChatboxData& rData);
 

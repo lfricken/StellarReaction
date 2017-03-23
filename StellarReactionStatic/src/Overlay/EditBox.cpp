@@ -17,11 +17,11 @@ EditBox::~EditBox()
 }
 void EditBox::f_initialize(const EditBoxData& data)
 {
-	f_assign(m_pEditBox.get());
-	m_pEditBox->load(contentDir() + data.configFile);
-	m_pEditBox->setPosition(data.screenCoords);
-	m_pEditBox->setText(data.startingText);
-	m_pEditBox->setSize(data.size.x, data.size.y);
+	f_assign(m_pEditBox.get(), data);
+}
+void EditBox::load(const String& fullFilePath)
+{
+	m_pEditBox->load(fullFilePath);
 }
 bool EditBox::inputHook(const String rCommand, sf::Packet rData)
 {

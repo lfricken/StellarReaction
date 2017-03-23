@@ -20,35 +20,38 @@ Chatbox::~Chatbox()
 }
 void Chatbox::f_initialize(const ChatboxData& rData)
 {
-	f_assign(m_pChatBox.get());
-	m_pChatBox->load(contentDir() + rData.configFile);
-	m_pChatBox->setPosition(rData.screenCoords);
-	m_pChatBox->setSize(rData.size.x, rData.size.y);
+	f_assign(m_pChatBox.get(), rData);
 
-	EditBoxData ebd = rData.editBoxData;
-	ebd.ioComp.name = rData.ioComp.name + "_editbox";
-	ebd.screenCoords.x = rData.screenCoords.x;
-	ebd.screenCoords.y = rData.screenCoords.y+rData.size.y;
+	{//components
+		EditBoxData ebd = rData.editBoxData;
+		ebd.ioComp.name = rData.ioComp.name + "_editbox";
+		ebd.screenCoords.x = rData.screenCoords.x;
+		ebd.screenCoords.y = rData.screenCoords.y + rData.size.y;
 
-	ebd.size.y = 25;
-	ebd.size.x = rData.size.x;
+		ebd.size.y = 25;
+		ebd.size.x = rData.size.x;
 
-	ebd.startingText = "";
-	ebd.startHidden = false;
+		ebd.startingText = "";
+		ebd.startHidden = false;
 
-	Courier enterPressed;
-	enterPressed.condition.reset(EventType::ReturnKeyPressed, 0, 'd', true);
-	enterPressed.message.reset(rData.ioComp.name, "chat", voidPacket, 0, true);
-	ebd.ioComp.courierList.push_back(enterPressed);
+		Courier enterPressed;
+		enterPressed.condition.reset(EventType::ReturnKeyPressed, 0, 'd', true);
+		enterPressed.message.reset(rData.ioComp.name, "chat", voidPacket, 0, true);
+		ebd.ioComp.courierList.push_back(enterPressed);
 
-	sf::Packet clear;//TODO WHAT IS THIS CONDITION FOR???
-	clear << "";
-	Courier enterPressedClear;
-	enterPressedClear.condition.reset(EventType::ReturnKeyPressed, 0, 'd', true);
-	enterPressedClear.message.reset(ebd.ioComp.name, "setText", clear, 0.01f, false);
-	ebd.ioComp.courierList.push_back(enterPressedClear);
+		sf::Packet clear;//TODO WHAT IS THIS CONDITION FOR???
+		clear << "";
+		Courier enterPressedClear;
+		enterPressedClear.condition.reset(EventType::ReturnKeyPressed, 0, 'd', true);
+		enterPressedClear.message.reset(ebd.ioComp.name, "setText", clear, 0.01f, false);
+		ebd.ioComp.courierList.push_back(enterPressedClear);
 
-	m_spEditBox.reset(new leon::EditBox(*m_pChatBox->getParent(), ebd));
+		m_spEditBox.reset(new leon::EditBox(*m_pChatBox->getParent(), ebd));
+	}
+}
+void Chatbox::load(const String& fullFilePath)
+{
+	m_pChatBox->load(fullFilePath);
 }
 void Chatbox::addLine(const String& rText)
 {

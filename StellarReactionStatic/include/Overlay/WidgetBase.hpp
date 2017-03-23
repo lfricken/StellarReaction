@@ -20,16 +20,18 @@ namespace leon
 			transparency(255),
 			ioComp(&game.getCoreIO()),
 			gridSize(200, 200),
-			gridPosition(-1, -1)
+			gridPosition(8482, 8482)
 		{
 		}
 		bool startHidden;/**should this widget start invisible**/
 		String configFile;/**TGUI config file**/
+
+		unsigned char transparency;
+
+		sf::Vector2i gridSize;//how big are the grid snaps, THIS GETS SET IN DraggableSurface.cpp
+		sf::Vector2i gridPosition;//if this isn't -1,-1, we will override our screen coordinates and set to this grid position
 		sf::Vector2f screenCoords;/**upper left corner**/
 		sf::Vector2f size;/**pixels**/
-		unsigned char transparency;
-		sf::Vector2i gridPosition;//if this isn't -1,-1, we will override our screen coordinates and set to this grid position
-		sf::Vector2i gridSize;//how big are the grid snaps, THIS GETS SET IN DraggableSurface.cpp
 
 		IOComponentData ioComp;
 	};
@@ -57,6 +59,7 @@ namespace leon
 		/// Toggle whether this widget is enabled.
 		void toggleEnabled(bool enabled);
 
+
 		/// Set the position of this Widgets top right corner in window coordinates.
 		virtual void setPosition(const sf::Vector2f& realPos);
 		/// Return the position of this Widgets top right corner in window coordinates.
@@ -74,9 +77,14 @@ namespace leon
 		sf::Vector2f fromGrid(sf::Vector2i gridPos) const;
 
 	protected:
+		/// <summary>
+		/// Force deriver to load config file.
+		/// </summary>
+		virtual void load(const String& fullFilePath) = 0;
+
 		IOComponent m_io;
 		
-		void f_assign(tgui::Widget* pWidget);//must assign m_pWidget to something!
+		void f_assign(tgui::Widget* pWidget, const WidgetBaseData& rData);//must assign m_pWidget to something!
 
 
 		/**events**/
@@ -117,9 +125,7 @@ namespace leon
 		void input(const String rCommand, sf::Packet rData);
 		void f_callback(const tgui::Callback& callback);
 
-		bool m_startHidden;
 		tgui::Widget* m_pWidget;
-		unsigned char m_tempTransparency;
 
 		tgui::Container* pCon;
 		tgui::Gui* pGui;

@@ -43,6 +43,7 @@ namespace leon
 
 		virtual void triggerHook(sf::Packet& rPack);
 
+		void load(const String& fullFilePath);
 	private:
 		void f_initialize(const EditBoxData& data);
 

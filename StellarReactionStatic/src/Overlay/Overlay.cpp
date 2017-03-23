@@ -12,6 +12,7 @@
 #include "DraggableSurface.hpp"
 #include "Chunk.hpp"
 #include "Debugging.hpp"
+#include "Grid.hpp"
 
 using namespace std;
 using namespace leon;
@@ -498,6 +499,15 @@ void Overlay::loadMenus()
 	hudPanelData.screenCoords = sf::Vector2f(768, 16);
 	hudPanelData.size = sf::Vector2f(textPanelSize.x, textPanelSize.y);
 	leon::Panel* pHudPanel = new leon::Panel(game.getOverlay().getGui(), hudPanelData);
+
+
+	/**HEALTH**/
+	leon::GridData health;
+	health.size = sf::Vector2f(256, 256);
+	health.backgroundColor = sf::Color(255, 255, 255, 20);
+	health.gridSize = sf::Vector2i(64, 64);
+	health.gridPosition = sf::Vector2i(4, 4);
+	game.getOverlay().addPanel(sptr<leon::Panel>(new Grid(game.getOverlay().getGui(), health)));
 
 	/**SCORE**/
 	leon::ButtonData hudScore;
