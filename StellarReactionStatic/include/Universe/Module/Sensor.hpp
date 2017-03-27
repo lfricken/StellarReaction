@@ -42,7 +42,7 @@ struct SensorData : public ModuleData
 		disabledColCategory(Category::None)
 	{
 		fixComp.isSensor = true;
-		fixComp.density = 0.f;
+		fixComp.mass = 0.f;
 		fixComp.colCategory = Category::Trigger;
 		fixComp.colMask = Mask::Trigger;
 	}

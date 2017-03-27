@@ -20,8 +20,8 @@ struct FixtureComponentData
 		offset(0,0),
 		pBody(NULL),
 		shape(leon::Shape::Circle),
-		size(1,1),
-		density(1.f),
+		size(2,2),
+		mass(1.f),
 		friction(0.3f),
 		restitution(0.3f),
 		isSensor(false),
@@ -35,7 +35,7 @@ struct FixtureComponentData
 	leon::Shape shape;
 
 	Vec2 size;//width and height in world coordinates
-	float density;
+	float mass;
 	float friction;
 	float restitution;//how bouncy are we?
 	bool isSensor;//are we a sensor

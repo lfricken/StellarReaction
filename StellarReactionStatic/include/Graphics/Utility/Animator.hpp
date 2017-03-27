@@ -14,7 +14,9 @@ public:
 	Animator(const String& setAnimationSheet);
 	virtual ~Animator();
 
+	/// <summary>
 	/// Set name of animation and how long it should last in seconds.
+	/// </summary>
 	void setAnimation(const String& setAnim, float duration);
 	/// Returns which tile should we be on right now.
 	sf::Vector2i getTile();

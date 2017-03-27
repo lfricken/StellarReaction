@@ -319,15 +319,15 @@ void Universe::postPhysUpdate()
 	}
 }
 
-Chunk* Universe::getNearestChunkExcept(const Vec2& target, const Chunk* exception)
+sptr<Chunk> Universe::getNearestChunkExcept(const Vec2& target, const Chunk* exception)
 {
 	float prevDist = -1;
-	Chunk* closest = NULL;
+	sptr<Chunk> closest = NULL;
 	for(auto it = m_goList.begin(); it != m_goList.end(); ++it)
 	{
-		GameObject* p = it->get();
-		Chunk* object = dynamic_cast<Chunk*>(p);
-		if(object != NULL && object != exception)
+		sptr<GameObject> p = *it;
+		sptr<Chunk> object = std::dynamic_pointer_cast<Chunk, GameObject>(p);
+		if(object != NULL && object.get() != exception)
 		{
 			Vec2 dif = target - object->getBodyPtr()->GetPosition();
 			float dist = dif.len();
@@ -343,7 +343,7 @@ Chunk* Universe::getNearestChunkExcept(const Vec2& target, const Chunk* exceptio
 
 BodyComponent* Universe::getNearestBody(const Vec2& target)
 {
-	return &(dynamic_cast<Chunk*>(getNearestChunkExcept(target, NULL))->getBodyComponent());
+	return &(dynamic_cast<Chunk*>(getNearestChunkExcept(target, NULL).get())->getBodyComponent());
 }
 
 /// <summary>
@@ -599,7 +599,7 @@ List<sptr<GameObject> > Universe::getgoList()
 }
 bool Universe::isClear(Vec2 position, float radius, const Chunk* exception)
 {
-	Chunk* nearest = getNearestChunkExcept(position, exception);
+	Chunk* nearest = getNearestChunkExcept(position, exception).get();
 	if(nearest != NULL)
 	{
 		float nearestRad = nearest->getRadius();

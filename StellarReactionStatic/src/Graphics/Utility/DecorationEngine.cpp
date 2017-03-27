@@ -95,7 +95,7 @@ void DecorationEngine::loadJson(const Json::Value& decorations)
 		for(int i = 0; i < count; ++i)
 		{
 			pQuad = new QuadComponent(quadData);
-			pDecor = new Decoration(decorData, pQuad);
+			pDecor = new Decoration(decorData, sptr<GraphicsComponent>(pQuad));
 			m_decorations.push_back(sptr<Decoration>(pDecor));
 		}
 	}
@@ -160,7 +160,7 @@ void DecorationEngine::spawnParticle(DecorationData decorData, const Particles& 
 	decorData.minVelocity = randDir;
 
 	auto pQuad = new QuadComponent(effect.quadData);
-	auto pDecor = new Decoration(decorData, pQuad);
+	auto pDecor = new Decoration(decorData, sptr<GraphicsComponent>(pQuad));
 	expiration.first = time + effect.duration + 0.001f*i;
 	expiration.second = expiration.first + effect.fadeTime;
 	m_fullParticles[expiration] = sptr<Decoration>(pDecor);

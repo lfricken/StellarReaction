@@ -46,7 +46,7 @@
 		"rate": -45
     },
     "fixComp": {
-		"density": 0,
+		"mass": 0,
 		"colCat": "None",
 		"colMask": "None"	
 	}

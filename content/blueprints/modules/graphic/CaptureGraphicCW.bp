@@ -113,7 +113,7 @@
 		"randomRot": false
     },
     "fixComp": {
-		"density": 0,
+		"mass": 0,
 		"colCat": "None",
 		"colMask": "None"	
 	}

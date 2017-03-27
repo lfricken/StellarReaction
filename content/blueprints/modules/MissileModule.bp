@@ -20,7 +20,7 @@
 		],
 		"colCat": "Projectile",
 		"colMask": "Projectile"	,
-		"density": 0.25,
+		"mass": 0.25,
 		"isSensor": true
 	}
 }

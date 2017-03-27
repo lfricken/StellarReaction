@@ -12,6 +12,7 @@
 #include "Particles.hpp"
 #include "SoundManager.hpp"
 #include "Convert.hpp"
+#include "Decoration.hpp"
 
 Player::Player(const PlayerData& rData) : m_io(rData.ioComp, &Player::input, this), BasePlayerTraits(rData.name)
 {
@@ -22,6 +23,7 @@ Player::Player(const PlayerData& rData) : m_io(rData.ioComp, &Player::input, thi
 	{
 		m_weaponGroups[i] = true;
 	}
+
 }
 Player::~Player()
 {
@@ -135,6 +137,10 @@ void Player::getLiveInput()
 
 			ShipBuilder::Client::shipToGui(ship);
 		}
+		if(sf::Keyboard::isKeyPressed(m_inCfg.grabTarget))
+		{
+			this->selectTarget(m_aim, NULL);
+		}
 		if(sf::Keyboard::isKeyPressed(m_inCfg.respawn))
 			m_directives[Directive::Respawn] = true;
 
@@ -170,6 +176,12 @@ void Player::getLiveInput()
 	commands.isLocal = true;
 	rController.locallyUpdate(commands);
 	rController.setAim(m_aim);
+}
+void Player::selectTarget(const Vec2& targetNearPos, const Chunk* playersShip)
+{
+	wptr<Chunk> newTarget = game.getUniverse().getNearestChunkExcept(targetNearPos, playersShip);
+	m_targets.resize(1);
+	m_targets[0] = (newTarget);
 }
 /// <summary>
 /// Handle window events such as clicks and gui events.
@@ -346,6 +358,21 @@ void Player::updateView()
 		Message setMoney("hud_money", "setText", moneyPack, 0, false);
 		game.getCoreIO().recieve(setMoney);
 
+		
+			//m_targetReticules
+		for(auto it = m_targets.begin(); it != m_targets.cend(); ++it)
+		{
+			if(auto target = it->lock())
+			{
+				std::cout << "\nalive" << target->getBodyComponent().getPosition().x;
+
+				m_targetReticules[0]->setPosition(target->getBodyComponent().getPosition());
+			}
+			else
+			{
+				std::cout << "\nexpired";
+			}
+		}
 
 		//Radar TODO THIS ALL SHOULD BE IN THE MINIMAP CLASS
 		//List<sptr<GameObject> > goList = game.getUniverse().getgoList();
@@ -471,6 +498,17 @@ void Player::loadOverlay(const String& rOverlay)
 
 		m_groupIcon.push_back(groupIcon);
 	}
+	// Target reticules.
+	{
+		QuadComponentData quadData;
+		quadData.texName = "overlay/targetMarker.png";
+		quadData.animSheetName = "overlay/targetMarker.acfg";
+		quadData.dimensions = sf::Vector2f(2500, 2500);
+		quadData.layer = GraphicsLayer::ShipAppendagesUpper;
+		auto pQuad = sptr<QuadComponent>(new QuadComponent(quadData));
+
+		m_targetReticules.push_back(pQuad);
+	}
 }
 void Player::universeDestroyed()
 {
@@ -480,6 +518,7 @@ void Player::universeDestroyed()
 	m_energyDanger.reset();
 	m_minimap.reset();
 	m_boundsDanger.reset();
+	m_targetReticules.clear();
 
 	// Clear, because otherwise, when we go 
 	// to add 4 more to it, the old null

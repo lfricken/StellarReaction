@@ -12,7 +12,7 @@ namespace leon
 			PanelData(),
 			sizeOfGrid(sf::Vector2i(7, 7))
 		{
-			gridSize = sf::Vector2i(64, 64);
+			gridSize = sf::Vector2i(32, 32);
 		}
 
 		sf::Vector2i sizeOfGrid;
@@ -37,6 +37,8 @@ namespace leon
 		/// The offset applied to grid elements to reset the 0,0. Defaulted as half the size.
 		/// </summary>
 		sf::Vector2i gridOffset;
+		void addModuleToGrid(const String& title, sf::Vector2i shipModulePos);
+		virtual bool inputHook(const String rCommand, sf::Packet rData);
 	};
 
 }

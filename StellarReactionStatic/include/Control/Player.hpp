@@ -41,6 +41,7 @@ struct InputConfig
 		/**OTHER**/
 		store(sf::Keyboard::B),
 		respawn(sf::Keyboard::R),
+		grabTarget(sf::Keyboard::T),
 
 		cameraUp(sf::Keyboard::Up),
 		cameraDown(sf::Keyboard::Down),
@@ -59,6 +60,7 @@ struct InputConfig
 	sf::Keyboard::Key shield;
 	sf::Keyboard::Key teleport;
 	sf::Keyboard::Key boost;
+	sf::Keyboard::Key grabTarget;
 
 	/**WEAPON**/
 	sf::Mouse::Button primary;
@@ -156,6 +158,8 @@ protected:
 	void input(String rCommand, sf::Packet rData);
 
 private:
+	void selectTarget(const Vec2& targetNearPos, const Chunk* playersShip);
+
 	///Where we are aiming in world coordinates.
 	Vec2 m_aim;
 	sf::Vector2f m_mouseWindowPos;//where is the players mouse on the screen?
@@ -170,6 +174,9 @@ private:
 	sptr<QuadComponent> m_energyDanger;
 	sptr<QuadComponent> m_shieldState;
 	sptr<QuadComponent> m_boundsDanger;
+
+	List<wptr<Chunk> > m_targets;
+	List<sptr<QuadComponent> > m_targetReticules;
 
 	List<sptr<QuadComponent>> m_groupIcon;
 

@@ -21,9 +21,9 @@ void DecorationData::loadJson(const Json::Value& root)
 	GETJSON(repeatsRandom);
 	GETJSON(spawnRandom);
 }
-Decoration::Decoration(const DecorationData& data, GraphicsComponent* pGfx)// : m_io(data.ioComp, &Decoration::input, this)
+Decoration::Decoration(const DecorationData& data, sptr<GraphicsComponent> pGfx)// : m_io(data.ioComp, &Decoration::input, this)
 {
-	m_spGfx.reset(pGfx);
+	m_spGfx = pGfx;
 
 	m_minSpin = Math::toRad(data.minSpinRate);
 	m_maxSpin = Math::toRad(data.maxSpinRate);

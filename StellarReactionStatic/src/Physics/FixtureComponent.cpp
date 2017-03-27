@@ -26,7 +26,7 @@ void FixtureComponentData::loadJson(const Json::Value& root)
 
 	GETJSON(offset);
 	GETJSON(size);
-	GETJSON(density);
+	GETJSON(mass);
 	GETJSON(friction);
 	GETJSON(restitution);
 	GETJSON(isSensor);
@@ -56,7 +56,7 @@ FixtureComponent::FixtureComponent(const FixtureComponentData& rData)
 
 	m_fixtureDef.isSensor = rData.isSensor;
 	m_fixtureDef.shape = &*m_spShape;//give our shape to our fixture definition
-	m_fixtureDef.density = rData.density;
+	m_fixtureDef.density = rData.mass / (rData.size.x * rData.size.y);
 	m_fixtureDef.friction = rData.friction;
 	m_fixtureDef.restitution = rData.restitution;//setting our fixture data
 	m_fixtureDef.filter.maskBits = static_cast<uint16_t>(rData.colMask);

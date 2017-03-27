@@ -55,7 +55,7 @@
             20
         ],
         "shape": "rectangle",
-        "density": 0,
+        "mass": 0,
         "isSensor": true,
         "colCat": "Trigger",
         "colMask": "Trigger"

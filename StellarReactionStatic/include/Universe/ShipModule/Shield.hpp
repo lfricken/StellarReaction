@@ -36,7 +36,7 @@ struct ShieldComponentData : public SensorData
 		fixComp.shape = leon::Shape::Rectangle;
 		fixComp.colCategory = Category::ShipForceField;
 		fixComp.colMask = Mask::ShipForceField;
-		fixComp.density = 0.f;
+		fixComp.mass = 0.f;
 
 		startEnabled = false;
 	}

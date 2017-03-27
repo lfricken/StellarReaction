@@ -92,7 +92,7 @@ public:
 	/// Find station that isnt on specified team
 	Chunk* getNearestStation(const Vec2& target, Team team);
 	/// Return pointer to the nearest Chunk, ignoring exception.
-	Chunk* getNearestChunkExcept(const Vec2& target, const Chunk* exception);
+	sptr<Chunk> getNearestChunkExcept(const Vec2& target, const Chunk* exception);
 	/// Return pointer to the nearest BodyComponent.
 	BodyComponent* getNearestBody(const Vec2& target);
 	/// Find Chunk that is on one of the specified teams

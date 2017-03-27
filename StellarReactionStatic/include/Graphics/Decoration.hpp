@@ -15,7 +15,7 @@ struct DecorationData;
 class Decoration final
 {
 public:
-	Decoration(const DecorationData& rData, GraphicsComponent* pGfx);
+	Decoration(const DecorationData& rData, sptr<GraphicsComponent> pGfx);
 	virtual ~Decoration();
 
 	/// \brief Set the position of this Decoration

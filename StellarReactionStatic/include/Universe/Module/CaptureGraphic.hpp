@@ -54,7 +54,7 @@ struct CaptureGraphicData : public ModuleData
 		pinkLights(),
 		redLights()
 	{
-		fixComp.density = 0.f;
+		fixComp.mass = 0.f;
 	}
 	SpinnerData baseDecor;
 	SpinnerData whiteLights;
