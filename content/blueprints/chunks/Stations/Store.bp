@@ -7,7 +7,7 @@
 	"hullSpriteData": {
 		"dimensions": [15240, 9000],
 		"center": [0,0],
-		"texName": "hulls/store.png",
+		"texName": "hulls/store",
 		"animSheetName": "hulls/store.acfg",
 		"layer": "ShipUnder"
 	},

@@ -8,7 +8,7 @@ struct MinimapData : public QuadComponentData
 	MinimapData() :
 		QuadComponentData()
 	{
-		texName = "default.png";
+		texName = "default";
 		color = sf::Color::Black;
 	}
 };
@@ -24,7 +24,7 @@ public:
 	///
 	/// index indicates the dot count.
 	/// teamFlag has values -1,0,1 for Neutral, Enemy, Friendly.
-	void setDot(b2Vec2 center, int index, sf::Color dotColor);
+	void setDot(Vec2 center, int index, sf::Color dotColor);
 	/// Clear the map of dots by putting the dots off map.
 	void cleanMap(int index);
 
@@ -33,6 +33,6 @@ public:
 	/// index indicates the dot count.
 	sptr<QuadComponent> getDot(int index);
 protected:
-	std::vector<sptr<QuadComponent> > map_points;
+	List<sptr<QuadComponent> > map_points;
 private:
 };

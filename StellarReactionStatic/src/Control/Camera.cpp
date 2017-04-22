@@ -3,8 +3,6 @@
 #include "Globals.hpp"
 #include "Convert.hpp"
 
-using namespace std;
-
 const float Camera::m_maxZoom = 64;
 const float Camera::m_minZoom = 1;
 Camera::Camera()
@@ -18,23 +16,24 @@ Camera::~Camera()
 {
 
 }
-void Camera::setPosition(const b2Vec2& rPos)//world position
+void Camera::setPosition(const Vec2& rPos)//world position
 {
-	sf::Listener::setPosition(rPos.x, 0.f, 0.f);///HOW DO WE SET Z OF LISTENER rPos.y
+	sf::Listener::setPosition(rPos.x, rPos.y, 5);///HOW DO WE SET Z OF LISTENER rPos.y
 	m_view.setCenter(leon::b2Tosf<float>(rPos));
 }
-void Camera::move(const b2Vec2& change)
+void Camera::move(const Vec2& change)
 {
 	sf::Vector2f delta = leon::b2Tosf<float>(change);
 	delta.x *= m_zoomLevel;
 	delta.y *= m_zoomLevel;
 	m_view.move(delta);
 
-	b2Vec2 rPos = leon::sfTob2(m_view.getCenter());
-	sf::Listener::setPosition(rPos.x, 0.f, 0.f);///HOW DO WE SET Z OF LISTENER rPos.y
+	Vec2 rPos = leon::sfTob2(m_view.getCenter());
+	sf::Listener::setPosition(rPos.x, rPos.y, 5);///HOW DO WE SET Z OF LISTENER rPos.y
 }
 void Camera::setZoom(float level)//multiple of each dimension to find new
 {
+	//level = 12;
 	if(level>=m_minZoom && level<=m_maxZoom)
 	{
 		m_zoomLevel = level;
@@ -52,7 +51,7 @@ void Camera::resize()
 }
 
 
-b2Vec2 Camera::getPosition() const
+Vec2 Camera::getPosition() const
 {
 	return leon::sfTob2(m_view.getCenter());
 }

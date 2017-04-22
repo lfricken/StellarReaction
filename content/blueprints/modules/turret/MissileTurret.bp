@@ -3,7 +3,7 @@
     "startWep": "MissileWeapon",
 	"controlGroup": 3,
     "baseDecor": {
-        "texName": "turret/missile_turret.png",
+        "texName": "turret/missile_turret",
         "animSheetName": "turret/turret.acfg"
     },
 	"cost": 200

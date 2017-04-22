@@ -4,8 +4,6 @@
 #include "Player.hpp"
 #include "Game.hpp"
 
-using namespace std;
-
 Connection::Connection(sf::UdpSocket* pSocket, sptr<sf::TcpSocket> spTCPSocket, bool valid) : BasePlayerTraits("default")
 {
 	m_valid = valid;
@@ -21,7 +19,7 @@ Connection::Connection(sf::UdpSocket* pSocket, sptr<sf::TcpSocket> spTCPSocket, 
 }
 Connection::~Connection()
 {
-	cout << "\nConnection Destroyed!";
+	Print << "\nConnection Destroyed!";
 	m_spTcpSocket->disconnect();
 }
 void Connection::sendUdp(Protocol proto, const sf::Packet& rData)
@@ -97,16 +95,16 @@ void Connection::recievePlayerTraits(sf::Packet mes)
 /// </summary>
 /// <param name="newTitle">The new title.</param>
 /// <param name="rPos">The r position.</param>
-void Connection::addModule(const std::string& newTitle, const b2Vec2& rPos)
-{
-	m_owned.push_back(pair<string, b2Vec2>(newTitle, rPos));
-	sf::Packet pack;
-	pack << newTitle;
-	pack << (float)rPos.x;
-	pack << (float)rPos.y;
-	Message modAdded("ship_editor", "addItem", pack, 0.f, false);
-	this->sendSpecialIo(modAdded);
-}
+//void Connection::addModule(const String& newTitle, const sf::Vector2i& rPos)
+//{
+//	//m_owned.push_back(pair<String, Vec2>(newTitle, rPos));
+//	sf::Packet pack;
+//	pack << newTitle;
+//	pack << rPos.x;
+//	pack << rPos.y;
+//	Message modAdded("ship_editor", "addModule ToGui", pack, 0.f, false);
+//	this->sendSpecialIo(modAdded);
+//}
 void Connection::sendSpecialIo(const Message& mes)
 {
 	sf::Packet packet;
@@ -135,8 +133,8 @@ void Connection::sendSpecialIo(const Message& mes)
 void Connection::recieveSpecialIo(sf::Packet& rPacket)
 {
 		int32_t pos;
-		std::string name;
-		std::string command;
+		String name;
+		String command;
 		int32_t size;
 		int8_t* pData;
 		sf::Packet messageData;

@@ -67,7 +67,7 @@ public:
 	/// Launch a game with the given GameLaunchData.
 	void launchGame(const GameLaunchData& data);
 	/// A function to be called by tests to reset the global Game object.
-	void restartTest(const std::string& level = "Testbed");
+	void restartTest(const String& level = "Testbed");
 	/// If the Window is resized, we should resize the default view as well.
 	void resizeStaticView();
 
@@ -82,17 +82,17 @@ public:
 	void exit();
 
 protected:
-	void input(std::string rCommand, sf::Packet rData);
+	void input(String rCommand, sf::Packet rData);
 
 private:
 	/// Increment the game loop one step, telling it that frameTime seconds have passed.
 	void tick(float frameTime);
 	/// Loads player data from a file.
-	void loadPlayer(const std::string& rFileName);
+	void loadPlayer(const String& rFileName);
 	/// Load window with specified settings in a file.
-	void loadWindow(const std::string& windowFile);
+	void loadWindow(const String& windowFile);
 	/// Load the universe. Input does nothing at the moment.
-	void loadUniverse(const std::string& stuff);
+	void loadUniverse(const String& stuff);
 
 
 	/// Icon for game.

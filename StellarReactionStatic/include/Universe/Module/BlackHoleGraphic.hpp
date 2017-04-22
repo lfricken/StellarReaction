@@ -15,7 +15,7 @@ public:
 	virtual void prePhysUpdate();
 
 protected:
-	std::vector<sptr<GraphicsComponent> > m_decors;
+	List<sptr<GraphicsComponent> > m_decors;
 };
 
 
@@ -27,7 +27,7 @@ struct BlackHoleGraphicData : public ModuleData
 		middleDecor(),
 		outerDecor()
 	{
-		fixComp.density = 0.f;
+		fixComp.mass = 0.f;
 		innerDecor.layer = GraphicsLayer::BackgroundClose;
 		middleDecor.layer = GraphicsLayer::BackgroundClose;
 		outerDecor.layer = GraphicsLayer::BackgroundClose;

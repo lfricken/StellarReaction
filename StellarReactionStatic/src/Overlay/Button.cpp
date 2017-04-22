@@ -15,11 +15,11 @@ Button::~Button()
 {
 
 }
-bool Button::inputHook(const std::string rCommand, sf::Packet rData)
+bool Button::inputHook(const String rCommand, sf::Packet rData)
 {
 	if (rCommand == "setText")
 	{
-		std::string text;
+		String text;
 		rData >> text;
 		m_pButton->setText(text);
 		return true;
@@ -29,11 +29,8 @@ bool Button::inputHook(const std::string rCommand, sf::Packet rData)
 }
 void Button::f_initialize(const ButtonData& rData)
 {
-	f_assign(m_pButton.get());
-	m_pButton->load(contentDir() + rData.configFile);
-	m_pButton->setPosition(rData.screenCoords);
+	f_assign(m_pButton.get(), rData);
 	m_pButton->setText(rData.buttonText);
-	m_pButton->setSize(rData.size.x, rData.size.y);
 }
 bool Button::callbackHook(const tgui::Callback& callback)
 {
@@ -47,4 +44,8 @@ bool Button::callbackHook(const tgui::Callback& callback)
 bool Button::callbackHook2(const tgui::Callback& callback)
 {
 	return false;
+}
+void Button::load(const String& fullFilePath)
+{
+	m_pButton->load(fullFilePath);
 }

@@ -3,12 +3,12 @@
 #include <filesystem>
 #include <iostream>
 
-bool defaultAllExtensions(const std::string& rName)
+bool defaultAllExtensions(const String& rName)
 {
 	return true;
 }
 
-Directory::Directory(const std::string& rContentDir)
+Directory::Directory(const String& rContentDir)
 {
 	m_contentDir = rContentDir;
 }
@@ -16,39 +16,39 @@ Directory::~Directory()
 {
 
 }
-std::vector<std::pair<std::string, std::string> > Directory::getAllFiles(const std::string& rDir, bool(*evalFunc)(const std::string& name)) const
+List<std::pair<String, String> > Directory::getAllFiles(const String& rDir, bool(*evalFunc)(const String& name)) const
 {
 	if(evalFunc == NULL)
 		evalFunc = &defaultAllExtensions;
 
-	std::vector<std::pair<std::string, std::string> > list;
+	List<std::pair<String, String> > list;
 	for(std::tr2::sys::recursive_directory_iterator it(m_contentDir + rDir), end; it != end; ++it)
 		if(!is_directory(it->path()))
 			if((*evalFunc)(it->path().extension()))
 			{
-				std::string fileName = it->path().basename();
-				std::string fullPath = it->path().directory_string();
-				list.push_back(std::pair<std::string, std::string>(fileName, fullPath));
+				String fileName = it->path().basename();
+				String fullPath = it->path().directory_string();
+				list.push_back(std::pair<String, String>(fileName, fullPath));
 			}
 
 
 	return list;
 }
-std::vector<std::pair<std::string, std::string> > Directory::getAllFiles(const std::string& rDir, const std::string& extension) const
+List<std::pair<String, String> > Directory::getAllFiles(const String& rDir, const String& extension) const
 {
-	std::vector<std::pair<std::string, std::string> > list;
+	List<std::pair<String, String> > list;
 	for(std::tr2::sys::recursive_directory_iterator it(m_contentDir + rDir), end; it != end; ++it)
 		if(!is_directory(it->path()))
 			if(it->path().extension() == extension)
 			{
-				std::string fileName = it->path().basename();
-				std::string fullPath = it->path().directory_string();
-				list.push_back(std::pair<std::string, std::string>(fileName, fullPath));
+				String fileName = it->path().basename();
+				String fullPath = it->path().directory_string();
+				list.push_back(std::pair<String, String>(fileName, fullPath));
 			}
 
 	return list;
 }
-const std::string& Directory::getContentDir() const
+const String& Directory::getContentDir() const
 {
 	return m_contentDir;
 }

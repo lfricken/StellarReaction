@@ -12,14 +12,16 @@
 class Message
 {
 public:
+	static void SendUniverse(const Message& mes);
+
 	Message();
-	Message(const std::string& rTargetName, const std::string& rCommand, const sf::Packet& rData, float delay, bool replaceData);
-	Message(unsigned rTargetPosition, const std::string& rCommand, const sf::Packet& rData, float delay, bool replaceData);
+	Message(const String& rTargetName, const String& rCommand, const sf::Packet& rData, float delay, bool replaceData);
+	Message(unsigned rTargetPosition, const String& rCommand, const sf::Packet& rData, float delay, bool replaceData);
 	virtual ~Message();
 	/// Resets the Message object with given target name, command, and packet info.
-	void reset(const std::string& rTargetName, const std::string& rCommand, const sf::Packet& rData, float delay, bool replaceData);
+	void reset(const String& rTargetName, const String& rCommand, const sf::Packet& rData, float delay, bool replaceData);
 	/// Resets the Message object with given target position, command, and packet info.
-	void reset(unsigned rTargetPosition, const std::string& rCommand, const sf::Packet& rData, float delay, bool replaceData);
+	void reset(unsigned rTargetPosition, const String& rCommand, const sf::Packet& rData, float delay, bool replaceData);
 	/// Attempt to replace the target position's with packet's target position.
 	void tryReplaceTargetPos(const sf::Packet& rData);
 	/// Attempt to replace the data with this packet.
@@ -31,17 +33,24 @@ public:
 	/// Sets data.
 	void setData(const sf::Packet& rData);
 	/// Set name.
-	void setName(const std::string rName);
-	/// Set shouldSendOverNW.
+	void setName(const String rName);
+	/// <summary>
+	/// Should this message be sent over network even if we are a Client?
+	/// It will be sent if we are the Server no matter what.
+	/// Used for
+	/// </summary>
 	void sendOverNW(bool shouldSend);
-	/// Returns shouldSendOverNW.
+	/// <summary>
+	/// Should this message be sent over network even if we are a Client?
+	/// It will be sent if we are the Server no matter what.
+	/// </summary>
 	bool sendOverNW() const;
 	/// Returns targetPosition.
 	unsigned getTargetPosition() const;
 	/// Returns targetName.
-	const std::string& getTargetName() const;
+	const String& getTargetName() const;
 	/// Returns command.
-	const std::string& getCommand() const;
+	const String& getCommand() const;
 	/// Returns data.
 	const sf::Packet& getData() const;
 	/// Returns the delay.
@@ -54,8 +63,8 @@ protected:
 private:
 	bool m_shouldSendOverNW;//if true, as a client we should send it to our host
 	unsigned m_targetPosition;
-	std::string m_targetName;//the name of our target IOComponent
-	std::string m_command;//the command that we want the target to do
+	String m_targetName;//the name of our target IOComponent
+	String m_command;//the command that we want the target to do
 	sf::Packet m_data;//the data associated with that command
 	float m_delay;//the delay in seconds that we wait in the IOManager before being delivered
 

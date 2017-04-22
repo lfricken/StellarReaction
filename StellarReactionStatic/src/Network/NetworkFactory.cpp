@@ -2,14 +2,13 @@
 #include "Globals.hpp"
 #include "NetworkComponent.hpp"
 #include "Protocol.hpp"
+#include "Debugging.hpp"
 
-using namespace std;
-
-
-NetworkFactory::NetworkFactory(std::string name)
+NetworkFactory::NetworkFactory(String name)
 {
 	m_name = name;
 	m_lastSendID = 0;
+	m_consecutiveDesyncs = 0;
 }
 NetworkFactory::~NetworkFactory()
 {
@@ -17,13 +16,14 @@ NetworkFactory::~NetworkFactory()
 }
 int NetworkFactory::give(NetworkComponent* pComponent)//we recieve a pointer to a component and we store it
 {
+
 	int position;
 
 	position = m_componentPtrs.size();
 	m_componentPtrs.resize(m_componentPtrs.size() + 1);//add one
 
 	m_componentPtrs[position] = pComponent;
-
+	Print << "\nNew Comp " << position;
 	return position;
 }
 void NetworkFactory::free(int position)//don't adjust the list, just mark the node as null and offer it as a position to future customers
@@ -32,9 +32,9 @@ void NetworkFactory::free(int position)//don't adjust the list, just mark the no
 		m_componentPtrs[position] = NULL;
 	else
 	{
-		cout << position << m_name;
-		cout << m_componentPtrs.size();
-		cout << FILELINE;
+		Print << position << m_name;
+		Print << m_componentPtrs.size();
+		Print << FILELINE;
 		///ERROR LOG
 	}
 	clean();
@@ -54,7 +54,8 @@ void NetworkFactory::clean()
 /// </summary>
 void NetworkFactory::getComponentData(sf::Packet& rPacket)
 {
-	std::vector<NetworkComponent*>& rPtr = m_componentPtrs;
+	rPacket << (int32_t)m_componentPtrs.size();
+	List<NetworkComponent*>& rPtr = m_componentPtrs;
 	for(int32_t i = 0; i < (signed)rPtr.size(); ++i)
 	{
 		if(rPtr[i] != NULL)
@@ -70,23 +71,42 @@ void NetworkFactory::getComponentData(sf::Packet& rPacket)
 }
 void NetworkFactory::process(sf::Packet& rPacket)
 {
-	int32_t id;
-	int32_t old_id;
-	while(rPacket >> id && !rPacket.endOfPacket())
+	int32_t numElements;
+	rPacket >> numElements;
+	int32_t expectedNumElements = (int32_t)m_componentPtrs.size();
+	if(numElements == expectedNumElements)
 	{
-		old_id = id;
-		if(id < (signed)m_componentPtrs.size())
+		m_consecutiveDesyncs = 0;
+		int32_t id;
+		int32_t old_id;//for debugging purposes remembers the last attempted id process
+		while(rPacket >> id && !rPacket.endOfPacket())
 		{
-			if(m_componentPtrs[id] != NULL)
+			if(id < (signed)m_componentPtrs.size())
 			{
-				m_componentPtrs[id]->unpack(rPacket);
+				if(m_componentPtrs[id] != NULL)
+				{
+					m_componentPtrs[id]->unpack(rPacket);
+				}
 			}
+			else
+			{
+				//Print << "\n[" << id << "][" << old_id << "][" << m_componentPtrs.size() << FILELINE << m_name;
+				///ERROR LOG
+				break;
+			}
+			old_id = id;
 		}
-		else
-		{
-			cout << "\n[" << id << "][" << old_id << "]" << FILELINE << m_name;
-			///ERROR LOG
-			break;
-		}
+	}
+	else
+	{
+		m_consecutiveDesyncs++;
+		int i = 9;
+		//Desyinc detected
+		///ERROR LOG
+		//dout << "\nDesync Detected[" << numElements << "][" << expectedNumElements << "][" << m_name << "]" << FILELINE;
+	}
+	if(m_consecutiveDesyncs > 0 && m_consecutiveDesyncs % 60 == 0)
+	{
+		Print << "\nDesync Detected.";
 	}
 }

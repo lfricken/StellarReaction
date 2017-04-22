@@ -8,8 +8,6 @@
 #include "BlueprintLoader.hpp"
 #include <stdio.h>
 
-using namespace std;
-
 extern Game game;
 
 TEST(BlackHoleTest, AppliesForce)

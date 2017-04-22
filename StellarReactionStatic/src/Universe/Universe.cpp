@@ -1,5 +1,4 @@
 #include "Universe.hpp"
-
 #include "BlueprintLoader.hpp"
 #include "Globals.hpp"
 #include "SlaveLocator.hpp"
@@ -24,18 +23,21 @@
 #include "DecorationEngine.hpp"
 #include "CaptureArea.hpp"
 
-using namespace std;
+
 
 void Universe::loadLevel(const GameLaunchData& data)//loads a level using blueprints
 {
+	ShipBuilder::Client::resetSlaveName();
+	m_spControlFactory.reset(new ControlFactory);//remove all controllers.
+
 	loadBlueprints("blueprints/");
 
-	const string levelFile = "level.lcfg";
-	const string levelFolder = "levels";
-	const string thisLevelFolder = contentDir() + levelFolder + "/" + data.level + "/";
-	const string modDir = "mods/";
+	const String levelFile = "level.lcfg";
+	const String levelFolder = "levels";
+	const String thisLevelFolder = contentDir() + levelFolder + "/" + data.level + "/";
+	const String modDir = "mods/";
 
-	ifstream level(thisLevelFolder + levelFile, ifstream::binary);
+	std::ifstream level(thisLevelFolder + levelFile, std::ifstream::binary);
 	Json::Reader reader;
 	Json::Value root;
 
@@ -43,7 +45,7 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 
 	if(!parsedSuccess)
 	{
-		cout << "\nParse Failed [" << thisLevelFolder + levelFile << "].\n" << FILELINE;
+		Print << "\nParse Failed [" << thisLevelFolder + levelFile << "].\n" << FILELINE;
 		return;
 	}
 	else
@@ -61,8 +63,8 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 		if(!root["MapBounds"].isNull())
 		{
 			const Json::Value boundsList = root["MapBounds"];
-			m_bounds.x = (boundsList[0].asInt());
-			m_bounds.y = (boundsList[1].asInt());
+			m_bounds.x = (float)(boundsList[0].asInt());
+			m_bounds.y = (float)(boundsList[1].asInt());
 		}
 
 		/**Spawn Points**/
@@ -72,123 +74,85 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 			for(auto it = spawnList.begin(); it != spawnList.end(); ++it)
 			{
 				const Json::Value pointsJson = (*it)["Points"];
-				vector<b2Vec2> points;
+				List<Vec2> points;
 				for(auto itPoint = pointsJson.begin(); itPoint != pointsJson.end(); ++itPoint)
 				{
-					points.push_back(b2Vec2((*itPoint)[0].asFloat(), (*itPoint)[1].asFloat()));
+					points.push_back(Vec2((*itPoint)[0].asFloat(), (*itPoint)[1].asFloat()));
 				}
 				m_spawnPoints[(Team)(*it)["Team"].asInt()] = points;
 			}
 		}
+
+		/**Create player ships**/
+		for(auto it = data.playerList.cbegin(); it != data.playerList.cend(); ++it)
+		{
+			int num = it - data.playerList.cbegin();
+			Vec2 spawn = m_spawnPoints[it->team][num];
+			float angle = Math::toDeg(atan2(spawn.y, spawn.x) + (pi / 2.f));
+
+			ChunkDataMessage chunkMessageData;
+
+			chunkMessageData.blueprintName = it->ship;
+			chunkMessageData.coordinates = spawn;
+			chunkMessageData.rotation = angle;
+			chunkMessageData.team = (int)it->team;
+			chunkMessageData.needsController = true;
+			chunkMessageData.aiControlled = false;
+
+			ShipBuilder::Client::createChunk(chunkMessageData);
+		}
+
+		/**Load Local Player Overlay**/
+		game.getLocalPlayer().loadOverlay("overlayconfig");
+
+		/**Set Local Controller**/
+		game.getLocalPlayer().setController(data.localController);
+
+		/**Hazard Field Spawn Hazards**/
+		//for(auto it = hazardFields.begin(); it != hazardFields.end(); ++it)
+		//	(**it).spawn();
+
 		/**Map Chunks**/
-		sptr<ChunkData> spCnk;
 		if(!root["Chunks"].isNull())
 		{
 			const Json::Value chunks = root["Chunks"];
 			for(auto it = chunks.begin(); it != chunks.end(); ++it)
 			{
-				if(!(*it)["Title"].isNull())
-				{
-					spCnk.reset(m_spBPLoader->getChunkSPtr((*it)["Title"].asString())->clone());
-					spCnk->bodyComp.coords.x = (*it)["Coordinates"][0].asFloat();
-					spCnk->bodyComp.coords.y = (*it)["Coordinates"][1].asFloat();
-					spCnk->bodyComp.rotation = (*it)["Coordinates"][2].asFloat();
-				}
-				else
-					cout << "\n" << FILELINE;
-				add(spCnk->generate(this));
+				ChunkDataMessage chunkMessageData;
+				chunkMessageData.loadJson(*it);
+
+				ShipBuilder::Client::createChunk(chunkMessageData);
 			}
 		}
 		/**Hazard Fields**/
-		if(!root["HazardFields"].isNull())
+		if(!root["Spawners"].isNull())
 		{
-			const Json::Value spawnList = root["HazardFields"];
+			const Json::Value spawnList = root["Spawners"];
 			for(auto it = spawnList.begin(); it != spawnList.end(); ++it)
-				hazardFields.push_back(sptr<HazardField>(new HazardField(this, *it)));
+				hazardFields.push_back(sptr<ChunkSpawner>(new ChunkSpawner(this, *it)));
 		}
 		/**Decorations**/
 		DecorationEngine& decorations = *m_spDecorEngine;
 		LOADJSON(decorations);
 	}
 
+	Message initBackground(this->m_io.getName(), "initBackgroundCommand", voidPacket, 0, false);
+	Message::SendUniverse(initBackground);
+}
+void Universe::createControllers(Team team, bool isAnAI, const String& slaveName)
+{
+	//Print << "\n" << slaveName;
+	//dout << FILELINE;
+	m_spControlFactory->addController(slaveName);
 
-	/**Create player ships**/
-	sptr<ChunkData> spCnk;
-	m_spControlFactory.reset(new ControlFactory);
-	for(auto it = data.playerList.cbegin(); it != data.playerList.cend(); ++it)
+	if(isAnAI && !game.getNwBoss().isClient())
 	{
-		spCnk.reset(m_spBPLoader->getChunkSPtr(it->ship)->clone());
-		b2Vec2 spawn = m_spawnPoints[it->team][it - data.playerList.cbegin()];
-		spCnk->bodyComp.coords = spawn;
-		float angle = atan2(spawn.y, spawn.x) + (pi / 2.f);
-		spCnk->bodyComp.rotation = angle;
-		spCnk->ioComp.name = it->slaveName;
-		spCnk->team = it->team;
-		Chunk* newChnk = spCnk->generate(this);
-		add(newChnk);
-		newChnk->getBodyPtr()->SetTransform(spawn, angle);
-
-		//add controller after we add the ship with the name
-		//otherwise the controller cant find the intended ship
-		m_spControlFactory->addController(it->slaveName);
-
-		if(it->isAI && !game.getNwBoss().isClient())
-		{
-			assert(cout << "\n" << it->slaveName << " controlled by " << m_spControlFactory->getSize() - 1);
-			sptr<ShipAI> ai = sptr<ShipAI>(new ShipAI(it->team, m_spControlFactory->getSize() - 1));
-			m_shipAI.push_back(ai);
-		}
-	}
-
-	/**Load Local Player Overlay**/
-	game.getLocalPlayer().loadOverlay("overlayconfig");
-
-
-	/**Set Local Controller**/
-	game.getLocalPlayer().setController(data.localController);
-
-
-	/**Load Ship Into Store**/
-	Message mes("ship_editor", "clear", voidPacket, 0, false);
-	game.getCoreIO().recieve(mes);
-
-	Controller* pController = &this->getControllerFactory().getController(data.localController);
-	Chunk* pCnk = pController->getSlave();
-	if(pCnk != NULL)
-	{
-		auto list = pCnk->getModules();
-		for(auto it = list.cbegin(); it != list.cend(); ++it)
-		{
-			sf::Packet pack;
-			pack << "addModule";
-			pack << it->first;
-			pack << (float)it->second.x;
-			pack << (float)it->second.y;
-
-
-			Message mes("networkboss", "sendTcpToHost", pack, 0, false);
-			game.getCoreIO().recieve(mes);
-		}
-	}
-	//else
-	//	std::cout << "\nNo slave! " << FILELINE;
-
-
-	/**Hazard Field Spawn Hazards**/
-	for(auto it = hazardFields.begin(); it != hazardFields.end(); ++it)
-		(**it).spawn();
-
-
-	/**Initialize Background**/
-	if(data.localController != -1)
-	{
-		const Vec2 pos = m_spControlFactory->getController(data.localController).getBodyPtr()->GetPosition();
-		float maxZoom = game.getLocalPlayer().getCamera().m_maxZoom * 0.4f;
-		float size = game.getWindow().getSize().x / scale;
-		m_spDecorEngine->initSpawns(pos, Vec2(maxZoom* size, maxZoom* size));
+		//assert(Print << "\n" << slaveName << " controlled by " << m_spControlFactory->getSize() - 1);
+		sptr<ShipAI> ai = sptr<ShipAI>(new ShipAI(team, m_spControlFactory->getSize() - 1));
+		m_shipAI.push_back(ai);
 	}
 }
-Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input, this), m_physWorld(b2Vec2(0, 0))
+Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input, this), m_physWorld(Vec2(0, 0))
 {
 	const Money defaultTickMoney = 1;
 	const float moneyTickTime = 1.f;
@@ -228,8 +192,8 @@ Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input,
 	m_pauseTime = m_skippedTime;
 
 	m_inc = 10;
-	m_currentBed = b2Vec2(-10000, 10000);
-	m_bounds = b2Vec2(10000, 10000);
+	m_currentBed = Vec2(-10000, 10000);
+	m_bounds = Vec2(10000, 10000);
 
 	m_physWorld.SetContactListener(&m_contactListener);
 	m_physWorld.SetDebugDraw(&m_debugDraw);
@@ -243,9 +207,9 @@ Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input,
 Universe::~Universe()
 {
 	m_capturePoints.clear();
-	//cout << "\nUniverse Destroying...";
+	//Print << "\nUniverse Destroying...";
 	game.getLocalPlayer().universeDestroyed();
-	//cout << "\nEnd.";
+	//Print << "\nEnd.";
 }
 ControlFactory& Universe::getControllerFactory()
 {
@@ -287,11 +251,11 @@ Scoreboard& Universe::getScoreboard()
 {
 	return *m_scoreboard;
 }
-const b2Vec2& Universe::getBounds() const
+const Vec2& Universe::getBounds() const
 {
 	return m_bounds;
 }
-void Universe::setBounds(const b2Vec2& bounds)
+void Universe::setBounds(const Vec2& bounds)
 {
 	m_bounds = bounds;
 }
@@ -349,21 +313,24 @@ void Universe::postPhysUpdate()
 		for(auto it = m_goList.begin(); it != m_goList.end(); ++it)
 			(*it)->postPhysUpdate();
 		m_spProjMan->postPhysUpdate();
+
+		for(auto it = hazardFields.begin(); it != hazardFields.end(); ++it)
+			(**it).update();
 	}
 }
 
-Chunk* Universe::getNearestChunkExcept(const b2Vec2& target, const Chunk* exception)
+sptr<Chunk> Universe::getNearestChunkExcept(const Vec2& target, const Chunk* exception)
 {
 	float prevDist = -1;
-	Chunk* closest = NULL;
+	sptr<Chunk> closest = NULL;
 	for(auto it = m_goList.begin(); it != m_goList.end(); ++it)
 	{
-		GameObject* p = it->get();
-		Chunk* object = dynamic_cast<Chunk*>(p);
-		if(object != NULL && object != exception)
+		sptr<GameObject> p = *it;
+		sptr<Chunk> object = std::dynamic_pointer_cast<Chunk, GameObject>(p);
+		if(object != NULL && object.get() != exception)
 		{
-			b2Vec2 dif = target - object->getBodyPtr()->GetPosition();
-			float dist = dif.Length();
+			Vec2 dif = target - object->getBodyPtr()->GetPosition();
+			float dist = dif.len();
 			if(dist < prevDist || prevDist == -1)
 			{
 				prevDist = dist;
@@ -374,16 +341,16 @@ Chunk* Universe::getNearestChunkExcept(const b2Vec2& target, const Chunk* except
 	return closest;
 }
 
-BodyComponent* Universe::getNearestBody(const b2Vec2& target)
+BodyComponent* Universe::getNearestBody(const Vec2& target)
 {
-	return &(dynamic_cast<Chunk*>(getNearestChunkExcept(target, NULL))->getBodyComponent());
+	return &(dynamic_cast<Chunk*>(getNearestChunkExcept(target, NULL).get())->getBodyComponent());
 }
 
 /// <summary>
 /// finds nearest chunk on a team that is within the team list
 /// if the team list is empty it will consider all teams
 /// </summary>
-Chunk* Universe::getNearestChunkOnTeam(const b2Vec2& target, const Chunk* exception, std::list<Team> teams)
+Chunk* Universe::getNearestChunkOnTeam(const Vec2& target, const Chunk* exception, std::list<Team> teams)
 {
 	float prevDist = -1;
 	Chunk* closest = NULL;
@@ -393,8 +360,8 @@ Chunk* Universe::getNearestChunkOnTeam(const b2Vec2& target, const Chunk* except
 		Chunk* object = dynamic_cast<Chunk*>(p);
 		if(object != NULL && object != exception && listContains(teams, object->getBodyComponent().getTeam()))
 		{
-			b2Vec2 dif = target - object->getBodyPtr()->GetPosition();
-			float dist = dif.Length();
+			Vec2 dif = target - object->getBodyPtr()->GetPosition();
+			float dist = dif.len();
 			if(dist < prevDist || prevDist == -1)
 			{
 				prevDist = dist;
@@ -408,7 +375,7 @@ Chunk* Universe::getNearestChunkOnTeam(const b2Vec2& target, const Chunk* except
 /// <summary>
 /// returns chunk pointer to nearest Capture Point that isn't owned by the specified team
 /// </summary>
-Chunk* Universe::getNearestStation(const b2Vec2& target, Team team)
+Chunk* Universe::getNearestStation(const Vec2& target, Team team)
 {
 	float prevDist = -1;
 	Chunk* closest = NULL;
@@ -424,8 +391,8 @@ Chunk* Universe::getNearestStation(const b2Vec2& target, Team team)
 				CaptureArea* ca = dynamic_cast<CaptureArea*>((&*object->getModuleList()[0]));
 				if(ca->getCurrentTeam() != team)
 				{
-					b2Vec2 dif = target - object->getBodyPtr()->GetPosition();
-					float dist = dif.Length();
+					Vec2 dif = target - object->getBodyPtr()->GetPosition();
+					float dist = dif.len();
 					if(dist < prevDist || prevDist == -1)
 					{
 						prevDist = dist;
@@ -443,8 +410,8 @@ Chunk* Universe::getNearestStation(const b2Vec2& target, Team team)
 			CaptureArea* ca = dynamic_cast<CaptureArea*>((&*object->getModuleList()[0]));
 			if(ca->getCurrentTeam() != team)
 			{
-				b2Vec2 dif = target - object->getBodyPtr()->GetPosition();
-				float dist = dif.Length();
+				Vec2 dif = target - object->getBodyPtr()->GetPosition();
+				float dist = dif.len();
 				if(dist < prevDist || prevDist == -1)
 				{
 					prevDist = dist;
@@ -487,8 +454,8 @@ void Universe::teamMoneyUpdate()
 		{
 			for(auto it = m_income.cbegin(); it != m_income.cend(); ++it)
 				m_moneyTotals[it->first] += it->second;
-			
-			std::vector<sptr<Connection> > cons = game.getNwBoss().getConnections();
+
+			List<sptr<Connection> > cons = game.getNwBoss().getConnections();
 			for(auto it = cons.begin(); it != cons.end(); ++it)
 				(**it).changeMoney(m_income[(**it).getTeam()]);
 
@@ -546,9 +513,9 @@ float Universe::getTime() const
 
 	return universeTime;
 }
-b2Vec2 Universe::getBed()//give a position to sleep at
+Vec2 Universe::getBed()//give a position to sleep at
 {
-	b2Vec2 bed;
+	Vec2 bed;
 	if(m_beds.size() > 0)//if we have some already existing
 	{
 		bed = m_beds.back();
@@ -561,11 +528,11 @@ b2Vec2 Universe::getBed()//give a position to sleep at
 	}
 	return bed;
 }
-void Universe::addBed(const b2Vec2& rBed)//someone gave a bed back to us!
+void Universe::addBed(const Vec2& rBed)//someone gave a bed back to us!
 {
 	m_beds.push_back(rBed);
 }
-void Universe::loadBlueprints(const std::string& bpDir)//loads blueprints
+void Universe::loadBlueprints(const String& bpDir)//loads blueprints
 {
 	m_spBPLoader->loadBlueprints(bpDir);
 }
@@ -573,7 +540,7 @@ void Universe::add(GameObject* pGO)
 {
 	m_goList.push_back(sptr<GameObject>(pGO));
 }
-void Universe::input(std::string rCommand, sf::Packet rData)
+void Universe::input(String rCommand, sf::Packet rData)
 {
 	sf::Packet data(rData);
 	if(rCommand == "togglePause")
@@ -586,19 +553,53 @@ void Universe::input(std::string rCommand, sf::Packet rData)
 		data >> mode;
 		togglePause(mode);
 	}
+	else if(rCommand == "initBackgroundCommand")
+	{
+		int controller = game.getLocalPlayer().getController();
+		if(controller != -1)
+		{
+			const Vec2 pos = m_spControlFactory->getController(controller)->getBodyPtr()->GetPosition();
+			float maxZoom = game.getLocalPlayer().getCamera().m_maxZoom * 0.4f;
+			float size = (float)game.getWindow().getSize().x / scale;
+			m_spDecorEngine->initSpawns(pos, Vec2(maxZoom* size, maxZoom* size));
+		}
+
+		game.getUniverse().getControllerFactory().setAllNonLocallyControlled();
+	}
+	else if(rCommand == "createChunkCommand")
+	{
+		String slaveName;
+		ChunkDataMessage data;
+		data.unpack(rData);
+
+		if(data.needsController)
+			slaveName = ShipBuilder::Client::getNextSlaveName();
+
+
+		auto chunkData(m_spBPLoader->getChunkSPtr(data.blueprintName)->clone());
+		chunkData->bodyComp.coords = data.coordinates;
+		chunkData->bodyComp.rotation = data.rotation;
+		chunkData->team = (Team)data.team;
+		chunkData->ioComp.name = slaveName;// data.slaveName;
+
+		add(chunkData->generate(this));
+
+		if(data.needsController)
+			createControllers((Team)data.team, data.aiControlled, slaveName);// data.slaveName;
+	}
 	else
 	{
 		///ERROR LOG
-		cout << m_io.getName() << ":[" << rCommand << "] not found." << FILELINE;
+		Print << m_io.getName() << ":[" << rCommand << "] not found." << FILELINE;
 	}
 }
-std::vector<sptr<GameObject> > Universe::getgoList()
+List<sptr<GameObject> > Universe::getgoList()
 {
 	return m_goList;
 }
-bool Universe::isClear(b2Vec2 position, float radius, const Chunk* exception)
+bool Universe::isClear(Vec2 position, float radius, const Chunk* exception)
 {
-	Chunk* nearest = getNearestChunkExcept(position, exception);
+	Chunk* nearest = getNearestChunkExcept(position, exception).get();
 	if(nearest != NULL)
 	{
 		float nearestRad = nearest->getRadius();
@@ -610,12 +611,16 @@ bool Universe::isClear(b2Vec2 position, float radius, const Chunk* exception)
 	}
 	return true;
 }
-b2Vec2 Universe::getAvailableSpawn(Team team, float radius, const Chunk* exception)
+Vec2 Universe::getAvailableSpawn(Team team, float radius, const Chunk* exception)
 {
 	for(auto it = m_spawnPoints[team].begin(); it != m_spawnPoints[team].end(); it++)
 	{
 		if(isClear((*it), radius, exception))
 			return (*it);
 	}
-	return b2Vec2_zero;
+	return Vec2(0, 0);
+}
+void Universe::spawnParticles(const String& particleBP, const Vec2& pos, const Vec2& dir, const Vec2& transverse)
+{
+	m_spDecorEngine->spawnParticles(particleBP, pos, dir, transverse);
 }

@@ -1,4 +1,5 @@
-Project Started 2014-02-13
+Project Started 2014-02-13<br />
+Readme Updated: 2016-12-01<br />
 
 # StellarReaction
 Stellar Reaction is a real-time, multiplayer, space combat video game. Gameplay consists of four teams of Human or AI players controlling space ships, which are used to attack enemy ships, and to capture objective points to earn money.
@@ -22,7 +23,7 @@ Andrew Borg<br />
 Sahil Suhag<br />
 Michael Wojciak<br />
 <br />
-updated: 2016-06-22<br />
+
 
 
 # Gameplay Details

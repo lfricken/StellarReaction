@@ -1,0 +1,53 @@
+{
+    "ClassName": "ChunkData",
+    "zoomData": {
+        "Max": 64,
+        "Value": 16
+    },
+	"hullSpriteData": {
+		"dimensions": [2200, 2000],
+		"texName": "hulls/ship1",
+		"animSheetName": "hulls/ship1.acfg",
+		"layer": "ShipHull"
+	},
+	"bodyComp": {
+		"isDynamic": false
+	},
+    "moduleData": [
+        {
+            "title": "Reactor",
+            "Position": [
+                1,
+                1
+            ]
+        },
+        {
+            "title": "LaserTurret",
+            "Position": [
+                0,
+                0
+            ]
+        },
+        {
+            "title": "Plating",
+            "Position": [
+                -1,
+                1
+            ]
+        },
+        {
+            "title": "Plating",
+            "Position": [
+                -1,
+                0
+            ]
+        },
+        {
+            "title": "Capacitor",
+            "Position": [
+                1,
+                0
+            ]
+        }
+    ]
+}

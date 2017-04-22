@@ -5,14 +5,22 @@
 #include "Pool.hpp"
 #include "QuadComponent.hpp"
 #include "Globals.hpp"
-#include "SoundData.hpp"
 #include "ClassRegister.hpp"
 #include "BlueprintData.hpp"
 #include "NonCopyable.hpp"
+#include "Sound.hpp"
+#include "Debugging.hpp"
 
 enum class Team;
 struct WeaponData;
 class FixtureComponent;
+
+struct HitEffect
+{
+	String effect;
+	Vec2 pos;
+	Vec2 normal;
+};
 
 /// Basic object that provides easier interface for making complex types of weapons.
 class Weapon : NonCopyable
@@ -25,19 +33,19 @@ public:
 	/// returns true if we will fire.
 	bool fire(const FixtureComponent& pParent, Pool<Energy>* pEnergy, Pool<Ballistic>* pBall, Pool<Missiles>* pMis);
 	/// Called by our parent module
-	virtual void prePhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation);
+	virtual void prePhysUpdate(const Vec2& center, const Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation);
 	/// Called by our parent module
-	virtual void postPhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation);
+	virtual void postPhysUpdate(const Vec2& center, const Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation);
 	/// Called before physics update if this weapon should fire this tick
 	/// Look at laser and projectile weapon.
 	/// Overwrite this when making a new weapon.
-	virtual void preShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation) = 0;
+	virtual void preShot(const Vec2& center, const Vec2& aim, float radCCW, float module_orientation) = 0;
 	/// Called after physics update if this weapon fired this tick
 	/// Overwrite this when making a new weapon.
 	/// Look at laser and projectile weapon.
-	virtual void postShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation) = 0;
-	///Does damage to target.
-	static void damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmount, int ioCausePos, Team team);
+	virtual void postShot(const Vec2& center, const Vec2& aim, float radCCW, float module_orientation) = 0;
+	///Does damage to target. Leave last param blank for no visual effects.
+	static void damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmount, int ioCausePos, Team team, const Vec2& collisionPoint, const Vec2& fromDirection, const String& effect);
 	///Gets the decoration object corresponding to this weapon.
 	QuadComponent* getDecor();
 	///Tell this weapon which team it is working for.
@@ -49,25 +57,27 @@ protected:
 	b2Body* m_pBody;
 	const FixtureComponent* m_pTempParent;
 	int m_shots;//how many shots we do upon each fire command
+	String m_effectName;
 	int m_shotsInSpread; //how many shots per spread
 	float m_fireArc;
 	int m_damage;
 	float m_range;
 	int m_collisions;//how many collisions should we do? MODULE PENETRATION LOGIC
 	//TODO m_collisions is not used in the laser weapon type
-	/// Damages the specified fixture (which has a module). Meant to be called by a weapon only.
-	void damage(b2Fixture* pFix, int damage);
+	/// Damages the specified fixture (which has a module). Meant to be called by a weapon only. Leave last param blank for no visual effects.
+	void damage(b2Fixture* pFixtureTakingDamage, int damageAmount, const Vec2& collisionPoint = Vec2(0, 0), const Vec2& fromDirection = Vec2(0, 0));
 private:
+	Vec2 randArc(const Vec2& center, const Vec2& aim) const;
 	QuadComponent m_decor;//the weapon sprite
 
-	SoundData m_startSound;//when we start firing
-	SoundData m_shotSound;//when we take a shot
-	SoundData m_endSound;//when last shot is taken
-	
+	leon::Sound m_startSound;//when we start firing
+	leon::Sound m_shotSound;//when we take a shot
+	leon::Sound m_endSound;//when last shot is taken
+
 
 	Timer m_shotTimer;// Records how often we can "shot"
 	int m_shotsRemain;//how many shots we have remaining on this fire
-	
+
 	Energy m_energy;// How much do we consume from parent pool.
 	Ballistic m_ballistic;// How much do we consume from parent pool.
 	Missiles m_missiles;//How much do we consume from parent pool.
@@ -86,18 +96,18 @@ struct WeaponData : public BlueprintData
 
 		shots(1),
 		shotsInSpread(1),
-		fireArc(0),//degrees
+		fireArc(1),//degrees
 		damage(50),
 
 		shotDelay(1.f),
 		fireDelay(1.f),
 		collisions(1),
-		range(45.f)
+		range(45.f),
+		effectName("LowSparks")
 	{
 		title = "WEAPON_DEFAULT_TITLE";
 
-		weaponQuad.animSheetName = "weapons/LaserWeapon.acfg";
-		weaponQuad.texName = "weapons/LaserWeapon.png";
+		weaponQuad.texName = "weapons/LaserWeapon";
 		weaponQuad.layer = GraphicsLayer::ShipAppendagesUpper;
 		weaponQuad.dimensions = sf::Vector2f(256, 256);
 		weaponQuad.permanentRot = -90.f;
@@ -106,7 +116,7 @@ struct WeaponData : public BlueprintData
 	Ballistic ballisticConsumption;//ballistics consumed per fire
 	Missiles missileConsumption;//missiles consumed per fire
 
-	SoundData startSound, shotSound, endSound;
+	leon::Sound startSound, shotSound, endSound;
 
 	int shots;//how many shots per fire
 	int shotsInSpread;// if this weapon is a shotgun, how many shots in its spread
@@ -117,6 +127,7 @@ struct WeaponData : public BlueprintData
 	float fireDelay;//reload time
 	int collisions;//TODO works for projectiles atm, but not lasers
 	float range;//how far can this shoot
+	String effectName;
 
 	QuadComponentData weaponQuad;
 

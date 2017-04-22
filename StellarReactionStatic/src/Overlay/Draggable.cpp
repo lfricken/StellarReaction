@@ -23,43 +23,29 @@ void Draggable::f_initialize(const DraggableData& rData)
 	m_spDrag = sptr<DragComponent>(new DragComponent(&Draggable::f_update, this, &game.getDragUpdater()));
 	m_parentPanelOffset = rData.myPanelOffset;
 	m_spDrag->toggleDragging(false);
-	m_gridSize = rData.gridSize;
 
 	m_spPic->disable();//disable to allow us to click through to the button underneath
 
 	if(rData.gridPosition.x != -1 && rData.gridPosition.y != -1)
-		trySetPosition(sf::Vector2f(rData.gridPosition.x*rData.gridSize.x, rData.gridPosition.y*rData.gridSize.y));
+		trySetGridPosition(rData.gridPosition);
 
-	m_lastPosition = this->getPosition();
+	m_lastGridPosition = this->getGridPosition();
 }
-sf::Vector2f Draggable::getGridPosition() const
-{
-	sf::Vector2f cur = m_pButton->getPosition();
-	cur.x /= m_gridSize.x;
-	cur.y /= m_gridSize.y;
-	return cur;
-}
-const std::string& Draggable::getMetaData() const
+
+const String& Draggable::getMetaData() const
 {
 	return m_metaData;
 }
-void Draggable::setGridPosition(const sf::Vector2f& rPos)
+bool Draggable::trySetGridPosition(const sf::Vector2i& rGridPos)
 {
-	sf::Vector2f copy(rPos);
-	copy.x *= m_gridSize.x;
-	copy.y *= m_gridSize.y;
-	this->trySetPosition(copy);
-}
-bool Draggable::trySetPosition(const sf::Vector2f& rPos)
-{
-	if(m_pParent->hasOneAt(rPos))
+	if(m_pParent->hasOneAt(rGridPos))
 	{
-		this->setPosition(m_lastPosition);
+		this->setGridPosition(m_lastGridPosition);
 		return false;
 	}
 	else
 	{
-		this->setPosition(rPos);
+		this->setGridPosition(rGridPos);
 		return true;
 	}
 }
@@ -91,28 +77,12 @@ void Draggable::f_update(const sf::Vector2f& rPos)
 	this->setPosition(rPos - m_parentPanelOffset - offsetToCenter);
 }
 /// <summary>
-/// round our position to nearest snap
-/// </summary>
-sf::Vector2f Draggable::getClosestPosition(const sf::Vector2f& rCurrent)
-{
-	sf::Vector2f gridHalf(m_gridSize.x / 2, m_gridSize.y / 2);
-	sf::Vector2f calculated = (rCurrent + gridHalf);
-	calculated.x = static_cast<float>(static_cast<int>(calculated.x) / static_cast<int>(m_gridSize.x));
-	calculated.y = static_cast<float>(static_cast<int>(calculated.y) / static_cast<int>(m_gridSize.y));
-
-	calculated.x *= m_gridSize.x;
-	calculated.y *= m_gridSize.y;
-
-	return calculated;
-}
-/// <summary>
 /// we were dropped (from being dragged)
 /// </summary>
 void Draggable::dropped()
 {
 	m_spDrag->toggleDragging(false);
 
-	sf::Vector2f newPos = getClosestPosition(m_pButton->getPosition());
-	if(this->trySetPosition(newPos))
-		m_lastPosition = this->getPosition();
+	sf::Vector2i newGridPos = toGrid(m_pButton->getPosition());
+	trySetGridPosition(newGridPos);
 }

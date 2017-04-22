@@ -13,7 +13,7 @@ namespace leon
 		{
 		}
 
-		std::string startingText;
+		String startingText;
 	};
 
 	/// A textbox for typing in things (target IP, Port, and the Chatbox).
@@ -25,14 +25,14 @@ namespace leon
 		virtual ~EditBox();
 
 		/// Set the text of the textbox.
-		void setText(const std::string& rText);
+		void setText(const String& rText);
 
 	protected:
 		void f_TextChanged();
 		void f_ReturnKeyPressed();
 
 		/**events HOOKS**/
-		virtual bool inputHook(const std::string rCommand, sf::Packet rData);
+		virtual bool inputHook(const String rCommand, sf::Packet rData);
 		virtual bool callbackHook(const tgui::Callback& callback);
 
 		virtual void mouseEnteredHook(sf::Packet& rPack);
@@ -43,6 +43,7 @@ namespace leon
 
 		virtual void triggerHook(sf::Packet& rPack);
 
+		void load(const String& fullFilePath);
 	private:
 		void f_initialize(const EditBoxData& data);
 

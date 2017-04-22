@@ -1,8 +1,5 @@
 #include "GraphicsComponentUpdater.hpp"
-
 #include "GraphicsComponent.hpp"
-
-using namespace std;
 
 GraphicsComponentUpdater::GraphicsComponentUpdater()
 {

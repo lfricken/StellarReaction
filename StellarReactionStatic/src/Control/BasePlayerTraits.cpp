@@ -3,9 +3,7 @@
 #include "Globals.hpp"
 #include "IOManager.hpp"
 
-using namespace std;
-
-BasePlayerTraits::BasePlayerTraits(const std::string& rName)
+BasePlayerTraits::BasePlayerTraits(const String& rName)
 {
 	m_team = Team::One;
 	m_shipChoice = "Anubis";
@@ -17,19 +15,19 @@ BasePlayerTraits::~BasePlayerTraits()
 {
 
 }
-void BasePlayerTraits::setShipChoice(const std::string& rTitle)
+void BasePlayerTraits::setShipChoice(const String& rTitle)
 {
 	m_shipChoice = rTitle;
 }
-const std::string&  BasePlayerTraits::getShipChoice() const
+const String&  BasePlayerTraits::getShipChoice() const
 {
 	return m_shipChoice;
 }
-void BasePlayerTraits::setName(const std::string& rTitle)
+void BasePlayerTraits::setName(const String& rTitle)
 {
 	m_name = rTitle;
 }
-const std::string& BasePlayerTraits::getName() const
+const String& BasePlayerTraits::getName() const
 {
 	return m_name;
 }
@@ -61,28 +59,14 @@ int BasePlayerTraits::getController() const
 {
 	return m_controller;
 }
-void BasePlayerTraits::addModule(const std::string& newTitle, const b2Vec2& rPos)
-{
-	m_owned.push_back(pair<string, b2Vec2>(newTitle, rPos));
-	sf::Packet pack;
-	pack << newTitle;
-	pack << (float)rPos.x;
-	pack << (float)rPos.y;
-	Message modAdded("ship_editor", "addItem", pack, 0.f, false);
-	game.getCoreIO().recieve(modAdded);
-}
-bool BasePlayerTraits::removeModule(const std::string& oldTitle)
-{
-	for(auto it = m_owned.begin(); it != m_owned.end(); ++it)
-		if(it->first == oldTitle)
-		{
-			m_owned.erase(it);
-			return true;
-		}
+//void BasePlayerTraits::addModule(const String& newTitle, const sf::Vector2i& rPos)
+//{
+//	//m_owned.push_back(pair<String, Vec2>(newTitle, rPos));
+//	sf::Packet pack;
+//	pack << newTitle;
+//	pack << rPos.x;
+//	pack << rPos.y;
+//	Message modAdded("ship_editor", "addModuldeToGui", pack, 0.f, false);
+//	game.getCoreIO().recieve(modAdded);
+//}
 
-	return false;
-}
-const std::vector<std::pair<std::string, b2Vec2> >& BasePlayerTraits::getOwnedModuleTitles() const
-{
-	return m_owned;
-}

@@ -1,44 +1,75 @@
 #include "Sound.hpp"
-#include "SoundData.hpp"
 #include "Globals.hpp"
 #include "SoundManager.hpp"
 
 using namespace leon;
 
-Sound::Sound(const SoundData& rData)
+Sound::Sound(const String& rSoundName, const Vec2& pos, int volume, float minDist, float dropOff, bool relative, bool looping, bool acquiresLock)
 {
-	m_soundName = rData.name;
-	m_volume = rData.volume;
-	m_shouldLoop = rData.shouldLoop;
-	m_dropOff = rData.dropOff;
-	m_minDist = rData.minDist;
-	m_relative = rData.relative;
+	this->name = rSoundName;
+	this->pos = pos;
+	this->volume = volume;
+
+	this->minDist = minDist;
+	this->dropOff = dropOff;
+
+	this->relative = relative;
+	this->shouldLoop = looping;
+
+	this->m_acquiresLock = acquiresLock;
+
+	m_soundHandle = -1;
 }
 Sound::~Sound()
 {
 
 }
-void Sound::setPos(const b2Vec2& rPos)
+bool Sound::haveHandle() const
 {
-	m_pos = rPos;
+	return (m_soundHandle != -1);
 }
-void Sound::toggleLooping(bool shouldLoop)
+void Sound::play()
 {
-	m_shouldLoop = shouldLoop;
+	m_soundHandle = game.getSound().playSound(*this);
 }
-void Sound::toggleLooping()
+void Sound::play(const Vec2& rPos)
 {
-	this->toggleLooping(!m_shouldLoop);
+	pos = rPos;
+	m_soundHandle = game.getSound().playSound(*this);
 }
 void Sound::restart()//restarts from beginning no matter what
 {
-	//game.get
+	if(haveHandle())
+	{
+		auto& sound = game.getSound().get(m_soundHandle);
+		sound.stop();//reset playing position
+		sound.play();//play from beginning
+	}
+	else
+		m_soundHandle = game.getSound().playSound(*this);
 }
-void Sound::resume()//continue playing, may have been restarted
+void Sound::resume()
 {
+	if(haveHandle())
+	{
+		auto& sound = game.getSound().get(m_soundHandle);
 
+		if(sound.getStatus() != sf::SoundSource::Status::Playing)
+			sound.play();
+	}
+	else
+		play();
 }
+
 void Sound::pause()//pause the sound
 {
+	if(haveHandle())
+		game.getSound().get(m_soundHandle).pause();
+}
+void Sound::setPos(const Vec2& rPos)
+{
+	pos = rPos;
 
+	if(haveHandle())
+		game.getSound().get(m_soundHandle).setPosition(sf::Vector3f(pos.x, pos.y, 0));
 }

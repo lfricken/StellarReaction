@@ -6,7 +6,7 @@
 #include "BlueprintLoader.hpp"
 #include "Player.hpp"
 
-using namespace std;
+
 
 
 void LaserWeaponData::loadJson(const Json::Value& root)
@@ -14,8 +14,7 @@ void LaserWeaponData::loadJson(const Json::Value& root)
 	WeaponData::loadJson(root);
 
 	GETJSON(beamWidth);
-	if(!root["beamColor"].isNull())
-		beamColor = BlueprintLoader::loadColor(root["beamColor"]);
+	GETJSON(beamColor);
 	GETJSON(showTime);
 	LOADJSON(beamComp.start);
 	LOADJSON(beamComp.end);
@@ -39,12 +38,12 @@ LaserWeapon::~LaserWeapon()
 /// <param name="center">The center.</param>
 /// <param name="aim">The aim.</param>
 /// <param name="radCCW">The RAD CCW.</param>
-void LaserWeapon::preShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation)
+void LaserWeapon::preShot(const Vec2& center, const Vec2& aim, float radCCW, float module_orientation)
 {
 	m_ray.setIgnoreBody(m_pBody);
 
 	float mult = m_range / leon::Dist(aim, center);
-	b2Vec2 end = b2Vec2(center.x + (aim.x - center.x)*mult, center.y + (aim.y - center.y)*mult);
+	Vec2 end = Vec2(center.x + (aim.x - center.x)*mult, center.y + (aim.y - center.y)*mult);
 	game.getUniverse().getWorld().RayCast(&m_ray, center, end);
 }
 /// <summary>
@@ -53,34 +52,31 @@ void LaserWeapon::preShot(const b2Vec2& center, const b2Vec2& aim, float radCCW,
 /// <param name="center">The center.</param>
 /// <param name="aim">The aim.</param>
 /// <param name="radCCW">The RAD CCW.</param>
-void LaserWeapon::postShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation)
+void LaserWeapon::postShot(const Vec2& fixtureDoingDamageCenter, const Vec2& aim, float radCCW, float module_orientation)
 {
 	const Map<float, RayData>& collisions = m_ray.getLatest();
 
-	b2Vec2 end;
-
+	Vec2 end;
+	const Vec2 shotDir = fixtureDoingDamageCenter.to(aim);
 	if(collisions.empty())
 	{
-		float mult = m_range / leon::Dist(aim, center);
-		end = b2Vec2(center.x + (aim.x - center.x)*mult, center.y + (aim.y - center.y)*mult);
+		float mult = m_range / leon::Dist(aim, fixtureDoingDamageCenter);
+		end = fixtureDoingDamageCenter + shotDir * mult;
 	}
 	else
 	{
 		int i = 0;
 		for(auto it = collisions.cbegin(); i < m_collisions && it != collisions.cend(); ++it, ++i)
 		{
-			end = collisionHandle(it->second);
+			const Vec2 hit = it->second.point;
+			damage(it->second.pFixture, m_damage, hit, shotDir);
+			end = hit;
 		}
 	}
 
-	m_beam.setStart(center);
+	m_beam.setStart(fixtureDoingDamageCenter);
 	m_beam.setEnd(end);
 	m_beam.activate(m_showTime, m_beamWidth, m_beamColor);
 
 	m_ray.reset();
-}
-Vec2 LaserWeapon::collisionHandle(const RayData& data)
-{
-	damage(data.pFixture, m_damage);
-	return data.point;
 }

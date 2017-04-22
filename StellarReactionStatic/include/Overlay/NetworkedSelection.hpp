@@ -17,8 +17,8 @@ namespace leon
 		}
 
 		sf::Vector2f itemSize;//size of each item
-		std::string command;//what command to send when an item has been clicked
-		std::vector<SelectableItemData> items;
+		String command;//what command to send when an item has been clicked
+		List<SelectableItemData> items;
 	};
 
 
@@ -45,7 +45,7 @@ namespace leon
 	private:
 		void f_initialize(NetworkedSelectionData& data, void* container, bool isContainer);
 
-		std::string m_command;//command to send when an item has been selected
-		std::vector<sptr<SelectableItem> > m_items;
+		String m_command;//command to send when an item has been selected
+		List<sptr<SelectableItem> > m_items;
 	};
 }

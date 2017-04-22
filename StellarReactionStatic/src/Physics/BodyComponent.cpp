@@ -4,11 +4,15 @@
 #include "Universe.hpp"
 #include "JSON.hpp"
 #include "Convert.hpp"
+#include "Debugging.hpp"
 
-using namespace std;
 
-BodyComponent::BodyComponent(const BodyComponentData& rData) : m_nw(rData.nwComp, &BodyComponent::pack, &BodyComponent::unpack, this, game.getNwBoss().getNWFactory())
+
+BodyComponent::BodyComponent(const BodyComponentData& rData)
 {
+	if(rData.syncedNetwork)
+		m_nw.reset(new NetworkComponent(rData.nwComp, &BodyComponent::pack, &BodyComponent::unpack, this, game.getNwBoss().getNWDataFactory()));
+
 	if(rData.isDynamic)
 		m_bodyDef.type = b2BodyType::b2_dynamicBody;
 	else
@@ -30,7 +34,7 @@ BodyComponent::~BodyComponent()
 {
 
 }
-const b2Vec2& BodyComponent::getPosition() const
+const Vec2 BodyComponent::getPosition() const
 {
 	return m_pBody->GetPosition();
 }
@@ -40,7 +44,7 @@ b2Body* BodyComponent::getBodyPtr()
 }
 NetworkComponent& BodyComponent::getNWComp()
 {
-	return m_nw;
+	return *m_nw;
 }
 void BodyComponent::pack(sf::Packet& rPacket)
 {
@@ -53,8 +57,8 @@ void BodyComponent::pack(sf::Packet& rPacket)
 }
 void BodyComponent::unpack(sf::Packet& rPacket)
 {
-	b2Vec2 pos;
-	b2Vec2 vel;
+	Vec2 pos;
+	Vec2 vel;
 	float32 posX, posY, velX, velY;
 	float32 angle;
 	float32 angleVel;
@@ -94,15 +98,15 @@ void BodyComponent::sleep()
 	m_pBody->SetAwake(false);
 
 	m_pBody->SetAngularVelocity(0);
-	m_pBody->SetLinearVelocity(b2Vec2(0, 0));
+	m_pBody->SetLinearVelocity(Vec2(0, 0));
 	m_pBody->SetTransform(game.getUniverse().getBed(), 0);
 	//}
 	//else
-	//	cout << FILELINE;
+	//	Print << FILELINE;
 }
 void BodyComponent::wake()
 {
-	//cout << "\nWake";
+	//Print << "\nWake";
 	if(!isAwake())
 	{
 		m_pBody->SetActive(true);
@@ -111,11 +115,11 @@ void BodyComponent::wake()
 		m_pBody->SetTransform(m_oldPos, m_oldAngle);
 	}
 	else
-		cout << FILELINE;
+		Print << FILELINE;
 }
-void BodyComponent::wake(const b2Vec2& rCoords, float radiansCCW, const b2Vec2& rVel, float angularVel)
+void BodyComponent::wake(const Vec2& rCoords, float radiansCCW, const Vec2& rVel, float angularVel)
 {
-	//cout << "\nWake2";
+	//Print << "\nWake2";
 	m_pBody->SetActive(true);
 	m_pBody->SetAwake(true);
 	m_pBody->SetTransform(rCoords, radiansCCW);

@@ -1,6 +1,6 @@
 #include "GraphicsLayer.hpp"
 
-GraphicsLayer ChooseLayer(const std::string& rStr)
+GraphicsLayer ChooseLayer(const String& rStr)
 {
 	if(rStr == "Back8")
 		return GraphicsLayer::Back8;

@@ -1,7 +1,6 @@
 #include "Decoration.hpp"
 #include "GraphicsComponent.hpp"
 #include "JSON.hpp"
-#include "Random.hpp"
 #include "Convert.hpp"
 #include "Player.hpp"
 
@@ -22,12 +21,12 @@ void DecorationData::loadJson(const Json::Value& root)
 	GETJSON(repeatsRandom);
 	GETJSON(spawnRandom);
 }
-Decoration::Decoration(const DecorationData& data, GraphicsComponent* pGfx) : m_io(data.ioComp, &Decoration::input, this)
+Decoration::Decoration(const DecorationData& data, sptr<GraphicsComponent> pGfx)// : m_io(data.ioComp, &Decoration::input, this)
 {
-	m_spGfx.reset(pGfx);
+	m_spGfx = pGfx;
 
-	m_minSpin = leon::degToRad(data.minSpinRate);
-	m_maxSpin = leon::degToRad(data.maxSpinRate);
+	m_minSpin = Math::toRad(data.minSpinRate);
+	m_maxSpin = Math::toRad(data.maxSpinRate);
 	m_minVel = data.minVelocity;
 	m_maxVel = data.maxVelocity;
 
@@ -44,6 +43,9 @@ Decoration::Decoration(const DecorationData& data, GraphicsComponent* pGfx) : m_
 	m_maxZoom = game.getLocalPlayer().getCamera().m_maxZoom;
 	randSpin();
 	randVel();
+	m_isFading = false;
+	m_totalFadeTime = 1;
+	m_fadeTimeElapsed = 0;
 }
 Decoration::~Decoration()
 {
@@ -51,44 +53,44 @@ Decoration::~Decoration()
 }
 void Decoration::randVel()
 {
-	m_spinRate = Random::get(m_minSpin, m_maxSpin);
-	if(m_minSpin != 0.f)
-		m_spGfx->setRotation(Random::get(0.f, 2.f * pi));
+	m_velocity.x = Rand::get(m_minVel.x, m_maxVel.x);
+	m_velocity.y = Rand::get(m_minVel.y, m_maxVel.y);
 }
 void Decoration::randSpin()
 {
-	m_velocity.x = Random::get(m_minVel.x, m_maxVel.x);
-	m_velocity.y = Random::get(m_minVel.y, m_maxVel.y);
+	m_spinRate = Rand::get(m_minSpin, m_maxSpin);
+	if(m_minSpin != 0.f)
+		m_spGfx->setRotation(Rand::get(0.f, 2.f * pi));
 }
-void Decoration::input(std::string rCommand, sf::Packet rData)
-{
-	if(rCommand == "setPosition")
-	{
-		b2Vec2 pos;
-		rData >> pos.x;
-		rData >> pos.y;
-		setPosition(pos);
-	}
-	else if(rCommand == "setRotation")
-	{
-		float rotCCW;
-		rData >> rotCCW;
-		setRotation(rotCCW);
-	}
-	else if(rCommand == "setAnimation")
-	{
-		string anim;
-		float duration;
-		rData >> anim;
-		rData >> duration;
-		m_spGfx->getAnimator().setAnimation(anim, duration);
-	}
-	else
-	{
-		std::cout << "\n[" << rCommand << "] was not found in [" << m_io.getName() << "].";
-		///ERROR LOG
-	}
-}
+//void Decoration::input(String rCommand, sf::Packet rData)
+//{
+//	if(rCommand == "setPosition")
+//	{
+//		Vec2 pos;
+//		rData >> pos.x;
+//		rData >> pos.y;
+//		setPosition(pos);
+//	}
+//	else if(rCommand == "setRotation")
+//	{
+//		float rotCCW;
+//		rData >> rotCCW;
+//		setRotation(rotCCW);
+//	}
+//	else if(rCommand == "setAnimation")
+//	{
+//		String anim;
+//		float duration;
+//		rData >> anim;
+//		rData >> duration;
+//		m_spGfx->getAnimator().setAnimation(anim, duration);
+//	}
+//	else
+//	{
+//		Print << "\n[" << rCommand << "] was not found in [" << m_io.getName() << "].";
+//		///ERROR LOG
+//	}
+//}
 void Decoration::setPosition(const Vec2& rDesiredWorldPos)
 {
 	float zoom = game.getLocalPlayer().getCamera().getZoom();
@@ -111,7 +113,7 @@ void Decoration::setRotation(float radCCW)
 {
 	m_spGfx->setRotation(radCCW);
 }
-void Decoration::setAnimation(const std::string& rAnimName, float duration)
+void Decoration::setAnimation(const String& rAnimName, float duration)
 {
 	m_spGfx->getAnimator().setAnimation(rAnimName, duration);
 }
@@ -137,7 +139,7 @@ void Decoration::updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bot
 
 	/**Follows Camera**/
 	{
-		m_realPosition += Vec2(m_velocity.x * dTime, m_velocity.y * dTime);
+		m_realPosition += m_velocity*dTime;
 		Vec2 appearPos(0, 0);
 		if(!m_infiniteZ)
 		{
@@ -163,7 +165,8 @@ void Decoration::updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bot
 	/**Repeats itself over view box**/
 	/**Relies on graphics object so position is by appearance**/
 	{
-		const Vec2 pos(m_spGfx->getPosition());
+
+		const Vec2 pos = m_spGfx->getPosition();
 		const Vec2 ourBotLeft = pos - halfSize;
 		const Vec2 ourTopRight = pos + halfSize;
 
@@ -174,7 +177,7 @@ void Decoration::updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bot
 				float starting = m_spGfx->getPosition().y;
 
 				if(m_repeatsRandom)
-					starting = Random::get(bottomLeft.y, topRight.y);
+					starting = Rand::get(bottomLeft.y, topRight.y);
 
 				setPosition(Vec2(topRight.x, starting));
 			}
@@ -183,7 +186,7 @@ void Decoration::updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bot
 				float starting = m_spGfx->getPosition().y;
 
 				if(m_repeatsRandom)
-					starting = Random::get(bottomLeft.y, topRight.y);
+					starting = Rand::get(bottomLeft.y, topRight.y);
 
 				setPosition(Vec2(bottomLeft.x, starting));
 			}
@@ -192,7 +195,7 @@ void Decoration::updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bot
 				float starting = m_spGfx->getPosition().x;
 
 				if(m_repeatsRandom)
-					starting = Random::get(bottomLeft.x, topRight.x);
+					starting = Rand::get(bottomLeft.x, topRight.x);
 
 				setPosition(Vec2(starting, bottomLeft.y));
 			}
@@ -201,7 +204,7 @@ void Decoration::updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bot
 				float starting = m_spGfx->getPosition().x;
 
 				if(m_repeatsRandom)
-					starting = Random::get(bottomLeft.x, topRight.x);
+					starting = Rand::get(bottomLeft.x, topRight.x);
 
 				setPosition(Vec2(starting, topRight.y));
 			}
@@ -221,5 +224,19 @@ void Decoration::updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bot
 		const float angle = atan(halfSize.x / zDist);
 		setScale(angle*staticSize*staticZoom);
 	}
+
+
+	if(m_isFading && m_fadeTimeElapsed <= m_totalFadeTime)
+	{
+		m_fadeTimeElapsed += dTime;//if we dont take min of 1,x then it can go past 255 alpha and reappear for a second
+		int alpha = (int)(255.f - Math::min(1.f, (m_fadeTimeElapsed / m_totalFadeTime)) * 255.f);
+		m_spGfx->setAlpha(alpha);
+	}
+}
+void Decoration::startFade(float time)
+{
+	m_isFading = true;
+	m_totalFadeTime = time;
+	m_fadeTimeElapsed = 0;
 }
 

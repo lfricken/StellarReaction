@@ -11,7 +11,7 @@ class NetworkComponent;
 class NetworkFactory : NonCopyable
 {
 public:
-	NetworkFactory(std::string name);
+	NetworkFactory(String name);
 	virtual ~NetworkFactory();
 
 	/// A NetworkComponent calls this to give a pointer to itself.
@@ -27,9 +27,13 @@ public:
 
 protected:
 private:
-	std::vector<NetworkComponent*> m_componentPtrs;//where we store all of them
+	List<NetworkComponent*> m_componentPtrs;//where we store all of them
 	int m_lastSendID;
 
-	std::string m_name;
+	String m_name;
+	/// <summary>
+	/// How many times in a row have we gotten bad data.
+	/// </summary>
+	int m_consecutiveDesyncs;
 };
 

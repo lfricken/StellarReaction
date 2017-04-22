@@ -1,8 +1,7 @@
 #include "Condition.hpp"
 #include "stdafx.hpp"
 #include "Globals.hpp"
-
-using namespace std;
+#include "Debugging.hpp"
 
 Condition::Condition()
 {
@@ -48,7 +47,7 @@ bool Condition::evaluate(int value) const
 	if(m_op == 'd')
 		return true;
 
-	cout << FILELINE;
+	Print << FILELINE;
 
 	return false;
 }

@@ -9,9 +9,12 @@
 #include "Minimap.hpp"
 #include "Chunk.hpp"
 #include "CommandInfo.hpp"
-
-using namespace std;
-using namespace sf;
+#include "Particles.hpp"
+#include "SoundManager.hpp"
+#include "Convert.hpp"
+#include "Decoration.hpp"
+#include "Debugging.hpp"
+#include "Grid.hpp"
 
 Player::Player(const PlayerData& rData) : m_io(rData.ioComp, &Player::input, this), BasePlayerTraits(rData.name)
 {
@@ -22,16 +25,18 @@ Player::Player(const PlayerData& rData) : m_io(rData.ioComp, &Player::input, thi
 	{
 		m_weaponGroups[i] = true;
 	}
+	m_nextTarget = 0;
+	m_maxTargets = 3;
 }
 Player::~Player()
 {
-	cout << "\nPlayer Destroying...";
+	Print << "\nPlayer Destroying...";
 }
 Camera& Player::getCamera()
 {
 	return m_camera;
 }
-b2Vec2 Player::getMouseInWorld()
+Vec2 Player::getMouseInWorld()
 {
 	return m_aim;
 }
@@ -75,19 +80,19 @@ void Player::setMouseWindowPos(const sf::Vector2f& rPos)
 /// </summary>
 void Player::setController(int index)
 {
-	game.getUniverse().getControllerFactory().unsetLocal();
-
 	m_controller = index;
-	Controller& rController2 = game.getUniverse().getControllerFactory().getController(m_controller);
-	rController2.toggleLocal(true);
 }
 /// <summary>
 /// Get's the state of keyboard and mouse at this exact moment.
 /// </summary>
 void Player::getLiveInput()
 {
-	Controller& rController = game.getUniverse().getControllerFactory().getController(m_controller);
+	Controller* cont = game.getUniverse().getControllerFactory().getController(m_controller);
+	if(cont == NULL)
+		return;
+	Controller& rController = *cont;
 
+	rController.toggleLocal(true);
 	//default to false
 	for(auto it = m_directives.begin(); it != m_directives.end(); ++it)
 		it->second = false;
@@ -96,59 +101,73 @@ void Player::getLiveInput()
 	{
 		/**== CAMERA ==**/
 		const float speed = 0.05f;
-		if(Keyboard::isKeyPressed(m_inCfg.cameraUp))
-			m_camera.move(b2Vec2(0, speed));
-		if(Keyboard::isKeyPressed(m_inCfg.cameraDown))
-			m_camera.move(b2Vec2(0, -speed));
-		if(Keyboard::isKeyPressed(m_inCfg.cameraLeft))
-			m_camera.move(b2Vec2(-speed, 0));
-		if(Keyboard::isKeyPressed(m_inCfg.cameraRight))
-			m_camera.move(b2Vec2(speed, 0));
+		if(sf::Keyboard::isKeyPressed(m_inCfg.cameraUp))
+			m_camera.move(Vec2(0, speed));
+		if(sf::Keyboard::isKeyPressed(m_inCfg.cameraDown))
+			m_camera.move(Vec2(0, -speed));
+		if(sf::Keyboard::isKeyPressed(m_inCfg.cameraLeft))
+			m_camera.move(Vec2(-speed, 0));
+		if(sf::Keyboard::isKeyPressed(m_inCfg.cameraRight))
+			m_camera.move(Vec2(speed, 0));
 
 
 		/**== KEYBOARD ==**/
-		if(Keyboard::isKeyPressed(m_inCfg.up))
+		if(sf::Keyboard::isKeyPressed(m_inCfg.up))
 			m_directives[Directive::Up] = true;
-		if(Keyboard::isKeyPressed(m_inCfg.down))
+		if(sf::Keyboard::isKeyPressed(m_inCfg.down))
 			m_directives[Directive::Down] = true;
-		if(Keyboard::isKeyPressed(m_inCfg.rollCCW))
+		if(sf::Keyboard::isKeyPressed(m_inCfg.rollCCW))
 			m_directives[Directive::RollCCW] = true;
-		if(Keyboard::isKeyPressed(m_inCfg.rollCW))
+		if(sf::Keyboard::isKeyPressed(m_inCfg.rollCW))
 			m_directives[Directive::RollCW] = true;
-		if(Keyboard::isKeyPressed(m_inCfg.boost))
+		if(sf::Keyboard::isKeyPressed(m_inCfg.boost))
 			m_directives[Directive::Boost] = true;
-		if(Keyboard::isKeyPressed(m_inCfg.stealth))
+		if(sf::Keyboard::isKeyPressed(m_inCfg.stealth))
 			m_directives[Directive::Stealth] = true;
-		if(Keyboard::isKeyPressed(m_inCfg.teleport))
+		if(sf::Keyboard::isKeyPressed(m_inCfg.teleport))
 			m_directives[Directive::Teleport] = true;
 
-		if(Keyboard::isKeyPressed(m_inCfg.shield))
+		if(sf::Keyboard::isKeyPressed(m_inCfg.shield))
 			m_directives[Directive::Shield] = true;
 
 		/**== SPECIAL ==**/
-		if(Keyboard::isKeyPressed(m_inCfg.store))
+		if(sf::Keyboard::isKeyPressed(m_inCfg.store))
+		{
 			m_directives[Directive::ShowStore] = true;
-		if(Keyboard::isKeyPressed(m_inCfg.respawn))
+			std::list<Team> l;
+			l.push_back(this->getTeam());
+			Chunk* ship = game.getUniverse().getNearestChunkOnTeam(m_aim, NULL, l);
+
+			ShipBuilder::Client::shipToGui(ship);
+		}
+		if(sf::Keyboard::isKeyPressed(m_inCfg.respawn))
 			m_directives[Directive::Respawn] = true;
 
 
 		/**== MOUSE ==**/
-		if(Mouse::isButtonPressed(m_inCfg.primary))
+		if(sf::Mouse::isButtonPressed(m_inCfg.primary))
 			m_directives[Directive::FirePrimary] = true;
-		if(Mouse::isButtonPressed(m_inCfg.secondary))
+		if(sf::Mouse::isButtonPressed(m_inCfg.secondary))
 			m_directives[Directive::FireSecondary] = true;
 
-		m_aim = leon::sfTob2(game.getWindow().mapPixelToCoords(Mouse::getPosition(game.getWindow()), m_camera.getView()));
+		m_aim = leon::sfTob2(game.getWindow().mapPixelToCoords(sf::Mouse::getPosition(game.getWindow()), m_camera.getView()));
 
 		/**== DEVELOPER ==**/
-		if(Keyboard::isKeyPressed(Keyboard::Numpad8))
-			cout << "\n(" << m_aim.x << ",\t" << m_aim.y << ")";
+		static Timer spawnTimer;
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad8))
+		{
+			if(spawnTimer.isTimeUp())
+			{
+				spawnTimer.setCountDown(0.1f);
+				spawnTimer.restartCountDown();
 
-		Controller& rController = game.getUniverse().getControllerFactory().getController(m_controller);
-
+				game.getUniverse().spawnParticles("LowSparks", m_aim, Vec2(0, 0), Vec2(0, 0));
+				game.getSound().playSound("default.wav", m_aim);
+			}
+		}
 	}
 
-	m_mouseWindowPos = game.getWindow().mapPixelToCoords(Mouse::getPosition(game.getWindow()), game.getStaticView());
+	m_mouseWindowPos = game.getWindow().mapPixelToCoords(sf::Mouse::getPosition(game.getWindow()), game.getStaticView());
 
 	CommandInfo commands;
 	commands.directives = m_directives;
@@ -157,13 +176,40 @@ void Player::getLiveInput()
 	rController.locallyUpdate(commands);
 	rController.setAim(m_aim);
 }
+void Player::selectTarget(const Vec2& targetNearPos, const Chunk* playersShip)
+{
+	wptr<Chunk> newTarget = game.getUniverse().getNearestChunkExcept(targetNearPos, playersShip);
+	if(auto target = newTarget.lock())
+	{
+		if(!hasTarget(target.get()))
+		{
+			m_targets.resize(m_maxTargets);
+			m_targets[m_nextTarget] = newTarget;
+		}
+		++m_nextTarget;
+		m_nextTarget = m_nextTarget % m_maxTargets;
+	}
+	else
+		WARNING;
+}
+bool Player::hasTarget(const Chunk* newTarget)
+{
+	for(auto it = m_targets.cbegin(); it != m_targets.cend(); ++it)
+		if(auto target = it->lock())
+			if(target.get() == newTarget)
+				return true;
+
+	return false;
+}
 /// <summary>
 /// Handle window events such as clicks and gui events.
 /// </summary>
 void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 {
 	sf::Event event;
-	Controller& rController = game.getUniverse().getControllerFactory().getController(m_controller);
+
+	Controller* cont = game.getUniverse().getControllerFactory().getController(m_controller);
+
 
 	while(rWindow.pollEvent(event))
 	{
@@ -182,16 +228,20 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 		/** CLOSE **/
 		if(event.type == sf::Event::Closed)
 			rWindow.close();
-		if(event.type == Event::KeyPressed)
+		if(event.type == sf::Event::KeyPressed)
 		{
 			/**== MAIN MENU ==**/
-			if(event.key.code == Keyboard::Escape)
+			if(event.key.code == sf::Keyboard::Escape)
 			{
 				Message menu("overlay", "toggleMenu", voidPacket, 0, false);
 				game.getCoreIO().recieve(menu);
 			}
+			if(event.key.code == m_inCfg.grabTarget)
+			{
+				this->selectTarget(m_aim, NULL);
+			}
 			/**== SCOREBOARD ==**/
-			if(event.key.code == Keyboard::Tab)
+			if(event.key.code == sf::Keyboard::Tab)
 			{
 				Message scoreboard("overlay", "toggleScoreboard", voidPacket, 0, false);
 				game.getCoreIO().recieve(scoreboard);
@@ -206,6 +256,10 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 			game.getOverlay().handleEvent(event);
 		else
 		{
+			if(cont == NULL)
+				return;
+			Controller& rController = *cont;
+
 			/**== ZOOM ==**/
 			if(event.type == sf::Event::MouseWheelMoved)
 			{
@@ -219,8 +273,8 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 			if(pBody != NULL)
 			{
 				float zoomValue = rController.get(Request::Zoom);
-				float x1 = game.getWindow().getSize().x; //getting the siz of x
-				float y1 = game.getWindow().getSize().y; //getting the size of y
+				float x1 = (float)game.getWindow().getSize().x; //getting the siz of x
+				float y1 = (float)game.getWindow().getSize().y; //getting the size of y
 				float area = 1920 * 1080; // setting a fixed resolution
 				float area1 = x1*y1;
 
@@ -232,7 +286,7 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 
 
 
-			if(event.type == Event::KeyPressed)
+			if(event.type == sf::Event::KeyPressed)
 			{
 				/**== Press Event ==**/
 				if(event.key.code == m_inCfg.cgroup_1)
@@ -246,11 +300,11 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 
 
 				/**== DEVELOPER OPTIONS ==**/
-				if(event.key.code == Keyboard::Numpad9)
+				if(event.key.code == sf::Keyboard::Numpad9)
 					game.getUniverse().toggleDebugDraw();
-				if(event.key.code == Keyboard::Numpad5)
+				if(event.key.code == sf::Keyboard::Numpad5)
 					m_tracking = !m_tracking;
-				if(event.key.code == Keyboard::Numpad0)
+				if(event.key.code == sf::Keyboard::Numpad0)
 					game.getUniverse().togglePause();
 			}
 		}
@@ -258,188 +312,271 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 }
 void Player::updateView()
 {
-	Controller& rController = game.getUniverse().getControllerFactory().getController(m_controller);
+	Controller* cont = game.getUniverse().getControllerFactory().getController(m_controller);
+	if(cont == NULL)
+		return;
+	Controller& rController = *cont;
+
 	b2Body* pBody = rController.getBodyPtr();
-	if(!m_inGuiMode && pBody != NULL)
+	if(pBody != NULL)
 	{
-		if(m_tracking)
-			m_camera.setPosition(pBody->GetPosition());
-
-		//Energy Bar
-		float val = rController.get(Request::Energy);
-		float maxVal = rController.get(Request::MaxEnergy);
-		if(maxVal <= 0.f)
+		Chunk* myShip = rController.getSlave();
+		if(myShip != NULL)
 		{
-			maxVal = 1.f;
-			val = 0.f;
-		}
-		m_energyMeterFill->setPercent(val / maxVal);
+			if(myShip->getStatusBoard().expired())
+				myShip->resetStatusBoard(m_myStatusBoard);
 
-		//Energy Warning
-		if(val / maxVal < 0.1f)
-			m_energyDanger->getAnimator().setAnimation("Default", 2.f);
-
-		//Out of Bounds
-		b2Vec2 location = pBody->GetPosition();
-		b2Vec2 bounds = game.getUniverse().getBounds();
-		if(abs(location.x) > bounds.x || abs(location.y) > bounds.y)//if out of bounds
-			m_boundsDanger->getAnimator().setAnimation("Default", 2.f);
-
-
-		//Score and Money
-		int score = rController.get(Request::Score);
-		static int oldScore = -1;
-		string scoreString = "Score: ";
-		string moneyString = "Money: " + to_string(getMoney());
-
-		if(score != oldScore)
-		{
-			oldScore = score;
-			scoreString += to_string(oldScore);
-
-			if(oldScore == 10)
+			if(myShip->getStatusBoard().lock())
 			{
-				// TODO this should not have a win condition
-				scoreString = "You Win";
-				game.getUniverse().togglePause();
+				//dout << "hi";
 			}
-
-			Packet scorePack;
-			scorePack << scoreString;
-			Message setScore("hud_score", "setText", scorePack, 0, false);
-			game.getCoreIO().recieve(setScore);
-		}
-		Packet moneyPack;
-		moneyPack << moneyString;
-		Message setMoney("hud_money", "setText", moneyPack, 0, false);
-		game.getCoreIO().recieve(setMoney);
-
-
-		//Radar TODO THIS ALL SHOULD BE IN THE MINIMAP CLASS
-		std::vector<sptr<GameObject> > goList = game.getUniverse().getgoList();
-		int index = 0;
-		float maxRange = 50.f;
-		float mapScale = -0.005f;
-		const static Vec2 miniMapCenter = m_minimap->getPosition();
-		m_radarsize = goList.size();
-		for(auto it = goList.begin(); it != goList.end(); ++it)
-		{
-			//Determine team.
-			GameObject* p = it->get();
-			Chunk* object = dynamic_cast<Chunk*>(p);
-			Team other_team = object->getBodyComponent().getTeam();
-			
-			sf::Color dotColor(sf::Color::Blue);
-
-			if(other_team == Team::Neutral)
-				dotColor = sf::Color::Blue;
-			else if(other_team == Team::Capturable)
-				dotColor = sf::Color(255, 140, 0);
-			else if(other_team == Team::Invalid)
-				dotColor = sf::Color::Magenta;
-			else if(other_team == this->getTeam())
-				dotColor = sf::Color::Green;
 			else
-				dotColor = sf::Color::Red;
-
-			if(object != NULL && !object->isStealth())
 			{
-				b2Vec2 dif = pBody->GetPosition() - object->getBodyPtr()->GetPosition();
-				float dist = dif.Length();
+				dout << FILELINE;
+			}
+		}
 
-				if(dist < maxRange)// TODO fix magic number horror
+		if(m_targets.size() > 0)
+		{
+
+		}
+
+
+		if(!m_inGuiMode)
+		{
+			if(m_tracking)
+				m_camera.setPosition(pBody->GetPosition());
+
+			//Energy Bar
+			float val = rController.get(Request::Energy);
+			float maxVal = rController.get(Request::MaxEnergy);
+			if(maxVal <= 0.f)
+			{
+				maxVal = 1.f;
+				val = 0.f;
+			}
+			m_energyMeterFill->setPercent(val / maxVal);
+
+			//Energy Warning
+			if(val / maxVal < 0.1f)
+				m_energyDanger->getAnimator().setAnimation("Default", 2.f);
+
+			//Shield State
+			bool isShieldOn = static_cast<bool>(rController.get(Request::ShieldState));
+			if(isShieldOn)
+				m_shieldState->getAnimator().setAnimation("On", 0.25f);
+			else
+				m_shieldState->getAnimator().setAnimation("Off", 0.25f);
+
+
+			//Out of Bounds
+			Vec2 location = pBody->GetPosition();
+			Vec2 bounds = game.getUniverse().getBounds();
+			if(abs(location.x) > bounds.x || abs(location.y) > bounds.y)//if out of bounds
+				m_boundsDanger->getAnimator().setAnimation("Default", 2.f);
+
+
+			//Score and Money
+			int score = (int)rController.get(Request::Score);
+			static int oldScore = -1;
+			String scoreString = "Score: ";
+			String moneyString = "Money: " + String(getMoney());
+
+			if(score != oldScore)
+			{
+				oldScore = score;
+				scoreString += String(oldScore);
+
+				if(oldScore == 10)
 				{
+					// TODO this should not have a win condition
+					scoreString = "You Win";
+					game.getUniverse().togglePause();
+				}
 
-					dif *= mapScale;
-					m_minimap->setDot(miniMapCenter + dif, index, dotColor);
-					index++;
+				sf::Packet scorePack;
+				scorePack << scoreString;
+				Message setScore("hud_score", "setText", scorePack, 0, false);
+				game.getCoreIO().recieve(setScore);
+			}
+			sf::Packet moneyPack;
+			moneyPack << moneyString;
+			Message setMoney("hud_money", "setText", moneyPack, 0, false);
+			game.getCoreIO().recieve(setMoney);
+
+
+			//m_targetReticules
+			int i = 0;
+			for(auto it = m_targets.begin(); it != m_targets.cend(); ++it, ++i)
+			{
+				if(auto target = it->lock())
+				{
+					m_targetReticules[i]->setPosition(target->getBodyComponent().getPosition());
+				}
+				else
+				{
 				}
 			}
+
+			//Radar TODO THIS ALL SHOULD BE IN THE MINIMAP CLASS
+			//List<sptr<GameObject> > goList = game.getUniverse().getgoList();
+			//int index = 0;
+			//float maxRange = 50.f;
+			//float mapScale = -0.005f;
+			//const static Vec2 miniMapCenter = m_minimap->getPosition();
+			//m_radarsize = goList.size();
+			//for(auto it = goList.begin(); it != goList.end(); ++it)
+			//{
+			//	//Determine team.
+			//	GameObject* p = it->get();
+			//	Chunk* object = dynamic_cast<Chunk*>(p);
+			//	Team other_team = object->getBodyComponent().getTeam();
+
+			//	sf::Color dotColor(sf::Color::Blue);
+
+			//	if(other_team == Team::Neutral)
+			//		dotColor = sf::Color::Blue;
+			//	else if(other_team == Team::Capturable)
+			//		dotColor = sf::Color(255, 140, 0);
+			//	else if(other_team == Team::Invalid)
+			//		dotColor = sf::Color::Magenta;
+			//	else if(other_team == this->getTeam())
+			//		dotColor = sf::Color::Green;
+			//	else
+			//		dotColor = sf::Color::Red;
+
+			//	if(object != NULL && !object->isStealth())
+			//	{
+			//		Vec2 dif = pBody->GetPosition() - object->getBodyPtr()->GetPosition();
+			//		float dist = dif.len();
+
+			//		if(dist < maxRange)// TODO fix magic number horror
+			//		{
+
+			//			dif *= mapScale;
+			//			m_minimap->setDot(miniMapCenter + dif, index, dotColor);
+			//			index++;
+			//		}
+			//	}
+			//}
+			//m_minimap->cleanMap(index);
 		}
-		m_minimap->cleanMap(index);
 	}
 }
 IOComponent& Player::getIOComp()
 {
 	return m_io;
 }
-QuadComponentData createUI(sf::Vector2f size, String displayName, sf::Vector2f center = sf::Vector2f())
+QuadComponentData createUI(sf::Vector2f size, String displayName)
 {
 	QuadComponentData data;
 	data.dimensions = size;
-	data.texName = displayName + ".png";
-	data.animSheetName = displayName + ".acfg";
+	data.texName = displayName;
 	data.layer = GraphicsLayer::OverlayBottom;
 
-	if(center != sf::Vector2f())
-		data.center = center;
+	data.setCenterTopLeft();
 
 	return data;
 }
-void Player::loadOverlay(const std::string& rOverlay)
+void Player::loadOverlay(const String& rOverlay)
 {
-	b2Vec2 emeterPos = b2Vec2(0.05f, -0.05f);
 	Vec2 winDim(leon::sfTob2((sf::Vector2f)game.getWindow().getSize()));
 
-	//Thing covering fill
-	LinearMeterData fillData;
-	fillData.dimensions = sf::Vector2f(30, 124);
-	fillData.layer = GraphicsLayer::OverlayMiddle;
-	fillData.center = sf::Vector2f(-fillData.dimensions.x / 2, fillData.dimensions.y / 2);
-	m_energyMeterFill.reset(new LinearMeter(fillData));
-	m_energyMeterFill->setPosition(emeterPos);
+	const sf::Vector2f topLeftStart = sf::Vector2f(16.f, 16.f);//Start of where the top left of the UI should be.
 
 	//Mini Map
-	MinimapData mapData;
-	float dims = 256;
-	mapData.animSheetName = "overlay/white.acfg";
-	mapData.texName = "overlay/white.png";
-	mapData.color = sf::Color(96, 96, 96, 32);
-	mapData.dimensions = sf::Vector2f(dims, dims);
-	mapData.layer = GraphicsLayer::OverlayMiddle;
-	m_minimap.reset(new Minimap(mapData));
-	m_minimap->setPosition(Vec2(winDim.x - (dims*0.5 / scale), winDim.y + (dims*0.5 / scale)));
-
+	{
+		MinimapData data;
+		float dims = 256.f;
+		data.texName = "overlay/white";
+		data.color = sf::Color(96, 96, 96, 32);
+		data.dimensions = sf::Vector2f(dims, dims);
+		data.setCenterTopLeft();
+		data.layer = GraphicsLayer::OverlayMiddle;
+		m_minimap.reset(new Minimap(data));
+		m_minimap->setGuiPosition(sf::Vector2f(winDim.x - dims, winDim.y + (dims)));
+	}
 	//Energy Bar
-	sf::Vector2f dimensions = sf::Vector2f(32, 128);
-	QuadComponentData data = createUI(dimensions, "overlay/meter", sf::Vector2f(-dimensions.x / 2, dimensions.y / 2));
-	m_energyMeter.reset(new QuadComponent(data));
-	m_energyMeter->setPosition(emeterPos);
+	{
+		sf::Vector2f energyPos = topLeftStart;
 
-	//Energy Warning
-	QuadComponentData datawarn = createUI(sf::Vector2f(86, 74), "overlay/warning_energy");
-	m_energyDanger.reset(new QuadComponent(datawarn));
-	m_energyDanger->setPosition(emeterPos + b2Vec2(0.05f, -0.4f));
+		QuadComponentData data = createUI(sf::Vector2f(32.f, 128.f), "overlay/meter");
+		m_energyMeter.reset(new QuadComponent(data));
+		m_energyMeter->setGuiPosition(energyPos);
 
+		//Thing covering fill
+		LinearMeterData linearData;
+		linearData.dimensions = sf::Vector2f(30.f, 124.f);
+		linearData.texName = "fill/white";
+		linearData.layer = GraphicsLayer::OverlayMiddle;
+		linearData.setCenterTopLeft();
+		m_energyMeterFill.reset(new LinearMeter(linearData));
+		m_energyMeterFill->setGuiPosition(energyPos);
+	}
+	//Energy Danger
+	{
+		QuadComponentData data = createUI(sf::Vector2f(86.f, 74.f), "overlay/warning_energy");
+		m_energyDanger.reset(new QuadComponent(data));
+		m_energyDanger->setGuiPosition(topLeftStart + sf::Vector2f(0.f, 150.f));
+	}
+	//Shield Display
+	{
+		QuadComponentData data = createUI(sf::Vector2f(64.f, 64.f), "overlay/shield");
+		m_shieldState.reset(new QuadComponent(data));
+		m_shieldState->setGuiPosition(topLeftStart + sf::Vector2f(64.f, 0.f));
+	}
 	//Out of Bounds Warning
-	QuadComponentData dataWarnBounds = createUI(sf::Vector2f(250, 73), "overlay/warning_bounds");
-	m_boundsDanger.reset(new QuadComponent(dataWarnBounds));
-	m_boundsDanger->setPosition(b2Vec2(1.35f, -0.3f));
-
-
-
+	{
+		QuadComponentData dataWarnBounds = createUI(sf::Vector2f(250.f, 73.f), "overlay/warning_bounds");
+		m_boundsDanger.reset(new QuadComponent(dataWarnBounds));
+		m_boundsDanger->setGuiPosition(sf::Vector2f(512.f, -256.f));
+	}
 	// Create a group icon for each possible group.
 	for(int group = 0; group < 4; ++group)
 	{
-		// Create one for each group.
-		QuadComponentData groupData = createUI(sf::Vector2f(100, 50), "overlay/control_group");
-
-		// Generate a new sptr to grouping icon.
-		sptr<QuadComponent> groupIcon;
-		groupIcon.reset(new QuadComponent(groupData));
-		groupIcon->setPosition(b2Vec2(1 + 0.2*group, 0) + emeterPos);
+		QuadComponentData groupData = createUI(sf::Vector2f(100.f, 50.f), "overlay/control_group");
+		sptr<QuadComponent> groupIcon(new QuadComponent(groupData));
+		groupIcon->setGuiPosition(topLeftStart + sf::Vector2f(256.f + 128.f*group, 0.f));
 
 		m_groupIcon.push_back(groupIcon);
 	}
+	// Target reticules.
+	{
+		createReticles();
+	}
+	// Status board
+	{
+		leon::GridData health;
+		m_myStatusBoard.reset(new leon::Grid(health));
 
+		m_myStatusBoard->m_background->setGuiPosition(sf::Vector2f(32, 512));
+		dout << m_myStatusBoard->getScreenPosition();
+	}
+}
+void Player::createReticles()
+{
+	m_targetReticules.resize(m_maxTargets);
+	for(int i = 0; i < m_maxTargets; ++i)
+	{
+		QuadComponentData quadData;
+		quadData.texName = "overlay/targetMarker";
+		quadData.dimensions = sf::Vector2f(2500, 2500);
+		quadData.layer = GraphicsLayer::ShipAppendagesUpper;
+		auto pQuad = sptr<QuadComponent>(new QuadComponent(quadData));
+
+		m_targetReticules[i] = pQuad;
+	}
 }
 void Player::universeDestroyed()
 {
 	m_energyMeter.reset();
+	m_shieldState.reset();
 	m_energyMeterFill.reset();
 	m_energyDanger.reset();
 	m_minimap.reset();
 	m_boundsDanger.reset();
+	m_targetReticules.clear();
+	m_myStatusBoard.reset();
 
 	// Clear, because otherwise, when we go 
 	// to add 4 more to it, the old null
@@ -460,7 +597,7 @@ bool Player::toggleControlGroup(int group, bool on)
 {
 	// HUD Icons.
 	int index = group - 1;
-	if(index < m_groupIcon.size())
+	if(index < (int)m_groupIcon.size())
 	{
 		if(on)
 			m_groupIcon[index]->getAnimator().setAnimation("On", 1);
@@ -474,7 +611,7 @@ bool Player::toggleControlGroup(int group)
 {
 	return toggleControlGroup(group, !m_weaponGroups[group]);
 }
-void Player::input(std::string rCommand, sf::Packet rData)
+void Player::input(String rCommand, sf::Packet rData)
 {
 	sf::Packet data(rData);
 	if(rCommand == "toggleGuiMode")

@@ -1,6 +1,4 @@
-#ifndef TIMER_H
-#define TIMER_H
-
+#pragma once
 
 /// \brief Timer for in game items, NOT FOR GUI.
 ///
@@ -14,24 +12,31 @@ public:
 	Timer(float time);
 	virtual ~Timer();
 
-	///Time elapsed as seconds since the universe was initialized.
+	/// <summary>
+	/// Time elapsed as seconds since the universe was initialized.
+	/// </summary>
 	float getTime() const;
-	///Get time elapsed since we last called this function on this instance, or our since our initialization.
+	/// <summary>
+	/// Get time elapsed since we last called this function on this instance, or our since our initialization.
+	/// </summary>
 	float getTimeElapsed();
 
-	///Has the timer expired?
+	/// <summary>
+	/// Has the timer expired?
+	/// </summary>
 	bool isTimeUp() const;
-	///Sets the countdown time. Defaults to 1 second.
+	/// <summary>
+	/// Sets the countdown time. Defaults to 1 second.
+	/// </summary>
 	void setCountDown(float countDown = 1.f);
-	///Sets the REMAINING countdown time to the countdown time.
+	/// <summary>
+	/// Sets the REMAINING countdown time to the countdown time.
+	/// </summary>
 	void restartCountDown();
 protected:
 private:
 	float m_lastElapsedTime;
 
 	float m_countDownTime;
-	mutable float m_lastCountDownTime;
-	mutable float m_countDownTimeRemain;
+	float m_timeUpTime;
 };
-
-#endif // TIMER_H

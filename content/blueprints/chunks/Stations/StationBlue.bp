@@ -7,7 +7,7 @@
 	"hullSpriteData": {
 		"dimensions": [5880, 10052],
 		"center": [0,0],
-		"texName": "core/blue_core.png",
+		"texName": "core/blue_core",
 		"animSheetName": "core/station.acfg",
 		"layer": "ShipUnder"
 	},

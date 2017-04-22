@@ -5,7 +5,6 @@
 #include "GraphicsComponentUpdater.hpp"
 #include "JSON.hpp"
 
-using namespace std;
 using namespace sf;
 
 void GraphicsComponentData::loadJson(const Json::Value& root)
@@ -14,12 +13,15 @@ void GraphicsComponentData::loadJson(const Json::Value& root)
 	GETJSON(permanentRot);
 	GETJSON(center);
 	GETJSON(texName);
-	GETJSON(animSheetName);
 	if(!root["layer"].isNull())
 		layer = ChooseLayer(root["layer"].asString());
 	GETJSON(color);
 }
-GraphicsComponent::GraphicsComponent(const GraphicsComponentData& rData) : m_rUpdater(game.getUniverse().getGfxUpdater()), m_animator(rData.animSheetName)
+void GraphicsComponentData::setCenterTopLeft()
+{
+	center = sf::Vector2f(-dimensions.x / 2, dimensions.y / 2);
+}
+GraphicsComponent::GraphicsComponent(const GraphicsComponentData& rData) : m_rUpdater(game.getUniverse().getGfxUpdater()), m_animator(rData.texName)
 {
 	m_calculatedSize = false;
 
@@ -49,9 +51,13 @@ float GraphicsComponent::getScale() const
 {
 	return m_scale;
 }
-void GraphicsComponent::setPosition(const b2Vec2& rWorldCoords)
+void GraphicsComponent::setPosition(const Vec2& rWorldCoords)
 {
 	coordinates = rWorldCoords;
+}
+void GraphicsComponent::setGuiPosition(const sf::Vector2f& rScreenCoordinates)
+{
+	coordinates = leon::sfTob2(rScreenCoordinates);
 }
 void GraphicsComponent::setRotation(float radCCW)
 {
@@ -76,9 +82,13 @@ Animator& GraphicsComponent::getAnimator()
 {
 	return m_animator;
 }
-const b2Vec2& GraphicsComponent::getPosition() const
+const Vec2& GraphicsComponent::getPosition() const
 {
 	return coordinates;
+}
+const sf::Vector2f GraphicsComponent::getGuiPosition() const
+{
+	return leon::b2Tosf<float>(coordinates);
 }
 float GraphicsComponent::getRotation() const
 {

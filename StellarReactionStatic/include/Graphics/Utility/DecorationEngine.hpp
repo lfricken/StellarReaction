@@ -3,8 +3,11 @@
 #include "stdafx.hpp"
 #include "Timer.hpp"
 
+
 class Camera;
 class Decoration;
+struct DecorationData;
+struct Particles;
 
 /// Manages Decorations, probably this code should just be in Universe.
 class DecorationEngine
@@ -21,10 +24,17 @@ public:
 	/// local player, which can only happen after a certain point.
 	/// So we call this after the player is created.
 	void initSpawns(const Vec2& cameraPos, const Vec2& maxHalf);
-
+	/// Creates particle effects.
+	void spawnParticles(const String& particleBP, const Vec2& pos, const Vec2& dir, const Vec2& transverse);
 private:
+	void spawnParticle(DecorationData decorData, const Particles& effect, const Vec2& dir, const Vec2& transverse, float time, int i);
+
 	/// List of all decorations.
-	vector<sptr<Decoration> > m_decorations;
+	List<sptr<Decoration> > m_decorations;
+	/// List of particles <fade time, expire time> that haven't started to fade.
+	Map<Pair<float,float>, sptr<Decoration> > m_fullParticles;
+	/// List of particles <expire time> that have started to fade.
+	Map<float, sptr<Decoration> > m_fadingParticles;
 	/// Used to determine how much time has passed.
 	Timer m_deltaTime;
 };

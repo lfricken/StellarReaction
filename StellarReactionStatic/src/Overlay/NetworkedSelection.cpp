@@ -1,7 +1,7 @@
 #include "NetworkedSelection.hpp"
 
 using namespace leon;
-using namespace std;
+
 
 NetworkedSelection::NetworkedSelection(tgui::Gui& gui, const NetworkedSelectionData& rData) : Panel(gui, rData)
 {
@@ -19,6 +19,9 @@ NetworkedSelection::~NetworkedSelection()
 }
 void NetworkedSelection::f_initialize(NetworkedSelectionData& rData, void* container, bool isContainer)
 {
+	/// <summary>
+	/// for each item, set the command on that button to execute the command, and send the rData.command
+	/// </summary>
 	m_command = rData.command;
 	int i = 0;
 	sf::Vector2f offset(0,0);

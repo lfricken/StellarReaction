@@ -18,15 +18,15 @@ public:
 	///Have all controllers send their commands to their targets.
 	void processAllDirectives();
 	///Creates a new controller with a specified target.
-	void addController(const std::string& target);
+	void addController(const String& target);
 	///Delete current controllers, and make a new set of controllers with these targets.
-	void resetControllers(const std::vector<std::string>& targets);
+	void resetControllers(const List<String>& targets);
 	///How many controllers are there?
 	int getSize();
 	///Set all controllers to be not local.
-	void unsetLocal();
+	void setAllNonLocallyControlled();
 	///Return a particular controller, given it's index.
-	Controller& getController(int index);
+	Controller* getController(int index);
 	///Return reference to the network factory for these controllers.
 	NetworkFactory& getNWFactory();
 	///Network factory for these controllers.
@@ -34,11 +34,12 @@ public:
 	//must come before the controllers so that everything is destroyed 
 	//in the right order, otherwise m_spControlList controllers Network Components cause a crash
 
-	std::vector<sptr<Controller> > m_spControlList;//list of all controllers
+
 
 
 protected:
 private:
+	List<sptr<Controller> > m_spControlList;//list of all controllers
 	///If we need to return a reference to a controller, but none exist, we give this one.
 	sptr<Controller> m_spBackupController;
 };

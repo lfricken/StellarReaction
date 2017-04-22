@@ -11,6 +11,7 @@
 #include "JSON.hpp"
 #include "CommandInfo.hpp"
 #include "NonCopyable.hpp"
+#include "Debugging.hpp"
 
 struct ModuleData;
 
@@ -28,15 +29,15 @@ public:
 	///Send a command to a target.
 	virtual void directive(const CommandInfo& commands);
 	///Set coordinates for current aim.
-	virtual void setAim(const b2Vec2& rTarget);
+	virtual void setAim(const Vec2& rTarget);
 	/// What store is the module intersecting?
-	const std::string& getStore() const;
+	const String& getStore() const;
 	///Get offset from center of fixture component.
-	const b2Vec2& getOffset() const;
+	const Vec2& getOffset() const;
 	///Get title of module.
-	const std::string& getTitle() const;
+	const String& getTitle() const;
 	///Get name of module.
-	const std::string& getName() const;
+	const String& getName() const;
 	///Set stealth to on or off.
 	virtual void toggleStealth(bool toggle);
 	///Heal to full health.
@@ -45,7 +46,7 @@ public:
 	const FixtureComponent& getFixtureComponent();
 
 protected:
-	virtual void input(std::string rCommand, sf::Packet rData);
+	virtual void input(String rCommand, sf::Packet rData);
 	virtual void pack(sf::Packet& rPacket);
 	virtual void unpack(sf::Packet& rPacket);
 	virtual void startContactCB(FixtureComponent* pOther);
@@ -61,8 +62,8 @@ protected:
 
 	Timer m_stealthTimer; //timer used to turn stealth mode off;
 
-	std::string m_title;//how the game refers to it
-	std::string m_name;//what gets displayed to player
+	String m_title;//how the game refers to it
+	String m_name;//what gets displayed to player
 	Chunk* m_parentChunk;
 	int m_collisionDamage;
 private:
@@ -84,7 +85,7 @@ struct ModuleData : public BlueprintData
 	}
 
 	Chunk* chunkParent;
-	std::string name;//what gets displayed to player
+	String name;//what gets displayed to player
 	Money cost;//how much does this cost?
 	int collisionDamage;//how much damage we apply to someone who collides with us
 
@@ -92,6 +93,7 @@ struct ModuleData : public BlueprintData
 	NetworkComponentData nwComp;
 	FixtureComponentData fixComp;
 	PoolCollection pools;
+
 
 	///Create Module object from this data object.
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
@@ -108,4 +110,10 @@ struct ModuleData : public BlueprintData
 	virtual void loadJson(const Json::Value& root);
 
 	MyType(ModuleData, ModuleData);
+
+protected:
+	virtual void inherit(const ModuleData& parent)
+	{
+		*this = parent;
+	}
 };

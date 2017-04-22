@@ -1,15 +1,12 @@
 #include "Animator.hpp"
-
 #include "Globals.hpp"
 #include "AnimAlloc.hpp"
-
+#include "Debugging.hpp"
 #include "Animation.hpp"
 
-using namespace std;
 
-
-const std::string Animator::m_errorTiles = "Error";
-Animator::Animator(const std::string& setAnimationSheet)
+const String Animator::m_errorTiles = "Error";
+Animator::Animator(const String& setAnimationSheet)
 {
 	m_pSet = game.getAnimAlloc().request(setAnimationSheet);
 	m_startTime = m_timer.getTime();
@@ -21,7 +18,7 @@ Animator::~Animator()
 {
 
 }
-void Animator::setAnimation(const std::string& animationName, float duration)
+void Animator::setAnimation(const String& animationName, float duration)
 {
 	m_currentTileIndex = 0;
 	m_currentDuration = duration;
@@ -34,7 +31,7 @@ void Animator::setAnimation(const std::string& animationName, float duration)
 		auto it = m_pSet->animations.find(m_errorTiles);// Failed to find our animation.
 
 		if(it == m_pSet->animations.end())
-			cout << "\n" << FILELINE;// Failed to find error animation!
+			Print << "\n" << FILELINE;// Failed to find error animation!
 		else
 			m_pAnim = &(it->second);
 	}
@@ -45,7 +42,7 @@ sf::Vector2i Animator::getTile()//what texture tile should we be on? 0,0, 1,0 ec
 {
 	float elapsed = m_timer.getTime() - m_startTime;
 	float percent = elapsed / m_currentDuration;
-	const std::vector<std::pair<sf::Vector2i, float> >& tiles = m_pAnim->tileSet;
+	const List<std::pair<sf::Vector2i, float> >& tiles = m_pAnim->tileSet;
 
 	if(percent >= 1.f)// We are done with this animation.
 	{ 

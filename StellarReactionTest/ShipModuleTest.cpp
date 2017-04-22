@@ -9,7 +9,6 @@
 #include "Weapon.hpp"
 #include <stdio.h>
 
-using namespace std;
 
 extern Game game;
 
@@ -23,7 +22,7 @@ TEST(ShipModuleTest, FriendlyFire)
 	testShip->getBodyComponent().setTeam(1);
 	game.getUniverse().add(testShip);
 
-	vector<sptr<Module> > modules = testShip->getModuleList();
+	List<sptr<Module> > modules = testShip->getModuleList();
 	ShipModule* module = dynamic_cast<ShipModule*>(modules[0].get());
 	int initialHealth = module->getHealth().getHealth();
 	int modulePos = module->getFixtureComponent().getIOPos();

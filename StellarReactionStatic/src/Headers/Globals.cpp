@@ -1,8 +1,8 @@
 #include "Globals.hpp"
 
-const std::string& contentDir()
+const String& contentDir()
 {
-	static const std::string dir("../content/");
+	static const String dir("../content/");
 	return dir;
 }
 

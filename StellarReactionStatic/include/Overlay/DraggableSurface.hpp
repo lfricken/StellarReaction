@@ -11,12 +11,15 @@ namespace leon
 	struct DraggableSurfaceData : public PanelData
 	{
 		DraggableSurfaceData() :
-			PanelData()
+			PanelData(),
+			gridOffset(3, 3)
 		{
 
 		}
-
-		sf::Vector2f gridSize;//how many pixels should represent 1 offset, note that this controls how much can fit on screen
+		/// <summary>
+		/// 
+		/// </summary>
+		sf::Vector2i gridOffset;
 	};
 	
 	/// A Panel specialized to for the Draggable.
@@ -28,27 +31,38 @@ namespace leon
 		~DraggableSurface();
 
 		/// Which coordinates should the Draggable objects be considered. Has no effect at the moment.
-		void setCountedCoordinates(const std::vector<sf::Vector2f>& rCoords);
+		void setCountedCoordinates(const List<sf::Vector2i>& rCoords);
 		/// Add a draggable object.
 		void addDraggable(const DraggableData& rData);
 
+		void addModuleToEditor(const String& title, sf::Vector2i shipModulePos);
+
 		// Currently commented out for unknown reason.
-		//std::vector<std::pair<std::string, sf::Vector2f> > getValidPositions() const;
+		//List<std::pair<String, sf::Vector2f> > getValidPositions() const;
 
 		/// Get a list of the Draggable data, as well as their positions.
-		std::vector<std::pair<std::string, sf::Vector2f> > getElementPositions() const;
+		List<Pair<String, sf::Vector2i> > getElementGridPositions() const;
+		/// <summary>
+		/// Gets the adjusted positions and names of the elements.
+		/// </summary>
+		List<Pair<String, sf::Vector2i> > getRealPositions() const;
+		void setRealPositions(const List<Pair<String, sf::Vector2i> >& pos);
 		/// Returns true whether we have a Draggable at the specified grid position. Used by Draggable::trySetPosition
-		bool hasOneAt(const sf::Vector2f& gridPos) const;
+		bool hasOneAt(const sf::Vector2i& gridPos) const;
 
+		sf::Vector2i toWorldCoords(const sf::Vector2i& gridCoord) const;
+		sf::Vector2i fromWorldCoords(const sf::Vector2i& worldCoord) const;
 
 	protected:
 		/**events HOOKS**/
-		virtual bool inputHook(const std::string rCommand, sf::Packet rData);
+		virtual bool inputHook(const String rCommand, sf::Packet rData);
 
 	private:
 		void f_initialize(const DraggableSurfaceData& data);
+		int m_targetShip;
 
-		sf::Vector2f m_gridSize;
-		std::vector<sf::Vector2f> m_validCoords;//the list of acceptable coordinates
+		/// Size in pixels of one grid slot.
+		sf::Vector2i m_gridOffset;
+		List<sf::Vector2i> m_validGridCoords;//the list of acceptable coordinates
 	};
 }

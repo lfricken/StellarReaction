@@ -15,8 +15,8 @@ enum class Category
 
 	All = 0xFFFF,
 };
-///Converts Category string into enum class.
-Category ChooseCategory(const std::string& rChoice);
+///Converts Category String into enum class.
+Category ChooseCategory(const String& rChoice);
 ///Bitwise OR between integer and category.
 inline int operator |(int a, Category b)
 {
@@ -41,11 +41,11 @@ enum class Mask
 	Projectile = static_cast<int>(Category::ShipModule) | static_cast<int>(Category::ShipForceField),
 	ShipModule = static_cast<int>(Category::Projectile) | static_cast<int>(Category::Trigger) | static_cast<int>(Category::ShipModule) | static_cast<int>(Category::ShipModuleBroke),
 	ShipForceField = static_cast<int>(Category::Projectile),
-	Trigger = static_cast<int>(Category::All),
+	Trigger = static_cast<int>(Category::ShipModule),
 
-	Laser = static_cast<int>(Category::ShipModule),
+	Laser = static_cast<int>(Category::ShipModule) | static_cast<int>(Category::ShipForceField),
 
 	All = static_cast<int>(Category::All),
 };
-///Converts Mask string into enum class.
-Mask ChooseMask(const std::string& rChoice);
+///Converts Mask String into enum class.
+Mask ChooseMask(const String& rChoice);

@@ -1,6 +1,6 @@
 #include "BlackHoleGraphic.hpp"
 
-using namespace std;
+
 
 void BlackHoleGraphicData::loadJson(const Json::Value& root)
 {
@@ -16,7 +16,7 @@ BlackHoleGraphic::BlackHoleGraphic(const BlackHoleGraphicData& rData) : Module(r
 	m_decors.push_back(sptr<GraphicsComponent>(new Spinner(rData.innerDecor)));
 	m_decors.push_back(sptr<GraphicsComponent>(new Spinner(rData.middleDecor)));
 	m_decors.push_back(sptr<GraphicsComponent>(new Spinner(rData.outerDecor)));
-	b2Vec2 parentPos = m_parentChunk->getBodyPtr()->GetPosition();
+	Vec2 parentPos = m_parentChunk->getBodyPtr()->GetPosition();
 	m_decors[0]->setPosition(parentPos);
 	m_decors[1]->setPosition(parentPos);
 	m_decors[2]->setPosition(parentPos);

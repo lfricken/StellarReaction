@@ -16,17 +16,22 @@ struct BodyComponentData
 		isDynamic(true),
 		isBullet(false),
 		startAwake(true),
+		syncedNetwork(true),
 		linearDampening(1.5),
 		angularDampening(1.5),
 		nwComp()
 	{
 
 	}
-	b2Vec2 coords;
+	Vec2 coords;
+	/// <summary>
+	/// Rotation in Degrees CCW
+	/// </summary>
 	float rotation;
 	bool isDynamic;
 	bool isBullet;
 	bool startAwake;
+	bool syncedNetwork;
 	float linearDampening;
 	float angularDampening;
 	NetworkComponentData nwComp;
@@ -43,7 +48,7 @@ public:
 	BodyComponent(const BodyComponentData& rData);
 	virtual ~BodyComponent();
 	///Returns the position of the body in world coordinates.
-	const b2Vec2& getPosition() const;
+	const Vec2 getPosition() const;
 	///Returns a pointer to the Box2D body object.
 	b2Body* getBodyPtr();
 	///Returns a reference to the network component of the body.
@@ -55,7 +60,7 @@ public:
 	///Wakes the body from sleep.
 	void wake();
 	///Wake the body with a given position and velocity.
-	void wake(const b2Vec2& rCoords, float radiansCCW, const b2Vec2& rVel, float angularVel);
+	void wake(const Vec2& rCoords, float radiansCCW, const Vec2& rVel, float angularVel);
 	///Sets the team of the Ship this body represents.
 	void setTeam(Team team);
 	///Returns the team of the Ship this body represents.
@@ -66,11 +71,11 @@ protected:
 	virtual void unpack(sf::Packet& rPacket);
 
 private:
-	NetworkComponent m_nw;
+	sptr<NetworkComponent> m_nw;
 	b2Body* m_pBody;
 	b2BodyDef m_bodyDef;
 
-	b2Vec2 m_oldPos;//used for sleep
+	Vec2 m_oldPos;//used for sleep
 	float m_oldAngle;//used for sleep
 
 	Team m_team;

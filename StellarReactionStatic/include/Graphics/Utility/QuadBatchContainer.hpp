@@ -37,14 +37,14 @@ public:
 	virtual ~QuadBatchContainer();
 
 	/// Returns 4 vertices for a a particular texture.
-	QuadData request(const std::string& rTexName);
+	QuadData request(const String& rTexName);
 	/// Draws all the vertices with their textures.
 	void draw(sf::RenderTarget& rTarget, sf::RenderStates states) const;
 
 protected:
 private:
 	/// Map of texture names to vertex lists and texture (Batch).
-	std::map<std::string, sptr<Batch> > m_vertexLists;
+	std::map<String, sptr<Batch> > m_vertexLists;
 
 };
 

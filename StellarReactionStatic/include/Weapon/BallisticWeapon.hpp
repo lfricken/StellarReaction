@@ -11,14 +11,14 @@ public:
 	BallisticWeapon(const BallisticWeaponData& rData);
 	virtual ~BallisticWeapon();
 	///Actions to be processed before a shot is taken.
-	void preShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation);
+	void preShot(const Vec2& center, const Vec2& aim, float radCCW, float module_orientation);
 	///Actions to be processed after a shot is taken.
-	void postShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation);
+	void postShot(const Vec2& center, const Vec2& aim, float radCCW, float module_orientation);
 protected:
 
 	float m_projLifetime;
 	///Blueprint name of the projetile
-	std::string m_projName;
+	String m_projName;
 	///Velocity of the projectile
 	float m_velocity;
 private:
@@ -32,8 +32,7 @@ struct BallisticWeaponData : public WeaponData
 		velocity(50),
 		projName("DefaultProjectile")
 	{
-		weaponQuad.animSheetName = "weapons/BallisticWeapon.acfg";
-		weaponQuad.texName = "weapons/BallisticWeapon.png";
+		weaponQuad.texName = "weapons/BallisticWeapon";
 		energyConsumption = 1;///TODO SHOULD BE CONSUMING BALLISTIC ONLY, THIS IS JUST FOR TESTING
 		ballisticConsumption = 0;
 		missileConsumption = 0;
@@ -46,7 +45,7 @@ struct BallisticWeaponData : public WeaponData
 	}
 
 	///the Blueprint name of the projectile we fire, to be passed to projectileMan
-	std::string projName;
+	String projName;
 	///m/s (blocks per second)
 	float velocity;
 	///rotation rate of the projectile Radians CCW per second

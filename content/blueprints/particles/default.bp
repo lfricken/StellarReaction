@@ -1,0 +1,16 @@
+{
+    "ClassName": "Particles",
+	"number": 30,
+	"duration": 0.2,
+	"fadeTime": 0.4,
+	"velocity": 12,
+	"randVelScalarMax": 2,
+	"randArc": 18,
+	"minSpinRate": 0,
+	"maxSpinRate": 0,
+	"quadData": {
+		"texName": "effects/spark",
+		"animSheetName": "effects/spark.acfg",
+		"dimensions": [64, 64]
+	}
+}

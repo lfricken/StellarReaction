@@ -18,22 +18,22 @@ public:
 	virtual void postPhysUpdate();
 	///Send commands to a target.
 	void directive(const CommandInfo& commands);
-	///Call to start respawn process on this ship.
-	void startRespawn();
 	///Call to respawn this ship.
 	void respawn();
+	/// <summary>
+	/// Called when a ship dies.
+	/// </summary>
+	void triggerDeathSequence();
 protected:
-	//Heals modules to max hp.
-	void healModules();
 
 private:
 
-	///Energy per second.
+	/// <summary>
+	/// Energy gained per second.
+	/// </summary>
 	Energy m_rate;
-	///Tracks respawn time.
-	Timer m_respawnTimer;
-	///Whether or not the ship has respawned.
-	bool m_waitingToRespawn;
+
+	Timer m_timer;
 };
 
 /// Bueprint for Reactor.
@@ -41,16 +41,13 @@ struct ReactorData : public ShipModuleData
 {
 	ReactorData() :
 		ShipModuleData(),
-		rate(5),// J/s
-		respawnTime(3)
+		rate(5)// KJ/s
 	{
-		baseDecor.texName = "reactor/reactor_base.png";
-		baseDecor.animSheetName = "reactor/reactor_base.acfg";
+		baseDecor.texName = "reactor/reactor_base";
 	}
 
-	// J/s
+	// KJ/s
 	Energy rate;
-	float respawnTime;
 
 	///Create Reactor object from this data object.
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const

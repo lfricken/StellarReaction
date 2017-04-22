@@ -26,17 +26,17 @@ void GravityField::prePhysUpdate()
 		b2Body* pBody = (**it).getBodyPtr();
 		float bodyMass = pBody->GetMass();
 
-		b2Vec2 targetPos = pBody->GetPosition();
-		b2Vec2 myPos = m_fix.getCenter();
-		b2Vec2 direction = myPos - targetPos;
+		Vec2 targetPos = pBody->GetPosition();
+		Vec2 myPos = m_fix.getCenter();
+		Vec2 direction = myPos - targetPos;
 
-		float radiusFraction = 1 - (direction.Length() / m_radius);
+		float radiusFraction = 1 - (direction.len() / m_radius);
 
 		float force = radiusFraction * m_maxForce;
 		if(force < m_minForce)
 			force = m_minForce;
 
-		direction.Normalize();
+		direction = direction.unit();
 		direction.x *= force*bodyMass;
 		direction.y *= force*bodyMass;
 		pBody->ApplyForceToCenter(direction, true);

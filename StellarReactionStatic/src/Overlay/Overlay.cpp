@@ -11,9 +11,10 @@
 #include "Draggable.hpp"
 #include "DraggableSurface.hpp"
 #include "Chunk.hpp"
-#include <string>
+#include "Debugging.hpp"
+#include "Grid.hpp"
 
-using namespace std;
+
 using namespace leon;
 
 Overlay::Overlay(const IOComponentData& rData) : m_gui(game.getWindow()), m_io(rData, &Overlay::input, this)
@@ -25,7 +26,7 @@ Overlay::Overlay(const IOComponentData& rData) : m_gui(game.getWindow()), m_io(r
 }
 Overlay::~Overlay()
 {
-	cout << "\nOverlay Destroying...";
+	Print << "\nOverlay Destroying...";
 }
 void Overlay::addPanel(sptr<leon::Panel> spPanel)
 {
@@ -55,13 +56,13 @@ void Overlay::loadMenus()
 
 	leon::PanelData mainMenuData;
 	mainMenuData.ioComp.name = "main_menu";
-	mainMenuData.backgroundTex = "core/screen_1.png";
+	mainMenuData.backgroundTex = "core/screen_1";
 	mainMenuData.screenCoords = sf::Vector2f(0, 0);
 	mainMenuData.size = sf::Vector2f(1920, 1080);
 	leon::Panel* pMain_menu = new leon::Panel(game.getOverlay().getGui(), mainMenuData);
 	/**====TITLE====**/
 	leon::PictureData pictureData;
-	pictureData.texName = "core/main_menu_logo.png";
+	pictureData.texName = "core/main_menu_logo";
 	pictureData.screenCoords = sf::Vector2f(20, 20);
 	pictureData.size = sf::Vector2f(847, 104);
 	leon::WidgetBase* picture = new leon::Picture(*pMain_menu->getPanelPtr(), pictureData);
@@ -254,36 +255,39 @@ void Overlay::loadMenus()
 	select.startHidden = false;
 	select.ioComp.name = "lobby_shipSelect";
 
-	leon::SelectableItemData data1;
-	//data1.texName = "menu/red_menu.png";
-	data1.texName = "menu/Red_menu_button.png";
+	leon::SelectableItemData item;
+	//data1.texName = "menu/red_menu";
+	item.texName = "menu/Red_menu_button";
 	leon::LabelData label1;
-	data1.labelData.push_back(label1);
+	item.labelData.push_back(label1);
 
+	/// <summary>
+	/// Action when a networked item is selected.
+	/// </summary>
 	Courier buttonClick;
 	buttonClick.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
-	buttonClick.message.reset("networkboss", "sendTcpToHost", voidPacket, 0, false);
-	data1.buttData.ioComp.courierList.push_back(buttonClick);
-	data1.labelData.back().textSize = 16;
+	buttonClick.message.reset("networkboss", "Protocol::PlayerOption", voidPacket, 0, false);//selecting ship
+	item.buttData.ioComp.courierList.push_back(buttonClick);
+	item.labelData.back().textSize = 16;
 
 
 	select.command = "setShip";
 
-	data1.labelData.back().text = "Anubis";
-	data1.id = "Anubis";
-	select.items.push_back(data1);
+	item.labelData.back().text = "Anubis";
+	item.id = "Anubis";
+	select.items.push_back(item);
 
-	data1.labelData.back().text = "Caterina";
-	data1.id = "Caterina";
-	select.items.push_back(data1);
+	item.labelData.back().text = "Caterina";
+	item.id = "Caterina";
+	select.items.push_back(item);
 
-	data1.labelData.back().text = "Caterina";
-	data1.id = "Caterina";
-	select.items.push_back(data1);
+	item.labelData.back().text = "Caterina";
+	item.id = "Caterina";
+	select.items.push_back(item);
 
-	data1.labelData.back().text = "Dante";
-	data1.id = "Dante";
-	select.items.push_back(data1);
+	item.labelData.back().text = "Dante";
+	item.id = "Dante";
+	select.items.push_back(item);
 
 	pLobby->add(sptr<leon::WidgetBase>(new leon::NetworkedSelection(*pLobby->getPanelPtr(), select)));
 
@@ -306,29 +310,29 @@ void Overlay::loadMenus()
 
 	Courier mes;
 	mes.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
-	mes.message.reset("networkboss", "sendTcpToHost", voidPacket, 0, false);
+	mes.message.reset("networkboss", "Protocol::PlayerOption", voidPacket, 0, false);
 	data.buttData.ioComp.courierList.push_back(mes);
 	selectTeam.command = "setTeam";
 
 	data.labelData.back().text = "Team 1";
 	data.id = "1";
-	//data.texName = "menu/blue_menu.png";
-	data.texName = "menu/Blue_menu_button.png";
+	//data.texName = "menu/blue_menu";
+	data.texName = "menu/Blue_menu_button";
 	selectTeam.items.push_back(data);
 	data.labelData.back().text = "Team 2";
 	data.id = "2";
-	//data.texName = "menu/green_menu.png";
-	data.texName = "menu/Green_menu_button.png";
+	//data.texName = "menu/green_menu";
+	data.texName = "menu/Green_menu_button";
 	selectTeam.items.push_back(data);
 	data.labelData.back().text = "Team 3";
 	data.id = "3";
-	//data.texName = "menu/yellow_menu.png";
-	data.texName = "menu/Orange_menu_button.png";
+	//data.texName = "menu/yellow_menu";
+	data.texName = "menu/Orange_menu_button";
 	selectTeam.items.push_back(data);
 	data.labelData.back().text = "Team 4";
 	data.id = "4";
-	//data.texName = "menu/pink_menu.png";
-	data.texName = "menu/Purple_menu_button.png";
+	//data.texName = "menu/pink_menu";
+	data.texName = "menu/Purple_menu_button";
 	selectTeam.items.push_back(data);
 
 	pLobby->add(sptr<leon::WidgetBase>(new leon::NetworkedSelection(*pLobby->getPanelPtr(), selectTeam)));
@@ -346,63 +350,85 @@ void Overlay::loadMenus()
 	storePanelData.screenCoords = sf::Vector2f(game.getWindow().getSize().x / 2 - storePanelSize.x / 2, game.getWindow().getSize().y / 2 - storePanelSize.y / 2);
 	storePanelData.size = sf::Vector2f(storePanelSize.x, storePanelSize.y);
 	leon::Panel* pStore = new leon::Panel(game.getOverlay().getGui(), storePanelData);
-	/**STORE**/
-	leon::NetworkedSelectionData store;
-	store.size = sf::Vector2f(200, 400);
-	store.itemSize = sf::Vector2f(200, 40);
-	store.screenCoords = sf::Vector2f(0, 0);
-	store.backgroundColor = sf::Color(50, 50, 50, 128);
-	store.startHidden = false;
-	store.ioComp.name = "";
-	leon::SelectableItemData data2;
-	data2.texName = "menu/default_menu.png";
-	leon::LabelData buyLabel;
-	data2.labelData.push_back(buyLabel);
+	///**STORE**/
+	//leon::NetworkedSelectionData store;
+	//store.size = sf::Vector2f(200, 400);
+	//store.itemSize = sf::Vector2f(200, 40);
+	//store.screenCoords = sf::Vector2f(0, 0);
+	//store.backgroundColor = sf::Color(50, 50, 50, 128);
+	//store.startHidden = false;
+	//store.ioComp.name = "";
+	//leon::SelectableItemData data2;
+	//data2.texName = "menu/default_menu";
+	//leon::LabelData buyLabel;
+	//data2.labelData.push_back(buyLabel);
 
-	Courier storeBuy;
-	storeBuy.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
-	storeBuy.message.reset("networkboss", "sendTcpToHost", voidPacket, 0, false);
-	data2.buttData.ioComp.courierList.push_back(storeBuy);
-	data2.labelData.back().textSize = 16;
+	//Courier storeBuy;
+	//storeBuy.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
+	//storeBuy.message.reset("ship_editor", "addModuleToGui", voidPacket, 0, false);
+	//data2.buttData.ioComp.courierList.push_back(storeBuy);
+	//data2.labelData.back().textSize = 16;
 
 
-	store.command = "buyModule";
+	//store.command = "buyModule";
 
-	data2.labelData.back().text = "70mm Autoturret";
-	data2.id = "BallisticTurret";
-	store.items.push_back(data2);
+	//data2.labelData.back().text = "70mm Autoturret";
+	//data2.id = "BallisticTurret";
+	//store.items.push_back(data2);
 
-	data2.labelData.back().text = "Razor 2.5GW Pulse";
-	data2.id = "LaserTurret";
-	store.items.push_back(data2);
+	//data2.labelData.back().text = "Razor 2.5GW Pulse";
+	//data2.id = "LaserTurret";
+	//store.items.push_back(data2);
 
-	data2.labelData.back().text = "Homing Missile";
-	data2.id = "MissileTurret";
-	store.items.push_back(data2);
+	//data2.labelData.back().text = "Homing Missile";
+	//data2.id = "MissileTurret";
+	//store.items.push_back(data2);
 
-	data2.labelData.back().text = "Titanium Alloy Plate";
-	data2.id = "Plating";
-	store.items.push_back(data2);
+	//data2.labelData.back().text = "Titanium Alloy Plate";
+	//data2.id = "Plating";
+	//store.items.push_back(data2);
 
-	data2.labelData.back().text = "100Gigajoule Capacitor";
-	data2.id = "Capacitor";
-	store.items.push_back(data2);
+	//data2.labelData.back().text = "100Gigajoule Capacitor";
+	//data2.id = "Capacitor";
+	//store.items.push_back(data2);
 
-	data2.labelData.back().text = "Maxus L2 Engine";
-	data2.id = "Thruster";
-	store.items.push_back(data2);
+	//data2.labelData.back().text = "Maxus L2 Engine";
+	//data2.id = "Thruster";
+	//store.items.push_back(data2);
 
-	data2.labelData.back().text = "Omni Sensor Array";
-	data2.id = "Radar";
-	store.items.push_back(data2);
+	//data2.labelData.back().text = "Omni Sensor Array";
+	//data2.id = "Radar";
+	//store.items.push_back(data2);
 
-	pStore->add(sptr<leon::WidgetBase>(new leon::NetworkedSelection(*pStore->getPanelPtr(), store)));
+	//pStore->add(sptr<leon::WidgetBase>(new leon::NetworkedSelection(*pStore->getPanelPtr(), store)));
+
+	/**Close Store**/
+	leon::ButtonData buy1;
+	buy1.ioComp.name = "buy1";
+	buy1.screenCoords = sf::Vector2f(0, 0);
+	buy1.size = sf::Vector2f(200, 40);
+	buy1.buttonText = "buy thing";
+	buy1.startHidden = false;
+	//Courier closeMes;
+	//closeMes.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
+	//closeMes.message.reset("store_default", "toggleHidden", voidPacket, 0, false);
+	//close.ioComp.courierList.push_back(closeMes);
+	Courier buy;
+	buy.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
+	sf::Packet moduleInfo;
+	sf::Vector2i pos(0, 0);
+	moduleInfo << "Plating";
+	moduleInfo << pos.x << pos.y;
+	buy.message.reset("ship_editor", "buyModule", moduleInfo, 0, false);
+	buy1.ioComp.courierList.push_back(buy);
+	pStore->add(sptr<leon::WidgetBase>(new leon::Button(*pStore->getPanelPtr(), buy1)));
+
 
 	/**SHIP EDITOR**/
 	DraggableSurfaceData surfaceData;
 	surfaceData.ioComp.name = "ship_editor";
 	surfaceData.screenCoords = sf::Vector2f(200, 0);
-	surfaceData.gridSize = sf::Vector2f(64, 64);
+	surfaceData.gridSize = sf::Vector2i(64, 64);
 	surfaceData.size = sf::Vector2f(640, 640);
 	surfaceData.backgroundColor = sf::Color(32, 32, 32, 128);
 
@@ -433,7 +459,7 @@ void Overlay::loadMenus()
 
 	Courier reconstructButton;
 	reconstructButton.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
-	reconstructButton.message.reset("ship_editor", "sendState", voidPacket, 0, false);
+	reconstructButton.message.reset("ship_editor", "getState", voidPacket, 0, false);
 	reconstructData.ioComp.courierList.push_back(reconstructButton);
 
 	pStore->add(sptr<leon::WidgetBase>(new Button(*pStore->getPanelPtr(), reconstructData)));
@@ -470,9 +496,12 @@ void Overlay::loadMenus()
 	hudPanelData.ioComp.name = "hud_panel";
 	hudPanelData.startHidden = true;
 	hudPanelData.backgroundColor = sf::Color(50, 50, 50, 0);
-	hudPanelData.screenCoords = sf::Vector2f(200, 20);
+	hudPanelData.screenCoords = sf::Vector2f(768, 16);
 	hudPanelData.size = sf::Vector2f(textPanelSize.x, textPanelSize.y);
 	leon::Panel* pHudPanel = new leon::Panel(game.getOverlay().getGui(), hudPanelData);
+
+
+
 
 	/**SCORE**/
 	leon::ButtonData hudScore;
@@ -541,7 +570,7 @@ void Overlay::loadScoreboard(const GameLaunchData& data)
 	//select.ioComp.name = "team1_score";
 
 	//leon::SelectableItemData data1;
-	//data1.texName = "menu/Blue_menu_button.png";
+	//data1.texName = "menu/Blue_menu_button";
 	//leon::LabelData label1;
 	//data1.labelData.push_back(label1);
 	//data1.labelData.back().textSize = 16;
@@ -559,7 +588,7 @@ void Overlay::loadScoreboard(const GameLaunchData& data)
 	//select2.ioComp.name = "team2_score";
 
 	//leon::SelectableItemData data2;
-	//data2.texName = "menu/Green_menu_button.png";
+	//data2.texName = "menu/Green_menu_button";
 	//leon::LabelData label2;
 	//data2.labelData.push_back(label2);
 	//data2.labelData.back().textSize = 16;
@@ -577,7 +606,7 @@ void Overlay::loadScoreboard(const GameLaunchData& data)
 	//select3.ioComp.name = "team3_score";
 
 	//leon::SelectableItemData data3;
-	//data3.texName = "menu/Orange_menu_button.png";
+	//data3.texName = "menu/Orange_menu_button";
 	//leon::LabelData label3;
 	//data3.labelData.push_back(label3);
 	//data3.labelData.back().textSize = 16;
@@ -595,7 +624,7 @@ void Overlay::loadScoreboard(const GameLaunchData& data)
 	//select4.ioComp.name = "team4_score";
 
 	//leon::SelectableItemData data4;
-	//data4.texName = "menu/Purple_menu_button.png";
+	//data4.texName = "menu/Purple_menu_button";
 	//leon::LabelData label4;
 	//data4.labelData.push_back(label4);
 	//data4.labelData.back().textSize = 16;
@@ -608,22 +637,22 @@ void Overlay::loadScoreboard(const GameLaunchData& data)
 	//	int team = it->team;
 	//	switch (team) {
 	//	case 1:
-	//		data1.labelData.back().text = it->playerName + "                                                             " + "0" + "  " + to_string(it->playerMoney);
+	//		data1.labelData.back().text = it->playerName + "                                                             " + "0" + "  " + to_String(it->playerMoney);
 	//		data1.id = it->playerName;
 	//		select.items.push_back(data1);
 	//		break;
 	//	case 2:
-	//		data2.labelData.back().text = it->playerName + "                                                             " + "0" + "  " + to_string(it->playerMoney);
+	//		data2.labelData.back().text = it->playerName + "                                                             " + "0" + "  " + to_String(it->playerMoney);
 	//		data2.id = it->playerName;
 	//		select2.items.push_back(data2);
 	//		break;
 	//	case 3:
-	//		data3.labelData.back().text = it->playerName + "                                                             " + "0" + "  " + to_string(it->playerMoney);
+	//		data3.labelData.back().text = it->playerName + "                                                             " + "0" + "  " + to_String(it->playerMoney);
 	//		data3.id = it->playerName;
 	//		select3.items.push_back(data3);
 	//		break;
 	//	case 4:
-	//		data4.labelData.back().text = it->playerName + "                                                             " + "0" + "  " + to_string(it->playerMoney);
+	//		data4.labelData.back().text = it->playerName + "                                                             " + "0" + "  " + to_String(it->playerMoney);
 	//		data4.id = it->playerName;
 	//		select4.items.push_back(data4);
 	//		break;
@@ -709,7 +738,7 @@ void Overlay::toggleScoreboard(bool show)
 	game.getCoreIO().recieve(mes3);
 	game.getCoreIO().recieve(mes4);
 }
-void Overlay::input(const std::string rCommand, sf::Packet rData)
+void Overlay::input(const String rCommand, sf::Packet rData)
 {
 	if(rCommand == "toggleMenu")
 	{
@@ -727,6 +756,6 @@ void Overlay::input(const std::string rCommand, sf::Packet rData)
 	}
 	else
 	{
-		cout << "\n" << FILELINE;
+		Print << "\n" << FILELINE;
 	}
 }

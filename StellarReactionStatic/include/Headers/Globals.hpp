@@ -3,7 +3,7 @@
 #include "Game.hpp"
 
 /// Returns the path of the directory that all content is in.
-const std::string& contentDir();
+const String& contentDir();
 /// A packet with nothing in it, which gets used for sending messages without extra data.
 const sf::Packet voidPacket;
 
@@ -15,8 +15,6 @@ extern const int standardModuleSize;//size in pixels of module at 1 zoom
 extern const float sizeScalingFactor;// = 0.5 atm
 /// PI
 extern const float pi;
-/// Useful debugging item.
-#define FILELINE "file:{"<<__FILE__<<"}line:{"<<__LINE__<<"}"
 
 /// \brief Globally accessible instance of Game.
 ///

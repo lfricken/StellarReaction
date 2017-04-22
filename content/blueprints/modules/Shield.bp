@@ -1,11 +1,11 @@
 {
     "ClassName": "ShieldData",
-    "radius": 5,
+    "radius": 10,
 	"energyPerSecond": 2,
-  	"energyPerHit": 2,
+  	"energyPerHit": 5,
 	"toggleFrequency": 1,
 	"baseDecor": {
-		"texName": "shield/shield.png",
+		"texName": "shield/shield",
 		"animSheetName": "shield/shield.acfg"
 	},
 	"cost": 200

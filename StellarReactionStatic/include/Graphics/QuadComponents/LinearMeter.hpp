@@ -8,7 +8,7 @@ struct LinearMeterData : public QuadComponentData
 	LinearMeterData() :
 		QuadComponentData()
 	{
-		texName = "fill/white.png";
+		texName = "fill/white";
 	}
 
 };

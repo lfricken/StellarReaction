@@ -11,11 +11,13 @@ struct Animation;
 class Animator
 {
 public:
-	Animator(const std::string& setAnimationSheet);
+	Animator(const String& setAnimationSheet);
 	virtual ~Animator();
 
+	/// <summary>
 	/// Set name of animation and how long it should last in seconds.
-	void setAnimation(const std::string& setAnim, float duration);
+	/// </summary>
+	void setAnimation(const String& setAnim, float duration);
 	/// Returns which tile should we be on right now.
 	sf::Vector2i getTile();
 	/// How large the texture tiles are.
@@ -40,5 +42,5 @@ private:
 	float m_startTime;
 
 	/// Animation to default to.
-	static const std::string m_errorTiles;
+	static const String m_errorTiles;
 };

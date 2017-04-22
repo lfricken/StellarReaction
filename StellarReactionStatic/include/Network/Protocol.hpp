@@ -5,7 +5,7 @@ enum class Protocol
 {
 	/**UDP**/
 	Control,//what the player is doing in terms of actions, aim, ect
-	Data,//a message regarding the game
+	Data,//a message regarding the game state like module health or ship position
 
 	/**TCP**/
 	Tcp,

@@ -10,13 +10,13 @@ public:
 	MissileWeapon(const MissileWeaponData& rData);
 	virtual ~MissileWeapon();
 	///Actions to be processed before a shot is taken.
-	void preShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation);
+	void preShot(const Vec2& center, const Vec2& aim, float radCCW, float module_orientation);
 	///Actions to be processed after a shot is taken.
-	void postShot(const b2Vec2& center, const b2Vec2& aim, float radCCW, float module_orientation);
+	void postShot(const Vec2& center, const Vec2& aim, float radCCW, float module_orientation);
 protected:
 	float m_projLifetime;
 	///bp name of projectile
-	std::string m_projName;
+	String m_projName;
 	///velocity of projectiles
 	float m_velocity;
 	float m_acceleration;
@@ -33,8 +33,7 @@ struct MissileWeaponData : public WeaponData
 		velocity(20),
 		projName("DefaultMissile")
 	{
-		weaponQuad.animSheetName = "weapons/MissileWeapon.acfg";
-		weaponQuad.texName = "weapons/MissileWeapon.png";
+		weaponQuad.texName = "weapons/MissileWeapon";
 		energyConsumption = 1;///TODO SHOULD BE CONSUMING BALLISTIC ONLY, THIS IS JUST FOR TESTING
 		ballisticConsumption = 0;
 		missileConsumption = 0;
@@ -46,7 +45,7 @@ struct MissileWeaponData : public WeaponData
 		radCCWps = 0;
 	}
 
-	std::string projName;//the bp name of the projectile we fire, to be passed to projectileMan
+	String projName;//the bp name of the projectile we fire, to be passed to projectileMan
 	float velocity;//m/s (blocks per second)
 	float radCCWps;//rotation rate of the projectile Radians CCW per second
 

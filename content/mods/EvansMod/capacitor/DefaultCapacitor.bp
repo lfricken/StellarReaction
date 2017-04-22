@@ -4,7 +4,7 @@
     "Inherits": "DefaultShipModule",
 	"EnergyCapacity": 200,
     "BaseSprite": {
-        "texName": "capacitor/capacitor.png",
+        "texName": "capacitor/capacitor",
         "animSheetName": "capacitor/capacitor.acfg"
     }
 }

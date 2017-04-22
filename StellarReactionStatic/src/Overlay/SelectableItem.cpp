@@ -38,7 +38,10 @@ void SelectableItem::f_initialize(const SelectableItemData& rData, void* contain
 	}
 
 	sf::Packet pack(rData.buttData.ioComp.courierList.back().message.getData());
+	sf::Vector2i defaultPosition(0, 0);
 	pack << rData.id;
+	pack << defaultPosition.x;
+	pack << defaultPosition.y;
 	ButtonData data(rData.buttData);
 	data.ioComp.courierList.back().message.setData(pack);
 

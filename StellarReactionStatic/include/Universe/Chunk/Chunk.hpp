@@ -15,12 +15,16 @@ struct ModuleData;
 struct CommandInfo;
 enum class Directive;
 enum class Request;
+namespace leon
+{
+	class Grid;
+}
 
 /// \brief A players ship.
 class Chunk : public GameObject
 {
 public:
-	Chunk(const ChunkData& rData);
+
 	virtual ~Chunk();
 	///Actions to process on object before performing physics updates.
 	virtual void prePhysUpdate();
@@ -31,9 +35,9 @@ public:
 	///Remove all modules from this chunk.
 	void clear();
 	///Get name of the chunk.
-	const std::string& getName() const;
+	const String& getName() const;
 	///Set coordinates for current aim.
-	void setAim(const b2Vec2& world);
+	void setAim(const Vec2& world);
 	///Send a command to this target.
 	void directive(const CommandInfo& commands);
 	///Get a requested value.
@@ -42,24 +46,24 @@ public:
 	b2Body* getBodyPtr();
 	///Get a reference to the body component wrapper object.
 	BodyComponent& getBodyComponent();
-	///Returns the title of the module at that position, otherwise returns empty string.
-	std::string hasModuleAt(const b2Vec2 offset) const;
+	///Returns the title of the module at that position, otherwise returns empty String.
+	String hasModuleAt(const sf::Vector2i offset) const;
 	///Return a list of module names and positions in chunk.
-	std::vector<std::pair<std::string, b2Vec2> > getModules() const;
+	List<std::pair<String, sf::Vector2i> > getModules() const;
 	///Returns the graphical component for the hull.
 	sptr<GraphicsComponent> getHull() const;
 	///Returns the list of modules on in chunk.
-	std::vector<sptr<Module>> getModuleList() const;
+	List<sptr<Module>> getModuleList() const;
 	///Returns the radius of this chunk.
 	float getRadius();
 	///Increments the number of deaths by this chunk.
 	int incDeaths();
 	///Get the spawn location in the world.
-	b2Vec2 getSpawn();
+	Vec2 getSpawn();
 	///Set the spawn location in the world.
 	void setSpawn(float x, float y);
 	///Returns safe location to spawn chunk near spawn point.
-	b2Vec2 getClearSpawn();
+	Vec2 getClearSpawn();
 	///Set stealth to on or off.
 	void setStealth(bool stealthToggle);
 	///Get stealth toggle.
@@ -69,10 +73,15 @@ public:
 	///Increment score.
 	void increaseScore();
 
-protected:
-	virtual void input(std::string rCommand, sf::Packet rData);
-	bool allows(const b2Vec2& rGridPos);
+	void resetStatusBoard(wptr<leon::Grid> grid);
+	wptr<leon::Grid> getStatusBoard();
 
+protected:
+	wptr<leon::Grid> m_statusBoard;
+	virtual void input(String rCommand, sf::Packet rData);
+	bool allows(const Vec2& rGridPos);
+	Chunk(const ChunkData& rData);
+	friend struct ChunkData;
 private:
 	Pool<Ballistic> m_ballisticPool;
 	Pool<Missiles> m_missilePool;
@@ -82,23 +91,25 @@ private:
 	Timer m_timer;
 	int m_slavePosition;
 	BodyComponent m_body;
-	std::vector<sptr<Module> > m_modules;
+	List<sptr<Module> > m_modules;
 
-	std::vector<b2Vec2> m_validOffsets;
-	b2Vec2 m_spawnPoint;
+	List<Vec2> m_validOffsets;
+	Vec2 m_spawnPoint;
 
 	sptr<GraphicsComponent> hull;
 	bool m_wasThrusting;
-	std::vector<sptr<GraphicsComponent> > afterburners;
+	List<sptr<GraphicsComponent> > afterburners;
 	bool m_wasBoosting;
-	std::vector<sptr<GraphicsComponent> > afterburners_boost;
+	List<sptr<GraphicsComponent> > afterburners_boost;
 
+	bool m_areShieldsOn;
 	bool m_stealth;
 
 	int m_thrustNoiseIndex;
 	int m_boostNoiseIndex;
 	int m_deaths;
 	float m_radius;
+	Vec2 m_lastAim;
 };
 
 /// Initialize a Chunk.
@@ -118,7 +129,7 @@ struct ChunkData : public GameObjectData, public BlueprintData
 		///TODO: for 
 		for(float i = -5; i < 5; i += 0.5)
 			for(float j = -5; j < 5; j += 0.5)
-				validPos.push_back(b2Vec2(i, j));
+				validPos.push_back(Vec2(i, j));
 
 	}
 
@@ -127,15 +138,15 @@ struct ChunkData : public GameObjectData, public BlueprintData
 	PoolData<Energy> energyData;
 	PoolData<Zoom> zoomData;
 
-	std::vector<b2Vec2> validPos;
+	List<Vec2> validPos;
 
 	Team team;
 	BodyComponentData bodyComp;
-	std::vector<sptr<const ModuleData> > moduleData;
+	List<sptr<const ModuleData> > moduleData;
 
 	QuadComponentData hullSpriteData;
-	std::vector<QuadComponentData> afterburnerSpriteData;
-	std::vector<QuadComponentData> afterburnerThrustSpriteData;
+	List<QuadComponentData> afterburnerSpriteData;
+	List<QuadComponentData> afterburnerThrustSpriteData;
 
 	///Create Chunk object from this data object.
 	virtual Chunk* generate(Universe* pParent) const
@@ -155,4 +166,33 @@ struct ChunkData : public GameObjectData, public BlueprintData
 private:
 	void loadModules(const Json::Value& root);
 	MyType(ChunkData, ChunkData);
+};
+
+struct ChunkDataMessage
+{
+	ChunkDataMessage()
+	{
+		blueprintName = "default";
+		coordinates = Vec2(0, 0);
+		rotation = 0;
+		team = -1;
+		slaveName = "NOSLAVE";
+		needsController = false;
+		aiControlled = false;
+	}
+	String blueprintName;
+	Vec2 coordinates;
+	float rotation;
+	int team;
+	/// <summary>
+	/// Leave this blank if you want an auto assignment.
+	/// </summary>
+	String slaveName;
+	bool needsController;
+	bool aiControlled;
+
+	void pack(sf::Packet* data) const;
+	void unpack(const sf::Packet& data);
+
+	void loadJson(const Json::Value& root);
 };

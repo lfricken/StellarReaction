@@ -13,7 +13,7 @@ namespace leon
 		{
 		}
 
-		std::string buttonText;
+		String buttonText;
 	};
 
 	/// A clickable Button.
@@ -25,7 +25,8 @@ namespace leon
 		virtual ~Button();
 
 	protected:
-		virtual bool inputHook(const std::string rCommand, sf::Packet rData);
+		virtual void load(const String& fullFilePath);
+		virtual bool inputHook(const String rCommand, sf::Packet rData);
 		tgui::Button::Ptr m_pButton;//pointer to our button in the gui
 		virtual bool callbackHook(const tgui::Callback& callback) final;
 		virtual bool callbackHook2(const tgui::Callback& callback);

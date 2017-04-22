@@ -3,16 +3,20 @@
 #include "SlaveLocator.hpp"
 #include "Chunk.hpp"
 #include "CommandInfo.hpp"
-
-using namespace std;
+#include "Debugging.hpp"
 
 Controller::Controller(const ControllerData& rData) : m_aim(0, 0), m_io(rData.ioComp, &Controller::input, this), m_nw(rData.nwComp, &Controller::pack, &Controller::unpack, this, game.getUniverse().getControllerFactory().getNWFactory())
 {
+
+	m_shieldToggleTimer.setCountDown(0.5f);
+	m_shieldToggleTimer.restartCountDown();
 	m_local = false;
 	m_slavePosition = -1;
 
 	if(rData.slaveName != "NOSLAVE")
 		setSlave(rData.slaveName);
+	else
+		Print << FILELINE;
 
 	for(int i = 0; i < static_cast<int>(Directive::End); ++i)
 	{
@@ -22,17 +26,20 @@ Controller::Controller(const ControllerData& rData) : m_aim(0, 0), m_io(rData.io
 	{
 		m_weaponGroups[i] = true;
 	}
+
+	Print << "\nController " << rData.slaveName;
+	//dout << FILELINE;
 }
 Controller::~Controller()
 {
 
 }
-void Controller::setSlave(const std::string& rSlaveName)
+void Controller::setSlave(const String& rSlaveName)
 {
 	m_slaveName = rSlaveName;
 	m_slavePosition = game.getUniverse().getSlaveLocator().findPos(m_slaveName);
 }
-const std::string& Controller::getSlaveName() const
+const String& Controller::getSlaveName() const
 {
 	return m_slaveName;
 }
@@ -44,13 +51,13 @@ IOComponent& Controller::getIOComp()
 {
 	return m_io;
 }
-void Controller::setAim(const b2Vec2& world)//send our aim coordinates
+void Controller::setAim(const Vec2& world)//send our aim coordinates
 {
 	m_nw.toggleNewData(true);
 	m_aim = world;
 }
 
-const b2Vec2& Controller::getAim() const
+const Vec2& Controller::getAim() const
 {
 	return m_aim;
 }
@@ -90,6 +97,22 @@ void Controller::processDirectives()//use our stored directives to send commands
 	Chunk* temp = game.getUniverse().getSlaveLocator().find(m_slavePosition);
 	if(temp != NULL)
 	{
+		if(m_directives[Directive::Shield] && m_shieldToggleTimer.isTimeUp())
+		{
+			m_shieldToggleTimer.restartCountDown();
+			Message shield;
+
+			bool shieldsOn = (bool)get(Request::ShieldState);
+			bool enoughEnergy = (get(Request::Energy) / get(Request::MaxEnergy)) > 0.25f;
+			if(!shieldsOn && enoughEnergy)
+				shield.reset(temp->m_io.getPosition(), "enableShields", voidPacket, 0, false);
+			else if(shieldsOn && !enoughEnergy)
+				shield.reset(temp->m_io.getPosition(), "disableShields", voidPacket, 0, false);
+
+			Message::SendUniverse(shield);
+		}
+
+
 		CommandInfo commands;
 		commands.directives = m_directives;
 		commands.isLocal = m_local;
@@ -97,7 +120,7 @@ void Controller::processDirectives()//use our stored directives to send commands
 		temp->directive(commands);
 	}
 	else
-		cout << "\nNO CONTROLLER" << FILELINE;
+		Print << "\nNO CONTROLLER" << FILELINE;
 }
 /// <summary>
 /// true if this controller is controlled locally (this computer)
@@ -117,11 +140,11 @@ void Controller::locallyUpdate(const CommandInfo& commands)
 		m_weaponGroups = commands.weaponGroups;
 	}
 }
-void Controller::setPlayerName(const std::string& rPlayerName)
+void Controller::setPlayerName(const String& rPlayerName)
 {
 	m_playerName = rPlayerName;
 }
-const std::string& Controller::getPlayerName() const
+const String& Controller::getPlayerName() const
 {
 	return m_playerName;
 }
@@ -171,7 +194,7 @@ void Controller::unpack(sf::Packet& rPacket)
 
 	if(!m_local)//if we are locally controlled, we shouldnt unpack that stuff
 	{
-		setAim(b2Vec2(aimX, aimY));
+		setAim(Vec2(aimX, aimY));
 		m_directives = directives;
 		m_weaponGroups = weaponGroups;
 	}
@@ -181,12 +204,12 @@ bool Controller::isLocal() const
 {
 	return m_local;
 }
-void Controller::input(std::string rCommand, sf::Packet rData)
+void Controller::input(String rCommand, sf::Packet rData)
 {
 	sf::Packet data(rData);
 	if(rCommand == "setPlayerName")
 	{
-		std::string name;
+		String name;
 		data >> name;
 		setPlayerName(name);
 	}

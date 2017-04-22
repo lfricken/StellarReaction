@@ -1,6 +1,6 @@
 #include "RayCastCallback.hpp"
 
-using namespace std;
+
 
 RayCastCallback::RayCastCallback()
 {
@@ -13,7 +13,7 @@ RayCastCallback::~RayCastCallback()
 }
 float32 RayCastCallback::ReportFixture(b2Fixture* pFixture, const b2Vec2& point, const b2Vec2& normal, float32 fraction)
 {
-	if(m_pIgnoreBody != pFixture->GetBody() && !pFixture->IsSensor() && (m_colMask & pFixture->GetFilterData().categoryBits))
+	if((m_pIgnoreBody != pFixture->GetBody()) && (m_colMask & pFixture->GetFilterData().categoryBits))
 	{
 		RayData data;
 		data.pFixture = pFixture;

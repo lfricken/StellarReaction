@@ -15,7 +15,7 @@ struct DecorationData;
 class Decoration final
 {
 public:
-	Decoration(const DecorationData& rData, GraphicsComponent* pGfx);
+	Decoration(const DecorationData& rData, sptr<GraphicsComponent> pGfx);
 	virtual ~Decoration();
 
 	/// \brief Set the position of this Decoration
@@ -26,7 +26,7 @@ public:
 	/// Set the absolute rotation in radians counterclockwise.
 	void setRotation(float radCCW);
 	/// Set the current animation and the duration of the animation.
-	void setAnimation(const std::string& rAnimName, float duration);
+	void setAnimation(const String& rAnimName, float duration);
 	/// Control the size of the object. 1 is default. 2 would double the width and height.
 	void setScale(float scale);
 
@@ -34,11 +34,13 @@ public:
 	bool isRandSpawn() const;
 	/// Updates the position of this Decoration with respect to the Camera. Used to simulate paralax.
 	void updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bottomLeft, const Vec2& topRight, const float zoom, const float dTime);
+	/// Begins reducing the alpha to 0, given how long it should take.
+	void startFade(float time);
 
 	Vec2 m_lastCameraPos;
 	float m_maxZoom;
 protected:
-	void input(std::string rCommand, sf::Packet rData);
+	//void input(String rCommand, sf::Packet rData);
 private:
 	/// Set our velocity to be random.
 	void randVel();
@@ -47,7 +49,7 @@ private:
 
 	/// The graphics object this Decoration controls.
 	sptr<GraphicsComponent> m_spGfx;
-	IOComponent m_io;
+	//IOComponent m_io;
 
 
 	float m_minSpin;
@@ -69,6 +71,10 @@ private:
 	bool m_spawnRandom;
 	bool m_repeats;
 	bool m_repeatsRandom;
+
+	bool m_isFading;
+	float m_totalFadeTime;
+	float m_fadeTimeElapsed;
 };
 
 
@@ -95,7 +101,9 @@ struct DecorationData
 	}
 	IOComponentData ioComp;
 
+	///Degrees CCW
 	float minSpinRate;
+	///Degrees CCW
 	float maxSpinRate;
 	Vec2 minVelocity;
 	Vec2 maxVelocity;

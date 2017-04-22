@@ -23,13 +23,9 @@
 #include "RayCastCallback.hpp"
 #include "Projectile.hpp"
 #include "Directory.hpp"
-#include "Random.hpp"
 #include "DecorationEngine.hpp"
 
-using namespace std;
-using namespace sf;
 using namespace leon;
-
 
 Game::Game()
 {
@@ -75,10 +71,10 @@ Game::Game()
 }
 Game::~Game()
 {
-	cout << "\nGame Destroying...";
-	cout << "\nExpect to see (0x8000FFFF) upon exit due to SFML audio.";
+	Print << "\nGame Destroying...";
+	Print << "\nExpect to see (0x8000FFFF) upon exit due to SFML audio.";
 }
-void Game::loadPlayer(const std::string& rFileName)
+void Game::loadPlayer(const String& rFileName)
 {
 	PlayerData data;
 
@@ -89,7 +85,7 @@ void Game::loadPlayer(const std::string& rFileName)
 
 	if(!parsedSuccess)
 	{
-		std::cout << "\nParse Failed [" << rFileName << "].\n" << FILELINE;
+		Print << "\nParse Failed [" << rFileName << "].\n" << FILELINE;
 		///eRROR LOG
 	}
 	else
@@ -188,7 +184,7 @@ void Game::runTicks(int ticks)
 	if(game.getUniverse().isPaused())
 		game.getUniverse().togglePause();
 
-	RenderWindow& rWindow = *m_spWindow;
+	sf::RenderWindow& rWindow = *m_spWindow;
 	float frameTime = 0;
 	float lastTime = m_clock.getElapsedTime().asSeconds() - m_estimatedFrameTime;
 
@@ -207,7 +203,7 @@ void Game::runTime(float time)
 	if(game.getUniverse().isPaused())
 		game.getUniverse().togglePause();
 
-	RenderWindow& rWindow = *m_spWindow;
+	sf::RenderWindow& rWindow = *m_spWindow;
 	float frameTime = 0;
 	float lastTime = m_clock.getElapsedTime().asSeconds() - m_estimatedFrameTime;
 
@@ -227,7 +223,7 @@ void Game::runTime(float time)
 /// </summary>
 void Game::run()
 {
-	RenderWindow& rWindow = *m_spWindow;
+	sf::RenderWindow& rWindow = *m_spWindow;
 	float frameTime = 0;
 	float lastTime = m_clock.getElapsedTime().asSeconds();
 
@@ -241,7 +237,7 @@ void Game::run()
 }
 void Game::tick(float frameTime)
 {
-	RenderWindow& rWindow = *m_spWindow;
+	sf::RenderWindow& rWindow = *m_spWindow;
 
 	static float physTickTimeRemaining = 0;
 	static const float timeStep = getUniverse().getTimeStep();
@@ -249,9 +245,9 @@ void Game::tick(float frameTime)
 
 	/**== FRAMERATE ==**/
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad6))
-		std::cout << "\nFPS: " << 1.f / frameTime;
+		Print << "\nFPS: " << 1.f / frameTime;
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::M))
-		std::cout << "\nLocal Player Money: " << game.getLocalPlayer().getMoney();
+		Print << "\nLocal Player Money: " << game.getLocalPlayer().getMoney();
 
 	/**== IO ==**/
 	getCoreIO().update(frameTime);
@@ -289,8 +285,8 @@ void Game::tick(float frameTime)
 	rWindow.setView(*m_spStaticView);
 	getLocalPlayer().getWindowEvents(rWindow);
 	const Vec2 camPos = getLocalPlayer().getCamera().getPosition();
-	const Vec2 halfSize = leon::sfTob2(sf::Vector2f(rWindow.getSize().x / 2, -(signed)rWindow.getSize().y / 2));
-	const float maxZoom = getLocalPlayer().getCamera().m_maxZoom * 1;// TODO should access ships max zoom
+	const Vec2 halfSize = leon::sfTob2(sf::Vector2f(rWindow.getSize().x / 2.f, -(signed)rWindow.getSize().y / 2.f));
+	const float maxZoom = getLocalPlayer().getCamera().m_maxZoom * 1;// TODO should access ships max zoom UPDATE this should be fine
 	const Vec2 maxHalfSize(halfSize.x * maxZoom, halfSize.y * maxZoom);
 	const float zoom = getLocalPlayer().getCamera().getZoom();
 	getUniverse().getDecors().update(camPos, maxHalfSize, zoom);
@@ -326,7 +322,7 @@ void Game::exit()
 /// <summary>
 /// Destroys old universe and makes new one!
 /// </summary>
-void Game::loadUniverse(const std::string& stuff)
+void Game::loadUniverse(const String& stuff)
 {
 	IOComponentData universeData(&getCoreIO());
 	universeData.name = "universe";
@@ -346,7 +342,7 @@ sf::View& Game::getStaticView()
 /// <summary>
 /// Initializes the window from a json file with the needed data.
 /// </summary>
-void Game::loadWindow(const std::string& windowFile)
+void Game::loadWindow(const String& windowFile)
 {
 	sf::ContextSettings settings;
 	struct WindowInitData
@@ -364,7 +360,7 @@ void Game::loadWindow(const std::string& windowFile)
 			vSinc = false;
 			targetFPS = 10;
 		}
-		std::string windowName;//name of window to display
+		String windowName;//name of window to display
 		bool windowed;//windowed vs fullscreen
 
 		sf::VideoMode mode;
@@ -398,7 +394,7 @@ void Game::loadWindow(const std::string& windowFile)
 	bool parsedSuccess = reader.parse(test, root, false);
 
 	if(!parsedSuccess)
-		std::cout << "\nParse Failed [" << windowFile << "]." << std::endl << FILELINE;
+		Print << "\nParse Failed [" << windowFile << "]." << std::endl << FILELINE;
 	else
 		windowData.loadJson(root);
 
@@ -429,7 +425,7 @@ void Game::loadWindow(const std::string& windowFile)
 	}
 
 	m_spWindow->setVerticalSyncEnabled(windowData.vSinc);
-	//cout << "\nFPS Limit:" << windowData.targetFPS;
+	//Print << "\nFPS Limit:" << windowData.targetFPS;
 	if(!windowData.vSinc)
 		m_spWindow->setFramerateLimit(windowData.targetFPS);
 
@@ -437,14 +433,14 @@ void Game::loadWindow(const std::string& windowFile)
 }
 void Game::resizeStaticView()
 {
-	m_spStaticView.reset(new sf::View(sf::Vector2f(m_spWindow->getSize().x / 2, m_spWindow->getSize().y / 2), static_cast<sf::Vector2f>(m_spWindow->getSize())));
+	m_spStaticView.reset(new sf::View(sf::Vector2f(m_spWindow->getSize().x / 2.f, m_spWindow->getSize().y / 2.f), static_cast<sf::Vector2f>(m_spWindow->getSize())));
 }
 /// <summary>
 /// process the command
 /// </summary>
 /// <param name="rCommand">The r command.</param>
 /// <param name="rData">The r data.</param>
-void Game::input(std::string rCommand, sf::Packet rData)
+void Game::input(String rCommand, sf::Packet rData)
 {
 	if(rCommand == "exit")
 	{
@@ -456,16 +452,16 @@ void Game::input(std::string rCommand, sf::Packet rData)
 	}
 	else if(rCommand == "printToConsole")
 	{
-		string str;
+		String str;
 		rData >> str;
-		cout << "\n" << str;
+		Print << "\n" << str;
 	}
 	else
 	{
-		cout << "Game: [" << rCommand << "] not found.";
+		Print << "Game: [" << rCommand << "] not found.";
 	}
 }
-void Game::restartTest(const std::string& level)
+void Game::restartTest(const String& level)
 {
 	PlayerData player;
 	GameLaunchData data;

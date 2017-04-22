@@ -1,6 +1,6 @@
 #include "CollisionCategory.hpp"
 
-Category ChooseCategory(const std::string& rChoice)
+Category ChooseCategory(const String& rChoice)
 {
 	if(rChoice == "None")
 		return Category::None;
@@ -22,7 +22,7 @@ Category ChooseCategory(const std::string& rChoice)
 		return Category::None;
 	}
 }
-Mask ChooseMask(const std::string& rChoice)
+Mask ChooseMask(const String& rChoice)
 {
 	if(rChoice == "None")
 		return Mask::None;

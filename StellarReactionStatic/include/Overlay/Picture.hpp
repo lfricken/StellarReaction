@@ -9,10 +9,10 @@ namespace leon
 	{
 		PictureData() :
 			WidgetBaseData(),
-			texName("default.png")
+			texName("default")
 		{
 		}
-		std::string texName;
+		String texName;
 	};
 
 	/// A picture to display on the GUI.
@@ -24,7 +24,7 @@ namespace leon
 		virtual ~Picture();
 
 	protected:
-
+		void load(const String& fullFilePath);
 	private:
 		void f_initialize(const PictureData& data);
 

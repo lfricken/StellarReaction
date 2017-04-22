@@ -1,30 +1,51 @@
 #include "WidgetBase.hpp"
+#include "Debugging.hpp"
 
 using namespace leon;
-using namespace std;
+
 
 WidgetBase::WidgetBase(tgui::Gui& gui, const WidgetBaseData& rData) : m_io(rData.ioComp, &leon::WidgetBase::input, this)
 {
-	m_startHidden = rData.startHidden;
-	m_tempTransparency = rData.transparency;
 	pCon = NULL;
 	pGui = &gui;
+	init(rData);
 }
 WidgetBase::WidgetBase(tgui::Container& rContainer, const WidgetBaseData& rData) : m_io(rData.ioComp, &leon::WidgetBase::input, this)
 {
-	m_startHidden = rData.startHidden;
-	m_tempTransparency = rData.transparency;
 	pCon = &rContainer;
 	pGui = NULL;
+	init(rData);
 }
-void WidgetBase::f_assign(tgui::Widget* pWidget)
+void WidgetBase::init(const WidgetBaseData& rData)
 {
+
+}
+void WidgetBase::f_assign(tgui::Widget* pWidget, const WidgetBaseData& rData)
+{
+	//Config file
+	load(contentDir() + rData.configFile);
+
+	//Start Hidden
 	m_pWidget = pWidget;
-	if(m_startHidden)
+	if(rData.startHidden)
 		m_pWidget->hide();
 
-	m_pWidget->setTransparency(m_tempTransparency);
-	m_pWidget->bindCallbackEx(&WidgetBase::f_callback, this, 4095);
+	//Transparency
+	m_pWidget->setTransparency(rData.transparency);
+
+	//Grid Size
+	m_gridSize = rData.gridSize;
+	//Grid Position
+	if(rData.gridPosition != sf::Vector2i(8482, 8482))
+		setGridPosition(rData.gridPosition);
+	else//Screen Position
+		setPosition(rData.screenCoords);
+	//Size
+	m_pWidget->setSize(rData.size.x, rData.size.y);
+
+
+	m_pWidget->bindCallbackEx(&WidgetBase::f_callback, this, 4095);//TODO where did this magic number come from?
+	//todo probably anding of tgui enums
 }
 WidgetBase::~WidgetBase()
 {
@@ -62,16 +83,49 @@ void WidgetBase::toggleEnabled(bool enabled)
 	else
 		disable();
 }
-void WidgetBase::setPosition(const sf::Vector2f& newPos)
+void WidgetBase::setPosition(const sf::Vector2f& realPos)
 {
-	m_pWidget->setPosition(newPos);
+	m_pWidget->setPosition(realPos);
 }
 const sf::Vector2f& WidgetBase::getPosition() const
 {
 	return m_pWidget->getPosition();
 }
+void WidgetBase::setGridPosition(sf::Vector2i gridPos)
+{
+	gridPos.x *= m_gridSize.x;
+	gridPos.y *= m_gridSize.y;
+
+	setPosition((sf::Vector2f)gridPos);
+	m_lastGridPosition = getGridPosition();
+}
+sf::Vector2i WidgetBase::getGridPosition() const
+{
+	sf::Vector2f gridPos = getPosition();
+	gridPos.x /= m_gridSize.x;
+	gridPos.y /= m_gridSize.y;
+	return (sf::Vector2i)gridPos;
+}
+sf::Vector2i WidgetBase::getLastGridPosition() const
+{
+	return m_lastGridPosition;
+}
+sf::Vector2i WidgetBase::toGrid(sf::Vector2f realPos) const
+{
+	sf::Vector2f gridHalf(m_gridSize.x / 2.f, m_gridSize.y / 2.f);
+	sf::Vector2f calculatedReal = (realPos + gridHalf);
+	sf::Vector2i newGridPos;
+	newGridPos.x = (int)calculatedReal.x / m_gridSize.x;
+	newGridPos.y = (int)calculatedReal.y / m_gridSize.y;
+
+	return newGridPos;
+}
+sf::Vector2f WidgetBase::fromGrid(sf::Vector2i gridPos) const
+{
+	return sf::Vector2f((float)(gridPos.x * m_gridSize.x), (float)(gridPos.y * m_gridSize.y));
+}
 /**IO**/
-void WidgetBase::input(std::string rCommand, sf::Packet rData)
+void WidgetBase::input(String rCommand, sf::Packet rData)
 {
 	if(inputHook(rCommand, rData))
 	{
@@ -103,7 +157,7 @@ void WidgetBase::input(std::string rCommand, sf::Packet rData)
 	}
 	else
 	{
-		cout << "\nCommand [" << rCommand << "] not found." << FILELINE;
+		Print << "\nCommand [" << rCommand << "] not found." << FILELINE;
 		///ERROR
 	}
 }
@@ -174,7 +228,7 @@ void WidgetBase::f_trigger()
 /// <summary>
 /// Hooks
 /// </summary>
-bool WidgetBase::inputHook(const std::string rCommand, sf::Packet rData)
+bool WidgetBase::inputHook(const String rCommand, sf::Packet rData)
 {
 	return false;
 }

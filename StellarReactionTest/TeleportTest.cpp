@@ -7,11 +7,9 @@
 #include "BlueprintLoader.hpp"
 #include <stdio.h>
 
-using namespace std;
-
 extern Game game;
 
-void teleportParamTest(const vector<b2Vec2>& cases)
+void teleportParamTest(const List<b2Vec2>& cases)
 {
 	for (auto it = cases.begin(); it != cases.end(); ++it)
 	{

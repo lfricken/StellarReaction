@@ -17,7 +17,7 @@ public:
 	virtual ~BatchLayers();
 
 	/// Return an array and indexes for drawing a rectangle.
-	QuadData request(const std::string& rTexName, GraphicsLayer layer);
+	QuadData request(const String& rTexName, GraphicsLayer layer);
 
 	/// Draw everything that is not the Overlay in order.
 	void drawWorld(sf::RenderTarget& rTarget);

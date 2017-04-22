@@ -26,9 +26,11 @@ protected:
 	void startContactCB(FixtureComponent* pOther) final;
 	void endContactCB(FixtureComponent* pOther) final;
 
-	std::vector<FixtureComponent*> m_guests;
+	List<FixtureComponent*> m_guests;
 private:
 	bool m_enabled;
+	Category m_enabledCollision;
+	Category m_disabledCollision;
 };
 
 
@@ -36,13 +38,17 @@ private:
 struct SensorData : public ModuleData
 {
 	SensorData() :
-		startEnabled(true)
+		startEnabled(true),
+		disabledColCategory(Category::None)
 	{
 		fixComp.isSensor = true;
-		fixComp.density = 0.f;
+		fixComp.mass = 0.f;
+		fixComp.colCategory = Category::Trigger;
+		fixComp.colMask = Mask::Trigger;
 	}
 
 	bool startEnabled;
+	Category disabledColCategory;
 	///Create Sensor object from this data object.
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{

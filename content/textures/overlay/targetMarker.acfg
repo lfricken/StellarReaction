@@ -1,0 +1,36 @@
+{
+    "texTileSize": [
+        256,
+        256
+    ],
+    "stateList": [
+        {
+            "state": "Default",
+            "repeats": false,
+            "tileList": [
+				{
+                    "x": 0,
+                    "y": 0,
+                    "t": 1
+                }
+            ]
+        },
+        {
+            "comment": "This is the state we go into if we are told to go into a state we dont have (always have this for all acfg files",
+            "state": "Error",
+            "repeats": false,
+            "tileList": [
+                {
+                    "x": 0,
+                    "y": 0,
+                    "t": 1
+                }
+            ]
+        }
+    ]
+}
+
+
+
+
+

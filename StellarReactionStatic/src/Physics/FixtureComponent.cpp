@@ -3,37 +3,35 @@
 #include "Convert.hpp"
 #include "Universe.hpp"
 #include "JSON.hpp"
+#include "Debugging.hpp"
 
-using namespace std;
+
 
 
 void FixtureComponentData::loadJson(const Json::Value& root)
 {
 	if(!root["shape"].isNull())
 	{
-		string temp = root["shape"].asString();
+		String temp = root["shape"].asString();
 		if(temp == "rectangle")
 			shape = leon::Shape::Rectangle;
 		else if(temp == "circle")
 			shape = leon::Shape::Circle;
 		else
 		{
-			cout << "\n" << FILELINE;
+			Print << "\n" << FILELINE;
 			shape = leon::Shape::Circle;
 		}
 	}
 
 	GETJSON(offset);
 	GETJSON(size);
-	GETJSON(density);
+	GETJSON(mass);
 	GETJSON(friction);
 	GETJSON(restitution);
 	GETJSON(isSensor);
-
-	if(!root["colCat"].isNull())
-		colCategory = ChooseCategory(root["colCat"].asString());
-	if(!root["colMask"].isNull())
-		colMask = ChooseMask(root["colMask"].asString());
+	GETJSON(colCategory);
+	GETJSON(colMask);
 }
 FixtureComponent::FixtureComponent(const FixtureComponentData& rData)
 {
@@ -43,7 +41,7 @@ FixtureComponent::FixtureComponent(const FixtureComponentData& rData)
 	if(rData.shape == leon::Shape::Rectangle)
 	{
 		m_spShape = sptr<b2Shape>(new b2PolygonShape);
-		b2Vec2 offset(m_offset.x * sizeScalingFactor, m_offset.y * sizeScalingFactor);
+		Vec2 offset(m_offset.x * sizeScalingFactor, m_offset.y * sizeScalingFactor);
 		static_cast<b2PolygonShape*>(m_spShape.get())->SetAsBox(rData.size.x / 2.f * sizeScalingFactor, rData.size.y / 2.f * sizeScalingFactor, offset, 0);
 	}
 	/**CIRCLE**/
@@ -58,7 +56,7 @@ FixtureComponent::FixtureComponent(const FixtureComponentData& rData)
 
 	m_fixtureDef.isSensor = rData.isSensor;
 	m_fixtureDef.shape = &*m_spShape;//give our shape to our fixture definition
-	m_fixtureDef.density = rData.density;
+	m_fixtureDef.density = rData.mass / (rData.size.x * rData.size.y);
 	m_fixtureDef.friction = rData.friction;
 	m_fixtureDef.restitution = rData.restitution;//setting our fixture data
 	m_fixtureDef.filter.maskBits = static_cast<uint16_t>(rData.colMask);
@@ -70,7 +68,7 @@ FixtureComponent::FixtureComponent(const FixtureComponentData& rData)
 		m_pFixture->SetUserData(this);
 	}
 	else
-		cout << FILELINE;
+		Print << FILELINE;
 }
 FixtureComponent::~FixtureComponent()
 {
@@ -84,16 +82,16 @@ void FixtureComponent::endContact(FixtureComponent* pOther)
 {
 	m_endCB(pOther);
 }
-const b2Vec2 FixtureComponent::getOffset() const
+const Vec2 FixtureComponent::getOffset() const
 {
 	return m_offset;
 }
 /// <summary>
 /// Finds the center in world coordinates of the fixture
 /// </summary>
-b2Vec2 FixtureComponent::getCenter() const
+Vec2 FixtureComponent::getCenter() const
 {
-	b2Vec2 center(0,0);
+	Vec2 center(0,0);
 
 	if(m_spShape->GetType() == b2Shape::e_polygon)
 	{
@@ -101,7 +99,7 @@ b2Vec2 FixtureComponent::getCenter() const
 
 		int num = pPShape->GetVertexCount();
 		for(int i = 0; i<num; ++i)
-			center += pPShape->GetVertex(i);
+			center += (Vec2)pPShape->GetVertex(i);
 
 		center.x /= num;
 		center.y /= num;
@@ -113,7 +111,7 @@ b2Vec2 FixtureComponent::getCenter() const
 	}
 	else
 	{
-		std::cout << FILELINE;
+		Print << FILELINE;
 		///eRROR LOG
 	}
 	return center;
@@ -142,7 +140,7 @@ void FixtureComponent::setIOPos(int ioPos)
 /// <summary>
 /// Applies force to center of body(Newtons)
 /// </summary>
-void FixtureComponent::applyForce(const b2Vec2& rForce)//applies force to center of body(Newtons)
+void FixtureComponent::applyForce(const Vec2& rForce)//applies force to center of body(Newtons)
 {
 	if(!game.getUniverse().isPaused())
 		m_pFixture->GetBody()->ApplyForceToCenter(rForce, true);
@@ -150,7 +148,7 @@ void FixtureComponent::applyForce(const b2Vec2& rForce)//applies force to center
 /// <summary>
 /// Applies force to center of this fixture(Newtons)
 /// </summary>
-void FixtureComponent::applyForceFixture(const b2Vec2& rForce)//applies force at the center of fixture(Newtons)
+void FixtureComponent::applyForceFixture(const Vec2& rForce)//applies force at the center of fixture(Newtons)
 {
 	if(!game.getUniverse().isPaused())
 		m_pFixture->GetBody()->ApplyForce(rForce, getCenter(), true);
@@ -175,11 +173,11 @@ void FixtureComponent::setMask(Mask mask)
 	filter.maskBits = static_cast<uint16_t>(mask);
 	m_pFixture->SetFilterData(filter);
 }
-void FixtureComponent::setStore(const std::string& rTargetName)
+void FixtureComponent::setStore(const String& rTargetName)
 {
 	m_store = rTargetName;
 }
-const std::string& FixtureComponent::getStore() const
+const String& FixtureComponent::getStore() const
 {
 	return m_store;
 }

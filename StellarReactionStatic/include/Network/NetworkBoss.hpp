@@ -7,6 +7,7 @@
 #include "IOComponent.hpp"
 #include "NetworkFactory.hpp"
 #include "NonCopyable.hpp"
+#include "ShipBuilder.hpp"
 
 class PlayerState;
 
@@ -38,14 +39,14 @@ public:
 
 
 	/// Returns thet NetworkFactory that syncs via udp.
-	NetworkFactory& getNWFactory();
+	NetworkFactory& getNWDataFactory();
 	/// Returns thet NetworkFactory that syncs via tcp.
 	NetworkFactory& getNWFactoryTcp();
 
 	/// Message only the local lobby.
-	void messageLobbyLocal(const std::string& rMessage);
+	void messageLobbyLocal(const String& rMessage);
 	/// Send message globaly (to everyone in the lobby).
-	void messageLobby(const std::string& rMessage);
+	void messageLobby(const String& rMessage);
 	/// Send global message about number of players in the lobby.
 	void messagePlayerCount();
 
@@ -68,14 +69,14 @@ public:
 
 
 	/// Set us to a Client, and connect to a Server.
-	void setClient(const std::string& address, unsigned short port, float timeout);
+	void setClient(const String& address, unsigned short port, float timeout);
 	/// Disconnect us from any network activity.
 	void setLocal();
 	/// Set us to a Server, and listen for Clients.
 	void setServer(unsigned short port, float timeout);
 
 	/// Return list of connections.
-	std::vector<sptr<Connection> >& getConnections();
+	List<sptr<Connection> >& getConnections();
 
 	/// Listen for new Connection's, update Connection's, recieve data, send data.
 	void update();
@@ -85,14 +86,14 @@ public:
 	/**REDUCTION**/
 
 	/// Called by Server when receiving a player option, such as changing teams or ships, buying modules, etc.
-	void playerOption(sf::Packet& rData, BasePlayerTraits* pFrom);
+	void playerOption(sf::Packet rData, BasePlayerTraits* pFrom);
 	/// We are being told to start the game. data contains the game information.
 	void recieveLevel(sf::Packet& data);
 	/// Called by Server when player clicks Launch. Sends data to Clients.
 	void launchMultiplayerGame();
 
 protected:
-	void input(const std::string rCommand, sf::Packet rData);
+	void input(const String rCommand, sf::Packet rData);
 
 	/// Receive (udp).
 	void udpRecieve();
@@ -113,7 +114,7 @@ protected:
 private:
 	IOComponent m_io;
 
-	std::string m_remoteIP;//the address we will attempt to join if a client
+	String m_remoteIP;//the address we will attempt to join if a client
 	unsigned short m_port;//the port we will try to join if a client, or that we will host on if a client
 	float m_timeOut;//timeout we use for connections
 
@@ -126,10 +127,13 @@ private:
 	sf::UdpSocket m_udp;
 	//each connection is another player (on server)
 	//does not store the hosts player
-	std::vector<sptr<Connection> > m_connections;
+	List<sptr<Connection> > m_connections;
 
 	NetworkFactory m_nwFactoryTcp;
-	NetworkFactory m_nwFactory;
+	/// <summary>
+	/// ships, modules
+	/// </summary>
+	NetworkFactory m_dataProtocol;
 };
 
 #endif // NETWORKBOSS_HPP

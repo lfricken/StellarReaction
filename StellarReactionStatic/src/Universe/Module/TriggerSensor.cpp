@@ -28,17 +28,17 @@ void TriggerSensor::prePhysUpdate()
 		for(auto it = m_guests.cbegin(); it != m_guests.cend(); ++it)
 		{
 			b2Body* bod = (*it)->getBodyPtr();
-			b2Vec2 myPos = m_fix.getCenter();
-			b2Vec2 targetPos = bod->GetPosition();
-			b2Vec2 direction = myPos - targetPos;
+			Vec2 myPos = m_fix.getCenter();
+			Vec2 targetPos = bod->GetPosition();
+			Vec2 direction = myPos - targetPos;
 
-			float fractionToCenter = 1 - (direction.Length() / m_radius);
+			float fractionToCenter = 1 - (direction.len() / m_radius);
 
-			int damage = fractionToCenter * m_maxDamage;
+			int damage = (int)(fractionToCenter * m_maxDamage);
 			if(damage < m_minDamage)
 				damage = m_minDamage;
 
-			Weapon::damage(&game.getUniverse().getUniverseIO(), (*it)->getIOPos(), damage, getFixtureComponent().getIOPos(), m_parentChunk->getBodyComponent().getTeam());
+			Weapon::damage(&game.getUniverse().getUniverseIO(), (*it)->getIOPos(), damage, getFixtureComponent().getIOPos(), m_parentChunk->getBodyComponent().getTeam(), Vec2(0, 0), Vec2(0, 0), "");
 		}
 		m_damageTimer.setCountDown(m_period);
 		m_damageTimer.restartCountDown();

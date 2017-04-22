@@ -1,0 +1,30 @@
+{
+    "ClassName": "ShipModuleData",
+    "baseDecor": {
+        "dimensions": [
+            256,
+            256
+        ],
+        "permanentRot": 0,
+        "center": [
+            0,
+            0
+        ],
+        "texName": "default",
+        "animSheetName": "default.acfg",
+        "layer": "ShipModules"
+    },
+    "health": {
+        "Max": 1000,
+        "Min": 0,
+        "Value": 1000,
+        "Armor": 0
+    },
+    "fixComp": {
+        "colCat": "ShipModule",
+        "colMask": "ShipModule"
+    },
+    "deathSound": {
+        "name": "ExplodeSmall.wav"
+    }
+}

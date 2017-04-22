@@ -22,7 +22,7 @@ public:
 
 protected:
 private:
-	std::vector<GraphicsComponent*> m_targets;
+	List<GraphicsComponent*> m_targets;
 };
 
 

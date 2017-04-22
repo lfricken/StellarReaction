@@ -8,7 +8,7 @@ BatchLayers::~BatchLayers()
 {
 
 }
-QuadData BatchLayers::request(const std::string& rTexName, GraphicsLayer layer)
+QuadData BatchLayers::request(const String& rTexName, GraphicsLayer layer)
 {
 	return m_batches[layer].request(rTexName);
 }

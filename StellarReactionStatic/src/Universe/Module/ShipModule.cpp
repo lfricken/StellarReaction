@@ -3,19 +3,20 @@
 #include "Player.hpp"
 #include "Team.hpp"
 
-using namespace std;
+
 
 void ShipModuleData::loadJson(const Json::Value& root)
 {
 	LOADJSON(health);
 	LOADJSON(baseDecor);
-
+	LOADJSON(deathSound);
 
 	ModuleData::loadJson(root);
 }
 
 ShipModule::ShipModule(const ShipModuleData& rData) : Module(rData), m_health(rData.health)
 {
+	m_deathSound = rData.deathSound;
 	m_decors.push_back(sptr<GraphicsComponent>(new QuadComponent(rData.baseDecor)));
 	m_baseDecor = m_decors.size() - 1;
 
@@ -31,8 +32,7 @@ ShipModule::ShipModule(const ShipModuleData& rData) : Module(rData), m_health(rD
 	data.permanentRot = 0;
 	data.center.x = 0;
 	data.center.y = 0;
-	data.texName = "effects/module_hit.png";
-	data.animSheetName = "effects/module_hit.acfg";
+	data.texName = "effects/module_hit";
 	data.layer = GraphicsLayer::ShipAppendagesLower;
 	m_decors.push_back(sptr<GraphicsComponent>(new QuadComponent(data)));
 	m_hitDecorIndex = m_decors.size() - 1;
@@ -43,8 +43,7 @@ ShipModule::ShipModule(const ShipModuleData& rData) : Module(rData), m_health(rD
 	data.permanentRot = 0;
 	data.center.x = 0;
 	data.center.y = 0;
-	data.texName = "effects/explosion1.png";
-	data.animSheetName = "effects/explosion1.acfg";
+	data.texName = "effects/explosion1";
 	data.layer = GraphicsLayer::ShipAppendagesLower;
 	m_decors.push_back(sptr<GraphicsComponent>(new QuadComponent(data)));
 	m_explosionIndex = m_decors.size() - 1;
@@ -65,7 +64,7 @@ void ShipModule::prePhysUpdate()
 }
 void ShipModule::postPhysUpdate()
 {
-	b2Vec2 center = m_fix.getCenter();
+	Vec2 center = m_fix.getCenter();
 	float angle = m_fix.getAngle();
 	for(int i = 0; i < (signed)m_decors.size(); ++i)
 	{
@@ -81,17 +80,20 @@ void ShipModule::unpack(sf::Packet& rPacket)
 {
 
 }
-void ShipModule::input(std::string rCommand, sf::Packet rData)
+void ShipModule::input(String rCommand, sf::Packet rData)
 {
 	const float damagedPercent = 0.25;// TODO should be some global constant
 
-	if(rCommand == "damage")
+	if(rCommand == "damage")//TODO huge if statement needs refactor
 	{
 		int val;
 		int cause;
 		Team damagingTeam;
 		int teamTemp;
-		rData >> val >> cause >> teamTemp;
+		Vec2 hitPoint;
+		Vec2 fromDir;
+		String effect;
+		rData >> val >> cause >> teamTemp >> hitPoint.x >> hitPoint.y >> fromDir.x >> fromDir.y >> effect;
 		damagingTeam = static_cast<Team>(teamTemp);
 		Team myTeam = m_parentChunk->getBodyComponent().getTeam();
 
@@ -102,6 +104,14 @@ void ShipModule::input(std::string rCommand, sf::Packet rData)
 		if(damagePositive && differentTeams && validTeams)
 		{
 			m_health.damage(val);
+			if(effect != "")
+			{
+				const Vec2 bodyCenter = m_fix.getBodyPtr()->GetWorldCenter();
+				const Vec2 bounce = fromDir.bounce(bodyCenter.to(hitPoint));
+				game.getUniverse().spawnParticles(effect, hitPoint, bounce, m_fix.getBodyPtr()->GetLinearVelocity());
+			}
+
+
 			m_io.event(EventType::Health, m_health.getHealth(), voidPacket);
 
 			m_decors[m_hitDecorIndex]->getAnimator().setAnimation("Hit", 0.20f);
@@ -153,7 +163,7 @@ bool ShipModule::isFunctioning()//does this module still do its function
 	else if(m_healthState == HealthState::Damaged)
 		return m_functionsDamaged;
 
-	cout << "\n" << FILELINE;
+	Print << "\n" << FILELINE;
 	return true;
 }
 void ShipModule::setHealthState(HealthState newState)
@@ -179,16 +189,19 @@ void ShipModule::setHealthStateHook(HealthState newState)
 }
 void ShipModule::f_died()
 {
-	b2Vec2 center = m_fix.getCenter();
+	Vec2 center = m_fix.getCenter();
 	m_decors[m_hitDecorIndex]->getAnimator().setAnimation("Default", 1.0f);
 
 	m_decors[m_explosionIndex]->getAnimator().setAnimation("Explode", 1.0f);
 	m_decors[m_explosionIndex]->setPosition(center);
 
-	SoundData sound;
-	sound.name = "ExplodeSmall.wav";
-	sound.pos = center;
-	game.getSound().playSound(sound);
+	m_deathSound.play(center);
+
+	//Sound needed.
+	//SoundData sound;
+	//sound.name = "ExplodeSmall.wav";
+	//sound.pos = center;
+	//game.getSound().playSound(sound);
 }
 void ShipModule::toggleStealth(bool toggle)
 {

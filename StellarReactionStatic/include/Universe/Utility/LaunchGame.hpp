@@ -9,16 +9,16 @@ struct GameLaunchData
 {
 	struct PlayerData
 	{
-		string slaveName;//name of intended slave
-		string playerName;
+		String slaveName;//name of intended slave
+		String playerName;
 		Money playerMoney;
-		string ship;//which ship?
+		String ship;//which ship?
 		Team team;//which team are they on
 		bool isAI;//is it an AI Player?
 	};
 
-	string level;//name of level
+	String level;//name of level
 	int localController;//which controller the local player has
-	vector<PlayerData> playerList;
+	List<PlayerData> playerList;
 };
 

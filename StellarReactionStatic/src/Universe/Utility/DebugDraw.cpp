@@ -3,7 +3,7 @@
 #include "stdafx.hpp"
 #include "Convert.hpp"
 
-using namespace std;
+
 
 DebugDraw::DebugDraw()
 {
@@ -84,7 +84,7 @@ void DebugDraw::DrawTransform(const b2Transform& xf)
 {
 	(void)xf;
 
-	m_line[0].position = leon::b2Tosf<float>(b2Vec2(0,0));
+	m_line[0].position = leon::b2Tosf<float>(Vec2(0,0));
 	m_line[1].position = leon::b2Tosf<float>(xf.p);
 
 	game.getWindow().draw(m_line);

@@ -10,7 +10,7 @@
 class BasePlayerTraits
 {
 public:
-	BasePlayerTraits(const std::string& rName);
+	BasePlayerTraits(const String& rName);
 	virtual ~BasePlayerTraits();
 
 	///Set our team.
@@ -25,23 +25,19 @@ public:
 	int getController() const;
 
 	///Set which ship does this player want to start with.
-	void setShipChoice(const std::string& rTitle);
+	void setShipChoice(const String& rTitle);
 	///Which ship does this player want to start with?
-	const std::string& getShipChoice() const;
+	const String& getShipChoice() const;
 	
 
 	///Set in game name, seen by other players.
-	void setName(const std::string& rTitle);
+	void setName(const String& rTitle);
 	///Get in game name, seen by other players.
-	const std::string& getName() const;
+	const String& getName() const;
 
 	/// Give this player another module of this type.
-	virtual void addModule(const std::string& newTitle, const b2Vec2& rPos);
-	/// Take from this player another module of this type.
-	virtual bool removeModule(const std::string& oldTitle);
+	//virtual void addModule(const String& newTitle, const sf::Vector2i& rPos);
 
-	/// Get the List of modules this player has, as well as their positions.
-	const std::vector<std::pair<std::string, b2Vec2> >& getOwnedModuleTitles() const;
 	/// Set this players money value.
 	void setMoney(Money amount);
 	/// Change this players money by a certain amount.
@@ -52,14 +48,14 @@ public:
 protected:
 	///Which controller do we have, 0, 1, 2, ect.(points to a controller in the list)
 	int m_controller;
-	///Llist of modules and where they exist on the ship.
-	std::vector<std::pair<std::string, b2Vec2> > m_owned;
+	/////List of modules and where they exist on the ship.
+	//List<std::pair<String, Vec2> > m_owned;
 
 private:
 	///Name of ship this player wants (blueprint name).
-	std::string m_shipChoice;
+	String m_shipChoice;
 	///In game name.
-	std::string m_name;
+	String m_name;
 	///Which team this player is on.
 	Team m_team;
 	///Total current money this player owns.

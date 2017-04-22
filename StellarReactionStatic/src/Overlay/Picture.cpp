@@ -1,5 +1,6 @@
 #include "Picture.hpp"
 #include "Globals.hpp"
+#include "TextureAllocator.hpp"
 
 using namespace leon;
 
@@ -17,8 +18,11 @@ Picture::~Picture()
 }
 void Picture::f_initialize(const PictureData& rData)
 {
-	f_assign(m_pPicture.get());
-	m_pPicture->load(contentDir() + "textures/" + rData.texName);
-	m_pPicture->setPosition(rData.screenCoords);
-	m_pPicture->setSize(rData.size.x, rData.size.y);
+	m_pPicture->loadFromTexture(*game.getTextureAllocator().request(rData.texName));
+	f_assign(m_pPicture.get(), rData);
 }
+void Picture::load(const String& fullFilePath)
+{
+	//does nothing because we need to load manually
+}
+

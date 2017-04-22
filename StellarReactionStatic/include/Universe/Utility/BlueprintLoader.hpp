@@ -4,6 +4,7 @@
 #include "Globals.hpp"
 #include "JSON.hpp"
 #include "NonCopyable.hpp"
+#include "Debugging.hpp"
 
 struct ModuleData;
 struct ProjectileData;
@@ -11,6 +12,10 @@ struct ChunkData;
 struct WeaponData;
 struct StaticDecorData;
 struct DynamicDecorData;
+struct Particles;
+
+
+
 
 /// Handles the loading of Blueprints from files.
 class BlueprintLoader : NonCopyable
@@ -19,21 +24,21 @@ public:
 	BlueprintLoader();
 	virtual ~BlueprintLoader();
 	///Loads blueprints from the given directory.
-	void loadBlueprints(const std::string& rDir);
+	void loadBlueprints(const String& rDir);
 	///Returns a shared pointer to the ModuleData object created from the given blueprint.
-	sptr<const ModuleData> getModuleSPtr(const std::string& rBPName) const;
+	sptr<const ModuleData> getModuleSPtr(const String& rBPName) const;	
+	///Returns a shared pointer to the Particle object created from the given blueprint.
+	sptr<const Particles> getParticleSPtr(const String& rBPName) const;
 	///Returns a shared pointer to the ChunkData object created from the given blueprint.
-	sptr<const ChunkData> getChunkSPtr(const std::string& rBPName) const;
+	sptr<const ChunkData> getChunkSPtr(const String& rBPName) const;
 	///Returns a shared pointer to the WeaponData object created from the given blueprint.
-	sptr<const WeaponData> getWeaponSPtr(const std::string& rBPName) const;
+	sptr<const WeaponData> getWeaponSPtr(const String& rBPName) const;
 	///Returns a shared pointer to the ProjectileData object created from the given blueprint.
-	sptr<const ProjectileData> getProjectileSPtr(const std::string& rBPName) const;
+	sptr<const ProjectileData> getProjectileSPtr(const String& rBPName) const;
 	///Returns a shared pointer to the StaticDecorData object created from the given blueprint.
-	sptr<const StaticDecorData> getStaticDecorSPtr(const std::string& rBPName) const;
+	sptr<const StaticDecorData> getStaticDecorSPtr(const String& rBPName) const;
 	///Returns a shared pointer to the DynamicDecorData object created from the given blueprint.
-	sptr<const DynamicDecorData> getDynamicDecorSPtr(const std::string& rBPName) const;
-	///Loads a color from the JSON object.
-	static sf::Color loadColor(const Json::Value& root);
+	sptr<const DynamicDecorData> getDynamicDecorSPtr(const String& rBPName) const;
 protected:
 private:
 
@@ -41,7 +46,7 @@ private:
 	/** Changing this file doesn't always trigger a recompile, you may need to manually do it!
 	**/
 	template <typename T>
-	void storeData(const std::string& fileName, const std::string& fullPath, std::map<std::string, sptr<const T> >& blueprints)//load that blueprint
+	void storeData(const String& title, const String& fullPath, std::map<String, sptr<const T> >& blueprints)//load that blueprint
 	{
 		std::ifstream stream(fullPath, std::ifstream::binary);
 		Json::Reader reader;
@@ -49,20 +54,18 @@ private:
 		bool parsedSuccess = reader.parse(stream, root, false);
 
 		if(parsedSuccess)
-		{
-			const std::string title = fileName;
 			blueprints[title] = loadData<T>(title, root);
-		}
 		else
 			std::cout << "\nParse Failed [" << fullPath << "].\n" << FILELINE;
 	}
 	template <typename T>
-	sptr<const T> loadData(const std::string& title, const Json::Value& root)
+	sptr<const T> loadData(const String& title, const Json::Value& root)
 	{
+		static_assert(std::is_base_of<BlueprintData, T>::value, "T1 must derive from Base");
 		sptr<const T> spMod;
-		std::string ClassName = "garbage";
+		String ClassName = "garbage";
 		GETJSON(ClassName);
-		
+
 		if(ClassName == "garbage")
 			std::cout << "\nClassName not found in [" << title << "].\n" << FILELINE;
 
@@ -81,7 +84,7 @@ private:
 		return spMod;
 	}
 	template <typename T>
-	sptr<const T> getData(const std::string& rBPName, const std::map<std::string, sptr<const T> >& blueprints) const
+	sptr<const T> getData(const String& rBPName, const std::map<String, sptr<const T> >& blueprints) const
 	{
 		auto it = blueprints.find(rBPName);
 
@@ -94,10 +97,11 @@ private:
 		}
 	}
 
-	std::map<std::string, sptr<const ModuleData> > m_modBP;
-	std::map<std::string, sptr<const WeaponData> > m_wepBP;
-	std::map<std::string, sptr<const ChunkData> > m_cnkBP;
-	std::map<std::string, sptr<const ProjectileData> > m_prjBP;
-	std::map<std::string, sptr<const StaticDecorData> > m_sdcBP;
-	std::map<std::string, sptr<const DynamicDecorData> > m_ddcBP;
+	std::map<String, sptr<const ModuleData> > m_modBP;
+	std::map<String, sptr<const WeaponData> > m_wepBP;
+	std::map<String, sptr<const ChunkData> > m_cnkBP;
+	std::map<String, sptr<const ProjectileData> > m_prjBP;
+	std::map<String, sptr<const StaticDecorData> > m_sdcBP;
+	std::map<String, sptr<const DynamicDecorData> > m_ddcBP;
+	std::map<String, sptr<const Particles> > m_particlesBP;
 };

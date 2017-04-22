@@ -16,7 +16,7 @@ namespace leon
 
 		///bool hidePanelButton;//should we hide the button that closes this panel
 		sf::Color backgroundColor;//background color if not given a texture
-		std::string backgroundTex;//background texture
+		String backgroundTex;//background texture
 	};
 
 	/// A Panel holds all WidgetBase objects.
@@ -30,13 +30,14 @@ namespace leon
 		/// Return pointer to TGUI::Panel.
 		tgui::Panel::Ptr getPanelPtr() const;
 		/// Add a WidgetBase to this Panel.
-		void add(sptr<WidgetBase> sp_widget);
+		virtual void add(sptr<WidgetBase> sp_widget);
 		/// Delete all objects held by this Panel.
 		void clear();
 
 	protected:
+		virtual void load(const String& fullFilePath);
 		tgui::Panel::Ptr m_pPanel;//the gui panel
-		std::vector<sptr<WidgetBase> > m_widgetList;
+		List<sptr<WidgetBase> > m_widgetList;
 
 	private:
 		void f_initialize(const PanelData& data);

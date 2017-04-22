@@ -1,14 +1,20 @@
 #include "Sensor.hpp"
 
-using namespace std;
+
 
 void SensorData::loadJson(const Json::Value& root)
 {
 	ModuleData::loadJson(root);
+
+	GETJSON(startEnabled);
+	GETJSON(disabledColCategory);
 }
 Sensor::Sensor(const SensorData& rData) : Module(rData)
 {
-	m_enabled = rData.startEnabled;
+	m_enabledCollision = rData.fixComp.colCategory;
+	m_disabledCollision = rData.disabledColCategory;
+
+	toggleEnabled(rData.startEnabled);
 }
 Sensor::~Sensor()
 {
@@ -16,7 +22,10 @@ Sensor::~Sensor()
 }
 void Sensor::prePhysUpdate()
 {
-
+	if(isEnabled())
+		m_fix.setCategory(m_enabledCollision);
+	else
+		m_fix.setCategory(m_disabledCollision);
 }
 void Sensor::startContactCB(FixtureComponent* pOther)
 {

@@ -1,5 +1,4 @@
 #include "DecorationEngine.hpp"
-#include "Random.hpp"
 #include "QuadComponent.hpp"
 #include "Decoration.hpp"
 #include "Spinner.hpp"
@@ -7,6 +6,9 @@
 #include "Convert.hpp"
 #include "Player.hpp"
 #include "JSON.hpp"
+#include "BlueprintLoader.hpp"
+#include "Particles.hpp"
+
 
 DecorationEngine::DecorationEngine() : m_deltaTime(0)
 {
@@ -24,19 +26,56 @@ DecorationEngine::~DecorationEngine()
 /// <param name="halfSize">Size of the half.</param>
 void DecorationEngine::update(const Vec2& cameraPos, const Vec2& halfSize, const float zoom)
 {
-	Vec2 bottomLeft = cameraPos - halfSize;
-	Vec2 topRight = cameraPos + halfSize;
+	const Vec2 bottomLeft = cameraPos - halfSize;
+	const Vec2 topRight = cameraPos + halfSize;
+	const float dTime = m_deltaTime.getTimeElapsed();
+	const float currentTime = game.getUniverse().getTime();
 
-	float dTime = m_deltaTime.getTimeElapsed();;
-	for(auto it = m_decorations.begin(); it != m_decorations.end(); ++it)
-		(**it).updateScaledPosition(cameraPos, bottomLeft, topRight, zoom, dTime);
+	{
+
+		auto lastIt = m_fullParticles.end();
+		for(auto it = m_fullParticles.begin(); it != m_fullParticles.end(); ++it)
+		{
+			if(it->first.first <= currentTime)//this should start fading
+			{
+				lastIt = it;//remember the last one we did
+				m_fadingParticles[it->first.second] = it->second;//copy to fading list
+				it->second->startFade(it->first.second - currentTime);
+			}
+			else
+				(it->second)->updateScaledPosition(cameraPos, bottomLeft, topRight, zoom, dTime);
+		}
+
+		if(lastIt != m_fullParticles.end())//remove from front
+			m_fullParticles.erase(m_fullParticles.begin(), ++lastIt);
+
+	}
+	{
+
+		auto lastIt = m_fadingParticles.end();
+		for(auto it = m_fadingParticles.begin(); it != m_fadingParticles.end(); ++it)
+		{
+			if(it->first <= currentTime)//this should expire
+				lastIt = it;//find the last one to expire
+			else
+				(it->second)->updateScaledPosition(cameraPos, bottomLeft, topRight, zoom, dTime);
+		}
+
+		if(lastIt != m_fadingParticles.end())//remove from front
+			m_fadingParticles.erase(m_fadingParticles.begin(), ++lastIt);
+
+	}
+	{
+		for(auto it = m_decorations.begin(); it != m_decorations.end(); ++it)
+			(**it).updateScaledPosition(cameraPos, bottomLeft, topRight, zoom, dTime);
+	}
 }
 void DecorationEngine::loadJson(const Json::Value& decorations)
 {
 	m_deltaTime.getTimeElapsed();
 
 	const float maxZoom = game.getLocalPlayer().getCamera().m_maxZoom;
-	const float maxDim = std::max(game.getWindow().getSize().x / 2, game.getWindow().getSize().y / 2) / scale;
+	const float maxDim = (float)Math::max(game.getWindow().getSize().x / 2, game.getWindow().getSize().y / 2) / scale;
 	const float halfSize = maxZoom * maxDim;
 
 
@@ -56,7 +95,7 @@ void DecorationEngine::loadJson(const Json::Value& decorations)
 		for(int i = 0; i < count; ++i)
 		{
 			pQuad = new QuadComponent(quadData);
-			pDecor = new Decoration(decorData, pQuad);
+			pDecor = new Decoration(decorData, sptr<GraphicsComponent>(pQuad));
 			m_decorations.push_back(sptr<Decoration>(pDecor));
 		}
 	}
@@ -68,10 +107,61 @@ void DecorationEngine::initSpawns(const Vec2& cameraPos, const Vec2& maxHalf)
 		if((**it).isRandSpawn())
 		{
 			(**it).m_lastCameraPos = cameraPos;
-			float x = Random::get(-maxHalf.x, maxHalf.x);
-			float y = Random::get(-maxHalf.y, maxHalf.y);
+			float x = Rand::get(-maxHalf.x, maxHalf.x);
+			float y = Rand::get(-maxHalf.y, maxHalf.y);
 			(**it).setPosition(cameraPos + Vec2(x,y));
 		}
 	}
 }
+void DecorationEngine::spawnParticles(const String& particleBP, const Vec2& pos, const Vec2& dir, const Vec2& transverse)
+{
+	auto direction = dir;
+	if(direction.len() == 0)
+		direction = Vec2(1, 1);
+	direction = direction.unit();
 
+	const Particles& effect = *game.getUniverse().getBlueprints().getParticleSPtr(particleBP);
+
+	DecorationData decorData;
+	Pair<float, float> expiration;
+	decorData.spawnRandom = false;
+	decorData.infiniteZ = false;
+	decorData.repeats = false;
+	decorData.realPosition = pos;
+	decorData.zPos = 0;
+
+	float time = game.getUniverse().getTime();
+
+	assert(!isinf(direction.x) && !isinf(direction.y));
+
+	for(int i = 0; i < effect.number; ++i)
+		spawnParticle(decorData, effect, direction, transverse, time, i);
+
+}
+void DecorationEngine::spawnParticle(DecorationData decorData, const Particles& effectConst, const Vec2& dir, const Vec2& transverse, float time, int i)
+{
+	Pair<float, float> expiration;
+	Particles effect = effectConst;
+
+	Vec2 randDir = dir;
+	auto rot = Rand::get(-effect.randArc, effect.randArc);
+	randDir = dir.rotate(Math::toRad(rot));
+
+	float vel = Rand::get(1.f, effect.randVelScalarMax) * effect.velocity;
+	randDir *= vel;
+
+	decorData.maxSpinRate = (effect.maxSpinRate);
+	decorData.minSpinRate = (effect.minSpinRate);
+
+	effect.quadData.permanentRot = Math::toDeg(randDir.toAngle());
+
+	randDir += transverse;
+	decorData.maxVelocity = randDir;
+	decorData.minVelocity = randDir;
+
+	auto pQuad = new QuadComponent(effect.quadData);
+	auto pDecor = new Decoration(decorData, sptr<GraphicsComponent>(pQuad));
+	expiration.first = time + effect.duration + 0.001f*i;
+	expiration.second = expiration.first + effect.fadeTime;
+	m_fullParticles[expiration] = sptr<Decoration>(pDecor);
+}

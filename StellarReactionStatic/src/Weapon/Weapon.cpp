@@ -5,11 +5,11 @@
 #include "IOManager.hpp"
 #include "SoundManager.hpp"
 #include "Player.hpp"
-#include "Random.hpp"
+
 #include "Convert.hpp"
 #include "Team.hpp"
 
-using namespace std;
+
 
 void WeaponData::loadJson(const Json::Value& root)
 {
@@ -29,11 +29,14 @@ void WeaponData::loadJson(const Json::Value& root)
 	GETJSON(fireDelay);
 	GETJSON(range);
 	GETJSON(collisions);
+	GETJSON(effectName);
 
 	LOADJSON(weaponQuad);
 }
 Weapon::Weapon(const WeaponData& rData) : m_decor(rData.weaponQuad)
 {
+	m_effectName = rData.effectName;
+
 	m_startSound = rData.startSound;
 	m_shotSound = rData.shotSound;
 	m_endSound = rData.endSound;
@@ -70,8 +73,7 @@ bool Weapon::fire(const FixtureComponent& pParent, Pool<Energy>* pEnergy, Pool<B
 	if(m_fireTimer.isTimeUp() && pEnergy->getValue() >= m_energy && pBall->getValue() >= m_ballistic && pMis->getValue() >= m_missiles)
 	{
 		m_pTempParent = &pParent;
-		m_startSound.pos = m_decor.getPosition();
-		game.getSound().playSound(m_startSound);
+		m_startSound.play(m_decor.getPosition());
 		m_decor.getAnimator().setAnimation("Fire", m_fireDelay);
 		m_fireTimer.restartCountDown();
 		pEnergy->changeValue(-m_energy);
@@ -84,35 +86,22 @@ bool Weapon::fire(const FixtureComponent& pParent, Pool<Energy>* pEnergy, Pool<B
 	else
 		return false;
 }
-void Weapon::prePhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation)//we are checking whether we should take a shot
+void Weapon::prePhysUpdate(const Vec2& center, const Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation)//we are checking whether we should take a shot
 {
 	m_pBody = pBody;
 
 	if(m_shotsRemain > 0 && m_shotTimer.isTimeUp())
 	{
 		--m_shotsRemain;
-		m_shotSound.pos = center;
-		game.getSound().playSound(m_shotSound);
+		m_shotSound.play(m_decor.getPosition());
 		m_shotTimer.restartCountDown();
 		m_shotThisTick = true;
 
 		for(int i = 0; i < m_shotsInSpread; i++)
-		{
-			float v_x = aim.x - center.x;
-			float v_y = aim.y - center.y;
-			b2Vec2 v_vec(v_x, v_y);
-			float randomArc = Random::get(-m_fireArc, m_fireArc);
-			float cs = cos(randomArc);
-			float sn = sin(randomArc);
-			float new_x = v_vec.x * cs - v_vec.y * sn;
-			float new_y = v_vec.x * sn + v_vec.y * cs;
-			b2Vec2 perp(new_x, new_y);
-			b2Vec2 newAim = center + perp;
-			preShot(center, newAim, radCCW, module_orientation);
-		}
+			preShot(center, randArc(center, aim), radCCW, module_orientation);
 	}
 }
-void Weapon::postPhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation)//we are determining our next shot
+void Weapon::postPhysUpdate(const Vec2& center, const Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation)//we are determining our next shot
 {
 	m_pBody = pBody;
 	m_decor.setRotation(radCCW);
@@ -123,41 +112,26 @@ void Weapon::postPhysUpdate(const b2Vec2& center, const b2Vec2& aim, float32 rad
 		m_shotThisTick = false;
 
 		for(int i = 0; i < m_shotsInSpread; i++)
-		{
-			float v_x = aim.x - center.x;
-			float v_y = aim.y - center.y;
-			b2Vec2 v_vec(v_x, v_y);
-			float randomArc = Random::get(-m_fireArc, m_fireArc);
-			float cs = cos(randomArc);
-			float sn = sin(randomArc);
-			float new_x = v_vec.x * cs - v_vec.y * sn;
-			float new_y = v_vec.x * sn + v_vec.y * cs;
-			b2Vec2 perp(new_x, new_y);
-			b2Vec2 newAim = center + perp;
-			postShot(center, newAim, radCCW, module_orientation);
-		}
+			postShot(center, randArc(center, aim), radCCW, module_orientation);
 	}
 
 	if(m_shotsRemain == 0)
-	{
-		m_endSound.pos = center;
-		game.getSound().playSound(m_endSound);
-	}
+		m_endSound.play(center);
 }
-void Weapon::damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmount, int ioCausePos, Team team)
+void Weapon::damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmount, int ioCausePos, Team team, const Vec2& collisionPoint, const Vec2& fromDirection, const String& effect)
 {
 	sf::Packet packet;
-	packet << damageAmount << ioCausePos << static_cast<int>(team);
+	packet << damageAmount << ioCausePos << static_cast<int>(team) << collisionPoint.x << collisionPoint.y << fromDirection.x << fromDirection.y << effect;
 
 	Message mess;
 	mess.reset(ioTargetPos, "damage", packet, 0.f, false);
-
+	//dout << "\nDamage Target [" << ioTargetPos << "]";
 	pMessageReciever->recieve(mess);
 }
-void Weapon::damage(b2Fixture* pFix, int damage)
+void Weapon::damage(b2Fixture* pFixtureTakingDamage, int damageAmount, const Vec2& collisionPoint, const Vec2& fromDirection)
 {
-	FixtureComponent& rComp = *static_cast<FixtureComponent*>(pFix->GetUserData());
-	Weapon::damage(&game.getUniverse().getUniverseIO(), rComp.getIOPos(), (m_damage / m_shots), m_pTempParent->getIOPos(), m_team);
+	FixtureComponent& rComp = *static_cast<FixtureComponent*>(pFixtureTakingDamage->GetUserData());
+	Weapon::damage(&game.getUniverse().getUniverseIO(), rComp.getIOPos(), (damageAmount / m_shots), m_pTempParent->getIOPos(), m_team, collisionPoint, fromDirection, m_effectName);
 }
 QuadComponent* Weapon::getDecor()
 {
@@ -166,4 +140,9 @@ QuadComponent* Weapon::getDecor()
 void Weapon::setTeam(Team newTeam)
 {
 	m_team = newTeam;
+}
+Vec2 Weapon::randArc(const Vec2& center, const Vec2& aim) const
+{
+	auto relativeVec = center.to(aim);
+	return relativeVec.rotate(Rand::get(-m_fireArc, m_fireArc)) + center;
 }

@@ -4,7 +4,6 @@
 #include "Player.hpp"
 
 using namespace leon;
-using namespace std;
 
 Chatbox::Chatbox(tgui::Gui& gui, const ChatboxData& rData) : WidgetBase(gui, rData), m_pChatBox(gui), m_nw(rData.nwCompData, &Chatbox::pack, &Chatbox::unpack, this, game.getNwBoss().getNWFactoryTcp())
 {
@@ -20,45 +19,48 @@ Chatbox::~Chatbox()
 }
 void Chatbox::f_initialize(const ChatboxData& rData)
 {
-	f_assign(m_pChatBox.get());
-	m_pChatBox->load(contentDir() + rData.configFile);
-	m_pChatBox->setPosition(rData.screenCoords);
-	m_pChatBox->setSize(rData.size.x, rData.size.y);
+	f_assign(m_pChatBox.get(), rData);
 
-	EditBoxData ebd = rData.editBoxData;
-	ebd.ioComp.name = rData.ioComp.name + "_editbox";
-	ebd.screenCoords.x = rData.screenCoords.x;
-	ebd.screenCoords.y = rData.screenCoords.y+rData.size.y;
+	{//components
+		EditBoxData ebd = rData.editBoxData;
+		ebd.ioComp.name = rData.ioComp.name + "_editbox";
+		ebd.screenCoords.x = rData.screenCoords.x;
+		ebd.screenCoords.y = rData.screenCoords.y + rData.size.y;
 
-	ebd.size.y = 25;
-	ebd.size.x = rData.size.x;
+		ebd.size.y = 25;
+		ebd.size.x = rData.size.x;
 
-	ebd.startingText = "";
-	ebd.startHidden = false;
+		ebd.startingText = "";
+		ebd.startHidden = false;
 
-	Courier enterPressed;
-	enterPressed.condition.reset(EventType::ReturnKeyPressed, 0, 'd', true);
-	enterPressed.message.reset(rData.ioComp.name, "chat", voidPacket, 0, true);
-	ebd.ioComp.courierList.push_back(enterPressed);
+		Courier enterPressed;
+		enterPressed.condition.reset(EventType::ReturnKeyPressed, 0, 'd', true);
+		enterPressed.message.reset(rData.ioComp.name, "chat", voidPacket, 0, true);
+		ebd.ioComp.courierList.push_back(enterPressed);
 
-	sf::Packet clear;//TODO WHAT IS THIS CONDITION FOR???
-	clear << "";
-	Courier enterPressedClear;
-	enterPressedClear.condition.reset(EventType::ReturnKeyPressed, 0, 'd', true);
-	enterPressedClear.message.reset(ebd.ioComp.name, "setText", clear, 0.01f, false);
-	ebd.ioComp.courierList.push_back(enterPressedClear);
+		sf::Packet clear;//TODO WHAT IS THIS CONDITION FOR???
+		clear << "";
+		Courier enterPressedClear;
+		enterPressedClear.condition.reset(EventType::ReturnKeyPressed, 0, 'd', true);
+		enterPressedClear.message.reset(ebd.ioComp.name, "setText", clear, 0.01f, false);
+		ebd.ioComp.courierList.push_back(enterPressedClear);
 
-	m_spEditBox.reset(new leon::EditBox(*m_pChatBox->getParent(), ebd));
+		m_spEditBox.reset(new leon::EditBox(*m_pChatBox->getParent(), ebd));
+	}
 }
-void Chatbox::addLine(const std::string& rText)
+void Chatbox::load(const String& fullFilePath)
+{
+	m_pChatBox->load(fullFilePath);
+}
+void Chatbox::addLine(const String& rText)
 {
 	m_pChatBox->addLine(rText);
 }
-bool Chatbox::inputHook(const std::string rCommand, sf::Packet rData)
+bool Chatbox::inputHook(const String rCommand, sf::Packet rData)
 {
 	if(rCommand == "chat")
 	{
-		string text;
+		String text;
 		rData >> text;
 		text = game.getLocalPlayer().getName() + ": " + text;
 
@@ -71,7 +73,7 @@ bool Chatbox::inputHook(const std::string rCommand, sf::Packet rData)
 	}
 	else if(rCommand == "addLine")
 	{
-		string text;
+		String text;
 		rData >> text;
 
 		m_latest = text;
@@ -83,7 +85,7 @@ bool Chatbox::inputHook(const std::string rCommand, sf::Packet rData)
 	}
 	else if(rCommand == "addLineLocal")
 	{
-		std::string line;
+		String line;
 		rData >> line;
 		addLine(line);
 		return true;
@@ -102,8 +104,8 @@ void Chatbox::pack(sf::Packet& rPacket)//give us data to send to the twin in the
 }
 void Chatbox::unpack(sf::Packet& rPacket)//process data from our twin
 {
-	cout << "\nChatbox unpack.";
-	std::string line;
+	Print << "\nChatbox unpack.";
+	String line;
 	rPacket >> line;
 	addLine(line);
 	if(game.getNwBoss().getNWState() == NWState::Server)

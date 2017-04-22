@@ -6,9 +6,9 @@
 
 #include <iostream>
 #include <stdio.h>
-#include <vector>
+#include <List>
 #include <algorithm>
-#include <string>
+#include <String>
 #include <sstream>
 #include <cmath>
 #include <unordered_map>
@@ -41,28 +41,76 @@
 
 #include <JSON/json.h>/**JSON**/
 
+#include <Math/Math.hpp>/**LEON MATH**/
+
 
 template<typename T>
 using sptr = std::shared_ptr<T>;
-
 template<typename T>
-using Sp = std::shared_ptr<T>;
+using wptr = std::weak_ptr<T>;
 
-template<typename T>
-using Wp = std::weak_ptr<T>;
+class Vec2 : public Math::Vec2
+{
+public:
+	Vec2()
+	{
 
-template<typename T>
-using List = std::vector<T>;
+	}
+	Vec2(float xi, float yi)
+	{
+		x = xi;
+		y = yi;
+	}
 
-template<typename T, typename R>
-using Map = std::map<T, R>;
-
-using Vec2 = b2Vec2;
-
-using std::vector;
-using std::string;
-
-
+	///Cast for using inherited functions.
+	Vec2(const Math::Vec2& cast)
+	{
+		x = cast.x;
+		y = cast.y;
+	}
+	operator Math::Vec2() const
+	{
+		return Math::Vec2(x, y);
+	}
+	///Cast for Box2D
+	//Vec2(const Vec2& cast)
+	//{
+	//	x = cast.x;
+	//	y = cast.y;
+	//}
+	//operator Vec2() const
+	//{
+	//	return Vec2(x,y);
+	//}
+	Vec2(const b2Vec2& cast)
+	{
+		x = cast.x;
+		y = cast.y;
+	}
+	operator b2Vec2() const
+	{
+		return b2Vec2(x, y);
+	}
+	///Cast for SFML
+	explicit Vec2(const sf::Vector2f& cast)
+	{
+		x = cast.x;
+		y = cast.y;
+	}
+	explicit Vec2(const sf::Vector2i& cast)
+	{
+		x = static_cast<float>(cast.x);
+		y = static_cast<float>(cast.y);
+	}
+	explicit operator sf::Vector2f() const
+	{
+		return sf::Vector2f(x, y);
+	}
+	explicit operator sf::Vector2i() const
+	{
+		return sf::Vector2i(static_cast<int>(x), static_cast<int>(y));
+	}
+};
 
 
 /**I would have written less code, but I don't have the time.**/
@@ -96,7 +144,7 @@ Never use any "using namespace" in header files.
 Comment things that aren't obvious, but don't comment things that are obvious, like getVariableName and setVariableName
 Most struct and POD objects should have a constructor that creates a really generic version of itself with some properties for testing
 
-Pass stuff around by value if its an individual STL data type, like in or string, const reference when its more complex data
+Pass stuff around by value if its an individual STL data type, like in or String, const reference when its more complex data
 Use pointers if the lifetime of an object is not known.
 Use const when possible
 
@@ -104,13 +152,13 @@ Use const when possible
 POINTERS:
 Things that cause pointers to go wrong are:
 Objects getting destroyed when you think they aren't going to be.
-std::vectors destroy and realloc when you add or remove
+Lists destroy and realloc when you add or remove
 Any STL containers for that matter.
 
 
 SFML:
 Use Vector2f for dealing with screen coordinates only.
-Try to use b2Vec2 for everything else. They are the standard unit of measurement
+Try to use Vec2 for everything else. They are the standard unit of measurement
 
 
 

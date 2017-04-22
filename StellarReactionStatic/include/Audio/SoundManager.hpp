@@ -1,9 +1,6 @@
-#ifndef SOUNDMANAGER_HPP
-#define SOUNDMANAGER_HPP
+#pragma once
 
 #include "stdafx.hpp"
-#include "SoundData.hpp"
-#include "Sound.hpp"
 #include "NonCopyable.hpp"
 
 namespace leon
@@ -11,18 +8,7 @@ namespace leon
 	class Sound;
 }
 
-///Stored in SoundManger. Each Sound only has a certain number of possible noises
-struct Noise
-{
-	Noise()
-	{
-		m_name = "";
-		m_startTime = -100;
-	}
-	std::string m_name;///what sound we are playing now
-	sf::Sound m_sound;///here is the sound, get the status
-	float m_startTime;///from game time
-};
+
 
 
 /// \brief Plays all sounds in game.
@@ -35,28 +21,42 @@ public:
 	SoundManager();
 	virtual ~SoundManager();
 
-	///Play a particular sound once.
-	void playSound(const SoundData& rSound);
 	///Play a sound, and return a handle to it so we can manipulate the sound later.
-	int playSound(const std::string& rSoundName, int volume = 100, float minDist = 5, float dropOff = 20, const b2Vec2& rPos = b2Vec2(1,0), bool relative = true, bool looping = false);
-	///Stop a sound, with a handle.
-	int stopSound(int noiseIndex);
-
-	friend class leon::Sound;
+	int playSound(const leon::Sound& sound);
+	///Play a sound, and return a handle to it so we can manipulate the sound later.
+	int playSound(const String& rSoundName, const Vec2& rPos = Vec2(10, 0), int volume = 100, float minDist = 15, float dropOff = 1, bool relative = true, bool looping = false, bool aquireLock = false);
+	///Get a sound.
+	sf::Sound& get(int noiseIndex);
 	
 protected:
 private:
-	/// minimum delay between playing sounds.
-	static const float m_minDelay;
-	static const std::string m_directory;	
-	/// Max sounds that can play (don't mess with this)
-	static const int m_numNoises = 255;//citation: http://www.sfml-dev.org/tutorials/2.0/audio-sounds.php
-	/// Actual sounds that are playing or have played.
-	Noise m_noises[m_numNoises];
-	/// \brief map of (string soundname, sound thing which stores the actual data)
-	///
-	/// We load these into sf::Sounds to play them
-	std::map<std::string, sf::SoundBuffer> m_buffers;
-};
+	///Stored in SoundManger. Each Sound only has a certain number of possible noises
+	struct Noise
+	{
+		Noise()
+		{
+			locked = false;
+		}
+		sf::Sound sound;///here is the sound, get the status
+		/// If locked, a sound is being referenced by a handle and should not be repurposed.
+		bool locked;
+	};
 
-#endif // SOUNDMANAGER_HPP
+	///Load a sound into buffer if needed.
+	sf::SoundBuffer* loadSoundBuffer(const String& rSoundName);
+	///Gets a noise that isn't doing anything right now.
+	int getFreeNoise() const;
+
+
+
+	/// Audio directory from content folder.
+	static const String m_directory;
+	/// Max sounds that can play (don't mess with this)
+	static const int m_numNoises = 250;//256 citation: http://www.sfml-dev.org/tutorials/2.0/audio-sounds.php
+	/// Sprite instances with a max number at once.
+	Noise m_noises[m_numNoises];
+	/// Textures, unlimited at once.
+	std::map<String, sf::SoundBuffer> m_buffers;
+	/// Default Noise
+	Noise m_defaultNoise;
+};

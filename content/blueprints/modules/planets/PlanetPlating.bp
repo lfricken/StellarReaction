@@ -16,11 +16,11 @@
 			0
 		],
 		"shape": "circle",
-		"density": 30
+		"mass": 30
 	},
 	"collisionDamage": 5000,
     "baseDecor": {
-        "texName": "other/blank.png",
+        "texName": "other/blank",
         "animSheetName": "other/blank.acfg"
     }
 }

@@ -17,7 +17,7 @@ GameType Scoreboard::getGameType()
 {
 	return m_gameType;
 }
-std::map<std::string, PlayerScore> Scoreboard::getScoreMap()
+Map<String, PlayerScore> Scoreboard::getScoreMap()
 {
 	return m_scoreMap;
 }

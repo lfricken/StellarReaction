@@ -1,7 +1,7 @@
 #include "Missile.hpp"
 #include "Convert.hpp"
 
-using namespace std;
+
 
 
 Missile::Missile(const MissileData& rData) : Projectile(rData)
@@ -12,7 +12,7 @@ Missile::~Missile()
 {
 
 }
-void Missile::missileLaunch(b2Vec2 rStart, BodyComponent* target, float module_orientation, float init_velocity, float acceleration, float max_velocity, int damage, const FixtureComponent* pParent, int collisions)
+void Missile::missileLaunch(Vec2 rStart, BodyComponent* target, float module_orientation, float init_velocity, float acceleration, float max_velocity, int damage, const FixtureComponent* pParent, int collisions)
 {
 	m_pTarget = target;
 	m_acceleration = acceleration * 2;
@@ -22,8 +22,8 @@ void Missile::missileLaunch(b2Vec2 rStart, BodyComponent* target, float module_o
 	m_timer.setCountDown(10);
 	m_timer.restartCountDown();
 
-	b2Vec2 init_vec(cos(module_orientation), sin(module_orientation));
-	init_vec.Normalize();
+	Vec2 init_vec(cos(module_orientation), sin(module_orientation));
+	init_vec = init_vec.unit();
 	init_vec *= init_velocity;
 
 	m_body.wake(rStart, module_orientation, init_vec, 0);
@@ -35,9 +35,9 @@ void Missile::prePhysUpdate()
 {
 	Projectile::prePhysUpdate();
 	b2Body& bod = *m_body.getBodyPtr();
-	b2Vec2 vel = bod.GetLinearVelocity();
+	Vec2 vel = bod.GetLinearVelocity();
 
-	float totalVelocity = vel.Length();
+	float totalVelocity = vel.len();
 	float velAngle = leon::normRad(atan2(vel.y, vel.x));
 
 	float ourAngle = leon::normRad(bod.GetAngle());
@@ -46,7 +46,7 @@ void Missile::prePhysUpdate()
 	{
 		if(m_pTarget != NULL)
 		{
-			b2Vec2 diff = getTargetPos();
+			Vec2 diff = getTargetPos();
 
 			float targetAngle = leon::normRad(atan2(diff.y, diff.x));//angle of target
 			float diffAngle = leon::normRad(targetAngle - velAngle);//between velocity and target
@@ -68,8 +68,8 @@ void Missile::prePhysUpdate()
 
 		}
 
-		b2Vec2 direction(cos(ourAngle), sin(ourAngle));
-		direction.Normalize();
+		Vec2 direction(cos(ourAngle), sin(ourAngle));
+		direction = direction.unit();
 		direction *= bod.GetMass()*m_acceleration;
 
 		bod.ApplyForceToCenter(direction, true);
@@ -87,16 +87,16 @@ void Missile::normalizeAngle(float& diffObjectiveAngle)
 	if(diffObjectiveAngle > pi)
 		diffObjectiveAngle -= 2 * pi;
 }
-b2Vec2 Missile::getTargetPos()
+Vec2 Missile::getTargetPos()
 {
 	b2Body& bod = *m_body.getBodyPtr();
-	b2Vec2 ourPos = bod.GetPosition();
+	Vec2 ourPos = bod.GetPosition();
 	b2Body& tBod = *m_pTarget->getBodyPtr();
-	b2Vec2 targetVel = tBod.GetLinearVelocity();
-	b2Vec2 targetPos = tBod.GetPosition();
-	b2Vec2 diff = targetPos - ourPos;
+	Vec2 targetVel = tBod.GetLinearVelocity();
+	Vec2 targetPos = tBod.GetPosition();
+	Vec2 diff = targetPos - ourPos;
 
-	float dist = diff.Length();
+	float dist = diff.len();
 	float eta = 3 * dist / m_maxVelocity;
 
 	targetPos.x = targetPos.x + targetVel.x * eta;

@@ -39,5 +39,5 @@ enum class GraphicsLayer
 	maxLayers,
 };
 
-GraphicsLayer ChooseLayer(const std::string& rStr);
+GraphicsLayer ChooseLayer(const String& rStr);
 

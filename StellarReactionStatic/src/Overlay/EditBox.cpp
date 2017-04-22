@@ -1,7 +1,7 @@
 #include "EditBox.hpp"
 
 using namespace leon;
-using namespace std;
+
 
 EditBox::EditBox(tgui::Gui& gui, const EditBoxData& rData) : WidgetBase(gui, rData), m_pEditBox(gui)
 {
@@ -17,38 +17,38 @@ EditBox::~EditBox()
 }
 void EditBox::f_initialize(const EditBoxData& data)
 {
-	f_assign(m_pEditBox.get());
-	m_pEditBox->load(contentDir() + data.configFile);
-	m_pEditBox->setPosition(data.screenCoords);
-	m_pEditBox->setText(data.startingText);
-	m_pEditBox->setSize(data.size.x, data.size.y);
+	f_assign(m_pEditBox.get(), data);
 }
-bool EditBox::inputHook(const std::string rCommand, sf::Packet rData)
+void EditBox::load(const String& fullFilePath)
+{
+	m_pEditBox->load(fullFilePath);
+}
+bool EditBox::inputHook(const String rCommand, sf::Packet rData)
 {
 	if(rCommand == "setText")
 	{
-		std::string text;
+		String text;
 		rData >> text;
 		setText(text);
 		return true;
 	}
 	return false;
 }
-void EditBox::setText(const std::string& rText)
+void EditBox::setText(const String& rText)
 {
 	m_pEditBox->setText(rText);
 }
 void EditBox::f_TextChanged()
 {
 	sf::Packet text;
-	std::string stuff = m_pEditBox->getText();
+	String stuff = m_pEditBox->getText().toAnsiString();
 	text << stuff;
 	m_io.event(EventType::TextChanged, 0, text);
 }
 void EditBox::f_ReturnKeyPressed()
 {
 	sf::Packet text;
-	std::string stuff = m_pEditBox->getText();
+	String stuff = m_pEditBox->getText().toAnsiString();
 	text << stuff;
 	m_io.event(EventType::ReturnKeyPressed, 0, text);
 }

@@ -2,8 +2,7 @@
 
 #include "Globals.hpp"
 
-using namespace sf;
-using namespace std;
+
 
 QuadBatchContainer::QuadBatchContainer()
 {
@@ -13,9 +12,9 @@ QuadBatchContainer::~QuadBatchContainer()
 {
 
 }
-QuadData QuadBatchContainer::request(const std::string& rTexName)///IMPLEMENT VERTEX FREEING AND REUSE FOR DESTROYED THINGS
+QuadData QuadBatchContainer::request(const String& rTexName)///IMPLEMENT VERTEX FREEING AND REUSE FOR DESTROYED THINGS
 {
-	Vertex vert(sf::Vector2f(0, 0), sf::Color::White);
+	sf::Vertex vert(sf::Vector2f(0, 0), sf::Color::White);
 	QuadData data;
 	auto it = m_vertexLists.find(rTexName);
 

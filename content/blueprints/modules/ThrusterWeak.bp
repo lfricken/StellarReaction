@@ -1,0 +1,14 @@
+{
+    "ClassName": "ThrusterData",
+	"Name": "Robodine 10-X",
+	"force": 30,
+	"torque": 20,
+	"boostCostMult": 20,
+	"boostThrustMult": 2.5,
+	"energyConsumption": 1,
+    "baseDecor": {
+        "texName": "thruster/thruster",
+        "animSheetName": "thruster/thruster.acfg"
+    },
+	"cost": 150
+}

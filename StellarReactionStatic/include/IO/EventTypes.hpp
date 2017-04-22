@@ -31,8 +31,8 @@ enum class EventType
 
 	None,
 };
-/// \brief Converts the EventType string to enum class.
+/// \brief Converts the EventType String to enum class.
 ///
 /// Used for loading JSON.
-EventType ChooseEvent(const std::string& rStr);
+EventType ChooseEvent(const String& rStr);
 
