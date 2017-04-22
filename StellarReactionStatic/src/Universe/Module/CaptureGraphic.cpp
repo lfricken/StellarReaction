@@ -1,6 +1,6 @@
 #include "CaptureGraphic.hpp"
 
-using namespace std;
+
 
 void CaptureGraphicData::loadJson(const Json::Value& root)
 {

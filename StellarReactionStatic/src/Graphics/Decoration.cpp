@@ -87,7 +87,7 @@ void Decoration::randSpin()
 //	}
 //	else
 //	{
-//		std::cout << "\n[" << rCommand << "] was not found in [" << m_io.getName() << "].";
+//		Print << "\n[" << rCommand << "] was not found in [" << m_io.getName() << "].";
 //		///ERROR LOG
 //	}
 //}

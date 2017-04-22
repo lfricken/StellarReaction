@@ -3,7 +3,7 @@
 #include "Player.hpp"
 #include "JSON.hpp"
 
-using namespace std;
+
 
 void TeleportData::loadJson(const Json::Value& root)
 {

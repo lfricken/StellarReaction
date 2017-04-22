@@ -9,7 +9,7 @@ namespace leon
 	{
 		PictureData() :
 			WidgetBaseData(),
-			texName("default.png")
+			texName("default")
 		{
 		}
 		String texName;

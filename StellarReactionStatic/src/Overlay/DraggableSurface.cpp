@@ -6,7 +6,6 @@
 #include "Player.hpp"
 
 using namespace leon;
-using namespace std;
 
 DraggableSurface::DraggableSurface(tgui::Gui& container, const DraggableSurfaceData& rData) : Panel(container, rData)
 {
@@ -55,7 +54,7 @@ List<Pair<String, sf::Vector2i> > DraggableSurface::getElementGridPositions() co
 	for(auto it = m_widgetList.begin(); it != m_widgetList.end(); ++it)
 	{
 		Draggable* pDrag = dynamic_cast<Draggable*>((*it).get());
-		pairing.push_back(pair<String, sf::Vector2i>(pDrag->getMetaData(), pDrag->getGridPosition()));
+		pairing.push_back(Pair<String, sf::Vector2i>(pDrag->getMetaData(), pDrag->getGridPosition()));
 	}
 	return pairing;
 }

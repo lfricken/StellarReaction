@@ -8,7 +8,7 @@
 	"hullSpriteData": {
 		"dimensions": [1024, 1024],
 		"center": [0,0],
-		"texName": "hulls/asteroid.png",
+		"texName": "hulls/asteroid",
 		"animSheetName": "hulls/asteroid.acfg",
 		"layer": "ShipHull"
 	},

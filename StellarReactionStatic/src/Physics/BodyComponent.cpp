@@ -6,7 +6,7 @@
 #include "Convert.hpp"
 #include "Debugging.hpp"
 
-using namespace std;
+
 
 BodyComponent::BodyComponent(const BodyComponentData& rData)
 {
@@ -102,11 +102,11 @@ void BodyComponent::sleep()
 	m_pBody->SetTransform(game.getUniverse().getBed(), 0);
 	//}
 	//else
-	//	cout << FILELINE;
+	//	Print << FILELINE;
 }
 void BodyComponent::wake()
 {
-	//cout << "\nWake";
+	//Print << "\nWake";
 	if(!isAwake())
 	{
 		m_pBody->SetActive(true);
@@ -115,11 +115,11 @@ void BodyComponent::wake()
 		m_pBody->SetTransform(m_oldPos, m_oldAngle);
 	}
 	else
-		cout << FILELINE;
+		Print << FILELINE;
 }
 void BodyComponent::wake(const Vec2& rCoords, float radiansCCW, const Vec2& rVel, float angularVel)
 {
-	//cout << "\nWake2";
+	//Print << "\nWake2";
 	m_pBody->SetActive(true);
 	m_pBody->SetAwake(true);
 	m_pBody->SetTransform(rCoords, radiansCCW);

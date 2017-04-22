@@ -1,7 +1,7 @@
 #include "EditBox.hpp"
 
 using namespace leon;
-using namespace std;
+
 
 EditBox::EditBox(tgui::Gui& gui, const EditBoxData& rData) : WidgetBase(gui, rData), m_pEditBox(gui)
 {

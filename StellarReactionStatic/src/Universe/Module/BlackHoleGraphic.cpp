@@ -1,6 +1,6 @@
 #include "BlackHoleGraphic.hpp"
 
-using namespace std;
+
 
 void BlackHoleGraphicData::loadJson(const Json::Value& root)
 {

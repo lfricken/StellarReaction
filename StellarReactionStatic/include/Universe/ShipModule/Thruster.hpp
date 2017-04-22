@@ -47,8 +47,7 @@ struct ThrusterData : public ShipModuleData
 		force(1),
 		torque(1)
 	{
-		baseDecor.texName = "thruster/thruster.png";
-		baseDecor.animSheetName = "thruster/thruster.acfg";
+		baseDecor.texName = "thruster/thruster";
 	}
 
 	float boostThrustMult;

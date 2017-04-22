@@ -3,7 +3,14 @@
 #include "Debugging.hpp"
 #include "Globals.hpp"
 
-using namespace std;
+
+bool hasEnding(const String& fullString, const String& ending)
+{
+	if(fullString.length() >= ending.length())
+		return (0 == fullString.compare(fullString.length() - ending.length(), ending.length(), ending));
+	else
+		return false;
+}
 
 AnimAlloc::AnimAlloc()
 {
@@ -15,8 +22,15 @@ AnimAlloc::~AnimAlloc()
 }
 const AnimSet* AnimAlloc::request(const String& rAnimFile)
 {
+	if(hasEnding(rAnimFile, ".acfg"))
+	{
+		dout << FILELINE;
+	}
+
+	auto fileName = rAnimFile + ".acfg";
+
 	const AnimSet* pSet = NULL;
-	auto it_find = m_animationSets.find(rAnimFile);
+	auto it_find = m_animationSets.find(fileName);
 
 
 	if(it_find != m_animationSets.end())//if it exists
@@ -29,7 +43,7 @@ const AnimSet* AnimAlloc::request(const String& rAnimFile)
 		Animation animation;
 
 
-		const String fullPath = contentDir() + "textures/" + rAnimFile;
+		const String fullPath = contentDir() + "textures/" + fileName;
 		Json::Value root;
 		Json::Reader reader;
 		std::ifstream inputFStream(fullPath, std::ifstream::binary);
@@ -39,7 +53,7 @@ const AnimSet* AnimAlloc::request(const String& rAnimFile)
 		if(parsedSuccess)
 		{
 
-			spAnimSet->setName = rAnimFile;
+			spAnimSet->setName = fileName;
 			spAnimSet->tileSize = sf::Vector2f((float)root["texTileSize"][0].asInt(), (float)root["texTileSize"][1].asInt());
 			const Json::Value stateList = root["stateList"];
 
@@ -68,14 +82,14 @@ const AnimSet* AnimAlloc::request(const String& rAnimFile)
 			}
 
 			m_animationSets[spAnimSet->setName] = spAnimSet;
-			pSet = m_animationSets[rAnimFile].get();
+			pSet = m_animationSets[fileName].get();
 		}
 		else//we failed to parse successfully
 		{
-			std::cout << "\nParse Failed [" << fullPath << "].\n" << FILELINE;
+			Print << "\nParse Failed [" << fullPath << "].\n" << FILELINE;
 			///ERROR LOG
 
-			pSet = this->request("default.acfg");
+			pSet = this->request("default");
 		}
 	}
 

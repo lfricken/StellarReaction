@@ -30,7 +30,7 @@ namespace leon
 	struct SelectableItemData
 	{
 		SelectableItemData() :
-			texName("menu/default_menu.png"),
+			texName("menu/default_menu"),
 			id("0")
 		{
 			buttData.screenCoords = sf::Vector2f(0, 0);

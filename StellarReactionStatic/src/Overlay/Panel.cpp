@@ -3,7 +3,7 @@
 #include "TextureAllocator.hpp"
 
 using namespace leon;
-using namespace std;
+
 
 Panel::Panel(tgui::Gui& gui, const PanelData& rData) : WidgetBase(gui, rData), m_pPanel(gui, rData.ioComp.name)
 {

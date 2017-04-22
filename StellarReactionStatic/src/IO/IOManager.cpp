@@ -6,8 +6,6 @@
 #include "NetworkComponent.hpp"
 #include "Debugging.hpp"
 
-using namespace std;
-
 IOManager::IOManager(bool acceptsLocalMessages, bool networked)
 {
 	m_networked = networked;
@@ -56,7 +54,7 @@ void IOManager::update(float dT)
 		}
 		if(i >= maxWork)
 		{
-			cout << FILELINE;
+			Print << FILELINE;
 			/// ERROR
 			break;
 		}
@@ -107,7 +105,7 @@ void IOManager::free(int position)//don't adjust the list, just mark the node as
 	}
 	else
 	{
-		cout << FILELINE;
+		Print << FILELINE;
 		///ERROR LOG
 	}
 }
@@ -124,12 +122,12 @@ void IOManager::f_send(const Message& rMessage)
 				m_componentPtrs[it->second]->recieve(rMessage.getCommand(), rMessage.getData());
 			else
 			{
-				cout << "\nTarget: [" << rMessage.getTargetName() << "] died. " << FILELINE;
+				Print << "\nTarget: [" << rMessage.getTargetName() << "] died. " << FILELINE;
 			}
 		}
 		else
 		{
-			cout << "\nTarget: [" << rMessage.getTargetName() << "] was not found. " << FILELINE;
+			Print << "\nTarget: [" << rMessage.getTargetName() << "] was not found. " << FILELINE;
 		}
 	}
 	else if(pos >= 0 && pos < (signed)m_componentPtrs.size())
@@ -139,9 +137,9 @@ void IOManager::f_send(const Message& rMessage)
 	}
 	else
 	{
-		//cout << "\nBad Target: [" << rMessage.getTargetName() << "]:[" << pos << "] with";
-		//cout << "\nCommand: [" << rMessage.getCommand() << "]. ";
-		//cout << FILELINE;
+		//Print << "\nBad Target: [" << rMessage.getTargetName() << "]:[" << pos << "] with";
+		//Print << "\nCommand: [" << rMessage.getCommand() << "]. ";
+		//Print << FILELINE;
 	}
 }
 void IOManager::pack(sf::Packet& rPacket)//give us data to send to the twin in the other world

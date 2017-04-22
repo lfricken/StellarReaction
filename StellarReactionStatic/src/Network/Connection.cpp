@@ -4,8 +4,6 @@
 #include "Player.hpp"
 #include "Game.hpp"
 
-using namespace std;
-
 Connection::Connection(sf::UdpSocket* pSocket, sptr<sf::TcpSocket> spTCPSocket, bool valid) : BasePlayerTraits("default")
 {
 	m_valid = valid;
@@ -21,7 +19,7 @@ Connection::Connection(sf::UdpSocket* pSocket, sptr<sf::TcpSocket> spTCPSocket, 
 }
 Connection::~Connection()
 {
-	cout << "\nConnection Destroyed!";
+	Print << "\nConnection Destroyed!";
 	m_spTcpSocket->disconnect();
 }
 void Connection::sendUdp(Protocol proto, const sf::Packet& rData)

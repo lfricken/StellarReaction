@@ -6,7 +6,7 @@
     },
 	"hullSpriteData": {
 		"dimensions": [2200, 2000],
-		"texName": "hulls/ship1.png",
+		"texName": "hulls/ship1",
 		"animSheetName": "hulls/ship1.acfg",
 		"layer": "ShipHull"
 	},

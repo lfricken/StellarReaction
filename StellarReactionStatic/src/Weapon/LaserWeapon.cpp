@@ -6,7 +6,7 @@
 #include "BlueprintLoader.hpp"
 #include "Player.hpp"
 
-using namespace std;
+
 
 
 void LaserWeaponData::loadJson(const Json::Value& root)

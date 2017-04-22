@@ -2,7 +2,7 @@
 
 #include "DragComponent.hpp"
 
-using namespace std;
+
 using namespace leon;
 
 DragUpdater::DragUpdater()

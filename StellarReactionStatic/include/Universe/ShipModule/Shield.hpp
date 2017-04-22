@@ -65,6 +65,7 @@ struct ShieldComponentData : public SensorData
 };
 
 /// ShipModule that controls a ShieldComponent.
+/// Works kind of wierd, it has to add a new component onto the ship called a Shield Component
 class Shield : public ShipModule
 {
 public:
@@ -112,11 +113,9 @@ struct ShieldData : public ShipModuleData
 		radius(5),
 		toggleFrequency(1)
 	{
-		baseDecor.texName = "shield/shield.png";
-		baseDecor.animSheetName = "shield/shield.acfg";
+		baseDecor.texName = "shield/shield";
 		shieldArt.dimensions = leon::b2Tosf<float>(Vec2(5, 5));
-		shieldArt.texName = "shield/barrier.png";
-		shieldArt.animSheetName = "shield/barrier.acfg";
+		shieldArt.texName = "shield/barrier";
 	}
 
 	///Energy consumed per second.

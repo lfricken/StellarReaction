@@ -10,8 +10,6 @@
 #include "Chunk.hpp"
 #include <iostream>
 
-using namespace std;
-
 Minimap::Minimap(const MinimapData& rData) : QuadComponent(rData)
 {
 	map_points = List<sptr<QuadComponent> >();

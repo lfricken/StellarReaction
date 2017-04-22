@@ -1,7 +1,7 @@
 #include "Missile.hpp"
 #include "Convert.hpp"
 
-using namespace std;
+
 
 
 Missile::Missile(const MissileData& rData) : Projectile(rData)

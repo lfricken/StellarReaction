@@ -8,7 +8,7 @@ struct MinimapData : public QuadComponentData
 	MinimapData() :
 		QuadComponentData()
 	{
-		texName = "default.png";
+		texName = "default";
 		color = sf::Color::Black;
 	}
 };

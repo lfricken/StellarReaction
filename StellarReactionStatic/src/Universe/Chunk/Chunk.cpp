@@ -9,8 +9,8 @@
 #include "ShipModule.hpp"
 #include "CommandInfo.hpp"
 #include "Shield.hpp"
+#include "Grid.hpp"
 
-using namespace std;
 
 void ChunkDataMessage::loadJson(const Json::Value& root)
 {
@@ -89,7 +89,7 @@ void ChunkData::loadJson(const Json::Value& root)
 			}
 			else
 			{
-				cout << "\n" << FILELINE;
+				Print << "\n" << FILELINE;
 				///ERROR LOG
 			}
 
@@ -217,7 +217,7 @@ void Chunk::add(const ModuleData& rData)
 		m_modules.push_back(module);
 	}
 	else
-		cout << FILELINE;
+		Print << FILELINE;
 }
 void Chunk::prePhysUpdate()
 {
@@ -413,7 +413,7 @@ List<std::pair<String, sf::Vector2i> > Chunk::getModules() const
 	{
 		if(dynamic_cast<ShipModule*>(it->get()) != NULL)//make sure it's not a strange item, like a ShieldComponent
 		{
-			//cout << "\nChunk: " << (*it)->getOffset().x << (*it)->getOffset().y;
+			//Print << "\nChunk: " << (*it)->getOffset().x << (*it)->getOffset().y;
 			Vec2 pos = (*it)->getOffset();
 			list.push_back(std::pair<String, sf::Vector2i>((*it)->getTitle(), sf::Vector2i((int)pos.x, (int)pos.y)));
 		}
@@ -434,6 +434,10 @@ void Chunk::input(String rCommand, sf::Packet rData)
 	{
 		this->clear();
 	}
+	else if(rCommand == "rebuiltComplete")
+	{
+		resetStatusBoard(m_statusBoard);
+	}
 	else if(rCommand == "attachModule")
 	{
 		String bpName;
@@ -451,7 +455,7 @@ void Chunk::input(String rCommand, sf::Packet rData)
 		}
 		else
 		{
-			cout << "\nBlueprint didn't exist." << FILELINE;
+			Print << "\nBlueprint didn't exist." << FILELINE;
 		}
 	}
 	else if(rCommand == "detachModule")
@@ -474,7 +478,7 @@ void Chunk::input(String rCommand, sf::Packet rData)
 			}
 		}
 		if(!found)
-			cout << "\nThere was no module at " << targetOffset.x << "," << targetOffset.y << " " << FILELINE;
+			Print << "\nThere was no module at " << targetOffset.x << "," << targetOffset.y << " " << FILELINE;
 	}
 	else if(rCommand == "enableShields")
 	{
@@ -497,7 +501,7 @@ void Chunk::input(String rCommand, sf::Packet rData)
 		}
 	}
 	else
-		cout << "\nCommand not found in [" << m_io.getName() << "]." << FILELINE;
+		Print << "\nCommand not found in [" << m_io.getName() << "]." << FILELINE;
 }
 float Chunk::getRadius()
 {
@@ -505,16 +509,25 @@ float Chunk::getRadius()
 		return m_radius;
 	Vec2 max(0, 0);
 	for(auto it = m_modules.cbegin(); it != m_modules.cend(); ++it)
-	{
 		if(max.len() < Vec2((*it)->getOffset()).len())
-		{
 			max = Vec2((*it)->getOffset());
-		}
-	}
+
 	m_radius = max.len();
 	return m_radius;
 }
+void Chunk::resetStatusBoard(wptr<leon::Grid> grid)
+{
+	m_statusBoard = grid;
 
+	if(auto board = m_statusBoard.lock())
+		board->reset(getModules());
+	else
+		dout << FILELINE;
+}
+wptr<leon::Grid> Chunk::getStatusBoard()
+{
+	return m_statusBoard;
+}
 
 
 

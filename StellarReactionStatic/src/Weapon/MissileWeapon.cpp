@@ -3,7 +3,7 @@
 #include "ProjectileMan.hpp"
 #include "Chunk.hpp"
 
-using namespace std;
+
 
 
 void MissileWeaponData::loadJson(const Json::Value& root)

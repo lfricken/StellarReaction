@@ -1,44 +1,84 @@
 #pragma once
-#include "Panel.hpp"
+#include "QuadComponent.hpp"
 
 
 namespace leon
 {
-	struct PictureData;
-
-	struct GridData : public PanelData
+	struct GridData
 	{
 		GridData() :
-			PanelData(),
-			sizeOfGrid(sf::Vector2i(7, 7))
+			sizeOfGrid(5, 5),
+			gridSize(32,32)
 		{
-			gridSize = sf::Vector2i(32, 32);
+			background.texName = "overlay/white";
+			background.layer = GraphicsLayer::OverlayBottom;
+			gridSize = Vec2(32, 32);
+			sizeOfGrid = Vec2(5, 5);
 		}
 
-		sf::Vector2i sizeOfGrid;
+
+		QuadComponentData background;
+		Vec2 sizeOfGrid;
+		Vec2 gridSize;
 	};
 
 	/// <summary>
 	/// A grid for specific graphics objects.
+	/// Designed primarily for the use of displaying the status of a ship (damage wise).
 	/// </summary>
-	class Grid : public Panel
+	class Grid
 	{
 	public:
-		Grid(tgui::Gui& gui, const GridData& data);
-		Grid(tgui::Container& container, const GridData& data);
-		~Grid();
-		void f_initialize(const GridData& rData);
+		Grid(const GridData& data);
+		virtual ~Grid();
 
+		Vec2 getScreenPosition() const;
+		void reset(const List<std::pair<String, sf::Vector2i> >& modules);
+		void clear();
 
-		virtual void add(const PictureData& data);
-		void addSimple(const String& title, sf::Vector2i shipModulePos);
-	protected:
 		/// <summary>
-		/// The offset applied to grid elements to reset the 0,0. Defaulted as half the size.
+		/// Background texture of the grid
 		/// </summary>
-		sf::Vector2i gridOffset;
-		void addModuleToGrid(const String& title, sf::Vector2i shipModulePos);
-		virtual bool inputHook(const String rCommand, sf::Packet rData);
+		sptr<QuadComponent> m_background;
+	protected:
+		void addHUDModule(const String& title, Vec2 shipModulePos);
+		/// <summary>
+		/// Given a grid position, indicate where the center of the new grid element should appear in pixels of screen coordinates.
+		/// </summary>
+		sf::Vector2f getPixelOffset(Vec2 gridPosition);
+
+		struct GridElement
+		{
+			GridElement(const String& texName,
+				const Vec2& gridSlot,
+				const Vec2& gridSize
+				)
+			{
+				gridPos = gridSlot;
+
+				QuadComponentData data;
+				data.layer = GraphicsLayer::OverlayMiddle;
+				data.texName = texName;
+				data.dimensions = static_cast<sf::Vector2f>(gridSize);
+				module.reset(new QuadComponent(data));
+			}
+
+			sptr<QuadComponent> module;
+			sptr<QuadComponent> damageIndicator;
+			Vec2 gridPos;
+		};
+
+
+		/// <summary>
+		/// The offset applied to grid elements to reset the 0,0. Defaulted as half the (size-1).
+		/// </summary>
+		Vec2 m_gridOffset;
+		/// <summary>
+		/// 1 unit of the grid is this many pixels
+		/// </summary>
+		Vec2 m_gridSize;
+
+		List<GridElement> m_modules;
 	};
 
 }

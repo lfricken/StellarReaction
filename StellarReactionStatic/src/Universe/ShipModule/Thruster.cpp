@@ -1,7 +1,7 @@
 #include "Thruster.hpp"
 #include "Controller.hpp"
 
-using namespace std;
+
 
 void ThrusterData::loadJson(const Json::Value& root)
 {

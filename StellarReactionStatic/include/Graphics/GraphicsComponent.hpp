@@ -15,8 +15,7 @@ struct GraphicsComponentData
 		dimensions = sf::Vector2f(256,256);
 		permanentRot = 0;//degrees CCW
 		center = sf::Vector2f(0,0);
-		texName = "default.png";
-		animSheetName = "default.acfg";
+		texName = "default";
 		layer = GraphicsLayer::BackgroundFar;
 		color = sf::Color::White;
 	}
@@ -25,7 +24,6 @@ struct GraphicsComponentData
 	float permanentRot;//default rotation when told to be 0, degrees CCW
 	sf::Vector2f center;//this is the center of us
 	String texName;//name of our texture
-	String animSheetName;//name of our animation sheet
 	GraphicsLayer layer;
 	sf::Color color;
 
@@ -71,6 +69,8 @@ public:
 	Vec2 getSize() const;
 	/// Return our position in world coordinates.
 	const Vec2& getPosition() const;
+	/// Return our position in world coordinates.
+	const sf::Vector2f getGuiPosition() const;
 	/// Return our rotation in radians counterclockwise.
 	float getRotation() const;
 	/// Return our offset in pixels from our center.

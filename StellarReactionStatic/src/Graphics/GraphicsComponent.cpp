@@ -5,7 +5,6 @@
 #include "GraphicsComponentUpdater.hpp"
 #include "JSON.hpp"
 
-using namespace std;
 using namespace sf;
 
 void GraphicsComponentData::loadJson(const Json::Value& root)
@@ -14,7 +13,6 @@ void GraphicsComponentData::loadJson(const Json::Value& root)
 	GETJSON(permanentRot);
 	GETJSON(center);
 	GETJSON(texName);
-	GETJSON(animSheetName);
 	if(!root["layer"].isNull())
 		layer = ChooseLayer(root["layer"].asString());
 	GETJSON(color);
@@ -23,7 +21,7 @@ void GraphicsComponentData::setCenterTopLeft()
 {
 	center = sf::Vector2f(-dimensions.x / 2, dimensions.y / 2);
 }
-GraphicsComponent::GraphicsComponent(const GraphicsComponentData& rData) : m_rUpdater(game.getUniverse().getGfxUpdater()), m_animator(rData.animSheetName)
+GraphicsComponent::GraphicsComponent(const GraphicsComponentData& rData) : m_rUpdater(game.getUniverse().getGfxUpdater()), m_animator(rData.texName)
 {
 	m_calculatedSize = false;
 
@@ -87,6 +85,10 @@ Animator& GraphicsComponent::getAnimator()
 const Vec2& GraphicsComponent::getPosition() const
 {
 	return coordinates;
+}
+const sf::Vector2f GraphicsComponent::getGuiPosition() const
+{
+	return leon::b2Tosf<float>(coordinates);
 }
 float GraphicsComponent::getRotation() const
 {

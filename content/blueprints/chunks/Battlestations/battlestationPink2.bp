@@ -7,7 +7,7 @@
 	"hullSpriteData": {
 		"dimensions": [12816, 9720],
 		"center": [0,0],
-		"texName": "battlestations/pink2.png",
+		"texName": "battlestations/pink2",
 		"animSheetName": "battlestations/pink2.acfg",
 		"layer": "ShipHull"
 	},

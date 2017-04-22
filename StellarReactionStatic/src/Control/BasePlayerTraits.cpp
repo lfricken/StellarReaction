@@ -3,8 +3,6 @@
 #include "Globals.hpp"
 #include "IOManager.hpp"
 
-using namespace std;
-
 BasePlayerTraits::BasePlayerTraits(const String& rName)
 {
 	m_team = Team::One;

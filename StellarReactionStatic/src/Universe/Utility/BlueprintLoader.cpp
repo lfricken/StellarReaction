@@ -8,7 +8,7 @@
 #include "ProjectileRegistration.hpp"
 #include "Debugging.hpp"
 
-using namespace std;
+
 
 BlueprintLoader::BlueprintLoader()
 {
@@ -20,11 +20,11 @@ BlueprintLoader::~BlueprintLoader()
 }
 void BlueprintLoader::loadBlueprints(const String& rDir)
 {
-	List<pair<String, String> > weapons = game.getDir().getAllFiles(rDir + "weapons", ".bp");
-	List<pair<String, String> > modules = game.getDir().getAllFiles(rDir + "modules", ".bp");
-	List<pair<String, String> > chunks = game.getDir().getAllFiles(rDir + "chunks", ".bp");
-	List<pair<String, String> > projectiles = game.getDir().getAllFiles(rDir + "projectiles", ".bp");
-	List<pair<String, String> > particles = game.getDir().getAllFiles(rDir + "particles", ".bp");
+	List<Pair<String, String> > weapons = game.getDir().getAllFiles(rDir + "weapons", ".bp");
+	List<Pair<String, String> > modules = game.getDir().getAllFiles(rDir + "modules", ".bp");
+	List<Pair<String, String> > chunks = game.getDir().getAllFiles(rDir + "chunks", ".bp");
+	List<Pair<String, String> > projectiles = game.getDir().getAllFiles(rDir + "projectiles", ".bp");
+	List<Pair<String, String> > particles = game.getDir().getAllFiles(rDir + "particles", ".bp");
 
 
 	for(auto it = weapons.begin(); it != weapons.end(); ++it)
@@ -33,13 +33,13 @@ void BlueprintLoader::loadBlueprints(const String& rDir)
 	for(auto it = modules.begin(); it != modules.end(); ++it)
 	{
 		storeData<ModuleData>(it->first, it->second, m_modBP);
-		//cout << "\n" << it->second;
+		//Print << "\n" << it->second;
 	}
 
 	for(auto it = chunks.begin(); it != chunks.end(); ++it)
 	{
 		storeData<ChunkData>(it->first, it->second, m_cnkBP);
-		//cout << "\n" << it->second;
+		//Print << "\n" << it->second;
 	}
 
 	for(auto it = projectiles.begin(); it != projectiles.end(); ++it)

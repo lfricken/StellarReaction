@@ -20,7 +20,7 @@
 	},
 	"collisionDamage": 5000,
     "baseDecor": {
-        "texName": "other/blank.png",
+        "texName": "other/blank",
         "animSheetName": "other/blank.acfg"
     }
 }

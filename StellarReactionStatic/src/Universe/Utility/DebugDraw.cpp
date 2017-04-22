@@ -3,7 +3,7 @@
 #include "stdafx.hpp"
 #include "Convert.hpp"
 
-using namespace std;
+
 
 DebugDraw::DebugDraw()
 {

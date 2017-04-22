@@ -1,8 +1,6 @@
 #include "ControlFactory.hpp"
 #include "Controller.hpp"
 
-using namespace std;
-
 ControlFactory::ControlFactory()
 {
 	m_spNWFactory.reset(new NetworkFactory("control"));//this has to happen before we create any controllers!

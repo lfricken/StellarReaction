@@ -3,7 +3,7 @@
 #include "Player.hpp"
 #include "Team.hpp"
 
-using namespace std;
+
 
 void ShipModuleData::loadJson(const Json::Value& root)
 {
@@ -32,8 +32,7 @@ ShipModule::ShipModule(const ShipModuleData& rData) : Module(rData), m_health(rD
 	data.permanentRot = 0;
 	data.center.x = 0;
 	data.center.y = 0;
-	data.texName = "effects/module_hit.png";
-	data.animSheetName = "effects/module_hit.acfg";
+	data.texName = "effects/module_hit";
 	data.layer = GraphicsLayer::ShipAppendagesLower;
 	m_decors.push_back(sptr<GraphicsComponent>(new QuadComponent(data)));
 	m_hitDecorIndex = m_decors.size() - 1;
@@ -44,8 +43,7 @@ ShipModule::ShipModule(const ShipModuleData& rData) : Module(rData), m_health(rD
 	data.permanentRot = 0;
 	data.center.x = 0;
 	data.center.y = 0;
-	data.texName = "effects/explosion1.png";
-	data.animSheetName = "effects/explosion1.acfg";
+	data.texName = "effects/explosion1";
 	data.layer = GraphicsLayer::ShipAppendagesLower;
 	m_decors.push_back(sptr<GraphicsComponent>(new QuadComponent(data)));
 	m_explosionIndex = m_decors.size() - 1;
@@ -165,7 +163,7 @@ bool ShipModule::isFunctioning()//does this module still do its function
 	else if(m_healthState == HealthState::Damaged)
 		return m_functionsDamaged;
 
-	cout << "\n" << FILELINE;
+	Print << "\n" << FILELINE;
 	return true;
 }
 void ShipModule::setHealthState(HealthState newState)

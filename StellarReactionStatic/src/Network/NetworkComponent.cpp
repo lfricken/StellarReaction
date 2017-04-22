@@ -1,7 +1,5 @@
 #include "NetworkComponent.hpp"
 
-using namespace std;
-
 NetworkComponent::~NetworkComponent()
 {
 	m_pFactory->free(m_factoryID);

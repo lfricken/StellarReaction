@@ -9,7 +9,7 @@
 #include "Convert.hpp"
 #include "Team.hpp"
 
-using namespace std;
+
 
 void WeaponData::loadJson(const Json::Value& root)
 {

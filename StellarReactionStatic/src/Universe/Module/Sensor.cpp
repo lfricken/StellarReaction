@@ -1,6 +1,6 @@
 #include "Sensor.hpp"
 
-using namespace std;
+
 
 void SensorData::loadJson(const Json::Value& root)
 {

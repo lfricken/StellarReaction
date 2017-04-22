@@ -33,8 +33,7 @@ struct MissileWeaponData : public WeaponData
 		velocity(20),
 		projName("DefaultMissile")
 	{
-		weaponQuad.animSheetName = "weapons/MissileWeapon.acfg";
-		weaponQuad.texName = "weapons/MissileWeapon.png";
+		weaponQuad.texName = "weapons/MissileWeapon";
 		energyConsumption = 1;///TODO SHOULD BE CONSUMING BALLISTIC ONLY, THIS IS JUST FOR TESTING
 		ballisticConsumption = 0;
 		missileConsumption = 0;

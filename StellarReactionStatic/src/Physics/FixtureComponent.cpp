@@ -5,7 +5,7 @@
 #include "JSON.hpp"
 #include "Debugging.hpp"
 
-using namespace std;
+
 
 
 void FixtureComponentData::loadJson(const Json::Value& root)
@@ -19,7 +19,7 @@ void FixtureComponentData::loadJson(const Json::Value& root)
 			shape = leon::Shape::Circle;
 		else
 		{
-			cout << "\n" << FILELINE;
+			Print << "\n" << FILELINE;
 			shape = leon::Shape::Circle;
 		}
 	}
@@ -68,7 +68,7 @@ FixtureComponent::FixtureComponent(const FixtureComponentData& rData)
 		m_pFixture->SetUserData(this);
 	}
 	else
-		cout << FILELINE;
+		Print << FILELINE;
 }
 FixtureComponent::~FixtureComponent()
 {
@@ -111,7 +111,7 @@ Vec2 FixtureComponent::getCenter() const
 	}
 	else
 	{
-		std::cout << FILELINE;
+		Print << FILELINE;
 		///eRROR LOG
 	}
 	return center;

@@ -7,7 +7,7 @@
 	"hullSpriteData": {
 		"dimensions": [27000, 27000],
 		"center": [0,0],
-		"texName": "planets/pluto.png",
+		"texName": "planets/pluto",
 		"animSheetName": "planets/pluto.acfg",
 		"layer": "BackgroundClose"
 	},

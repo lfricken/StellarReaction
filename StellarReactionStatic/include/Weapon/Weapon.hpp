@@ -107,8 +107,7 @@ struct WeaponData : public BlueprintData
 	{
 		title = "WEAPON_DEFAULT_TITLE";
 
-		weaponQuad.animSheetName = "weapons/LaserWeapon.acfg";
-		weaponQuad.texName = "weapons/LaserWeapon.png";
+		weaponQuad.texName = "weapons/LaserWeapon";
 		weaponQuad.layer = GraphicsLayer::ShipAppendagesUpper;
 		weaponQuad.dimensions = sf::Vector2f(256, 256);
 		weaponQuad.permanentRot = -90.f;

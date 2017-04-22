@@ -46,8 +46,7 @@ struct TurretData : public ShipModuleData
 		ShipModuleData(),
 		controlGroup(1)
 	{
-		baseDecor.texName = "turret/turret_base.png";
-		baseDecor.animSheetName = "turret/turret_base.acfg";
+		baseDecor.texName = "turret/turret_base";
 	}
 
 	int controlGroup;

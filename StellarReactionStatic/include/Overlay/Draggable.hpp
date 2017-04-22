@@ -19,7 +19,7 @@ namespace leon
 			this->configFile = "TGUI/widgets/Transparency.conf";
 			buttonText = "";
 			size = sf::Vector2f(64, 64);
-			icon.texName = "menu/default_icon.png";
+			icon.texName = "menu/default_icon";
 			icon.size = sf::Vector2f(64, 64);
 		}
 

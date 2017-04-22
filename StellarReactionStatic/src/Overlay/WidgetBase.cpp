@@ -2,7 +2,7 @@
 #include "Debugging.hpp"
 
 using namespace leon;
-using namespace std;
+
 
 WidgetBase::WidgetBase(tgui::Gui& gui, const WidgetBaseData& rData) : m_io(rData.ioComp, &leon::WidgetBase::input, this)
 {
@@ -157,7 +157,7 @@ void WidgetBase::input(String rCommand, sf::Packet rData)
 	}
 	else
 	{
-		cout << "\nCommand [" << rCommand << "] not found." << FILELINE;
+		Print << "\nCommand [" << rCommand << "] not found." << FILELINE;
 		///ERROR
 	}
 }

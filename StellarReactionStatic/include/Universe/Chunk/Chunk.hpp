@@ -15,6 +15,10 @@ struct ModuleData;
 struct CommandInfo;
 enum class Directive;
 enum class Request;
+namespace leon
+{
+	class Grid;
+}
 
 /// \brief A players ship.
 class Chunk : public GameObject
@@ -69,7 +73,11 @@ public:
 	///Increment score.
 	void increaseScore();
 
+	void resetStatusBoard(wptr<leon::Grid> grid);
+	wptr<leon::Grid> getStatusBoard();
+
 protected:
+	wptr<leon::Grid> m_statusBoard;
 	virtual void input(String rCommand, sf::Packet rData);
 	bool allows(const Vec2& rGridPos);
 	Chunk(const ChunkData& rData);

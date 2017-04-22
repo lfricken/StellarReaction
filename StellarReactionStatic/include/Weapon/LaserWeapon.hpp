@@ -44,8 +44,7 @@ struct LaserWeaponData : public WeaponData
 		shots = 1;
 		fireDelay = 1;
 		range = 45.0f;
-		weaponQuad.animSheetName = "weapons/LaserWeapon.acfg";
-		weaponQuad.texName = "weapons/LaserWeapon.png";
+		weaponQuad.texName = "weapons/LaserWeapon";
 	}
 
 	int beamWidth;

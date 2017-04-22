@@ -12,7 +12,7 @@
             0,
             0
         ],
-        "texName": "default.png",
+        "texName": "default",
         "animSheetName": "default.acfg",
         "layer": "ShipModules"
     },

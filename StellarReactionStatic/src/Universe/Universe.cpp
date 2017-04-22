@@ -23,7 +23,7 @@
 #include "DecorationEngine.hpp"
 #include "CaptureArea.hpp"
 
-using namespace std;
+
 
 void Universe::loadLevel(const GameLaunchData& data)//loads a level using blueprints
 {
@@ -37,7 +37,7 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 	const String thisLevelFolder = contentDir() + levelFolder + "/" + data.level + "/";
 	const String modDir = "mods/";
 
-	ifstream level(thisLevelFolder + levelFile, ifstream::binary);
+	std::ifstream level(thisLevelFolder + levelFile, std::ifstream::binary);
 	Json::Reader reader;
 	Json::Value root;
 
@@ -45,7 +45,7 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 
 	if(!parsedSuccess)
 	{
-		cout << "\nParse Failed [" << thisLevelFolder + levelFile << "].\n" << FILELINE;
+		Print << "\nParse Failed [" << thisLevelFolder + levelFile << "].\n" << FILELINE;
 		return;
 	}
 	else
@@ -141,13 +141,13 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 }
 void Universe::createControllers(Team team, bool isAnAI, const String& slaveName)
 {
-	//cout << "\n" << slaveName;
+	//Print << "\n" << slaveName;
 	//dout << FILELINE;
 	m_spControlFactory->addController(slaveName);
 
 	if(isAnAI && !game.getNwBoss().isClient())
 	{
-		//assert(cout << "\n" << slaveName << " controlled by " << m_spControlFactory->getSize() - 1);
+		//assert(Print << "\n" << slaveName << " controlled by " << m_spControlFactory->getSize() - 1);
 		sptr<ShipAI> ai = sptr<ShipAI>(new ShipAI(team, m_spControlFactory->getSize() - 1));
 		m_shipAI.push_back(ai);
 	}
@@ -207,9 +207,9 @@ Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input,
 Universe::~Universe()
 {
 	m_capturePoints.clear();
-	//cout << "\nUniverse Destroying...";
+	//Print << "\nUniverse Destroying...";
 	game.getLocalPlayer().universeDestroyed();
-	//cout << "\nEnd.";
+	//Print << "\nEnd.";
 }
 ControlFactory& Universe::getControllerFactory()
 {
@@ -590,7 +590,7 @@ void Universe::input(String rCommand, sf::Packet rData)
 	else
 	{
 		///ERROR LOG
-		cout << m_io.getName() << ":[" << rCommand << "] not found." << FILELINE;
+		Print << m_io.getName() << ":[" << rCommand << "] not found." << FILELINE;
 	}
 }
 List<sptr<GameObject> > Universe::getgoList()

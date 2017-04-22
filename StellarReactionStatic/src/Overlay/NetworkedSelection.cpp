@@ -1,7 +1,7 @@
 #include "NetworkedSelection.hpp"
 
 using namespace leon;
-using namespace std;
+
 
 NetworkedSelection::NetworkedSelection(tgui::Gui& gui, const NetworkedSelectionData& rData) : Panel(gui, rData)
 {

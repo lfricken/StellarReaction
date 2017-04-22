@@ -3,7 +3,6 @@
 #include "Globals.hpp"
 #include "Debugging.hpp"
 
-using namespace std;
 
 const String SoundManager::m_directory = "audio/";
 SoundManager::SoundManager()
@@ -30,7 +29,7 @@ sf::SoundBuffer* SoundManager::loadSoundBuffer(const String& rSoundName)
 	{
 		if(!m_buffers[rSoundName].loadFromFile(contentDir() + m_directory + rSoundName))
 		{
-			cout << "\nError loading sound [" << contentDir() + m_directory + rSoundName << "] " << FILELINE;///ERROR LOG
+			Print << "\nError loading sound [" << contentDir() + m_directory + rSoundName << "] " << FILELINE;///ERROR LOG
 			return nullptr;
 		}
 		itBuffer = m_buffers.find(rSoundName);
@@ -59,7 +58,7 @@ int SoundManager::playSound(const String& rSoundName, const Vec2& rPos, int volu
 	m_noises[i].sound.setPosition(rPos.x, rPos.y, 0.f);
 	m_noises[i].sound.setLoop(looping);
 	m_noises[i].sound.play();
-	//		cout << "\nSound index: [" << i << "] " << FILELINE;
+	//		Print << "\nSound index: [" << i << "] " << FILELINE;
 
 	if(aquireLock)
 		return i;
@@ -79,6 +78,6 @@ int SoundManager::getFreeNoise() const
 		if(m_noises[i].sound.getStatus() != sf::Sound::Playing && m_noises[i].locked == false)//sound is done and not locked
 			return i;
 
-	cout << "\nNo Noises left!" << FILELINE;
+	Print << "\nNo Noises left!" << FILELINE;
 	return -1;
 }

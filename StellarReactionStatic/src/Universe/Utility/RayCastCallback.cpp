@@ -1,6 +1,6 @@
 #include "RayCastCallback.hpp"
 
-using namespace std;
+
 
 RayCastCallback::RayCastCallback()
 {

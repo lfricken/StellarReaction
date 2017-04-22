@@ -1,7 +1,7 @@
 #include "ProjectileModule.hpp"
 #include "Weapon.hpp"
 
-using namespace std;
+
 
 void ProjectileModuleData::loadJson(const Json::Value& root)
 {

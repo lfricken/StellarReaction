@@ -216,7 +216,7 @@
 	}],
 	"Background1": {
 		"dimensions": [600, 600],
-		"texName": "backgrounds/bg1.png",
+		"texName": "backgrounds/bg1",
 		"animSheetName": "backgrounds/bg1.acfg",
 		"layer": "BackgroundFar"
 	}

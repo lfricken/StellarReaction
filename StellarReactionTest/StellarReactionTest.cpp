@@ -9,7 +9,7 @@ int main(int argc, char **argv) {
 
 	int returnValue = RUN_ALL_TESTS();
 
-	std::cout << "\nTesting Done!\nPress enter to continue...\n";
+	Print << "\nTesting Done!\nPress enter to continue...\n";
 	std::cin.get();
 
 	return returnValue;

@@ -8,7 +8,6 @@
 #include "Weapon.hpp"
 #include <stdio.h>
 
-using namespace std;
 
 extern Game game;
 

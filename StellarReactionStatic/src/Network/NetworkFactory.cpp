@@ -4,9 +4,6 @@
 #include "Protocol.hpp"
 #include "Debugging.hpp"
 
-using namespace std;
-
-
 NetworkFactory::NetworkFactory(String name)
 {
 	m_name = name;
@@ -35,9 +32,9 @@ void NetworkFactory::free(int position)//don't adjust the list, just mark the no
 		m_componentPtrs[position] = NULL;
 	else
 	{
-		cout << position << m_name;
-		cout << m_componentPtrs.size();
-		cout << FILELINE;
+		Print << position << m_name;
+		Print << m_componentPtrs.size();
+		Print << FILELINE;
 		///ERROR LOG
 	}
 	clean();
@@ -93,7 +90,7 @@ void NetworkFactory::process(sf::Packet& rPacket)
 			}
 			else
 			{
-				//cout << "\n[" << id << "][" << old_id << "][" << m_componentPtrs.size() << FILELINE << m_name;
+				//Print << "\n[" << id << "][" << old_id << "][" << m_componentPtrs.size() << FILELINE << m_name;
 				///ERROR LOG
 				break;
 			}
@@ -110,6 +107,6 @@ void NetworkFactory::process(sf::Packet& rPacket)
 	}
 	if(m_consecutiveDesyncs > 0 && m_consecutiveDesyncs % 60 == 0)
 	{
-		cout << "\nDesync Detected.";
+		Print << "\nDesync Detected.";
 	}
 }

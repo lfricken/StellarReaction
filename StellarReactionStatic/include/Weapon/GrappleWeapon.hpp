@@ -35,8 +35,7 @@ struct GrappleWeaponData : public LaserWeaponData
 		pullStrength(100),
 		pullTime(2)
 	{
-		weaponQuad.animSheetName = "weapons/GrappleWeapon.acfg";
-		weaponQuad.texName = "weapons/GrappleWeapon.png";
+		weaponQuad.texName = "weapons/GrappleWeapon";
 		damage = 0;
 	}
 

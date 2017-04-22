@@ -6,7 +6,7 @@
 	"hullSpriteData": {
 		"dimensions": [256, 256],
 		"center": [0,0],
-		"texName": "other/blank.png",
+		"texName": "other/blank",
 		"animSheetName": "other/blank.acfg",
 		"layer": "ShipHull"
 	},

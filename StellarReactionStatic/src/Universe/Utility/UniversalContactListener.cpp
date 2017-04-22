@@ -44,7 +44,7 @@ void UniversalContactListener::PreSolve(b2Contact* contact, const b2Manifold* ol
 	//PhysicsBase* fixA = static_cast<PhysicsBase*>(contact->GetFixtureA()->GetUserData());
 	//PhysicsBase* fixB = static_cast<PhysicsBase*>(contact->GetFixtureB()->GetUserData());
 
-	//std::cout << "\PreSolve.";
+	//Print << "\PreSolve.";
 
 	//fixA->preSolveContact(fixB);
 	//fixB->preSolveContact(fixA);
@@ -55,7 +55,7 @@ void UniversalContactListener::PostSolve(b2Contact* contact, const b2ContactImpu
 	//PhysicsBase* fixA = static_cast<PhysicsBase*>(contact->GetFixtureA()->GetUserData());
 	//PhysicsBase* fixB = static_cast<PhysicsBase*>(contact->GetFixtureB()->GetUserData());
 
-	//std::cout << "\PostSolve.";
+	//Print << "\PostSolve.";
 
 	//fixA->postSolveContact(fixB);
 	//fixB->postSolveContact(fixA);

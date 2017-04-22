@@ -6,7 +6,6 @@
 #include "Universe.hpp"
 #include "JSON.hpp"
 
-using namespace std;
 using namespace sf;
 
 void QuadComponentData::loadJson(const Json::Value& root)

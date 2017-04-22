@@ -3,7 +3,7 @@
     "startWep": "LaserWeapon",
 	"controlGroup": 1,
     "baseDecor": {
-        "texName": "turret/laser_turret.png",
+        "texName": "turret/laser_turret",
         "animSheetName": "turret/turret.acfg"
     },
 	"cost": 100

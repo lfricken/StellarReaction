@@ -3,100 +3,65 @@
 #include "ShipModule.hpp"
 #include "Globals.hpp"
 #include "BlueprintLoader.hpp"
+#include "Convert.hpp"
+
+
+
 
 namespace leon
 {
-	Grid::Grid(tgui::Gui& container, const GridData& data) : Panel(container, data)
+	Grid::Grid(const GridData& data)
 	{
-		f_initialize(data);
-	}
-	Grid::Grid(tgui::Container& container, const GridData& data) : Panel(container, data)
-	{
-		f_initialize(data);
+		m_gridOffset.x = (data.sizeOfGrid.x - 1) / 2;
+		m_gridOffset.y = (data.sizeOfGrid.y - 1) / 2;
+
+		m_gridSize = data.gridSize;
+
+		{
+			auto tempQuadData = data.background;
+			tempQuadData.dimensions = sf::Vector2f(m_gridSize.x * data.sizeOfGrid.x, m_gridSize.y * data.sizeOfGrid.y);
+			tempQuadData.setCenterTopLeft();
+			tempQuadData.color = sf::Color(255, 255, 255, 30); m_background.reset(new QuadComponent(tempQuadData));
+		}
 	}
 	Grid::~Grid()
 	{
 
 	}
-	void Grid::f_initialize(const GridData& data)
+	void Grid::addHUDModule(const String& title, Vec2 shipModulePos)
 	{
-		m_io.getName();
-
-		gridOffset.x = (data.sizeOfGrid.x - 1) / 2;
-		gridOffset.y = (data.sizeOfGrid.y - 1) / 2;
-
-		m_pPanel->setSize((float)data.sizeOfGrid.x * m_gridSize.x, (float)data.sizeOfGrid.y* m_gridSize.y);
-
-		m_pPanel->disable();//so it doesn't get in our way in terms of gui events and clicking
-		addSimple("", sf::Vector2i());
-	}
-	void Grid::addSimple(const String& title, sf::Vector2i shipModulePos)
-	{
-		PictureData data;
-		data.gridSize = this->m_gridSize;
-		data.gridPosition = sf::Vector2i(3,0);
-		data.size = (sf::Vector2f)data.gridSize;
-
-
-		this->add(data);
-		data.gridPosition.x -= 1;
-		this->add(data);
-		data.gridPosition.x -= 1;
-		this->add(data);
-		data.gridPosition.x -= 1;
-		this->add(data);
-		data.gridPosition.x -= 1;
-		this->add(data);
-		data.gridPosition.x -= 1;
-		this->add(data);
-		data.gridPosition.x -= 1;
-		this->add(data);
-	}
-	void Grid::add(const PictureData& dataOrig)
-	{
-		auto data = dataOrig;
-		data.gridPosition += gridOffset;
-		sptr<Picture> graphic(new Picture(*this->getPanelPtr(), data));
-		Panel::add(graphic);
-	}
-	bool Grid::inputHook(const String rCommand, sf::Packet data)
-	{
-		if(rCommand == "damagedModule")
+		sptr<ShipModuleData> moduleData;
+		moduleData.reset(dynamic_cast<ShipModuleData*>(game.getUniverse().getBlueprints().getModuleSPtr(title)->clone()));
+		if(moduleData != NULL)
 		{
-			sf::Vector2i gridPos;
-			data >> gridPos.x;
-			data >> gridPos.y;
+			dout << "\n " << title << "\t" << shipModulePos;
 
-			std::cout << "\n" << gridPos.x << gridPos.y << " hit";
+			m_modules.push_back(GridElement(moduleData->baseDecor.texName, shipModulePos, m_gridSize));
+			m_modules.back().module->setGuiPosition(getPixelOffset(shipModulePos));
 
-			return true;
 		}
-		else if(rCommand == "addModuleToGrid")//setState
-		{
-			String title;
-			sf::Vector2i shipModulePos;
-
-			data >> title;
-			data >> shipModulePos.x;
-			data >> shipModulePos.y;
-
-			addModuleToGrid(title, shipModulePos);
-
-			return true;
-		}
-		else
-			return false;
 	}
-	void Grid::addModuleToGrid(const String& title, sf::Vector2i shipModulePos)
+	void Grid::reset(const List<std::pair<String, sf::Vector2i> >& modules)
 	{
-		sptr<ShipModuleData> pNewModuleData = sptr<ShipModuleData>(dynamic_cast<ShipModuleData*>(game.getUniverse().getBlueprints().getModuleSPtr(title)->clone()));
+		clear();
 
-		PictureData data;
-		data.gridSize = this->m_gridSize;
-		data.gridPosition = shipModulePos;
-		data.texName = pNewModuleData->baseDecor.texName;
-		data.size = (sf::Vector2f)data.gridSize;
-
-		this->add(data);
+		for(auto it = modules.cbegin(); it != modules.cend(); ++it)
+		{
+			addHUDModule(it->first, Vec2(it->second));
+		}
+	}
+	Vec2 Grid::getScreenPosition() const
+	{
+		return Vec2(m_background->getGuiPosition());
+	}
+	sf::Vector2f Grid::getPixelOffset(Vec2 gridPosition)
+	{
+		gridPosition.y = -gridPosition.y;
+		Vec2 gridPixelPosition = (gridPosition + m_gridOffset) * m_gridSize;
+		return static_cast<sf::Vector2f>(gridPixelPosition)+m_background->getGuiPosition();
+	}
+	void Grid::clear()
+	{
+		m_modules.clear();
 	}
 }

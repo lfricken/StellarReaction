@@ -18,7 +18,7 @@
 	"maxForce" : 9,
 	"minForce": 4,
     "baseDecor": {
-        "texName": "other/blank.png",
+        "texName": "other/blank",
         "animSheetName": "other/blank.acfg"
     }
 }

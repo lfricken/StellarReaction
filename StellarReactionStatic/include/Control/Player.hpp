@@ -10,6 +10,10 @@
 class QuadComponent;
 class LinearMeter;
 class Minimap;
+namespace leon
+{
+	class Grid;
+}
 
 /// \brief Key configurations.
 ///
@@ -159,6 +163,8 @@ protected:
 
 private:
 	void selectTarget(const Vec2& targetNearPos, const Chunk* playersShip);
+	void createReticles();
+	bool hasTarget(const Chunk* target);
 
 	///Where we are aiming in world coordinates.
 	Vec2 m_aim;
@@ -175,6 +181,8 @@ private:
 	sptr<QuadComponent> m_shieldState;
 	sptr<QuadComponent> m_boundsDanger;
 
+	int m_nextTarget;
+	int m_maxTargets;
 	List<wptr<Chunk> > m_targets;
 	List<sptr<QuadComponent> > m_targetReticules;
 
@@ -182,6 +190,7 @@ private:
 
 	sptr<LinearMeter> m_energyMeterFill;
 	sptr<Minimap> m_minimap;
+	sptr<leon::Grid> m_myStatusBoard;
 
 	Camera m_camera;//players camera
 	InputConfig m_inCfg;

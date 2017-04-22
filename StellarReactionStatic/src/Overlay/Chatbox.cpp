@@ -4,7 +4,6 @@
 #include "Player.hpp"
 
 using namespace leon;
-using namespace std;
 
 Chatbox::Chatbox(tgui::Gui& gui, const ChatboxData& rData) : WidgetBase(gui, rData), m_pChatBox(gui), m_nw(rData.nwCompData, &Chatbox::pack, &Chatbox::unpack, this, game.getNwBoss().getNWFactoryTcp())
 {
@@ -105,7 +104,7 @@ void Chatbox::pack(sf::Packet& rPacket)//give us data to send to the twin in the
 }
 void Chatbox::unpack(sf::Packet& rPacket)//process data from our twin
 {
-	cout << "\nChatbox unpack.";
+	Print << "\nChatbox unpack.";
 	String line;
 	rPacket >> line;
 	addLine(line);

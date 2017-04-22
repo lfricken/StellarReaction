@@ -5,7 +5,7 @@
   	"energyPerHit": 5,
 	"toggleFrequency": 1,
 	"baseDecor": {
-		"texName": "shield/shield.png",
+		"texName": "shield/shield",
 		"animSheetName": "shield/shield.acfg"
 	},
 	"cost": 200

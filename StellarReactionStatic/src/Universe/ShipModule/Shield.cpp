@@ -1,7 +1,7 @@
 #include "Shield.hpp"
 #include "Controller.hpp"
 
-using namespace std;
+
 
 void ShieldComponentData::loadJson(const Json::Value& root)
 {

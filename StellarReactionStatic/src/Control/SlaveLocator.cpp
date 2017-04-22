@@ -4,8 +4,6 @@
 #include "Chunk.hpp"
 #include "Debugging.hpp"
 
-using namespace std;
-
 SlaveLocator::SlaveLocator()
 {
 
@@ -45,7 +43,7 @@ void SlaveLocator::free(int position)//don't adjust the list, just mark the node
 	}
 	else
 	{
-		cout << FILELINE;
+		Print << FILELINE;
 		///ERROR LOG
 	}
 }
@@ -58,7 +56,7 @@ int SlaveLocator::findPos(const String& slaveTarget)
 	}
 	else
 	{
-		cout << "\nTarget [" << slaveTarget << "] was not found." << FILELINE;
+		Print << "\nTarget [" << slaveTarget << "] was not found." << FILELINE;
 		///ERROR LOG
 		return -1;
 	}

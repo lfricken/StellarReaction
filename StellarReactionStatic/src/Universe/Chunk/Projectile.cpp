@@ -3,7 +3,7 @@
 #include "Game.hpp"
 #include "BlueprintLoader.hpp"
 
-using namespace std;
+
 
 
 void ProjectileData::loadJson(const Json::Value& root)
@@ -26,7 +26,7 @@ void ProjectileData::loadJson(const Json::Value& root)
 			}
 			else
 			{
-				cout << "\n" << FILELINE;
+				Print << "\n" << FILELINE;
 				///ERROR LOG
 			}
 
@@ -65,7 +65,7 @@ void Projectile::launch(const Vec2& rStart, const Vec2& rVel, float radCCW, floa
 	m_inPlay = true;
 	m_timer.setCountDown(lifetime);
 	m_timer.restartCountDown();
-	//cout << m_body.getPosition().x << " " << m_body.getPosition().y;
+	//Print << m_body.getPosition().x << " " << m_body.getPosition().y;
 	m_body.wake(rStart, radCCW, rVel, radCCWps);
 	for(auto it = m_modules.begin(); it != m_modules.end(); ++it)
 		(*it)->setPayload(damage, pParent, collisions);

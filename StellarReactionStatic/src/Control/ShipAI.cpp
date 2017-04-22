@@ -7,8 +7,6 @@
 #include "CommandInfo.hpp"
 #include "CaptureArea.hpp"
 
-using namespace std;
-
 ShipAI::ShipAI(Team team, int controller_index) : BasePlayerTraits("ai")
 {
 	m_currentBehavior = 2;
@@ -76,7 +74,7 @@ void ShipAI::updateDecision()
 		if (m_huntingTimer.isTimeUp())
 		{
 			int new_behavior = rand() % m_numBehaviors;
-			cout << new_behavior;
+			Print << new_behavior;
 			if (new_behavior != m_currentBehavior)
 			{
 				m_currentBehavior = new_behavior;

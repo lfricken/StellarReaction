@@ -2,8 +2,6 @@
 
 #include "Globals.hpp"
 
-using namespace std;
-
 Beam::Beam(const BeamData& rData) : QuadComponent(rData), m_start(rData.start), m_end(rData.end)
 {
 	m_startPos = (Vec2(0,0));

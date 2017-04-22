@@ -3,8 +3,6 @@
 #include "Convert.hpp"
 #include "JSON.hpp"
 
-using namespace std;
-
 void SpinnerData::loadJson(const Json::Value& root)
 {
 	QuadComponentData::loadJson(root);

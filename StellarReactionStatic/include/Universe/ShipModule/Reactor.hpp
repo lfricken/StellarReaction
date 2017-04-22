@@ -43,8 +43,7 @@ struct ReactorData : public ShipModuleData
 		ShipModuleData(),
 		rate(5)// KJ/s
 	{
-		baseDecor.texName = "reactor/reactor_base.png";
-		baseDecor.animSheetName = "reactor/reactor_base.acfg";
+		baseDecor.texName = "reactor/reactor_base";
 	}
 
 	// KJ/s

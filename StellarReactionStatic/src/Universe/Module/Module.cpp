@@ -3,7 +3,7 @@
 #include "CommandInfo.hpp"
 #include "Weapon.hpp"
 
-using namespace std;
+
 
 void ModuleData::loadJson(const Json::Value& root)
 {
@@ -109,6 +109,6 @@ void Module::input(String rCommand, sf::Packet rData)
 	}
 	else
 	{
-		assert(cout << "\nCommand [" << rCommand << "] not found in [" << m_io.getName() << "]." << FILELINE);
+		assert(Print << "\nCommand [" << rCommand << "] not found in [" << m_io.getName() << "]." << FILELINE);
 	}
 }

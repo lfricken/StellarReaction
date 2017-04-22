@@ -2,6 +2,7 @@
 
 /// Useful debugging item.
 #define FILELINE "file:{"<<__FILE__<<"}line:{"<<__LINE__<<"}"
+#define WARNING std::cout << FILELINE
 
 #ifdef _DEBUG
 #define dout std::cout

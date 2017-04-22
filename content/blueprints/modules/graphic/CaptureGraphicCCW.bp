@@ -10,7 +10,7 @@
             0,
             0
         ],
-        "texName": "backgrounds/capture/capturePoint.png",
+        "texName": "backgrounds/capture/capturePoint",
         "animSheetName": "backgrounds/capture/capturePoint.acfg",
         "layer": "BackgroundClose",
 		"rate": 10,
@@ -26,7 +26,7 @@
             0,
             0
         ],
-        "texName": "backgrounds/capture/white.png",
+        "texName": "backgrounds/capture/white",
         "animSheetName": "backgrounds/capture/capturePoint.acfg",
         "layer": "ShipHull",
 		"rate": 10,
@@ -42,7 +42,7 @@
             0,
             0
         ],
-        "texName": "backgrounds/capture/blue.png",
+        "texName": "backgrounds/capture/blue",
         "animSheetName": "backgrounds/capture/capturePoint.acfg",
         "layer": "ShipHull",
 		"rate": 10,
@@ -58,7 +58,7 @@
             0,
             0
         ],
-        "texName": "backgrounds/capture/green.png",
+        "texName": "backgrounds/capture/green",
         "animSheetName": "backgrounds/capture/capturePoint.acfg",
         "layer": "ShipHull",
 		"rate": 10,
@@ -74,7 +74,7 @@
             0,
             0
         ],
-        "texName": "backgrounds/capture/yellow.png",
+        "texName": "backgrounds/capture/yellow",
         "animSheetName": "backgrounds/capture/capturePoint.acfg",
         "layer": "ShipHull",
 		"rate": 10,
@@ -90,7 +90,7 @@
             0,
             0
         ],
-        "texName": "backgrounds/capture/pink.png",
+        "texName": "backgrounds/capture/pink",
         "animSheetName": "backgrounds/capture/capturePoint.acfg",
         "layer": "ShipHull",
 		"rate": 10,
@@ -106,7 +106,7 @@
             0,
             0
         ],
-        "texName": "backgrounds/capture/red.png",
+        "texName": "backgrounds/capture/red",
         "animSheetName": "backgrounds/capture/capturePoint.acfg",
         "layer": "ShipHull",
 		"rate": 10,

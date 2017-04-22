@@ -85,7 +85,7 @@ void Game::loadPlayer(const String& rFileName)
 
 	if(!parsedSuccess)
 	{
-		std::cout << "\nParse Failed [" << rFileName << "].\n" << FILELINE;
+		Print << "\nParse Failed [" << rFileName << "].\n" << FILELINE;
 		///eRROR LOG
 	}
 	else
@@ -245,9 +245,9 @@ void Game::tick(float frameTime)
 
 	/**== FRAMERATE ==**/
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad6))
-		std::cout << "\nFPS: " << 1.f / frameTime;
+		Print << "\nFPS: " << 1.f / frameTime;
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::M))
-		std::cout << "\nLocal Player Money: " << game.getLocalPlayer().getMoney();
+		Print << "\nLocal Player Money: " << game.getLocalPlayer().getMoney();
 
 	/**== IO ==**/
 	getCoreIO().update(frameTime);
@@ -394,7 +394,7 @@ void Game::loadWindow(const String& windowFile)
 	bool parsedSuccess = reader.parse(test, root, false);
 
 	if(!parsedSuccess)
-		std::cout << "\nParse Failed [" << windowFile << "]." << std::endl << FILELINE;
+		Print << "\nParse Failed [" << windowFile << "]." << std::endl << FILELINE;
 	else
 		windowData.loadJson(root);
 
@@ -425,7 +425,7 @@ void Game::loadWindow(const String& windowFile)
 	}
 
 	m_spWindow->setVerticalSyncEnabled(windowData.vSinc);
-	//cout << "\nFPS Limit:" << windowData.targetFPS;
+	//Print << "\nFPS Limit:" << windowData.targetFPS;
 	if(!windowData.vSinc)
 		m_spWindow->setFramerateLimit(windowData.targetFPS);
 

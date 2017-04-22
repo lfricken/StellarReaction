@@ -10,7 +10,7 @@
             0,
             0
         ],
-        "texName": "backgrounds/blackhole/black_hole_i.png",
+        "texName": "backgrounds/blackhole/black_hole_i",
         "animSheetName": "backgrounds/blackhole/black_hole.acfg",
         "layer": "BackgroundClose",
 		"rate": -440
@@ -25,7 +25,7 @@
             0,
             0
         ],
-        "texName": "backgrounds/blackhole/black_hole_m.png",
+        "texName": "backgrounds/blackhole/black_hole_m",
         "animSheetName": "backgrounds/blackhole/black_hole.acfg",
         "layer": "BackgroundClose",
 		"rate": -180
@@ -40,7 +40,7 @@
             0,
             0
         ],
-        "texName": "backgrounds/blackhole/black_hole_o.png",
+        "texName": "backgrounds/blackhole/black_hole_o",
         "animSheetName": "backgrounds/blackhole/black_hole.acfg",
         "layer": "BackgroundClose",
 		"rate": -45

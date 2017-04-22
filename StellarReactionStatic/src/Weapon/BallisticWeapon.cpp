@@ -2,7 +2,7 @@
 #include "Projectile.hpp"
 #include "ProjectileMan.hpp"
 
-using namespace std;
+
 
 
 void BallisticWeaponData::loadJson(const Json::Value& root)

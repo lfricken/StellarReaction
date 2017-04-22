@@ -5,8 +5,6 @@
 #include "CommandInfo.hpp"
 #include "Debugging.hpp"
 
-using namespace std;
-
 Controller::Controller(const ControllerData& rData) : m_aim(0, 0), m_io(rData.ioComp, &Controller::input, this), m_nw(rData.nwComp, &Controller::pack, &Controller::unpack, this, game.getUniverse().getControllerFactory().getNWFactory())
 {
 
@@ -18,7 +16,7 @@ Controller::Controller(const ControllerData& rData) : m_aim(0, 0), m_io(rData.io
 	if(rData.slaveName != "NOSLAVE")
 		setSlave(rData.slaveName);
 	else
-		cout << FILELINE;
+		Print << FILELINE;
 
 	for(int i = 0; i < static_cast<int>(Directive::End); ++i)
 	{
@@ -29,7 +27,7 @@ Controller::Controller(const ControllerData& rData) : m_aim(0, 0), m_io(rData.io
 		m_weaponGroups[i] = true;
 	}
 
-	cout << "\nController " << rData.slaveName;
+	Print << "\nController " << rData.slaveName;
 	//dout << FILELINE;
 }
 Controller::~Controller()
@@ -108,7 +106,7 @@ void Controller::processDirectives()//use our stored directives to send commands
 			bool enoughEnergy = (get(Request::Energy) / get(Request::MaxEnergy)) > 0.25f;
 			if(!shieldsOn && enoughEnergy)
 				shield.reset(temp->m_io.getPosition(), "enableShields", voidPacket, 0, false);
-			else
+			else if(shieldsOn && !enoughEnergy)
 				shield.reset(temp->m_io.getPosition(), "disableShields", voidPacket, 0, false);
 
 			Message::SendUniverse(shield);
@@ -122,7 +120,7 @@ void Controller::processDirectives()//use our stored directives to send commands
 		temp->directive(commands);
 	}
 	else
-		cout << "\nNO CONTROLLER" << FILELINE;
+		Print << "\nNO CONTROLLER" << FILELINE;
 }
 /// <summary>
 /// true if this controller is controlled locally (this computer)

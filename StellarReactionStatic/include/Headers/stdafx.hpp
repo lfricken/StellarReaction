@@ -97,9 +97,18 @@ public:
 		x = cast.x;
 		y = cast.y;
 	}
+	explicit Vec2(const sf::Vector2i& cast)
+	{
+		x = static_cast<float>(cast.x);
+		y = static_cast<float>(cast.y);
+	}
 	explicit operator sf::Vector2f() const
 	{
 		return sf::Vector2f(x, y);
+	}
+	explicit operator sf::Vector2i() const
+	{
+		return sf::Vector2i(static_cast<int>(x), static_cast<int>(y));
 	}
 };
 

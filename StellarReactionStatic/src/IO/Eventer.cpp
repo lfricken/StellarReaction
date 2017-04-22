@@ -1,8 +1,6 @@
 #include "Eventer.hpp"
 #include "IOManager.hpp"
 
-using namespace std;
-
 Eventer::Eventer(IOManager& rManager) : m_rIOManager(rManager)
 {
 

@@ -3,8 +3,6 @@
 #include "Globals.hpp"
 #include "Debugging.hpp"
 
-using namespace std;
-
 Condition::Condition()
 {
 	reset(EventType::None, 0, '=', false);//default
@@ -49,7 +47,7 @@ bool Condition::evaluate(int value) const
 	if(m_op == 'd')
 		return true;
 
-	cout << FILELINE;
+	Print << FILELINE;
 
 	return false;
 }

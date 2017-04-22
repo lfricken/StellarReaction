@@ -19,7 +19,7 @@
 	"minDamage": 100,
 	"period": 0.33,
     "baseDecor": {
-        "texName": "other/blank.png",
+        "texName": "other/blank",
         "animSheetName": "other/blank.acfg"
     }
 }

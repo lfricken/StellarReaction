@@ -2,7 +2,7 @@
 #include "Controller.hpp"
 #include "BlueprintLoader.hpp"
 
-using namespace std;
+
 
 void ReactorData::loadJson(const Json::Value& root)
 {

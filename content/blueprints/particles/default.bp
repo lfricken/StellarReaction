@@ -9,7 +9,7 @@
 	"minSpinRate": 0,
 	"maxSpinRate": 0,
 	"quadData": {
-		"texName": "effects/spark.png",
+		"texName": "effects/spark",
 		"animSheetName": "effects/spark.acfg",
 		"dimensions": [64, 64]
 	}

@@ -14,7 +14,7 @@
 #include "Debugging.hpp"
 #include "Grid.hpp"
 
-using namespace std;
+
 using namespace leon;
 
 Overlay::Overlay(const IOComponentData& rData) : m_gui(game.getWindow()), m_io(rData, &Overlay::input, this)
@@ -26,7 +26,7 @@ Overlay::Overlay(const IOComponentData& rData) : m_gui(game.getWindow()), m_io(r
 }
 Overlay::~Overlay()
 {
-	cout << "\nOverlay Destroying...";
+	Print << "\nOverlay Destroying...";
 }
 void Overlay::addPanel(sptr<leon::Panel> spPanel)
 {
@@ -56,13 +56,13 @@ void Overlay::loadMenus()
 
 	leon::PanelData mainMenuData;
 	mainMenuData.ioComp.name = "main_menu";
-	mainMenuData.backgroundTex = "core/screen_1.png";
+	mainMenuData.backgroundTex = "core/screen_1";
 	mainMenuData.screenCoords = sf::Vector2f(0, 0);
 	mainMenuData.size = sf::Vector2f(1920, 1080);
 	leon::Panel* pMain_menu = new leon::Panel(game.getOverlay().getGui(), mainMenuData);
 	/**====TITLE====**/
 	leon::PictureData pictureData;
-	pictureData.texName = "core/main_menu_logo.png";
+	pictureData.texName = "core/main_menu_logo";
 	pictureData.screenCoords = sf::Vector2f(20, 20);
 	pictureData.size = sf::Vector2f(847, 104);
 	leon::WidgetBase* picture = new leon::Picture(*pMain_menu->getPanelPtr(), pictureData);
@@ -256,8 +256,8 @@ void Overlay::loadMenus()
 	select.ioComp.name = "lobby_shipSelect";
 
 	leon::SelectableItemData item;
-	//data1.texName = "menu/red_menu.png";
-	item.texName = "menu/Red_menu_button.png";
+	//data1.texName = "menu/red_menu";
+	item.texName = "menu/Red_menu_button";
 	leon::LabelData label1;
 	item.labelData.push_back(label1);
 
@@ -316,23 +316,23 @@ void Overlay::loadMenus()
 
 	data.labelData.back().text = "Team 1";
 	data.id = "1";
-	//data.texName = "menu/blue_menu.png";
-	data.texName = "menu/Blue_menu_button.png";
+	//data.texName = "menu/blue_menu";
+	data.texName = "menu/Blue_menu_button";
 	selectTeam.items.push_back(data);
 	data.labelData.back().text = "Team 2";
 	data.id = "2";
-	//data.texName = "menu/green_menu.png";
-	data.texName = "menu/Green_menu_button.png";
+	//data.texName = "menu/green_menu";
+	data.texName = "menu/Green_menu_button";
 	selectTeam.items.push_back(data);
 	data.labelData.back().text = "Team 3";
 	data.id = "3";
-	//data.texName = "menu/yellow_menu.png";
-	data.texName = "menu/Orange_menu_button.png";
+	//data.texName = "menu/yellow_menu";
+	data.texName = "menu/Orange_menu_button";
 	selectTeam.items.push_back(data);
 	data.labelData.back().text = "Team 4";
 	data.id = "4";
-	//data.texName = "menu/pink_menu.png";
-	data.texName = "menu/Purple_menu_button.png";
+	//data.texName = "menu/pink_menu";
+	data.texName = "menu/Purple_menu_button";
 	selectTeam.items.push_back(data);
 
 	pLobby->add(sptr<leon::WidgetBase>(new leon::NetworkedSelection(*pLobby->getPanelPtr(), selectTeam)));
@@ -359,7 +359,7 @@ void Overlay::loadMenus()
 	//store.startHidden = false;
 	//store.ioComp.name = "";
 	//leon::SelectableItemData data2;
-	//data2.texName = "menu/default_menu.png";
+	//data2.texName = "menu/default_menu";
 	//leon::LabelData buyLabel;
 	//data2.labelData.push_back(buyLabel);
 
@@ -501,12 +501,7 @@ void Overlay::loadMenus()
 	leon::Panel* pHudPanel = new leon::Panel(game.getOverlay().getGui(), hudPanelData);
 
 
-	/**HEALTH**/
-	leon::GridData health;
-	health.backgroundColor = sf::Color(255, 255, 255, 20);
-	//health.gridSize = sf::Vector2i(64, 64);
-	health.gridPosition = sf::Vector2i(4, 4);
-	game.getOverlay().addPanel(sptr<leon::Panel>(new Grid(game.getOverlay().getGui(), health)));
+
 
 	/**SCORE**/
 	leon::ButtonData hudScore;
@@ -575,7 +570,7 @@ void Overlay::loadScoreboard(const GameLaunchData& data)
 	//select.ioComp.name = "team1_score";
 
 	//leon::SelectableItemData data1;
-	//data1.texName = "menu/Blue_menu_button.png";
+	//data1.texName = "menu/Blue_menu_button";
 	//leon::LabelData label1;
 	//data1.labelData.push_back(label1);
 	//data1.labelData.back().textSize = 16;
@@ -593,7 +588,7 @@ void Overlay::loadScoreboard(const GameLaunchData& data)
 	//select2.ioComp.name = "team2_score";
 
 	//leon::SelectableItemData data2;
-	//data2.texName = "menu/Green_menu_button.png";
+	//data2.texName = "menu/Green_menu_button";
 	//leon::LabelData label2;
 	//data2.labelData.push_back(label2);
 	//data2.labelData.back().textSize = 16;
@@ -611,7 +606,7 @@ void Overlay::loadScoreboard(const GameLaunchData& data)
 	//select3.ioComp.name = "team3_score";
 
 	//leon::SelectableItemData data3;
-	//data3.texName = "menu/Orange_menu_button.png";
+	//data3.texName = "menu/Orange_menu_button";
 	//leon::LabelData label3;
 	//data3.labelData.push_back(label3);
 	//data3.labelData.back().textSize = 16;
@@ -629,7 +624,7 @@ void Overlay::loadScoreboard(const GameLaunchData& data)
 	//select4.ioComp.name = "team4_score";
 
 	//leon::SelectableItemData data4;
-	//data4.texName = "menu/Purple_menu_button.png";
+	//data4.texName = "menu/Purple_menu_button";
 	//leon::LabelData label4;
 	//data4.labelData.push_back(label4);
 	//data4.labelData.back().textSize = 16;
@@ -761,6 +756,6 @@ void Overlay::input(const String rCommand, sf::Packet rData)
 	}
 	else
 	{
-		cout << "\n" << FILELINE;
+		Print << "\n" << FILELINE;
 	}
 }

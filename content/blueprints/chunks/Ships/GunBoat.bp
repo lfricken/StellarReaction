@@ -7,7 +7,7 @@
 	"hullSpriteData": {
 		"dimensions": [2600, 2371],
 		"center": [0,-600],
-		"texName": "hulls/raven1.png",
+		"texName": "hulls/raven1",
 		"animSheetName": "hulls/raven1.acfg",
 		"layer": "ShipHull"
 	},
@@ -15,7 +15,7 @@
 		{
 			"dimensions": [200, 600],
 			"center": [-150, 795],
-			"texName": "effects/thrust.png",
+			"texName": "effects/thrust",
 			"animSheetName": "effects/thrust.acfg",
 			"layer": "ShipModules",
 			"permanentRot": -2
@@ -23,7 +23,7 @@
 		{
 			"dimensions": [200, 600],
 			"center": [150, 795],
-			"texName": "effects/thrust.png",
+			"texName": "effects/thrust",
 			"animSheetName": "effects/thrust.acfg",
 			"layer": "ShipModules",
 			"permanentRot": 2
@@ -33,7 +33,7 @@
 		{
 			"dimensions": [200, 1400],
 			"center": [-150, 1050],
-			"texName": "effects/boost.png",
+			"texName": "effects/boost",
 			"animSheetName": "effects/boost.acfg",
 			"layer": "ShipModules",
 			"permanentRot": -2
@@ -41,7 +41,7 @@
 		{
 			"dimensions": [200, 1400],
 			"center": [150, 1050],
-			"texName": "effects/boost.png",
+			"texName": "effects/boost",
 			"animSheetName": "effects/boost.acfg",
 			"layer": "ShipModules",
 			"permanentRot": 2

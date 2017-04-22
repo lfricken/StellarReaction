@@ -4,8 +4,6 @@
 #include "Debugging.hpp"
 #include "Animation.hpp"
 
-using namespace std;
-
 
 const String Animator::m_errorTiles = "Error";
 Animator::Animator(const String& setAnimationSheet)
@@ -33,7 +31,7 @@ void Animator::setAnimation(const String& animationName, float duration)
 		auto it = m_pSet->animations.find(m_errorTiles);// Failed to find our animation.
 
 		if(it == m_pSet->animations.end())
-			cout << "\n" << FILELINE;// Failed to find error animation!
+			Print << "\n" << FILELINE;// Failed to find error animation!
 		else
 			m_pAnim = &(it->second);
 	}

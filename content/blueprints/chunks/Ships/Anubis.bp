@@ -6,7 +6,7 @@
     },
 	"hullSpriteData": {
 		"dimensions": [2200, 2000],
-		"texName": "hulls/ship1.png",
+		"texName": "hulls/ship1",
 		"animSheetName": "hulls/ship1.acfg",
 		"layer": "ShipHull"
 	},
@@ -14,7 +14,7 @@
 		{
 			"dimensions": [250, 700],
 			"center": [0, 835],
-			"texName": "effects/thrust.png",
+			"texName": "effects/thrust",
 			"animSheetName": "effects/thrust.acfg",
 			"layer": "ShipModules"
 		}
@@ -23,7 +23,7 @@
 		{
 			"dimensions": [250, 1400],
 			"center": [0, 1050],
-			"texName": "effects/boost.png",
+			"texName": "effects/boost",
 			"animSheetName": "effects/boost.acfg",
 			"layer": "ShipModules"
 		}

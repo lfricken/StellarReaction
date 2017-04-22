@@ -7,7 +7,7 @@
 	"hullSpriteData": {
 		"dimensions": [3275, 2454],
 		"center": [0,-500],
-		"texName": "hulls/titan1.png",
+		"texName": "hulls/titan1",
 		"animSheetName": "hulls/titan1.acfg",
 		"layer": "ShipHull"
 	},
@@ -15,7 +15,7 @@
 		{
 			"dimensions": [200, 600],
 			"center": [-240, 965],
-			"texName": "effects/thrust.png",
+			"texName": "effects/thrust",
 			"animSheetName": "effects/thrust.acfg",
 			"layer": "ShipModules",
 			"permanentRot": -2
@@ -23,7 +23,7 @@
 		{
 			"dimensions": [200, 600],
 			"center": [240, 965],
-			"texName": "effects/thrust.png",
+			"texName": "effects/thrust",
 			"animSheetName": "effects/thrust.acfg",
 			"layer": "ShipModules",
 			"permanentRot": 2
@@ -33,7 +33,7 @@
 		{
 			"dimensions": [200, 1400],
 			"center": [-240, 1280],
-			"texName": "effects/boost.png",
+			"texName": "effects/boost",
 			"animSheetName": "effects/boost.acfg",
 			"layer": "ShipModules",
 			"permanentRot": -2
@@ -41,7 +41,7 @@
 		{
 			"dimensions": [200, 1400],
 			"center": [240, 1280],
-			"texName": "effects/boost.png",
+			"texName": "effects/boost",
 			"animSheetName": "effects/boost.acfg",
 			"layer": "ShipModules",
 			"permanentRot": 2

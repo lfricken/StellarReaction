@@ -4,8 +4,6 @@
 #include "JSON.hpp"
 #include "Debugging.hpp"
 
-using namespace std;
-
 IOComponent::~IOComponent()
 {
 	m_pManager->free(m_ioManPosition);
@@ -56,11 +54,11 @@ void IOComponentData::loadJson(const Json::Value& root)
 					else if(type == "string")
 						packData << it->asString();
 					else
-						cout << "\nError: " << FILELINE;
+						Print << "\nError: " << FILELINE;
 				}
 			else
 			{
-				cout << "\n" << FILELINE;
+				Print << "\n" << FILELINE;
 				///ERROR LOG
 			}
 

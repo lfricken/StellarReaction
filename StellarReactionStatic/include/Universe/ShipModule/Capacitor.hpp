@@ -29,8 +29,7 @@ struct CapacitorData : ShipModuleData
 		ShipModuleData(),
 		storage(100)
 	{
-		baseDecor.texName = "capacitor/capacitor_base.png";
-		baseDecor.animSheetName = "capacitor/capacitor_base.acfg";
+		baseDecor.texName = "capacitor/capacitor_base";
 	}
 
 	float storage;

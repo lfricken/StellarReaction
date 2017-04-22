@@ -1,7 +1,7 @@
 #include "Stealth.hpp"
 #include "Controller.hpp"
 
-using namespace std;
+
 
 
 void StealthData::loadJson(const Json::Value& root)

@@ -11,16 +11,13 @@ struct BeamData : public QuadComponentData
 		start(),
 		end()
 	{
-		texName = "beam/beam_mid.png";
-		animSheetName = "beam/beam_mid.acfg";
+		texName = "beam/beam_mid";
 		layer = GraphicsLayer::Projectiles;
 
-		start.texName = "beam/beam_start.png";
-		start.animSheetName = "beam/beam_start.acfg";
+		start.texName = "beam/beam_start";
 		start.layer = GraphicsLayer::Effects;
 
-		end.texName = "beam/beam_end.png";
-		end.animSheetName = "beam/beam_end.acfg";
+		end.texName = "beam/beam_end";
 		end.layer = GraphicsLayer::Effects;
 	}
 
