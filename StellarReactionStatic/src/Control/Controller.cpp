@@ -104,9 +104,9 @@ void Controller::processDirectives()//use our stored directives to send commands
 
 			bool shieldsOn = (bool)get(Request::ShieldState);
 			bool enoughEnergy = (get(Request::Energy) / get(Request::MaxEnergy)) > 0.25f;
-			if(!shieldsOn && enoughEnergy)
+			if(!shieldsOn && enoughEnergy)//if they aren't already on and we have enough energy turn them on
 				shield.reset(temp->m_io.getPosition(), "enableShields", voidPacket, 0, false);
-			else if(shieldsOn && !enoughEnergy)
+			else if(shieldsOn)//if they are on turn them off no mattter what.
 				shield.reset(temp->m_io.getPosition(), "disableShields", voidPacket, 0, false);
 
 			Message::SendUniverse(shield);
