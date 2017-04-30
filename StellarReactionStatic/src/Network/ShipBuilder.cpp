@@ -98,6 +98,7 @@ void ShipBuilder::Server::rebuild(sf::Packet& rData)
 	{
 		attachModule(targetShip, it->first, it->second);
 	}
+	doneBuilding(targetShip);
 }
 void ShipBuilder::Server::attachModule(int targetIOPos, const String& bpName, const sf::Vector2i offset)
 {
@@ -112,5 +113,10 @@ void ShipBuilder::Server::attachModule(int targetIOPos, const String& bpName, co
 void ShipBuilder::Server::cleanShip(int targetIOPos)
 {
 	Message clean((unsigned)targetIOPos, "clear", voidPacket, 0, false);
+	game.getUniverse().getUniverseIO().recieve(clean);
+}
+void ShipBuilder::Server::doneBuilding(int targetIOPos)
+{
+	Message clean((unsigned)targetIOPos, "doneBuilding", voidPacket, 0, false);
 	game.getUniverse().getUniverseIO().recieve(clean);
 }

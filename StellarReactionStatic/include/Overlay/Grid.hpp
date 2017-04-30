@@ -37,6 +37,10 @@ namespace leon
 		void clear();
 
 		/// <summary>
+		/// Cause this module to flash with damage
+		/// </summary>
+		void damageFlash(Vec2 pos);
+		/// <summary>
 		/// Background texture of the grid
 		/// </summary>
 		sptr<QuadComponent> m_background;
@@ -47,25 +51,29 @@ namespace leon
 		/// </summary>
 		sf::Vector2f getPixelOffset(Vec2 gridPosition);
 
-		struct GridElement
+		/// <summary>
+		/// Used to put into a grid to show damage and module status.
+		/// </summary>
+		class GridElement
 		{
-			GridElement(const String& texName,
-				const Vec2& gridSlot,
-				const Vec2& gridSize
-				)
-			{
-				gridPos = gridSlot;
-
-				QuadComponentData data;
-				data.layer = GraphicsLayer::OverlayMiddle;
-				data.texName = texName;
-				data.dimensions = static_cast<sf::Vector2f>(gridSize);
-				module.reset(new QuadComponent(data));
-			}
-
+		public:
+			GridElement(const String& texName, const Vec2& gridSlot, const Vec2& gridSize);
+			
+			/// <summary>
+			/// 0 to 1 percent
+			/// </summary>
+			void flashDamage(float percentHealthRemain);
+			/// <summary>
+			/// Sets the position of this element with respect to the screen coordinates.
+			/// </summary>
+			void setGuiPosition(sf::Vector2f screenPos);
+			/// <summary>
+			/// Our position in the grid
+			/// </summary>
+			Vec2 gridPos;
+		private:
 			sptr<QuadComponent> module;
 			sptr<QuadComponent> damageIndicator;
-			Vec2 gridPos;
 		};
 
 

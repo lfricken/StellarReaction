@@ -46,8 +46,9 @@ public:
 		/// </summary>
 		static void rebuild(sf::Packet& rData);
 	private:
-		static void attachModule(int targetShipIOPosition, const String& bpName, const sf::Vector2i offset);
-		static void cleanShip(int targetShipIOPosition);
+		static void attachModule(int targetIOPos, const String& bpName, const sf::Vector2i offset);
+		static void cleanShip(int targetIOPos);
+		static void doneBuilding(int targetIOPos);
 	};
 
 

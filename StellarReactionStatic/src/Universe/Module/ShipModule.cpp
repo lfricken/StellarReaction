@@ -2,6 +2,7 @@
 #include "SoundManager.hpp"
 #include "Player.hpp"
 #include "Team.hpp"
+#include "Grid.hpp"
 
 
 
@@ -103,6 +104,16 @@ void ShipModule::input(String rCommand, sf::Packet rData)
 
 		if(damagePositive && differentTeams && validTeams)
 		{
+			if(m_parentChunk != nullptr)
+			{
+				auto pos = getOffset();
+				auto boardPtr = m_parentChunk->getStatusBoard();
+				if(auto statusBoard = boardPtr.lock())
+				{
+					statusBoard->damageFlash(pos);
+				}
+			}
+
 			m_health.damage(val);
 			if(effect != "")
 			{

@@ -155,7 +155,7 @@ NetworkComponent& Controller::getNWComp()
 void Controller::pack(sf::Packet& rPacket)
 {
 	int32_t weaponGroupSize = m_weaponGroups.size();
-
+	 
 	rPacket << static_cast<float32>(m_aim.x);
 	rPacket << static_cast<float32>(m_aim.y);
 	for(int32_t i = 0; i < static_cast<int32_t>(Directive::End); ++i)

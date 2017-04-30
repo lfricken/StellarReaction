@@ -438,6 +438,13 @@ void Chunk::input(String rCommand, sf::Packet rData)
 	{
 		resetStatusBoard(m_statusBoard);
 	}
+	else if(rCommand == "doneBuilding")
+	{
+		if(auto grid = m_statusBoard.lock())
+		{
+			grid->reset(getModules());
+		}
+	}
 	else if(rCommand == "attachModule")
 	{
 		String bpName;

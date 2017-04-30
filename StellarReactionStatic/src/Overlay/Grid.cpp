@@ -10,9 +10,45 @@
 
 namespace leon
 {
+
+	Grid::GridElement::GridElement(const String& texName, const Vec2& gridSlot, const Vec2& gridSize)
+	{
+		QuadComponentData damageIndicatorData;
+		damageIndicatorData.dimensions.x = gridSize.x;
+		damageIndicatorData.dimensions.y = gridSize.y;
+		damageIndicatorData.permanentRot = 0;
+		damageIndicatorData.center.x = 0;
+		damageIndicatorData.center.y = 0;
+		damageIndicatorData.texName = "effects/module_hit";
+		damageIndicatorData.layer = GraphicsLayer::OverlayTop;
+		damageIndicatorData.setCenterTopLeft();
+		damageIndicator.reset(new QuadComponent(damageIndicatorData));
+
+		gridPos = gridSlot;
+
+		QuadComponentData data;
+		data.layer = GraphicsLayer::OverlayMiddle;
+		data.texName = texName;
+		data.dimensions = static_cast<sf::Vector2f>(gridSize);
+		data.setCenterTopLeft();
+		module.reset(new QuadComponent(data));
+	}
+	void Grid::GridElement::flashDamage(float percentHealthRemain)
+	{
+		const float flashDur = 1.2f;
+		damageIndicator->getAnimator().setAnimation("Hit", flashDur);
+	}
+	void Grid::GridElement::setGuiPosition(sf::Vector2f screenPos)
+	{
+		module->setGuiPosition(screenPos);
+		damageIndicator->setGuiPosition(screenPos);
+	}
+
+
+
 	Grid::Grid(const GridData& data)
 	{
-		m_gridOffset.x = (data.sizeOfGrid.x - 1) / 2;
+		m_gridOffset.x = (data.sizeOfGrid.x - 1) / 2;//sets total size of grid
 		m_gridOffset.y = (data.sizeOfGrid.y - 1) / 2;
 
 		m_gridSize = data.gridSize;
@@ -37,8 +73,17 @@ namespace leon
 			dout << "\n " << title << "\t" << shipModulePos;
 
 			m_modules.push_back(GridElement(moduleData->baseDecor.texName, shipModulePos, m_gridSize));
-			m_modules.back().module->setGuiPosition(getPixelOffset(shipModulePos));
+			auto pos = getPixelOffset(shipModulePos);
+			m_modules.back().setGuiPosition(pos);
 
+		}
+	}
+	void Grid::damageFlash(Vec2 pos)
+	{
+		for each (auto element in m_modules)
+		{
+			if(element.gridPos == pos)
+				element.flashDamage(1);//TODO flash damage percent
 		}
 	}
 	void Grid::reset(const List<std::pair<String, sf::Vector2i> >& modules)
