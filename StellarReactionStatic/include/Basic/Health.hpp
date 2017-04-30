@@ -3,6 +3,17 @@
 
 #include "Pool.hpp"
 
+/// <summary>
+/// Used to represent whether a module can be functioning or not.
+/// </summary>
+enum class HealthState
+{
+	Nominal,//the module is healthy and works
+	CriticallyDamaged,//the module has taken critical damage and might not work
+	Broken,//the module is severely damaged and definitely does not work
+};
+
+
 ///Data constructor for Health.
 struct HealthData : public PoolData<int>
 {

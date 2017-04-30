@@ -547,6 +547,7 @@ void Player::loadOverlay(const String& rOverlay)
 	// Status board
 	{
 		leon::GridData health;
+		health.gridSize = Vec2(48, 48);
 		m_myStatusBoard.reset(new leon::Grid(health));
 
 		m_myStatusBoard->m_background->setGuiPosition(sf::Vector2f(32, 512));

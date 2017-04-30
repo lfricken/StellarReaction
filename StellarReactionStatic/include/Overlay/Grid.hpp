@@ -1,6 +1,6 @@
 #pragma once
 #include "QuadComponent.hpp"
-
+#include "Health.hpp"
 
 namespace leon
 {
@@ -16,9 +16,17 @@ namespace leon
 			sizeOfGrid = Vec2(5, 5);
 		}
 
-
+		/// <summary>
+		/// Background art for the grid.
+		/// </summary>
 		QuadComponentData background;
+		/// <summary>
+		/// Size of grid in cells.
+		/// </summary>
 		Vec2 sizeOfGrid;
+		/// <summary>
+		/// How big each cell is.
+		/// </summary>
 		Vec2 gridSize;
 	};
 
@@ -39,7 +47,7 @@ namespace leon
 		/// <summary>
 		/// Cause this module to flash with damage
 		/// </summary>
-		void damageFlash(Vec2 pos);
+		void damageFlash(Vec2 pos, HealthState state);
 		/// <summary>
 		/// Background texture of the grid
 		/// </summary>
@@ -58,11 +66,14 @@ namespace leon
 		{
 		public:
 			GridElement(const String& texName, const Vec2& gridSlot, const Vec2& gridSize);
-			
+			/// <summary>
+			/// marks the module and destroyed
+			/// </summary>
+			void Grid::GridElement::markBroken();
 			/// <summary>
 			/// 0 to 1 percent
 			/// </summary>
-			void flashDamage(float percentHealthRemain);
+			void flashDamage(float percentHealthRemain, HealthState state);
 			/// <summary>
 			/// Sets the position of this element with respect to the screen coordinates.
 			/// </summary>

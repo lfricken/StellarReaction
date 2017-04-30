@@ -7,12 +7,6 @@
 #include "Sound.hpp"
 #include "Debugging.hpp"
 
-enum class HealthState
-{
-	Nominal,//the module is healthy and works
-	Damaged,//the module is damaged and may not work
-	Broken,//the module is severely damaged and does not work
-};
 
 struct ShipModuleData;
 

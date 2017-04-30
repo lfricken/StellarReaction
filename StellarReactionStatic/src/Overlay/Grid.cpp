@@ -33,8 +33,16 @@ namespace leon
 		data.setCenterTopLeft();
 		module.reset(new QuadComponent(data));
 	}
-	void Grid::GridElement::flashDamage(float percentHealthRemain)
+	void Grid::GridElement::markBroken()
 	{
+		module->setColor(sf::Color::Red);
+	}
+	void Grid::GridElement::flashDamage(float percentHealthRemain, HealthState state)
+	{
+		if(state == HealthState::CriticallyDamaged)
+		{
+			markBroken();
+		}
 		const float flashDur = 1.2f;
 		damageIndicator->getAnimator().setAnimation("Hit", flashDur);
 	}
@@ -68,7 +76,7 @@ namespace leon
 	{
 		sptr<ShipModuleData> moduleData;
 		moduleData.reset(dynamic_cast<ShipModuleData*>(game.getUniverse().getBlueprints().getModuleSPtr(title)->clone()));
-		if(moduleData != NULL)
+		if(moduleData != nullptr)
 		{
 			dout << "\n " << title << "\t" << shipModulePos;
 
@@ -78,12 +86,16 @@ namespace leon
 
 		}
 	}
-	void Grid::damageFlash(Vec2 pos)
+	void Grid::damageFlash(Vec2 pos, HealthState state)
 	{
 		for each (auto element in m_modules)
 		{
 			if(element.gridPos == pos)
-				element.flashDamage(1);//TODO flash damage percent
+			{
+				element.flashDamage(1, state);//TODO flash damage percent
+				if(state == HealthState::CriticallyDamaged)
+					element.markBroken();
+			}
 		}
 	}
 	void Grid::reset(const List<std::pair<String, sf::Vector2i> >& modules)

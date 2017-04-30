@@ -1,6 +1,7 @@
 #include "Health.hpp"
 #include "stdafx.hpp"
 
+
 Health::Health(const HealthData& rData) : Pool(rData)
 {
 	m_armor = rData.Armor;

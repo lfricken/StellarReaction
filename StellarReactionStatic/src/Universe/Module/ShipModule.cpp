@@ -83,7 +83,7 @@ void ShipModule::unpack(sf::Packet& rPacket)
 }
 void ShipModule::input(String rCommand, sf::Packet rData)
 {
-	const float damagedPercent = 0.25;// TODO should be some global constant
+	const float damagedPercent = 0.25;// percent health that the module stops functioning TODO should be some global constant
 
 	if(rCommand == "damage")//TODO huge if statement needs refactor
 	{
@@ -104,15 +104,6 @@ void ShipModule::input(String rCommand, sf::Packet rData)
 
 		if(damagePositive && differentTeams && validTeams)
 		{
-			if(m_parentChunk != nullptr)
-			{
-				auto pos = getOffset();
-				auto boardPtr = m_parentChunk->getStatusBoard();
-				if(auto statusBoard = boardPtr.lock())
-				{
-					statusBoard->damageFlash(pos);
-				}
-			}
 
 			m_health.damage(val);
 			if(effect != "")
@@ -140,7 +131,18 @@ void ShipModule::input(String rCommand, sf::Packet rData)
 				}
 				else if(m_health.getHealthPercent() < damagedPercent)
 				{
-					setHealthState(HealthState::Damaged);
+					setHealthState(HealthState::CriticallyDamaged);
+				}
+			}
+
+
+			if(m_parentChunk != nullptr)
+			{
+				auto pos = getOffset();
+				auto boardPtr = m_parentChunk->getStatusBoard();
+				if(auto statusBoard = boardPtr.lock())
+				{
+					statusBoard->damageFlash(pos, m_healthState);
 				}
 			}
 		}
@@ -171,7 +173,7 @@ bool ShipModule::isFunctioning()//does this module still do its function
 		return true;
 	else if(m_healthState == HealthState::Broken)
 		return false;
-	else if(m_healthState == HealthState::Damaged)
+	else if(m_healthState == HealthState::CriticallyDamaged)
 		return m_functionsDamaged;
 
 	Print << "\n" << FILELINE;
