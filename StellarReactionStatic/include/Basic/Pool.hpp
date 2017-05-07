@@ -105,7 +105,9 @@ public:
 	{
 		return m_max;
 	}
-	///Returns the percentage between max and min.
+	/// <summary>
+	/// Returns the percentage between min and max 0 - 1.
+	/// </summary>
 	float getPercent() const
 	{
 		float max = m_max - m_min;

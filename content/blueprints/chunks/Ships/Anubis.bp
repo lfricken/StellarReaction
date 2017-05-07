@@ -4,6 +4,9 @@
         "Max": 64,
         "Value": 16
     },
+    "energyData": {
+        "Max": 50
+    },
 	"hullSpriteData": {
 		"dimensions": [2200, 2000],
 		"texName": "hulls/ship1",
@@ -28,6 +31,7 @@
 			"layer": "ShipModules"
 		}
 	],
+	"minShieldPower": 0.50,
     "moduleData": [
 		{
             "title": "MissileTurret",

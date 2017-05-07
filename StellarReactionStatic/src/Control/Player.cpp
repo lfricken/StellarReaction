@@ -183,7 +183,6 @@ void Player::selectTarget(const Vec2& targetNearPos, const Chunk* playersShip)
 	{
 		if(!hasTarget(target.get()))
 		{
-			m_targets.resize(m_maxTargets);
 			m_targets[m_nextTarget] = newTarget;
 		}
 		++m_nextTarget;
@@ -391,7 +390,7 @@ void Player::updateView()
 				{
 					// TODO this should not have a win condition
 					scoreString = "You Win";
-					game.getUniverse().togglePause();
+					//game.getUniverse().togglePause();
 				}
 
 				sf::Packet scorePack;
@@ -552,6 +551,13 @@ void Player::loadOverlay(const String& rOverlay)
 
 		m_myStatusBoard->m_background->setGuiPosition(sf::Vector2f(32, 512));
 		dout << m_myStatusBoard->getScreenPosition();
+	}
+	{
+		m_targets.resize(m_maxTargets);
+		m_targetBoards.resize(m_maxTargets);
+
+		//populate the target grids
+
 	}
 }
 void Player::createReticles()

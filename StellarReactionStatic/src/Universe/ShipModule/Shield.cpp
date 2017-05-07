@@ -82,8 +82,8 @@ void Shield::prePhysUpdate()
 	ShipModule::prePhysUpdate();
 
 	Energy thisTickConsumption = m_energyPerSecond*m_consumptionTimer.getTimeElapsed();
-	if(!isFunctioning() || m_pEnergyPool->getValue() < thisTickConsumption)
-		triggerGroupDisable();
+	if(!isFunctioning())
+		disableShield();
 
 	if(m_pShield->isEnabled())
 		m_pEnergyPool->changeValue(-thisTickConsumption);
@@ -95,17 +95,7 @@ bool Shield::hitConsumption()
 }
 void Shield::directive(const CommandInfo& commands)
 {
-	//this->input
 
-	//Map<Directive, bool> rIssues = commands.directives;
-	//if(rIssues[Directive::Shield])
-	//{
-	//	if(m_toggleTimer.isTimeUp())
-	//	{
-	//		m_toggleTimer.restartCountDown();
-	//		m_pShield->toggleEnabled(!m_pShield->isEnabled());
-	//	}
-	//}
 }
 void Shield::enableShield()
 {

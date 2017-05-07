@@ -324,6 +324,7 @@
     <ClInclude Include="include\Basic\Team.hpp" />
     <ClInclude Include="include\Network\ShipBuilder.hpp" />
     <ClInclude Include="include\Network\Network.hpp" />
+    <ClInclude Include="include\Basic\PoolChanger.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Overlay\Grid.cpp" />

@@ -20,7 +20,6 @@ public:
 
 protected:
 private:
-	bool m_hasContributed;
 	///Zoom change.
 	float m_zoom;
 	///The index of our dish in our list.

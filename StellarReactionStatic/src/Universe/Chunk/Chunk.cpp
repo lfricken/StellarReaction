@@ -23,7 +23,7 @@ void ChunkDataMessage::loadJson(const Json::Value& root)
 
 	if(aiControlled)
 		needsController = true;
-}
+} 
 void ChunkDataMessage::pack(sf::Packet* data) const
 {
 	sf::Packet& pack = *data;
@@ -57,6 +57,7 @@ void ChunkData::loadJson(const Json::Value& root)
 	LOADJSONT(missileData, Missiles);
 	LOADJSONT(zoomData, Zoom);
 	LOADJSON(hullSpriteData);
+	GETJSON(minShieldPower);
 
 	if(!root["afterburnerSpriteData"].isNull())
 		for(auto it = root["afterburnerSpriteData"].begin(); it != root["afterburnerSpriteData"].end(); ++it)
@@ -99,6 +100,9 @@ void ChunkData::loadJson(const Json::Value& root)
 }
 Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp), m_zoomPool(rData.zoomData), m_energyPool(rData.energyData), m_ballisticPool(rData.ballisticData), m_missilePool(rData.missileData)
 {
+	m_shieldToggleTimer.setCountDown(0.5f);
+	m_shieldToggleTimer.restartCountDown();
+
 	m_body.setTeam(rData.team);//important that team is set before module creation
 	m_spawnPoint = m_body.getBodyPtr()->GetPosition();
 	m_radius = -1.f;
@@ -109,6 +113,7 @@ Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp)
 	m_timer.setCountDown(1);
 	m_timer.restartCountDown();
 	m_areShieldsOn = false;
+	m_minShieldPower = rData.minShieldPower;
 
 	//Set valid module positions.
 	m_validOffsets = rData.validPos;
@@ -312,6 +317,21 @@ void Chunk::directive(const CommandInfo& commands)//send command to target
 	bool startThrusting = (rIssues[Directive::Up] && !m_wasThrusting);
 	bool startBoosting = (rIssues[Directive::Up] && rIssues[Directive::Boost] && !m_wasBoosting);
 
+
+	//Shields
+	if(rIssues[Directive::Shield] && m_shieldToggleTimer.isTimeUp())
+	{
+		m_shieldToggleTimer.restartCountDown();
+		Message shield;
+
+		bool enoughEnergy = m_energyPool.getPercent() > 0.25f;
+		if(!m_areShieldsOn && enoughEnergy)//if they aren't already on and we have enough energy turn them on
+			shield.reset(m_io.getPosition(), "enableShields", voidPacket, 0, false);
+		else if(m_areShieldsOn)//if they are on turn them off no mattter what.
+			shield.reset(m_io.getPosition(), "disableShields", voidPacket, 0, false);
+
+		Message::SendUniverse(shield);
+	}
 
 
 	if(startThrusting)
@@ -529,7 +549,7 @@ void Chunk::resetStatusBoard(wptr<leon::Grid> grid)
 	if(auto board = m_statusBoard.lock())
 		board->reset(getModules());
 	else
-		dout << FILELINE;
+		WARNING;
 }
 wptr<leon::Grid> Chunk::getStatusBoard()
 {

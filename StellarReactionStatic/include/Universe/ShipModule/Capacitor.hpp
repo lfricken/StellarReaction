@@ -17,7 +17,6 @@ public:
 protected:
 private:
 
-	bool m_hasContributed;
 	float m_storage;
 };
 

@@ -93,7 +93,7 @@ namespace leon
 			if(element.gridPos == pos)
 			{
 				element.flashDamage(1, state);//TODO flash damage percent
-				if(state == HealthState::CriticallyDamaged)
+				if(state == HealthState::CriticallyDamaged || state == HealthState::Broken)
 					element.markBroken();
 			}
 		}

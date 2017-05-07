@@ -11,24 +11,21 @@ Capacitor::Capacitor(const CapacitorData& rData) : ShipModule(rData)
 {
 	m_storage = rData.storage;
 
-	m_pEnergyPool->changeMax(m_storage);
-	m_hasContributed = true;
+	m_poolChanger.tryContributeMax(m_pEnergyPool, m_storage);
 }
 Capacitor::~Capacitor()
 {
-	m_pEnergyPool->changeMax(-m_storage);
-	m_hasContributed = false;
+	m_poolChanger.tryRemoveMax(m_pEnergyPool, m_storage);
 }
 void Capacitor::setHealthStateHook(HealthState newState)
 {
-	if(m_hasContributed && !isFunctioning())
-	{
-		m_pEnergyPool->changeMax(-m_storage);
-		m_hasContributed = false;
-	}
-	else if(!m_hasContributed && isFunctioning())
-	{
-		m_pEnergyPool->changeMax(m_storage);
-		m_hasContributed = true;
-	}
+	if(this->isFunctioning())
+		m_poolChanger.tryContributeMax(m_pEnergyPool, m_storage);
+	else
+		m_poolChanger.tryRemoveMax(m_pEnergyPool, m_storage);
 }
+
+
+
+
+

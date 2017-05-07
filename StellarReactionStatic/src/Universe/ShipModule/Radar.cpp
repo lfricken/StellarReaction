@@ -11,33 +11,25 @@ Radar::Radar(const RadarData& rData) : ShipModule(rData)
 {
 	m_dishIndex = m_decors.size();
 	m_decors.push_back(sptr<GraphicsComponent>(new Spinner(rData.dish)));
-
 	m_zoom = rData.zoomAddition;
 
-	m_pZoomPool->changeValue(m_zoom);
-	m_hasContributed = true;
+	m_poolChanger.tryContributeValue(m_pZoomPool, m_zoom);
 }
 Radar::~Radar()
 {
-	m_pZoomPool->changeValue(-m_zoom);
-	m_hasContributed = false;
+	m_poolChanger.tryRemoveValue(m_pZoomPool, m_zoom);
 }
 void Radar::setHealthStateHook(HealthState newState)
 {
-	if(!isFunctioning())
-		static_cast<Spinner*>(m_decors[m_dishIndex].get())->toggleOn(false);
-	else
+	if(isFunctioning())
+	{
 		static_cast<Spinner*>(m_decors[m_dishIndex].get())->toggleOn(true);
-
-	if(m_hasContributed && !isFunctioning())
-	{
-		m_pZoomPool->changeValue(-m_zoom);
-		m_hasContributed = false;
+		m_poolChanger.tryContributeValue(m_pZoomPool, m_zoom);
 	}
-	else if(!m_hasContributed && isFunctioning())
+	else
 	{
-		m_pZoomPool->changeValue(m_zoom);
-		m_hasContributed = true;
+		static_cast<Spinner*>(m_decors[m_dishIndex].get())->toggleOn(false);
+		m_poolChanger.tryRemoveValue(m_pZoomPool, m_zoom);
 	}
 }
 

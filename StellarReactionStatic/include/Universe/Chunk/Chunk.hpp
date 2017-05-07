@@ -102,6 +102,14 @@ private:
 	bool m_wasBoosting;
 	List<sptr<GraphicsComponent> > afterburners_boost;
 
+	/// <summary>
+	/// Controls how frequently you can toggle the shields.
+	/// </summary>
+	Timer m_shieldToggleTimer;
+	/// <summary>
+	/// Minimum energy required to sustain shields.
+	/// </summary>
+	float m_minShieldPower;
 	bool m_areShieldsOn;
 	bool m_stealth;
 
@@ -118,7 +126,8 @@ struct ChunkData : public GameObjectData, public BlueprintData
 	ChunkData() :
 		GameObjectData(),
 		bodyComp(),
-		team(Team::Alone)
+		team(Team::Alone),
+		minShieldPower(0.25)
 	{
 		title = "CHUNK_DEFAULT_TITLE";
 
@@ -139,6 +148,7 @@ struct ChunkData : public GameObjectData, public BlueprintData
 	PoolData<Zoom> zoomData;
 
 	List<Vec2> validPos;
+	float minShieldPower;
 
 	Team team;
 	BodyComponentData bodyComp;
@@ -168,6 +178,9 @@ private:
 	MyType(ChunkData, ChunkData);
 };
 
+/// <summary>
+/// Used to create ALL chunks in the game.
+/// </summary>
 struct ChunkDataMessage
 {
 	ChunkDataMessage()

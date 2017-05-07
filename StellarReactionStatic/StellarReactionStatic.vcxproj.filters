@@ -414,6 +414,7 @@
     <ClInclude Include="include\Headers\Debugging.hpp" />
     <ClInclude Include="include\Universe\Utility\ChunkSpawner.hpp" />
     <ClInclude Include="include\Overlay\Grid.hpp" />
+    <ClInclude Include="include\Basic\PoolChanger.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\API\SFML\Audio\SoundFileFactory.inl" />

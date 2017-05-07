@@ -7,9 +7,6 @@
 
 Controller::Controller(const ControllerData& rData) : m_aim(0, 0), m_io(rData.ioComp, &Controller::input, this), m_nw(rData.nwComp, &Controller::pack, &Controller::unpack, this, game.getUniverse().getControllerFactory().getNWFactory())
 {
-
-	m_shieldToggleTimer.setCountDown(0.5f);
-	m_shieldToggleTimer.restartCountDown();
 	m_local = false;
 	m_slavePosition = -1;
 
@@ -94,33 +91,17 @@ float Controller::get(Request value)//return the requested value
 void Controller::processDirectives()//use our stored directives to send commands
 {
 	processAim();
-	Chunk* temp = game.getUniverse().getSlaveLocator().find(m_slavePosition);
-	if(temp != NULL)
+	Chunk* targetShip = game.getUniverse().getSlaveLocator().find(m_slavePosition);
+	if(targetShip != NULL)
 	{
-		if(m_directives[Directive::Shield] && m_shieldToggleTimer.isTimeUp())
-		{
-			m_shieldToggleTimer.restartCountDown();
-			Message shield;
-
-			bool shieldsOn = (bool)get(Request::ShieldState);
-			bool enoughEnergy = (get(Request::Energy) / get(Request::MaxEnergy)) > 0.25f;
-			if(!shieldsOn && enoughEnergy)//if they aren't already on and we have enough energy turn them on
-				shield.reset(temp->m_io.getPosition(), "enableShields", voidPacket, 0, false);
-			else if(shieldsOn)//if they are on turn them off no mattter what.
-				shield.reset(temp->m_io.getPosition(), "disableShields", voidPacket, 0, false);
-
-			Message::SendUniverse(shield);
-		}
-
-
 		CommandInfo commands;
 		commands.directives = m_directives;
 		commands.isLocal = m_local;
 		commands.weaponGroups = m_weaponGroups;
-		temp->directive(commands);
+		targetShip->directive(commands);
 	}
 	else
-		Print << "\nNO CONTROLLER" << FILELINE;
+		WARNING;
 }
 /// <summary>
 /// true if this controller is controlled locally (this computer)

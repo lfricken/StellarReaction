@@ -11,6 +11,7 @@ void ShipModuleData::loadJson(const Json::Value& root)
 	LOADJSON(health);
 	LOADJSON(baseDecor);
 	LOADJSON(deathSound);
+	GETJSON(functionsDamaged);
 
 	ModuleData::loadJson(root);
 }

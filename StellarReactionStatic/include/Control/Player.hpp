@@ -184,6 +184,7 @@ private:
 	int m_nextTarget;
 	int m_maxTargets;
 	List<wptr<Chunk> > m_targets;
+	List<sptr<leon::Grid> > m_targetBoards;
 	List<sptr<QuadComponent> > m_targetReticules;
 
 	List<sptr<QuadComponent>> m_groupIcon;

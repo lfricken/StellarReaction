@@ -1,5 +1,6 @@
 #include "ProjectileModule.hpp"
 #include "Weapon.hpp"
+#include "BodyComponent.hpp"
 
 
 
@@ -57,7 +58,12 @@ void ProjectileModule::postPhysUpdate()
 /// </summary>
 void ProjectileModule::entered(FixtureComponent* pOther)
 {
-	if(pOther->getBodyPtr() != m_pParent && m_currentCollisions < m_maxCollisions && !pOther->isSensor())
+	auto collidingBody = static_cast<BodyComponent*>(pOther->getBodyPtr()->GetUserData());
+	Team collidingTeam = collidingBody->getTeam();
+	auto myBody = static_cast<BodyComponent*>(m_pParent->GetUserData());
+	Team myTeam = myBody->getTeam();
+
+	if(pOther->getBodyPtr() != m_pParent && m_currentCollisions < m_maxCollisions && collidingTeam != myTeam)
 	{
 		const Vec2 dir = m_fix.getBodyPtr()->GetLinearVelocity();
 		Weapon::damage(&game.getUniverse().getUniverseIO(), pOther->getIOPos(), m_damage, m_sourceIOPos, m_team, m_fix.getCenter(), dir, "LowSparks");

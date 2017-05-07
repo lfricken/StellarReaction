@@ -12,6 +12,7 @@
 #include "CommandInfo.hpp"
 #include "NonCopyable.hpp"
 #include "Debugging.hpp"
+#include "PoolChanger.hpp"
 
 struct ModuleData;
 
@@ -55,6 +56,7 @@ protected:
 	IOComponent m_io;
 	FixtureComponent m_fix;
 
+	PoolChanger m_poolChanger;
 	Pool<Missiles>* m_pMissilePool;
 	Pool<Ballistic>* m_pBallisticPool;
 	Pool<Energy>* m_pEnergyPool;

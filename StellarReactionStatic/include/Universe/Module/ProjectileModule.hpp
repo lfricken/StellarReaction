@@ -16,7 +16,7 @@ public:
 	virtual ~ProjectileModule();
 	///Actions to process on object after performing physics updates.
 	void postPhysUpdate();
-	///Set the damage, parent, and number of allowed collisions.
+	///Set the damage, origin ship, and number of allowed collisions.
 	void setPayload(int damage, const FixtureComponent* pParent, int collisions);
 	///Actions to process when fixture component enters our sensor. May be called multiple times in a single step.
 	virtual void entered(FixtureComponent* pOther);
@@ -33,7 +33,9 @@ protected:
 
 	///Which team is this damage coming from?
 	Team m_team;
-	///Which physics body?
+	/// <summary>
+	/// The ship that fired us (we shouldn't collide with them)
+	/// </summary>
 	const b2Body* m_pParent;
 	///IO position?
 	int m_sourceIOPos;

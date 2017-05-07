@@ -86,10 +86,6 @@ protected:
 	NetworkComponent m_nw;
 
 private:
-	/// <summary>
-	/// Controls how frequently you can toggle the shields.
-	/// </summary>
-	Timer m_shieldToggleTimer;
 	bool m_local;//true if this is controlled by a local player and shouldn't be unpacked(NW) into
 	IOComponent m_io;
 	String m_playerName;//name of us in game, like BobbyLolcatz99, not used for anything but player reading
