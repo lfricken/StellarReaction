@@ -8,8 +8,6 @@ Category ChooseCategory(const String& rChoice)
 		return Category::Projectile;
 	else if(rChoice == "ShipModule")
 		return Category::ShipModule;
-	else if(rChoice == "ShipModuleBroke")
-		return Category::ShipModuleBroke;
 	else if(rChoice == "ShipForceField")
 		return Category::ShipForceField;
 	else if(rChoice == "Trigger")

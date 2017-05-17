@@ -18,6 +18,8 @@ void ShipModuleData::loadJson(const Json::Value& root)
 
 ShipModule::ShipModule(const ShipModuleData& rData) : Module(rData), m_health(rData.health)
 {
+	m_criticalDamageThreshold = 0.25;
+
 	m_deathSound = rData.deathSound;
 	m_decors.push_back(sptr<GraphicsComponent>(new QuadComponent(rData.baseDecor)));
 	m_baseDecor = m_decors.size() - 1;
@@ -84,66 +86,62 @@ void ShipModule::unpack(sf::Packet& rPacket)
 }
 void ShipModule::input(String rCommand, sf::Packet rData)
 {
-	const float damagedPercent = 0.25;// percent health that the module stops functioning TODO should be some global constant
-
-	if(rCommand == "damage")//TODO huge if statement needs refactor
+	if(rCommand == "damageBleed")//TODO huge if statement needs refactor
 	{
-		int val;
-		int cause;
+		//this damage was already verified
+
+		int damageAmount;
+		int ioPosOfDealer;
 		Team damagingTeam;
 		int teamTemp;
 		Vec2 hitPoint;
 		Vec2 fromDir;
 		String effect;
-		rData >> val >> cause >> teamTemp >> hitPoint.x >> hitPoint.y >> fromDir.x >> fromDir.y >> effect;
-		damagingTeam = static_cast<Team>(teamTemp);
-		Team myTeam = m_parentChunk->getBodyComponent().getTeam();
+		rData >> damageAmount >> ioPosOfDealer >> teamTemp >> hitPoint.x >> hitPoint.y >> fromDir.x >> fromDir.y >> effect;
 
-		const bool damagePositive = val > 0;
-		const bool differentTeams = damagingTeam != myTeam || damagingTeam == Team::Alone;
-		const bool validTeams = (damagingTeam != Team::Invalid && damagingTeam != Team::Capturable) && (myTeam != Team::Invalid && myTeam != Team::Neutral && myTeam != Team::Capturable);
+		m_health.damage(damageAmount); //actually do the damage
+		changeHealthState(ioPosOfDealer);//potentially award a point
+		m_io.event(EventType::Health, m_health.getHealth(), voidPacket);
+		moduleDamageGraphics(); //flash hud and module 
 
-		if(damagePositive && differentTeams && validTeams)
+	}
+	if(rCommand == "damage")//TODO huge if statement needs refactor
+	{
+		sf::Packet damageCopy(rData);
+
+		int damageAmount;
+		int ioPosOfDealer;
+		Team damagingTeam;
+		int teamTemp;
+		Vec2 hitPoint;
+		Vec2 fromDir;
+		String effect;
+		rData >> damageAmount >> ioPosOfDealer >> teamTemp >> hitPoint.x >> hitPoint.y >> fromDir.x >> fromDir.y >> effect;
+
+		if(isValidDamageSource(damageAmount, static_cast<Team>(teamTemp)))//if not same team and valid damage value
 		{
-
-			m_health.damage(val);
-			if(effect != "")
+			if(m_health.isDead())//if already dead
 			{
-				const Vec2 bodyCenter = m_fix.getBodyPtr()->GetWorldCenter();
-				const Vec2 bounce = fromDir.bounce(bodyCenter.to(hitPoint));
-				game.getUniverse().spawnParticles(effect, hitPoint, bounce, m_fix.getBodyPtr()->GetLinearVelocity());
+				Module& newTarget = m_parentChunk->getNearestValidTarget(m_fix.getOffset());
+				int newModuleTarget = newTarget.m_io.getPosition();
+
+				moduleDamageGraphics(); //flash hud and module
+				
+				Message bleed(newModuleTarget, "damageBleed", damageCopy, 0.f, false);
+				Message::SendUniverse(bleed);
 			}
-
-
-			m_io.event(EventType::Health, m_health.getHealth(), voidPacket);
-
-			m_decors[m_hitDecorIndex]->getAnimator().setAnimation("Hit", 0.20f);
-			m_decors[m_hitDecorIndex]->setColor(sf::Color(255, static_cast<char>(255.f * m_health.getHealthPercent()), 0, 255));
-
-			if(m_healthState != HealthState::Broken)
+			else
 			{
-				if(m_health.isDead())
+				m_health.damage(damageAmount); //actually do the damage
+				changeHealthState(ioPosOfDealer);//potentially award a point
+				m_io.event(EventType::Health, m_health.getHealth(), voidPacket);
+				moduleDamageGraphics(); //flash hud and module
+				
+				if(effect != "") //spark effects
 				{
-					setHealthState(HealthState::Broken);
-					sf::Packet pack;
-					pack << 1;
-					Message mess(cause, "increase_score", pack, 0.0f, false);
-					game.getUniverse().getUniverseIO().recieve(mess);
-				}
-				else if(m_health.getHealthPercent() < damagedPercent)
-				{
-					setHealthState(HealthState::CriticallyDamaged);
-				}
-			}
-
-
-			if(m_parentChunk != nullptr)
-			{
-				auto pos = getOffset();
-				auto boardPtr = m_parentChunk->getStatusBoard();
-				if(auto statusBoard = boardPtr.lock())
-				{
-					statusBoard->damageFlash(pos, m_healthState);
+					const Vec2 bodyCenter = m_fix.getBodyPtr()->GetWorldCenter();
+					const Vec2 bounce = fromDir.bounce(bodyCenter.to(hitPoint));
+					game.getUniverse().spawnParticles(effect, hitPoint, bounce, m_fix.getBodyPtr()->GetLinearVelocity());
 				}
 			}
 		}
@@ -156,7 +154,7 @@ void ShipModule::input(String rCommand, sf::Packet rData)
 
 		m_health.heal(val);
 		m_io.event(EventType::Health, m_health.getHealth(), voidPacket);
-		if(m_health.getHealthPercent() >= damagedPercent)
+		if(m_health.getHealthPercent() >= m_criticalDamageThreshold)
 			setHealthState(HealthState::Nominal);
 	}
 	else if(rCommand == "increase_score")
@@ -167,6 +165,52 @@ void ShipModule::input(String rCommand, sf::Packet rData)
 	}
 	else
 		Module::input(rCommand, rData);
+}
+void ShipModule::moduleDamageGraphics()
+{
+	{// show health damage on ship
+		m_decors[m_hitDecorIndex]->getAnimator().setAnimation("Hit", 0.20f);
+		m_decors[m_hitDecorIndex]->setColor(sf::Color(255, static_cast<char>(255.f * m_health.getHealthPercent()), 0, 255));
+	}
+
+	// show health damage on HUD
+	if(m_parentChunk != nullptr)
+	{
+		auto pos = getOffset();
+		auto boardPtr = m_parentChunk->getStatusBoard();
+		if(auto statusBoard = boardPtr.lock())
+		{
+			statusBoard->damageFlash(pos, m_healthState);
+		}
+	}
+}
+void ShipModule::changeHealthState(int ioPosOfDealer)
+{
+	if(m_healthState != HealthState::Broken)//only if they transition to being broken should you get points
+	{
+		if(m_health.isDead())//this module died this time
+		{
+			setHealthState(HealthState::Broken);
+			sf::Packet pack;
+			pack << 1;
+			Message mess(ioPosOfDealer, "increase_score", pack, 0.0f, false);
+			game.getUniverse().getUniverseIO().recieve(mess);
+		}
+		else if(m_health.getHealthPercent() < m_criticalDamageThreshold)
+		{
+			setHealthState(HealthState::CriticallyDamaged);
+		}
+	}
+
+}
+bool ShipModule::isValidDamageSource(int damage, Team damagingTeam)
+{
+	const Team myTeam = m_parentChunk->getBodyComponent().getTeam();
+	const bool damagePositive = damage > 0;
+	const bool differentTeams = damagingTeam != myTeam || damagingTeam == Team::Alone;
+	const bool validTeams = (damagingTeam != Team::Invalid && damagingTeam != Team::Capturable) && (myTeam != Team::Invalid && myTeam != Team::Neutral && myTeam != Team::Capturable);
+
+	return (damagePositive && differentTeams && validTeams);
 }
 bool ShipModule::isFunctioning()//does this module still do its function
 {
@@ -186,12 +230,10 @@ void ShipModule::setHealthState(HealthState newState)
 
 	if(m_healthState == HealthState::Nominal)
 	{
-		m_fix.setCategory(Category::ShipModule);
 		m_decors[m_baseDecor]->setColor(sf::Color(255, 255, 255, 255));///makes the sprite red when destroyed
 	}
 	else if(m_healthState == HealthState::Broken)
 	{
-		m_fix.setCategory(Category::ShipModuleBroke);
 		m_decors[m_baseDecor]->setColor(sf::Color(255, 0, 0, 255));///makes the sprite red when destroyed
 		f_died();
 	}

@@ -33,6 +33,9 @@ public:
 	///Heal to full health.
 	virtual void healToMax();
 
+
+	Vec2 getNearestNeighbor(List<Vec2>& positions);
+
 protected:
 	virtual void input(String rCommand, sf::Packet rData);
 	virtual void pack(sf::Packet& rPacket);
@@ -53,9 +56,14 @@ protected:
 	/// Death Sound.
 	leon::Sound m_deathSound;//when last shot is taken
 
+	float m_criticalDamageThreshold;
 	const int alpha_stealth_on = 50;
 	const int alpha_stealth_off = 255;
 private:
+
+	void changeHealthState(int ioPosOfDealer);
+	bool isValidDamageSource(int damage, Team damagingTeam);
+	void moduleDamageGraphics();
 };
 
 /// Initialize ShipModule.

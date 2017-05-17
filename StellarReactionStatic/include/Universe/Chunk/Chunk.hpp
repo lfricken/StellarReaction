@@ -72,6 +72,11 @@ public:
 	int getScore();
 	///Increment score.
 	void increaseScore();
+	/// <summary>
+	/// Returns nearest module target using taxicab geometry
+	/// randomly chooses between equals.
+	/// </summary>
+	Module& getNearestValidTarget(Vec2 target);
 
 	void resetStatusBoard(wptr<leon::Grid> grid);
 	wptr<leon::Grid> getStatusBoard();

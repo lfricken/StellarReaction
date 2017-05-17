@@ -46,6 +46,7 @@ public:
 	///Get a reference to the fixture component of this module.
 	const FixtureComponent& getFixtureComponent();
 
+	IOComponent m_io;
 protected:
 	virtual void input(String rCommand, sf::Packet rData);
 	virtual void pack(sf::Packet& rPacket);
@@ -53,7 +54,6 @@ protected:
 	virtual void startContactCB(FixtureComponent* pOther);
 	virtual void endContactCB(FixtureComponent* pOther);
 
-	IOComponent m_io;
 	FixtureComponent m_fix;
 
 	PoolChanger m_poolChanger;

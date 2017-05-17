@@ -52,6 +52,42 @@ using wptr = std::weak_ptr<T>;
 class Vec2 : public Math::Vec2
 {
 public:
+
+
+
+
+	bool operator<(const Vec2& other) const
+	{
+		if(x != other.x)
+			return x < other.x;
+		else
+			return y < other.y;
+	}
+	bool operator<=(const Vec2& other) const
+	{
+		if(x != other.x)
+			return x <= other.x;
+		else
+			return y <= other.y;
+	}
+	bool operator>(const Vec2& other) const
+	{
+		if(x != other.x)
+			return x > other.x;
+		else
+			return y > other.y;
+	}
+	bool operator>=(const Vec2& other) const
+	{
+		if(x != other.x)
+			return x >= other.x;
+		else
+			return y >= other.y;
+	}
+
+
+
+
 	Vec2()
 	{
 

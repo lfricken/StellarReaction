@@ -23,7 +23,7 @@ void ChunkDataMessage::loadJson(const Json::Value& root)
 
 	if(aiControlled)
 		needsController = true;
-} 
+}
 void ChunkDataMessage::pack(sf::Packet* data) const
 {
 	sf::Packet& pack = *data;
@@ -431,7 +431,7 @@ List<std::pair<String, sf::Vector2i> > Chunk::getModules() const
 	List<std::pair<String, sf::Vector2i> > list;
 	for(auto it = m_modules.cbegin(); it != m_modules.cend(); ++it)
 	{
-		if(dynamic_cast<ShipModule*>(it->get()) != NULL)//make sure it's not a strange item, like a ShieldComponent
+		if(dynamic_cast<ShipModule*>(it->get()) != nullptr)//make sure it's not a strange item, like a ShieldComponent
 		{
 			//Print << "\nChunk: " << (*it)->getOffset().x << (*it)->getOffset().y;
 			Vec2 pos = (*it)->getOffset();
@@ -529,6 +529,79 @@ void Chunk::input(String rCommand, sf::Packet rData)
 	}
 	else
 		Print << "\nCommand not found in [" << m_io.getName() << "]." << FILELINE;
+}
+
+List<Vec2> taxicabCircle(int radius)
+{
+	List<Vec2> coordinates;
+
+	for(int i = 1; i < radius; ++i)//skip the 4 corner coordinates (otherwise they get repeated
+	{
+		coordinates.push_back(Vec2((float)i, (float)radius - i));
+	}
+
+	{//copy, mirror across y axis, and add.
+		auto topLeft(coordinates);
+		for(auto it = topLeft.begin(); it != topLeft.end(); ++it)
+		{
+			it->x = -it->x;
+		}
+		coordinates.insert(coordinates.end(), topLeft.begin(), topLeft.end());
+	}
+	{//copy, mirror across x axis, and add.
+		auto bottom(coordinates);
+		for(auto it = bottom.begin(); it != bottom.end(); ++it)
+		{
+			it->y = -it->y;
+		}
+		coordinates.insert(coordinates.end(), bottom.begin(), bottom.end());
+	}
+	{//finally add the last 4 coordinates
+		coordinates.push_back(Vec2((float)radius, 0.f));
+		coordinates.push_back(Vec2((float)-radius, 0.f));
+		coordinates.push_back(Vec2(0.f, (float)radius));
+		coordinates.push_back(Vec2(0.f, (float)-radius));
+	}
+	return coordinates;
+}
+Module& Chunk::getNearestValidTarget(Vec2 target)
+{
+	Map<Vec2, ShipModule*> moduleCoordinates;
+	for(auto it = m_modules.begin(); it != m_modules.end(); ++it)
+	{
+		ShipModule* shipModule = dynamic_cast<ShipModule*>(it->get());
+		if(shipModule != nullptr && shipModule->getHealth().getHealthPercent() > 0.f)
+		{
+			Vec2 pos = shipModule->getFixtureComponent().getOffset() - target;
+			moduleCoordinates[pos] = shipModule; // -target because we need to offset damage wave origin
+		}
+	}
+
+
+	List<ShipModule*> availableTargets;
+	bool hits = false;
+	for(int i = 1; hits == false && i < 4; ++i)
+	{
+		List<Vec2> circle = taxicabCircle(i);
+
+		for(auto cirPos = circle.cbegin(); cirPos != circle.cend(); ++cirPos)
+		{
+			for(auto modulePos = moduleCoordinates.cbegin(); modulePos != moduleCoordinates.cend(); ++modulePos)
+			{
+				if((*cirPos) == (modulePos->first))
+				{
+					hits = true;
+					availableTargets.push_back(modulePos->second);
+				}
+			}
+		}
+	}
+
+	if(availableTargets.size() == 0)
+		return *(m_modules[0]);
+
+	int choice = Rand::get(0, availableTargets.size()-1);
+	return *availableTargets[choice];
 }
 float Chunk::getRadius()
 {

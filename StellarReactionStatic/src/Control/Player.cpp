@@ -26,7 +26,7 @@ Player::Player(const PlayerData& rData) : m_io(rData.ioComp, &Player::input, thi
 		m_weaponGroups[i] = true;
 	}
 	m_nextTarget = 0;
-	m_maxTargets = 3;
+	m_maxTargets = 1;
 }
 Player::~Player()
 {
@@ -184,6 +184,8 @@ void Player::selectTarget(const Vec2& targetNearPos, const Chunk* playersShip)
 		if(!hasTarget(target.get()))
 		{
 			m_targets[m_nextTarget] = newTarget;
+			wptr<leon::Grid> grid = m_targetBoards[m_nextTarget];
+			target->resetStatusBoard(grid);
 		}
 		++m_nextTarget;
 		m_nextTarget = m_nextTarget % m_maxTargets;
@@ -414,6 +416,7 @@ void Player::updateView()
 				}
 				else
 				{
+					m_targetReticules[i]->setPosition(Vec2(-10000, -10000));
 				}
 			}
 
@@ -551,11 +554,21 @@ void Player::loadOverlay(const String& rOverlay)
 
 		m_myStatusBoard->m_background->setGuiPosition(sf::Vector2f(32, 512));
 		dout << m_myStatusBoard->getScreenPosition();
+
 	}
 	{
 		m_targets.resize(m_maxTargets);
-		m_targetBoards.resize(m_maxTargets);
 
+		for(int i = 0; i < m_maxTargets; ++i)
+		{
+			leon::GridData gridData;
+			gridData.gridSize = Vec2(48, 48);
+			sptr<leon::Grid> grid;
+			grid.reset(new leon::Grid(gridData));
+
+			grid->m_background->setGuiPosition(sf::Vector2f(512, 32));
+			m_targetBoards.push_back(grid);
+		}
 		//populate the target grids
 
 	}
@@ -584,7 +597,7 @@ void Player::universeDestroyed()
 	m_boundsDanger.reset();
 	m_targetReticules.clear();
 	m_myStatusBoard.reset();
-
+	m_targetBoards.clear();
 	// Clear, because otherwise, when we go 
 	// to add 4 more to it, the old null
 	// pointers are left behind and cause a crash.
