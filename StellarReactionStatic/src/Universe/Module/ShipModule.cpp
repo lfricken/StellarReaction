@@ -170,7 +170,7 @@ void ShipModule::moduleDamageGraphics()
 {
 	{// show health damage on ship
 		m_decors[m_hitDecorIndex]->getAnimator().setAnimation("Hit", 0.20f);
-		m_decors[m_hitDecorIndex]->setColor(sf::Color(255, static_cast<char>(255.f * m_health.getHealthPercent()), 0, 255));
+		m_decors[m_hitDecorIndex]->setColor(m_health.getColor());
 	}
 
 	// show health damage on HUD
@@ -180,7 +180,7 @@ void ShipModule::moduleDamageGraphics()
 		auto boardPtr = m_parentChunk->getStatusBoard();
 		if(auto statusBoard = boardPtr.lock())
 		{
-			statusBoard->damageFlash(pos, m_healthState);
+			statusBoard->damageFlash(pos, m_healthState, m_health.getHealthPercent());
 		}
 	}
 }

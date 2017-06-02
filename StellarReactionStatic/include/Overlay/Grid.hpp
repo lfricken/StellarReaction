@@ -47,7 +47,7 @@ namespace leon
 		/// <summary>
 		/// Cause this module to flash with damage
 		/// </summary>
-		void damageFlash(Vec2 pos, HealthState state);
+		void damageFlash(Vec2 pos, HealthState state, float healthPercent);
 		/// <summary>
 		/// Background texture of the grid
 		/// </summary>
@@ -82,9 +82,11 @@ namespace leon
 			/// Our position in the grid
 			/// </summary>
 			Vec2 gridPos;
-		private:
+
+
 			sptr<QuadComponent> module;
 			sptr<QuadComponent> damageIndicator;
+		private:
 		};
 
 

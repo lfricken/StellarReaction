@@ -86,12 +86,16 @@ namespace leon
 
 		}
 	}
-	void Grid::damageFlash(Vec2 pos, HealthState state)
+	void Grid::damageFlash(Vec2 pos, HealthState state, float healthPercent)
 	{
 		for each (auto element in m_modules)
 		{
 			if(element.gridPos == pos)
 			{
+				auto color = Health::getColor(healthPercent);
+				element.module->setColor(color);
+
+				element.damageIndicator->setColor(color);
 				element.flashDamage(1, state);//TODO flash damage percent
 				if(state == HealthState::CriticallyDamaged || state == HealthState::Broken)
 					element.markBroken();

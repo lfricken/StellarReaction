@@ -482,9 +482,9 @@ QuadComponentData createUI(sf::Vector2f size, String displayName)
 }
 void Player::loadOverlay(const String& rOverlay)
 {
-	Vec2 winDim(leon::sfTob2((sf::Vector2f)game.getWindow().getSize()));
-
-	const sf::Vector2f topLeftStart = sf::Vector2f(16.f, 16.f);//Start of where the top left of the UI should be.
+	Vec2 winDim((sf::Vector2f)game.getWindow().getSize());
+	const float screenDist = 16.f;
+	const sf::Vector2f topLeftStart = sf::Vector2f(screenDist, screenDist);//Start of where the top left of the UI should be.
 
 	//Mini Map
 	{
@@ -496,7 +496,7 @@ void Player::loadOverlay(const String& rOverlay)
 		data.setCenterTopLeft();
 		data.layer = GraphicsLayer::OverlayMiddle;
 		m_minimap.reset(new Minimap(data));
-		m_minimap->setGuiPosition(sf::Vector2f(winDim.x - dims, winDim.y + (dims)));
+		m_minimap->setGuiPosition(sf::Vector2f(winDim.x - dims - screenDist, winDim.y - dims - screenDist));
 	}
 	//Energy Bar
 	{
@@ -552,10 +552,11 @@ void Player::loadOverlay(const String& rOverlay)
 		health.gridSize = Vec2(48, 48);
 		m_myStatusBoard.reset(new leon::Grid(health));
 
-		m_myStatusBoard->m_background->setGuiPosition(sf::Vector2f(32, 512));
+		m_myStatusBoard->m_background->setGuiPosition(sf::Vector2f(screenDist, 512));
 		dout << m_myStatusBoard->getScreenPosition();
 
 	}
+	// Target status boards
 	{
 		m_targets.resize(m_maxTargets);
 
@@ -566,11 +567,10 @@ void Player::loadOverlay(const String& rOverlay)
 			sptr<leon::Grid> grid;
 			grid.reset(new leon::Grid(gridData));
 
-			grid->m_background->setGuiPosition(sf::Vector2f(512, 32));
+			grid->m_background->setGuiPosition(sf::Vector2f(winDim.x - screenDist - gridData.gridSize.x*gridData.sizeOfGrid.x, screenDist));
 			m_targetBoards.push_back(grid);
 		}
 		//populate the target grids
-
 	}
 }
 void Player::createReticles()

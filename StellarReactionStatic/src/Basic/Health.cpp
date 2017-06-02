@@ -13,7 +13,7 @@ Health::~Health()
 void Health::damage(int injure)
 {
 	if(injure > m_armor)
-		changeValue(-(injure-m_armor));
+		changeValue(-(injure - m_armor));
 }
 void Health::heal(int health)
 {
@@ -43,7 +43,7 @@ int Health::getMaxHealth() const
 float Health::getHealthPercent() const
 {
 	if(getMaxHealth() > 0)
-		return (static_cast<float>(getHealth())/static_cast<float>(getMaxHealth()));
+		return (static_cast<float>(getHealth()) / static_cast<float>(getMaxHealth()));
 	else
 		return 0;
 }
@@ -57,3 +57,13 @@ void HealthData::loadJson(const Json::Value& root)
 
 	GETJSON(Armor);
 }
+sf::Color Health::getColor(float percent)
+{
+	char g = static_cast<char>(255.f * percent);
+	return sf::Color(255, g, 0);
+}
+sf::Color Health::getColor() const
+{
+	return getColor(getHealthPercent());
+}
+

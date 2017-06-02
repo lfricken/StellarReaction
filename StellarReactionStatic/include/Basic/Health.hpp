@@ -57,7 +57,14 @@ public:
 	float getHealthPercent() const;
 	///Current value of armor.
 	int getArmor() const;
-
+	/// <summary>
+	/// Returns the color for a health percentage.
+	/// </summary>
+	static sf::Color getColor(float percent);
+	/// <summary>
+	/// Returns the color for a health percentage.
+	/// </summary>
+	sf::Color getColor() const;
 
 protected:
 private:
