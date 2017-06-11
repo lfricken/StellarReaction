@@ -1,15 +1,15 @@
-#ifndef ControlFACTORY_HPP
-#define ControlFACTORY_HPP
+#pragma once
 
 #include "stdafx.hpp"
 #include "NonCopyable.hpp"
+#include "Factory.hpp"
 
 class Controller;
 class NetworkFactory;
 
 
 /// Holds a list of all the Controllers.
-class ControlFactory : NonCopyable
+class ControlFactory : protected Factory<Controller>, public NonCopyable
 {
 public:
 	ControlFactory();
@@ -17,8 +17,8 @@ public:
 
 	///Have all controllers send their commands to their targets.
 	void processAllDirectives();
-	///Creates a new controller with a specified target.
-	void addController(const String& target);
+	///Creates a new controller with a specified target. Returns the index of the new controller.
+	int addController(const String& target);
 	///Delete current controllers, and make a new set of controllers with these targets.
 	void resetControllers(const List<String>& targets);
 	///How many controllers are there?
@@ -39,9 +39,5 @@ public:
 
 protected:
 private:
-	List<sptr<Controller> > m_spControlList;//list of all controllers
-	///If we need to return a reference to a controller, but none exist, we give this one.
-	sptr<Controller> m_spBackupController;
 };
 
-#endif // ControlFACTORY_HPP

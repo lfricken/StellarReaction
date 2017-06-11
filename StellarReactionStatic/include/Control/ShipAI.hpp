@@ -21,6 +21,8 @@ public:
 	void updateDecision();
 
 protected:
+	void onShipDestroyed();
+
 private:
 	bool isStuck(Vec2 curPos);//check if we are stuck
 	Timer m_stuckTimer; //how often we check our position to see if we are stuck
@@ -35,8 +37,8 @@ private:
 
 	int m_currentBehavior;//our current behavior from 0 to m_numBehaviors
 	int m_numBehaviors;//number of behaviors, includes stuck behavior which should always be last
-	Chunk* m_pCurrentTarget;//our current enemy target nearest to us
-	Chunk* m_pCurrentDest;//our current destination to fly to
+	wptr<Chunk> m_pCurrentTarget;//our current enemy target nearest to us
+	wptr<Chunk> m_pCurrentDest;//our current destination to fly to
 	
 	Map<Directive, bool> m_directives;
 	Map<int, bool> m_weaponGroups;

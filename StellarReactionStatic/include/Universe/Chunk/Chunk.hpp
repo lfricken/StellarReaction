@@ -81,6 +81,9 @@ public:
 	void resetStatusBoard(wptr<leon::Grid> grid);
 	wptr<leon::Grid> getStatusBoard();
 
+	bool m_canDie;
+	int m_controller;
+	int m_shipAI;
 protected:
 	wptr<leon::Grid> m_statusBoard;
 	virtual void input(String rCommand, sf::Packet rData);

@@ -35,6 +35,8 @@ void Controller::setSlave(const String& rSlaveName)
 {
 	m_slaveName = rSlaveName;
 	m_slavePosition = game.getUniverse().getSlaveLocator().findPos(m_slaveName);
+	if(m_slavePosition == -1)
+		throw new std::runtime_error("Controllers target doesn't exist yet.");
 }
 const String& Controller::getSlaveName() const
 {
@@ -61,10 +63,10 @@ const Vec2& Controller::getAim() const
 b2Body* Controller::getBodyPtr()//return position
 {
 	Chunk* temp = game.getUniverse().getSlaveLocator().find(m_slavePosition);
-	if(temp != NULL)
+	if(temp != nullptr)
 		return temp->getBodyPtr();
 	else
-		return NULL;
+		return nullptr;
 }
 /// <summary>
 /// Find our slave and set it to aim at a location
@@ -72,7 +74,7 @@ b2Body* Controller::getBodyPtr()//return position
 void Controller::processAim() const
 {
 	Chunk* temp = game.getUniverse().getSlaveLocator().find(m_slavePosition);
-	if(temp != NULL)
+	if(temp != nullptr)
 		temp->setAim(m_aim);
 }
 /// <summary>
@@ -83,7 +85,7 @@ void Controller::processAim() const
 float Controller::get(Request value)//return the requested value
 {
 	Chunk* temp = game.getUniverse().getSlaveLocator().find(m_slavePosition);
-	if(temp != NULL)
+	if(temp != nullptr)
 		return temp->get(value);
 	else
 		return 0.f;
@@ -92,7 +94,7 @@ void Controller::processDirectives()//use our stored directives to send commands
 {
 	processAim();
 	Chunk* targetShip = game.getUniverse().getSlaveLocator().find(m_slavePosition);
-	if(targetShip != NULL)
+	if(targetShip != nullptr)
 	{
 		CommandInfo commands;
 		commands.directives = m_directives;

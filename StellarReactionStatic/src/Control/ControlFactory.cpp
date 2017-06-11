@@ -7,34 +7,35 @@ ControlFactory::ControlFactory()
 }
 ControlFactory::~ControlFactory()
 {
-
+	m_list.clear();
 }
 void ControlFactory::processAllDirectives()
 {
-	for(auto it = m_spControlList.begin(); it != m_spControlList.end(); ++it)
+	for(auto it = m_list.begin(); it != m_list.end(); ++it)
 		(*it)->processDirectives();
 }
-void ControlFactory::addController(const String& slave)
+int ControlFactory::addController(const String& slave)
 {
 	ControllerData data;
 	data.slaveName = slave;
-	m_spControlList.push_back(sptr<Controller>(new Controller(data)));
+	m_list.push_back(sptr<Controller>(new Controller(data)));
+	return m_list.size() - 1;
 }
 void ControlFactory::resetControllers(const List<String>& slaves)
 {
-	m_spControlList.clear();
+	m_list.clear();
 	for(auto it = slaves.begin(); it != slaves.end(); ++it)
 		addController(*it);
 }
 void ControlFactory::setAllNonLocallyControlled()
 {
-	for(auto it = m_spControlList.begin(); it != m_spControlList.end(); ++it)
+	for(auto it = m_list.begin(); it != m_list.end(); ++it)
 		(*it)->toggleLocal(false);
 }
 Controller* ControlFactory::getController(int index)
 {
-	if((signed)m_spControlList.size() > index && index >= 0)
-		return m_spControlList[index].get();
+	if((signed)m_list.size() > index && index >= 0)
+		return m_list[index].get();
 	else
 	{
 		return NULL;
@@ -42,9 +43,9 @@ Controller* ControlFactory::getController(int index)
 }
 int ControlFactory::getSize()
 {
-	return m_spControlList.size();
+	return m_list.size();
 }
-NetworkFactory& ControlFactory::getNWFactory()
+NetworkFactory& ControlFactory::getNWFactory()//because base object clears
 {
 	return *m_spNWFactory;
 }

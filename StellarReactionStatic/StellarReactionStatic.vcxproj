@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Basic\Factory.hpp" />
     <ClInclude Include="include\Overlay\Grid.hpp" />
     <ClInclude Include="include\API\Math\Constant.hpp" />
     <ClInclude Include="include\API\Math\Convert.hpp" />
@@ -327,6 +328,7 @@
     <ClInclude Include="include\Basic\PoolChanger.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Basic\Factory.cpp" />
     <ClCompile Include="src\Overlay\Grid.cpp" />
     <ClCompile Include="src\Network\Network.cpp" />
     <ClCompile Include="src\Network\ShipBuilder.cpp" />

@@ -17,7 +17,6 @@ class BatchLayers;
 class GraphicsComponentUpdater;
 class IOManager;
 class GameObject;
-class Factory;
 class SlaveLocator;
 class BlueprintLoader;
 class Decoration;
@@ -89,15 +88,8 @@ public:
 	bool isPaused();
 	/// Set whether debug draw is on or not.
 	void toggleDebugDraw();
-	/// Find station that isnt on specified team
-	Chunk* getNearestStation(const Vec2& target, Team team);
-	/// Return pointer to the nearest Chunk, ignoring exception.
-	sptr<Chunk> getNearestChunkExcept(const Vec2& target, const Chunk* exception);
-	/// Return pointer to the nearest BodyComponent.
-	BodyComponent* getNearestBody(const Vec2& target);
 	/// Find Chunk that is on one of the specified teams
-	Chunk* getNearestChunkOnTeam(const Vec2& target, const Chunk* exception, std::list<Team> teams);
-	bool listContains(std::list<Team> teams, Team value);
+	wptr<Chunk> getNearestChunk(const Vec2& target, const Chunk* exception = nullptr, std::list<Team> validTeams = std::list<Team>());
 	
 	/// Get a bed positions for a Chunk to sleep at.
 	Vec2 getBed();
@@ -119,10 +111,15 @@ public:
 	bool started = true; //tell whether this is the initial universe created by Game, or a later one
 	Vec2 getAvailableSpawn(Team team, float radius, const Chunk* exception);
 
-	/// Add a Chunk to the Universe.
-	void add(GameObject* pGO);
+	/// Add a Chunk to the Universe, return its index
+	int add(GameObject* pGO);
+
 
 protected:
+	bool listContains(std::list<Team> teams, Team value);
+
+	wptr<Chunk> gameObject(int index);
+
 	void loadBlueprints(const String& bluePrints);//loads blueprints
 
 	void input(String rCommand, sf::Packet rData);
@@ -134,7 +131,7 @@ private:
 	/// <summary>
 	/// Create a controller, decide whether it's controlled by an AI, and give it a ship to control.
 	/// </summary>
-	void createControllers(Team team, bool isAnAI, const String& slaveName);
+	void createControllers(Team team, bool isAnAI, const String& slaveName, int& controller, int& aiPos);
 
 	int m_localController;
 

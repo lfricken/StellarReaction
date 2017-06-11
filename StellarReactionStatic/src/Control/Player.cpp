@@ -134,11 +134,11 @@ void Player::getLiveInput()
 		if(sf::Keyboard::isKeyPressed(m_inCfg.store))
 		{
 			m_directives[Directive::ShowStore] = true;
-			std::list<Team> l;
-			l.push_back(this->getTeam());
-			Chunk* ship = game.getUniverse().getNearestChunkOnTeam(m_aim, NULL, l);
+			std::list<Team> myTeam;
+			myTeam.push_back(this->getTeam());
+			auto ship = game.getUniverse().getNearestChunk(m_aim, nullptr, myTeam);
 
-			ShipBuilder::Client::shipToGui(ship);
+			ShipBuilder::Client::shipToGui(ship.lock().get());
 		}
 		if(sf::Keyboard::isKeyPressed(m_inCfg.respawn))
 			m_directives[Directive::Respawn] = true;
@@ -178,7 +178,7 @@ void Player::getLiveInput()
 }
 void Player::selectTarget(const Vec2& targetNearPos, const Chunk* playersShip)
 {
-	wptr<Chunk> newTarget = game.getUniverse().getNearestChunkExcept(targetNearPos, playersShip);
+	wptr<Chunk> newTarget = game.getUniverse().getNearestChunk(targetNearPos, playersShip);
 	if(auto target = newTarget.lock())
 	{
 		if(!hasTarget(target.get()))

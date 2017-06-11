@@ -6,13 +6,13 @@
 
 Missile::Missile(const MissileData& rData) : Projectile(rData)
 {
-	m_pTarget = NULL;
+
 }
 Missile::~Missile()
 {
 
 }
-void Missile::missileLaunch(Vec2 rStart, BodyComponent* target, float module_orientation, float init_velocity, float acceleration, float max_velocity, int damage, const FixtureComponent* pParent, int collisions)
+void Missile::missileLaunch(Vec2 rStart, wptr<Chunk> target, float module_orientation, float init_velocity, float acceleration, float max_velocity, int damage, const FixtureComponent* pParent, int collisions)
 {
 	m_pTarget = target;
 	m_acceleration = acceleration * 2;
@@ -44,9 +44,9 @@ void Missile::prePhysUpdate()
 
 	if(totalVelocity < m_maxVelocity)
 	{
-		if(m_pTarget != NULL)
+		if(auto target = m_pTarget.lock())
 		{
-			Vec2 diff = getTargetPos();
+			Vec2 diff = getTargetPos(target);
 
 			float targetAngle = leon::normRad(atan2(diff.y, diff.x));//angle of target
 			float diffAngle = leon::normRad(targetAngle - velAngle);//between velocity and target
@@ -87,11 +87,11 @@ void Missile::normalizeAngle(float& diffObjectiveAngle)
 	if(diffObjectiveAngle > pi)
 		diffObjectiveAngle -= 2 * pi;
 }
-Vec2 Missile::getTargetPos()
+Vec2 Missile::getTargetPos(sptr<Chunk> target)
 {
 	b2Body& bod = *m_body.getBodyPtr();
 	Vec2 ourPos = bod.GetPosition();
-	b2Body& tBod = *m_pTarget->getBodyPtr();
+	b2Body& tBod = *target->getBodyPtr();
 	Vec2 targetVel = tBod.GetLinearVelocity();
 	Vec2 targetPos = tBod.GetPosition();
 	Vec2 diff = targetPos - ourPos;

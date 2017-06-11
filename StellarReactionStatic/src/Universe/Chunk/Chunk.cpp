@@ -100,6 +100,7 @@ void ChunkData::loadJson(const Json::Value& root)
 }
 Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp), m_zoomPool(rData.zoomData), m_energyPool(rData.energyData), m_ballisticPool(rData.ballisticData), m_missilePool(rData.missileData)
 {
+	m_canDie = true;
 	m_shieldToggleTimer.setCountDown(0.5f);
 	m_shieldToggleTimer.restartCountDown();
 
@@ -597,10 +598,25 @@ Module& Chunk::getNearestValidTarget(Vec2 target)
 		}
 	}
 
-	if(availableTargets.size() == 0)
-		return *(m_modules[0]);
+	if(availableTargets.size() == 0)//the chunk is dead
+	{
+		dout << "\nDead.";
 
-	int choice = Rand::get(0, availableTargets.size()-1);
+		if(m_canDie)
+		{
+			sf::Packet myPosData;
+			myPosData << this->universePosition;
+			myPosData << this->m_controller;
+			myPosData << this->m_shipAI;
+			Message death("universe", "killChunkCommand", myPosData, 0, false);
+			Message::SendUniverse(death);
+		}
+		//TODO death effects
+
+		return *(m_modules[0]);
+	}
+
+	int choice = Rand::get(0, availableTargets.size() - 1);
 	return *availableTargets[choice];
 }
 float Chunk::getRadius()

@@ -32,9 +32,11 @@ void MissileWeapon::preShot(const Vec2& center, const Vec2& aim, float radCCW, f
 	/**Fire projectiles**/
 	Projectile* pProj = game.getUniverse().getProjMan().getProjectile(m_projName);
 
-	BodyComponent* target = game.getUniverse().getNearestBody(aim);
-	dynamic_cast<Missile*>(pProj)->missileLaunch(center, target, module_orientation, m_init_velocity, m_acceleration, m_max_velocity, m_damage / m_shots, m_pTempParent, m_collisions);
-
+	auto target = game.getUniverse().getNearestChunk(aim);
+	if(auto chunk = target.lock())
+	{
+		dynamic_cast<Missile*>(pProj)->missileLaunch(center, target, module_orientation, m_init_velocity, m_acceleration, m_max_velocity, m_damage / m_shots, m_pTempParent, m_collisions);
+	}
 }
 void MissileWeapon::postShot(const Vec2& center, const Vec2& aim, float radCCW, float module_orientation)
 {

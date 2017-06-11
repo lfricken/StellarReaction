@@ -36,6 +36,10 @@ public:
 	IOComponent m_io;
 	NetworkComponent m_nw;
 
+	/// <summary>
+	/// Position of this element in the list of game objects.
+	/// </summary>
+	int universePosition;
 protected:
 	virtual void input(String rCommand, sf::Packet rData);
 	virtual void pack(sf::Packet& rPacket) final;

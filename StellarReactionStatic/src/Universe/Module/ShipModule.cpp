@@ -92,7 +92,6 @@ void ShipModule::input(String rCommand, sf::Packet rData)
 
 		int damageAmount;
 		int ioPosOfDealer;
-		Team damagingTeam;
 		int teamTemp;
 		Vec2 hitPoint;
 		Vec2 fromDir;
@@ -105,13 +104,12 @@ void ShipModule::input(String rCommand, sf::Packet rData)
 		moduleDamageGraphics(); //flash hud and module 
 
 	}
-	if(rCommand == "damage")//TODO huge if statement needs refactor
+	else if(rCommand == "damage")//TODO huge if statement needs refactor
 	{
 		sf::Packet damageCopy(rData);
 
 		int damageAmount;
 		int ioPosOfDealer;
-		Team damagingTeam;
 		int teamTemp;
 		Vec2 hitPoint;
 		Vec2 fromDir;
@@ -201,7 +199,6 @@ void ShipModule::changeHealthState(int ioPosOfDealer)
 			setHealthState(HealthState::CriticallyDamaged);
 		}
 	}
-
 }
 bool ShipModule::isValidDamageSource(int damage, Team damagingTeam)
 {
