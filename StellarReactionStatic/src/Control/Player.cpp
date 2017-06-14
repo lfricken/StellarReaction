@@ -270,8 +270,8 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 				else
 					m_camera.setZoom(m_camera.getZoom()*1.2f);
 			}
-			b2Body* pBody = rController.getBodyPtr();//make sure we arent over zoomed!
-			if(pBody != NULL)
+			auto chunk = rController.getChunk();//make sure we arent over zoomed!
+			if(chunk != nullptr)
 			{
 				float zoomValue = rController.get(Request::Zoom);
 				float x1 = (float)game.getWindow().getSize().x; //getting the siz of x
@@ -314,27 +314,23 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 void Player::updateView()
 {
 	Controller* cont = game.getUniverse().getControllerFactory().getController(m_controller);
-	if(cont == NULL)
+	if(cont == nullptr)
 		return;
 	Controller& rController = *cont;
 
-	b2Body* pBody = rController.getBodyPtr();
-	if(pBody != NULL)
+	auto chunk = rController.getChunk();
+	if(chunk != nullptr)
 	{
-		Chunk* myShip = rController.getSlave();
-		if(myShip != NULL)
-		{
-			if(myShip->getStatusBoard().expired())
-				myShip->resetStatusBoard(m_myStatusBoard);
+		if(chunk->getStatusBoard().expired())
+			chunk->resetStatusBoard(m_myStatusBoard);
 
-			if(myShip->getStatusBoard().lock())
-			{
-				//dout << "hi";
-			}
-			else
-			{
-				dout << FILELINE;
-			}
+		if(chunk->getStatusBoard().lock())
+		{
+			//dout << "hi";
+		}
+		else
+		{
+			dout << FILELINE;
 		}
 
 		if(m_targets.size() > 0)
@@ -345,8 +341,10 @@ void Player::updateView()
 
 		if(!m_inGuiMode)
 		{
+			Vec2 location = chunk->getBodyComponent().getPosition();
+
 			if(m_tracking)
-				m_camera.setPosition(pBody->GetPosition());
+				m_camera.setPosition(location);
 
 			//Energy Bar
 			float val = rController.get(Request::Energy);
@@ -371,7 +369,6 @@ void Player::updateView()
 
 
 			//Out of Bounds
-			Vec2 location = pBody->GetPosition();
 			Vec2 bounds = game.getUniverse().getBounds();
 			if(abs(location.x) > bounds.x || abs(location.y) > bounds.y)//if out of bounds
 				m_boundsDanger->getAnimator().setAnimation("Default", 2.f);

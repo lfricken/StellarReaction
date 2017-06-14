@@ -48,14 +48,12 @@ public:
 	const String& getPlayerName() const;
 	/// Return name of ship we are controlling.
 	const String& getSlaveName() const;
-	/// Return the actualy ship we are controlling.
-	Chunk* getSlave() const;
 	/// Find where this controller is aiming.
 	const Vec2& getAim() const;
 	/// Get a value from our ship.
 	float get(Request value);
 	/// Get pointer to body of ship.
-	b2Body* getBodyPtr();
+	sptr<Chunk> getChunk() const;
 	/// Return the networking object for this controller.
 	NetworkComponent& getNWComp();
 	/// Return the io object for this controller.

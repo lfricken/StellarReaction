@@ -24,7 +24,7 @@ ShipAI::ShipAI(Team team, int controller_index) : BasePlayerTraits("ai")
 
 ShipAI::~ShipAI()
 {
-
+	//dout << "\ndead ship ai.";
 }
 void ShipAI::onShipDestroyed()
 {
@@ -37,13 +37,13 @@ void ShipAI::updateDecision()
 		return;
 
 	Controller& rController = *cont;
-	b2Body* pBody = rController.getBodyPtr();
+	auto& body = rController.getChunk()->getBodyComponent();
 
-	if(pBody == nullptr)//detect that ship was destroyed
-	{
-		onShipDestroyed();
-		return;
-	}
+	//if(pBody == nullptr)//detect that ship was destroyed
+	//{
+	//	onShipDestroyed();
+	//	return;
+	//}
 
 	//set controller to be local
 	if(!rController.isLocal())
@@ -55,7 +55,7 @@ void ShipAI::updateDecision()
 		it->second = false;
 
 	//check if stuck
-	if(isStuck(pBody->GetPosition()))
+	if(isStuck(body.getPosition()))
 	{
 		m_currentBehavior = 2;
 		m_unstuckTimer.restartCountDown();
@@ -70,7 +70,7 @@ void ShipAI::updateDecision()
 			Team teams[] = { Team::One, Team::Two, Team::Three, Team::Four };
 			std::list<Team> teamList(teams, teams + 4);
 			teamList.remove(getTeam());
-			m_pCurrentTarget = game.getUniverse().getNearestChunk(pBody->GetPosition(), rController.getSlave(), teamList);
+			m_pCurrentTarget = game.getUniverse().getNearestChunk(body.getPosition(), rController.getChunk().get(), teamList);
 		}
 		//fire at and fly toward target if we have one
 		if(auto target = m_pCurrentTarget.lock())
@@ -100,10 +100,10 @@ void ShipAI::flyTowardsChunk(Chunk* target)
 		return;
 	Controller& rController = *cont;
 
-	b2Body* pBody = rController.getBodyPtr();
+	auto& body = rController.getChunk()->getBodyComponent();
 
-	float ourAngle = leon::normRad(pBody->GetAngle() + pi / 2);
-	Vec2 ourPos = pBody->GetPosition();
+	float ourAngle = leon::normRad(body.getAngle() + pi / 2);
+	Vec2 ourPos = body.getPosition();
 	Vec2 targetPos = target->getBodyComponent().getPosition();
 
 	Vec2 diff = targetPos - ourPos;
@@ -159,9 +159,9 @@ void ShipAI::fireAtTarget()
 			return;
 		Controller& rController = *cont;
 
-		b2Body* pBody = rController.getBodyPtr();
+		auto& body = rController.getChunk()->getBodyComponent();
 
-		Vec2 ourPos = pBody->GetPosition();
+		Vec2 ourPos = body.getPosition();
 		Vec2 targetPos = target->getBodyComponent().getPosition();
 
 		Vec2 diff = targetPos - ourPos;

@@ -35,6 +35,8 @@ public:
 			position = m_list.size();
 			m_list.push_back(object);
 		}
+
+		Print << "\nFactory Into" << position;
 		return position;
 	}
 	/// <summary>
@@ -52,11 +54,12 @@ public:
 	/// </summary>
 	bool free(int position)
 	{
+		Print << "\nFactory Free " << position;
 		if(position < m_list.size())
 			if(m_list[position].get() != nullptr)
 			{
 				m_list[position].reset();
-				m_freePositions.insert(position);
+				m_freePositions.push_back(position);
 			}
 
 		return false;
@@ -70,10 +73,27 @@ public:
 		m_freePositions.clear();
 	}
 
+	typename List<sptr<T> >::iterator begin()
+	{
+		return m_list.begin();
+	}
+	typename List<sptr<T> >::iterator end()
+	{
+		return m_list.end();
+	}
 
+	int size() const
+	{
+		return static_cast<signed>(m_list.size());
+	}
+
+	typename sptr<T> operator [](int i)
+	{
+		return m_list[i];
+	}
+protected:
 	List<sptr<T> > m_list;
 	List<int> m_freePositions;
-protected:
 
 };
 

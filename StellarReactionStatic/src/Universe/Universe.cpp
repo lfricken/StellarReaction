@@ -149,8 +149,7 @@ void Universe::createControllers(Team team, bool isAnAI, const String& slaveName
 	{
 		//assert(Print << "\n" << slaveName << " controlled by " << m_spControlFactory->getSize() - 1);
 		sptr<ShipAI> ai = sptr<ShipAI>(new ShipAI(team, m_spControlFactory->getSize() - 1));
-		m_shipAI.push_back(ai);
-		aiPos = m_shipAI.size() - 1;
+		aiPos = m_shipAI.insert(ai);
 	}
 }
 Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input, this), m_physWorld(Vec2(0, 0))
@@ -165,7 +164,7 @@ Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input,
 	m_timeStep = 1.0f / 120.0f;///LOAD FROM FILE
 
 	m_spBPLoader = sptr<BlueprintLoader>(new BlueprintLoader);//MUST BE AFTER IO
-	m_spSlaveLocator = sptr<SlaveLocator>(new SlaveLocator);
+	//m_spSlaveLocator = sptr<SlaveLocator>(new SlaveLocator);
 	m_spBatchLayers = sptr<BatchLayers>(new BatchLayers);
 	m_spGfxUpdater = sptr<GraphicsComponentUpdater>(new GraphicsComponentUpdater);
 	m_spControlFactory = sptr<ControlFactory>(new ControlFactory);
@@ -212,6 +211,20 @@ Universe::~Universe()
 	game.getLocalPlayer().universeDestroyed();
 	//Print << "\nEnd.";
 }
+int Universe::getGameObjectPosition(String& name)
+{
+	for(auto it = m_goList.begin(); it != m_goList.end(); ++it)
+	{
+		if(it->get() != nullptr)
+			if((**it).m_io.getName() == name)
+				return (it - m_goList.begin());
+	}
+	return -1;
+}
+sptr<GameObject> Universe::getGameObject(int pos)
+{
+	return m_goList[pos];
+}
 ControlFactory& Universe::getControllerFactory()
 {
 	return *m_spControlFactory;
@@ -224,10 +237,10 @@ DecorationEngine& Universe::getDecors()
 {
 	return *m_spDecorEngine;
 }
-SlaveLocator& Universe::getSlaveLocator()
-{
-	return *m_spSlaveLocator;
-}
+//SlaveLocator& Universe::getSlaveLocator()
+//{
+//	return *m_spSlaveLocator;
+//}
 b2World& Universe::getWorld()
 {
 	return m_physWorld;
@@ -243,6 +256,14 @@ BatchLayers& Universe::getBatchLayers()
 GraphicsComponentUpdater& Universe::getGfxUpdater()
 {
 	return *m_spGfxUpdater;
+}
+Factory<ShipAI>& Universe::getShipAI()
+{
+	return m_shipAI;
+}
+Factory<GameObject>& Universe::getGameObjects()
+{
+	return m_goList;
 }
 IOManager& Universe::getUniverseIO()
 {
@@ -263,7 +284,8 @@ void Universe::setBounds(const Vec2& bounds)
 void Universe::updateShipAI()
 {
 	for(auto it = m_shipAI.begin(); it != m_shipAI.end(); ++it)
-		(*it)->updateDecision();
+		if(it->get() != nullptr)
+			(*it)->updateDecision();
 }
 /// <summary>
 /// If true, we only draw box2d things on screen.
@@ -458,9 +480,7 @@ void Universe::loadBlueprints(const String& bpDir)//loads blueprints
 }
 int Universe::add(GameObject* pGO)
 {
-	pGO->universePosition = m_goList.size();
-	m_goList.push_back(sptr<GameObject>(pGO));
-	return pGO->universePosition;
+	return m_goList.insert(sptr<GameObject>(pGO));
 }
 void Universe::input(String rCommand, sf::Packet rData)
 {
@@ -482,7 +502,7 @@ void Universe::input(String rCommand, sf::Packet rData)
 		{
 			auto con = m_spControlFactory->getController(controller);
 				
-			auto pos = con->getBodyPtr()->GetPosition();
+			auto pos = con->getChunk()->getBodyComponent().getPosition();
 			float maxZoom = game.getLocalPlayer().getCamera().m_maxZoom * 0.4f;
 			float size = (float)game.getWindow().getSize().x / scale;
 			m_spDecorEngine->initSpawns(pos, Vec2(maxZoom* size, maxZoom* size));
@@ -515,24 +535,19 @@ void Universe::input(String rCommand, sf::Packet rData)
 		if(data.needsController)
 			createControllers((Team)data.team, data.aiControlled, slaveName, controller, ai);// data.slaveName;
 
-
+		Chunk* chunk = dynamic_cast<Chunk*>(m_goList.get(chunkIndex).get());
+		chunk->universePosition = chunkIndex;
+		chunk->m_controller = controller;
+		chunk->m_shipAI = ai;
 	}
 	else if(rCommand == "killChunkCommand")
 	{
 		int position, controller, ai;
 		rData >> position;
-		rData >> controller;
-		rData >> ai;
 
-		if(m_goList.size() > position)
+		if(position < m_goList.size())
 		{
-			Chunk* chunk = dynamic_cast<Chunk*>(m_goList[position].get());
-			if(chunk)
-			{
-		/*		m_spControlFactory->free(controller);
-				m_shipAI[ai].reset();*/
-			}
-			m_goList[position].reset();
+			m_goList.free(position);
 		}
 	}
 	else
@@ -540,10 +555,6 @@ void Universe::input(String rCommand, sf::Packet rData)
 		///ERROR LOG
 		Print << m_io.getName() << ":[" << rCommand << "] not found." << FILELINE;
 	}
-}
-List<sptr<GameObject> > Universe::getgoList()
-{
-	return m_goList;
 }
 bool Universe::isClear(Vec2 position, float radius, const Chunk* exception)
 {

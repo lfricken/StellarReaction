@@ -17,7 +17,6 @@ class BatchLayers;
 class GraphicsComponentUpdater;
 class IOManager;
 class GameObject;
-class SlaveLocator;
 class BlueprintLoader;
 class Decoration;
 class ControlFactory;
@@ -36,7 +35,7 @@ public:
 	/// Return the ControlFactory for this Universe.
 	ControlFactory& getControllerFactory();
 	/// Return the SlaveLocator for this Universe.
-	SlaveLocator& getSlaveLocator();
+	/*SlaveLocator& getSlaveLocator();*/
 	/// Return the BatchLayers for this Universe.
 	BatchLayers& getBatchLayers();
 	/// Return the GraphicsComponentUpdater for this Universe.
@@ -47,6 +46,8 @@ public:
 	ProjectileMan& getProjMan();
 	/// Return the DecorationEngine for this Universe.
 	DecorationEngine& getDecors();
+	Factory<GameObject>& Universe::getGameObjects();
+	Factory<ShipAI>& getShipAI();
 	/// Return the Box2D world for this Universe.
 	b2World& getWorld();
 	/// Return the BlueprintLoader for this Universe.
@@ -114,7 +115,8 @@ public:
 	/// Add a Chunk to the Universe, return its index
 	int add(GameObject* pGO);
 
-
+	int getGameObjectPosition(String& name);
+	sptr<GameObject> getGameObject(int pos);
 protected:
 	bool listContains(std::list<Team> teams, Team value);
 
@@ -164,7 +166,7 @@ private:
 	sptr<Scoreboard> m_scoreboard;
 	sptr<ControlFactory> m_spControlFactory;
 	sptr<BlueprintLoader> m_spBPLoader;
-	sptr<SlaveLocator> m_spSlaveLocator;//list of all slaves
+//	sptr<SlaveLocator> m_spSlaveLocator;//list of all slaves
 	sptr<BatchLayers> m_spBatchLayers;
 	sptr<GraphicsComponentUpdater> m_spGfxUpdater;
 	sptr<IOManager> m_spUniverseIO;//manages IO for the game objects
@@ -180,8 +182,9 @@ private:
 	sptr<Timer> m_spMoneyTimer;//how long to wait for each money gift
 
 	/**Ships, AI**/
-	List<sptr<GameObject> > m_goList;//list of game objects that WE need to keep track of
-	List<sptr<ShipAI> > m_shipAI;
+	Factory<GameObject> m_goList;// must be AFTER universe graphics//list of game objects that WE need to keep track of
+	Factory<ShipAI> m_shipAI;
+
 	List<Chunk*> m_capturePoints;
 
 	/**Hazards**/

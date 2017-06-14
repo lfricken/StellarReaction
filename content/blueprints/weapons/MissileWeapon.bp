@@ -3,6 +3,6 @@
 	"projName": "Missile",
     "energyConsumption": 1,
 	"fireDelay": 6,
-    "damage": 20,
+    "damage": 400,
 	"collisions": 2
 }

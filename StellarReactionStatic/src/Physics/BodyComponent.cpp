@@ -34,9 +34,13 @@ BodyComponent::~BodyComponent()
 {
 
 }
-const Vec2 BodyComponent::getPosition() const
+Vec2 BodyComponent::getPosition() const
 {
 	return m_pBody->GetPosition();
+}
+float BodyComponent::getAngle() const
+{
+	return m_pBody->GetAngle();
 }
 b2Body* BodyComponent::getBodyPtr()
 {

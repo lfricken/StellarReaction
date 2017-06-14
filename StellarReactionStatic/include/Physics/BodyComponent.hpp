@@ -48,7 +48,8 @@ public:
 	BodyComponent(const BodyComponentData& rData);
 	virtual ~BodyComponent();
 	///Returns the position of the body in world coordinates.
-	const Vec2 getPosition() const;
+	Vec2 getPosition() const; 
+	float getAngle() const;
 	///Returns a pointer to the Box2D body object.
 	b2Body* getBodyPtr();
 	///Returns a reference to the network component of the body.

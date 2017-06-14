@@ -9,7 +9,7 @@ class NetworkFactory;
 
 
 /// Holds a list of all the Controllers.
-class ControlFactory : protected Factory<Controller>, public NonCopyable
+class ControlFactory : public NonCopyable
 {
 public:
 	ControlFactory();
@@ -35,6 +35,7 @@ public:
 	//in the right order, otherwise m_spControlList controllers Network Components cause a crash
 
 
+	Factory<Controller> m_list;
 
 
 protected:

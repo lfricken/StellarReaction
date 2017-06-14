@@ -12,14 +12,14 @@ ControlFactory::~ControlFactory()
 void ControlFactory::processAllDirectives()
 {
 	for(auto it = m_list.begin(); it != m_list.end(); ++it)
-		(*it)->processDirectives();
+		if(*it != nullptr)
+			(*it)->processDirectives();
 }
 int ControlFactory::addController(const String& slave)
 {
 	ControllerData data;
 	data.slaveName = slave;
-	m_list.push_back(sptr<Controller>(new Controller(data)));
-	return m_list.size() - 1;
+	return m_list.insert(sptr<Controller>(new Controller(data)));
 }
 void ControlFactory::resetControllers(const List<String>& slaves)
 {
@@ -34,12 +34,7 @@ void ControlFactory::setAllNonLocallyControlled()
 }
 Controller* ControlFactory::getController(int index)
 {
-	if((signed)m_list.size() > index && index >= 0)
-		return m_list[index].get();
-	else
-	{
-		return NULL;
-	}
+	return m_list.get(index).get();
 }
 int ControlFactory::getSize()
 {

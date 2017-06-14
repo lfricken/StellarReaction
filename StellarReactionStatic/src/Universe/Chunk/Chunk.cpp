@@ -124,7 +124,6 @@ Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp)
 		add(**it);
 
 	//Register for controlling.
-	m_slavePosition = m_rParent.getSlaveLocator().give(this);
 
 
 	//Hull Sprite
@@ -154,7 +153,10 @@ Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp)
 }
 Chunk::~Chunk()
 {
-	m_rParent.getSlaveLocator().free(m_slavePosition);
+	//m_rParent.getSlaveLocator().free(m_slavePosition);
+	//Print << "\n dead chunk.";
+	m_rParent.getControllerFactory().m_list.free(m_controller);
+	m_rParent.getShipAI().free(m_shipAI);
 }
 
 int Chunk::incDeaths()
@@ -605,9 +607,7 @@ Module& Chunk::getNearestValidTarget(Vec2 target)
 		if(m_canDie)
 		{
 			sf::Packet myPosData;
-			myPosData << this->universePosition;
-			myPosData << this->m_controller;
-			myPosData << this->m_shipAI;
+			myPosData << universePosition;
 			Message death("universe", "killChunkCommand", myPosData, 0, false);
 			Message::SendUniverse(death);
 		}
@@ -616,7 +616,7 @@ Module& Chunk::getNearestValidTarget(Vec2 target)
 		return *(m_modules[0]);
 	}
 
-	int choice = Rand::get(0, availableTargets.size() - 1);
+	int choice = Rand::get(0, availableTargets.size() - 1);//it's inclusive for ints!
 	return *availableTargets[choice];
 }
 float Chunk::getRadius()

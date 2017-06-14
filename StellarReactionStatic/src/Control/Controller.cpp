@@ -29,22 +29,18 @@ Controller::Controller(const ControllerData& rData) : m_aim(0, 0), m_io(rData.io
 }
 Controller::~Controller()
 {
-
+	//Print << "\n dead controller.";
 }
 void Controller::setSlave(const String& rSlaveName)
 {
 	m_slaveName = rSlaveName;
-	m_slavePosition = game.getUniverse().getSlaveLocator().findPos(m_slaveName);
+	m_slavePosition = game.getUniverse().getGameObjectPosition(m_slaveName);
 	if(m_slavePosition == -1)
 		throw new std::runtime_error("Controllers target doesn't exist yet.");
 }
 const String& Controller::getSlaveName() const
 {
 	return m_slaveName;
-}
-Chunk* Controller::getSlave() const
-{
-	return game.getUniverse().getSlaveLocator().find(m_slavePosition);
 }
 IOComponent& Controller::getIOComp()
 {
@@ -60,22 +56,18 @@ const Vec2& Controller::getAim() const
 {
 	return m_aim;
 }
-b2Body* Controller::getBodyPtr()//return position
+sptr<Chunk> Controller::getChunk() const//return position
 {
-	Chunk* temp = game.getUniverse().getSlaveLocator().find(m_slavePosition);
-	if(temp != nullptr)
-		return temp->getBodyPtr();
-	else
-		return nullptr;
+	return std::dynamic_pointer_cast<Chunk>(game.getUniverse().getGameObject(m_slavePosition));
 }
 /// <summary>
 /// Find our slave and set it to aim at a location
 /// </summary>
 void Controller::processAim() const
 {
-	Chunk* temp = game.getUniverse().getSlaveLocator().find(m_slavePosition);
-	if(temp != nullptr)
-		temp->setAim(m_aim);
+	auto chunk = getChunk();
+	if(chunk != nullptr)
+		chunk->setAim(m_aim);
 }
 /// <summary>
 /// returns the value in the slave that's requested
@@ -84,16 +76,16 @@ void Controller::processAim() const
 /// <returns></returns> 
 float Controller::get(Request value)//return the requested value
 {
-	Chunk* temp = game.getUniverse().getSlaveLocator().find(m_slavePosition);
-	if(temp != nullptr)
-		return temp->get(value);
+	auto chunk = getChunk();
+	if(chunk != nullptr)
+		return chunk->get(value);
 	else
 		return 0.f;
 }
 void Controller::processDirectives()//use our stored directives to send commands
 {
 	processAim();
-	Chunk* targetShip = game.getUniverse().getSlaveLocator().find(m_slavePosition);
+	auto targetShip = getChunk();
 	if(targetShip != nullptr)
 	{
 		CommandInfo commands;
@@ -138,7 +130,7 @@ NetworkComponent& Controller::getNWComp()
 void Controller::pack(sf::Packet& rPacket)
 {
 	int32_t weaponGroupSize = m_weaponGroups.size();
-	 
+
 	rPacket << static_cast<float32>(m_aim.x);
 	rPacket << static_cast<float32>(m_aim.y);
 	for(int32_t i = 0; i < static_cast<int32_t>(Directive::End); ++i)
