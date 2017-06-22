@@ -87,9 +87,14 @@ void Player::setController(int index)
 /// </summary>
 void Player::getLiveInput()
 {
-	Controller* cont = game.getUniverse().getControllerFactory().getController(m_controller);
-	if(cont == NULL)
+	Controller* cont = nullptr;
+	if(m_controller == -1)
 		return;
+
+	cont = game.getUniverse().getControllerFactory().getController(m_controller);
+	if(cont == nullptr)
+		return;
+
 	Controller& rController = *cont;
 
 	rController.toggleLocal(true);
@@ -209,7 +214,10 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 {
 	sf::Event event;
 
-	Controller* cont = game.getUniverse().getControllerFactory().getController(m_controller);
+
+	Controller* cont = nullptr;
+	if(m_controller != -1)
+		cont = game.getUniverse().getControllerFactory().getController(m_controller);
 
 
 	while(rWindow.pollEvent(event))
@@ -257,32 +265,33 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 			game.getOverlay().handleEvent(event);
 		else
 		{
-			if(cont == NULL)
-				return;
-			Controller& rController = *cont;
-
-			/**== ZOOM ==**/
-			if(event.type == sf::Event::MouseWheelMoved)
+			if(cont != nullptr)
 			{
-				int change = -event.mouseWheel.delta;
-				if(change < 0)
-					m_camera.setZoom(m_camera.getZoom()*0.8f);
-				else
-					m_camera.setZoom(m_camera.getZoom()*1.2f);
-			}
-			auto chunk = rController.getChunk();//make sure we arent over zoomed!
-			if(chunk != nullptr)
-			{
-				float zoomValue = rController.get(Request::Zoom);
-				float x1 = (float)game.getWindow().getSize().x; //getting the siz of x
-				float y1 = (float)game.getWindow().getSize().y; //getting the size of y
-				float area = 1920 * 1080; // setting a fixed resolution
-				float area1 = x1*y1;
+				Controller& rController = *cont;
 
-				float newzoomvalue = zoomValue*sqrt(area / area1); // setting a new zoom value based on the current screen's resolution
+				/**== ZOOM ==**/
+				if(event.type == sf::Event::MouseWheelMoved)
+				{
+					int change = -event.mouseWheel.delta;
+					if(change < 0)
+						m_camera.setZoom(m_camera.getZoom()*0.8f);
+					else
+						m_camera.setZoom(m_camera.getZoom()*1.2f);
+				}
+				auto chunk = rController.getChunk();//make sure we arent over zoomed!
+				if(chunk != nullptr)
+				{
+					float zoomValue = rController.get(Request::Zoom);
+					float x1 = (float)game.getWindow().getSize().x; //getting the siz of x
+					float y1 = (float)game.getWindow().getSize().y; //getting the size of y
+					float area = 1920 * 1080; // setting a fixed resolution
+					float area1 = x1*y1;
 
-				if(newzoomvalue < m_camera.getZoom())
-					m_camera.setZoom(newzoomvalue);
+					float newzoomvalue = zoomValue*sqrt(area / area1); // setting a new zoom value based on the current screen's resolution
+
+					if(newzoomvalue < m_camera.getZoom())
+						m_camera.setZoom(newzoomvalue);
+				}
 			}
 
 
@@ -313,9 +322,13 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 }
 void Player::updateView()
 {
-	Controller* cont = game.getUniverse().getControllerFactory().getController(m_controller);
+	Controller* cont = nullptr;
+	if(m_controller != -1)
+		cont = game.getUniverse().getControllerFactory().getController(m_controller);
+
 	if(cont == nullptr)
 		return;
+
 	Controller& rController = *cont;
 
 	auto chunk = rController.getChunk();

@@ -77,22 +77,23 @@ void NetworkFactory::process(sf::Packet& rPacket)
 	if(numElements == expectedNumElements)
 	{
 		m_consecutiveDesyncs = 0;
-		int32_t id;
-		int32_t old_id;//for debugging purposes remembers the last attempted id process
+		int32_t id = 0;
+		int32_t old_id = 0;//for debugging purposes remembers the last attempted id process
 		while(rPacket >> id && !rPacket.endOfPacket())
 		{
 			if(id < (signed)m_componentPtrs.size())
 			{
-				if(m_componentPtrs[id] != NULL)
+				if(m_componentPtrs[id] != nullptr)//crashing here because the controller is dead but we recieved a packet meant for it
 				{
-					m_componentPtrs[id]->unpack(rPacket);
+					m_componentPtrs[id]->unpack(rPacket);//for each component id, assume it will extract the appropriate amount of data from the packet
+					//so the next extract of the id will result in a correct id.
 				}
+				else
+					break;//stop because next id will be garbage since we couldn't extract the data, this packet is toast
 			}
 			else
 			{
-				//Print << "\n[" << id << "][" << old_id << "][" << m_componentPtrs.size() << FILELINE << m_name;
-				///ERROR LOG
-				break;
+				break;//stop because next id will be garbage since we couldn't extract the data, this packet is toast
 			}
 			old_id = id;
 		}
@@ -105,8 +106,9 @@ void NetworkFactory::process(sf::Packet& rPacket)
 		///ERROR LOG
 		//dout << "\nDesync Detected[" << numElements << "][" << expectedNumElements << "][" << m_name << "]" << FILELINE;
 	}
-	if(m_consecutiveDesyncs > 0 && m_consecutiveDesyncs % 60 == 0)
+	if(m_consecutiveDesyncs > 0 && m_consecutiveDesyncs > 10)
 	{
-		Print << "\nDesync Detected.";
+		m_consecutiveDesyncs = 0;
+		Print << "\n10 Desyncs Detected.";
 	}
 }

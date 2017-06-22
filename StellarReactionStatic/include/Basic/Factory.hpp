@@ -44,7 +44,7 @@ public:
 	/// </summary>
 	sptr<T> get(int position)
 	{
-		if(position < m_list.size())
+		if(position < static_cast<signed int>(m_list.size()))
 			return m_list[position];
 		else
 			return sptr<T>(nullptr);
