@@ -55,7 +55,7 @@ public:
 	bool free(int position)
 	{
 		Print << "\nFactory Free " << position;
-		if(position < m_list.size())
+		if(position < (signed)m_list.size())
 			if(m_list[position].get() != nullptr)
 			{
 				m_list[position].reset();

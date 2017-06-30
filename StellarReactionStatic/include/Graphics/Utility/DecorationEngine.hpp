@@ -29,9 +29,13 @@ public:
 private:
 	void spawnParticle(DecorationData decorData, const Particles& effect, const Vec2& dir, const Vec2& transverse, float time, int i);
 
+	/// <summary>
 	/// List of all decorations.
+	/// </summary>
 	List<sptr<Decoration> > m_decorations;
-	/// List of particles <fade time, expire time> that haven't started to fade.
+	/// <summary>
+	/// List of particles (fade time, expire time) that havent started to fade.
+	/// </summary>
 	Map<Pair<float,float>, sptr<Decoration> > m_fullParticles;
 	/// List of particles <expire time> that have started to fade.
 	Map<float, sptr<Decoration> > m_fadingParticles;

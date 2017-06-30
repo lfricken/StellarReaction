@@ -19,6 +19,19 @@ Timer::~Timer()
 {
 
 }
+
+float Timer::getTimePercentageElapsed() const
+{
+	float startTime = m_timeUpTime - m_countDownTime;
+	float percentage = (getTime() - startTime) / m_countDownTime;
+
+	if(percentage > 1)
+		return 1.f;
+	else if(percentage < 0)
+		return 0.f;
+	else
+		return percentage;
+}
 float Timer::getTime() const//time elapsed as seconds since universe was initialized
 {
 	return game.getUniverse().getTime();

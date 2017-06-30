@@ -99,6 +99,7 @@
     <ClCompile Include="src\Universe\Utility\ChunkSpawner.cpp" />
     <ClCompile Include="src\Overlay\Grid.cpp" />
     <ClCompile Include="src\Basic\Factory.cpp" />
+    <ClCompile Include="src\Basic\Shaker.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Game\Directory.hpp" />
@@ -417,6 +418,7 @@
     <ClInclude Include="include\Overlay\Grid.hpp" />
     <ClInclude Include="include\Basic\PoolChanger.hpp" />
     <ClInclude Include="include\Basic\Factory.hpp" />
+    <ClInclude Include="include\Basic\Shaker.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\API\SFML\Audio\SoundFileFactory.inl" />

@@ -2,6 +2,8 @@
 #define CAMERA_HPP
 
 #include "stdafx.hpp"
+#include "Timer.hpp"
+#include "Shaker.hpp"
 
 
 /// The local players camera.
@@ -24,6 +26,8 @@ public:
 	///It will resize the internal camera so the view is not skewed.
 	void resize();
 
+	void shake(float duration, float frequency, float amplitude);
+
 	///Return the current camera center.
 	Vec2 getPosition() const;
 	///Return the zoom value.
@@ -45,6 +49,19 @@ private:
 	sf::Vector2f m_standardSize;
 	///SFML view, which contains most internal workings of the Camera.
 	sf::View m_view;
+
+	/// <summary>
+	/// Controls screen shake
+	/// </summary>
+	Shaker m_shaker;
+	/// <summary>
+	/// How far the camera moves per direction
+	/// </summary>
+	float m_shakeMagnitude;
+	/// <summary>
+	/// How quickly the camera oscilates
+	/// </summary>
+	float m_shakeFrequency;
 };
 
 #endif // CAMERA_HPP

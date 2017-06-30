@@ -16,6 +16,10 @@ Camera::~Camera()
 {
 
 }
+void Camera::shake(float duration, float frequency, float amplitude)
+{
+	m_shaker.generate(duration, frequency, amplitude);
+}
 void Camera::setPosition(const Vec2& rPos)//world position
 {
 	sf::Listener::setPosition(rPos.x, rPos.y, 5);///HOW DO WE SET Z OF LISTENER rPos.y

@@ -3,8 +3,10 @@
 
 void Particles::loadJson(const Json::Value& root)
 {
+	GETJSON(randDuration);
 	GETJSON(duration);
-	GETJSON(fadeTime);
+	GETJSON(fadeInTime);
+	GETJSON(fadeOutTime);
 	GETJSON(number);
 	GETJSON(randArc);
 	GETJSON(velocity);

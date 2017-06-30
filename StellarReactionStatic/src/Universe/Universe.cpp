@@ -422,9 +422,9 @@ bool Universe::debugDraw() const
 void Universe::togglePause(bool pause)
 {
 	if(m_paused && !pause)//switched to not paused
-		m_skippedTime += game.getTime() - m_pauseTime;
+		m_skippedTime += m_realTime - m_pauseTime;
 	else if(!m_paused && pause)//switch to paused
-		m_pauseTime = game.getTime();
+		m_pauseTime = m_realTime;
 
 	m_paused = pause;
 }
@@ -446,14 +446,17 @@ bool Universe::isPaused()
 /// </summary>
 float Universe::getTime() const
 {
-	float realTime = game.getTime();
 	float universeTime;
 	if(m_paused)
 		universeTime = m_pauseTime - m_skippedTime;
 	else
-		universeTime = realTime - m_skippedTime;
+		universeTime = m_realTime - m_skippedTime;
 
 	return universeTime;
+}
+void Universe::setTime(float time)
+{
+	m_realTime = time;
 }
 Vec2 Universe::getBed()//give a position to sleep at
 {
@@ -542,11 +545,20 @@ void Universe::input(String rCommand, sf::Packet rData)
 	}
 	else if(rCommand == "killChunkCommand")
 	{
-		int position, controller, ai;
+		int position;
 		rData >> position;
 
 		if(position < m_goList.size())
 		{
+			auto chunk = dynamic_cast<Chunk*>(m_goList[position].get());
+			if(chunk != nullptr)
+			{
+
+			}
+			else
+			{
+				throw new std::exception("chunk was null universe.cpp");
+			}
 			m_goList.free(position);
 		}
 	}

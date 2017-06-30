@@ -81,6 +81,8 @@ public:
 	bool debugDraw() const;
 	/// How much time has passed. Accounts pausing.
 	float getTime() const;
+	/// Sets the time so universe doesn't have to ask for it.
+	void setTime(float time);
 	/// Set whether the Universe is paused.
 	void togglePause(bool pause);
 	/// Toggle whether the Universe is paused.
@@ -148,10 +150,12 @@ private:
 	Vec2 m_currentBed;
 	/**SLEEP**/
 
-
+	/**TIME**/
+	float m_realTime;
 	float m_pauseTime;
 	float m_skippedTime;
 	bool m_paused;
+	/**TIME**/
 
 	/**PHYSICS**/
 	float m_timeStep;

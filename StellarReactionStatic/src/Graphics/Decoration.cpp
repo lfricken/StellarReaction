@@ -43,9 +43,17 @@ Decoration::Decoration(const DecorationData& data, sptr<GraphicsComponent> pGfx)
 	m_maxZoom = game.getLocalPlayer().getCamera().m_maxZoom;
 	randSpin();
 	randVel();
-	m_isFading = false;
-	m_totalFadeTime = 1;
-	m_fadeTimeElapsed = 0;
+
+	m_isFadingOut = false;
+	m_totalFadeOutTime = 1;
+	m_fadeOutTimeElapsed = 0;
+
+
+	m_isFadingIn = false;
+	m_totalFadeInTime = 1;
+	m_fadeInTimeElapsed = 0;
+
+
 }
 Decoration::~Decoration()
 {
@@ -224,19 +232,51 @@ void Decoration::updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bot
 		const float angle = atan(halfSize.x / zDist);
 		setScale(angle*staticSize*staticZoom);
 	}
-
-
-	if(m_isFading && m_fadeTimeElapsed <= m_totalFadeTime)
+	/**Compute fading In**/
+	if(m_isFadingIn)
 	{
-		m_fadeTimeElapsed += dTime;//if we dont take min of 1,x then it can go past 255 alpha and reappear for a second
-		int alpha = (int)(255.f - Math::min(1.f, (m_fadeTimeElapsed / m_totalFadeTime)) * 255.f);
-		m_spGfx->setAlpha(alpha);
+		if(m_fadeInTimeElapsed <= m_totalFadeInTime)
+		{
+			m_fadeInTimeElapsed += dTime;//if we dont take min of 1,x then it can go past 255 alpha and reappear for a second
+			int alpha = (int)(0.f + Math::min(1.f, (m_fadeInTimeElapsed / m_totalFadeInTime)) * 255.f);
+			m_spGfx->setAlpha(alpha);
+		}
+		else//fade time expired
+		{
+			m_isFadingIn = false;
+			m_spGfx->setAlpha(255);
+		}
+	}
+	/**Compute fading Out**/
+	if(m_isFadingOut)
+	{
+		if(m_fadeOutTimeElapsed <= m_totalFadeOutTime)
+		{
+			m_fadeOutTimeElapsed += dTime;//if we dont take min of 1,x then it can go past 255 alpha and reappear for a second
+			//TODO make it so it can fade from non max alpha (so fade in partial, fade out partial)
+			int alpha = (int)(255.f - Math::min(1.f, (m_fadeOutTimeElapsed / m_totalFadeOutTime)) * 255.f);
+			m_spGfx->setAlpha(alpha);
+		}
+		else//fade time expired
+		{
+			m_spGfx->setAlpha(0);
+		}
 	}
 }
-void Decoration::startFade(float time)
+void Decoration::startFadeOut(float time)
 {
-	m_isFading = true;
-	m_totalFadeTime = time;
-	m_fadeTimeElapsed = 0;
+	m_isFadingOut = true;
+	m_totalFadeOutTime = time;
+	m_fadeOutTimeElapsed = 0;
+}
+void Decoration::startFadeIn(float time)
+{
+	m_totalFadeInTime = time;
+	m_fadeInTimeElapsed = 0;
+	if(m_totalFadeInTime > 0)
+	{
+		m_isFadingIn = true;
+		m_spGfx->setAlpha(0);
+	}
 }
 

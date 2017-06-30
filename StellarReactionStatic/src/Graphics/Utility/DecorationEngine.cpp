@@ -31,7 +31,7 @@ void DecorationEngine::update(const Vec2& cameraPos, const Vec2& halfSize, const
 	const float dTime = m_deltaTime.getTimeElapsed();
 	const float currentTime = game.getUniverse().getTime();
 
-	{
+	{//particles fading in or fading
 
 		auto lastIt = m_fullParticles.end();
 		for(auto it = m_fullParticles.begin(); it != m_fullParticles.end(); ++it)
@@ -40,7 +40,7 @@ void DecorationEngine::update(const Vec2& cameraPos, const Vec2& halfSize, const
 			{
 				lastIt = it;//remember the last one we did
 				m_fadingParticles[it->first.second] = it->second;//copy to fading list
-				it->second->startFade(it->first.second - currentTime);
+				it->second->startFadeOut(it->first.second - currentTime);
 			}
 			else
 				(it->second)->updateScaledPosition(cameraPos, bottomLeft, topRight, zoom, dTime);
@@ -50,9 +50,10 @@ void DecorationEngine::update(const Vec2& cameraPos, const Vec2& halfSize, const
 			m_fullParticles.erase(m_fullParticles.begin(), ++lastIt);
 
 	}
-	{
+	{//particles fading
 
 		auto lastIt = m_fadingParticles.end();
+		//they are ordered from first to expire to last to expire
 		for(auto it = m_fadingParticles.begin(); it != m_fadingParticles.end(); ++it)
 		{
 			if(it->first <= currentTime)//this should expire
@@ -60,12 +61,12 @@ void DecorationEngine::update(const Vec2& cameraPos, const Vec2& halfSize, const
 			else
 				(it->second)->updateScaledPosition(cameraPos, bottomLeft, topRight, zoom, dTime);
 		}
-
-		if(lastIt != m_fadingParticles.end())//remove from front
+		//lastIt = end-1 if all particles should be removed, so increment by 1 since erase(inclusive, exclusive)
+		if(lastIt != m_fadingParticles.end())//remove from front to back
 			m_fadingParticles.erase(m_fadingParticles.begin(), ++lastIt);
 
 	}
-	{
+	{//normal decorations
 		for(auto it = m_decorations.begin(); it != m_decorations.end(); ++it)
 			(**it).updateScaledPosition(cameraPos, bottomLeft, topRight, zoom, dTime);
 	}
@@ -161,7 +162,9 @@ void DecorationEngine::spawnParticle(DecorationData decorData, const Particles& 
 
 	auto pQuad = new QuadComponent(effect.quadData);
 	auto pDecor = new Decoration(decorData, sptr<GraphicsComponent>(pQuad));
-	expiration.first = time + effect.duration + 0.001f*i;
-	expiration.second = expiration.first + effect.fadeTime;
+	float randDuration = Rand::get(0.f, effect.randDuration);
+	expiration.first = time + effect.duration + randDuration + effect.fadeInTime + 0.001f*i;//adding that strange value so it can be added to the map without overlap
+	expiration.second = expiration.first + effect.fadeOutTime;
 	m_fullParticles[expiration] = sptr<Decoration>(pDecor);
+	pDecor->startFadeIn(effect.fadeInTime);
 }

@@ -50,7 +50,7 @@ void NetworkFactory::clean()
 	}
 }
 /// <summary>
-/// gets data of all NetworkComponents
+/// gets data of all NetworkComponents. Stored as number of components, then a list of the ID of component, then the data it sends/recieves
 /// </summary>
 void NetworkFactory::getComponentData(sf::Packet& rPacket)
 {
@@ -58,7 +58,7 @@ void NetworkFactory::getComponentData(sf::Packet& rPacket)
 	List<NetworkComponent*>& rPtr = m_componentPtrs;
 	for(int32_t i = 0; i < (signed)rPtr.size(); ++i)
 	{
-		if(rPtr[i] != NULL)
+		if(rPtr[i] != nullptr)
 		{
 			if(rPtr[i]->hasNewData())
 			{

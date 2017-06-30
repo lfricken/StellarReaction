@@ -10,8 +10,10 @@ struct Particles : public BlueprintData
 public:
 	Particles()
 	{
+		randDuration = 1;
 		duration = 1;
-		fadeTime = 1;
+		fadeInTime = 1;
+		fadeOutTime = 1;
 		number = 1;
 
 		velocity = 2;
@@ -25,18 +27,33 @@ public:
 
 
 	}
-	///How long is the particle in full state.
+	/// <summary>
+	/// choose a time between 0 and value to add to the duration
+	/// </summary>
+	float randDuration;
+	/// <summary>
+	/// How long is the particle in full state.
+	/// </summary>
 	float duration;
-	///How long is the particle in fading state.
-	float fadeTime;
+	/// <summary>
+	/// How long is the particle fading in.
+	/// </summary>
+	float fadeInTime;
+	/// <summary>
+	/// How long is the particle fading out.
+	/// </summary>
+	float fadeOutTime;
+	/// <summary>
+	/// How many particles total.
+	/// </summary>
 	int number;
 
-	///Arc of trajectory in Deg
+	///Bounding arc of trajectory in Degrees
 	float randArc;
 	///Initial velocity 
 	float velocity;
 
-	///Choose between this and 1 as velocity multiplier.
+	///Choose between this value and 1 as velocity multiplier.
 	float randVelScalarMax;
 	///Initial Orientation in rad CCW
 	float initialOrientation;

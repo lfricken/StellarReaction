@@ -169,15 +169,12 @@ SoundManager& Game::getSound()
 /// <returns></returns>
 float Game::getTime() const
 {
-	if(m_sampleClock < m_sampleFreq)
-		++m_sampleClock;
-	else
-	{
-		m_sampleClock = 0;
-		m_lastTime = m_clock.getElapsedTime().asSeconds();
-	}
 	return m_lastTime;
-
+}
+void Game::updateTime()
+{
+	m_lastTime = m_clock.getElapsedTime().asSeconds();
+	m_spUniverse->setTime(m_lastTime);
 }
 void Game::runTicks(int ticks)
 {
@@ -252,7 +249,7 @@ void Game::tick(float frameTime)
 	/**== IO ==**/
 	getCoreIO().update(frameTime);
 	getUniverse().getUniverseIO().update(frameTime);
-
+	game.updateTime();
 
 	/**== PHYSICS ==**/
 	physTickTimeRemaining += frameTime;

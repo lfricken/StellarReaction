@@ -79,7 +79,11 @@ public:
 	/// Run the game for a certain amount of time, variable ticks.
 	void runTime(float time);
 	/// Close the game.
-	void exit();
+	void exit(); 
+	/// <summary>
+	/// update internal time
+	/// </summary>
+	void updateTime();
 
 protected:
 	void input(String rCommand, sf::Packet rData);

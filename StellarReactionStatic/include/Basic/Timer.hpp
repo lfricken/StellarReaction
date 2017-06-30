@@ -13,6 +13,11 @@ public:
 	virtual ~Timer();
 
 	/// <summary>
+	/// Return a percentage on how much time has elapsed.
+	/// </summary>
+	float getTimePercentageElapsed() const;
+
+	/// <summary>
 	/// Time elapsed as seconds since the universe was initialized.
 	/// </summary>
 	float getTime() const;

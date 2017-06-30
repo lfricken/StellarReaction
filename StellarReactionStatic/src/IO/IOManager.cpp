@@ -119,7 +119,10 @@ void IOManager::f_send(const Message& rMessage)
 		if(it != m_nameLookup.end())
 		{
 			if(m_componentPtrs[it->second] != NULL)
+			{
+				dout << "Message: " << rMessage.getTargetPosition() << " " << rMessage.getTargetName();
 				m_componentPtrs[it->second]->recieve(rMessage.getCommand(), rMessage.getData());
+			}
 			else
 			{
 				Print << "\nTarget: [" << rMessage.getTargetName() << "] died. " << FILELINE;

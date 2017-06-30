@@ -155,8 +155,10 @@ Chunk::~Chunk()
 {
 	//m_rParent.getSlaveLocator().free(m_slavePosition);
 	//Print << "\n dead chunk.";
-	m_rParent.getControllerFactory().m_list.free(m_controller);
-	m_rParent.getShipAI().free(m_shipAI);
+	if(m_controller != -1)//this ship might not have a controller or ai
+		m_rParent.getControllerFactory().m_list.free(m_controller);
+	if(m_shipAI != -1)
+		m_rParent.getShipAI().free(m_shipAI);
 }
 
 int Chunk::incDeaths()
@@ -606,9 +608,16 @@ Module& Chunk::getNearestValidTarget(Vec2 target)
 
 		if(m_canDie)
 		{
+
+			game.getUniverse().spawnParticles("SparkExplosion", getBodyComponent().getPosition(), Vec2(1, 0), Vec2(0, 0));
+			game.getUniverse().spawnParticles("WhiteFlash", getBodyComponent().getPosition(), Vec2(1, 0), Vec2(0, 0));
+			game.getUniverse().spawnParticles("DebrisExplosion1", getBodyComponent().getPosition(), Vec2(1, 0), Vec2(0, 0));
+			game.getUniverse().spawnParticles("DebrisExplosion2", getBodyComponent().getPosition(), Vec2(1, 0), Vec2(0, 0));
+			game.getUniverse().spawnParticles("DebrisExplosion3", getBodyComponent().getPosition(), Vec2(1, 0), Vec2(0, 0));
+
 			sf::Packet myPosData;
 			myPosData << universePosition;
-			Message death("universe", "killChunkCommand", myPosData, 0, false);
+			Message death("universe", "killChunkCommand", myPosData, 0.1f, false);
 			Message::SendUniverse(death);
 		}
 		//TODO death effects
