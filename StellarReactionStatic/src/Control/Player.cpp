@@ -376,7 +376,9 @@ void Player::updateView()
 			//Shield State
 			bool isShieldOn = static_cast<bool>(rController.get(Request::ShieldState));
 			if(isShieldOn)
+			{
 				m_shieldState->getAnimator().setAnimation("On", 0.25f);
+			}
 			else
 				m_shieldState->getAnimator().setAnimation("Off", 0.25f);
 
@@ -653,5 +655,10 @@ void Player::input(String rCommand, sf::Packet rData)
 		bool mode = false;
 		data >> mode;
 		toggleGuiMode(mode);
+	}
+	else if(rCommand == "cameraShake")
+	{
+
+		m_camera.shake(0.5f, 60.f, 0.4f);
 	}
 }

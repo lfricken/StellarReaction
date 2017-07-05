@@ -102,7 +102,7 @@ public:
 	void loadLevel(const GameLaunchData& data);
 
 	/// Return list of GameObject.
-	List<sptr<GameObject> > getgoList();
+	//List<sptr<GameObject> > getgoList();
 	/// Used to create impact particles.
 	void spawnParticles(const String& particleBP, const Vec2& pos, const Vec2& dir, const Vec2& transverse);
 

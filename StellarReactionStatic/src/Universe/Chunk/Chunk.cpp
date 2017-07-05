@@ -150,6 +150,7 @@ Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp)
 	//For sounds.
 	m_thrustNoiseIndex = -1;
 	m_boostNoiseIndex = -1;
+
 }
 Chunk::~Chunk()
 {

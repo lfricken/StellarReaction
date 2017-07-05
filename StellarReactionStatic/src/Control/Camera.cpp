@@ -23,7 +23,8 @@ void Camera::shake(float duration, float frequency, float amplitude)
 void Camera::setPosition(const Vec2& rPos)//world position
 {
 	sf::Listener::setPosition(rPos.x, rPos.y, 5);///HOW DO WE SET Z OF LISTENER rPos.y
-	m_view.setCenter(leon::b2Tosf<float>(rPos));
+	Vec2 shakePos = m_shaker.getPosition() + rPos;
+	m_view.setCenter(leon::b2Tosf<float>(shakePos));
 }
 void Camera::move(const Vec2& change)
 {

@@ -551,15 +551,12 @@ void Universe::input(String rCommand, sf::Packet rData)
 		if(position < m_goList.size())
 		{
 			auto chunk = dynamic_cast<Chunk*>(m_goList[position].get());
-			if(chunk != nullptr)
-			{
+			if(chunk->isStealth())
+				Print << "\nhi";//need to crash to find bug
+			chunk->prepareForDeath = true;
 
-			}
-			else
-			{
-				throw new std::exception("chunk was null universe.cpp");
-			}
-			m_goList.free(position);
+ 			m_goList.free(position);
+			game.getLocalPlayer().getCamera().shake(0.5, 60, 0.5);
 		}
 	}
 	else

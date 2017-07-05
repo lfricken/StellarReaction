@@ -11,21 +11,20 @@ Shaker::~Shaker()
 }
 Vec2 Shaker::getPosition() const
 {
-	Vec2 pos(0, 0);
 	float percentDone = m_shakeTimer.getTimePercentageElapsed();
 
 	if(percentDone >= 1.f || percentDone < 0.f)
-		return pos;
+		return Vec2(0, 0);
 
 	int sample1 = static_cast<int>(percentDone * m_samples.size());//sample 1 guaranteed to be less than size because it can't be 1 and gets truncated
-	int sample2 = static_cast<int>(sample1 + 1);
+	//int sample2 = static_cast<int>(sample1 + 1);
 
 	Vec2 sampleStart = m_samples[sample1];//round down
-	Vec2 sampleEnd(0, 0);
-	if(sample2 < m_samples.size())
-		sampleEnd = m_samples[sample2];//round up
+	//Vec2 sampleEnd(0, 0);
+	//if(sample2 < m_samples.size())
+	//	sampleEnd = m_samples[sample2];//round up
 
-	return Vec2((sampleStart.x + sampleEnd.x) / 2.f, (sampleStart.y + sampleEnd.y) / 2.f);
+	return sampleStart; //  Vec2((sampleStart.x + sampleEnd.x) / 2.f, (sampleStart.y + sampleEnd.y) / 2.f);
 }
 void Shaker::generate(float duration, float frequency, float amplitude)
 {

@@ -23,11 +23,12 @@ Timer::~Timer()
 float Timer::getTimePercentageElapsed() const
 {
 	float startTime = m_timeUpTime - m_countDownTime;
-	float percentage = (getTime() - startTime) / m_countDownTime;
+	float time = getTime();
+	float percentage = (time - startTime) / m_countDownTime;
 
-	if(percentage > 1)
+	if(percentage >= 1.f)
 		return 1.f;
-	else if(percentage < 0)
+	else if(percentage < 0.f)
 		return 0.f;
 	else
 		return percentage;
