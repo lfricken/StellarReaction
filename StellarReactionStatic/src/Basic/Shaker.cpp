@@ -11,8 +11,8 @@ Shaker::~Shaker()
 }
 Vec2 Shaker::getPosition() const
 {
-//	if(m_samples.size() < 1)//if there are no samples
-//		return Vec2(0, 0);
+	if(m_samples.size() < 1)//if there are no samples
+		return Vec2(0, 0);
 
 	float percentDone = m_shakeTimer.getTimePercentageElapsed();
 
