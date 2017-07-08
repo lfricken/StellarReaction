@@ -6,13 +6,13 @@
 Timer::Timer()
 {
 	m_lastElapsedTime = getTime();
-	m_countDownTime = 1.f;
+	m_countDownTime = 0.f;
 	m_timeUpTime = getTime() + m_countDownTime;
 }
 Timer::Timer(float time)
 {
 	m_lastElapsedTime = time;
-	m_countDownTime = 1.f;
+	m_countDownTime = 0.f;
 	m_timeUpTime = time + m_countDownTime;
 }
 Timer::~Timer()
@@ -22,6 +22,9 @@ Timer::~Timer()
 
 float Timer::getTimePercentageElapsed() const
 {
+	if(m_countDownTime <= 0)
+		return 1.f;
+
 	float startTime = m_timeUpTime - m_countDownTime;
 	float time = getTime();
 	float percentage = (time - startTime) / m_countDownTime;

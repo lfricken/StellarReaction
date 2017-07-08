@@ -45,7 +45,7 @@ public:
 	/// Look at laser and projectile weapon.
 	virtual void postShot(const Vec2& center, const Vec2& aim, float radCCW, float module_orientation) = 0;
 	///Does damage to target. Leave last param blank for no visual effects.
-	static void damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmount, int ioCausePos, Team team, const Vec2& collisionPoint, const Vec2& fromDirection, const String& effect);
+	static void damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmount, int ioCausePos, Team team, const Vec2& collisionPoint, const Vec2& fromDirection, const String& effect = "", bool bleed = false);
 	///Gets the decoration object corresponding to this weapon.
 	QuadComponent* getDecor();
 	///Tell this weapon which team it is working for.

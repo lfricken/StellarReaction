@@ -118,10 +118,10 @@ void Weapon::postPhysUpdate(const Vec2& center, const Vec2& aim, float32 radCCW,
 	if(m_shotsRemain == 0)
 		m_endSound.play(center);
 }
-void Weapon::damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmount, int ioCausePos, Team team, const Vec2& collisionPoint, const Vec2& fromDirection, const String& effect)
+void Weapon::damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmount, int ioCausePos, Team team, const Vec2& collisionPoint, const Vec2& fromDirection, const String& effect, bool bleed)
 {
 	sf::Packet packet;
-	packet << damageAmount << ioCausePos << static_cast<int>(team) << collisionPoint.x << collisionPoint.y << fromDirection.x << fromDirection.y << effect;
+	packet << damageAmount << ioCausePos << static_cast<int>(team) << collisionPoint.x << collisionPoint.y << fromDirection.x << fromDirection.y << effect << bleed;
 
 	Message mess;
 	mess.reset(ioTargetPos, "damage", packet, 0.f, false);
@@ -131,7 +131,7 @@ void Weapon::damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmou
 void Weapon::damage(b2Fixture* pFixtureTakingDamage, int damageAmount, const Vec2& collisionPoint, const Vec2& fromDirection)
 {
 	FixtureComponent& rComp = *static_cast<FixtureComponent*>(pFixtureTakingDamage->GetUserData());
-	Weapon::damage(&game.getUniverse().getUniverseIO(), rComp.getIOPos(), (damageAmount / m_shots), m_pTempParent->getIOPos(), m_team, collisionPoint, fromDirection, m_effectName);
+	Weapon::damage(&game.getUniverse().getUniverseIO(), rComp.getIOPos(), (damageAmount / m_shots), m_pTempParent->getIOPos(), m_team, collisionPoint, fromDirection, m_effectName, false);
 }
 QuadComponent* Weapon::getDecor()
 {

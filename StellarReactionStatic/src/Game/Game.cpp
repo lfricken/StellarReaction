@@ -93,7 +93,7 @@ void Game::loadPlayer(const String& rFileName)
 		data.name = root["PlayerName"].asString();
 	}
 
-	m_spLocalPlayer = sptr<Player>(new Player(data));
+	m_spLocalPlayer.reset(new Player(data));
 }
 Player& Game::getLocalPlayer()
 {

@@ -3,6 +3,7 @@
 #include "Player.hpp"
 #include "Team.hpp"
 #include "Grid.hpp"
+#include "Weapon.hpp"
 
 
 
@@ -86,60 +87,46 @@ void ShipModule::unpack(sf::Packet& rPacket)
 }
 void ShipModule::input(String rCommand, sf::Packet rData)
 {
-	if(rCommand == "damageBleed")//TODO huge if statement needs refactor
+	if(rCommand == "damage")//TODO huge if statement needs refactor
 	{
-		//this damage was already verified
-
 		int damageAmount;
 		int ioPosOfDealer;
-		int teamTemp;
+		Team team;
 		Vec2 hitPoint;
 		Vec2 fromDir;
 		String effect;
-		rData >> damageAmount >> ioPosOfDealer >> teamTemp >> hitPoint.x >> hitPoint.y >> fromDir.x >> fromDir.y >> effect;
-
-		m_health.damage(damageAmount); //actually do the damage
-		changeHealthState(ioPosOfDealer);//potentially award a point
-		m_io.event(EventType::Health, m_health.getHealth(), voidPacket);
-		moduleDamageGraphics(); //flash hud and module 
-
-	}
-	else if(rCommand == "damage")//TODO huge if statement needs refactor
-	{
-		sf::Packet damageCopy(rData);
-
-		int damageAmount;
-		int ioPosOfDealer;
-		int teamTemp;
-		Vec2 hitPoint;
-		Vec2 fromDir;
-		String effect;
-		rData >> damageAmount >> ioPosOfDealer >> teamTemp >> hitPoint.x >> hitPoint.y >> fromDir.x >> fromDir.y >> effect;
-
-		if(isValidDamageSource(damageAmount, static_cast<Team>(teamTemp)))//if not same team and valid damage value
+		bool isBleedDamage;
 		{
-			if(m_health.isDead())//if already dead
-			{
-				Module& newTarget = m_parentChunk->getNearestValidTarget(m_fix.getOffset());
-				int newModuleTarget = newTarget.m_io.getPosition();
+			int teamTemp;
+			rData >> damageAmount >> ioPosOfDealer >> teamTemp >> hitPoint.x >> hitPoint.y >> fromDir.x >> fromDir.y >> effect >> isBleedDamage;
+			team = static_cast<Team>(teamTemp);
+		}
 
-				moduleDamageGraphics(); //flash hud and module
-				
-				Message bleed(newModuleTarget, "damageBleed", damageCopy, 0.f, false);
-				Message::SendUniverse(bleed);
-			}
-			else
-			{
+		if(isValidDamageSource(damageAmount, team))//if not same team and valid damage value
+		{
+			int overkill = damageAmount - m_health.getHealth() - m_health.getArmor();
+
+			{//do standard damage
 				m_health.damage(damageAmount); //actually do the damage
 				changeHealthState(ioPosOfDealer);//potentially award a point
 				m_io.event(EventType::Health, m_health.getHealth(), voidPacket);
 				moduleDamageGraphics(); //flash hud and module
-				
-				if(effect != "") //spark effects
+
+				if(!isBleedDamage && effect != "") //spark effects
 				{
 					const Vec2 bodyCenter = m_fix.getBodyPtr()->GetWorldCenter();
 					const Vec2 bounce = fromDir.bounce(bodyCenter.to(hitPoint));
 					game.getUniverse().spawnParticles(effect, hitPoint, bounce, m_fix.getBodyPtr()->GetLinearVelocity());
+				}
+			}
+
+			if(overkill > 0)//check if damage should bleed
+			{
+				ShipModule* newTarget = m_parentChunk->getNearestValidTarget(m_fix.getOffset());//returns null if there are no valid targets
+				if(newTarget != nullptr)//if there is a valid target
+				{
+					int newModuleTarget = newTarget->m_io.getPosition();//damage it with excess damage
+					Weapon::damage(&game.getUniverse().getUniverseIO(), newModuleTarget, overkill, ioPosOfDealer, team, hitPoint, fromDir, effect, true);
 				}
 			}
 		}

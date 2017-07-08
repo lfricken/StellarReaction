@@ -412,10 +412,10 @@ void Player::updateView()
 				Message setScore("hud_score", "setText", scorePack, 0, false);
 				game.getCoreIO().recieve(setScore);
 			}
-			sf::Packet moneyPack;
+			/*sf::Packet moneyPack;
 			moneyPack << moneyString;
 			Message setMoney("hud_money", "setText", moneyPack, 0, false);
-			game.getCoreIO().recieve(setMoney);
+			game.getCoreIO().recieve(setMoney);*/
 
 
 			//m_targetReticules

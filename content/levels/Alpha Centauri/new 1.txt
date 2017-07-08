@@ -1,0 +1,164 @@
+,
+	"Chunks": [{
+		"blueprintName": "Anubis",
+		"coordinates": [-60, -5, 0]
+	}, {
+		"blueprintName": "Caterina",
+		"coordinates": [-50, -5, 0]
+	}, {
+		"blueprintName": "Dante",
+		"coordinates": [-40, -5, 0]
+	}, {
+		"blueprintName": "Store",
+		"coordinates": [-135, -0, 12]
+	}, {
+		"blueprintName": "PrimaryDefenseTurret",
+		"coordinates": [-50, 10],
+		"rotation": 45,
+		"aiControlled": true,
+		"team": 2
+	}, {
+		"blueprintName": "battlestationBlue",
+		"coordinates": [-174, -0,
+			20
+		]
+	}, {
+		"blueprintName": "StationGreen",
+		"coordinates": [
+			135,
+			0,
+			90
+		]
+	}, {
+		"blueprintName": "battlestationGreen1",
+		"coordinates": [
+			172,
+			22,
+			0
+		]
+	}, {
+		"blueprintName": "battlestationGreen2",
+		"coordinates": [
+			172, -22,
+			0
+		]
+	}, {
+		"blueprintName": "StationYellow",
+		"coordinates": [
+			0, -135,
+			0
+		]
+	}, {
+		"blueprintName": "battlestationYellow1",
+		"coordinates": [
+			28, -172,
+			90
+		]
+	}, {
+		"blueprintName": "battlestationYellow2",
+		"coordinates": [-28, -172,
+			90
+		]
+	}, {
+		"blueprintName": "StationPink",
+		"coordinates": [
+			0,
+			135,
+			180
+		]
+	}, {
+		"blueprintName": "battlestationPink1",
+		"coordinates": [
+			22,
+			172,
+			0
+		]
+	}, {
+		"blueprintName": "battlestationPink2",
+		"coordinates": [-22,
+			172,
+			0
+		]
+	}, {
+		"blueprintName": "CapturePointCCW",
+		"coordinates": [-40,
+			40,
+			0
+		]
+	}, {
+		"blueprintName": "CapturePointCCW",
+		"coordinates": [
+			40, -40,
+			0
+		]
+	}, {
+		"blueprintName": "CapturePointCW",
+		"coordinates": [-100,
+			100,
+			0
+		]
+	}, {
+		"blueprintName": "CapturePointCW",
+		"coordinates": [
+			100, -100,
+			0
+		]
+	}, {
+		"blueprintName": "CapturePointCCW",
+		"coordinates": [-100,
+			0,
+			0
+		]
+	}, {
+		"blueprintName": "CapturePointCCW",
+		"coordinates": [
+			100,
+			0,
+			0
+		]
+	}, {
+		"blueprintName": "CapturePointCW",
+		"coordinates": [
+			0,
+			100,
+			0
+		]
+	}, {
+		"blueprintName": "CapturePointCW",
+		"coordinates": [
+			0, -100,
+			0
+		]
+	}, {
+		"blueprintName": "CapturePointCCW",
+		"coordinates": [-22, -22,
+			0
+		]
+	}, {
+		"blueprintName": "CapturePointCW",
+		"coordinates": [
+			22,
+			22,
+			0
+		]
+	}, {
+		"blueprintName": "CapturePointCCW",
+		"coordinates": [
+			100,
+			100,
+			0
+		]
+	}, {
+		"blueprintName": "CapturePointCW",
+		"coordinates": [-100, -100,
+			0
+		]
+	}, {
+		"blueprintName": "Pluto",
+		"coordinates": [-130, -130,
+			0
+		]
+	}]
+	
+	
+	

@@ -148,7 +148,7 @@ void Universe::createControllers(Team team, bool isAnAI, const String& slaveName
 	if(isAnAI && !game.getNwBoss().isClient())
 	{
 		//assert(Print << "\n" << slaveName << " controlled by " << m_spControlFactory->getSize() - 1);
-		sptr<ShipAI> ai = sptr<ShipAI>(new ShipAI(team, m_spControlFactory->getSize() - 1));
+		sptr<ShipAI> ai = sptr<ShipAI>(new ShipAI(team, controller));
 		aiPos = m_shipAI.insert(ai);
 	}
 }
@@ -551,10 +551,6 @@ void Universe::input(String rCommand, sf::Packet rData)
 		if(position < m_goList.size())
 		{
 			auto chunk = dynamic_cast<Chunk*>(m_goList[position].get());
-			if(chunk->isStealth())
-				Print << "\nhi";//need to crash to find bug
-			chunk->prepareForDeath = true;
-
  			m_goList.free(position);
 			game.getLocalPlayer().getCamera().shake(0.5, 60, 0.5);
 		}

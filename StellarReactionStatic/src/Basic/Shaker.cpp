@@ -1,7 +1,7 @@
 #include "Shaker.hpp"
 
 
-Shaker::Shaker() : m_shakeTimer(0)
+Shaker::Shaker() : m_shakeTimer(0.f)
 {
 
 }
@@ -11,10 +11,15 @@ Shaker::~Shaker()
 }
 Vec2 Shaker::getPosition() const
 {
+//	if(m_samples.size() < 1)//if there are no samples
+//		return Vec2(0, 0);
+
 	float percentDone = m_shakeTimer.getTimePercentageElapsed();
 
 	if(percentDone >= 1.f || percentDone < 0.f)
 		return Vec2(0, 0);
+
+
 
 	int sample1 = static_cast<int>(percentDone * m_samples.size());//sample 1 guaranteed to be less than size because it can't be 1 and gets truncated
 	//int sample2 = static_cast<int>(sample1 + 1);

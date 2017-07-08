@@ -12,6 +12,7 @@
 struct ChunkData;
 class Module;
 struct ModuleData;
+class ShipModule;
 struct CommandInfo;
 enum class Directive;
 enum class Request;
@@ -76,11 +77,12 @@ public:
 	/// Returns nearest module target using taxicab geometry
 	/// randomly chooses between equals.
 	/// </summary>
-	Module& getNearestValidTarget(Vec2 target);
+	ShipModule* getNearestValidTarget(Vec2 target);
 
 	void resetStatusBoard(wptr<leon::Grid> grid);
 	wptr<leon::Grid> getStatusBoard();
 
+	bool m_inDeathProcess;
 	bool m_canDie;
 	int m_controller;
 	int m_shipAI;

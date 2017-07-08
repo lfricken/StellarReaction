@@ -3,7 +3,7 @@
 	
     "energyConsumption": 10,
 	"fireDelay": 2,
-    "damage": 250,
+    "damage": 10000,
 	
     "shots": 5,
 	"shotDelay": 0.1,

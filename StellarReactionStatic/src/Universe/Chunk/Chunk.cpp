@@ -100,6 +100,7 @@ void ChunkData::loadJson(const Json::Value& root)
 }
 Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp), m_zoomPool(rData.zoomData), m_energyPool(rData.energyData), m_ballisticPool(rData.ballisticData), m_missilePool(rData.missileData)
 {
+	m_inDeathProcess = false;
 	m_canDie = true;
 	m_shieldToggleTimer.setCountDown(0.5f);
 	m_shieldToggleTimer.restartCountDown();
@@ -570,7 +571,7 @@ List<Vec2> taxicabCircle(int radius)
 	}
 	return coordinates;
 }
-Module& Chunk::getNearestValidTarget(Vec2 target)
+ShipModule* Chunk::getNearestValidTarget(Vec2 target)
 {
 	Map<Vec2, ShipModule*> moduleCoordinates;
 	for(auto it = m_modules.begin(); it != m_modules.end(); ++it)
@@ -607,8 +608,9 @@ Module& Chunk::getNearestValidTarget(Vec2 target)
 	{
 		dout << "\nDead.";
 
-		if(m_canDie)
+		if(m_canDie && !m_inDeathProcess)
 		{
+			m_inDeathProcess = true;
 
 			game.getUniverse().spawnParticles("SparkExplosion", getBodyComponent().getPosition(), Vec2(1, 0), Vec2(0, 0));
 			game.getUniverse().spawnParticles("WhiteFlash", getBodyComponent().getPosition(), Vec2(1, 0), Vec2(0, 0));
@@ -623,11 +625,11 @@ Module& Chunk::getNearestValidTarget(Vec2 target)
 		}
 		//TODO death effects
 
-		return *(m_modules[0]);
+		return nullptr;
 	}
 
 	int choice = Rand::get(0, availableTargets.size() - 1);//it's inclusive for ints!
-	return *availableTargets[choice];
+	return availableTargets[choice];
 }
 float Chunk::getRadius()
 {
