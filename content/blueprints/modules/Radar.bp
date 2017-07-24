@@ -3,8 +3,7 @@
 	"Name": "Sensor thing",
 	"zoomAddition": 16,
 	"baseDecor": {
-		"texName": "radar/radar",
-		"animSheetName": "radar/radar.acfg"
+		"texName": "module/radar"
 	},
 	"cost": 100
 }

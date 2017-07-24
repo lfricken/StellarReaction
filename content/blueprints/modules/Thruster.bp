@@ -7,8 +7,7 @@
 	"boostThrustMult": 2.5,
 	"energyConsumption": 1,
     "baseDecor": {
-        "texName": "thruster/thruster",
-        "animSheetName": "thruster/thruster.acfg"
+        "texName": "module/thruster"
     },
 	"cost": 150
 }

@@ -292,14 +292,14 @@ void Chunk::directive(const CommandInfo& commands)//send command to target
 	{
 		if(m_timer.isTimeUp())
 		{
-			m_lastAim;
-			String store;
-			for(auto it = m_modules.begin(); it != m_modules.end(); ++it)
-			{
-				store = (*it)->getStore();
-				if(store != "")
-					break;
-			}
+			//m_lastAim;
+			//String store;
+			//for(auto it = m_modules.begin(); it != m_modules.end(); ++it)
+			//{
+			//	store = (*it)->getStore();
+			//	if(store != "")
+			//		break;
+			//}
 			//if(store != "")
 			//{
 			//	Message toggle(store, "toggleHidden", voidPacket, 0, false);
@@ -310,7 +310,7 @@ void Chunk::directive(const CommandInfo& commands)//send command to target
 			//else
 			//	assert(Print << "Store name [" + store + "]." << FILELINE);
 
-			store = "store_default";
+			String store = "store_default";
 
 			Message toggle(store, "toggleHidden", voidPacket, 0, false);
 			Message mes2("local_player", "toggleGuiMode", voidPacket, 0, false);

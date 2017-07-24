@@ -1,6 +1,7 @@
 #include "Picture.hpp"
 #include "Globals.hpp"
 #include "TextureAllocator.hpp"
+#include "Debugging.hpp"
 
 using namespace leon;
 
@@ -25,4 +26,8 @@ void Picture::load(const String& fullFilePath)
 {
 	//does nothing because we need to load manually
 }
-
+void Picture::setTexture(String texName)
+{
+	auto& texture = *game.getTextureAllocator().request(texName);
+	m_pPicture->loadFromTexture(texture);
+}

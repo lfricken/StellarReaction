@@ -239,6 +239,19 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 			rWindow.close();
 		if(event.type == sf::Event::KeyPressed)
 		{
+
+			if(event.key.code == m_inCfg.buildNewShip)
+			{
+				ChunkDataMessage data;
+				data.aiControlled = false;
+				data.blueprintName = "BaseStructure";
+				data.coordinates = m_aim;
+				data.needsController = false;
+				data.rotation = 0.f;
+				data.team = static_cast<int>(getTeam());
+
+				ShipBuilder::Client::createChunk(data);
+			}
 			/**== MAIN MENU ==**/
 			if(event.key.code == sf::Keyboard::Escape)
 			{

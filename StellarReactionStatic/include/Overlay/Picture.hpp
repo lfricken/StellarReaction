@@ -23,6 +23,8 @@ namespace leon
 		Picture(tgui::Container& rContainer, const PictureData& rData);
 		virtual ~Picture();
 
+		void setTexture(String texName);
+
 	protected:
 		void load(const String& fullFilePath);
 	private:

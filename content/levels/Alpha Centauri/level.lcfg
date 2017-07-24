@@ -4,8 +4,8 @@
 		"m_makesAI": true,
 		"m_isEnabled": true,
 		"m_blueprints": ["GunBoat", "GunBoat", "GunBoat"],
-		"m_spawnAmount": 25,
-		"m_spawnPeriod": 1,
+		"m_spawnAmount": 90,
+		"m_spawnPeriod": 20,
 		"m_spawnPeriodVariance": 1,
 		"m_radius": 5,
 		"m_origin": [0,30]

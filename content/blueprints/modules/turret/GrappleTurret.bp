@@ -3,8 +3,7 @@
     "startWep": "GrappleWeapon",
 	"controlGroup": 4,
     "baseDecor": {
-        "texName": "turret/turret_base",
-        "animSheetName": "turret/turret_base.acfg"
+        "texName": "module/turret/turret_base"
     },
 	"cost": 200
 }

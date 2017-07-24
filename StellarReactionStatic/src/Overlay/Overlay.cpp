@@ -13,6 +13,54 @@
 #include "Chunk.hpp"
 #include "Debugging.hpp"
 #include "Grid.hpp"
+#include "NumericDisplay.hpp"
+
+
+
+struct StoreLoader
+{
+	sf::Vector2f buttonSize;
+	float previewWidth;
+	unsigned char baseTransparency;
+	sf::Vector2f moduleSpawnPos;
+
+	struct StoreButtonLoader
+	{
+		String previewTexture;
+		int cost;
+		String moduleBlueprint;
+		String buttonName;
+
+		void loadJson(const Json::Value& root)
+		{
+			GETJSON(previewTexture);
+			GETJSON(cost);
+			GETJSON(moduleBlueprint);
+			GETJSON(buttonName);
+		}
+	};
+
+	List<StoreButtonLoader> buttonList;
+
+	void loadJson(const Json::Value& root)
+	{
+		GETJSON(buttonSize);
+		GETJSON(previewWidth);
+		GETJSON(baseTransparency);
+		GETJSON(moduleSpawnPos);
+
+		if(!root["buttonList"].isNull())
+		{
+			const Json::Value storeButtons = root["buttonList"];
+			for(auto it = storeButtons.begin(); it != storeButtons.end(); ++it)
+			{
+				StoreButtonLoader button;
+				button.loadJson(*it);
+				buttonList.push_back(button);
+			}
+		}
+	}
+};
 
 
 using namespace leon;
@@ -403,26 +451,10 @@ void Overlay::loadMenus()
 	//pStore->add(sptr<leon::WidgetBase>(new leon::NetworkedSelection(*pStore->getPanelPtr(), store)));
 
 	/**Close Store**/
-	leon::ButtonData buy1;
-	buy1.ioComp.name = "buy1";
-	buy1.screenCoords = sf::Vector2f(0, 0);
-	buy1.size = sf::Vector2f(200, 40);
-	buy1.buttonText = "buy thing";
-	buy1.startHidden = false;
-	//Courier closeMes;
-	//closeMes.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
-	//closeMes.message.reset("store_default", "toggleHidden", voidPacket, 0, false);
-	//close.ioComp.courierList.push_back(closeMes);
-	Courier buy;
-	buy.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
-	sf::Packet moduleInfo;
-	sf::Vector2i pos(0, 0);
-	moduleInfo << "Plating";
-	moduleInfo << pos.x << pos.y;
-	buy.message.reset("ship_editor", "buyModule", moduleInfo, 0, false);
-	buy1.ioComp.courierList.push_back(buy);
-	pStore->add(sptr<leon::WidgetBase>(new leon::Button(*pStore->getPanelPtr(), buy1)));
 
+	/**STORE**/
+	loadStore(pStore);
+	/**STORE**/
 
 	/**SHIP EDITOR**/
 	DraggableSurfaceData surfaceData;
@@ -438,7 +470,7 @@ void Overlay::loadMenus()
 	pStore->add(sptr<leon::WidgetBase>(pSurf));
 	//pMain_menu->add(sptr<leon::WidgetBase>(pSurf));
 
-	
+
 
 	/**====DRAGGABLES====**/
 	//DraggableData dragData;
@@ -459,7 +491,7 @@ void Overlay::loadMenus()
 
 	Courier reconstructButton;
 	reconstructButton.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
-	reconstructButton.message.reset("ship_editor", "getState", voidPacket, 0, false);
+	reconstructButton.message.reset("ship_editor", "buildShipWithConfiguration", voidPacket, 0, false);
 	reconstructData.ioComp.courierList.push_back(reconstructButton);
 
 	pStore->add(sptr<leon::WidgetBase>(new Button(*pStore->getPanelPtr(), reconstructData)));
@@ -480,12 +512,10 @@ void Overlay::loadMenus()
 	guiMode.message.reset("local_player", "toggleGuiMode", voidPacket, 0, false);
 	close.ioComp.courierList.push_back(guiMode);
 	pStore->add(sptr<leon::WidgetBase>(new leon::Button(*pStore->getPanelPtr(), close)));
-	
-	
-	game.getOverlay().addPanel(sptr<leon::Panel>(pStore));
-	/**STORE**/
 
-	/**STORE**/
+
+	game.getOverlay().addPanel(sptr<leon::Panel>(pStore));
+
 
 	/**HUD**/
 	/**HUD**/
@@ -542,6 +572,71 @@ void Overlay::loadMenus()
 	leon::WidgetBase* pClose = new leon::Button(*pMessBox->getPanelPtr(), closeMessBox);
 	pMessBox->add(sptr<leon::WidgetBase>(pClose));
 	game.getOverlay().addPanel(sptr<leon::Panel>(pMessBox));
+}
+void Overlay::loadStore(leon::Panel* pStore)
+{
+	NumericDisplayData data;
+	data.screenCoords = sf::Vector2f(100, 90);
+	data.numDigits = 3;
+	data.digitSize = sf::Vector2f(32, 64);
+	auto display = new NumericDisplay(*pStore->getPanelPtr(), data);
+	pStore->add(sptr<leon::WidgetBase>(display));
+	display->setNumber(289);
+
+	std::ifstream store(contentDir() + "blueprints/" + "Store.bp", std::ifstream::binary);
+	Json::Reader reader;
+	Json::Value root;
+	bool parsedSuccess = reader.parse(store, root, false);
+	if(parsedSuccess)
+	{
+		StoreLoader storeData;
+		storeData.loadJson(root);
+		const auto& buttons = storeData.buttonList;
+
+		for(auto it = buttons.cbegin(); it < buttons.cend(); ++it)
+		{
+			int pos = it - buttons.cbegin();
+			sf::Vector2i initialGridPos = (sf::Vector2i)storeData.moduleSpawnPos;
+			const StoreLoader::StoreButtonLoader& button = *it;
+
+			auto butPos = sf::Vector2i(0, pos);
+			sf::Vector2i gridsize = static_cast<sf::Vector2i>(storeData.buttonSize);
+
+			{
+				PictureData pic;
+				pic.texName = button.previewTexture;
+				pic.size = (sf::Vector2f)gridsize;
+				pic.size.x = storeData.previewWidth;
+				pic.gridPosition = butPos;
+				pic.gridSize = gridsize;
+				pStore->add(sptr<leon::WidgetBase>(new Picture(*pStore->getPanelPtr(), pic)));
+			}
+			{
+				leon::ButtonData buy1;
+				buy1.configFile = "TGUI/widgets/PartialTransparent.conf";
+				buy1.ioComp.name = "buy" + String(pos);
+				buy1.gridPosition = butPos;
+				buy1.gridSize = gridsize;
+				buy1.size = (sf::Vector2f)gridsize;
+				buy1.buttonText = button.buttonName;
+				buy1.startHidden = false;
+				buy1.transparency = 100;
+				//Courier closeMes;
+				//closeMes.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
+				//closeMes.message.reset("store_default", "toggleHidden", voidPacket, 0, false);
+				//close.ioComp.courierList.push_back(closeMes);
+				Courier buy;
+				buy.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
+				sf::Packet moduleInfo;
+				moduleInfo << button.moduleBlueprint;
+				moduleInfo << initialGridPos.x << initialGridPos.y;
+				moduleInfo << button.cost;
+				buy.message.reset("ship_editor", "buyModule", moduleInfo, 0, false);
+				buy1.ioComp.courierList.push_back(buy);
+				pStore->add(sptr<leon::WidgetBase>(new leon::Button(*pStore->getPanelPtr(), buy1)));
+			}
+		}
+	}
 }
 void Overlay::loadScoreboard(const GameLaunchData& data)
 {
@@ -702,7 +797,8 @@ void Overlay::toggleMenu(bool show)//display menu, assume gui control, send paus
 
 	Universe* x = &game.getUniverse();
 
-	if (x->started){
+	if(x->started)
+	{
 
 		Message mes1("main_menu", "setHidden", hideMenu, 0, false);
 		Message mes2("local_player", "setGuiMode", guiMode, 0, false);
@@ -732,7 +828,7 @@ void Overlay::toggleScoreboard(bool show)
 	Message mes2("hud_score", "setHidden", hideHud, 0, false);
 	Message mes3("hud_money", "setHidden", hideHud, 0, false);
 	Message mes4("hud_control", "setHidden", hideHud, 0, false);
-	
+
 	game.getCoreIO().recieve(mes1);
 	game.getCoreIO().recieve(mes2);
 	game.getCoreIO().recieve(mes3);
@@ -744,7 +840,7 @@ void Overlay::input(const String rCommand, sf::Packet rData)
 	{
 		toggleMenu(!m_menuShowing);
 	}
-	else if (rCommand == "toggleScoreboard")
+	else if(rCommand == "toggleScoreboard")
 	{
 		toggleScoreboard(!m_scoreboardShowing);
 	}

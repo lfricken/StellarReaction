@@ -327,8 +327,10 @@
     <ClInclude Include="include\Network\Network.hpp" />
     <ClInclude Include="include\Basic\PoolChanger.hpp" />
     <ClInclude Include="include\Basic\Shaker.hpp" />
+    <ClInclude Include="include\Overlay\NumericDisplay.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Overlay\NumericDisplay.cpp" />
     <ClCompile Include="src\Basic\Shaker.cpp" />
     <ClCompile Include="src\Basic\Factory.cpp" />
     <ClCompile Include="src\Overlay\Grid.cpp" />

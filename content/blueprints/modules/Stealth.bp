@@ -2,8 +2,7 @@
     "ClassName": "StealthData",
   	"energyConsumption": 20,
 	"baseDecor": {
-		"texName": "stealth/stealth",
-		"animSheetName": "stealth/stealth.acfg"
+		"module": "stealth/stealth"
 	},
 	"cost": 100
 }

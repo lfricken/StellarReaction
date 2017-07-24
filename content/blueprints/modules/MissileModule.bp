@@ -2,7 +2,6 @@
     "ClassName": "ProjectileModuleData",
 	"baseDecor": {
 		"texName": "projectile/missile1",
-		"animSheetName": "projectile/missile1.acfg",
 		"dimensions": [
 			256,
 			64

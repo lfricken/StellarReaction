@@ -4,8 +4,7 @@
 	"teleRange": 20,
 	"teleCooldown": 10,
 	"baseDecor": {
-		"texName": "teleport/teleport",
-		"animSheetName": "teleport/teleport.acfg"
+		"texName": "module/teleport"
 	},
 	"cost": 150
 }

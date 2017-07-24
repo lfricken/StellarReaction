@@ -113,9 +113,9 @@ struct ShieldData : public ShipModuleData
 		radius(5),
 		toggleFrequency(1)
 	{
-		baseDecor.texName = "shield/shield";
+		baseDecor.texName = "module/shield";
 		shieldArt.dimensions = leon::b2Tosf<float>(Vec2(5, 5));
-		shieldArt.texName = "shield/barrier";
+		shieldArt.texName = "module/barrier";
 	}
 
 	///Energy consumed per second.

@@ -138,7 +138,7 @@ void FixtureComponent::setIOPos(int ioPos)
 	m_ioPos = ioPos;
 }
 /// <summary>
-/// Applies force to center of body(Newtons)
+/// Applies force (Newtons) to center of body unless paused
 /// </summary>
 void FixtureComponent::applyForce(const Vec2& rForce)//applies force to center of body(Newtons)
 {
@@ -146,7 +146,7 @@ void FixtureComponent::applyForce(const Vec2& rForce)//applies force to center o
 		m_pFixture->GetBody()->ApplyForceToCenter(rForce, true);
 }
 /// <summary>
-/// Applies force to center of this fixture(Newtons)
+/// Applies force (Newtons) to center of fixture unless paused
 /// </summary>
 void FixtureComponent::applyForceFixture(const Vec2& rForce)//applies force at the center of fixture(Newtons)
 {
@@ -154,7 +154,7 @@ void FixtureComponent::applyForceFixture(const Vec2& rForce)//applies force at t
 		m_pFixture->GetBody()->ApplyForce(rForce, getCenter(), true);
 }
 /// <summary>
-/// applies torque to body(Newton Meters)
+/// applies torque (Newton Meters) to body unless paused
 /// </summary>
 void FixtureComponent::applyTorque(float radiansCCW)//applies torque to body(Newton Meters)
 {
@@ -172,14 +172,6 @@ void FixtureComponent::setMask(Mask mask)
 	b2Filter filter = m_pFixture->GetFilterData();
 	filter.maskBits = static_cast<uint16_t>(mask);
 	m_pFixture->SetFilterData(filter);
-}
-void FixtureComponent::setStore(const String& rTargetName)
-{
-	m_store = rTargetName;
-}
-const String& FixtureComponent::getStore() const
-{
-	return m_store;
 }
 bool FixtureComponent::isSensor() const
 {

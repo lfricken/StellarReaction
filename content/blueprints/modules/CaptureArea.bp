@@ -19,7 +19,6 @@
 	"captureTime": 5,
 	"capturePercent": 0.80,
     "baseDecor": {
-        "texName": "other/blank",
-        "animSheetName": "other/blank.acfg"
+        "texName": "other/blank"
     }
 }

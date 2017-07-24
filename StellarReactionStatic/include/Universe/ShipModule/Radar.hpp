@@ -33,7 +33,7 @@ struct RadarData : public ShipModuleData
 		ShipModuleData(),
 		zoomAddition(1)///units?
 	{
-		dish.texName = "radar/dish";
+		dish.texName = "module/dish";
 		dish.randomRot = true;
 		dish.rate = 90;//deg/s
 		dish.layer = GraphicsLayer::ShipAppendagesLower;

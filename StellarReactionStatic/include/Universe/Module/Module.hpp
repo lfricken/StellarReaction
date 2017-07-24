@@ -31,8 +31,6 @@ public:
 	virtual void directive(const CommandInfo& commands);
 	///Set coordinates for current aim.
 	virtual void setAim(const Vec2& rTarget);
-	/// What store is the module intersecting?
-	const String& getStore() const;
 	///Get offset from center of fixture component.
 	const Vec2& getOffset() const;
 	///Get title of module.

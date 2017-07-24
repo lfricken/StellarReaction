@@ -79,10 +79,6 @@ public:
 	void setCategory(Category cat);
 	/// Sets the mask of the FixtureComponent.
 	void setMask(Mask mask);
-	/// Sets the store.
-	void setStore(const String& rTargetName);
-	/// Returns the store.
-	const String& getStore() const;
 
 protected:
 private:

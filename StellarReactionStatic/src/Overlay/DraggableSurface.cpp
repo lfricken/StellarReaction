@@ -112,7 +112,7 @@ bool DraggableSurface::inputHook(const String rCommand, sf::Packet data)
 {
 	dout << "\n" << rCommand;
 
-	if(rCommand == "getState")
+	if(rCommand == "buildShipWithConfiguration")
 	{
 		List<Pair<String, sf::Vector2i> > modules = this->getRealPositions();
 		sf::Packet pack;
@@ -144,7 +144,7 @@ bool DraggableSurface::inputHook(const String rCommand, sf::Packet data)
 		data >> shipModulePos.x;
 		data >> shipModulePos.y;
 
-		dout << shipModulePos.x << shipModulePos.y;
+		//dout << shipModulePos.x << shipModulePos.y;
 
 		addModuleToEditor(title, shipModulePos);
 
@@ -156,17 +156,18 @@ bool DraggableSurface::inputHook(const String rCommand, sf::Packet data)
 
 		String title;
 		sf::Vector2i shipModulePos;
+		int cost;
 
 		data >> title;
 		data >> shipModulePos.x;
 		data >> shipModulePos.y;
+		data >> cost;
 
-		dout << shipModulePos.x << shipModulePos.y;
+		//dout << shipModulePos.x << shipModulePos.y;
 
 		const ModuleData* module = game.getUniverse().getBlueprints().getModuleSPtr(title).get();
 		if(module != nullptr)
 		{
-			Money cost = module->cost;//see if we can afford it
 			if(buyer.getMoney() >= cost)
 			{
 				addModuleToEditor(title, shipModulePos);

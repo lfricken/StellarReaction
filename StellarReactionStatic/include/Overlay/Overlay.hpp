@@ -25,6 +25,10 @@ namespace leon
 		void handleEvent(sf::Event& rEvent);
 		/// Load the menus.
 		void loadMenus();
+		/// <summary>
+		/// Store
+		/// </summary>
+		void loadStore(leon::Panel* pStore);
 		/// Load scoreboard.
 		void loadScoreboard(const GameLaunchData& data);
 		/// Return TGUI Gui.

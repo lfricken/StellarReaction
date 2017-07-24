@@ -15,12 +15,12 @@ namespace leon
 			startHidden(false),
 			//configFile("TGUI/widgets/Black.conf"),
 			configFile("TGUI/widgets/NewMenu.conf"),
-			screenCoords(5, 5),
+			screenCoords(-1, -1),
 			size(128, 64),
 			transparency(255),
 			ioComp(&game.getCoreIO()),
-			gridSize(200, 200),
-			gridPosition(8482, 8482)
+			gridSize(0, 0),
+			gridPosition(1, 1)
 		{
 		}
 		bool startHidden;/**should this widget start invisible**/
@@ -59,6 +59,7 @@ namespace leon
 		/// Toggle whether this widget is enabled.
 		void toggleEnabled(bool enabled);
 
+		void setSize(sf::Vector2f size);
 
 		/// Set the position of this Widgets top right corner in window coordinates.
 		virtual void setPosition(const sf::Vector2f& realPos);

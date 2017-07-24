@@ -100,6 +100,7 @@
     <ClCompile Include="src\Overlay\Grid.cpp" />
     <ClCompile Include="src\Basic\Factory.cpp" />
     <ClCompile Include="src\Basic\Shaker.cpp" />
+    <ClCompile Include="src\Overlay\NumericDisplay.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Game\Directory.hpp" />
@@ -419,6 +420,7 @@
     <ClInclude Include="include\Basic\PoolChanger.hpp" />
     <ClInclude Include="include\Basic\Factory.hpp" />
     <ClInclude Include="include\Basic\Shaker.hpp" />
+    <ClInclude Include="include\Overlay\NumericDisplay.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\API\SFML\Audio\SoundFileFactory.inl" />

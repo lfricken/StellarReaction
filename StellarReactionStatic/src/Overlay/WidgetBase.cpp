@@ -35,11 +35,13 @@ void WidgetBase::f_assign(tgui::Widget* pWidget, const WidgetBaseData& rData)
 
 	//Grid Size
 	m_gridSize = rData.gridSize;
-	//Grid Position
-	if(rData.gridPosition != sf::Vector2i(8482, 8482))
+	
+	//If we are using grid coordinates
+	if(rData.screenCoords == sf::Vector2f(-1,-1))
 		setGridPosition(rData.gridPosition);
 	else//Screen Position
 		setPosition(rData.screenCoords);
+
 	//Size
 	m_pWidget->setSize(rData.size.x, rData.size.y);
 
@@ -82,6 +84,10 @@ void WidgetBase::toggleEnabled(bool enabled)
 		enable();
 	else
 		disable();
+}
+void WidgetBase::setSize(sf::Vector2f size)
+{
+	m_pWidget->setSize(size.x, size.y);
 }
 void WidgetBase::setPosition(const sf::Vector2f& realPos)
 {

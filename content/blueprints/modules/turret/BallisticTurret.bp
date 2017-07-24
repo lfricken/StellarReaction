@@ -3,8 +3,7 @@
     "startWep": "BallisticWeapon",
 	"controlGroup": 2,
     "baseDecor": {
-        "texName": "turret/ballistic_turret",
-        "animSheetName": "turret/turret.acfg"
+        "texName": "module/turret/ballistic_turret"
     },
 	"cost": 150
 }

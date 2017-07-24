@@ -66,10 +66,6 @@ void Module::unpack(sf::Packet& rPacket)
 {
 
 }
-const String& Module::getStore() const
-{
-	return m_fix.getStore();
-}
 const Vec2& Module::getOffset() const
 {
 	return m_fix.getOffset();
@@ -97,13 +93,7 @@ void Module::healToMax()
 }
 void Module::input(String rCommand, sf::Packet rData)
 {
-	if(rCommand == "setStore")
-	{
-		String name;
-		rData >> name;
-		m_fix.setStore(name);
-	}
-	else if(rCommand == "damage")//dont spam console!
+	if(rCommand == "damage")//dont spam console!
 	{
 
 	}

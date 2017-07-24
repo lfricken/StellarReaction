@@ -25,7 +25,7 @@ namespace leon
 	public:
 		Panel(tgui::Gui& gui, const PanelData& data);
 		Panel(tgui::Container& container, const PanelData& data);
-		~Panel();
+		virtual ~Panel();
 
 		/// Return pointer to TGUI::Panel.
 		tgui::Panel::Ptr getPanelPtr() const;
