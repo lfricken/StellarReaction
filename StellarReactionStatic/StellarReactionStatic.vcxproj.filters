@@ -101,6 +101,7 @@
     <ClCompile Include="src\Basic\Factory.cpp" />
     <ClCompile Include="src\Basic\Shaker.cpp" />
     <ClCompile Include="src\Overlay\NumericDisplay.cpp" />
+    <ClCompile Include="src\Basic\Resources.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Game\Directory.hpp" />
@@ -421,6 +422,7 @@
     <ClInclude Include="include\Basic\Factory.hpp" />
     <ClInclude Include="include\Basic\Shaker.hpp" />
     <ClInclude Include="include\Overlay\NumericDisplay.hpp" />
+    <ClInclude Include="include\Basic\Resources.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\API\SFML\Audio\SoundFileFactory.inl" />

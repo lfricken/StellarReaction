@@ -2,12 +2,12 @@
     "ClassName": "BallisticWeaponData",
 	"projName": "Ballistic",
 	"energyConsumption": 1,
-	"fireDelay": 5,
-    "damage": 80,
+	"fireDelay": 0.1,
+    "damage": 6,
 	"velocity": 100,
 	
-    "shots": 2,
-	"shotDelay": 0.2,
+    "shots": 1,
+	"shotDelay": 0,
 	"fireArc": 2,
 	
 	"range": 100,

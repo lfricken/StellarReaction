@@ -30,8 +30,6 @@ public:
 	virtual void prePhysUpdate() = 0;
 	///Pure virtual function to process actions on object after performing physics updates.
 	virtual void postPhysUpdate() = 0;
-	///Pure virtual function to return the score of the game object.
-	virtual int getScore() = 0;
 
 	IOComponent m_io;
 	NetworkComponent m_nw;
@@ -46,8 +44,6 @@ protected:
 	virtual void unpack(sf::Packet& rPacket) final;
 
 	Universe& m_rParent;
-	int m_score;
-
 
 private:
 };

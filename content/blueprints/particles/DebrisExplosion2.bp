@@ -6,7 +6,7 @@
 	"fadeOutTime": 0.5,
 	"fadeInTime": 0,
 	"velocity": 20,
-	"randVelScalarMax": 2,
+	"randVelScalarMax": 3,
 	"randArc": 360,
 	"minSpinRate": -720,
 	"maxSpinRate": 360,

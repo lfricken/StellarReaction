@@ -8,6 +8,7 @@
 #include "BlueprintData.hpp"
 #include "NonCopyable.hpp"
 #include "Team.hpp"
+#include "Resources.hpp"
 
 struct ChunkData;
 class Module;
@@ -69,10 +70,6 @@ public:
 	void setStealth(bool stealthToggle);
 	///Get stealth toggle.
 	bool isStealth();
-	///Get current score.
-	int getScore();
-	///Increment score.
-	void increaseScore();
 	/// <summary>
 	/// Returns nearest module target using taxicab geometry
 	/// randomly chooses between equals.
@@ -86,6 +83,7 @@ public:
 	bool m_canDie;
 	int m_controller;
 	int m_shipAI;
+	sptr<Resources> m_resources;
 protected:
 	wptr<leon::Grid> m_statusBoard;
 	virtual void input(String rCommand, sf::Packet rData);

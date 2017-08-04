@@ -1,8 +1,8 @@
 #pragma once
 
-/// \brief Things a controller can request from a chunk.
-///
-/// Usually for displaying as data on the HUD.
+/// <summary>
+/// Used as a cheap getter for random things from a ship.
+/// </summary>
 enum class Request
 {
 	Zoom,
@@ -16,8 +16,6 @@ enum class Request
 
 	Missiles,
 	MaxMissiles,
-
-	Score,
 
 	ShieldState,
 };

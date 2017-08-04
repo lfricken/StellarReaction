@@ -1,0 +1,40 @@
+{
+	"buttonSize": [200, 40],
+	"previewWidth": 40,
+	"baseTransparency": 100,
+	"moduleSpawnPos": [-3, -3],
+
+	"buttonList": [
+	{
+		"previewTexture": "module/plating",
+		"cost": 10,
+		"moduleBlueprint": "Plating",
+		"buttonName": ""
+	},
+	{
+		"previewTexture": "module/radar",
+		"cost": 10,
+		"moduleBlueprint": "Radar",
+		"buttonName": ""
+	},
+	{
+		"previewTexture": "module/capacitor",
+		"cost": 10,
+		"moduleBlueprint": "Capacitor",
+		"buttonName": ""
+	},
+	{
+		"previewTexture": "module/reactor",
+		"cost": 10,
+		"moduleBlueprint": "Reactor",
+		"buttonName": ""
+	},
+	{
+		"previewTexture": "module/turret/ballistic_turret",
+		"cost": 10,
+		"moduleBlueprint": "BallisticTurret",
+		"buttonName": ""
+	}
+	
+	]
+}

@@ -35,16 +35,6 @@ public:
 	///Get in game name, seen by other players.
 	const String& getName() const;
 
-	/// Give this player another module of this type.
-	//virtual void addModule(const String& newTitle, const sf::Vector2i& rPos);
-
-	/// Set this players money value.
-	void setMoney(Money amount);
-	/// Change this players money by a certain amount.
-	void changeMoney(Money amount);
-	/// Get how much money this player has.
-	Money getMoney() const;
-
 protected:
 	///Which controller do we have, 0, 1, 2, ect.(points to a controller in the list)
 	int m_controller;
@@ -58,6 +48,4 @@ private:
 	String m_name;
 	///Which team this player is on.
 	Team m_team;
-	///Total current money this player owns.
-	Money m_balance;
 };

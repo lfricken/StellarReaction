@@ -4,8 +4,8 @@
 		"m_makesAI": true,
 		"m_isEnabled": true,
 		"m_blueprints": ["GunBoat", "GunBoat", "GunBoat"],
-		"m_spawnAmount": 90,
-		"m_spawnPeriod": 20,
+		"m_spawnAmount": 30,
+		"m_spawnPeriod": 5,
 		"m_spawnPeriodVariance": 1,
 		"m_radius": 5,
 		"m_origin": [0,30]
@@ -168,5 +168,12 @@
 			[-25, 165, 0],
 			[0, 200, 0]
 		]
+	}],
+	"Chunks": [{
+		"blueprintName": "Anubis",
+		"coordinates": [-60, -5, 0]
+	}, {
+		"blueprintName": "Caterina",
+		"coordinates": [-50, -5, 0]
 	}]
 }

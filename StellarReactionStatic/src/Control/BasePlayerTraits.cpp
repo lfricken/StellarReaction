@@ -8,7 +8,6 @@ BasePlayerTraits::BasePlayerTraits(const String& rName)
 	m_team = Team::One;
 	m_shipChoice = "Anubis";
 	m_name = rName;
-	m_balance = 0;
 	m_controller = -1;
 }
 BasePlayerTraits::~BasePlayerTraits()
@@ -38,18 +37,6 @@ void BasePlayerTraits::setTeam(Team team)
 Team BasePlayerTraits::getTeam() const
 {
 	return m_team;
-}
-void BasePlayerTraits::setMoney(Money amount)
-{
-	m_balance = amount;
-}
-void BasePlayerTraits::changeMoney(Money amount)
-{
-	m_balance += amount;
-}
-Money BasePlayerTraits::getMoney() const
-{
-	return m_balance;
 }
 void BasePlayerTraits::setController(int index)
 {

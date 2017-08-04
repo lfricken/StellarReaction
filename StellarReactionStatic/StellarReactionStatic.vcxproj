@@ -328,8 +328,10 @@
     <ClInclude Include="include\Basic\PoolChanger.hpp" />
     <ClInclude Include="include\Basic\Shaker.hpp" />
     <ClInclude Include="include\Overlay\NumericDisplay.hpp" />
+    <ClInclude Include="include\Basic\Resources.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Basic\Resources.cpp" />
     <ClCompile Include="src\Overlay\NumericDisplay.cpp" />
     <ClCompile Include="src\Basic\Shaker.cpp" />
     <ClCompile Include="src\Basic\Factory.cpp" />

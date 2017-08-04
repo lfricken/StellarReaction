@@ -63,6 +63,10 @@ const Health ShipModule::getHealth()
 {
 	return m_health;
 }
+HealthState ShipModule::getHealthState() const
+{
+	return m_healthState;
+}
 void ShipModule::prePhysUpdate()
 {
 
@@ -144,9 +148,7 @@ void ShipModule::input(String rCommand, sf::Packet rData)
 	}
 	else if(rCommand == "increase_score")
 	{
-		int val;
-		rData >> val;
-		this->m_parentChunk->increaseScore();
+		WARNING;
 	}
 	else
 		Module::input(rCommand, rData);
@@ -165,7 +167,7 @@ void ShipModule::moduleDamageGraphics()
 		auto boardPtr = m_parentChunk->getStatusBoard();
 		if(auto statusBoard = boardPtr.lock())
 		{
-			statusBoard->damageFlash(pos, m_healthState, m_health.getHealthPercent());
+			statusBoard->damageModule(pos, m_healthState, m_health.getHealthPercent(), true);
 		}
 	}
 }

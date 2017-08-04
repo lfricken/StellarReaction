@@ -152,7 +152,7 @@ bool DraggableSurface::inputHook(const String rCommand, sf::Packet data)
 	}
 	else if(rCommand == "buyModule")//setState
 	{
-		BasePlayerTraits& buyer = game.getLocalPlayer();
+		Player& player = game.getLocalPlayer();
 
 		String title;
 		sf::Vector2i shipModulePos;
@@ -168,10 +168,10 @@ bool DraggableSurface::inputHook(const String rCommand, sf::Packet data)
 		const ModuleData* module = game.getUniverse().getBlueprints().getModuleSPtr(title).get();
 		if(module != nullptr)
 		{
-			if(buyer.getMoney() >= cost)
+			//if(player.getMoney() >= cost)
 			{
 				addModuleToEditor(title, shipModulePos);
-				buyer.changeMoney(-cost);
+			//	player.changeMoney(-cost);
 			}
 		}
 		else

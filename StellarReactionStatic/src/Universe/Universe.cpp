@@ -223,7 +223,7 @@ int Universe::getGameObjectPosition(String& name)
 }
 sptr<GameObject> Universe::getGameObject(int pos)
 {
-	return m_goList[pos];
+	return m_goList.get(pos);
 }
 ControlFactory& Universe::getControllerFactory()
 {
@@ -398,11 +398,11 @@ void Universe::teamMoneyUpdate()
 				m_moneyTotals[it->first] += it->second;
 
 			List<sptr<Connection> > cons = game.getNwBoss().getConnections();
-			for(auto it = cons.begin(); it != cons.end(); ++it)
-				(**it).changeMoney(m_income[(**it).getTeam()]);
+			/*for(auto it = cons.begin(); it != cons.end(); ++it)
+				(**it).changeMoney(m_income[(**it).getTeam()]);*/
 
 			//also give money to host!
-			game.getLocalPlayer().changeMoney(m_income[game.getLocalPlayer().getTeam()]);
+			//game.getLocalPlayer().changeMoney(m_income[game.getLocalPlayer().getTeam()]);
 			m_spMoneyTimer->restartCountDown();
 		}
 }

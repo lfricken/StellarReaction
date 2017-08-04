@@ -57,11 +57,11 @@ void NetworkBoss::launchMultiplayerGame()
 
 	//host
 	{
-		game.getLocalPlayer().setMoney(initialMoney);
+//		game.getLocalPlayer().setMoney(initialMoney);
 
 		data << "1";
 		data << game.getLocalPlayer().getName();
-		data << game.getLocalPlayer().getMoney();
+		data << 3;// game.getLocalPlayer().getMoney();
 		data << game.getLocalPlayer().getShipChoice();
 		data << (int)game.getLocalPlayer().getTeam();
 		data << false;
@@ -69,13 +69,13 @@ void NetworkBoss::launchMultiplayerGame()
 	//for clients
 	for(int32_t i = 0; i < (signed)m_connections.size(); ++i)
 	{
-		m_connections[i]->setMoney(initialMoney);
+	//	m_connections[i]->setMoney(initialMoney);
 
 		String slaveName;
 		slaveName.from(i + 1 + 1);//+1 for host, +1 for index offset
 		sptr<Connection> client = m_connections[i];
 		String playerName = client->getName();
-		Money playerMoney = client->getMoney();
+		Money playerMoney = 5;// client->getMoney();
 		String shipName = client->getShipChoice();
 		Team team = client->getTeam();
 		assert(Print << "\nSlave:[" << slaveName << "] title:[" << shipName << "].");

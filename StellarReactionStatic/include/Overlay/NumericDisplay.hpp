@@ -6,6 +6,9 @@
 
 namespace leon
 {
+	/// <summary>
+	/// Displays images to show a number
+	/// </summary>
 	struct NumericDisplayData : public PanelData
 	{
 		NumericDisplayData() :
@@ -29,6 +32,9 @@ namespace leon
 		~NumericDisplay();
 
 		void setNumber(int val);
+
+	protected:
+		virtual bool inputHook(const String rCommand, sf::Packet rData);
 		virtual void add(sptr<WidgetBase> sp_widget);
 
 	private:

@@ -45,9 +45,9 @@ namespace leon
 		void clear();
 
 		/// <summary>
-		/// Cause this module to flash with damage
+		/// Update HUD element with health
 		/// </summary>
-		void damageFlash(Vec2 pos, HealthState state, float healthPercent);
+		void damageModule(Vec2 pos, HealthState state, float healthPercent, bool flashDamage);
 		/// <summary>
 		/// Background texture of the grid
 		/// </summary>

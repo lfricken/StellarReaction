@@ -5,6 +5,7 @@
 #include "Controller.hpp"
 #include "Camera.hpp"
 #include "BasePlayerTraits.hpp"
+#include "Resources.hpp"
 
 
 class QuadComponent;
@@ -84,6 +85,7 @@ struct InputConfig
 	sf::Keyboard::Key cameraUp;
 	sf::Keyboard::Key cameraDown;
 	sf::Keyboard::Key cameraLeft;
+
 	sf::Keyboard::Key cameraRight;
 };
 /// Data necessary for local player.
@@ -104,10 +106,11 @@ struct PlayerData
 };
 
 
-/// \brief Represents the local player on this machine.
-///
+/// <summary>
+/// Represents the local player on this machine.
 /// This class also handles all user input through it's getLiveInput and getWindowEvents functions
-/// those commands are then sent to a controller
+/// those commands are then sent to a controller. Variables must be reset in universeDestroyed.
+/// </summary>
 class Player : public BasePlayerTraits
 {
 public:
@@ -159,11 +162,20 @@ public:
 	bool toggleControlGroup(int group);
 	/// Number of items on radar.
 	int radarsize();
+	/// <summary>
+	/// Tells whether you can spend it.
+	/// </summary>
+	bool canSpend() const;
+	void spend();
 
 protected:
 	void input(String rCommand, sf::Packet rData);
 
 private:
+
+	Resources m_resourcesSpent;
+	wptr<Resources> m_resources;
+
 	void selectTarget(const Vec2& targetNearPos, const Chunk* playersShip);
 	void createReticles();
 	bool hasTarget(const Chunk* target);

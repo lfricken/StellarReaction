@@ -30,7 +30,7 @@ Player::Player(const PlayerData& rData) : m_io(rData.ioComp, &Player::input, thi
 }
 Player::~Player()
 {
-	Print << "\nPlayer Destroying...";
+
 }
 Camera& Player::getCamera()
 {
@@ -186,8 +186,13 @@ void Player::selectTarget(const Vec2& targetNearPos, const Chunk* playersShip)
 	wptr<Chunk> newTarget = game.getUniverse().getNearestChunk(targetNearPos, playersShip);
 	if(auto target = newTarget.lock())
 	{
-		if(!hasTarget(target.get()))
+		if(!hasTarget(target.get()))//if we don't already have that target
 		{
+			if(auto oldTarget = m_targets[m_nextTarget].lock())
+			{
+				oldTarget->resetStatusBoard(wptr<leon::Grid>());//reset the old target
+			}
+
 			m_targets[m_nextTarget] = newTarget;
 			wptr<leon::Grid> grid = m_targetBoards[m_nextTarget];
 			target->resetStatusBoard(grid);
@@ -260,7 +265,11 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 			}
 			if(event.key.code == m_inCfg.grabTarget)
 			{
-				this->selectTarget(m_aim, NULL);
+				Chunk* myShip = nullptr;
+				if(cont != nullptr)
+					myShip = cont->getChunk().get();
+
+				this->selectTarget(m_aim, myShip);
 			}
 			/**== SCOREBOARD ==**/
 			if(event.key.code == sf::Keyboard::Tab)
@@ -275,7 +284,17 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 
 		/**== GUI ==**/
 		if(m_inGuiMode)
+		{
 			game.getOverlay().handleEvent(event);
+			if(cont != nullptr && m_resources.expired())
+			{
+				auto chunk = cont->getChunk();
+				if(chunk != nullptr)
+				{
+					m_resources = chunk->m_resources;
+				}
+			}
+		}
 		else
 		{
 			if(cont != nullptr)
@@ -350,21 +369,6 @@ void Player::updateView()
 		if(chunk->getStatusBoard().expired())
 			chunk->resetStatusBoard(m_myStatusBoard);
 
-		if(chunk->getStatusBoard().lock())
-		{
-			//dout << "hi";
-		}
-		else
-		{
-			dout << FILELINE;
-		}
-
-		if(m_targets.size() > 0)
-		{
-
-		}
-
-
 		if(!m_inGuiMode)
 		{
 			Vec2 location = chunk->getBodyComponent().getPosition();
@@ -403,33 +407,30 @@ void Player::updateView()
 
 
 			//Score and Money
-			int score = (int)rController.get(Request::Score);
-			static int oldScore = -1;
-			String scoreString = "Score: ";
-			String moneyString = "Money: " + String(getMoney());
-
-			if(score != oldScore)
+			if(cont != nullptr && m_resources.expired())
 			{
-				oldScore = score;
-				scoreString += String(oldScore);
-
-				if(oldScore == 10)
+				auto chunk = cont->getChunk();
+				if(chunk != nullptr)
 				{
-					// TODO this should not have a win condition
-					scoreString = "You Win";
-					//game.getUniverse().togglePause();
+					m_resources = chunk->m_resources;
 				}
-
-				sf::Packet scorePack;
-				scorePack << scoreString;
-				Message setScore("hud_score", "setText", scorePack, 0, false);
-				game.getCoreIO().recieve(setScore);
 			}
-			/*sf::Packet moneyPack;
-			moneyPack << moneyString;
-			Message setMoney("hud_money", "setText", moneyPack, 0, false);
-			game.getCoreIO().recieve(setMoney);*/
-
+			static int ia = 0;
+			++ia;
+			if(auto myResources = m_resources.lock())//if we have resources
+			{
+				if(ia > 100)
+				{
+					ia = 0;
+					Resources current = *myResources;
+					current.subtract(m_resourcesSpent);
+					int32_t money = current.m_resourceValues["Heavy Metals"];
+					sf::Packet moneyPack;
+					moneyPack << money;
+					Message setMoney("hud_money", "setValue", moneyPack, 0, false);
+					game.getCoreIO().recieve(setMoney);
+				}
+			}
 
 			//m_targetReticules
 			int i = 0;
@@ -627,6 +628,8 @@ void Player::universeDestroyed()
 	// to add 4 more to it, the old null
 	// pointers are left behind and cause a crash.
 	m_groupIcon.clear();
+	m_resourcesSpent = Resources();
+	m_resources.reset();
 }
 bool Player::toggleFocus(bool isWindowFocused)
 {

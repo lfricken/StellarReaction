@@ -59,4 +59,15 @@ void NumericDisplay::add(sptr<WidgetBase> sp_widget)
 		dout << FILELINE;
 	}
 }
-
+bool NumericDisplay::inputHook(const String rCommand, sf::Packet rData)
+{
+	if(rCommand == "setValue")
+	{
+		int32_t value;
+		rData >> value;
+		setNumber(value);
+		return true;
+	}
+	else
+		return false;
+}

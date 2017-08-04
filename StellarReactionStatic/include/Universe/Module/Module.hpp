@@ -31,7 +31,9 @@ public:
 	virtual void directive(const CommandInfo& commands);
 	///Set coordinates for current aim.
 	virtual void setAim(const Vec2& rTarget);
-	///Get offset from center of fixture component.
+	/// <summary>
+	/// Get center of this module with respect to center of body.
+	/// </summary>
 	const Vec2& getOffset() const;
 	///Get title of module.
 	const String& getTitle() const;

@@ -157,7 +157,6 @@ void Game::launchGame(const GameLaunchData& data)
 
 	Message closeMenu("overlay", "setMenu", boolean, 0, false);
 	game.getCoreIO().recieve(closeMenu);
-	m_spOverlay->loadScoreboard(data);
 }
 SoundManager& Game::getSound()
 {
@@ -244,7 +243,7 @@ void Game::tick(float frameTime)
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad6))
 		Print << "\nFPS: " << 1.f / frameTime;
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::M))
-		Print << "\nLocal Player Money: " << game.getLocalPlayer().getMoney();
+		Print << "\nLocal Player Money: " << "fix broken shit";
 
 	/**== IO ==**/
 	getCoreIO().update(frameTime);

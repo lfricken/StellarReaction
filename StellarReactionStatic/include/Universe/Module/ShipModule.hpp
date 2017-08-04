@@ -18,6 +18,10 @@ public:
 	virtual ~ShipModule() = 0;
 	//Return health state.
 	const Health getHealth();
+	/// <summary>
+	/// Is this module broken or damaged or something?
+	/// </summary>
+	HealthState getHealthState() const;
 	///Actions to process on object before performing physics updates.
 	virtual void prePhysUpdate();
 	///Actions to process on object after performing physics updates.

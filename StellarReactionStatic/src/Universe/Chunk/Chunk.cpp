@@ -10,6 +10,7 @@
 #include "CommandInfo.hpp"
 #include "Shield.hpp"
 #include "Grid.hpp"
+#include "Resources.hpp"
 
 
 void ChunkDataMessage::loadJson(const Json::Value& root)
@@ -100,6 +101,7 @@ void ChunkData::loadJson(const Json::Value& root)
 }
 Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp), m_zoomPool(rData.zoomData), m_energyPool(rData.energyData), m_ballisticPool(rData.ballisticData), m_missilePool(rData.missileData)
 {
+	m_resources.reset(new Resources);
 	m_inDeathProcess = false;
 	m_canDie = true;
 	m_shieldToggleTimer.setCountDown(0.5f);
@@ -205,14 +207,6 @@ bool Chunk::allows(const Vec2& rGridPos)
 BodyComponent& Chunk::getBodyComponent()
 {
 	return m_body;
-}
-int Chunk::getScore()
-{
-	return m_score;
-}
-void Chunk::increaseScore()
-{
-	m_score++;
 }
 void Chunk::add(const ModuleData& rData)
 {
@@ -403,10 +397,6 @@ float Chunk::get(Request value) const//return the requested value
 	case(Request::MaxMissiles) :
 		return static_cast<float>(m_missilePool.getMax());
 
-
-	case(Request::Score) :
-		return static_cast<float>(m_score);
-
 	case(Request::ShieldState) :
 		return static_cast<float>(m_areShieldsOn);
 
@@ -460,6 +450,14 @@ void Chunk::input(String rCommand, sf::Packet rData)
 	if(rCommand == "clear")
 	{
 		this->clear();
+	}
+	else if(rCommand == "pickupLoot")
+	{
+		Resources loot;
+		loot.outOf(&rData);
+
+		m_resources->add(loot);
+
 	}
 	else if(rCommand == "rebuiltComplete")
 	{
@@ -646,11 +644,19 @@ float Chunk::getRadius()
 void Chunk::resetStatusBoard(wptr<leon::Grid> grid)
 {
 	m_statusBoard = grid;
-
 	if(auto board = m_statusBoard.lock())
+	{
 		board->reset(getModules());
-	else
-		WARNING;
+		auto modules = getModuleList();
+		for(auto it = modules.begin(); it != modules.end(); ++it)
+		{
+			auto module = dynamic_cast<ShipModule*>(it->get());
+			if(module != nullptr)
+			{
+				board->damageModule(module->getOffset(), module->getHealthState(), module->getHealth().getHealthPercent(), false);
+			}
+		}
+	}//else we set it to null
 }
 wptr<leon::Grid> Chunk::getStatusBoard()
 {

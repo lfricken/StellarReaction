@@ -9,31 +9,31 @@
 		"previewTexture": "module/plating",
 		"cost": 10,
 		"moduleBlueprint": "Plating",
-		"buttonName": "Plating"
+		"buttonName": ""
 	},
 	{
 		"previewTexture": "module/radar",
 		"cost": 10,
 		"moduleBlueprint": "Radar",
-		"buttonName": "Radar"
+		"buttonName": ""
 	},
 	{
 		"previewTexture": "module/capacitor",
 		"cost": 10,
 		"moduleBlueprint": "Capacitor",
-		"buttonName": "Capacitor"
+		"buttonName": ""
 	},
 	{
 		"previewTexture": "module/reactor",
 		"cost": 10,
 		"moduleBlueprint": "Reactor",
-		"buttonName": "Reactor"
+		"buttonName": ""
 	},
 	{
 		"previewTexture": "module/turret/ballistic_turret",
 		"cost": 10,
 		"moduleBlueprint": "BallisticTurret",
-		"buttonName": "Ballistic"
+		"buttonName": ""
 	}
 	
 	]

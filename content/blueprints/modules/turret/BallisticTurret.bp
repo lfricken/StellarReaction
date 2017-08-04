@@ -1,6 +1,9 @@
 {
     "ClassName": "TurretData",
     "startWep": "BallisticWeapon",
+	"fixComp": {
+		"size": [2, 2]
+	},	
 	"controlGroup": 2,
     "baseDecor": {
         "texName": "module/turret/ballistic_turret"

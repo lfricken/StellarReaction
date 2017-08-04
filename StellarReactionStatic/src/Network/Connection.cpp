@@ -76,17 +76,12 @@ void Connection::syncPlayerTraits()
 {
 	sf::Packet message;
 
-	message << static_cast<int32_t>(this->getMoney());
 
 	sendUdp(Protocol::PlayerTraits, message);
 }
 void Connection::recievePlayerTraits(sf::Packet mes)
 {
-	int32_t money;
 
-	mes >> money; 
-
-	game.getLocalPlayer().setMoney(money);
 }
 /// <summary>
 /// this is a client connection on the server

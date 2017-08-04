@@ -67,7 +67,9 @@ public:
 	b2Body* getBodyPtr();
 	/// Returns a const pointer to the box2D body pointer.
 	const b2Body* getBodyPtr() const;
-	/// Returns a const offset List.
+	/// <summary>
+	/// Center of this fixture with respect to the body.
+	/// </summary>
 	const Vec2 getOffset() const;
 	/// Applies the given force to the center of the body.
 	void applyForce(const Vec2& rForce);

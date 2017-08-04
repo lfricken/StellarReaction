@@ -28,9 +28,12 @@ namespace leon
 		/// <summary>
 		/// Store
 		/// </summary>
-		void loadStore(leon::Panel* pStore);
-		/// Load scoreboard.
-		void loadScoreboard(const GameLaunchData& data);
+		leon::Panel* loadStore();
+		leon::Panel* loadMainMenu();
+		leon::Panel* loadMultiplayerLobby(leon::Panel* pMain_menu);
+		leon::Panel* loadConnectionHub(leon::Panel* pMain_menu);
+		
+		leon::Panel* loadHud();
 		/// Return TGUI Gui.
 		tgui::Gui& getGui();
 
