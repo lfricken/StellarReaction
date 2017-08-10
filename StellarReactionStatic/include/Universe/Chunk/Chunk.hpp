@@ -88,7 +88,7 @@ protected:
 	/// <summary>
 	/// Destroys this chunk.
 	/// </summary>
-	void destroy(int targetChunkUniversePos, float delay);
+	void destroy(int targetChunkUniversePos, bool shake, float delay);
 
 	wptr<leon::Grid> m_statusBoard;
 	virtual void input(String rCommand, sf::Packet rData);

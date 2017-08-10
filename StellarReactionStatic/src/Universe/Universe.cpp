@@ -546,13 +546,17 @@ void Universe::input(String rCommand, sf::Packet rData)
 	else if(rCommand == "killChunkCommand")
 	{
 		int position;
+		bool shake;
+
 		rData >> position;
+		rData >> shake;
 
 		if(position < m_goList.size())
 		{
 			auto chunk = dynamic_cast<Chunk*>(m_goList[position].get());
  			m_goList.free(position);
-			game.getLocalPlayer().getCamera().shake(0.5, 60, 0.5);
+			if(shake)
+				game.getLocalPlayer().getCamera().shake(0.5, 60, 0.5);
 		}
 	}
 	else

@@ -535,7 +535,7 @@ ShipModule* Chunk::getNearestValidTarget(Vec2 target)
 			game.getUniverse().spawnParticles("DebrisExplosion2", getBodyComponent().getPosition(), Vec2(1, 0), Vec2(0, 0));
 			game.getUniverse().spawnParticles("DebrisExplosion3", getBodyComponent().getPosition(), Vec2(1, 0), Vec2(0, 0));
 
-			destroy(universePosition, 0.1f);
+			destroy(universePosition, true, 0.1f);
 
 			ChunkDataMessage ship;
 
@@ -555,10 +555,11 @@ ShipModule* Chunk::getNearestValidTarget(Vec2 target)
 	int choice = Rand::get(0, availableTargets.size() - 1);//it's inclusive for ints!
 	return availableTargets[choice];
 }
-void Chunk::destroy(int targetChunkUniversePos, float delay)
+void Chunk::destroy(int targetChunkUniversePos, bool shake, float delay)
 {
 	sf::Packet myPosData;
 	myPosData << targetChunkUniversePos;
+	myPosData << shake;
 	Message death("universe", "killChunkCommand", myPosData, delay, false);
 	Message::SendUniverse(death);
 }
@@ -611,7 +612,7 @@ void Chunk::input(String rCommand, sf::Packet rData)
 		rData >> lootChunkUniversePos;
 
 		m_resources->add(loot);
-		destroy(lootChunkUniversePos, 0.f);
+		destroy(lootChunkUniversePos, false, 0.f);
 	}
 	else if(rCommand == "pickupResources")
 	{
