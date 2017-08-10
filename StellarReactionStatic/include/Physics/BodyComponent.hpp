@@ -67,6 +67,8 @@ public:
 	///Returns the team of the Ship this body represents.
 	Team getTeam() const;
 
+	Chunk* parent;
+
 protected:
 	virtual void pack(sf::Packet& rPacket);
 	virtual void unpack(sf::Packet& rPacket);

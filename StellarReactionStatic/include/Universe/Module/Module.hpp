@@ -77,7 +77,6 @@ struct ModuleData : public BlueprintData
 	ModuleData() :
 		name("defaultName"),
 		collisionDamage(0),
-		cost(100),
 		ioComp(&game.getUniverse().getUniverseIO()),
 		nwComp(),
 		fixComp(),
@@ -88,7 +87,7 @@ struct ModuleData : public BlueprintData
 
 	Chunk* chunkParent;
 	String name;//what gets displayed to player
-	Money cost;//how much does this cost?
+	Resources cost;//how much does this cost?
 	int collisionDamage;//how much damage we apply to someone who collides with us
 
 	IOComponentData ioComp;

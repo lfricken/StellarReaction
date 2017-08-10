@@ -3,6 +3,7 @@
 #include "stdafx.hpp"
 #include "Team.hpp"
 #include "CollisionCategory.hpp"
+#include "Resources.hpp"
 
 #define GETJSON(VARNAME) \
 	 VARNAME = JSON::get(root, #VARNAME, VARNAME);
@@ -39,6 +40,10 @@ public:
 	static Category get(const Json::Value& root, const String& fieldName, Category defaultValue);
 	///Get a Team from JSON.
 	static Mask get(const Json::Value& root, const String& fieldName, Mask defaultValue);
+	/// <summary>
+	/// Load resource value from JSON.
+	/// </summary>
+	static Resources get(const Json::Value& root, const String& fieldName, Resources defaultValue);
 
 	//template<typename T>
 	static List<String> get(const Json::Value& root, const String& fieldName, List<String> defaultValue)

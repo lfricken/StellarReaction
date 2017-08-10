@@ -16,7 +16,7 @@
 #include "Debugging.hpp"
 #include "Grid.hpp"
 
-Player::Player(const PlayerData& rData) : m_io(rData.ioComp, &Player::input, this), BasePlayerTraits(rData.name)
+Player::Player(const PlayerData& rData) : m_io(rData.ioComp, &Player::input, this), BasePlayerTraits(rData.name), m_resourceUpdateTimer(0.f)
 {
 	m_hasFocus = true;
 	m_inGuiMode = true;
@@ -27,6 +27,8 @@ Player::Player(const PlayerData& rData) : m_io(rData.ioComp, &Player::input, thi
 	}
 	m_nextTarget = 0;
 	m_maxTargets = 1;
+
+	m_resourceUpdateTimer.setCountDown(0.5);
 }
 Player::~Player()
 {
@@ -255,7 +257,7 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 				data.rotation = 0.f;
 				data.team = static_cast<int>(getTeam());
 
-				ShipBuilder::Client::createChunk(data);
+				ShipBuilder::Client::createChunk(data, 0);
 			}
 			/**== MAIN MENU ==**/
 			if(event.key.code == sf::Keyboard::Escape)
@@ -354,6 +356,27 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 }
 void Player::updateView()
 {
+	if(m_resourceUpdateTimer.isTimeUp())
+	{
+		m_resourceUpdateTimer.restartCountDown();
+		if(auto myResources = m_resources.lock())//if we have resources
+		{
+			Resources current = *myResources;
+			current.subtract(m_resourcesSpent);
+			int resourceCounter = 0;
+			for(auto it = current.m_resourceValues.begin(); it != current.m_resourceValues.end(); ++it)
+			{
+				int32_t resourceValue = it->second;
+				sf::Packet data;
+				data << resourceValue;
+				Message setResource("hud_resource_" + String(resourceCounter), "setValue", data, 0, false);
+				game.getCoreIO().recieve(setResource);
+				++resourceCounter;
+			}
+		}
+	}
+
+
 	Controller* cont = nullptr;
 	if(m_controller != -1)
 		cont = game.getUniverse().getControllerFactory().getController(m_controller);
@@ -415,22 +438,9 @@ void Player::updateView()
 					m_resources = chunk->m_resources;
 				}
 			}
-			static int ia = 0;
-			++ia;
-			if(auto myResources = m_resources.lock())//if we have resources
-			{
-				if(ia > 100)
-				{
-					ia = 0;
-					Resources current = *myResources;
-					current.subtract(m_resourcesSpent);
-					int32_t money = current.m_resourceValues["Heavy Metals"];
-					sf::Packet moneyPack;
-					moneyPack << money;
-					Message setMoney("hud_money", "setValue", moneyPack, 0, false);
-					game.getCoreIO().recieve(setMoney);
-				}
-			}
+
+
+
 
 			//m_targetReticules
 			int i = 0;
@@ -490,6 +500,7 @@ void Player::updateView()
 			//m_minimap->cleanMap(index);
 		}
 	}
+
 }
 IOComponent& Player::getIOComp()
 {
@@ -677,4 +688,20 @@ void Player::input(String rCommand, sf::Packet rData)
 
 		m_camera.shake(0.5f, 60.f, 0.4f);
 	}
+}
+bool Player::canSpend(const Resources& cost) const
+{
+	Resources spent = m_resourcesSpent;
+	spent.add(cost);
+	if(auto availablePtr = m_resources.lock())
+	{
+		Resources available = *availablePtr;
+		available.subtract(spent);
+		return !available.hasNegatives();
+	}
+	return false;
+}
+void Player::spend(const Resources& cost)
+{
+	m_resourcesSpent.add(cost);
 }

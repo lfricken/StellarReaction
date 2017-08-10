@@ -10,6 +10,8 @@
 
 BodyComponent::BodyComponent(const BodyComponentData& rData)
 {
+	parent = nullptr;
+
 	if(rData.syncedNetwork)
 		m_nw.reset(new NetworkComponent(rData.nwComp, &BodyComponent::pack, &BodyComponent::unpack, this, game.getNwBoss().getNWDataFactory()));
 

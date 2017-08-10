@@ -19,7 +19,7 @@ public:
 	///Actions to process on chunk after performing physics updates.
 	void postPhysUpdate();
 protected:
-	Vec2 getTargetPos(sptr<Chunk> target);
+	Vec2 getTargetDirection(sptr<Chunk> target);
 	void minimizeAngle(float& angle);
 	void normalizeAngle(float& angle);
 	wptr<Chunk> m_pTarget;

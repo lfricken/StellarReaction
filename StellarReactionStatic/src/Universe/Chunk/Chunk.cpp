@@ -84,7 +84,9 @@ void ChunkData::loadJson(const Json::Value& root)
 			if(!(*it)["title"].isNull() && (*it)["ClassName"].isNull())//from title
 			{
 				String title = (*it)["title"].asString();
-				spMod.reset(game.getUniverse().getBlueprints().getModuleSPtr(title)->clone());
+				auto bp = game.getUniverse().getBlueprints().getModuleSPtr(title);
+				auto clone = bp->clone();
+				spMod.reset(clone);
 
 				spMod->fixComp.offset.x = (*it)["Position"][0].asFloat();
 				spMod->fixComp.offset.y = (*it)["Position"][1].asFloat();
@@ -99,9 +101,49 @@ void ChunkData::loadJson(const Json::Value& root)
 		}
 	}
 }
+
+
+List<Vec2> taxicabCircle(int radius)
+{
+	List<Vec2> coordinates;
+
+	for(int i = 1; i < radius; ++i)//skip the 4 corner coordinates (otherwise they get repeated
+	{
+		coordinates.push_back(Vec2((float)i, (float)radius - i));
+	}
+
+	{//copy, mirror across y axis, and add.
+		auto topLeft(coordinates);
+		for(auto it = topLeft.begin(); it != topLeft.end(); ++it)
+		{
+			it->x = -it->x;
+		}
+		coordinates.insert(coordinates.end(), topLeft.begin(), topLeft.end());
+	}
+	{//copy, mirror across x axis, and add.
+		auto bottom(coordinates);
+		for(auto it = bottom.begin(); it != bottom.end(); ++it)
+		{
+			it->y = -it->y;
+		}
+		coordinates.insert(coordinates.end(), bottom.begin(), bottom.end());
+	}
+	{//finally add the last 4 coordinates
+		coordinates.push_back(Vec2((float)radius, 0.f));
+		coordinates.push_back(Vec2((float)-radius, 0.f));
+		coordinates.push_back(Vec2(0.f, (float)radius));
+		coordinates.push_back(Vec2(0.f, (float)-radius));
+	}
+	return coordinates;
+}
+
+
 Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp), m_zoomPool(rData.zoomData), m_energyPool(rData.energyData), m_ballisticPool(rData.ballisticData), m_missilePool(rData.missileData)
 {
+	m_body.parent = this;
+
 	m_resources.reset(new Resources);
+	m_resources->m_resourceValues.begin()->second = 139;
 	m_inDeathProcess = false;
 	m_canDie = true;
 	m_shieldToggleTimer.setCountDown(0.5f);
@@ -445,6 +487,115 @@ void Chunk::clear()
 {
 	m_modules.clear();
 }
+
+ShipModule* Chunk::getNearestValidTarget(Vec2 target)
+{
+	Map<Vec2, ShipModule*> moduleCoordinates;
+	for(auto it = m_modules.begin(); it != m_modules.end(); ++it)
+	{
+		ShipModule* shipModule = dynamic_cast<ShipModule*>(it->get());
+		if(shipModule != nullptr && shipModule->getHealth().getHealthPercent() > 0.f)
+		{
+			Vec2 pos = shipModule->getFixtureComponent().getOffset() - target;
+			moduleCoordinates[pos] = shipModule; // -target because we need to offset damage wave origin
+		}
+	}
+
+
+	List<ShipModule*> availableTargets;
+	bool hits = false;
+	for(int i = 1; hits == false && i < 4; ++i)
+	{
+		List<Vec2> circle = taxicabCircle(i);
+
+		for(auto cirPos = circle.cbegin(); cirPos != circle.cend(); ++cirPos)
+		{
+			for(auto modulePos = moduleCoordinates.cbegin(); modulePos != moduleCoordinates.cend(); ++modulePos)
+			{
+				if((*cirPos) == (modulePos->first))
+				{
+					hits = true;
+					availableTargets.push_back(modulePos->second);
+				}
+			}
+		}
+	}
+
+	if(availableTargets.size() == 0)//the chunk is dead
+	{
+		dout << "\nDead.";
+
+		if(m_canDie && !m_inDeathProcess)
+		{
+			m_inDeathProcess = true;
+
+			game.getUniverse().spawnParticles("SparkExplosion", getBodyComponent().getPosition(), Vec2(1, 0), Vec2(0, 0));
+			game.getUniverse().spawnParticles("WhiteFlash", getBodyComponent().getPosition(), Vec2(1, 0), Vec2(0, 0));
+			game.getUniverse().spawnParticles("DebrisExplosion1", getBodyComponent().getPosition(), Vec2(1, 0), Vec2(0, 0));
+			game.getUniverse().spawnParticles("DebrisExplosion2", getBodyComponent().getPosition(), Vec2(1, 0), Vec2(0, 0));
+			game.getUniverse().spawnParticles("DebrisExplosion3", getBodyComponent().getPosition(), Vec2(1, 0), Vec2(0, 0));
+
+			destroy(universePosition, 0.1f);
+
+			ChunkDataMessage ship;
+
+			ship.aiControlled = false;
+			ship.needsController = false;
+			ship.coordinates = getBodyComponent().getPosition();
+			ship.blueprintName = "Loot";
+			ship.rotation = 0;
+			ship.team = static_cast<int>(Team::Neutral);
+			ShipBuilder::Client::createChunk(ship, 0.3f);
+		}
+		//TODO death effects
+
+		return nullptr;
+	}
+
+	int choice = Rand::get(0, availableTargets.size() - 1);//it's inclusive for ints!
+	return availableTargets[choice];
+}
+void Chunk::destroy(int targetChunkUniversePos, float delay)
+{
+	sf::Packet myPosData;
+	myPosData << targetChunkUniversePos;
+	Message death("universe", "killChunkCommand", myPosData, delay, false);
+	Message::SendUniverse(death);
+}
+float Chunk::getRadius()
+{
+	if(m_radius > 0.f)
+		return m_radius;
+	Vec2 max(0, 0);
+	for(auto it = m_modules.cbegin(); it != m_modules.cend(); ++it)
+		if(max.len() < Vec2((*it)->getOffset()).len())
+			max = Vec2((*it)->getOffset());
+
+	m_radius = max.len();
+	return m_radius;
+}
+void Chunk::resetStatusBoard(wptr<leon::Grid> grid)
+{
+	m_statusBoard = grid;
+	if(auto board = m_statusBoard.lock())
+	{
+		board->reset(getModules());
+		auto modules = getModuleList();
+		for(auto it = modules.begin(); it != modules.end(); ++it)
+		{
+			auto module = dynamic_cast<ShipModule*>(it->get());
+			if(module != nullptr)
+			{
+				board->damageModule(module->getOffset(), module->getHealthState(), module->getHealth().getHealthPercent(), false);
+			}
+		}
+	}//else we set it to null
+}
+wptr<leon::Grid> Chunk::getStatusBoard()
+{
+	return m_statusBoard;
+}
+
 void Chunk::input(String rCommand, sf::Packet rData)
 {
 	if(rCommand == "clear")
@@ -454,10 +605,19 @@ void Chunk::input(String rCommand, sf::Packet rData)
 	else if(rCommand == "pickupLoot")
 	{
 		Resources loot;
+		int lootChunkUniversePos;
+
 		loot.outOf(&rData);
+		rData >> lootChunkUniversePos;
 
 		m_resources->add(loot);
-
+		destroy(lootChunkUniversePos, 0.f);
+	}
+	else if(rCommand == "pickupResources")
+	{
+		Resources loot;
+		loot.outOf(&rData);
+		m_resources->add(loot);
 	}
 	else if(rCommand == "rebuiltComplete")
 	{
@@ -534,133 +694,6 @@ void Chunk::input(String rCommand, sf::Packet rData)
 	}
 	else
 		Print << "\nCommand not found in [" << m_io.getName() << "]." << FILELINE;
-}
-
-List<Vec2> taxicabCircle(int radius)
-{
-	List<Vec2> coordinates;
-
-	for(int i = 1; i < radius; ++i)//skip the 4 corner coordinates (otherwise they get repeated
-	{
-		coordinates.push_back(Vec2((float)i, (float)radius - i));
-	}
-
-	{//copy, mirror across y axis, and add.
-		auto topLeft(coordinates);
-		for(auto it = topLeft.begin(); it != topLeft.end(); ++it)
-		{
-			it->x = -it->x;
-		}
-		coordinates.insert(coordinates.end(), topLeft.begin(), topLeft.end());
-	}
-	{//copy, mirror across x axis, and add.
-		auto bottom(coordinates);
-		for(auto it = bottom.begin(); it != bottom.end(); ++it)
-		{
-			it->y = -it->y;
-		}
-		coordinates.insert(coordinates.end(), bottom.begin(), bottom.end());
-	}
-	{//finally add the last 4 coordinates
-		coordinates.push_back(Vec2((float)radius, 0.f));
-		coordinates.push_back(Vec2((float)-radius, 0.f));
-		coordinates.push_back(Vec2(0.f, (float)radius));
-		coordinates.push_back(Vec2(0.f, (float)-radius));
-	}
-	return coordinates;
-}
-ShipModule* Chunk::getNearestValidTarget(Vec2 target)
-{
-	Map<Vec2, ShipModule*> moduleCoordinates;
-	for(auto it = m_modules.begin(); it != m_modules.end(); ++it)
-	{
-		ShipModule* shipModule = dynamic_cast<ShipModule*>(it->get());
-		if(shipModule != nullptr && shipModule->getHealth().getHealthPercent() > 0.f)
-		{
-			Vec2 pos = shipModule->getFixtureComponent().getOffset() - target;
-			moduleCoordinates[pos] = shipModule; // -target because we need to offset damage wave origin
-		}
-	}
-
-
-	List<ShipModule*> availableTargets;
-	bool hits = false;
-	for(int i = 1; hits == false && i < 4; ++i)
-	{
-		List<Vec2> circle = taxicabCircle(i);
-
-		for(auto cirPos = circle.cbegin(); cirPos != circle.cend(); ++cirPos)
-		{
-			for(auto modulePos = moduleCoordinates.cbegin(); modulePos != moduleCoordinates.cend(); ++modulePos)
-			{
-				if((*cirPos) == (modulePos->first))
-				{
-					hits = true;
-					availableTargets.push_back(modulePos->second);
-				}
-			}
-		}
-	}
-
-	if(availableTargets.size() == 0)//the chunk is dead
-	{
-		dout << "\nDead.";
-
-		if(m_canDie && !m_inDeathProcess)
-		{
-			m_inDeathProcess = true;
-
-			game.getUniverse().spawnParticles("SparkExplosion", getBodyComponent().getPosition(), Vec2(1, 0), Vec2(0, 0));
-			game.getUniverse().spawnParticles("WhiteFlash", getBodyComponent().getPosition(), Vec2(1, 0), Vec2(0, 0));
-			game.getUniverse().spawnParticles("DebrisExplosion1", getBodyComponent().getPosition(), Vec2(1, 0), Vec2(0, 0));
-			game.getUniverse().spawnParticles("DebrisExplosion2", getBodyComponent().getPosition(), Vec2(1, 0), Vec2(0, 0));
-			game.getUniverse().spawnParticles("DebrisExplosion3", getBodyComponent().getPosition(), Vec2(1, 0), Vec2(0, 0));
-
-			sf::Packet myPosData;
-			myPosData << universePosition;
-			Message death("universe", "killChunkCommand", myPosData, 0.1f, false);
-			Message::SendUniverse(death);
-		}
-		//TODO death effects
-
-		return nullptr;
-	}
-
-	int choice = Rand::get(0, availableTargets.size() - 1);//it's inclusive for ints!
-	return availableTargets[choice];
-}
-float Chunk::getRadius()
-{
-	if(m_radius > 0.f)
-		return m_radius;
-	Vec2 max(0, 0);
-	for(auto it = m_modules.cbegin(); it != m_modules.cend(); ++it)
-		if(max.len() < Vec2((*it)->getOffset()).len())
-			max = Vec2((*it)->getOffset());
-
-	m_radius = max.len();
-	return m_radius;
-}
-void Chunk::resetStatusBoard(wptr<leon::Grid> grid)
-{
-	m_statusBoard = grid;
-	if(auto board = m_statusBoard.lock())
-	{
-		board->reset(getModules());
-		auto modules = getModuleList();
-		for(auto it = modules.begin(); it != modules.end(); ++it)
-		{
-			auto module = dynamic_cast<ShipModule*>(it->get());
-			if(module != nullptr)
-			{
-				board->damageModule(module->getOffset(), module->getHealthState(), module->getHealth().getHealthPercent(), false);
-			}
-		}
-	}//else we set it to null
-}
-wptr<leon::Grid> Chunk::getStatusBoard()
-{
-	return m_statusBoard;
 }
 
 

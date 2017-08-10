@@ -329,8 +329,10 @@
     <ClInclude Include="include\Basic\Shaker.hpp" />
     <ClInclude Include="include\Overlay\NumericDisplay.hpp" />
     <ClInclude Include="include\Basic\Resources.hpp" />
+    <ClInclude Include="include\Universe\Module\Loot.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Universe\Module\Loot.cpp" />
     <ClCompile Include="src\Basic\Resources.cpp" />
     <ClCompile Include="src\Overlay\NumericDisplay.cpp" />
     <ClCompile Include="src\Basic\Shaker.cpp" />

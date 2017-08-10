@@ -27,7 +27,7 @@ struct StoreLoader
 	struct StoreButtonLoader
 	{
 		String previewTexture;
-		int cost;
+		Resources cost;
 		String moduleBlueprint;
 		String buttonName;
 
@@ -481,13 +481,13 @@ leon::Panel* Overlay::loadStore()
 		{
 			StoreLoader storeData;
 			storeData.loadJson(root);
-			const auto& buttons = storeData.buttonList;
+			auto& buttons = storeData.buttonList;
 
-			for(auto it = buttons.cbegin(); it < buttons.cend(); ++it)
+			for(auto it = buttons.begin(); it < buttons.end(); ++it)
 			{
-				int pos = it - buttons.cbegin();
+				int pos = it - buttons.begin();
 				sf::Vector2i initialGridPos = (sf::Vector2i)storeData.moduleSpawnPos;
-				const StoreLoader::StoreButtonLoader& button = *it;
+				StoreLoader::StoreButtonLoader& button = *it;
 
 				auto butPos = sf::Vector2i(0, pos);
 				sf::Vector2i gridsize((int)storeData.buttonSize.y, (int)storeData.buttonSize.y);
@@ -499,7 +499,7 @@ leon::Panel* Overlay::loadStore()
 					cost.numDigits = 2;
 					cost.digitSize = sf::Vector2f(storeData.buttonSize.y / 2, storeData.buttonSize.y);
 					auto display = new NumericDisplay(*pStore->getPanelPtr(), cost);
-					display->setNumber(button.cost);
+					display->setNumber(button.cost.m_resourceValues["A"]);
 					pStore->add(sptr<leon::WidgetBase>(display));
 				}
 				{//icon
@@ -515,7 +515,8 @@ leon::Panel* Overlay::loadStore()
 					sf::Packet moduleInfo;
 					moduleInfo << button.moduleBlueprint;
 					moduleInfo << initialGridPos.x << initialGridPos.y;
-					moduleInfo << button.cost;
+					button.cost.into(&moduleInfo);
+
 
 					Courier purchaseMessage;
 					purchaseMessage.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
@@ -536,6 +537,8 @@ leon::Panel* Overlay::loadStore()
 				}
 			}
 		}
+		else
+			WARNING;
 	}
 	//reconstruct button
 	{
@@ -580,16 +583,25 @@ leon::Panel* Overlay::loadHud()
 		pHudPanel = new leon::Panel(game.getOverlay().getGui(), hudPanelData);
 	}
 	//resources
+	Resources loop;
+	int spacing = 32;
+	leon::NumericDisplayData hudNumbers;
+	hudNumbers.screenCoords = sf::Vector2f(0, 0);
+	hudNumbers.digitSize = sf::Vector2f(20, 40);
+	hudNumbers.numDigits = 3;
+
+	int i = 0;
+	for(auto it = loop.m_resourceValues.begin(); it != loop.m_resourceValues.end(); ++it)
 	{
-		leon::NumericDisplayData hudNumbers;
-		hudNumbers.ioComp.name = "hud_money";
-		hudNumbers.screenCoords = sf::Vector2f(0, 64);
-		hudNumbers.digitSize = sf::Vector2f(20, 40);
-		hudNumbers.numDigits = 3;
+		hudNumbers.ioComp.name = "hud_resource_" + String(i);
 
 		auto num = new leon::NumericDisplay(*pHudPanel->getPanelPtr(), hudNumbers);
-		num->setNumber(45);
+		num->setNumber(i);
 		pHudPanel->add(sptr<leon::WidgetBase>(num));
+
+
+		hudNumbers.screenCoords.x += hudNumbers.numDigits * hudNumbers.digitSize.x + spacing;
+		++i;
 	}
 
 	return pHudPanel;

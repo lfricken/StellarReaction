@@ -163,15 +163,24 @@ public:
 	/// Number of items on radar.
 	int radarsize();
 	/// <summary>
-	/// Tells whether you can spend it.
+	/// Returns true if you can spend it.
 	/// </summary>
-	bool canSpend() const;
-	void spend();
+	bool canSpend(const Resources& cost) const;
+	/// <summary>
+	/// 
+	/// </summary>
+	void spend(const Resources& cost);
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <returns></returns>
+	Resources getCurrent() const;
 
 protected:
 	void input(String rCommand, sf::Packet rData);
 
 private:
+	Timer m_resourceUpdateTimer;
 
 	Resources m_resourcesSpent;
 	wptr<Resources> m_resources;

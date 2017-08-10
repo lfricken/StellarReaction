@@ -24,6 +24,7 @@
 
 #include "Shield.hpp"
 #include "DecorationEngine.hpp"
+#include "Loot.hpp"
 
 #include "Particles.hpp"
 
@@ -54,6 +55,9 @@ RegisterClass(ModuleData, SensorData);
 
 RegisterClass(ModuleData, ShieldData);
 RegisterClass(ModuleData, ShieldComponentData);
+
+RegisterClass(ModuleData, LootData);
+
 
 
 

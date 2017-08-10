@@ -65,12 +65,12 @@ void ShipBuilder::Client::readFromPacket(int* targetShipIOPosition, List<Pair<St
 		data >> it->second.y;//grid position y
 	}
 }
-void ShipBuilder::Client::createChunk(const ChunkDataMessage& data)
+void ShipBuilder::Client::createChunk(const ChunkDataMessage& data, float delay)
 {
 	sf::Packet messageData;
 	data.pack(&messageData);
 
-	Message newChunk("universe", "createChunkCommand", messageData, 0, false);
+	Message newChunk("universe", "createChunkCommand", messageData, delay, false);
 	Message::SendUniverse(newChunk);
 }
 String ShipBuilder::Client::getNextSlaveName()

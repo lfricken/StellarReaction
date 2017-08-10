@@ -30,7 +30,7 @@ public:
 		static void writeToPacket(int targetShipIOPosition, const List<Pair<String, sf::Vector2i> >& modules, sf::Packet* data);
 		static void readFromPacket(int* targetShipIOPosition, List<Pair<String, sf::Vector2i> >* modules, sf::Packet data);
 
-		static void createChunk(const ChunkDataMessage& data);
+		static void createChunk(const ChunkDataMessage& data, float delay);
 	};
 
 

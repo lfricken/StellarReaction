@@ -99,7 +99,7 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 			chunkMessageData.needsController = true;
 			chunkMessageData.aiControlled = false;
 
-			ShipBuilder::Client::createChunk(chunkMessageData);
+			ShipBuilder::Client::createChunk(chunkMessageData, 0);
 		}
 
 		/**Load Local Player Overlay**/
@@ -121,7 +121,7 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 				ChunkDataMessage chunkMessageData;
 				chunkMessageData.loadJson(*it);
 
-				ShipBuilder::Client::createChunk(chunkMessageData);
+				ShipBuilder::Client::createChunk(chunkMessageData, 0);
 			}
 		}
 		/**Hazard Fields**/

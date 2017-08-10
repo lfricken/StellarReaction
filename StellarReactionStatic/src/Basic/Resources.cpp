@@ -3,9 +3,9 @@
 
 Resources::Resources()
 {
-	m_resourceValues["Halogens"] = 0;
-	m_resourceValues["Organic"] = 0;
-	m_resourceValues["Heavy Metals"] = 0;
+	m_resourceValues["A"] = 0;
+	m_resourceValues["B"] = 0;
+	m_resourceValues["C"] = 0;
 }
 Resources::~Resources()
 {
@@ -42,4 +42,13 @@ void Resources::outOf(sf::Packet* resources)
 		res >> val;
 		m_resourceValues[it->first] = val;
 	}
+}
+bool Resources::hasNegatives() const
+{
+	for(auto it = m_resourceValues.cbegin(); it != m_resourceValues.cend(); ++it)
+	{
+		if(it->second < 0)
+			return true;
+	}
+	return false;
 }

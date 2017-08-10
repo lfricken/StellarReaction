@@ -4,6 +4,7 @@
 #include "BlueprintLoader.hpp"
 #include "Network.hpp"
 #include "Player.hpp"
+#include "Resources.hpp"
 
 using namespace leon;
 
@@ -156,26 +157,27 @@ bool DraggableSurface::inputHook(const String rCommand, sf::Packet data)
 
 		String title;
 		sf::Vector2i shipModulePos;
-		int cost;
+		Resources cost;
 
 		data >> title;
 		data >> shipModulePos.x;
 		data >> shipModulePos.y;
-		data >> cost;
-
-		//dout << shipModulePos.x << shipModulePos.y;
+		cost.outOf(&data);
 
 		const ModuleData* module = game.getUniverse().getBlueprints().getModuleSPtr(title).get();
 		if(module != nullptr)
 		{
-			//if(player.getMoney() >= cost)
+			if(player.canSpend(cost))
 			{
+				player.spend(cost);
 				addModuleToEditor(title, shipModulePos);
-			//	player.changeMoney(-cost);
 			}
 		}
 		else
+		{
 			Print << FILELINE;
+			// highlight which resource was insufficient
+		}
 
 		return true;
 	}

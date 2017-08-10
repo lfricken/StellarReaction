@@ -85,3 +85,22 @@ Mask JSON::get(const Json::Value& root, const String& fieldName, Mask defaultVal
 
 	return ChooseMask(root[fieldName].asString());
 }
+Resources JSON::get(const Json::Value& root, const String& fieldName, Resources defaultValue)
+{
+	if(root[fieldName].isNull())
+		return defaultValue;
+
+	Resources res;
+	int i = 0;
+	for(auto it = res.m_resourceValues.begin(); it != res.m_resourceValues.end(); ++it)
+	{
+		if(i >= root[fieldName].size())
+			break;
+
+		int resValue = root[fieldName][i].asInt();
+		it->second = resValue;
+		++i;
+	}
+
+	return res;
+}

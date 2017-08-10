@@ -85,6 +85,11 @@ public:
 	int m_shipAI;
 	sptr<Resources> m_resources;
 protected:
+	/// <summary>
+	/// Destroys this chunk.
+	/// </summary>
+	void destroy(int targetChunkUniversePos, float delay);
+
 	wptr<leon::Grid> m_statusBoard;
 	virtual void input(String rCommand, sf::Packet rData);
 	bool allows(const Vec2& rGridPos);
@@ -203,6 +208,9 @@ struct ChunkDataMessage
 	}
 	String blueprintName;
 	Vec2 coordinates;
+	/// <summary>
+	/// Rotation in rads CCW
+	/// </summary>
 	float rotation;
 	int team;
 	/// <summary>

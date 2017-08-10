@@ -46,9 +46,9 @@ void Missile::prePhysUpdate()
 	{
 		if(auto target = m_pTarget.lock())
 		{
-			Vec2 diff = getTargetPos(target);
+			Vec2 direction = getTargetDirection(target);
 
-			float targetAngle = leon::normRad(atan2(diff.y, diff.x));//angle of target
+			float targetAngle = leon::normRad(atan2(direction.y, direction.x));//angle of target
 			float diffAngle = leon::normRad(targetAngle - velAngle);//between velocity and target
 
 			normalizeAngle(diffAngle);
@@ -87,7 +87,7 @@ void Missile::normalizeAngle(float& diffObjectiveAngle)
 	if(diffObjectiveAngle > pi)
 		diffObjectiveAngle -= 2 * pi;
 }
-Vec2 Missile::getTargetPos(sptr<Chunk> target)
+Vec2 Missile::getTargetDirection(sptr<Chunk> target)
 {
 	b2Body& bod = *m_body.getBodyPtr();
 	Vec2 ourPos = bod.GetPosition();
