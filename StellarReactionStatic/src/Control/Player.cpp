@@ -249,11 +249,13 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 
 			if(event.key.code == m_inCfg.buildNewShip)
 			{
+				//TODO cost
+
 				ChunkDataMessage data;
-				data.aiControlled = false;
+				data.aiControlled = true;
 				data.blueprintName = "BaseStructure";
 				data.coordinates = m_aim;
-				data.needsController = false;
+				data.needsController = true;
 				data.rotation = 0.f;
 				data.team = static_cast<int>(getTeam());
 

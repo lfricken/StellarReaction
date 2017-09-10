@@ -1,8 +1,8 @@
 {
-	"buttonSize": [200, 40],
-	"previewWidth": 40,
+	"buttonSize": [400, 80],
+	"previewWidth": 80,
 	"baseTransparency": 100,
-	"moduleSpawnPos": [-3, -3],
+	"moduleSpawnPos": [-2, -3],
 
 	"buttonList": [
 	{

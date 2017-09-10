@@ -12,12 +12,12 @@ namespace leon
 	{
 		DraggableSurfaceData() :
 			PanelData(),
-			gridOffset(3, 3)
+			gridOffset(2, 3)
 		{
 
 		}
 		/// <summary>
-		/// 
+		/// Center coordinate of grid (using view coordinates).
 		/// </summary>
 		sf::Vector2i gridOffset;
 	};

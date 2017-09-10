@@ -28,8 +28,6 @@ ShipModule::ShipModule(const ShipModuleData& rData) : Module(rData), m_health(rD
 
 	/**EXPLOSIONS**/
 	QuadComponentData data;
-
-
 	data.dimensions.x = 256;
 	data.dimensions.y = 256;
 	data.permanentRot = 0;

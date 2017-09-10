@@ -84,6 +84,7 @@ public:
 	int m_controller;
 	int m_shipAI;
 	sptr<Resources> m_resources;
+	List<Pair<String, sf::Vector2i> > m_storedModules;
 protected:
 	/// <summary>
 	/// Destroys this chunk.
@@ -105,6 +106,7 @@ private:
 	int m_slavePosition;
 	BodyComponent m_body;
 	List<sptr<Module> > m_modules;
+
 
 	List<Vec2> m_validOffsets;
 	Vec2 m_spawnPoint;

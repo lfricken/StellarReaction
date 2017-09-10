@@ -249,7 +249,11 @@ BodyComponent& Chunk::getBodyComponent()
 }
 void Chunk::add(const ModuleData& rData)
 {
-	if(this->allows(rData.fixComp.offset))
+	if(rData.fixComp.offset.x == 3)
+	{
+		m_storedModules.push_back(Pair<String, sf::Vector2i>(rData.title, (sf::Vector2i)rData.fixComp.offset));
+	}
+	else if(this->allows(rData.fixComp.offset))
 	{
 		PoolCollection myPools;
 		myPools.ballisticPool = &m_ballisticPool;
@@ -464,6 +468,7 @@ b2Body* Chunk::getBodyPtr()
 void Chunk::clear()
 {
 	m_modules.clear();
+	m_storedModules.clear();
 }
 
 ShipModule* Chunk::getNearestValidTarget(Vec2 target)
@@ -611,7 +616,7 @@ void Chunk::input(String rCommand, sf::Packet rData)
 		rData >> pos.y;
 
 		auto pNewModuleData = sptr<ModuleData>(m_rParent.getBlueprints().getModuleSPtr(bpName)->clone());
-		if(pNewModuleData != NULL)
+		if(pNewModuleData != nullptr)
 		{
 			pNewModuleData->fixComp.offset = Vec2((float)pos.x, (float)pos.y);
 			this->add(*pNewModuleData);

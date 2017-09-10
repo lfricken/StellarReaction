@@ -25,9 +25,10 @@ ShipBuilder::~ShipBuilder()
 }
 void ShipBuilder::Client::shipToGui(const Chunk* ship)
 {
-	if(ship != NULL)
+	if(ship != nullptr)
 	{
 		auto list = ship->getModules();
+		list.insert(list.end(), ship->m_storedModules.begin(), ship->m_storedModules.end());
 		sf::Packet data;
 		ShipBuilder::Client::writeToPacket(ship->m_io.getPosition(), list, &data);
 

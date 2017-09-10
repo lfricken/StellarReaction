@@ -98,8 +98,8 @@ void Overlay::loadMenus()
 	game.getOverlay().addPanel(sptr<leon::Panel>(loadStore()));
 	game.getOverlay().addPanel(sptr<leon::Panel>(loadHud()));
 
-	
-	
+
+
 	/**MESSAGE**/
 	sf::Vector2f closePanelSize = sf::Vector2f(640, 480);
 	leon::PanelData messagePanel;
@@ -439,7 +439,7 @@ leon::Panel* Overlay::loadMultiplayerLobby(leon::Panel* pMain_menu)
 leon::Panel* Overlay::loadStore()
 {
 	leon::Panel* pStore = nullptr;
-	sf::Vector2f storePanelSize = sf::Vector2f(850, 700);
+	sf::Vector2f storePanelSize = sf::Vector2f(800, 640);
 
 	//load store first
 	{
@@ -553,16 +553,31 @@ leon::Panel* Overlay::loadStore()
 
 		pStore->add(sptr<leon::WidgetBase>(new Button(*pStore->getPanelPtr(), reconstructData)));
 	}
-	//ship editor
 	{
-		DraggableSurfaceData surfaceData;
-		surfaceData.ioComp.name = "ship_editor";
-		surfaceData.screenCoords = sf::Vector2f(200, 0);
-		surfaceData.gridSize = sf::Vector2i(64, 64);
-		surfaceData.size = sf::Vector2f(500, 500);
-		surfaceData.backgroundColor = sf::Color(32, 32, 32, 128);
+		sf::Vector2i editGridSize(64, 64);
+		sf::Vector2f editGridPos(200.f, 0.f);
+		float width = (5.f + 1.f) * editGridSize.x;
+		float height = 7.f * editGridSize.y;
+		//ship editor background
+		{
+			PictureData editorBackground;   
+			editorBackground.texName = "overlay/shipEditor";
+			editorBackground.screenCoords = editGridPos;
+			editorBackground.gridSize = editGridSize;
+			editorBackground.size = sf::Vector2f(width, height);
+			pStore->add(sptr<leon::WidgetBase>(new leon::Picture(*pStore->getPanelPtr(), editorBackground)));
+		}
+		//ship editor
+		{
+			DraggableSurfaceData surfaceData;
+			surfaceData.ioComp.name = "ship_editor";
+			surfaceData.screenCoords = editGridPos;
+			surfaceData.gridSize = editGridSize;
+			surfaceData.size = sf::Vector2f(width, height);
+			surfaceData.backgroundColor = sf::Color(32, 32, 32, 128);
 
-		pStore->add(sptr<leon::WidgetBase>(new leon::DraggableSurface(*pStore->getPanelPtr(), surfaceData)));
+			pStore->add(sptr<leon::WidgetBase>(new leon::DraggableSurface(*pStore->getPanelPtr(), surfaceData)));
+		}
 	}
 
 	return pStore;

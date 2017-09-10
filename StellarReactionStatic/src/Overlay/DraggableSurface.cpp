@@ -124,7 +124,7 @@ bool DraggableSurface::inputHook(const String rCommand, sf::Packet data)
 
 		return true;
 	}
-	else if(rCommand == "setState")//setState
+	else if(rCommand == "setState")
 	{
 		m_widgetList.clear();
 
@@ -134,20 +134,20 @@ bool DraggableSurface::inputHook(const String rCommand, sf::Packet data)
 
 		return true;
 	}
-	else if(rCommand == "addModuleToGui")//setState
-	{
-		String title;
-		sf::Vector2i shipModulePos;
+	//else if(rCommand == "addModuleToGui")
+	//{
+	//	String title;
+	//	sf::Vector2i shipModulePos;
 
-		data >> title;
-		data >> shipModulePos.x;
-		data >> shipModulePos.y;
-		
-		addModuleToEditor(title, shipModulePos);
+	//	data >> title;
+	//	data >> shipModulePos.x;
+	//	data >> shipModulePos.y;
+	//	
+	//	addModuleToEditor(title, shipModulePos);
 
-		return true;
-	}
-	else if(rCommand == "buyModule")//setState
+	//	return true;
+	//}
+	else if(rCommand == "buyModule")
 	{
 		Player& player = game.getLocalPlayer();
 
