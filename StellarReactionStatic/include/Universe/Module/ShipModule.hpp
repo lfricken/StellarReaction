@@ -60,7 +60,6 @@ protected:
 	/// Death Sound.
 	leon::Sound m_deathSound;//when last shot is taken
 
-	float m_criticalDamageThreshold;
 	const int alpha_stealth_on = 50;
 	const int alpha_stealth_off = 255;
 private:

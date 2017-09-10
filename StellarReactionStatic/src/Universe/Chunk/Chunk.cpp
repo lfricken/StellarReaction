@@ -93,8 +93,7 @@ void ChunkData::loadJson(const Json::Value& root)
 			}
 			else
 			{
-				Print << "\n" << FILELINE;
-				///ERROR LOG
+				WARNING;
 			}
 
 			moduleData.push_back(spMod);
@@ -199,8 +198,6 @@ Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp)
 }
 Chunk::~Chunk()
 {
-	//m_rParent.getSlaveLocator().free(m_slavePosition);
-	//Print << "\n dead chunk.";
 	if(m_controller != -1)//this ship might not have a controller or ai
 		m_rParent.getControllerFactory().m_list.free(m_controller);
 	if(m_shipAI != -1)
@@ -265,7 +262,7 @@ void Chunk::add(const ModuleData& rData)
 		m_modules.push_back(module);
 	}
 	else
-		Print << FILELINE;
+		WARNING;
 }
 void Chunk::prePhysUpdate()
 {
@@ -328,24 +325,6 @@ void Chunk::directive(const CommandInfo& commands)//send command to target
 	{
 		if(m_timer.isTimeUp())
 		{
-			//m_lastAim;
-			//String store;
-			//for(auto it = m_modules.begin(); it != m_modules.end(); ++it)
-			//{
-			//	store = (*it)->getStore();
-			//	if(store != "")
-			//		break;
-			//}
-			//if(store != "")
-			//{
-			//	Message toggle(store, "toggleHidden", voidPacket, 0, false);
-			//	Message mes2("local_player", "toggleGuiMode", voidPacket, 0, false);
-			//	game.getCoreIO().recieve(toggle);
-			//	game.getCoreIO().recieve(mes2);
-			//}
-			//else
-			//	assert(Print << "Store name [" + store + "]." << FILELINE);
-
 			String store = "store_default";
 
 			Message toggle(store, "toggleHidden", voidPacket, 0, false);
@@ -472,7 +451,6 @@ List<std::pair<String, sf::Vector2i> > Chunk::getModules() const
 	{
 		if(dynamic_cast<ShipModule*>(it->get()) != nullptr)//make sure it's not a strange item, like a ShieldComponent
 		{
-			//Print << "\nChunk: " << (*it)->getOffset().x << (*it)->getOffset().y;
 			Vec2 pos = (*it)->getOffset();
 			list.push_back(std::pair<String, sf::Vector2i>((*it)->getTitle(), sf::Vector2i((int)pos.x, (int)pos.y)));
 		}
@@ -523,8 +501,6 @@ ShipModule* Chunk::getNearestValidTarget(Vec2 target)
 
 	if(availableTargets.size() == 0)//the chunk is dead
 	{
-		dout << "\nDead.";
-
 		if(m_canDie && !m_inDeathProcess)
 		{
 			m_inDeathProcess = true;
@@ -642,7 +618,7 @@ void Chunk::input(String rCommand, sf::Packet rData)
 		}
 		else
 		{
-			Print << "\nBlueprint didn't exist." << FILELINE;
+			Print << "\nBlueprint didn't exist.";
 		}
 	}
 	else if(rCommand == "detachModule")

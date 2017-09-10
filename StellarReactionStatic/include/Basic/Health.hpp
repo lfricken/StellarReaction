@@ -15,7 +15,7 @@ enum class HealthState
 
 
 ///Data constructor for Health.
-struct HealthData : public PoolData<int>
+struct HealthData : public PoolData < int >
 {
 	HealthData() :
 		PoolData(),
@@ -25,8 +25,9 @@ struct HealthData : public PoolData<int>
 		Value = 100;
 		Min = 0;
 
-		PercentStartCrit = 0.3f;
+		PercentStartCrit = 0.7f;
 		MaxCritOdds = 0.3f;
+		MaxCrits = 3;
 	}
 
 	int Armor;///How much damage is subtracted per hit.
@@ -38,6 +39,10 @@ struct HealthData : public PoolData<int>
 	/// At 100% damage, what are the odds of a crit. 
 	/// </summary>
 	float MaxCritOdds;
+	/// <summary>
+	/// Number of crits for this object to stop working.
+	/// </summary>
+	int MaxCrits;
 
 	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
@@ -45,7 +50,7 @@ struct HealthData : public PoolData<int>
 
 
 ///Manages the health of a Module.
-class Health : private Pool<int>
+class Health : private Pool < int >
 {
 public:
 	Health(const HealthData& rData);
@@ -84,22 +89,39 @@ public:
 	/// </summary>
 	sf::Color getCritColor() const;
 	/// <summary>
+	/// Performs a crit roll. Returns result.
+	/// </summary>
+	/// <returns></returns>
+	bool tryHitCrit() const;
+	/// <summary>
 	/// Return true if this should get a crit for operating.
 	/// </summary>
-	bool tryOperationCrit() const;
+	bool trySelfCrit() const;
 	/// <summary>
 	/// Returns true if this should stop operating.
 	/// </summary>
 	bool hasFullCrits() const;
-
+	/// <summary>
+	/// True if we have some critical damage.
+	/// </summary>
+	bool hasCrits() const;
+	/// <summary>
+	/// Increase crit hits by one.
+	/// </summary>
 	void incrementCritHits();
+
 protected:
+	/// <summary>
+	/// Returns true if we increased crits. Assumes we just took damage.
+	/// </summary>
+	bool updateCrits();
 private:
 
 	///Armor reduces incoming damage by that amount. Can't cause negative damage.
 	int m_armor;
 
 	int m_critHits;
+	int m_maxCritHits;
 	float m_percentStartCrit;
 	float m_maxCritOdds;
 };

@@ -172,11 +172,15 @@ bool DraggableSurface::inputHook(const String rCommand, sf::Packet data)
 				player.spend(cost);
 				addModuleToEditor(title, shipModulePos);
 			}
+			else
+			{
+
+				// TODO highlight which resource was insufficient
+			}
 		}
 		else
 		{
-			Print << FILELINE;
-			// highlight which resource was insufficient
+			WARNING;
 		}
 
 		return true;

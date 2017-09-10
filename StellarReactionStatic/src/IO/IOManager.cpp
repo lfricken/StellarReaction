@@ -54,7 +54,7 @@ void IOManager::update(float dT)
 		}
 		if(i >= maxWork)
 		{
-			Print << FILELINE;
+			WARNING;
 			/// ERROR
 			break;
 		}
@@ -105,7 +105,7 @@ void IOManager::free(int position)//don't adjust the list, just mark the node as
 	}
 	else
 	{
-		Print << FILELINE;
+		WARNING;
 		///ERROR LOG
 	}
 }
@@ -142,7 +142,7 @@ void IOManager::f_send(const Message& rMessage)
 	{
 		//Print << "\nBad Target: [" << rMessage.getTargetName() << "]:[" << pos << "] with";
 		//Print << "\nCommand: [" << rMessage.getCommand() << "]. ";
-		//Print << FILELINE;
+		//WARNING;
 	}
 }
 void IOManager::pack(sf::Packet& rPacket)//give us data to send to the twin in the other world

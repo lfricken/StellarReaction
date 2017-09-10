@@ -74,7 +74,7 @@ Overlay::Overlay(const IOComponentData& rData) : m_gui(game.getWindow()), m_io(r
 }
 Overlay::~Overlay()
 {
-	Print << "\nOverlay Destroying...";
+
 }
 void Overlay::addPanel(sptr<leon::Panel> spPanel)
 {
@@ -661,6 +661,6 @@ void Overlay::input(const String rCommand, sf::Packet rData)
 	}
 	else
 	{
-		Print << "\n" << FILELINE;
+		WARNING;
 	}
 }

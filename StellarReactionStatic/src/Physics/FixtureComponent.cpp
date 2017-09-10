@@ -19,7 +19,7 @@ void FixtureComponentData::loadJson(const Json::Value& root)
 			shape = leon::Shape::Circle;
 		else
 		{
-			Print << "\n" << FILELINE;
+			WARNING;
 			shape = leon::Shape::Circle;
 		}
 	}
@@ -62,13 +62,13 @@ FixtureComponent::FixtureComponent(const FixtureComponentData& rData)
 	m_fixtureDef.filter.maskBits = static_cast<uint16_t>(rData.colMask);
 	m_fixtureDef.filter.categoryBits = static_cast<uint16_t>(rData.colCategory);
 
-	if(rData.pBody != NULL)
+	if(rData.pBody != nullptr)
 	{
 		m_pFixture = rData.pBody->CreateFixture(&m_fixtureDef);
 		m_pFixture->SetUserData(this);
 	}
 	else
-		Print << FILELINE;
+		WARNING;
 }
 FixtureComponent::~FixtureComponent()
 {
@@ -111,8 +111,7 @@ Vec2 FixtureComponent::getCenter() const
 	}
 	else
 	{
-		Print << FILELINE;
-		///eRROR LOG
+		WARNING;
 	}
 	return center;
 }

@@ -9,11 +9,13 @@ void HealthData::loadJson(const Json::Value& root)
 	GETJSON(Armor);
 	GETJSON(PercentStartCrit);
 	GETJSON(MaxCritOdds);
+	GETJSON(MaxCrits);
 }
 Health::Health(const HealthData& rData) : Pool(rData)
 {
 	m_armor = rData.Armor;
 	m_critHits = 0;
+	m_maxCritHits = rData.MaxCrits;
 
 	m_percentStartCrit = rData.PercentStartCrit;
 	m_maxCritOdds = rData.MaxCritOdds;
@@ -24,52 +26,41 @@ Health::~Health()
 }
 bool Health::damage(int injure)
 {
-	bool crit = false;
 	int damageDealt = injure - m_armor;
 
 
-	if(damageDealt > 0)
+	if(!isDead() && damageDealt > 0)//we aren't dead, and are taking damage
 	{
 		changeValue(-damageDealt);//deal damage
-		m_armor -= damageDealt / 4;
-
-		//determine whether a crit hit
+		changeArmor(-damageDealt / 4);
+		return updateCrits();
+	}
+	return false;
+}
+bool Health::updateCrits()
+{
+	bool tookACrit = false;
+	float health = getHealthPercent();
+	if(!hasFullCrits())
+	{
+		if(health == 0.f)//full damage
 		{
-			float health = getHealthPercent();
-			if(health > m_percentStartCrit && m_critHits < 3)
-			{
-				if(getHealthPercent() == 0.f)//full damage
-				{
-					m_critHits = 3;
-					crit = true;
-
-					put logic into function, remove armor every 3rd damage dealt from 4?
-				} 
-				else//not full damage, try crit hits
-				{
-					float len = 1.f - m_percentStartCrit;
-					float subPer = health / len;//percent along crit line
-					float critOdds = subPer * m_maxCritOdds;//output of function
-					float roll = Rand::get(0.f, 1.f);
-
-					if(roll < critOdds)
-					{
-						crit = true;
-					}
-				}
-			}
-			else
-				crit = false;
+			m_critHits = m_maxCritHits;
+			tookACrit = true;
+		}
+		else if(tryHitCrit())//not full damage, try crit hits
+		{
+			incrementCritHits();
+			tookACrit = true;
 		}
 	}
-	return crit;
+	return tookACrit;
 }
-
 void Health::heal(int health)
 {
 	if(health > 0)
 		changeValue(health);
-	
+
 	if(getHealthPercent() == 1.f)
 		m_critHits = 0;
 }
@@ -112,18 +103,38 @@ sf::Color Health::getColor() const
 }
 sf::Color Health::getCritColor() const
 {
-	return getColor(m_critHits / 3.f);
+	return getColor(m_critHits / static_cast<float>(m_maxCritHits));
 }
-bool Health::tryOperationCrit() const
+bool Health::trySelfCrit() const
 {
-	auto rand = Rand::get(1, 4);//1,2,3
+	int rand = Rand::get(1, m_maxCritHits);//1,2,3
 	return rand <= m_critHits;
 }
 bool Health::hasFullCrits() const
 {
-	return m_critHits == 3;
+	return m_critHits == m_maxCritHits;
 }
 void Health::incrementCritHits()
 {
 	++m_critHits;
 }
+bool Health::tryHitCrit() const
+{
+	bool takeCrit = false;
+	float health = getHealthPercent();
+	if(health < m_percentStartCrit)
+	{
+		float subPer = (m_percentStartCrit - health) / m_percentStartCrit;//percent along crit line, remove zone where you can't take crits
+		float critOdds = subPer * m_maxCritOdds;//output of function
+		float roll = Rand::get(0.f, 1.f);
+
+		if(roll < critOdds)
+			takeCrit = true;
+	}
+	return takeCrit;
+}
+bool Health::hasCrits() const
+{
+	return m_critHits != 0;
+}
+

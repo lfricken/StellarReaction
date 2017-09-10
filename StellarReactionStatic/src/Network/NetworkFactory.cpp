@@ -23,7 +23,6 @@ int NetworkFactory::give(NetworkComponent* pComponent)//we recieve a pointer to 
 	m_componentPtrs.resize(m_componentPtrs.size() + 1);//add one
 
 	m_componentPtrs[position] = pComponent;
-	Print << "\nNew Comp " << position;
 	return position;
 }
 void NetworkFactory::free(int position)//don't adjust the list, just mark the node as null and offer it as a position to future customers
@@ -32,10 +31,7 @@ void NetworkFactory::free(int position)//don't adjust the list, just mark the no
 		m_componentPtrs[position] = NULL;
 	else
 	{
-		Print << position << m_name;
-		Print << m_componentPtrs.size();
-		Print << FILELINE;
-		///ERROR LOG
+		WARNING;
 	}
 	clean();
 }

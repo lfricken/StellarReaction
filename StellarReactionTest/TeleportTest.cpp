@@ -35,7 +35,7 @@ TEST(TeleportTest, IsClear)
 {
 	game.restartTest();
 
-	vector<b2Vec2> vectors = {
+	List<b2Vec2> vectors = {
 		b2Vec2(200, 200),
 		b2Vec2(100, 100)
 	};

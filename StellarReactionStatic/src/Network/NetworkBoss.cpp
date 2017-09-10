@@ -174,7 +174,7 @@ bool NetworkBoss::setRecievePort(unsigned short localPort)
 		return true;
 	else
 	{
-		Print << FILELINE;
+		WARNING;
 		m_udp.unbind();
 		m_listener.close();
 		return false;
@@ -381,7 +381,7 @@ void NetworkBoss::udpRecieve()
 					}
 				}
 				else//if we don't regonize the remoteAddress, we should ignore it
-					Print << FILELINE;
+					WARNING;
 			}
 			else
 				done = true;
@@ -418,7 +418,7 @@ void NetworkBoss::tcpRecieve()
 						if(getNWState() == NWState::Server)
 							playerOption(data, m_connections[i].get());
 						else
-							Print << FILELINE;
+							WARNING;
 					}
 					else if(proto == Protocol::ReturnHandshake)//server recieving the return handshake
 					{
@@ -428,7 +428,7 @@ void NetworkBoss::tcpRecieve()
 							messagePlayerCount();
 						}
 						else
-							Print << FILELINE;
+							WARNING;
 					}
 					else if(proto == Protocol::Handshake)//client being told we succesfully connected
 					{
@@ -587,7 +587,7 @@ void NetworkBoss::playerOption(sf::Packet rData, BasePlayerTraits* pFrom)
 		ShipBuilder::Server::rebuild(rData);
 	}
 	else
-		Print << FILELINE;
+		WARNING;
 }
 //Local
 void NetworkBoss::input(const String rCommand, sf::Packet rData)
@@ -618,7 +618,7 @@ void NetworkBoss::input(const String rCommand, sf::Packet rData)
 		if(m_port > 1024)
 			setServer(m_port, m_timeOut);
 		else
-			Print << FILELINE;
+			WARNING;
 	}
 	else if(rCommand == "localOnly")
 	{
@@ -646,6 +646,6 @@ void NetworkBoss::input(const String rCommand, sf::Packet rData)
 	}
 	else
 	{
-		Print << "\n" << rCommand << FILELINE;
+		WARNING;
 	}
 }

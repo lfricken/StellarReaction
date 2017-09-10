@@ -45,9 +45,8 @@ TEST(BlueprintLoaderTest, LoadModule)
 	ASSERT_TRUE(pData);
 	auto& data = *pData;
 
-	string name = "DisplayName";
+	String name = "DisplayName";
 	EXPECT_EQ(data.name, name);
-	EXPECT_EQ(data.cost, 10);
 	EXPECT_EQ(data.collisionDamage, 11);
 }
 TEST(BlueprintLoaderTest, LoadChunk)

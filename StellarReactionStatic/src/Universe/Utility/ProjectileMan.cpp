@@ -50,7 +50,7 @@ void ProjectileMan::freeProjectile(Projectile* pProj)
 			break;
 
 	if(freed == rList.size())
-		Print << FILELINE;
+		WARNING;
 
 	--rFreeIndex;
 	auto temp = rList[rFreeIndex];

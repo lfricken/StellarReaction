@@ -33,13 +33,11 @@ void BlueprintLoader::loadBlueprints(const String& rDir)
 	for(auto it = modules.begin(); it != modules.end(); ++it)
 	{
 		storeData<ModuleData>(it->first, it->second, m_modBP);
-		//Print << "\n" << it->second;
 	}
 
 	for(auto it = chunks.begin(); it != chunks.end(); ++it)
 	{
 		storeData<ChunkData>(it->first, it->second, m_cnkBP);
-		//Print << "\n" << it->second;
 	}
 
 	for(auto it = projectiles.begin(); it != projectiles.end(); ++it)

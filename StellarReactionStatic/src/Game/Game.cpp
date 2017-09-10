@@ -71,8 +71,7 @@ Game::Game()
 }
 Game::~Game()
 {
-	Print << "\nGame Destroying...";
-	Print << "\nExpect to see (0x8000FFFF) upon exit due to SFML audio.";
+
 }
 void Game::loadPlayer(const String& rFileName)
 {
@@ -454,7 +453,7 @@ void Game::input(String rCommand, sf::Packet rData)
 	{
 		String str;
 		rData >> str;
-		Print << "\n" << str;
+		Print << "\nprintToConsole: " << str;
 	}
 	else
 	{

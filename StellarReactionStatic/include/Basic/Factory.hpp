@@ -36,7 +36,6 @@ public:
 			m_list.push_back(object);
 		}
 
-		Print << "\nFactory Into" << position;
 		return position;
 	}
 	/// <summary>
@@ -54,7 +53,6 @@ public:
 	/// </summary>
 	bool free(int position)
 	{
-		Print << "\nFactory Free " << position;
 		if(position < (signed)m_list.size())
 			if(m_list[position].get() != nullptr)
 			{

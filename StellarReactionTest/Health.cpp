@@ -7,7 +7,7 @@
 extern Game game;
 
 
-void initHealthParamTest(const vector<int>& cases)
+void initHealthParamTest(const List<int>& cases)
 {
 	for(auto it = cases.cbegin(); it != cases.cend(); ++it)
 	{
@@ -36,7 +36,7 @@ TEST(Health, InitializeHealth)
 
 	/**Parameters for test**/
 	const int numCases = 300;
-	vector<int> cases;
+	List<int> cases;
 	for(int i = 0; i < numCases; ++i)
 		cases.push_back(i + 100);
 
@@ -63,7 +63,137 @@ TEST(Health, RecieveDamage)
 	EXPECT_LT(0, health.getHealthPercent());
 	EXPECT_GT(1, health.getHealthPercent());
 }
-TEST(Health, RecieveLowDamage)
+TEST(Health, NoSelfCrit)
+{
+	//Check to see that damage is applied properly.
+	HealthData data;
+
+	data.Armor = 0;
+	data.Max = 1000;
+	data.Min = 0;
+	data.Value = 100;
+
+	Health health(data);
+
+	for(int i = 0; i < 1000; i++);//shouldn't crit at all
+	{
+		EXPECT_EQ(false, health.trySelfCrit());
+	}
+
+}
+TEST(Health, SelfCrit)
+{
+	//Check to see that damage is applied properly.
+	HealthData data;
+
+	data.Armor = 0;
+	data.Max = 1000;
+	data.Min = 0;
+	data.Value = 800;
+
+	{
+		Health health(data);
+		health.incrementCritHits();
+
+		int samples = 100000;
+		int expected = samples * 0.3333f;
+		int percentage = 2;//within 5%
+
+		int critedSelf = 0;
+		for(int i = 0; i < samples; i++)//shouldn't crit at all
+		{
+			if(health.trySelfCrit())
+			{
+				critedSelf++;
+			}
+		}
+
+		EXPECT_LT(expected - percentage*expected / 100, critedSelf);
+		EXPECT_GT(expected + percentage*expected / 100, critedSelf);
+	}
+	{
+		Health health(data);
+		health.incrementCritHits();
+		health.incrementCritHits();
+
+		int samples = 100000;
+		int expected = samples * 0.6666;
+		int percentage = 2;//within 5%
+
+		int critedSelf = 0;
+		for(int i = 0; i < samples; i++)//shouldn't crit at all
+		{
+			if(health.trySelfCrit())
+			{
+				critedSelf++;
+			}
+		}
+
+		EXPECT_LT(expected - percentage*expected / 100, critedSelf);
+		EXPECT_GT(expected + percentage*expected / 100, critedSelf);
+	}
+
+}
+TEST(Health, TakeCritHit)
+{
+	//Check to see that damage is applied properly.
+	HealthData data;
+
+	data.Armor = 0;
+	data.Max = 1000;
+	data.Min = 0;
+	data.Value = 1;
+
+	data.MaxCritOdds = 0.3;
+	int samples = 100000;
+	float percentage = 2;
+
+	int expected = samples * data.MaxCritOdds;
+
+	Health health(data);
+
+	int crited = 0;
+	for(int i = 0; i < samples; i++)//shouldn't crit at all
+	{
+		if(health.tryHitCrit())
+		{
+			crited++;
+		}
+	}
+	EXPECT_LT(expected - percentage*expected / 100, crited);//within 5%
+	EXPECT_GT(expected + percentage*expected / 100, crited);//within 5%
+
+}
+TEST(Health, TakeNoCritHit)
+{
+	//Check to see that damage is applied properly.
+	HealthData data;
+
+	data.Armor = 0;
+	data.Max = 1000;
+	data.Min = 0;
+	data.Value = 900;
+
+	data.MaxCritOdds = 0.3;
+	int samples = 100000;
+	float percentage = 2;
+
+	int expected = samples * data.MaxCritOdds;
+
+	Health health(data);
+
+	int crited = 0;
+	for(int i = 0; i < samples; i++)//shouldn't crit at all
+	{
+		if(health.tryHitCrit())
+		{
+			crited++;
+		}
+	}
+	EXPECT_EQ(0, crited);
+
+}
+TEST(Health, RecieveDamageLessThanArmor)
 {
 	//Ensure taking damage lower than armor amount will stop all of the damage.
 	HealthData data;
@@ -82,24 +212,6 @@ TEST(Health, RecieveLowDamage)
 	EXPECT_EQ(expectedHealth, health.getHealth());
 	EXPECT_EQ(1, health.getHealthPercent());
 }
-void damageHealthParamTest(const vector<int>& cases)
-{
-	HealthData data;
-	data.Armor = 10;
-	for(auto it = cases.cbegin(); it != cases.cend(); ++it)
-	{
-		Health healthObj(data);
-		healthObj.damage(*it);
-		if(*it < 0)
-			EXPECT_EQ(healthObj.getMaxHealth(), healthObj.getHealth());
-		else if(*it >= 110)
-			EXPECT_EQ(0, healthObj.getHealth());
-		else if(*it <= 10)
-			EXPECT_EQ(healthObj.getMaxHealth(), healthObj.getHealth());
-		else//in [11, 109]
-			EXPECT_EQ(healthObj.getMaxHealth() + healthObj.getArmor() - *it, healthObj.getHealth());
-	}
-};
 TEST(Health, DamageBeyondZero)
 {
 	//Ensure Health can't drop below 0.
@@ -118,14 +230,6 @@ TEST(Health, DamageBeyondZero)
 	health.damage(damage);
 	EXPECT_EQ(expectedHealth, health.getHealth());
 	EXPECT_EQ(0, health.getHealthPercent());
-
-	/**Parameters for test**/
-	const int numCases = 500;
-	vector<int> cases;
-	for(int i = 0; i < numCases; ++i)
-		cases.push_back(i - 100);
-
-	damageHealthParamTest(cases);// [-100, 400)
 }
 TEST(Health, Healing)
 {
@@ -150,8 +254,6 @@ TEST(Health, HealBeyondMax)
 {
 	//Make sure we can't heal ourselves beyond max health.
 	HealthData data;
-
-	Rand::seed();
 
 	data.Armor = Rand::get(0, 10);
 	data.Max = Rand::get(100, 900);

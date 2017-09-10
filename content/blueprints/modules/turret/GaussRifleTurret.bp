@@ -9,7 +9,7 @@
 	},
 	"controlGroup": 4,
     "baseDecor": {
-        "texName": "module/turret/ballistic_turret"
+        "texName": "module/turret/gauss_rifle_turret"
     },
 	"cost": 150
 }

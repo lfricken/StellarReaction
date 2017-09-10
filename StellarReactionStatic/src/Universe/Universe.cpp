@@ -141,13 +141,10 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 }
 void Universe::createControllers(Team team, bool isAnAI, const String& slaveName, int& controller, int& aiPos)
 {
-	//Print << "\n" << slaveName;
-	//dout << FILELINE;
 	controller = m_spControlFactory->addController(slaveName);
 
 	if(isAnAI && !game.getNwBoss().isClient())
 	{
-		//assert(Print << "\n" << slaveName << " controlled by " << m_spControlFactory->getSize() - 1);
 		sptr<ShipAI> ai = sptr<ShipAI>(new ShipAI(team, controller));
 		aiPos = m_shipAI.insert(ai);
 	}
@@ -207,8 +204,6 @@ Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input,
 Universe::~Universe()
 {
 	m_capturePoints.clear();
-	//Print << "\nUniverse Destroying...";
-	//Print << "\nEnd.";
 	game.getLocalPlayer().onBeforeUniverseDestroyed();
 }
 int Universe::getGameObjectPosition(String& name)

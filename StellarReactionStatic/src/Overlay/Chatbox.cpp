@@ -104,7 +104,6 @@ void Chatbox::pack(sf::Packet& rPacket)//give us data to send to the twin in the
 }
 void Chatbox::unpack(sf::Packet& rPacket)//process data from our twin
 {
-	Print << "\nChatbox unpack.";
 	String line;
 	rPacket >> line;
 	addLine(line);

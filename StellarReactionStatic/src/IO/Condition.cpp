@@ -47,7 +47,7 @@ bool Condition::evaluate(int value) const
 	if(m_op == 'd')
 		return true;
 
-	Print << FILELINE;
+	WARNING;
 
 	return false;
 }

@@ -19,14 +19,14 @@ TEST(ShipModuleTest, FriendlyFire)
 	ChunkData* c = game.getUniverse().getBlueprints().getChunkSPtr("Anubis")->clone();
 	c->bodyComp.coords = b2Vec2(2, 2);
 	Chunk* testShip = c->generate(&game.getUniverse());
-	testShip->getBodyComponent().setTeam(1);
+	testShip->getBodyComponent().setTeam(Team::One);
 	game.getUniverse().add(testShip);
 
 	List<sptr<Module> > modules = testShip->getModuleList();
 	ShipModule* module = dynamic_cast<ShipModule*>(modules[0].get());
 	int initialHealth = module->getHealth().getHealth();
 	int modulePos = module->getFixtureComponent().getIOPos();
-	Weapon::damage(&game.getUniverse().getUniverseIO(), modulePos, 1000, modulePos, 1);
+	Weapon::damage(&game.getUniverse().getUniverseIO(), modulePos, 1000, modulePos, Team::One, Vec2(0,0), Vec2(0,0));
 
 	//Make sure damage from the same team has no effect.
 	game.runTicks(2);

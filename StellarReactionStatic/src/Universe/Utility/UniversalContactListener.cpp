@@ -9,11 +9,6 @@ void UniversalContactListener::BeginContact(b2Contact* contact)
 	//Vec2 p1(man.points[0]);
 	//Vec2 p2(man.points[1]);
 
-	//Print << man.points[0].x << "\n";
-	//Print << man.points[1].x << "\n";
-	//Print << Vec2(man.normal) << "\n";
-	//Print << man.separations[0] << "\n";
-	//Print << man.separations[1] << "\n";
 
 	FixtureComponent* fixA = static_cast<FixtureComponent*>(contact->GetFixtureA()->GetUserData());
 	FixtureComponent* fixB = static_cast<FixtureComponent*>(contact->GetFixtureB()->GetUserData());
@@ -32,7 +27,6 @@ void UniversalContactListener::EndContact(b2Contact* contact)
 	//Vec2 p1(man.points[0]);
 	//Vec2 p2(man.points[1]);
 
-	//Print << man.points[0].x << "\n";
 
 
 	fixA->endContact(fixB);
@@ -44,7 +38,6 @@ void UniversalContactListener::PreSolve(b2Contact* contact, const b2Manifold* ol
 	//PhysicsBase* fixA = static_cast<PhysicsBase*>(contact->GetFixtureA()->GetUserData());
 	//PhysicsBase* fixB = static_cast<PhysicsBase*>(contact->GetFixtureB()->GetUserData());
 
-	//Print << "\PreSolve.";
 
 	//fixA->preSolveContact(fixB);
 	//fixB->preSolveContact(fixA);
@@ -55,7 +48,6 @@ void UniversalContactListener::PostSolve(b2Contact* contact, const b2ContactImpu
 	//PhysicsBase* fixA = static_cast<PhysicsBase*>(contact->GetFixtureA()->GetUserData());
 	//PhysicsBase* fixB = static_cast<PhysicsBase*>(contact->GetFixtureB()->GetUserData());
 
-	//Print << "\PostSolve.";
 
 	//fixA->postSolveContact(fixB);
 	//fixB->postSolveContact(fixA);

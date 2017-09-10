@@ -19,8 +19,6 @@ void ShipModuleData::loadJson(const Json::Value& root)
 
 ShipModule::ShipModule(const ShipModuleData& rData) : Module(rData), m_health(rData.health)
 {
-	m_criticalDamageThreshold = 0.25;
-
 	m_deathSound = rData.deathSound;
 	m_decors.push_back(sptr<GraphicsComponent>(new QuadComponent(rData.baseDecor)));
 	m_baseDecor = m_decors.size() - 1;
@@ -143,7 +141,7 @@ void ShipModule::input(String rCommand, sf::Packet rData)
 
 		m_health.heal(val);
 		m_io.event(EventType::Health, m_health.getHealth(), voidPacket);
-		if(m_health.getHealthPercent() >= m_criticalDamageThreshold)
+		if(!m_health.hasCrits())
 			setHealthState(HealthState::Nominal);
 	}
 	else if(rCommand == "increase_score")
@@ -175,7 +173,7 @@ void ShipModule::changeHealthState(int ioPosOfDealer)
 {
 	if(m_healthState != HealthState::Broken)//only if they transition to being broken should you get points
 	{
-		if(m_health.isDead())//this module died this time
+		if(m_health.hasFullCrits())//this module died this time
 		{
 			setHealthState(HealthState::Broken);
 			sf::Packet pack;
@@ -183,7 +181,7 @@ void ShipModule::changeHealthState(int ioPosOfDealer)
 			Message mess(ioPosOfDealer, "increase_score", pack, 0.0f, false);
 			game.getUniverse().getUniverseIO().recieve(mess);
 		}
-		else if(m_health.getHealthPercent() < m_criticalDamageThreshold)
+		else if(m_health.hasCrits())
 		{
 			setHealthState(HealthState::CriticallyDamaged);
 		}
@@ -207,7 +205,7 @@ bool ShipModule::isFunctioning()//does this module still do its function
 	else if(m_healthState == HealthState::CriticallyDamaged)
 		return m_functionsDamaged;
 
-	Print << "\n" << FILELINE;
+	WARNING;
 	return true;
 }
 void ShipModule::setHealthState(HealthState newState)

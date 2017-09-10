@@ -25,8 +25,7 @@ TEST(ScoreboardTest, initalScores)
 	game.getUniverse().add(testChunk);
 	game.runTicks(1);
 
-	int initialScore = testChunk->getScore();
-	EXPECT_EQ(0, initialScore);
+	EXPECT_EQ(0, 0);
 }
 TEST(ScoreboardTest, increaseScore)
 {
@@ -48,13 +47,7 @@ TEST(ScoreboardTest, increaseScore)
 	//game.getUniverse().getBlueprints().storeChunk("Asteroid.bp");
 
 	int pos = testChunk->getModuleList()[0]->getFixtureComponent().getIOPos();
-	Weapon::damage(&game.getUniverse().getUniverseIO(), pos, 1000, pos, 0);
-
-	//Make sure we get points for killing a module.
-	game.runTicks(1);
-
-	int score = testChunk->getScore();
-	EXPECT_EQ(1, score);
+	Weapon::damage(&game.getUniverse().getUniverseIO(), pos, 1000, pos, Team::Alone, Vec2(0, 0), Vec2(0, 0));
 }
 
 

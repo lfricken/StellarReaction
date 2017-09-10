@@ -26,8 +26,7 @@ void ProjectileData::loadJson(const Json::Value& root)
 			}
 			else
 			{
-				Print << "\n" << FILELINE;
-				///ERROR LOG
+				WARNING;
 			}
 
 			moduleData.push_back(spMod);
@@ -65,7 +64,6 @@ void Projectile::launch(const Vec2& rStart, const Vec2& rVel, float radCCW, floa
 	m_inPlay = true;
 	m_timer.setCountDown(lifetime);
 	m_timer.restartCountDown();
-	//Print << m_body.getPosition().x << " " << m_body.getPosition().y;
 	m_body.wake(rStart, radCCW, rVel, radCCWps);
 	for(auto it = m_modules.begin(); it != m_modules.end(); ++it)
 		(*it)->setPayload(damage, pParent, collisions);

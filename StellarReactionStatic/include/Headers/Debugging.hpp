@@ -1,7 +1,7 @@
 # pragma once
 
 /// Useful debugging item.
-#define FILELINE "file:{"<<__FILE__<<"}line:{"<<__LINE__<<"}"
+#define FILELINE "\nfile:{"<<__FILE__<<"}line:{"<<__LINE__<<"}"
 #define WARNING std::cout << FILELINE
 
 #ifdef _DEBUG

@@ -58,7 +58,6 @@ int SoundManager::playSound(const String& rSoundName, const Vec2& rPos, int volu
 	m_noises[i].sound.setPosition(rPos.x, rPos.y, 0.f);
 	m_noises[i].sound.setLoop(looping);
 	m_noises[i].sound.play();
-	//		Print << "\nSound index: [" << i << "] " << FILELINE;
 
 	if(aquireLock)
 		return i;

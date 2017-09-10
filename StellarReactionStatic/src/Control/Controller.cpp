@@ -13,7 +13,7 @@ Controller::Controller(const ControllerData& rData) : m_aim(0, 0), m_io(rData.io
 	if(rData.slaveName != "NOSLAVE")
 		setSlave(rData.slaveName);
 	else
-		Print << FILELINE;
+		WARNING;;
 
 	for(int i = 0; i < static_cast<int>(Directive::End); ++i)
 	{
@@ -23,13 +23,10 @@ Controller::Controller(const ControllerData& rData) : m_aim(0, 0), m_io(rData.io
 	{
 		m_weaponGroups[i] = true;
 	}
-
-	Print << "\nController " << rData.slaveName;
-	//dout << FILELINE;
 }
 Controller::~Controller()
 {
-	//Print << "\n dead controller.";
+
 }
 void Controller::setSlave(const String& rSlaveName)
 {

@@ -8,7 +8,7 @@ extern Game game;
 typedef Pool<float> Poolf;
 typedef PoolData<float> PoolDataf;
 
-void initPoolParamTest(const vector<int>& cases)
+void initPoolParamTest(const List<int>& cases)
 {
 	for(auto it = cases.cbegin(); it != cases.cend(); ++it)
 	{
@@ -25,7 +25,7 @@ TEST(Pool, MaxValueFloat)
 {
 	/**Parameters for test**/
 	const int numCases = 300;
-	vector<int> cases;
+	List<int> cases;
 	for(int i = 0; i < numCases; ++i)
 		cases.push_back(i + 100);
 
