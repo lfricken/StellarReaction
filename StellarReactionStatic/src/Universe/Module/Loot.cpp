@@ -13,6 +13,7 @@ void LootData::loadJson(const Json::Value& root)
 Loot::Loot(const LootData& rData) : Sensor(rData)
 {
 	m_resources = rData.resources;
+	m_used = false;
 }
 Loot::~Loot()
 {
@@ -29,25 +30,11 @@ void Loot::entered(FixtureComponent* pOther)
 {
 	auto newGuest = static_cast<BodyComponent*>(pOther->getBodyPtr()->GetUserData())->parent;
 
-
-
 	if(newGuest)
 	{
-		bool contains = false;
-
-		//check contains
-		for(auto it = m_guests.begin(); it != m_guests.end(); ++it)
+		if(!m_used)//if it doesn't already contain it
 		{
-			auto existingGuest = static_cast<BodyComponent*>((**it).getBodyPtr()->GetUserData())->parent;
-			if(existingGuest == newGuest)
-			{
-				contains = true;
-				break;
-			}
-		}
-
-		if(!contains || m_guests.size() > 1)//if it doesn't already contain it
-		{
+			m_used = false;
 			int target = newGuest->m_io.getPosition();
 			sf::Packet loot;
 			m_resources.into(&loot);
@@ -56,7 +43,6 @@ void Loot::entered(FixtureComponent* pOther)
 			Message::SendUniverse(giveLoot);
 		}
 	}
-
 }
 /// <summary>
 /// when a fixture exits our sensor. called multiple times in a step if multiple bodies entered (in no particular order)

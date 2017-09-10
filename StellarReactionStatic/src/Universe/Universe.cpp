@@ -208,8 +208,8 @@ Universe::~Universe()
 {
 	m_capturePoints.clear();
 	//Print << "\nUniverse Destroying...";
-	game.getLocalPlayer().universeDestroyed();
 	//Print << "\nEnd.";
+	game.getLocalPlayer().onBeforeUniverseDestroyed();
 }
 int Universe::getGameObjectPosition(String& name)
 {

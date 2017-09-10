@@ -24,9 +24,20 @@ struct HealthData : public PoolData<int>
 		Max = 100;
 		Value = 100;
 		Min = 0;
+
+		PercentStartCrit = 0.3f;
+		MaxCritOdds = 0.3f;
 	}
 
 	int Armor;///How much damage is subtracted per hit.
+	/// <summary>
+	/// At what percentage does the odds of a crit go above 0.
+	/// </summary>
+	float PercentStartCrit;
+	/// <summary>
+	/// At 100% damage, what are the odds of a crit. 
+	/// </summary>
+	float MaxCritOdds;
 
 	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
@@ -40,8 +51,10 @@ public:
 	Health(const HealthData& rData);
 	virtual ~Health();
 
-	///Deal damage to us.
-	void damage(int injure);
+	/// <summary>
+	/// Deal damage to us. Return true if a crit damage.
+	/// </summary>
+	bool damage(int injure);
 	///Restore health.
 	void heal(int health);
 	///Changes the armor by the specfied amount. Defaults to addition rather than subraction.
@@ -66,11 +79,29 @@ public:
 	/// </summary>
 	sf::Color getColor() const;
 
+	/// <summary>
+	/// Returns the color for the crit percentage.
+	/// </summary>
+	sf::Color getCritColor() const;
+	/// <summary>
+	/// Return true if this should get a crit for operating.
+	/// </summary>
+	bool tryOperationCrit() const;
+	/// <summary>
+	/// Returns true if this should stop operating.
+	/// </summary>
+	bool hasFullCrits() const;
+
+	void incrementCritHits();
 protected:
 private:
 
 	///Armor reduces incoming damage by that amount. Can't cause negative damage.
 	int m_armor;
+
+	int m_critHits;
+	float m_percentStartCrit;
+	float m_maxCritOdds;
 };
 
 #endif // HEALTH_HPP

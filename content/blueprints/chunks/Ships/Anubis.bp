@@ -33,20 +33,6 @@
 	],
 	"minShieldPower": 0.50,
     "moduleData": [
-		{
-            "title": "MissileTurret",
-            "Position": [
-                -1,
-                1
-            ]
-        },
-		{
-            "title": "BallisticTurret",
-            "Position": [
-                0,
-                1
-            ]
-        },
         {
             "title": "LaserTurret",
             "Position": [

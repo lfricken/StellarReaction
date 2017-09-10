@@ -1,0 +1,15 @@
+{
+    "ClassName": "TurretData",
+    "startWep": "GaussRifle",
+	"fixComp": {
+		"size": [1, 1]
+	},
+	"health": {
+		"Armor": 10
+	},
+	"controlGroup": 4,
+    "baseDecor": {
+        "texName": "module/turret/ballistic_turret"
+    },
+	"cost": 150
+}

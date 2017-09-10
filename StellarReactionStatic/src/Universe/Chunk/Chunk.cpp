@@ -614,12 +614,6 @@ void Chunk::input(String rCommand, sf::Packet rData)
 		m_resources->add(loot);
 		destroy(lootChunkUniversePos, false, 0.f);
 	}
-	else if(rCommand == "pickupResources")
-	{
-		Resources loot;
-		loot.outOf(&rData);
-		m_resources->add(loot);
-	}
 	else if(rCommand == "rebuiltComplete")
 	{
 		resetStatusBoard(m_statusBoard);

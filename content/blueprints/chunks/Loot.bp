@@ -1,10 +1,9 @@
 {
     "ClassName": "ChunkData",
 	"hullSpriteData": {
-		"dimensions": [2600, 2371],
-		"center": [0,-600],
-		"texName": "hulls/raven1",
-		"animSheetName": "hulls/raven1.acfg",
+		"dimensions": [512, 512],
+		"center": [0, 0],
+		"texName": "hulls/loot",
 		"layer": "ShipHull"
 	},
     "moduleData": [

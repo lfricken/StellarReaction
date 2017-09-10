@@ -24,6 +24,10 @@ public:
 
 protected:
 	Resources m_resources;
+	/// <summary>
+	/// True if this loot has already been picked up by someone.
+	/// </summary>
+	bool m_used;
 
 private:
 

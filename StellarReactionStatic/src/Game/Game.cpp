@@ -322,8 +322,12 @@ void Game::loadUniverse(const String& stuff)
 {
 	IOComponentData universeData(&getCoreIO());
 	universeData.name = "universe";
-	m_spUniverse.reset();//explicitly destroy universe before another can take its place
+
+
+	m_spUniverse.reset();
 	m_spUniverse.reset(new Universe(universeData));
+	getLocalPlayer().onUniverseCreated();
+
 	m_spUniverse->getUniverseIO().give(m_spIO.get());
 
 	if(game.getNwBoss().getNWState() == NWState::Client)

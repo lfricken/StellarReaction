@@ -155,7 +155,8 @@ public:
 
 	/// Tells Player that the universe no longer exists.
 	/// This means the sprites for the HUD need to be destroyed if they existed in universe.
-	void universeDestroyed();
+	void onBeforeUniverseDestroyed();
+	void onUniverseCreated();
 	/// Set the state of a particular control group.
 	bool toggleControlGroup(int group, bool on);
 	/// Toggle the state of a control group.
@@ -210,6 +211,9 @@ private:
 	List<sptr<leon::Grid> > m_targetBoards;
 	List<sptr<QuadComponent> > m_targetReticules;
 
+	/// <summary>
+	/// What is this?
+	/// </summary>
 	List<sptr<QuadComponent>> m_groupIcon;
 
 	sptr<LinearMeter> m_energyMeterFill;

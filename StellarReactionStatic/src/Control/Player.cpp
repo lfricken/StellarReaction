@@ -624,7 +624,7 @@ void Player::createReticles()
 		m_targetReticules[i] = pQuad;
 	}
 }
-void Player::universeDestroyed()
+void Player::onBeforeUniverseDestroyed()
 {
 	m_energyMeter.reset();
 	m_shieldState.reset();
@@ -642,6 +642,10 @@ void Player::universeDestroyed()
 	m_resourcesSpent = Resources();
 	m_resources.reset();
 }
+void Player::onUniverseCreated()
+{
+	m_resourceUpdateTimer.restartCountDown();
+}
 bool Player::toggleFocus(bool isWindowFocused)
 {
 	m_hasFocus = isWindowFocused;
@@ -651,7 +655,6 @@ bool Player::hasFocus() const
 {
 	return m_hasFocus;
 }
-
 bool Player::toggleControlGroup(int group, bool on)
 {
 	// HUD Icons.

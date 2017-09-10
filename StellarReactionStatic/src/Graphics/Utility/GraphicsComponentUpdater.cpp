@@ -22,7 +22,6 @@ void GraphicsComponentUpdater::free(GraphicsComponent* pTarget)
 			break;
 
 	m_targets.erase(it);
-
 }
 void GraphicsComponentUpdater::update()
 {
