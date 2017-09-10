@@ -24,7 +24,7 @@ ShipAI::ShipAI(Team team, int controller_index) : BasePlayerTraits("ai")
 
 ShipAI::~ShipAI()
 {
-	//dout << "\ndead ship ai.";
+
 }
 void ShipAI::onShipDestroyed()
 {

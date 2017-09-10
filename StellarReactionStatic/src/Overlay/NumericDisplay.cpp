@@ -56,7 +56,7 @@ void NumericDisplay::add(sptr<WidgetBase> sp_widget)
 	}
 	else
 	{
-		dout << FILELINE;
+		WARNING;
 	}
 }
 bool NumericDisplay::inputHook(const String rCommand, sf::Packet rData)

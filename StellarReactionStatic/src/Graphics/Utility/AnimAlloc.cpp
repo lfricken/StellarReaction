@@ -22,12 +22,15 @@ AnimAlloc::~AnimAlloc()
 }
 const AnimSet* AnimAlloc::request(const String& rAnimFile)
 {
+	auto fileName = rAnimFile;
 	if(hasEnding(rAnimFile, ".acfg"))
 	{
 		dout << FILELINE;
 	}
-
-	auto fileName = rAnimFile + ".acfg";
+	else
+	{
+		fileName += ".acfg";
+	}
 
 	const AnimSet* pSet = NULL;
 	auto it_find = m_animationSets.find(fileName);

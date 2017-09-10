@@ -99,7 +99,7 @@ struct ModuleData : public BlueprintData
 	///Create Module object from this data object.
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{
-		std::cout << FILELINE;
+		WARNING;
 		return NULL;
 	}
 	///Create new copy of this data object.

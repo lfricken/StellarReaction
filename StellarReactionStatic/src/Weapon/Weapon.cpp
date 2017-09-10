@@ -125,7 +125,6 @@ void Weapon::damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmou
 
 	Message mess;
 	mess.reset(ioTargetPos, "damage", packet, 0.f, false);
-	//dout << "\nDamage Target [" << ioTargetPos << "]";
 	pMessageReciever->recieve(mess);
 }
 void Weapon::damage(b2Fixture* pFixtureTakingDamage, int damageAmount, const Vec2& collisionPoint, const Vec2& fromDirection)

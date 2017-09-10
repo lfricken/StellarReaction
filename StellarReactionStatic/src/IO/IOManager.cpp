@@ -82,10 +82,7 @@ int IOManager::give(IOComponent* pComponent)//we recieve a pointer to a componen
 	m_componentPtrs[position] = pComponent;
 
 	m_nameLookup[pComponent->getName()] = position;
-
-	//if(m_networked)
-	//	dout << "\nElements: [" << m_componentPtrs.size() << "]";
-
+	
 	return position;
 }
 void IOManager::free(int position)//don't adjust the list, just mark the node as null and offer it as a position to future customers
@@ -120,17 +117,16 @@ void IOManager::f_send(const Message& rMessage)
 		{
 			if(m_componentPtrs[it->second] != NULL)
 			{
-				//dout << "Message: " << rMessage.getTargetPosition() << " " << rMessage.getTargetName();
 				m_componentPtrs[it->second]->recieve(rMessage.getCommand(), rMessage.getData());
 			}
 			else
 			{
-				Print << "\nTarget: [" << rMessage.getTargetName() << "] died. " << FILELINE;
+				Print << "\nTarget: [" << rMessage.getTargetName() << "] died. ";
 			}
 		}
 		else
 		{
-			Print << "\nTarget: [" << rMessage.getTargetName() << "] was not found. " << FILELINE;
+			Print << "\nTarget: [" << rMessage.getTargetName() << "] was not found.";
 		}
 	}
 	else if(pos >= 0 && pos < (signed)m_componentPtrs.size())
@@ -140,9 +136,7 @@ void IOManager::f_send(const Message& rMessage)
 	}
 	else
 	{
-		//Print << "\nBad Target: [" << rMessage.getTargetName() << "]:[" << pos << "] with";
-		//Print << "\nCommand: [" << rMessage.getCommand() << "]. ";
-		//WARNING;
+		WARNING;
 	}
 }
 void IOManager::pack(sf::Packet& rPacket)//give us data to send to the twin in the other world

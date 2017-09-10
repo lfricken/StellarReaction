@@ -20,7 +20,7 @@ struct FixtureComponentData
 		offset(0,0),
 		pBody(NULL),
 		shape(leon::Shape::Circle),
-		size(2,2),
+		size(1,1),
 		mass(1.f),
 		friction(0.3f),
 		restitution(0.3f),

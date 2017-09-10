@@ -35,7 +35,7 @@ void ShipBuilder::Client::shipToGui(const Chunk* ship)
 		game.getCoreIO().recieve(ship);
 	}
 	else
-		dout << FILELINE;
+		WARNING;
 }
 void ShipBuilder::Client::writeToPacket(int targetShipIOPosition, const List<Pair<String, sf::Vector2i> >& modules, sf::Packet* data)
 {

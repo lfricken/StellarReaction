@@ -424,7 +424,6 @@ void Game::loadWindow(const String& windowFile)
 	}
 
 	m_spWindow->setVerticalSyncEnabled(windowData.vSinc);
-	//Print << "\nFPS Limit:" << windowData.targetFPS;
 	if(!windowData.vSinc)
 		m_spWindow->setFramerateLimit(windowData.targetFPS);
 

@@ -78,7 +78,7 @@ void NetworkBoss::launchMultiplayerGame()
 		Money playerMoney = 5;// client->getMoney();
 		String shipName = client->getShipChoice();
 		Team team = client->getTeam();
-		assert(Print << "\nSlave:[" << slaveName << "] title:[" << shipName << "].");
+
 		data << slaveName;
 		data << playerName;
 		data << playerMoney;
@@ -94,8 +94,8 @@ void NetworkBoss::launchMultiplayerGame()
 		String aiSlaveName;
 		aiSlaveName.from(m_connections.size() + 20 + i);
 		String aiShipName = "Anubis";
-		int aiTeam = ((i-1)%4)+1;
-		assert(Print << "\nAISlave:[" << aiSlaveName << "] title:[" << "AI_PLAYER" << "].");
+		int aiTeam = ((i-1)%4)+1;//TODO fix this shit code
+
 		data << aiSlaveName;
 		data << "AI_PLAYER";
 		data << (int)0;
@@ -377,7 +377,7 @@ void NetworkBoss::udpRecieve()
 						else if(proto == Protocol::PlayerTraits)
 							pCon->recievePlayerTraits(data);
 						else
-							Print << "\n" << FILELINE << " [" << static_cast<int32_t>(proto) << "]";
+							WARNING;
 					}
 				}
 				else//if we don't regonize the remoteAddress, we should ignore it
@@ -453,11 +453,11 @@ void NetworkBoss::tcpRecieve()
 						m_connections.back()->recieveSpecialIo(data);
 					}
 					else
-						Print << "\n" << FILELINE << " [" << static_cast<int32_t>(proto) << "]";
+						WARNING;
 				}
 				else
 				{
-					Print << "\n" << FILELINE;
+					WARNING;;
 				}
 			}
 			else

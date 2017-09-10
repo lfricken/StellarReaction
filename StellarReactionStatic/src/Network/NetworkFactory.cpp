@@ -98,9 +98,6 @@ void NetworkFactory::process(sf::Packet& rPacket)
 	{
 		m_consecutiveDesyncs++;
 		int i = 9;
-		//Desyinc detected
-		///ERROR LOG
-		//dout << "\nDesync Detected[" << numElements << "][" << expectedNumElements << "][" << m_name << "]" << FILELINE;
 	}
 	if(m_consecutiveDesyncs > 0 && m_consecutiveDesyncs > 10)
 	{

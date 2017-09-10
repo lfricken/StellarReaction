@@ -31,7 +31,7 @@ void Animator::setAnimation(const String& animationName, float duration)
 		auto it = m_pSet->animations.find(m_errorTiles);// Failed to find our animation.
 
 		if(it == m_pSet->animations.end())
-			Print << "\n" << FILELINE;// Failed to find error animation!
+			WARNING;// Failed to find error animation!
 		else
 			m_pAnim = &(it->second);
 	}

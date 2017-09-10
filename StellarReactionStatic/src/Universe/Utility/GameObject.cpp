@@ -1,11 +1,11 @@
 #include "GameObject.hpp"
-
+#include "Debugging.hpp"
 
 
 GameObject::GameObject(const GameObjectData& rData) : m_io(rData.ioComp, &GameObject::input, this), m_nw(rData.nwComp, &GameObject::pack, &GameObject::unpack, this, game.getNwBoss().getNWDataFactory()), m_rParent(*rData.pParent)
 {
 	if(rData.pParent == NULL)
-		Print << rData.ioComp.name;
+		WARNING;
 }
 GameObject::~GameObject()
 {

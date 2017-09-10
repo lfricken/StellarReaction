@@ -54,12 +54,11 @@ void IOComponentData::loadJson(const Json::Value& root)
 					else if(type == "string")
 						packData << it->asString();
 					else
-						Print << "\nError: " << FILELINE;
+						WARNING;
 				}
 			else
 			{
-				Print << "\n" << FILELINE;
-				///ERROR LOG
+				WARNING;
 			}
 
 			float delay = (*it)["message"]["delay"].asFloat();

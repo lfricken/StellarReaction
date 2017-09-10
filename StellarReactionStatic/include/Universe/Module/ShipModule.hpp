@@ -92,7 +92,7 @@ struct ShipModuleData : public ModuleData
 	///Returns NULL and prints the file and line that attempted to instantiate this virtual class.
 	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
 	{
-		std::cout << FILELINE;
+		WARNING;
 		return NULL;
 	}
 	///Create new copy of this data object.

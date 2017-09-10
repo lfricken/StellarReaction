@@ -1,9 +1,6 @@
 {
     "ClassName": "TurretData",
     "startWep": "GaussRifle",
-	"fixComp": {
-		"size": [1, 1]
-	},
 	"health": {
 		"Armor": 10
 	},

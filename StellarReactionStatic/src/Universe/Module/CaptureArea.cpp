@@ -101,6 +101,5 @@ void CaptureArea::prePhysUpdate()
 	}
 
 	m_oldProgress = m_progress;
-	//Print << m_currentTeam;
 }
 

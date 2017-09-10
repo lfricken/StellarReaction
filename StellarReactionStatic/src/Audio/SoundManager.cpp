@@ -29,7 +29,7 @@ sf::SoundBuffer* SoundManager::loadSoundBuffer(const String& rSoundName)
 	{
 		if(!m_buffers[rSoundName].loadFromFile(contentDir() + m_directory + rSoundName))
 		{
-			Print << "\nError loading sound [" << contentDir() + m_directory + rSoundName << "] " << FILELINE;///ERROR LOG
+			Print << "\nError loading sound [" << contentDir() + m_directory + rSoundName << "]";
 			return nullptr;
 		}
 		itBuffer = m_buffers.find(rSoundName);

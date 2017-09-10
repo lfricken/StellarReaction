@@ -111,8 +111,6 @@ void DraggableSurface::addModuleToEditor(const String& title, sf::Vector2i shipM
 }
 bool DraggableSurface::inputHook(const String rCommand, sf::Packet data)
 {
-	dout << "\n" << rCommand;
-
 	if(rCommand == "buildShipWithConfiguration")
 	{
 		List<Pair<String, sf::Vector2i> > modules = this->getRealPositions();
@@ -144,9 +142,7 @@ bool DraggableSurface::inputHook(const String rCommand, sf::Packet data)
 		data >> title;
 		data >> shipModulePos.x;
 		data >> shipModulePos.y;
-
-		//dout << shipModulePos.x << shipModulePos.y;
-
+		
 		addModuleToEditor(title, shipModulePos);
 
 		return true;

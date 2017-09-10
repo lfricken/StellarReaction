@@ -590,8 +590,6 @@ void Player::loadOverlay(const String& rOverlay)
 		m_myStatusBoard.reset(new leon::Grid(health));
 
 		m_myStatusBoard->m_background->setGuiPosition(sf::Vector2f(screenDist, 512));
-		dout << m_myStatusBoard->getScreenPosition();
-
 	}
 	// Target status boards
 	{

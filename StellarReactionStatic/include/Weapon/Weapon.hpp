@@ -135,13 +135,13 @@ struct WeaponData : public BlueprintData
 	virtual Weapon* generate() const
 	{
 		WeaponData copy(*this);
-		std::cout << FILELINE;
+		WARNING;
 		return NULL;
 	}
 	///Create new copy of this data object and prints out the file and line that attempted to clone this data object.
 	virtual WeaponData* clone() const
 	{
-		std::cout << FILELINE;
+		WARNING;
 		return new WeaponData(*this);
 	}
 	///Fill this object with data from a json file.
