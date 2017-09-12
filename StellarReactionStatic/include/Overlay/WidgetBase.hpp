@@ -91,9 +91,13 @@ namespace leon
 		/**events**/
 		void f_MouseEntered();
 		void f_MouseLeft();
+
 		void f_LeftMouseClicked();
 		void f_LeftMousePressed();
 		void f_LeftMouseReleased();
+		void f_RightMouseClicked();
+		void f_RightMousePressed();
+		void f_RightMouseReleased();
 
 		void f_trigger();
 
@@ -116,7 +120,7 @@ namespace leon
 
 		virtual void mouseEnteredHook(sf::Packet& rPack);
 		virtual void mouseLeftHook(sf::Packet& rPack);
-		virtual void mouseClickedHook(sf::Packet& rPack);
+		virtual void leftMouseClickedHook(sf::Packet& rPack);
 		virtual void leftMousePressedHook(sf::Packet& rPack);
 		virtual void leftMouseReleasedHook(sf::Packet& rPack);
 

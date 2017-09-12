@@ -195,7 +195,15 @@ void WidgetBase::f_callback(const tgui::Callback& callback)
 	}
 	else if(callback.trigger == tgui::ClickableWidget::RightMouseClicked)
 	{
-		Print << "hi";
+		f_RightMouseClicked();
+	}
+	else if(callback.trigger == tgui::ClickableWidget::RightMousePressed)
+	{
+		f_RightMousePressed();
+	}
+	else if(callback.trigger == tgui::ClickableWidget::RightMouseReleased)
+	{
+		f_RightMouseReleased();
 	}
 }
 void WidgetBase::f_MouseEntered()
@@ -213,20 +221,35 @@ void WidgetBase::f_MouseLeft()
 void WidgetBase::f_LeftMouseClicked()
 {
 	sf::Packet pack;
-	mouseClickedHook(pack);
+	leftMouseClickedHook(pack);
 	m_io.event(EventType::LeftMouseClicked, 0, pack);
 }
 void WidgetBase::f_LeftMousePressed()
 {
 	sf::Packet pack;
 	leftMousePressedHook(pack);
-	m_io.event(EventType::MousePressed, 0, pack);
+	m_io.event(EventType::LeftMousePressed, 0, pack);
 }
 void WidgetBase::f_LeftMouseReleased()
 {
 	sf::Packet pack;
 	leftMouseReleasedHook(pack);
-	m_io.event(EventType::MouseReleased, 0, pack);
+	m_io.event(EventType::LeftMouseReleased, 0, pack);
+}
+void WidgetBase::f_RightMouseClicked()
+{
+	sf::Packet pack;
+	m_io.event(EventType::RightMouseClicked, 0, pack);
+}
+void WidgetBase::f_RightMousePressed()
+{
+	sf::Packet pack;
+	m_io.event(EventType::RightMousePressed, 0, pack);
+}
+void WidgetBase::f_RightMouseReleased()
+{
+	sf::Packet pack;
+	m_io.event(EventType::RightMouseReleased, 0, pack);
 }
 void WidgetBase::f_trigger()
 {
@@ -254,7 +277,7 @@ void WidgetBase::mouseLeftHook(sf::Packet& rPack)
 {
 	rPack << m_io.getName();
 }
-void WidgetBase::mouseClickedHook(sf::Packet& rPack)
+void WidgetBase::leftMouseClickedHook(sf::Packet& rPack)
 {
 	rPack << m_io.getName();
 }

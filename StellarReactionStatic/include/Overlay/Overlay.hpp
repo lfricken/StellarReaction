@@ -30,6 +30,7 @@ namespace leon
 		/// </summary>
 		leon::Panel* loadStore();
 		leon::Panel* loadMainMenu();
+		leon::Panel* loadSelectionMenu();
 		leon::Panel* loadMultiplayerLobby(leon::Panel* pMain_menu);
 		leon::Panel* loadConnectionHub(leon::Panel* pMain_menu);
 		

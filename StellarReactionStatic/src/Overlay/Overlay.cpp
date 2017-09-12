@@ -14,6 +14,7 @@
 #include "Debugging.hpp"
 #include "Grid.hpp"
 #include "NumericDisplay.hpp"
+#include "ReturnSelection.hpp"
 
 
 
@@ -97,6 +98,7 @@ void Overlay::loadMenus()
 	game.getOverlay().addPanel(sptr<leon::Panel>(loadMultiplayerLobby(pMain_menu)));
 	game.getOverlay().addPanel(sptr<leon::Panel>(loadStore()));
 	game.getOverlay().addPanel(sptr<leon::Panel>(loadHud()));
+	game.getOverlay().addPanel(sptr<leon::Panel>(loadSelectionMenu()));
 
 
 
@@ -121,6 +123,24 @@ void Overlay::loadMenus()
 	leon::WidgetBase* pClose = new leon::Button(*pMessBox->getPanelPtr(), closeMessBox);
 	pMessBox->add(sptr<leon::WidgetBase>(pClose));
 	game.getOverlay().addPanel(sptr<leon::Panel>(pMessBox));
+}
+leon::Panel* Overlay::loadSelectionMenu()
+{
+	leon::Panel* panel = nullptr;
+	sf::Vector2i panelSize(384, 200);
+
+	//load store first
+	{
+		leon::ReturnSelectionData data;
+		data.ioComp.name = "return_selection";
+		data.startHidden = true;
+		data.backgroundColor = sf::Color(50, 50, 50, 128);
+		data.screenCoords = sf::Vector2f(game.getWindow().getSize().x / 2.f - panelSize.x / 2.f, game.getWindow().getSize().y / 2.f - panelSize.y / 2.f);
+		data.size = sf::Vector2f((float)panelSize.x, (float)panelSize.y);
+		panel = new leon::ReturnSelection(game.getOverlay().getGui(), data);
+	}
+
+	return panel;
 }
 leon::Panel* Overlay::loadMainMenu()
 {
@@ -438,6 +458,8 @@ leon::Panel* Overlay::loadMultiplayerLobby(leon::Panel* pMain_menu)
 }
 leon::Panel* Overlay::loadStore()
 {
+
+
 	leon::Panel* pStore = nullptr;
 	sf::Vector2f storePanelSize = sf::Vector2f(800, 640);
 

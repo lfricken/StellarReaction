@@ -330,8 +330,10 @@
     <ClInclude Include="include\Overlay\NumericDisplay.hpp" />
     <ClInclude Include="include\Basic\Resources.hpp" />
     <ClInclude Include="include\Universe\Module\Loot.hpp" />
+    <ClInclude Include="include\Overlay\ReturnSelection.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Overlay\ReturnSelection.cpp" />
     <ClCompile Include="src\Universe\Module\Loot.cpp" />
     <ClCompile Include="src\Basic\Resources.cpp" />
     <ClCompile Include="src\Overlay\NumericDisplay.cpp" />

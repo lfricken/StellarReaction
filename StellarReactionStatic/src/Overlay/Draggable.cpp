@@ -61,14 +61,18 @@ bool Draggable::callbackHook2(const tgui::Callback& callback)
 		m_spDrag->toggleDragging(true);
 		return true;
 	}
-	//else if(callback.trigger == tgui::Button::Ri)
-	//{
-
-	//}
 	else if(callback.trigger == tgui::Button::LeftMouseReleased)
 	{
 		if(m_spDrag->isDragging())
 			dropped();
+		return true;
+	}
+	else if(callback.trigger == tgui::ClickableWidget::RightMouseClicked)//clickable widget, not button!
+	{
+		asdf fix this;
+		sf::Packet data;
+		Message selection("return_selection", "show", data, 0, false);
+		game.getCoreIO().recieve(selection);
 		return true;
 	}
 	else

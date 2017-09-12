@@ -868,31 +868,57 @@ namespace tgui
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    void Container::leftMousePressed(float x, float y)
-    {
-        sf::Event event;
-        event.type = sf::Event::MouseButtonPressed;
-        event.mouseButton.button = sf::Mouse::Left;
-        event.mouseButton.x = static_cast<int>(x - getPosition().x);
-        event.mouseButton.y = static_cast<int>(y - getPosition().y);
+	void Container::leftMousePressed(float x, float y)
+	{
+		sf::Event event;
+		event.type = sf::Event::MouseButtonPressed;
+		event.mouseButton.button = sf::Mouse::Left;
+		event.mouseButton.x = static_cast<int>(x - getPosition().x);
+		event.mouseButton.y = static_cast<int>(y - getPosition().y);
 
-        // Let the event manager handle the event
-        handleEvent(event);
-    }
+		// Let the event manager handle the event
+		handleEvent(event);
+	}
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    void Container::leftMouseReleased(float x , float y)
-    {
-        sf::Event event;
-        event.type = sf::Event::MouseButtonReleased;
-        event.mouseButton.button = sf::Mouse::Left;
-        event.mouseButton.x = static_cast<int>(x - getPosition().x);
-        event.mouseButton.y = static_cast<int>(y - getPosition().y);
+	void Container::leftMouseReleased(float x, float y)
+	{
+		sf::Event event;
+		event.type = sf::Event::MouseButtonReleased;
+		event.mouseButton.button = sf::Mouse::Left;
+		event.mouseButton.x = static_cast<int>(x - getPosition().x);
+		event.mouseButton.y = static_cast<int>(y - getPosition().y);
 
-        // Let the event manager handle the event
-        handleEvent(event);
-    }
+		// Let the event manager handle the event
+		handleEvent(event);
+	}
+
+	void Container::rightMousePressed(float x, float y)
+	{
+		sf::Event event;
+		event.type = sf::Event::MouseButtonPressed;
+		event.mouseButton.button = sf::Mouse::Right;
+		event.mouseButton.x = static_cast<int>(x - getPosition().x);
+		event.mouseButton.y = static_cast<int>(y - getPosition().y);
+
+		// Let the event manager handle the event
+		handleEvent(event);
+	}
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	void Container::rightMouseReleased(float x, float y)
+	{
+		sf::Event event;
+		event.type = sf::Event::MouseButtonReleased;
+		event.mouseButton.button = sf::Mouse::Right;
+		event.mouseButton.x = static_cast<int>(x - getPosition().x);
+		event.mouseButton.y = static_cast<int>(y - getPosition().y);
+
+		// Let the event manager handle the event
+		handleEvent(event);
+	}
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

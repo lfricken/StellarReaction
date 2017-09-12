@@ -15,9 +15,14 @@ enum class EventType
 	/**GUI**/
 	MouseLeft,//called when mouse left our AABB, pass in
 	MouseEntered,//called when mouse entered our AABB, pass in
+
 	LeftMouseClicked,//called when we are leftClicked on, pass in
-	MousePressed,
-	MouseReleased,
+	LeftMousePressed,
+	LeftMouseReleased,
+	RightMouseClicked,//called when we are rightClicked on, pass in
+	RightMousePressed,
+	RightMouseReleased,
+
 	TextChanged,//called when text changes in editbox, pass in TextInBox
 	ReturnKeyPressed,//called when enter pressed in editbox, pass in TextInBox
 	Selection,//called when someone selects from a list
