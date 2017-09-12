@@ -40,4 +40,6 @@ Black Holes pull objects toward it that come too close. When an object approache
 ## Weapons
 There are four classes of weapons available to the player. Lasers, Projectiles, Missiles, and Grappling Hooks. Lasers consume lots of energy, but have the advantage of being good at medium range combat due to their time of flight being nearly instant. They are good for damaging specific modules of the enemy ship. Projectile weapons can be tricky to aim, but deal large amounts of damage, making them ideal for close range combat. Missiles are designed for long range combat. They target the closest object to the player's cursor when fired. They will track the target until they hit it or run out of fuel and explode. A player can used quick turning and obstacles to avoid a Missile. Grappling Hooks pull the target ship towards the player's ship, enabling a player to catch a fleeing opponent.
 
-
+## CMake
+*SFML - Point at directory. Pretty easy.
+*TGUI - Build SFML, put built libs into TGUI/lib (note: they cannot be in sub folders). Point at directory.

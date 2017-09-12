@@ -61,6 +61,10 @@ bool Draggable::callbackHook2(const tgui::Callback& callback)
 		m_spDrag->toggleDragging(true);
 		return true;
 	}
+	//else if(callback.trigger == tgui::Button::Ri)
+	//{
+
+	//}
 	else if(callback.trigger == tgui::Button::LeftMouseReleased)
 	{
 		if(m_spDrag->isDragging())

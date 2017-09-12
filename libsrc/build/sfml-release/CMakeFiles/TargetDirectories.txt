@@ -1,0 +1,16 @@
+C:/Users/leon/Desktop/projects/StellarReaction/libsrc/build/sfml-release/CMakeFiles/INSTALL.dir
+C:/Users/leon/Desktop/projects/StellarReaction/libsrc/build/sfml-release/CMakeFiles/ALL_BUILD.dir
+C:/Users/leon/Desktop/projects/StellarReaction/libsrc/build/sfml-release/CMakeFiles/ZERO_CHECK.dir
+C:/Users/leon/Desktop/projects/StellarReaction/libsrc/build/sfml-release/src/SFML/CMakeFiles/INSTALL.dir
+C:/Users/leon/Desktop/projects/StellarReaction/libsrc/build/sfml-release/src/SFML/System/CMakeFiles/sfml-system.dir
+C:/Users/leon/Desktop/projects/StellarReaction/libsrc/build/sfml-release/src/SFML/System/CMakeFiles/INSTALL.dir
+C:/Users/leon/Desktop/projects/StellarReaction/libsrc/build/sfml-release/src/SFML/Main/CMakeFiles/INSTALL.dir
+C:/Users/leon/Desktop/projects/StellarReaction/libsrc/build/sfml-release/src/SFML/Main/CMakeFiles/sfml-main.dir
+C:/Users/leon/Desktop/projects/StellarReaction/libsrc/build/sfml-release/src/SFML/Window/CMakeFiles/sfml-window.dir
+C:/Users/leon/Desktop/projects/StellarReaction/libsrc/build/sfml-release/src/SFML/Window/CMakeFiles/INSTALL.dir
+C:/Users/leon/Desktop/projects/StellarReaction/libsrc/build/sfml-release/src/SFML/Network/CMakeFiles/sfml-network.dir
+C:/Users/leon/Desktop/projects/StellarReaction/libsrc/build/sfml-release/src/SFML/Network/CMakeFiles/INSTALL.dir
+C:/Users/leon/Desktop/projects/StellarReaction/libsrc/build/sfml-release/src/SFML/Graphics/CMakeFiles/sfml-graphics.dir
+C:/Users/leon/Desktop/projects/StellarReaction/libsrc/build/sfml-release/src/SFML/Graphics/CMakeFiles/INSTALL.dir
+C:/Users/leon/Desktop/projects/StellarReaction/libsrc/build/sfml-release/src/SFML/Audio/CMakeFiles/sfml-audio.dir
+C:/Users/leon/Desktop/projects/StellarReaction/libsrc/build/sfml-release/src/SFML/Audio/CMakeFiles/INSTALL.dir

@@ -193,6 +193,10 @@ void WidgetBase::f_callback(const tgui::Callback& callback)
 	{
 		f_LeftMouseReleased();
 	}
+	else if(callback.trigger == tgui::ClickableWidget::RightMouseClicked)
+	{
+		Print << "hi";
+	}
 }
 void WidgetBase::f_MouseEntered()
 {
