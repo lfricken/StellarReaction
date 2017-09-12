@@ -2,8 +2,6 @@
 *.obj
 *.opensdf
 *.sdf
-*.pdb
-*.ilk
 *.log
 *.tlog
 *.suo
