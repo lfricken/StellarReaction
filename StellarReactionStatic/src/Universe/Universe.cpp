@@ -99,7 +99,7 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 			chunkMessageData.needsController = true;
 			chunkMessageData.aiControlled = false;
 
-			ShipBuilder::Client::createChunk(chunkMessageData, 0);
+			ShipBuilder::Server::createChunk(chunkMessageData, 0);
 		}
 
 		/**Load Local Player Overlay**/
@@ -121,7 +121,7 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 				ChunkDataMessage chunkMessageData;
 				chunkMessageData.loadJson(*it);
 
-				ShipBuilder::Client::createChunk(chunkMessageData, 0);
+				ShipBuilder::Server::createChunk(chunkMessageData, 0);
 			}
 		}
 		/**Hazard Fields**/
@@ -495,12 +495,10 @@ void Universe::input(String rCommand, sf::Packet rData)
 	}
 	else if(rCommand == "initBackgroundCommand")
 	{
-		int controller = game.getLocalPlayer().getController();
-		if(controller != -1)
+		auto controller = game.getLocalPlayer().getController();
+		if(controller != nullptr)
 		{
-			auto con = m_spControlFactory->getController(controller);
-				
-			auto pos = con->getChunk()->getBodyComponent().getPosition();
+			auto pos = controller->getChunk()->getBodyComponent().getPosition();
 			float maxZoom = game.getLocalPlayer().getCamera().m_maxZoom * 0.4f;
 			float size = (float)game.getWindow().getSize().x / scale;
 			m_spDecorEngine->initSpawns(pos, Vec2(maxZoom* size, maxZoom* size));

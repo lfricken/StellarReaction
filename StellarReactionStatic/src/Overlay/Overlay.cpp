@@ -98,7 +98,7 @@ void Overlay::loadMenus()
 	game.getOverlay().addPanel(sptr<leon::Panel>(loadMultiplayerLobby(pMain_menu)));
 	game.getOverlay().addPanel(sptr<leon::Panel>(loadStore()));
 	game.getOverlay().addPanel(sptr<leon::Panel>(loadHud()));
-	game.getOverlay().addPanel(sptr<leon::Panel>(loadSelectionMenu()));
+	game.getOverlay().addPanel(sptr<leon::Panel>(loadSellMenu()));
 
 
 
@@ -124,12 +124,11 @@ void Overlay::loadMenus()
 	pMessBox->add(sptr<leon::WidgetBase>(pClose));
 	game.getOverlay().addPanel(sptr<leon::Panel>(pMessBox));
 }
-leon::Panel* Overlay::loadSelectionMenu()
+leon::Panel* Overlay::loadSellMenu()
 {
 	leon::Panel* panel = nullptr;
-	sf::Vector2i panelSize(384, 200);
+	sf::Vector2i panelSize(100, 25);
 
-	//load store first
 	{
 		leon::ReturnSelectionData data;
 		data.ioComp.name = "return_selection";
@@ -138,6 +137,15 @@ leon::Panel* Overlay::loadSelectionMenu()
 		data.screenCoords = sf::Vector2f(game.getWindow().getSize().x / 2.f - panelSize.x / 2.f, game.getWindow().getSize().y / 2.f - panelSize.y / 2.f);
 		data.size = sf::Vector2f((float)panelSize.x, (float)panelSize.y);
 		panel = new leon::ReturnSelection(game.getOverlay().getGui(), data);
+	}
+	{
+		leon::ButtonData sell;
+		sell.size = sf::Vector2f(100, 25);
+		sell.buttonText = "Sell";
+		sell.ioComp.name = "sell_button";
+		sell.screenCoords = sf::Vector2f(0, 0);
+
+		panel->add(sptr<leon::WidgetBase>(new leon::Button(*panel->getPanelPtr(), sell)));
 	}
 
 	return panel;
@@ -477,9 +485,9 @@ leon::Panel* Overlay::loadStore()
 	{
 		leon::ButtonData close;
 		close.ioComp.name = "join_button";
-		close.screenCoords = sf::Vector2f(storePanelSize.x - 64, 0);
-		close.size = sf::Vector2f(64, 64);
-		close.buttonText = "X";
+		close.screenCoords = sf::Vector2f(storePanelSize.x - 64 - 128, 4);
+		close.size = sf::Vector2f(32, 64);
+		close.buttonText = "";
 
 		Courier closeMes;
 		closeMes.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
@@ -490,6 +498,11 @@ leon::Panel* Overlay::loadStore()
 		guiMode.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
 		guiMode.message.reset("local_player", "toggleGuiMode", voidPacket, 0, false);
 		close.ioComp.courierList.push_back(guiMode);
+
+		Courier reconstruct;
+		reconstruct.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
+		reconstruct.message.reset("ship_editor", "buildShipWithConfiguration", voidPacket, 0, false);
+		close.ioComp.courierList.push_back(reconstruct);
 
 		pStore->add(sptr<leon::WidgetBase>(new leon::Button(*pStore->getPanelPtr(), close)));
 	}
@@ -537,7 +550,7 @@ leon::Panel* Overlay::loadStore()
 					sf::Packet moduleInfo;
 					moduleInfo << button.moduleBlueprint;
 					moduleInfo << initialGridPos.x << initialGridPos.y;
-					button.cost.into(&moduleInfo);
+					button.cost.fromPacket(&moduleInfo);
 
 
 					Courier purchaseMessage;
@@ -562,19 +575,19 @@ leon::Panel* Overlay::loadStore()
 		else
 			WARNING;
 	}
-	//reconstruct button
-	{
-		ButtonData reconstructData;
-		reconstructData.screenCoords = sf::Vector2f(20, 480);
-		reconstructData.buttonText = "Reconstruct";
+	////reconstruct button
+	//{
+	//	ButtonData reconstructData;
+	//	reconstructData.screenCoords = sf::Vector2f(20, 480);
+	//	reconstructData.buttonText = "Reconstruct";
 
-		Courier reconstructButton;
-		reconstructButton.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
-		reconstructButton.message.reset("ship_editor", "buildShipWithConfiguration", voidPacket, 0, false);
-		reconstructData.ioComp.courierList.push_back(reconstructButton);
+	//	Courier reconstructButton;
+	//	reconstructButton.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
+	//	reconstructButton.message.reset("ship_editor", "buildShipWithConfiguration", voidPacket, 0, false);
+	//	reconstructData.ioComp.courierList.push_back(reconstructButton);
 
-		pStore->add(sptr<leon::WidgetBase>(new Button(*pStore->getPanelPtr(), reconstructData)));
-	}
+	//	pStore->add(sptr<leon::WidgetBase>(new Button(*pStore->getPanelPtr(), reconstructData)));
+	//}
 	{
 		sf::Vector2i editGridSize(64, 64);
 		sf::Vector2f editGridPos(200.f, 0.f);

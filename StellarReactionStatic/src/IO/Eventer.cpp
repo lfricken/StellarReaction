@@ -18,6 +18,10 @@ void Eventer::add(const List<Courier>& rCourierList)
 	for(auto it = rCourierList.cbegin(); it!=rCourierList.cend(); ++it)
 		add(*it);
 }
+void Eventer::clear()
+{
+	m_courierMap.clear();
+}
 void Eventer::event(EventType type, int value, const sf::Packet& rData)
 {
 	auto typeIt = m_courierMap.find(type);//find the expected type of event

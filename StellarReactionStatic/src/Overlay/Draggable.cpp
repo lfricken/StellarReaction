@@ -69,9 +69,18 @@ bool Draggable::callbackHook2(const tgui::Callback& callback)
 	}
 	else if(callback.trigger == tgui::ClickableWidget::RightMouseClicked)//clickable widget, not button!
 	{
-		asdf fix this;
+		sf::Vector2i grid = getGridPosition();
+
+		auto mousePos = sf::Mouse::getPosition(game.getWindow());
+		auto myPos = getGridPosition();
 		sf::Packet data;
-		Message selection("return_selection", "show", data, 0, false);
+		data << mousePos.x;
+		data << mousePos.y;
+		data << myPos.x;
+		data << myPos.y;
+		data << true;//center it
+		data << true;//mouse off closes (otherwise you need a close button)
+		Message selection("return_selection", "show_sellscreen", data, 0, false);
 		game.getCoreIO().recieve(selection);
 		return true;
 	}

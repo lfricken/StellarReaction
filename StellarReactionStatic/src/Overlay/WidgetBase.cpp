@@ -45,13 +45,14 @@ void WidgetBase::f_assign(tgui::Widget* pWidget, const WidgetBaseData& rData)
 	//Size
 	m_pWidget->setSize(rData.size.x, rData.size.y);
 
+	//Bind for events
+	int bindAllMaskValue = 4095;//TODO: allthough this is a lot of 1's, why not have more 1's? Where did this value come from? todo probably anding of tgui enums
+	m_pWidget->bindCallbackEx(&WidgetBase::f_callback, this, bindAllMaskValue);
 
-	m_pWidget->bindCallbackEx(&WidgetBase::f_callback, this, 4095);//TODO where did this magic number come from?
-	//todo probably anding of tgui enums
 }
 WidgetBase::~WidgetBase()
 {
-	if(pCon != NULL)
+	if(pCon != nullptr)
 		pCon->remove(m_pWidget);
 }
 void WidgetBase::enable()

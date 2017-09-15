@@ -44,7 +44,7 @@ void ChunkSpawner::update()
 		ship.blueprintName = m_blueprints[Rand::get(0,m_blueprints.size()-1)];
 		ship.rotation = 0;
 		ship.team = (int)m_team;
-		ShipBuilder::Client::createChunk(ship, 0);
+		ShipBuilder::Server::createChunk(ship, 0);
 		--m_spawnAmount;
 		resetCountdown();
 	}

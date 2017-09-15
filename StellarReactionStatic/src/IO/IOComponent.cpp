@@ -24,6 +24,10 @@ int IOComponent::getPosition() const
 {
 	return m_ioManPosition;
 }
+Eventer& IOComponent::getEventer()
+{
+	return m_eventer;
+}
 void IOComponentData::loadJson(const Json::Value& root)
 {
 	GETJSON(name);

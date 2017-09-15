@@ -116,6 +116,15 @@ class Player : public BasePlayerTraits
 public:
 	Player(const PlayerData& rData);
 	virtual ~Player();
+
+	/// <summary>
+	/// Return ship for local player.
+	/// </summary>
+	sptr<Chunk> getChunk() const;
+	/// <summary>
+	/// Return controller for local player.
+	/// </summary>
+	Controller* getController() const;
 	/// Returns Camera for local player.
 	Camera& getCamera();
 	/// Returns keyboard input configuration.

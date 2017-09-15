@@ -53,7 +53,7 @@ const Vec2& Controller::getAim() const
 {
 	return m_aim;
 }
-sptr<Chunk> Controller::getChunk() const//return position
+sptr<Chunk> Controller::getChunk() const
 {
 	return std::dynamic_pointer_cast<Chunk>(game.getUniverse().getGameObject(m_slavePosition));
 }

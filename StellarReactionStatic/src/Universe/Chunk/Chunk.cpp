@@ -526,7 +526,7 @@ ShipModule* Chunk::getNearestValidTarget(Vec2 target)
 			ship.blueprintName = "Loot";
 			ship.rotation = 0;
 			ship.team = static_cast<int>(Team::Neutral);
-			ShipBuilder::Client::createChunk(ship, 0.3f);
+			ShipBuilder::Server::createChunk(ship, 0.3f);
 		}
 		//TODO death effects
 
@@ -589,11 +589,12 @@ void Chunk::input(String rCommand, sf::Packet rData)
 		Resources loot;
 		int lootChunkUniversePos;
 
-		loot.outOf(&rData);
+		loot.fromPacket(&rData);
 		rData >> lootChunkUniversePos;
 
 		m_resources->add(loot);
-		destroy(lootChunkUniversePos, false, 0.f);
+		if(lootChunkUniversePos != -1)
+			destroy(lootChunkUniversePos, false, 0.f);
 	}
 	else if(rCommand == "rebuiltComplete")
 	{

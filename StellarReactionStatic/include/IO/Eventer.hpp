@@ -19,7 +19,10 @@ public:
 	/// Called when an event happens, and we check to see if any of our conditions are met.
 	/// If they are met, we send the corresponding message.
 	void event(EventType type, int value, const sf::Packet& rData);
-
+	/// <summary>
+	/// Remove all handlers.
+	/// </summary>
+	void clear();
 protected:
 private:
 	std::map<EventType, List<Courier> > m_courierMap;//holds all the couriers for this object

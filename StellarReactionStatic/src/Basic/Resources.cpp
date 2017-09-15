@@ -25,7 +25,17 @@ void Resources::subtract(const Resources& other)
 		m_resourceValues[it->first] -= it->second;
 	}
 }
-void Resources::into(sf::Packet* resources) const
+
+Resources Resources::percentOf(float fraction) const
+{
+	Resources copy = *this;
+	for(auto it = copy.m_resourceValues.begin(); it != copy.m_resourceValues.end(); ++it)
+	{
+		it->second = static_cast<int>(it->second * fraction);
+	}
+	return copy;
+}
+void Resources::intoPacket(sf::Packet* resources) const
 {
 	sf::Packet& res = *resources;
 	for(auto it = m_resourceValues.cbegin(); it != m_resourceValues.cend(); ++it)
@@ -33,7 +43,7 @@ void Resources::into(sf::Packet* resources) const
 		res << (int32_t)it->second;
 	}
 }
-void Resources::outOf(sf::Packet* resources)
+void Resources::fromPacket(sf::Packet* resources)
 {
 	sf::Packet& res = *resources;
 	for(auto it = m_resourceValues.cbegin(); it != m_resourceValues.cend(); ++it)

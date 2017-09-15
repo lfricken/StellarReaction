@@ -37,7 +37,7 @@ void Loot::entered(FixtureComponent* pOther)
 			m_used = false;
 			int target = newGuest->m_io.getPosition();
 			sf::Packet loot;
-			m_resources.into(&loot);
+			m_resources.intoPacket(&loot);
 			loot << m_parentChunk->universePosition;
 			Message giveLoot(target, "pickupLoot", loot, 0, false);
 			Message::SendUniverse(giveLoot);

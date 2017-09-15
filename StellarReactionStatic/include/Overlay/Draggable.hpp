@@ -41,24 +41,36 @@ namespace leon
 		Draggable(tgui::Container& container, const DraggableData& rData);
 		virtual ~Draggable();
 
-		/// Get data this Draggable is holding.
+		/// <summary>
+		/// Data this draggable holds. In this case, name of the module BP it represents.
+		/// </summary>
 		const String& getMetaData() const;
 		/// Check whether the DraggableSurface already has a Draggable at that position before setting position.
 		bool trySetGridPosition(const sf::Vector2i& rGridPos);
-		/// Set the position of this draggable to a particular coordinate.
+		/// <summary>
+		/// Given the mouse position in screen coordinates, any DragComponents::isDragging == true objects get moved.
+		/// </summary>
 		void setPosition(const sf::Vector2f& rPos);
 
 	protected:
 		virtual bool callbackHook2(const tgui::Callback& callback);
-
 		void dropped();
 
-
 	private:
-		String m_metaData;//data this draggable holds
+		/// <summary>
+		/// Data this draggable holds. In this case, name of the module BP it represents.
+		/// </summary>
+		String m_metaData;
+		/// <summary>
+		/// Called by the draggable component when we are getting dragged around.
+		/// </summary>
 		void f_update(const sf::Vector2f& rPos);
 		void f_initialize(const DraggableData& rData);
 		sptr<DragComponent> m_spDrag;
+		/// <summary>
+		/// If we want to set this objects position in the panel, given a window coordinate,
+		/// we need to be able to subtract out the panels position.
+		/// </summary>
 		sf::Vector2f m_parentPanelOffset;
 		sptr<Picture> m_spPic;
 

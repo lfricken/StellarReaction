@@ -27,7 +27,9 @@ namespace leon
 		bool isDragging() const;
 		/// Set whether this object is being dragged.
 		void toggleDragging(bool dragging);
-		/// Tell our parent object where we are being dragged to.
+		/// <summary>
+		/// Given the mouse position in screen coordinates, any DragComponents::isDragging == true objects get moved.
+		/// </summary>
 		void updateDrag(const sf::Vector2f& rPos);
 
 	protected:

@@ -77,13 +77,13 @@ namespace leon
 		sf::Vector2i toGrid(sf::Vector2f realPos) const;
 		sf::Vector2f fromGrid(sf::Vector2i gridPos) const;
 
+		IOComponent m_io;
 	protected:
 		/// <summary>
 		/// Force deriver to load config file.
 		/// </summary>
 		virtual void load(const String& fullFilePath) = 0;
 
-		IOComponent m_io;
 		
 		void f_assign(tgui::Widget* pWidget, const WidgetBaseData& rData);//must assign m_pWidget to something!
 

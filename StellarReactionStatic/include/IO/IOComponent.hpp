@@ -47,13 +47,18 @@ public:
 	/// Return the position of this IOComponent in the list.
 	int getPosition() const;
 
+	Eventer& getEventer();
+
 protected:
 private:
 	IOManager* m_pManager;//a convienent reference to our manager
 	String m_name;//our IO name
 	int m_ioManPosition;//position of us in the io manager
+	/// <summary>
+	/// The item that stores our conditions and messages. has to appear after m_pManager in this class.
+	/// </summary>
+	Eventer m_eventer;
 
-	Eventer m_eventer;//the item that stores our conditions and messages
 	std::function<void(String, sf::Packet)> m_cbFunction;//the function we call when we get a receive message
 };
 

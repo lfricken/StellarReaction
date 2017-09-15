@@ -66,14 +66,6 @@ void ShipBuilder::Client::readFromPacket(int* targetShipIOPosition, List<Pair<St
 		data >> it->second.y;//grid position y
 	}
 }
-void ShipBuilder::Client::createChunk(const ChunkDataMessage& data, float delay)
-{
-	sf::Packet messageData;
-	data.pack(&messageData);
-
-	Message newChunk("universe", "createChunkCommand", messageData, delay, false);
-	Message::SendUniverse(newChunk);
-}
 String ShipBuilder::Client::getNextSlaveName()
 {
 	return "slv_" + String(counter++);
@@ -109,15 +101,23 @@ void ShipBuilder::Server::attachModule(int targetIOPos, const String& bpName, co
 	pack << offset.y;
 
 	Message attachment((unsigned)targetIOPos, "attachModule", pack, 0, false);
-	game.getUniverse().getUniverseIO().recieve(attachment);
+	Message::SendUniverse(attachment);
 }
 void ShipBuilder::Server::cleanShip(int targetIOPos)
 {
 	Message clean((unsigned)targetIOPos, "clear", voidPacket, 0, false);
-	game.getUniverse().getUniverseIO().recieve(clean);
+	Message::SendUniverse(clean);
 }
 void ShipBuilder::Server::doneBuilding(int targetIOPos)
 {
 	Message clean((unsigned)targetIOPos, "doneBuilding", voidPacket, 0, false);
-	game.getUniverse().getUniverseIO().recieve(clean);
+	Message::SendUniverse(clean);
+}
+void ShipBuilder::Server::createChunk(const ChunkDataMessage& data, float delay)
+{
+	sf::Packet messageData;
+	data.pack(&messageData);
+
+	Message newChunk("universe", "createChunkCommand", messageData, delay, false);
+	Message::SendUniverse(newChunk);
 }

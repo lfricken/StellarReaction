@@ -34,6 +34,26 @@ Player::~Player()
 {
 
 }
+sptr<Chunk> Player::getChunk() const
+{
+	Controller* cont = getController();
+	sptr<Chunk> ship(nullptr);
+	if(cont != nullptr)
+	{
+		ship = cont->getChunk();
+	}
+
+	return ship;
+}
+Controller* Player::getController() const
+{
+	Controller* cont = nullptr;
+	if(m_controller != -1)
+	{
+		cont = game.getUniverse().getControllerFactory().getController(m_controller);
+	}
+	return cont;
+}
 Camera& Player::getCamera()
 {
 	return m_camera;
@@ -259,7 +279,7 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 				data.rotation = 0.f;
 				data.team = static_cast<int>(getTeam());
 
-				ShipBuilder::Client::createChunk(data, 0);
+				ShipBuilder::Server::createChunk(data, 0);
 			}
 			/**== MAIN MENU ==**/
 			if(event.key.code == sf::Keyboard::Escape)
@@ -358,6 +378,7 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 }
 void Player::updateView()
 {
+	//update resources
 	if(m_resourceUpdateTimer.isTimeUp())
 	{
 		m_resourceUpdateTimer.restartCountDown();
@@ -378,19 +399,13 @@ void Player::updateView()
 		}
 	}
 
-
-	Controller* cont = nullptr;
-	if(m_controller != -1)
-		cont = game.getUniverse().getControllerFactory().getController(m_controller);
-
-	if(cont == nullptr)
-		return;
-
-	Controller& rController = *cont;
-
-	auto chunk = rController.getChunk();
-	if(chunk != nullptr)
+	//update HUD, camera
+	auto chunk = getChunk();
+	auto cont = getController();
+	if(cont != nullptr && chunk != nullptr)
 	{
+		Controller& rController = *cont;
+
 		if(chunk->getStatusBoard().expired())
 			chunk->resetStatusBoard(m_myStatusBoard);
 
@@ -440,9 +455,6 @@ void Player::updateView()
 					m_resources = chunk->m_resources;
 				}
 			}
-
-
-
 
 			//m_targetReticules
 			int i = 0;
@@ -502,7 +514,6 @@ void Player::updateView()
 			//m_minimap->cleanMap(index);
 		}
 	}
-
 }
 IOComponent& Player::getIOComp()
 {

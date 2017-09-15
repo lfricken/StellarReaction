@@ -5,6 +5,7 @@
 #include "Network.hpp"
 #include "Player.hpp"
 #include "Resources.hpp"
+#include "Controller.hpp"
 
 using namespace leon;
 
@@ -134,6 +135,38 @@ bool DraggableSurface::inputHook(const String rCommand, sf::Packet data)
 
 		return true;
 	}
+	else if(rCommand == "sell")
+	{
+		sf::Vector2i target;
+		data >> target.x;
+		data >> target.y;
+
+		for(auto it = m_widgetList.begin(); it != m_widgetList.end(); ++it)
+		{
+			Draggable* pDrag = dynamic_cast<Draggable*>((*it).get());
+			String draggableBp = pDrag->getMetaData();
+			sf::Vector2i draggablePos = pDrag->getGridPosition();
+			if(draggablePos == target)
+			{
+				{//give money
+					String bpName = pDrag->getMetaData();
+					auto bp = game.getUniverse().getBlueprints().getModuleSPtr(bpName);
+					Resources res = bp->cost.percentOf(0.5);
+					auto ship = game.getLocalPlayer().getChunk();
+
+					sf::Packet loot;
+					res.intoPacket(&loot);
+					loot << -1;
+					Message giveLoot(ship->m_io.getPosition(), "pickupLoot", loot, 0, false);
+					Message::SendUniverse(giveLoot);
+				}
+				m_widgetList.erase(it);
+				break;
+			}
+		}
+
+		return true;
+	}
 	//else if(rCommand == "addModuleToGui")
 	//{
 	//	String title;
@@ -158,7 +191,7 @@ bool DraggableSurface::inputHook(const String rCommand, sf::Packet data)
 		data >> title;
 		data >> shipModulePos.x;
 		data >> shipModulePos.y;
-		cost.outOf(&data);
+		cost.fromPacket(&data);
 
 		const ModuleData* module = game.getUniverse().getBlueprints().getModuleSPtr(title).get();
 		if(module != nullptr)

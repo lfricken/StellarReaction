@@ -21,8 +21,6 @@ public:
 
 	///Set which controller does this entity control.
 	virtual void setController(int index);
-	///Which controller does this entity control?
-	int getController() const;
 
 	///Set which ship does this player want to start with.
 	void setShipChoice(const String& rTitle);

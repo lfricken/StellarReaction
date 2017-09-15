@@ -42,10 +42,6 @@ void BasePlayerTraits::setController(int index)
 {
 	m_controller = index;
 }
-int BasePlayerTraits::getController() const
-{
-	return m_controller;
-}
 //void BasePlayerTraits::addModule(const String& newTitle, const sf::Vector2i& rPos)
 //{
 //	//m_owned.push_back(pair<String, Vec2>(newTitle, rPos));
