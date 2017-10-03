@@ -550,7 +550,7 @@ leon::Panel* Overlay::loadStore()
 					sf::Packet moduleInfo;
 					moduleInfo << button.moduleBlueprint;
 					moduleInfo << initialGridPos.x << initialGridPos.y;
-					button.cost.fromPacket(&moduleInfo);
+					button.cost.intoPacket(&moduleInfo);
 
 
 					Courier purchaseMessage;
