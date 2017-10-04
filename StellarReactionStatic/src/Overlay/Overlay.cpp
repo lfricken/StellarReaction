@@ -534,7 +534,7 @@ leon::Panel* Overlay::loadStore()
 					cost.numDigits = 2;
 					cost.digitSize = sf::Vector2f(storeData.buttonSize.y / 2, storeData.buttonSize.y);
 					auto display = new NumericDisplay(*pStore->getPanelPtr(), cost);
-					display->setNumber(button.cost.m_resourceValues["A"]);
+					display->setNumber(button.cost.m_resourceValues[0]);
 					pStore->add(sptr<leon::WidgetBase>(display));
 				}
 				{//icon

@@ -3,9 +3,9 @@
 
 Resources::Resources()
 {
-	m_resourceValues["A"] = 0;
-	m_resourceValues["B"] = 0;
-	m_resourceValues["C"] = 0;
+	m_resourceValues[0] = 0;
+	m_resourceValues[1] = 0;
+	m_resourceValues[2] = 0;
 }
 Resources::~Resources()
 {
@@ -13,52 +13,67 @@ Resources::~Resources()
 }
 void Resources::add(const Resources& other)
 {
-	for(auto it = other.m_resourceValues.cbegin(); it != other.m_resourceValues.cend(); ++it)
+	for(auto res : other.m_resourceValues)
 	{
-		m_resourceValues[it->first] += it->second;
+		initResourceType(res.first);
+		m_resourceValues[res.first] += res.second;
 	}
 }
 void Resources::subtract(const Resources& other)
 {
-	for(auto it = other.m_resourceValues.cbegin(); it != other.m_resourceValues.cend(); ++it)
+	for(auto res : other.m_resourceValues)
 	{
-		m_resourceValues[it->first] -= it->second;
+		initResourceType(res.first);
+		m_resourceValues[res.first] -= res.second;
 	}
 }
 
 Resources Resources::percentOf(float fraction) const
 {
 	Resources copy = *this;
-	for(auto it = copy.m_resourceValues.begin(); it != copy.m_resourceValues.end(); ++it)
+	for(auto res : copy.m_resourceValues)
 	{
-		it->second = static_cast<int>(it->second * fraction);
+		copy.m_resourceValues[res.first] = static_cast<int>(res.second * fraction);
 	}
 	return copy;
 }
 void Resources::intoPacket(sf::Packet* resources) const
 {
-	sf::Packet& res = *resources;
-	for(auto it = m_resourceValues.cbegin(); it != m_resourceValues.cend(); ++it)
+	sf::Packet& packet = *resources;
+	for(auto res : m_resourceValues)
 	{
-		res << (int32_t)it->second;
+		packet << res.first;
+		packet << res.second;
 	}
 }
 void Resources::fromPacket(sf::Packet* resources)
 {
-	sf::Packet& res = *resources;
-	for(auto it = m_resourceValues.cbegin(); it != m_resourceValues.cend(); ++it)
+	sf::Packet& packet = *resources;
+	for(auto res : m_resourceValues)
 	{
-		int32_t val = 0;
-		res >> val;
-		m_resourceValues[it->first] = val;
+		ResourceType key;
+		ResourceValue value;
+
+		packet >> key;
+		packet >> value;
+
+		m_resourceValues[key] = value;
 	}
 }
 bool Resources::hasNegatives() const
 {
-	for(auto it = m_resourceValues.cbegin(); it != m_resourceValues.cend(); ++it)
+	for(auto res : m_resourceValues)
 	{
-		if(it->second < 0)
+		if(res.second < 0)
 			return true;
 	}
 	return false;
+}
+void Resources::initResourceType(ResourceType type)
+{
+	bool found = m_resourceValues.find(type) != m_resourceValues.end();
+	if(!found)
+	{
+		m_resourceValues[type] = ResourceValue();
+	}
 }

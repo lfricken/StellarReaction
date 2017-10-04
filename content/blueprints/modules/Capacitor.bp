@@ -4,5 +4,5 @@
     "baseDecor": {
         "texName": "module/capacitor"
     },
-	"cost": 50
+	"cost": [4, 4, 4]
 }

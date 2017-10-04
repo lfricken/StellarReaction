@@ -91,15 +91,11 @@ Resources JSON::get(const Json::Value& root, const String& fieldName, Resources 
 		return defaultValue;
 
 	Resources res;
-	int i = 0;
-	for(auto it = res.m_resourceValues.begin(); it != res.m_resourceValues.end(); ++it)
-	{
-		if(i >= root[fieldName].size())
-			break;
 
-		int resValue = root[fieldName][i].asInt();
-		it->second = resValue;
-		++i;
+	for(int key = 0; key < root[fieldName].size(); ++key)
+	{
+		int value = root[fieldName][key].asInt();
+		res.m_resourceValues[key] = value;
 	}
 
 	return res;
