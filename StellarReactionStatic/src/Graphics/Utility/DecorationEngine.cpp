@@ -10,7 +10,7 @@
 #include "Particles.hpp"
 
 
-DecorationEngine::DecorationEngine() : m_deltaTime(0)
+DecorationEngine::DecorationEngine() : m_deltaTime(0.f)
 {
 
 }

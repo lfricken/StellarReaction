@@ -34,7 +34,7 @@ namespace leon
 			id("0")
 		{
 			buttData.screenCoords = sf::Vector2f(0, 0);
-			buttData.transparency = 60;
+			buttData.alpha = 60;
 			buttData.configFile = "TGUI/widgets/Transparency.conf";
 			buttData.buttonText = "";
 		}

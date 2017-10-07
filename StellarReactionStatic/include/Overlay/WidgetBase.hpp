@@ -15,9 +15,10 @@ namespace leon
 			startHidden(false),
 			//configFile("TGUI/widgets/Black.conf"),
 			configFile("TGUI/widgets/NewMenu.conf"),
+			tooltip("1. Hi \n2. Bye"),
 			screenCoords(-1, -1),
 			size(128, 64),
-			transparency(255),
+			alpha(255),
 			ioComp(&game.getCoreIO()),
 			gridSize(0, 0),
 			gridPosition(1, 1)
@@ -25,8 +26,15 @@ namespace leon
 		}
 		bool startHidden;/**should this widget start invisible**/
 		String configFile;/**TGUI config file**/
+		/// <summary>
+		/// Tooltip to show on mouseover. 
+		/// </summary>
+		String tooltip;
 
-		unsigned char transparency;
+		/// <summary>
+		/// 0 is fully transparent
+		/// </summary>
+		unsigned char alpha;
 
 		sf::Vector2i gridSize;//how big are the grid snaps, THIS GETS SET IN DraggableSurface.cpp
 		sf::Vector2i gridPosition;//if this isn't -1,-1, we will override our screen coordinates and set to this grid position
@@ -114,7 +122,9 @@ namespace leon
 		/// </summary>
 		bool m_onGrid;
 
-		/**events HOOKS**/
+		/// <summary>
+		/// Return true if the hook handled the call.
+		/// </summary>
 		virtual bool inputHook(const String rCommand, sf::Packet rData);
 		virtual bool callbackHook(const tgui::Callback& callback);
 

@@ -7,9 +7,9 @@ namespace leon
 {
 	class DragUpdater;
 
-	/// \brief A small class to get the mouse coordinates when being dragged.
-	///
-	/// Probably should not be this complicated. Should be build into Draggable.
+	/// <summary>
+	/// A small class to get the mouse coordinates when being dragged.
+	/// </summary>
 	class DragComponent : NonCopyable
 	{
 	public:
@@ -23,9 +23,13 @@ namespace leon
 		}
 		~DragComponent();
 
+		/// <summary>
 		/// Return whether this object is being dragged.
+		/// </summary>
 		bool isDragging() const;
+		/// <summary>
 		/// Set whether this object is being dragged.
+		/// </summary>
 		void toggleDragging(bool dragging);
 		/// <summary>
 		/// Given the mouse position in screen coordinates, any DragComponents::isDragging == true objects get moved.

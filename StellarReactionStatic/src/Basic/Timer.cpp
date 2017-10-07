@@ -8,12 +8,18 @@ Timer::Timer()
 	m_lastElapsedTime = getTime();
 	m_countDownTime = 0.f;
 	m_timeUpTime = getTime() + m_countDownTime;
+	clock = nullptr;
 }
 Timer::Timer(float time)
 {
 	m_lastElapsedTime = time;
 	m_countDownTime = 0.f;
 	m_timeUpTime = time + m_countDownTime;
+	clock = nullptr;
+}
+Timer::Timer(const Clock& clockRef)
+{
+	clock = &clockRef;
 }
 Timer::~Timer()
 {
@@ -38,12 +44,15 @@ float Timer::getTimePercentageElapsed() const
 }
 float Timer::getTime() const//time elapsed as seconds since universe was initialized
 {
-	return game.getUniverse().getTime();
+	if(clock != nullptr)
+		return clock->getTime();
+	else
+		return game.getUniverse().getTime();
 }
 float Timer::getTimeElapsed()//get time elapsed since we last called this function
 {
 	float oldTime = m_lastElapsedTime;
-	m_lastElapsedTime = game.getUniverse().getTime();
+	m_lastElapsedTime = getTime();
 	return m_lastElapsedTime - oldTime;
 }
 bool Timer::isTimeUp() const

@@ -2,6 +2,7 @@
 
 #include "stdafx.hpp"
 #include "NonCopyable.hpp"
+#include "Clock.hpp"
 
 
 class Player;
@@ -29,7 +30,7 @@ namespace leon
 ///
 /// Contains all objects and memory.
 /// Built to rely on a single global instance of itself.
-class Game : NonCopyable
+class Game : public Clock, NonCopyable
 {
 public:
 	Game();

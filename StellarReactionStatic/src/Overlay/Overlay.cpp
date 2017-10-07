@@ -15,6 +15,7 @@
 #include "Grid.hpp"
 #include "NumericDisplay.hpp"
 #include "ReturnSelection.hpp"
+#include "Tooltip.hpp"
 
 
 
@@ -469,7 +470,8 @@ leon::Panel* Overlay::loadStore()
 
 
 	leon::Panel* pStore = nullptr;
-	sf::Vector2f storePanelSize = sf::Vector2f(800, 640);
+	auto size = game.getWindow().getSize();
+	sf::Vector2f storePanelSize = sf::Vector2f(size);
 
 	//load store first
 	{
@@ -540,8 +542,8 @@ leon::Panel* Overlay::loadStore()
 				{//icon
 					PictureData preview;
 					preview.texName = button.previewTexture;
-					preview.size = (sf::Vector2f)gridsize;
-					preview.size.x = storeData.previewWidth;
+					preview.size.x = storeData.buttonSize.y;
+					preview.size.y = storeData.buttonSize.y;
 					preview.gridPosition = butPos;
 					preview.gridSize = gridsize;
 					pStore->add(sptr<leon::WidgetBase>(new Picture(*pStore->getPanelPtr(), preview)));
@@ -565,7 +567,7 @@ leon::Panel* Overlay::loadStore()
 					buyButton.size = (sf::Vector2f)gridsize;
 					buyButton.buttonText = button.buttonName;
 					buyButton.startHidden = false;
-					buyButton.transparency = 100;
+					buyButton.alpha = 100;
 					buyButton.ioComp.courierList.push_back(purchaseMessage);
 
 					pStore->add(sptr<leon::WidgetBase>(new leon::Button(*pStore->getPanelPtr(), buyButton)));
@@ -575,19 +577,8 @@ leon::Panel* Overlay::loadStore()
 		else
 			WARNING;
 	}
-	////reconstruct button
-	//{
-	//	ButtonData reconstructData;
-	//	reconstructData.screenCoords = sf::Vector2f(20, 480);
-	//	reconstructData.buttonText = "Reconstruct";
 
-	//	Courier reconstructButton;
-	//	reconstructButton.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
-	//	reconstructButton.message.reset("ship_editor", "buildShipWithConfiguration", voidPacket, 0, false);
-	//	reconstructData.ioComp.courierList.push_back(reconstructButton);
-
-	//	pStore->add(sptr<leon::WidgetBase>(new Button(*pStore->getPanelPtr(), reconstructData)));
-	//}
+	//ship editor
 	{
 		sf::Vector2i editGridSize(64, 64);
 		sf::Vector2f editGridPos(200.f, 0.f);
@@ -613,6 +604,14 @@ leon::Panel* Overlay::loadStore()
 
 			pStore->add(sptr<leon::WidgetBase>(new leon::DraggableSurface(*pStore->getPanelPtr(), surfaceData)));
 		}
+	}
+
+	{
+		TooltipData tipData;
+		tipData.ioComp.name = "tooltip";
+		tipData.screenCoords = sf::Vector2f(512, 512);
+
+		pStore->add(sptr<leon::WidgetBase>(new leon::Tooltip(*pStore->getPanelPtr(), tipData)));
 	}
 
 	return pStore;

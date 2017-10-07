@@ -18,7 +18,16 @@ WidgetBase::WidgetBase(tgui::Container& rContainer, const WidgetBaseData& rData)
 }
 void WidgetBase::init(const WidgetBaseData& rData)
 {
+	if(rData.tooltip != "")//if not empty
+	{
+		sf::Packet tooltipText;
+		tooltipText << rData.tooltip;
 
+		Courier tooltip;
+		tooltip.condition.reset(EventType::MouseEntered, 0, 'd', true);
+		tooltip.message.reset("tooltip", "setTooltip", tooltipText, 0, false);
+		m_io.getEventer().add(tooltip);
+	}
 }
 void WidgetBase::f_assign(tgui::Widget* pWidget, const WidgetBaseData& rData)
 {
@@ -31,7 +40,7 @@ void WidgetBase::f_assign(tgui::Widget* pWidget, const WidgetBaseData& rData)
 		m_pWidget->hide();
 
 	//Transparency
-	m_pWidget->setTransparency(rData.transparency);
+	m_pWidget->setTransparency(rData.alpha);
 
 	//Grid Size
 	m_gridSize = rData.gridSize;

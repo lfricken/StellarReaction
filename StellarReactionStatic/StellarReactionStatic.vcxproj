@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Basic\Clock.hpp" />
     <ClInclude Include="include\Basic\Factory.hpp" />
     <ClInclude Include="include\Overlay\Grid.hpp" />
     <ClInclude Include="include\API\Math\Constant.hpp" />
@@ -331,8 +332,11 @@
     <ClInclude Include="include\Basic\Resources.hpp" />
     <ClInclude Include="include\Universe\Module\Loot.hpp" />
     <ClInclude Include="include\Overlay\ReturnSelection.hpp" />
+    <ClInclude Include="include\Overlay\Store.hpp" />
+    <ClInclude Include="include\Overlay\Tooltip.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Basic\Clock.cpp" />
     <ClCompile Include="src\Overlay\ReturnSelection.cpp" />
     <ClCompile Include="src\Universe\Module\Loot.cpp" />
     <ClCompile Include="src\Basic\Resources.cpp" />
@@ -436,6 +440,8 @@
     <ClCompile Include="src\Universe\Utility\ProjectileMan.cpp" />
     <ClCompile Include="src\Universe\Utility\RayCastCallback.cpp" />
     <ClCompile Include="src\Universe\Utility\UniversalContactListener.cpp" />
+    <ClCompile Include="src\Overlay\Store.cpp" />
+    <ClCompile Include="src\Overlay\Tooltip.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\API\SFML\Audio\SoundFileFactory.inl" />

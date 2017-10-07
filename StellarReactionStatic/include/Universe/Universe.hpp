@@ -12,6 +12,7 @@
 #include "LaunchGame.hpp"
 #include "NonCopyable.hpp"
 #include "Team.hpp"
+#include "Clock.hpp"
 
 class BatchLayers;
 class GraphicsComponentUpdater;
@@ -26,7 +27,7 @@ class Scoreboard;
 class DecorationEngine;
 
 /// Contains everything in the "world". Relaunching a game totally recreates this object.
-class Universe : NonCopyable
+class Universe : public Clock, NonCopyable
 {
 public:
 	Universe(const IOComponentData& rData);

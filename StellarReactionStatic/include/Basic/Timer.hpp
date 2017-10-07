@@ -1,19 +1,22 @@
 #pragma once
 
-/// \brief Timer for in game items, NOT FOR GUI.
-///
-/// The reason is that pausing the game pauses these timers.
-/// Use this for weapons, animations.
-/// If the "Pause" function should effect your item, use this class.
+#include "Clock.hpp"
+
+/// <summary>
+/// Universal timer for in game and GUI. GUI needs to pass game object as clock.
+/// Defaults to Universe clock.
+/// </summary>
 class Timer
 {
 public:
 	Timer();
 	Timer(float time);
+	Timer(const Clock& clockRef);
 	virtual ~Timer();
 
 	/// <summary>
 	/// Return a percentage on how much time has elapsed.
+	/// Return 1.0f when isTimeUp returns true.
 	/// </summary>
 	float getTimePercentageElapsed() const;
 
@@ -40,6 +43,8 @@ public:
 	void restartCountDown();
 protected:
 private:
+	const Clock* clock;
+
 	float m_lastElapsedTime;
 
 	float m_countDownTime;
