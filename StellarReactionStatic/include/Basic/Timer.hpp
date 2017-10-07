@@ -43,10 +43,23 @@ public:
 	void restartCountDown();
 protected:
 private:
+	/// <summary>
+	/// Reference to the clock that dictates time passage.
+	/// </summary>
 	const Clock* clock;
 
-	float m_lastElapsedTime;
+	/// <summary>
+	/// The time that getTimeElapsed was called last.
+	/// </summary>
+	float m_lastTimeElapsed;
 
+	/// <summary>
+	/// How long the timer should go before isTimeUp will return true.
+	/// Does not change, is used to restart countdown.
+	/// </summary>
 	float m_countDownTime;
+	/// <summary>
+	/// Time when the timer isTimeUp will return true.
+	/// </summary>
 	float m_timeUpTime;
 };

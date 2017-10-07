@@ -12,6 +12,7 @@ Tooltip::Tooltip(tgui::Container& container, const TooltipData& data) : Panel(co
 }
 void Tooltip::f_init(const TooltipData& data)
 {
+	m_fading = false;
 	m_hideTimer.setCountDown(1.f);
 	m_fadeTimer.setCountDown(0.25f);
 

@@ -5,14 +5,14 @@
 
 Timer::Timer()
 {
-	m_lastElapsedTime = getTime();
+	m_lastTimeElapsed = getTime();
 	m_countDownTime = 0.f;
 	m_timeUpTime = getTime() + m_countDownTime;
 	clock = nullptr;
 }
 Timer::Timer(float time)
 {
-	m_lastElapsedTime = time;
+	m_lastTimeElapsed = time;
 	m_countDownTime = 0.f;
 	m_timeUpTime = time + m_countDownTime;
 	clock = nullptr;
@@ -51,9 +51,9 @@ float Timer::getTime() const//time elapsed as seconds since universe was initial
 }
 float Timer::getTimeElapsed()//get time elapsed since we last called this function
 {
-	float oldTime = m_lastElapsedTime;
-	m_lastElapsedTime = getTime();
-	return m_lastElapsedTime - oldTime;
+	float oldTime = m_lastTimeElapsed;
+	m_lastTimeElapsed = getTime();
+	return m_lastTimeElapsed - oldTime;
 }
 bool Timer::isTimeUp() const
 {
