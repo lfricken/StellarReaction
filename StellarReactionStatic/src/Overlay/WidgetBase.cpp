@@ -27,6 +27,11 @@ void WidgetBase::init(const WidgetBaseData& rData)
 		tooltip.condition.reset(EventType::MouseEntered, 0, 'd', true);
 		tooltip.message.reset("tooltip", "setTooltip", tooltipText, 0, false);
 		m_io.getEventer().add(tooltip);
+
+		Courier untooltip;
+		untooltip.condition.reset(EventType::MouseLeft, 0, 'd', true);
+		untooltip.message.reset("tooltip", "unsetTooltip", voidPacket, 0, false);
+		m_io.getEventer().add(untooltip);
 	}
 }
 void WidgetBase::f_assign(tgui::Widget* pWidget, const WidgetBaseData& rData)
@@ -84,7 +89,13 @@ void WidgetBase::hide()
 void WidgetBase::toggleHidden(bool hidden)
 {
 	if(hidden)
+	{
 		hide();
+
+		Message message;
+		message.reset("tooltip", "unsetTooltip", voidPacket, 0, false);
+		game.getCoreIO().recieve(message);
+	}
 	else
 		show();
 }

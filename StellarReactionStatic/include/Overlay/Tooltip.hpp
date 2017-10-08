@@ -29,7 +29,14 @@ namespace leon
 		Tooltip(tgui::Container& container, const TooltipData& data);
 		virtual ~Tooltip();
 
+
 	private:
+		void f_enable(bool enable);
+
+		/// <summary>
+		/// Take alpha as 0-1
+		/// </summary>
+		void f_setTextAlpha(float alpha);
 		void f_init(const TooltipData& data);
 		void f_update(const sf::Vector2f& rPos);
 
@@ -38,15 +45,18 @@ namespace leon
 		sptr<Button> m_button;
 		sptr<DragComponent> m_drag;
 
+		/// <summary>
+		/// Increment on show. Decrement on hide. Only hide when 0.
+		/// </summary>
+		//int tooltipShowCounter;
+		/// <summary>
+		/// Have we entered fading transition yet.
+		/// </summary>
 		bool m_fading;
 		/// <summary>
 		/// How long it takes to fade.
 		/// </summary>
 		Timer m_fadeTimer;
-		/// <summary>
-		/// How long it takes to start fading.
-		/// </summary>
-		Timer m_hideTimer;
 	};
 
 }

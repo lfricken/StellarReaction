@@ -60,7 +60,7 @@ namespace leon
 		/// Make this Widget visible.
 		void show();
 		/// Make this Widget invisible (also disables it).
-		void hide();
+		virtual void hide();
 		
 		/// Toggle whether this widget is hidden.
 		void toggleHidden(bool hidden);
