@@ -31,7 +31,6 @@ namespace leon
 
 
 	private:
-		void f_enable(bool enable);
 
 		/// <summary>
 		/// Take alpha as 0-1
@@ -45,10 +44,6 @@ namespace leon
 		sptr<Button> m_button;
 		sptr<DragComponent> m_drag;
 
-		/// <summary>
-		/// Increment on show. Decrement on hide. Only hide when 0.
-		/// </summary>
-		//int tooltipShowCounter;
 		/// <summary>
 		/// Have we entered fading transition yet.
 		/// </summary>
