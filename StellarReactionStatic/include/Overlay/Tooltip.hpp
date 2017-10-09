@@ -10,11 +10,13 @@ namespace leon
 	{
 		TooltipData()
 		{
+			float tooltipWidth = 1024;
+
 			buttonData.screenCoords = sf::Vector2f(0, 0);
-			buttonData.size = sf::Vector2f(1024, 16);
+			buttonData.size = sf::Vector2f(tooltipWidth, 16);//button must be centered
 			buttonData.alpha = 0;
 
-			size = sf::Vector2f(1024, 1024);
+			size = sf::Vector2f(tooltipWidth, 1024);
 			alpha = 0;
 			backgroundColor = sf::Color(255, 255, 255, 0);
 		}
@@ -33,9 +35,9 @@ namespace leon
 	private:
 
 		/// <summary>
-		/// Take alpha as 0-1
+		/// Take alpha as 0-1, where 0 is invisible, 1 is max m_color.a
 		/// </summary>
-		void f_setTextAlpha(float alpha);
+		void f_setTextRelativeAlpha(float alpha);
 		void f_init(const TooltipData& data);
 		void f_update(const sf::Vector2f& rPos);
 
@@ -52,6 +54,10 @@ namespace leon
 		/// How long it takes to fade.
 		/// </summary>
 		Timer m_fadeTimer;
+		/// <summary>
+		/// What color should the text be when fully shown?
+		/// </summary>
+		sf::Color m_textColor;
 	};
 
 }

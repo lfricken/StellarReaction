@@ -6,21 +6,26 @@ using namespace leon;
 void TooltipTextData::intoPacket(sf::Packet* dataPtr) const
 {
 	auto& data = *dataPtr;
+	uint32_t alignInt = (int)align;
 
 	data << text;
 	data << textPixelHeight;
 	data << textColor.toInteger();
+	data << alignInt;
 }
 void TooltipTextData::fromPacket(sf::Packet* dataPtr)
 {
 	auto& data = *dataPtr;
 	uint32_t colorInt;
+	uint32_t alignInt;
 
 	data >> text;
 	data >> textPixelHeight;
 	data >> colorInt;
+	data >> alignInt;
 
 	textColor = sf::Color(colorInt);
+	align = (Alignment)alignInt;
 }
 
 WidgetBase::WidgetBase(tgui::Gui& gui, const WidgetBaseData& rData) : m_io(rData.ioComp, &leon::WidgetBase::input, this)

@@ -11,10 +11,18 @@ namespace leon
 
 	struct TooltipTextData
 	{
+		enum class Alignment
+		{
+			LeftOfMouse,
+			RightOfMouse,
+			CenterOfMouse,
+		};
+
 		TooltipTextData() :
 			text(""),
 			textPixelHeight(16),
-			textColor(255,255,255,255)
+			textColor(255,255,255,255),
+			align(Alignment::CenterOfMouse)
 		{
 
 		}
@@ -22,6 +30,8 @@ namespace leon
 		String text;
 		int textPixelHeight;
 		sf::Color textColor;
+		Alignment align;
+
 
 		void intoPacket(sf::Packet* data) const;
 		void fromPacket(sf::Packet* data);
