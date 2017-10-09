@@ -3,6 +3,25 @@
 
 using namespace leon;
 
+void TooltipTextData::intoPacket(sf::Packet* dataPtr) const
+{
+	auto& data = *dataPtr;
+
+	data << text;
+	data << textPixelHeight;
+	data << textColor.toInteger();
+}
+void TooltipTextData::fromPacket(sf::Packet* dataPtr)
+{
+	auto& data = *dataPtr;
+	uint32_t colorInt;
+
+	data >> text;
+	data >> textPixelHeight;
+	data >> colorInt;
+
+	textColor = sf::Color(colorInt);
+}
 
 WidgetBase::WidgetBase(tgui::Gui& gui, const WidgetBaseData& rData) : m_io(rData.ioComp, &leon::WidgetBase::input, this)
 {
@@ -18,14 +37,14 @@ WidgetBase::WidgetBase(tgui::Container& rContainer, const WidgetBaseData& rData)
 }
 void WidgetBase::init(const WidgetBaseData& rData)
 {
-	if(rData.tooltip != "")//if not empty
+	if(rData.tooltip.text != "")//if not empty
 	{
-		sf::Packet tooltipText;
-		tooltipText << rData.tooltip;
+		sf::Packet tooltipData;
+		rData.tooltip.intoPacket(&tooltipData);
 
 		Courier tooltip;
 		tooltip.condition.reset(EventType::MouseEntered, 0, 'd', true);
-		tooltip.message.reset("tooltip", "setTooltip", tooltipText, 0, false);
+		tooltip.message.reset("tooltip", "setTooltip", tooltipData, 0, false);
 		m_io.getEventer().add(tooltip);
 
 		Courier untooltip;
@@ -314,3 +333,5 @@ void WidgetBase::triggerHook(sf::Packet& rPack)
 {
 	rPack << m_io.getName();
 }
+
+

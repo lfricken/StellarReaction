@@ -8,6 +8,25 @@
 /// A wrapper around TGUI Widgets.
 namespace leon
 {
+
+	struct TooltipTextData
+	{
+		TooltipTextData() :
+			text(""),
+			textPixelHeight(16),
+			textColor(255,255,255,255)
+		{
+
+		}
+
+		String text;
+		int textPixelHeight;
+		sf::Color textColor;
+
+		void intoPacket(sf::Packet* data) const;
+		void fromPacket(sf::Packet* data);
+	};
+
 	/// All data necessary to create a new Widget.
 	struct WidgetBaseData
 	{
@@ -15,7 +34,6 @@ namespace leon
 			startHidden(false),
 			//configFile("TGUI/widgets/Black.conf"),
 			configFile("TGUI/widgets/NewMenu.conf"),
-			tooltip("1. Hi \n2. Bye"),
 			screenCoords(-1, -1),
 			size(128, 64),
 			alpha(255),
@@ -29,7 +47,7 @@ namespace leon
 		/// <summary>
 		/// Tooltip to show on mouseover. 
 		/// </summary>
-		String tooltip;
+		TooltipTextData tooltip;
 
 		/// <summary>
 		/// 0 is fully transparent

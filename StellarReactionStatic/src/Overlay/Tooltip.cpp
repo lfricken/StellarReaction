@@ -65,16 +65,16 @@ bool Tooltip::inputHook(const String rCommand, sf::Packet rData)
 		m_fadeTimer.restartCountDown();
 
 		{
-			String tip;
-			rData >> tip;
+			String tipText;
+			rData >> tipText;
 
-			float numLines = (float)(1 + std::count(tip.begin(), tip.end(), '\n'));
+			float numLines = (float)(1 + std::count(tipText.begin(), tipText.end(), '\n'));
 			float lineHeight = m_button->m_pButton->getSize().y;
 			float height = numLines * lineHeight;
 
 			float yPos = (height / 2) - lineHeight / 2;
 			m_button->setPosition(sf::Vector2f(0, yPos));
-			m_button->m_pButton->setText(tip);
+			m_button->m_pButton->setText(tipText);
 		}
 
 		return true;

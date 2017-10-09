@@ -38,3 +38,5 @@ StellarReactionTest/Debug/StellarReactionTest.pch
 *.cache
 *.filters
 *.lnk
+*.pdb
+*.ilk
