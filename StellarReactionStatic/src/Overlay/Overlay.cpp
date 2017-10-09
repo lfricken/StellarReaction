@@ -568,7 +568,7 @@ leon::Panel* Overlay::loadStore()
 					buyButton.buttonText = button.buttonName;
 					buyButton.startHidden = false;
 					buyButton.alpha = 100;
-					buyButton.tooltip = "asdf";
+					buyButton.tooltip.text = "asdf";
 					buyButton.ioComp.courierList.push_back(purchaseMessage);
 
 					pStore->add(sptr<leon::WidgetBase>(new leon::Button(*pStore->getPanelPtr(), buyButton)));
