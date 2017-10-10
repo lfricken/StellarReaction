@@ -13,7 +13,9 @@ Tooltip::Tooltip(tgui::Container& container, const TooltipData& data) : Panel(co
 void Tooltip::f_init(const TooltipData& data)
 {
 	//m_hideTimer.setCountDown(1.f);
-	m_fadeTimer.setCountDown(1.f);
+	yOffset = 20.f;
+	m_fadeTimer.setCountDown(0.2f);
+	m_offset = sf::Vector2f(0, 0);
 
 	m_button.reset(new Button(*m_pPanel, data.buttonData));
 	add(m_button);
@@ -34,9 +36,7 @@ Tooltip::~Tooltip()
 void Tooltip::f_update(const sf::Vector2f& rPos)
 {
 	//position us
-	sf::Vector2f pos = rPos;
-	pos.x -= m_pPanel->getSize().x / 2;
-	pos.y += 16;//down from mouse center
+	sf::Vector2f pos = rPos + m_offset;
 	this->setPosition(pos);
 
 	//control visibility
@@ -55,6 +55,9 @@ bool Tooltip::inputHook(const String rCommand, sf::Packet data)
 {
 	if(rCommand == "setTooltip")
 	{
+		TooltipTextData tip;
+		tip.fromPacket(&data);
+
 		{
 			m_fading = true;
 			m_drag->toggleDragging(true);
@@ -65,33 +68,27 @@ bool Tooltip::inputHook(const String rCommand, sf::Packet data)
 		m_fadeTimer.restartCountDown();
 
 		{
-			TooltipTextData tip;
-			tip.fromPacket(&data);
 
 			m_textColor = tip.textColor;
 
 			float numLines = (float)(1 + std::count(tip.text.begin(), tip.text.end(), '\n'));
-			float lineHeight = m_button->m_pButton->getSize().y;
+			float lineHeight = (float)tip.textPixelHeight;
 			float height = numLines * lineHeight;
 			float averageLineWidth = tip.text.size() / numLines;
 			float buttonWidth = (averageLineWidth * tip.textPixelHeight) / 2.f;
-			float panelMidpoint = m_pPanel->getSize().x / 2.f;
-			float yPos = (height / 2) - lineHeight / 2;
+			float panelWidth = m_pPanel->getSize().x;
+			sf::Vector2f size(buttonWidth, height);
 
-			m_button->setSize(sf::Vector2f(buttonWidth, (float)tip.textPixelHeight));
+			m_pPanel->setBackgroundColor(tip.backColor);
+			m_button->setSize(size);
+			setSize(size);
 
 			if(tip.align == TooltipTextData::Alignment::RightOfMouse)
-			{
-				m_button->setPosition(sf::Vector2f(panelMidpoint - (0), yPos));
-			}
+				m_offset = sf::Vector2f(0, yOffset);
 			else if(tip.align == TooltipTextData::Alignment::CenterOfMouse)
-			{
-				m_button->setPosition(sf::Vector2f(panelMidpoint - (buttonWidth / 2.f), yPos));
-			}
+				m_offset = sf::Vector2f(-panelWidth / 2.f, yOffset);
 			else if(tip.align == TooltipTextData::Alignment::LeftOfMouse)
-			{
-				m_button->setPosition(sf::Vector2f(panelMidpoint - (buttonWidth), yPos));
-			}
+				m_offset = sf::Vector2f(-panelWidth, yOffset);
 
 			m_button->m_pButton->setText(tip.text);
 		}
@@ -114,8 +111,14 @@ bool Tooltip::inputHook(const String rCommand, sf::Packet data)
 }
 void Tooltip::f_setTextRelativeAlpha(float alpha)
 {
-	sf::Color color = m_textColor;
-	color.a = (char)(m_textColor.a * alpha);
+	sf::Color color;
+
+	color = m_textColor;
+	color.a = (char)(color.a * alpha);
 	m_button->m_pButton->setTextColor(color);
+
+	color = m_backColor;
+	color.a = (char)(color.a * alpha);
+	m_pPanel->setBackgroundColor(color);
 }
 

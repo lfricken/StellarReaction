@@ -20,9 +20,10 @@ namespace leon
 
 		TooltipTextData() :
 			text(""),
-			textPixelHeight(16),
-			textColor(255,255,255,255),
-			align(Alignment::CenterOfMouse)
+			textPixelHeight(20),
+			textColor(0,0,0,255),
+			backColor(128,128,128,255),
+			align(Alignment::RightOfMouse)
 		{
 
 		}
@@ -30,6 +31,7 @@ namespace leon
 		String text;
 		int textPixelHeight;
 		sf::Color textColor;
+		sf::Color backColor;
 		Alignment align;
 
 

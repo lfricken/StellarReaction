@@ -568,10 +568,10 @@ leon::Panel* Overlay::loadStore()
 					buyButton.buttonText = button.buttonName;
 					buyButton.startHidden = false;
 					buyButton.alpha = 100;
-					buyButton.tooltip.text = "ABCDabcd";
-					buyButton.tooltip.textColor = sf::Color::Red;
-					buyButton.tooltip.textPixelHeight = 48;
-					buyButton.tooltip.align = TooltipTextData::Alignment::LeftOfMouse;
+					buyButton.tooltip.text = "DEF: 4\nHP:  100";
+					buyButton.tooltip.textColor = sf::Color::White;
+					buyButton.tooltip.textPixelHeight = 16;
+					buyButton.tooltip.align = TooltipTextData::Alignment::RightOfMouse;
 					buyButton.ioComp.courierList.push_back(purchaseMessage);
 
 					pStore->add(sptr<leon::WidgetBase>(new leon::Button(*pStore->getPanelPtr(), buyButton)));

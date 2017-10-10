@@ -11,20 +11,24 @@ void TooltipTextData::intoPacket(sf::Packet* dataPtr) const
 	data << text;
 	data << textPixelHeight;
 	data << textColor.toInteger();
+	data << backColor.toInteger();
 	data << alignInt;
 }
 void TooltipTextData::fromPacket(sf::Packet* dataPtr)
 {
 	auto& data = *dataPtr;
 	uint32_t colorInt;
+	uint32_t backColorInt;
 	uint32_t alignInt;
 
 	data >> text;
 	data >> textPixelHeight;
 	data >> colorInt;
+	data >> backColorInt;
 	data >> alignInt;
 
 	textColor = sf::Color(colorInt);
+	backColor = sf::Color(backColorInt);
 	align = (Alignment)alignInt;
 }
 

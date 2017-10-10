@@ -13,12 +13,12 @@ namespace leon
 			float tooltipWidth = 1024;
 
 			buttonData.screenCoords = sf::Vector2f(0, 0);
-			buttonData.size = sf::Vector2f(tooltipWidth, 16);//button must be centered
+			buttonData.size = sf::Vector2f(tooltipWidth, 1024);//button must be centered
 			buttonData.alpha = 0;
 
 			size = sf::Vector2f(tooltipWidth, 1024);
 			alpha = 0;
-			backgroundColor = sf::Color(255, 255, 255, 0);
+			backgroundColor = sf::Color(128, 128, 128, 255);
 		}
 
 		ButtonData buttonData;
@@ -47,6 +47,10 @@ namespace leon
 		sptr<DragComponent> m_drag;
 
 		/// <summary>
+		/// How far to push the tooltip down (or up) from the mouse y pos.
+		/// </summary>
+		float yOffset;
+		/// <summary>
 		/// Have we entered fading transition yet.
 		/// </summary>
 		bool m_fading;
@@ -58,6 +62,14 @@ namespace leon
 		/// What color should the text be when fully shown?
 		/// </summary>
 		sf::Color m_textColor;
+		/// <summary>
+		/// What color should the panel be when fully shown?
+		/// </summary>
+		sf::Color m_backColor;
+		/// <summary>
+		/// Delta applied to mouse pos to find panel pos.
+		/// </summary>
+		sf::Vector2f m_offset;
 	};
 
 }
