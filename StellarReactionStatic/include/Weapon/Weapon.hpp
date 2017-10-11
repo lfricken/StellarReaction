@@ -2,7 +2,7 @@
 #define WEAPON_HPP
 
 #include "stdafx.hpp"
-#include "Pool.hpp"
+#include "RangeList.hpp"
 #include "QuadComponent.hpp"
 #include "Globals.hpp"
 #include "ClassRegister.hpp"
@@ -31,7 +31,7 @@ public:
 	/// Called when the controller wants to fire. This activates and consumes any ammo,
 	/// and sets the weapon so it will fire on preShot and postShot.
 	/// returns true if we will fire.
-	bool fire(const FixtureComponent& pParent, Pool<Energy>* pEnergy, Pool<Ballistic>* pBall, Pool<Missiles>* pMis);
+	bool fire(const FixtureComponent& pParent, RangeList* ranges);
 	/// Called by our parent module
 	virtual void prePhysUpdate(const Vec2& center, const Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation);
 	/// Called by our parent module
@@ -78,9 +78,9 @@ private:
 	Timer m_shotTimer;// Records how often we can "shot"
 	int m_shotsRemain;//how many shots we have remaining on this fire
 
-	Energy m_energy;// How much do we consume from parent pool.
-	Ballistic m_ballistic;// How much do we consume from parent pool.
-	Missiles m_missiles;//How much do we consume from parent pool.
+	float m_energy;// How much do we consume from parent pool.
+	float m_ballistic;// How much do we consume from parent pool.
+	float m_missiles;//How much do we consume from parent pool.
 	Timer m_fireTimer;//Records how often we can fire
 	float m_fireDelay;//time in seconds that it takes to fire again
 	bool m_shotThisTick;//did we fire this tick?
@@ -112,9 +112,9 @@ struct WeaponData : public BlueprintData
 		weaponQuad.dimensions = sf::Vector2f(256, 256);
 		weaponQuad.permanentRot = -90.f;
 	}
-	Energy energyConsumption;//energy consumed per fire
-	Ballistic ballisticConsumption;//ballistics consumed per fire
-	Missiles missileConsumption;//missiles consumed per fire
+	float energyConsumption;//energy consumed per fire
+	float ballisticConsumption;//ballistics consumed per fire
+	float missileConsumption;//missiles consumed per fire
 
 	leon::Sound startSound, shotSound, endSound;
 

@@ -25,10 +25,7 @@ Module::Module(const ModuleData& rData) : m_io(rData.ioComp, &Module::input, thi
 	m_fix.bindStartCB(&Module::startContactCB, this);
 	m_fix.bindEndCB(&Module::endContactCB, this);
 
-	m_pMissilePool = rData.pools.missilePool;
-	m_pEnergyPool = rData.pools.energyPool;
-	m_pZoomPool = rData.pools.zoomPool;
-	m_pBallisticPool = rData.pools.ballisticPool;
+	ranges = rData.ranges;
 }
 Module::~Module()
 {

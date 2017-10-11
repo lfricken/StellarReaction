@@ -2,7 +2,7 @@
 
 #include "GameObject.hpp"
 #include "BodyComponent.hpp"
-#include "Pool.hpp"
+#include "RangeList.hpp"
 #include "ClassRegister.hpp"
 #include "QuadComponent.hpp"
 #include "BlueprintData.hpp"
@@ -97,10 +97,8 @@ protected:
 	Chunk(const ChunkData& rData);
 	friend struct ChunkData;
 private:
-	Pool<Ballistic> m_ballisticPool;
-	Pool<Missiles> m_missilePool;
-	Pool<Energy> m_energyPool;
-	Pool<float> m_zoomPool;
+
+	RangeList ranges;
 
 	Timer m_timer;
 	int m_slavePosition;
@@ -146,9 +144,9 @@ struct ChunkData : public GameObjectData, public BlueprintData
 	{
 		title = "CHUNK_DEFAULT_TITLE";
 
-		zoomData.Min = 1;
-		zoomData.Value = 1;
-		zoomData.Max = 128;
+		rangeData.rangeData[RangeList::Zoom].Min = 1;
+		rangeData.rangeData[RangeList::Zoom].Value = 1;
+		rangeData.rangeData[RangeList::Zoom].Max = 128;
 
 		///TODO: for 
 		for(float i = -5; i < 5; i += 0.5)
@@ -157,10 +155,7 @@ struct ChunkData : public GameObjectData, public BlueprintData
 
 	}
 
-	PoolData<Missiles> missileData;
-	PoolData<Ballistic> ballisticData;
-	PoolData<Energy> energyData;
-	PoolData<Zoom> zoomData;
+	RangeListData rangeData;
 
 	List<Vec2> validPos;
 	float minShieldPower;

@@ -1,20 +1,10 @@
-#ifndef POOL_HPP
-#define POOL_HPP
+#pragma once
 
 #include "JSON.hpp"
 
-typedef int Missiles;
-typedef float Energy;
-typedef float Ballistic;
-typedef float Zoom;
-
-
-
-template <typename T>
-///Constructor data for Pool
-struct PoolData
+struct RangeData
 {
-	PoolData() :
+	RangeData() :
 		Max(0),
 		Min(0),
 		Value(0)
@@ -22,11 +12,10 @@ struct PoolData
 
 	}
 
-	T Max;
-	T Min;
-	T Value;
+	float Max;
+	float Min;
+	float Value;
 
-	template <typename T>
 	///Fill this object with data from a json file.
 	void loadJson(const Json::Value& root)
 	{
@@ -37,37 +26,65 @@ struct PoolData
 };
 
 
+struct RangeDataModifier : RangeData
+{
+	RangeDataModifier() :
+		ModifierPerSecond(0)
+	{
+
+	}
+
+	RangeDataModifier negate()
+	{
+		RangeDataModifier copy = *this;
+		copy.Min = -Min;
+		copy.Max = -Max;
+		copy.Value = -Value;
+		copy.ModifierPerSecond = -ModifierPerSecond;
+		return copy;
+	}
+
+	float ModifierPerSecond;
+
+	void loadJson(const Json::Value& root)
+	{
+		GETJSON(ModifierPerSecond);
+		RangeData::loadJson(root);
+	}
+};
 
 
-template <typename T>
 /// \brief Generic container to limit value ranges.
 ///
 /// Good for any attribute that has a min value, current value, max value.
 /// The functions prevent the current value from escaping min-max, as well as prevent
 /// min-max from being reversed, such as min=3, max=2
-class Pool
+class Range
 {
 public:
-	Pool(const PoolData<T>& rData)
+
+
+
+	Range(const RangeData& rData)
 	{
 		m_min = rData.Min;
 		setMax(rData.Max);
 		setValue(rData.Value);
 	}
-	virtual ~Pool() {}
+	virtual ~Range() {}
 
 	///Change max by amount. Defaults to addition rather than subtraction.
-	void changeMax(T changeVal)
+	void changeMax(float changeVal)
 	{
 		setMax(m_max + changeVal);
 	}
 	///Change min by amount. Defaults to addition rather than subtraction.
-	void changeMin(T changeVal)
+	void changeMin(float changeVal)
 	{
 		setMin(m_min + changeVal);
 	}
 	///Change value by amount. Defaults to addition rather than subtraction.
-	void changeValue(T changeVal)
+	void changeValue(float changeVal)
 	{
 		setValue(m_value + changeVal);
 	}
@@ -75,7 +92,7 @@ public:
 
 	///Set max value. Will be equal to min if passed value is less than min.
 	///Will update current value to cap at max.
-	void setMax(T newVal)
+	void setMax(float newVal)
 	{
 		if(newVal >= m_min)
 			m_max = newVal;
@@ -83,14 +100,14 @@ public:
 	}
 	///Set min value. Will be equal to max if passed value is greater than min.
 	///Will update current value to cap at min.
-	void setMin(T newVal)
+	void setMin(float newVal)
 	{
 		if(newVal <= m_max)
 			m_min = newVal;
 		setValue(m_value);//update our value
 	}
 	///Set current value. Will be capped by max and min.
-	void setValue(T newVal)
+	void setValue(float newVal)
 	{
 		if(newVal > m_max)
 			newVal = m_max;
@@ -101,7 +118,7 @@ public:
 
 
 	///Returns max value.
-	T getMax() const
+	float getMax() const
 	{
 		return m_max;
 	}
@@ -116,35 +133,40 @@ public:
 		return cur / max;
 	}
 	///Returns min value.
-	T getMin() const
+	float getMin() const
 	{
 		return m_min;
 	}
 	///Returns current value.
-	T getValue() const
+	float getValue() const
 	{
 		return m_value;
+	}
+
+	void modify(const RangeDataModifier& other)
+	{
+		m_min += other.Min;
+		m_max += other.Max;
+		m_value += other.Value;
+
+		reevaluate();
 	}
 
 protected:
 private:
 
-	T m_max;///Max value.
-	T m_min;///Min value.
-	T m_value;///Current value.
+	void reevaluate()
+	{
+		assert(m_max > m_min);
+		if(m_value > m_max)
+			m_value = m_max;
+		else if(m_value < m_min)
+			m_value = m_min;
+	}
+
+	float m_max;///Max value.
+	float m_min;///Min value.
+	float m_value;///Current value.
 };
 
-///The set of pools a Chunk has.
-struct PoolCollection
-{
-	///Ballistic Ammunition
-	Pool<Ballistic>* ballisticPool;
-	///Missile Ammunition
-	Pool<Missiles>* missilePool;
-	///Energy Reservoir
-	Pool<Energy>* energyPool;
-	///Limits on camera zoom.
-	Pool<Zoom>* zoomPool;
-};
 
-#endif // POOL_HPP

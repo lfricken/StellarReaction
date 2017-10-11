@@ -27,33 +27,22 @@ public:
 protected:
 
 private:
-
-	/// <summary>
-	/// Energy gained per second.
-	/// </summary>
-	Energy m_rate;
-
-	Timer m_timer;
 };
 
 /// Bueprint for Reactor.
 struct ReactorData : public ShipModuleData
 {
 	ReactorData() :
-		ShipModuleData(),
-		rate(5)// KJ/s
+		ShipModuleData()
 	{
 		baseDecor.texName = "reactor/reactor_base";
 	}
 
-	// KJ/s
-	Energy rate;
-
 	///Create Reactor object from this data object.
-	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
+	virtual Module* generate(b2Body* pBody, RangeList* ranges, Chunk* parent) const
 	{
 		ReactorData copy(*this);
-		copy.pools = stuff;
+		copy.ranges = ranges;
 		copy.fixComp.pBody = pBody;
 		copy.chunkParent = parent;
 		return new Reactor(copy);

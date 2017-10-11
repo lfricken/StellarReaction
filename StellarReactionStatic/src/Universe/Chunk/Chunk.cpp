@@ -53,10 +53,9 @@ void ChunkData::loadJson(const Json::Value& root)
 	LOADJSON(ioComp);
 	LOADJSON(nwComp);
 	LOADJSON(bodyComp);
-	LOADJSONT(energyData, Energy);
-	LOADJSONT(ballisticData, Ballistic);
-	LOADJSONT(missileData, Missiles);
-	LOADJSONT(zoomData, Zoom);
+
+	LOADJSON(rangeData);
+
 	LOADJSON(hullSpriteData);
 	GETJSON(minShieldPower);
 
@@ -137,7 +136,7 @@ List<Vec2> taxicabCircle(int radius)
 }
 
 
-Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp), m_zoomPool(rData.zoomData), m_energyPool(rData.energyData), m_ballisticPool(rData.ballisticData), m_missilePool(rData.missileData)
+Chunk::Chunk(const ChunkData& rData) : GameObject(rData), m_body(rData.bodyComp), ranges(rData.rangeData)
 {
 	m_body.parent = this;
 
@@ -255,14 +254,9 @@ void Chunk::add(const ModuleData& rData)
 	}
 	else if(this->allows(rData.fixComp.offset))
 	{
-		PoolCollection myPools;
-		myPools.ballisticPool = &m_ballisticPool;
-		myPools.zoomPool = &m_zoomPool;
-		myPools.missilePool = &m_missilePool;
-		myPools.energyPool = &m_energyPool;
 		sptr<ModuleData> moduleDataCopy(rData.clone());
 		moduleDataCopy->ioComp.pMyManager = &game.getUniverse().getUniverseIO();
-		auto module = sptr<Module>(moduleDataCopy->generate(m_body.getBodyPtr(), myPools, this));
+		auto module = sptr<Module>(moduleDataCopy->generate(m_body.getBodyPtr(), &ranges, this));
 		m_modules.push_back(module);
 	}
 	else
@@ -350,7 +344,7 @@ void Chunk::directive(const CommandInfo& commands)//send command to target
 		m_shieldToggleTimer.restartCountDown();
 		Message shield;
 
-		bool enoughEnergy = m_energyPool.getPercent() > 0.25f;
+		bool enoughEnergy = ranges[RangeList::Energy] > 0.25f;
 		if(!m_areShieldsOn && enoughEnergy)//if they aren't already on and we have enough energy turn them on
 			shield.reset(m_io.getPosition(), "enableShields", voidPacket, 0, false);
 		else if(m_areShieldsOn)//if they are on turn them off no mattter what.
@@ -400,27 +394,27 @@ float Chunk::get(Request value) const//return the requested value
 	switch(value)
 	{
 	case(Request::Zoom) :
-		return static_cast<float>(m_zoomPool.getValue());
+		return static_cast<float>(ranges[RangeList::Zoom].getValue());
 	case(Request::MaxZoom) :
-		return static_cast<float>(m_zoomPool.getMax());
+		return static_cast<float>(ranges[RangeList::Zoom].getMax());
 
 
 	case(Request::Energy) :
-		return static_cast<float>(m_energyPool.getValue());
+		return static_cast<float>(ranges[RangeList::Energy].getValue());
 	case(Request::MaxEnergy) :
-		return static_cast<float>(m_energyPool.getMax());
+		return static_cast<float>(ranges[RangeList::Energy].getMax());
 
 
 	case(Request::Ballistics) :
-		return static_cast<float>(m_ballisticPool.getValue());
+		return static_cast<float>(ranges[RangeList::Ballistic].getValue());
 	case(Request::MaxBallistics) :
-		return static_cast<float>(m_ballisticPool.getMax());
+		return static_cast<float>(ranges[RangeList::Ballistic].getMax());
 
 
 	case(Request::Missiles) :
-		return static_cast<float>(m_missilePool.getValue());
+		return static_cast<float>(ranges[RangeList::Missiles].getValue());
 	case(Request::MaxMissiles) :
-		return static_cast<float>(m_missilePool.getMax());
+		return static_cast<float>(ranges[RangeList::Missiles].getMax());
 
 	case(Request::ShieldState) :
 		return static_cast<float>(m_areShieldsOn);

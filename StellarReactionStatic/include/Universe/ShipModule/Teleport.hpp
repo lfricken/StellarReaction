@@ -39,10 +39,10 @@ struct TeleportData : public ShipModuleData
 	float teleRange;
 	float teleCooldown;
 	///Create Teleport object from this data object.
-	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
+	virtual Module* generate(b2Body* pBody, RangeList* ranges, Chunk* parent) const
 	{
 		TeleportData copy(*this);
-		copy.pools = stuff;
+		copy.ranges = ranges;
 		copy.fixComp.pBody = pBody;
 		copy.chunkParent = parent;
 		return new Teleport(copy);

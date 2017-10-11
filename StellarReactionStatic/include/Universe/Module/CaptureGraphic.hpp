@@ -64,10 +64,10 @@ struct CaptureGraphicData : public ModuleData
 	SpinnerData pinkLights;
 	SpinnerData redLights;
 	///Create CaptureGraphics object from this data object.
-	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
+	virtual Module* generate(b2Body* pBody, RangeList* ranges, Chunk* parent) const
 	{
 		CaptureGraphicData copy(*this);
-		copy.pools = stuff;
+		copy.ranges = ranges;
 		copy.fixComp.pBody = pBody;
 		copy.chunkParent = parent;
 		return new CaptureGraphic(copy);

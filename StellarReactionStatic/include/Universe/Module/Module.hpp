@@ -5,14 +5,13 @@
 #include "NetworkComponent.hpp"
 #include "FixtureComponent.hpp"
 #include "Universe.hpp"
-#include "Pool.hpp"
+#include "RangeList.hpp"
 #include "Chunk.hpp"
 #include "ClassRegister.hpp"
 #include "JSON.hpp"
 #include "CommandInfo.hpp"
 #include "NonCopyable.hpp"
 #include "Debugging.hpp"
-#include "PoolChanger.hpp"
 
 struct ModuleData;
 
@@ -56,11 +55,8 @@ protected:
 
 	FixtureComponent m_fix;
 
-	PoolChanger m_poolChanger;
-	Pool<Missiles>* m_pMissilePool;
-	Pool<Ballistic>* m_pBallisticPool;
-	Pool<Energy>* m_pEnergyPool;
-	Pool<float>* m_pZoomPool;
+	RangeList* ranges;
+	Timer m_timer;//timer used to update resource generation
 
 	Timer m_stealthTimer; //timer used to turn stealth mode off;
 
@@ -86,6 +82,8 @@ struct ModuleData : public BlueprintData
 	}
 
 	Chunk* chunkParent;
+	RangeList* ranges;
+
 	String name;//what gets displayed to player
 	Resources cost;//how much does this cost?
 	int collisionDamage;//how much damage we apply to someone who collides with us
@@ -93,11 +91,10 @@ struct ModuleData : public BlueprintData
 	IOComponentData ioComp;
 	NetworkComponentData nwComp;
 	FixtureComponentData fixComp;
-	PoolCollection pools;
 
 
 	///Create Module object from this data object.
-	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
+	virtual Module* generate(b2Body* pBody, RangeList* ranges, Chunk* parent) const
 	{
 		WARNING;
 		return NULL;

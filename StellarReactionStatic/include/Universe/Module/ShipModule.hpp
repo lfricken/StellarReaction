@@ -90,7 +90,7 @@ struct ShipModuleData : public ModuleData
 	leon::Sound deathSound;
 
 	///Returns NULL and prints the file and line that attempted to instantiate this virtual class.
-	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
+	virtual Module* generate(b2Body* pBody, RangeData* ranges, Chunk* parent) const
 	{
 		WARNING;
 		return NULL;

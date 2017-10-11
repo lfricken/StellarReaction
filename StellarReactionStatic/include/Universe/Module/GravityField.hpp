@@ -34,10 +34,10 @@ struct GravityFieldData : public SensorData
 	float maxForce;
 	float minForce;
 	///Create GravityField object from this data object.
-	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
+	virtual Module* generate(b2Body* pBody, RangeList* ranges, Chunk* parent) const
 	{
 		GravityFieldData copy(*this);
-		copy.pools = stuff;
+		copy.ranges = ranges;
 		copy.fixComp.pBody = pBody;
 		copy.chunkParent = parent;
 		return new GravityField(copy);

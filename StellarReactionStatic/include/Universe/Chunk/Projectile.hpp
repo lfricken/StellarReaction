@@ -4,7 +4,7 @@
 #include "BodyComponent.hpp"
 #include "ProjectileModule.hpp"
 #include "QuadComponent.hpp"
-#include "Pool.hpp"
+#include "RangeList.hpp"
 #include "NonCopyable.hpp"
 
 struct ProjectileData;
@@ -34,10 +34,7 @@ protected:
 	Timer m_timer;
 	bool m_inPlay;
 private:
-	Pool<Ballistic> m_ballisticPool;
-	Pool<Zoom> m_zoomPool;
-	Pool<Missiles> m_missilePool;
-	Pool<Energy> m_energyPool;
+	RangeList ranges;
 };
 
 ///Initiailze Projectile.
@@ -58,10 +55,8 @@ struct ProjectileData : public BlueprintData
 		body.startAwake = true;
 		lifetime = 0.5f;
 	}
-	PoolData<Missiles> missileData;
-	PoolData<Ballistic> ballisticData;
-	PoolData<Energy> energyData;
-	PoolData<Zoom> zoomData;
+
+	RangeListData rangesData;
 
 	BodyComponentData body;
 	List<sptr<const ModuleData> > moduleData;

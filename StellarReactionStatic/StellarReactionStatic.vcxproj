@@ -232,7 +232,7 @@
     <ClInclude Include="include\Basic\Health.hpp" />
     <ClInclude Include="include\Weapon\LaserWeapon.hpp" />
     <ClInclude Include="include\Weapon\MissileWeapon.hpp" />
-    <ClInclude Include="include\Basic\Pool.hpp" />
+    <ClInclude Include="include\Basic\Range.hpp" />
     <ClInclude Include="include\Basic\Timer.hpp" />
     <ClInclude Include="include\Weapon\Weapon.hpp" />
     <ClInclude Include="include\Weapon\WeaponRegistration.hpp" />
@@ -326,7 +326,6 @@
     <ClInclude Include="include\Basic\Team.hpp" />
     <ClInclude Include="include\Network\ShipBuilder.hpp" />
     <ClInclude Include="include\Network\Network.hpp" />
-    <ClInclude Include="include\Basic\PoolChanger.hpp" />
     <ClInclude Include="include\Basic\Shaker.hpp" />
     <ClInclude Include="include\Overlay\NumericDisplay.hpp" />
     <ClInclude Include="include\Basic\Resources.hpp" />
@@ -334,8 +333,10 @@
     <ClInclude Include="include\Overlay\ReturnSelection.hpp" />
     <ClInclude Include="include\Overlay\Store.hpp" />
     <ClInclude Include="include\Overlay\Tooltip.hpp" />
+    <ClInclude Include="include\Basic\RangeList.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Basic\RangeList.cpp" />
     <ClCompile Include="src\Basic\Clock.cpp" />
     <ClCompile Include="src\Overlay\ReturnSelection.cpp" />
     <ClCompile Include="src\Universe\Module\Loot.cpp" />
@@ -360,7 +361,7 @@
     <ClCompile Include="src\Basic\Health.cpp" />
     <ClCompile Include="src\Weapon\LaserWeapon.cpp" />
     <ClCompile Include="src\Weapon\MissileWeapon.cpp" />
-    <ClCompile Include="src\Basic\Pool.cpp" />
+    <ClCompile Include="src\Basic\Range.cpp" />
     <ClCompile Include="src\Basic\Timer.cpp" />
     <ClCompile Include="src\Weapon\Weapon.cpp" />
     <ClCompile Include="src\Control\BasePlayerTraits.cpp" />

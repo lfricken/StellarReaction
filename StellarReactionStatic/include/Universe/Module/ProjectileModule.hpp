@@ -68,10 +68,10 @@ struct ProjectileModuleData : public SensorData
 
 	QuadComponentData baseDecor;
 	///Create ProjectileModule object from this data object.
-	virtual Module* generate(b2Body* pBody, PoolCollection stuff, Chunk* parent) const
+	virtual Module* generate(b2Body* pBody, RangeList* ranges, Chunk* parent) const
 	{
 		ProjectileModuleData copy(*this);
-		copy.pools = stuff;
+		copy.ranges = ranges;
 		copy.fixComp.pBody = pBody;
 		copy.chunkParent = parent;
 		return new ProjectileModule(copy);

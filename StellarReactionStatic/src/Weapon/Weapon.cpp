@@ -67,18 +67,18 @@ Weapon::~Weapon()
 {
 
 }
-bool Weapon::fire(const FixtureComponent& pParent, Pool<Energy>* pEnergy, Pool<Ballistic>* pBall, Pool<Missiles>* pMis)//we were told to fire
+bool Weapon::fire(const FixtureComponent& pParent, RangeList* ranges)//we were told to fire
 {
 
-	if(m_fireTimer.isTimeUp() && pEnergy->getValue() >= m_energy && pBall->getValue() >= m_ballistic && pMis->getValue() >= m_missiles)
+	if(m_fireTimer.isTimeUp() && (*ranges)[RangeList::Energy].getValue() >= m_energy && (*ranges)[RangeList::Ballistic].getValue() >= m_ballistic && (*ranges)[RangeList::Missiles].getValue() >= m_missiles)
 	{
 		m_pTempParent = &pParent;
 		m_startSound.play(m_decor.getPosition());
 		m_decor.getAnimator().setAnimation("Fire", m_fireDelay);
 		m_fireTimer.restartCountDown();
-		pEnergy->changeValue(-m_energy);
-		pBall->changeValue(-m_ballistic);
-		pMis->changeValue(-m_missiles);
+		(*ranges)[RangeList::Energy].changeValue(-m_energy);
+		(*ranges)[RangeList::Ballistic].changeValue(-m_ballistic);
+		(*ranges)[RangeList::Missiles].changeValue(-m_missiles);
 		m_shotsRemain = m_shots;
 
 		return true;

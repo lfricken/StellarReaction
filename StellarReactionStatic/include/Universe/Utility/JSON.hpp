@@ -11,8 +11,6 @@
 #define LOADJSON(BASEVAR) \
 	 if(!root[#BASEVAR].isNull()) BASEVAR.loadJson(root[#BASEVAR]);
 
-#define LOADJSONT(BASEVAR, TYPE) \
-	 if(!root[#BASEVAR].isNull()) BASEVAR.loadJson<TYPE>(root[#BASEVAR]);
 
 /// Provides more convenient loading of Json data. Use the define: GETJSON(varname)
 class JSON

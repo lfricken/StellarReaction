@@ -6,7 +6,6 @@
     <ClCompile Include="src\Audio\Sound.cpp" />
     <ClCompile Include="src\Audio\SoundManager.cpp" />
     <ClCompile Include="src\Basic\Health.cpp" />
-    <ClCompile Include="src\Basic\Pool.cpp" />
     <ClCompile Include="src\Basic\Timer.cpp" />
     <ClCompile Include="src\Control\BasePlayerTraits.cpp" />
     <ClCompile Include="src\Control\Camera.cpp" />
@@ -107,6 +106,8 @@
     <ClCompile Include="src\Overlay\Store.cpp" />
     <ClCompile Include="src\Overlay\Tooltip.cpp" />
     <ClCompile Include="src\Basic\Clock.cpp" />
+    <ClCompile Include="src\Basic\Range.cpp" />
+    <ClCompile Include="src\Basic\RangeList.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Game\Directory.hpp" />
@@ -263,7 +264,6 @@
     <ClInclude Include="include\Audio\SoundManager.hpp" />
     <ClInclude Include="include\Basic\ClassRegister.hpp" />
     <ClInclude Include="include\Basic\Health.hpp" />
-    <ClInclude Include="include\Basic\Pool.hpp" />
     <ClInclude Include="include\Basic\Timer.hpp" />
     <ClInclude Include="include\Control\BasePlayerTraits.hpp" />
     <ClInclude Include="include\Control\Camera.hpp" />
@@ -423,7 +423,6 @@
     <ClInclude Include="include\Headers\Debugging.hpp" />
     <ClInclude Include="include\Universe\Utility\ChunkSpawner.hpp" />
     <ClInclude Include="include\Overlay\Grid.hpp" />
-    <ClInclude Include="include\Basic\PoolChanger.hpp" />
     <ClInclude Include="include\Basic\Factory.hpp" />
     <ClInclude Include="include\Basic\Shaker.hpp" />
     <ClInclude Include="include\Overlay\NumericDisplay.hpp" />
@@ -433,6 +432,8 @@
     <ClInclude Include="include\Overlay\Tooltip.hpp" />
     <ClInclude Include="include\Overlay\Store.hpp" />
     <ClInclude Include="include\Basic\Clock.hpp" />
+    <ClInclude Include="include\Basic\Range.hpp" />
+    <ClInclude Include="include\Basic\RangeList.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\API\SFML\Audio\SoundFileFactory.inl" />

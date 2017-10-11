@@ -1,7 +1,7 @@
 #ifndef HEALTH_HPP
 #define HEALTH_HPP
 
-#include "Pool.hpp"
+#include "Range.hpp"
 
 /// <summary>
 /// Used to represent whether a module can be functioning or not.
@@ -15,10 +15,10 @@ enum class HealthState
 
 
 ///Data constructor for Health.
-struct HealthData : public PoolData < int >
+struct HealthData : public RangeData
 {
 	HealthData() :
-		PoolData(),
+		RangeData(),
 		Armor(0)
 	{
 		Max = 100;
@@ -50,7 +50,7 @@ struct HealthData : public PoolData < int >
 
 
 ///Manages the health of a Module.
-class Health : private Pool < int >
+class Health : private Range
 {
 public:
 	Health(const HealthData& rData);
