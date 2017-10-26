@@ -38,13 +38,9 @@ struct TriggerSensorData : public SensorData
 	int minDamage;
 	float period;
 	///Create CaptureGraphics object from this data object.
-	virtual Module* generate(b2Body* pBody, RangeList* ranges, Chunk* parent) const
+	virtual Module* generate(GenerateParams params) const
 	{
-		TriggerSensorData copy(*this);
-		copy.ranges = ranges;
-		copy.fixComp.pBody = pBody;
-		copy.chunkParent = parent;
-		return new TriggerSensor(copy);
+		return generateSub<TriggerSensor, TriggerSensorData>(params, this);
 	}
 	///Create new copy of this data object.
 	virtual ModuleData* clone() const

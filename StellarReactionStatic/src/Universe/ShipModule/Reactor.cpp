@@ -6,8 +6,6 @@
 
 void ReactorData::loadJson(const Json::Value& root)
 {
-	GETJSON(rate);
-
 	ShipModuleData::loadJson(root);
 }
 Reactor::Reactor(const ReactorData& rData) : ShipModule(rData)
@@ -27,7 +25,9 @@ void Reactor::prePhysUpdate()
 void Reactor::postPhysUpdate()
 {
 	if(this->isFunctioning())
-		m_pEnergyPool->changeValue(game.getUniverse().getTimeStep()*m_rate);
+	{
+		(*ranges)[RangeList::Energy].(game.getUniverse().getTimeStep()*m_rate);
+	}
 
 	ShipModule::postPhysUpdate();
 }

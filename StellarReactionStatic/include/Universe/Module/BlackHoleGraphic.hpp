@@ -38,13 +38,9 @@ struct BlackHoleGraphicData : public ModuleData
 	SpinnerData outerDecor;
 
 	///Create BlackHoleGraphic object from this data object.
-	virtual Module* generate(b2Body* pBody, RangeList* ranges, Chunk* parent) const
+	virtual Module* generate(GenerateParams params) const
 	{
-		BlackHoleGraphicData copy(*this);
-		copy.ranges = ranges;
-		copy.fixComp.pBody = pBody;
-		copy.chunkParent = parent;
-		return new BlackHoleGraphic(copy);
+		return generateSub<BlackHoleGraphic, BlackHoleGraphicData>(params, this);
 	}
 	///Create new copy of this data object.
 	virtual ModuleData* clone() const

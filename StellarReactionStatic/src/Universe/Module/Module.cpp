@@ -8,13 +8,15 @@
 void ModuleData::loadJson(const Json::Value& root)
 {
 	GETJSON(name);
+	GETJSON(cost);
+	GETJSON(collisionDamage);
+
 	LOADJSON(ioComp);
 	LOADJSON(fixComp);
 	LOADJSON(nwComp);
-	GETJSON(cost);
-	GETJSON(collisionDamage);
+
 }
-Module::Module(const ModuleData& rData) : m_io(rData.ioComp, &Module::input, this), m_fix(rData.fixComp)
+Module::Module(const ModuleData& rData) : m_io(rData.ioComp, &Module::input, this), m_fix(rData.fixComp), rangeModifiers(rData.rangeModifiers)
 {
 	m_collisionDamage = rData.collisionDamage;
 	m_parentChunk = rData.chunkParent;
@@ -25,9 +27,14 @@ Module::Module(const ModuleData& rData) : m_io(rData.ioComp, &Module::input, thi
 	m_fix.bindStartCB(&Module::startContactCB, this);
 	m_fix.bindEndCB(&Module::endContactCB, this);
 
-	ranges = rData.ranges;
+	rangeModifiers.tryApply();
+	ranges = rData.rangeModifiers.ranges;
 }
 Module::~Module()
+{
+
+}
+void Module::prePhysUpdate()
 {
 
 }
@@ -86,6 +93,14 @@ void Module::toggleStealth(bool toggle)
 
 void Module::healToMax()
 {
+
+}
+void Module::applyModifiers(bool apply)
+{
+	if(apply)
+		rangeModifiers.tryApply();
+	else
+		rangeModifiers.tryRemove();
 
 }
 void Module::input(String rCommand, sf::Packet rData)

@@ -18,9 +18,9 @@ public:
 	///Remove the weapon from this turret.
 	void removeWep();
 	///Actions to process on object before performing physics updates.
-	void prePhysUpdate() final;
+	virtual void prePhysUpdate();
 	///Actions to process on object after performing physics updates.
-	void postPhysUpdate() final;
+	virtual void postPhysUpdate();
 	///Set the aim of the turret.
 	virtual void setAim(const Vec2& rTarget);
 	///Send commands to a target.
@@ -52,13 +52,9 @@ struct TurretData : public ShipModuleData
 	int controlGroup;
 	sptr<const WeaponData> startWep;
 	///Create Turret object from this data object.
-	virtual Module* generate(b2Body* pBody, RangeList* ranges, Chunk* parent) const
+	virtual Module* generate(GenerateParams params) const
 	{
-		TurretData copy(*this);
-		copy.ranges = ranges;
-		copy.fixComp.pBody = pBody;
-		copy.chunkParent = parent;
-		return new Turret(copy);
+		return generateSub<Turret, TurretData>(params, this);
 	}
 	///Create new copy of this data object.
 	virtual ModuleData* clone() const

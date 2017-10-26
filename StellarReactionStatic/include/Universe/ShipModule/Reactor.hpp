@@ -39,13 +39,9 @@ struct ReactorData : public ShipModuleData
 	}
 
 	///Create Reactor object from this data object.
-	virtual Module* generate(b2Body* pBody, RangeList* ranges, Chunk* parent) const
+	virtual Module* generate(GenerateParams params) const
 	{
-		ReactorData copy(*this);
-		copy.ranges = ranges;
-		copy.fixComp.pBody = pBody;
-		copy.chunkParent = parent;
-		return new Reactor(copy);
+		return generateSub<Reactor, ReactorData>(params, this);
 	}
 	///Create new copy of this data object.
 	virtual ModuleData* clone() const

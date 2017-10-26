@@ -53,13 +53,9 @@ struct LootData : public SensorData
 	Resources resources;
 
 	///Create Loot object from this data object.
-	virtual Module* generate(b2Body* pBody, RangeList* ranges, Chunk* parent) const
+	virtual Module* generate(GenerateParams params) const
 	{
-		LootData copy(*this);
-		copy.ranges = ranges;
-		copy.fixComp.pBody = pBody;
-		copy.chunkParent = parent;
-		return new Loot(copy);
+		return generateSub<Loot, LootData>(params, this);
 	}
 	///Create new copy of this data object.
 	virtual ModuleData* clone() const

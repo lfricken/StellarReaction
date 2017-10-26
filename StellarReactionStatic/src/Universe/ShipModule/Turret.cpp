@@ -56,7 +56,7 @@ void Turret::directive(const CommandInfo& commands)
 
 	if(rIssues[Directive::FirePrimary] && controlGroups[m_controlGroup])
 		if(m_spWep && isFunctioning())//if we have a weapon
-			if(m_spWep->fire(m_fix, ranges))//if we successfully fired
+			if(m_spWep->fire(m_fix, rangeModifiers.ranges))//if we successfully fired
 			{
 				//m_parentChunk->increaseScore();	
 			}

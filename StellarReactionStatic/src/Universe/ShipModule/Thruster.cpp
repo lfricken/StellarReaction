@@ -64,10 +64,8 @@ void Thruster::thrust(const Vec2& rDirMultiplier)
 			eThisStep *= m_boostCostMulti;//Boosting costs more.
 
 
-		if(eThisStep <= m_pEnergyPool->getValue())
+		if((*ranges)[RangeList::Energy].tryChange(-eThisStep))
 		{
-			m_pEnergyPool->changeValue(-eThisStep);
-
 			float angle = m_fix.getAngle();
 
 			Vec2 forceVec = rDirMultiplier.rotate(angle);
@@ -83,9 +81,8 @@ void Thruster::torque(bool CCW)
 	{
 		float eThisStep = m_eConsump*game.getUniverse().getTimeStep();
 
-		if(eThisStep <= m_pEnergyPool->getValue())
+		if((*ranges)[RangeList::Energy].tryChange(-eThisStep))
 		{
-			m_pEnergyPool->changeValue(-eThisStep);
 			if(CCW)
 				m_fix.applyTorque(m_torque);
 			else

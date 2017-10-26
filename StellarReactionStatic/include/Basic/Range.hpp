@@ -26,17 +26,17 @@ struct RangeData
 };
 
 
-struct RangeDataModifier : RangeData
+struct RangeModifier : RangeData
 {
-	RangeDataModifier() :
+	RangeModifier() :
 		ModifierPerSecond(0)
 	{
 
 	}
 
-	RangeDataModifier negate()
+	RangeModifier negate() const
 	{
-		RangeDataModifier copy = *this;
+		RangeModifier copy = *this;
 		copy.Min = -Min;
 		copy.Max = -Max;
 		copy.Value = -Value;
@@ -73,6 +73,23 @@ public:
 	}
 	virtual ~Range() {}
 
+	/// <summary>
+	/// Consumes the value if possible. Returns true if it does.
+	/// </summary>
+	bool tryChange(float val)
+	{
+		float oldValue = getValue();
+
+		if(changeValue(val))
+		{
+			return true;
+		}
+		else
+		{
+			setValue(oldValue);
+			return false;
+		}
+	}
 	///Change max by amount. Defaults to addition rather than subtraction.
 	void changeMax(float changeVal)
 	{
@@ -83,10 +100,13 @@ public:
 	{
 		setMin(m_min + changeVal);
 	}
-	///Change value by amount. Defaults to addition rather than subtraction.
-	void changeValue(float changeVal)
+	/// <summary>
+	/// Change value by amount. Defaults to addition rather than subtraction.
+	/// Return true if it changed the entire value.
+	/// </summary>
+	bool changeValue(float changeVal)
 	{
-		setValue(m_value + changeVal);
+		return setValue(m_value + changeVal);
 	}
 
 
@@ -107,13 +127,20 @@ public:
 		setValue(m_value);//update our value
 	}
 	///Set current value. Will be capped by max and min.
-	void setValue(float newVal)
+	bool setValue(float newVal)
 	{
 		if(newVal > m_max)
+		{
 			newVal = m_max;
+			return false;
+		}
 		else if(newVal < m_min)
+		{
 			newVal = m_min;
+			return false;
+		}
 		m_value = newVal;
+		return true;
 	}
 
 
@@ -143,7 +170,7 @@ public:
 		return m_value;
 	}
 
-	void modify(const RangeDataModifier& other)
+	void modify(const RangeModifier& other)
 	{
 		m_min += other.Min;
 		m_max += other.Max;

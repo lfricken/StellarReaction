@@ -33,11 +33,12 @@ void Stealth::postPhysUpdate()
 	}
 	else
 	{
+		auto& energyPool = (*ranges)[RangeList::Energy];
 		float eThisStep = m_eConsump*game.getUniverse().getTimeStep();
-		if(eThisStep <= m_pEnergyPool->getValue() && !out_of_energy)
+
+		if(energyPool.tryChange(-eThisStep) && !out_of_energy)
 		{
-			m_pEnergyPool->changeValue(-eThisStep);
-			if(m_pEnergyPool->getValue() < eThisStep)
+			if(energyPool.getValue() < eThisStep)
 				out_of_energy = true;
 		}
 		else

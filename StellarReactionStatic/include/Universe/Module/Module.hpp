@@ -23,7 +23,7 @@ public:
 	Module(const ModuleData& rData);
 	virtual ~Module();
 	///Pure Virtual function that processes actions on object before physics updates.
-	virtual void prePhysUpdate() = 0;
+	virtual void prePhysUpdate();
 	///Actions to process on object after performing physics updates.
 	virtual void postPhysUpdate();
 	///Send a command to a target.
@@ -53,8 +53,20 @@ protected:
 	virtual void startContactCB(FixtureComponent* pOther);
 	virtual void endContactCB(FixtureComponent* pOther);
 
+
+	Range& energyRange();
+	Range& ballisticRange();
+	Range& missilesRange();
+
+	Range& zoomRange();
+	Range& teleportRange();
+	Range& stealthRange();
+
+
 	FixtureComponent m_fix;
 
+	void applyModifiers(bool apply);
+	RangeModifierList rangeModifiers;
 	RangeList* ranges;
 	Timer m_timer;//timer used to update resource generation
 
@@ -76,13 +88,14 @@ struct ModuleData : public BlueprintData
 		ioComp(&game.getUniverse().getUniverseIO()),
 		nwComp(),
 		fixComp(),
-		chunkParent(NULL)
+		chunkParent(nullptr),
+		rangeModifiers(0)
 	{
 		title = "MODULE_DEFAULT_TITLE";
 	}
 
 	Chunk* chunkParent;
-	RangeList* ranges;
+	RangeModifierList rangeModifiers;
 
 	String name;//what gets displayed to player
 	Resources cost;//how much does this cost?
@@ -93,8 +106,13 @@ struct ModuleData : public BlueprintData
 	FixtureComponentData fixComp;
 
 
+
+	struct GenerateParams
+	{
+		Chunk* parent;
+	};
 	///Create Module object from this data object.
-	virtual Module* generate(b2Body* pBody, RangeList* ranges, Chunk* parent) const
+	virtual Module* generate(GenerateParams params) const
 	{
 		WARNING;
 		return NULL;
@@ -110,6 +128,15 @@ struct ModuleData : public BlueprintData
 	MyType(ModuleData, ModuleData);
 
 protected:
+	template<class T, class TData>
+	T* generateSub(GenerateParams params, const TData* const me) const
+	{
+		TData copy(*me);//data copy
+		copy.chunkParent = params.parent;
+		copy.rangeModifiers.ranges = &(params.parent->ranges);
+		copy.fixComp.pBody = params.parent->getBodyComponent().getBodyPtr();
+		return new T(copy);
+	}
 	virtual void inherit(const ModuleData& parent)
 	{
 		*this = parent;

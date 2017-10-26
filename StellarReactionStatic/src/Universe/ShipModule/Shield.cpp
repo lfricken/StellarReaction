@@ -81,17 +81,16 @@ void Shield::prePhysUpdate()
 {
 	ShipModule::prePhysUpdate();
 
-	Energy thisTickConsumption = m_energyPerSecond*m_consumptionTimer.getTimeElapsed();
+	float thisTickConsumption = m_energyPerSecond*m_consumptionTimer.getTimeElapsed();
 	if(!isFunctioning())
 		disableShield();
 
 	if(m_pShield->isEnabled())
-		m_pEnergyPool->changeValue(-thisTickConsumption);
+		(*ranges)[RangeList::Energy].changeValue(-thisTickConsumption);
 }
 bool Shield::hitConsumption()
 {
-	m_pEnergyPool->changeValue(-m_energyPerHit);
-	return (m_pEnergyPool->getValue() > m_energyPerHit);
+	return (*ranges)[RangeList::Energy].tryChange(-m_energyPerHit);
 }
 void Shield::directive(const CommandInfo& commands)
 {

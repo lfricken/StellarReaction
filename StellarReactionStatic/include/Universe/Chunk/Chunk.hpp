@@ -85,6 +85,7 @@ public:
 	int m_shipAI;
 	sptr<Resources> m_resources;
 	List<Pair<String, sf::Vector2i> > m_storedModules;
+	RangeList ranges;
 protected:
 	/// <summary>
 	/// Destroys this chunk.
@@ -98,7 +99,6 @@ protected:
 	friend struct ChunkData;
 private:
 
-	RangeList ranges;
 
 	Timer m_timer;
 	int m_slavePosition;

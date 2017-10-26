@@ -45,13 +45,9 @@ struct ShieldComponentData : public SensorData
 	Shield* pParentShieldModule;
 
 	///Create ShieldComponent object from this data object.
-	virtual Module* generate(b2Body* pBody, RangeList* ranges, Chunk* parent) const
+	virtual Module* generate(GenerateParams params) const
 	{
-		ShieldComponentData copy(*this);
-		copy.ranges = ranges;
-		copy.fixComp.pBody = pBody;
-		copy.chunkParent = parent;
-		return new ShieldComponent(copy);
+		return generateSub<Sensor, SensorData>(params, this);
 	}
 	///Create new copy of this data object.
 	virtual ModuleData* clone() const
@@ -130,13 +126,9 @@ struct ShieldData : public ShipModuleData
 	QuadComponentData shieldArt;
 
 	///Create Shield object from this data object.
-	virtual Module* generate(b2Body* pBody, RangeList* ranges, Chunk* parent) const
+	virtual Module* generate(GenerateParams params) const
 	{
-		ShieldData copy(*this);
-		copy.ranges = ranges;
-		copy.fixComp.pBody = pBody;
-		copy.chunkParent = parent;
-		return new Shield(copy);
+		return generateSub<Shield, ShieldData>(params, this);
 	}
 	///Create new copy of this data object.
 	virtual ModuleData* clone() const

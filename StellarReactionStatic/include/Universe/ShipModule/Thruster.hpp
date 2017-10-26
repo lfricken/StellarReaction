@@ -14,9 +14,9 @@ public:
 	Thruster(const ThrusterData& rData);
 	virtual ~Thruster();
 	///Actions to process on object before performing physics updates.
-	virtual void prePhysUpdate() final;
+	virtual void prePhysUpdate();
 	///Actions to process on object after performing physics updates.
-	virtual void postPhysUpdate() final;
+	virtual void postPhysUpdate();
 	///Send commands to a target.
 	void directive(const CommandInfo& commands);
 
@@ -26,7 +26,7 @@ private:
 	void thrust(const Vec2& rDirMultiplier);
 	void torque(bool CCW);
 
-	float m_eConsump;//per second
+	float m_eConsump;//per second TODO: how do we deal with this???
 	float m_force;
 	float m_torque;
 
@@ -60,13 +60,9 @@ struct ThrusterData : public ShipModuleData
 	float torque;
 
 	///Create Thruster object from this data object.
-	virtual Module* generate(b2Body* pBody, RangeList* ranges, Chunk* parent) const
+	virtual Module* generate(GenerateParams params) const
 	{
-		ThrusterData copy(*this);
-		copy.ranges = ranges;
-		copy.fixComp.pBody = pBody;
-		copy.chunkParent = parent;
-		return new Thruster(copy);
+		return generateSub<Thruster, ThrusterData>(params, this);
 	}
 	///Create new copy of this data object.
 	virtual ModuleData* clone() const

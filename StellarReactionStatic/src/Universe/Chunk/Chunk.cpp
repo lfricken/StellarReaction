@@ -344,7 +344,7 @@ void Chunk::directive(const CommandInfo& commands)//send command to target
 		m_shieldToggleTimer.restartCountDown();
 		Message shield;
 
-		bool enoughEnergy = ranges[RangeList::Energy] > 0.25f;
+		bool enoughEnergy = ranges[RangeList::Energy].getValue() > 0.25f;
 		if(!m_areShieldsOn && enoughEnergy)//if they aren't already on and we have enough energy turn them on
 			shield.reset(m_io.getPosition(), "enableShields", voidPacket, 0, false);
 		else if(m_areShieldsOn)//if they are on turn them off no mattter what.

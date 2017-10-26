@@ -3,23 +3,8 @@
 #include "Range.hpp"
 
 struct RangeListData;
+class RangeList;
 
-
-struct RangeDataModifierList : RangeData
-{
-	RangeDataModifierList();
-
-	RangeDataModifier& operator[](int index)
-	{
-		return modifiers[index];
-	}
-	const RangeDataModifier& operator[](int index) const
-	{
-		return modifiers[index];
-	}
-
-	List<RangeDataModifier> modifiers;
-};
 
 class RangeList
 {
@@ -49,11 +34,6 @@ public:
 	{
 		return *ranges[index];
 	}
-	void applyModifiers(const RangeDataModifierList& mods)
-	{
-		for(int i = 0; i < RangeList::LAST_VAL; ++i)
-			ranges[i]->modify(mods[i]);
-	}
 
 	List<sptr<Range> > ranges;
 };
@@ -74,3 +54,56 @@ struct RangeListData
 	virtual void loadJson(const Json::Value& root);
 };
 
+class RangeModifierList : RangeData
+{
+public:
+	RangeModifierList(int null)
+	{
+		assert(null == 0);
+	}
+	RangeModifierList(const RangeModifier& other)
+	{
+		*this = other;
+
+		if(ranges != nullptr)
+			tryApply();
+	}
+	~RangeModifierList()
+	{
+		if(ranges != nullptr)
+			tryRemove();
+	}
+	RangeModifier& operator[](int index)
+	{
+		return modifiers[index];
+	}
+	const RangeModifier& operator[](int index) const
+	{
+		return modifiers[index];
+	}
+
+	void tryApply()
+	{
+		if(hasAppliedModifiers == false)
+		{
+			for(int i = 0; i < RangeList::LAST_VAL; ++i)
+				(*ranges)[i].modify(modifiers[i]);
+		}
+
+		hasAppliedModifiers = true;
+	}
+	void tryRemove()
+	{
+		if(hasAppliedModifiers)
+		{
+			for(int i = 0; i < RangeList::LAST_VAL; ++i)
+				(*ranges)[i].modify(modifiers[i].negate());
+		}
+
+		hasAppliedModifiers = false;
+	}
+
+	bool hasAppliedModifiers;
+	List<RangeModifier> modifiers;
+	RangeList* ranges;
+};

@@ -64,13 +64,9 @@ struct CaptureGraphicData : public ModuleData
 	SpinnerData pinkLights;
 	SpinnerData redLights;
 	///Create CaptureGraphics object from this data object.
-	virtual Module* generate(b2Body* pBody, RangeList* ranges, Chunk* parent) const
+	virtual Module* generate(GenerateParams params) const
 	{
-		CaptureGraphicData copy(*this);
-		copy.ranges = ranges;
-		copy.fixComp.pBody = pBody;
-		copy.chunkParent = parent;
-		return new CaptureGraphic(copy);
+		return generateSub<CaptureGraphic, CaptureGraphicData>(params, this);
 	}
 	///Create new copy of this data object.
 	virtual ModuleData* clone() const

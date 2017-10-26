@@ -65,7 +65,7 @@ HealthState ShipModule::getHealthState() const
 }
 void ShipModule::prePhysUpdate()
 {
-
+	Module::prePhysUpdate();
 }
 void ShipModule::postPhysUpdate()
 {
@@ -76,6 +76,9 @@ void ShipModule::postPhysUpdate()
 		m_decors[i]->setPosition(center);
 		m_decors[i]->setRotation(angle);
 	}
+
+	//TODO game.getUniverse().getTimeStep() apply modifiers with time and add function maybe? also use the is functioning flag
+
 }
 void ShipModule::pack(sf::Packet& rPacket)
 {
@@ -219,6 +222,9 @@ void ShipModule::setHealthState(HealthState newState)
 		m_decors[m_baseDecor]->setColor(sf::Color(255, 0, 0, 255));///makes the sprite red when destroyed
 		f_died();
 	}
+
+	applyModifiers(isFunctioning());
+
 	setHealthStateHook(m_healthState);
 }
 void ShipModule::setHealthStateHook(HealthState newState)

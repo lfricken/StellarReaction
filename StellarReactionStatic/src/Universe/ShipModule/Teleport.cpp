@@ -25,7 +25,6 @@ Teleport::~Teleport()
 }
 void Teleport::postPhysUpdate()
 {
-
 	ShipModule::postPhysUpdate();
 }
 void Teleport::directive(const CommandInfo& commands)
@@ -34,31 +33,31 @@ void Teleport::directive(const CommandInfo& commands)
 
 	if(rIssues[Directive::Teleport])
 	{
-		if(m_pEnergyPool->getValue() > m_eConsump && m_teleTimer.isTimeUp() && isFunctioning())
+		//get mouse position and use that to decide how far we are teleporting
+		Vec2 mousePos = game.getLocalPlayer().getMouseInWorld();
+		b2Body* bod = m_parentChunk->getBodyPtr();
+		Vec2 orgPos = bod->GetPosition();
+		Vec2 diff = mousePos - orgPos;
+		float dist = diff.len();
+		Vec2 target;
+		if(dist <= m_teleRange)
 		{
-			//get mouse position and use that to decide how far we are teleporting
-			Vec2 mousePos = game.getLocalPlayer().getMouseInWorld();
-			b2Body* bod = m_parentChunk->getBodyPtr();
-			Vec2 orgPos = bod->GetPosition();
-			Vec2 diff = mousePos - orgPos;
-			float dist = diff.len();
-			Vec2 target;
-			if(dist <= m_teleRange)
-			{
-				target = mousePos;
-			}
-			else
-			{
-				diff = diff.unit();
-				diff *= m_teleRange;
-				target = diff + orgPos;
-			}
+			target = mousePos;
+		}
+		else
+		{
+			diff = diff.unit();
+			diff *= m_teleRange;
+			target = diff + orgPos;
+		}
+
+		if((*ranges)[RangeList::Energy].tryChange(-m_eConsump) && m_teleTimer.isTimeUp() && isFunctioning())
+		{
 			//check if the destination is clear
 			if(game.getUniverse().isClear(target, m_parentChunk->getRadius(), m_parentChunk))
 			{
-				//restart timer, consume energy, perfrom teleport
+				//restart timer, perfrom teleport
 				m_teleTimer.restartCountDown();
-				m_pEnergyPool->changeValue(-m_eConsump);
 				bod->SetTransform(target, bod->GetAngle());
 			}
 		}
