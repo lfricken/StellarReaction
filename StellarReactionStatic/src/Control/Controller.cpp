@@ -31,7 +31,7 @@ Controller::~Controller()
 void Controller::setSlave(const String& rSlaveName)
 {
 	m_slaveName = rSlaveName;
-	m_slavePosition = game.getUniverse().getGameObjectPosition(m_slaveName);
+	m_slavePosition = game.getUniverse().getChunkPosition(m_slaveName);
 	if(m_slavePosition == -1)
 		throw new std::runtime_error("Controllers target doesn't exist yet.");
 }
@@ -55,7 +55,7 @@ const Vec2& Controller::getAim() const
 }
 sptr<Chunk> Controller::getChunk() const
 {
-	return std::dynamic_pointer_cast<Chunk>(game.getUniverse().getGameObject(m_slavePosition));
+	return std::dynamic_pointer_cast<Chunk>(game.getUniverse().getChunk(m_slavePosition));
 }
 /// <summary>
 /// Find our slave and set it to aim at a location

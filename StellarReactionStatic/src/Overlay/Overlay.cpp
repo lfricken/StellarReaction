@@ -16,6 +16,7 @@
 #include "NumericDisplay.hpp"
 #include "ReturnSelection.hpp"
 #include "Tooltip.hpp"
+#include "JSON.hpp"
 
 
 

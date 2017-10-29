@@ -10,8 +10,6 @@ void ReactorData::loadJson(const Json::Value& root)
 }
 Reactor::Reactor(const ReactorData& rData) : ShipModule(rData)
 {
-	m_rate = rData.rate;
-
 	m_timer.setCountDown(0.25f);
 }
 Reactor::~Reactor()
@@ -24,11 +22,6 @@ void Reactor::prePhysUpdate()
 }
 void Reactor::postPhysUpdate()
 {
-	if(this->isFunctioning())
-	{
-		(*ranges)[RangeList::Energy].(game.getUniverse().getTimeStep()*m_rate);
-	}
-
 	ShipModule::postPhysUpdate();
 }
 void Reactor::directive(const CommandInfo& commands)
@@ -45,13 +38,6 @@ void Reactor::directive(const CommandInfo& commands)
 }
 void Reactor::respawn()
 {
-	sf::Packet data;
-	ShipBuilder::Client::writeToPacket(m_parentChunk->m_io.getPosition(), m_parentChunk->getModules(), &data);
-	ShipBuilder::Server::rebuild(data);
-
-	triggerDeathSequence();
-}
-void Reactor::triggerDeathSequence()
-{
 
 }
+

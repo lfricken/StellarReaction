@@ -17,7 +17,7 @@
 class BatchLayers;
 class GraphicsComponentUpdater;
 class IOManager;
-class GameObject;
+class Chunk;
 class BlueprintLoader;
 class Decoration;
 class ControlFactory;
@@ -47,7 +47,7 @@ public:
 	ProjectileMan& getProjMan();
 	/// Return the DecorationEngine for this Universe.
 	DecorationEngine& getDecors();
-	Factory<GameObject>& Universe::getGameObjects();
+	Factory<Chunk>& Universe::getChunks();
 	Factory<ShipAI>& getShipAI();
 	/// Return the Box2D world for this Universe.
 	b2World& getWorld();
@@ -102,8 +102,8 @@ public:
 	/// Load a level using Blueprints.
 	void loadLevel(const GameLaunchData& data);
 
-	/// Return list of GameObject.
-	//List<sptr<GameObject> > getgoList();
+	/// Return list of Chunk.
+	//List<sptr<Chunk> > getgoList();
 	/// Used to create impact particles.
 	void spawnParticles(const String& particleBP, const Vec2& pos, const Vec2& dir, const Vec2& transverse);
 
@@ -116,10 +116,10 @@ public:
 	Vec2 getAvailableSpawn(Team team, float radius, const Chunk* exception);
 
 	/// Add a Chunk to the Universe, return its index
-	int add(GameObject* pGO);
+	int add(Chunk* pGO);
 
-	int getGameObjectPosition(String& name);
-	sptr<GameObject> getGameObject(int pos);
+	int getChunkPosition(String& name);
+	sptr<Chunk> getChunk(int pos);
 protected:
 	bool listContains(std::list<Team> teams, Team value);
 
@@ -187,7 +187,7 @@ private:
 	sptr<Timer> m_spMoneyTimer;//how long to wait for each money gift
 
 	/**Ships, AI**/
-	Factory<GameObject> m_goList;// must be AFTER universe graphics//list of game objects that WE need to keep track of
+	Factory<Chunk> m_goList;// must be AFTER universe graphics//list of game objects that WE need to keep track of
 	Factory<ShipAI> m_shipAI;
 
 	List<Chunk*> m_capturePoints;

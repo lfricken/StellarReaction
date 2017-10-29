@@ -91,7 +91,7 @@ Vec2 Missile::getTargetDirection(sptr<Chunk> target)
 {
 	b2Body& bod = *m_body.getBodyPtr();
 	Vec2 ourPos = bod.GetPosition();
-	b2Body& tBod = *target->getBodyPtr();
+	b2Body& tBod = *target->getBodyComponent().getBodyPtr();
 	Vec2 targetVel = tBod.GetLinearVelocity();
 	Vec2 targetPos = tBod.GetPosition();
 	Vec2 diff = targetPos - ourPos;

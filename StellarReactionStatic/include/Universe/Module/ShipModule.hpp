@@ -27,7 +27,7 @@ public:
 	///Actions to process on object after performing physics updates.
 	virtual void postPhysUpdate();
 	///Should this module still work?
-	bool isFunctioning();
+	virtual bool isFunctioning();
 	///Set the health state of this module.
 	void setHealthState(HealthState newState);
 	///Actions to process on object when HealthState changes.

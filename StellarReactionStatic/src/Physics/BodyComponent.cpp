@@ -10,6 +10,8 @@
 
 BodyComponent::BodyComponent(const BodyComponentData& rData)
 {
+	m_team = rData.team;
+
 	parent = nullptr;
 
 	if(rData.syncedNetwork)

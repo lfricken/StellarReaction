@@ -67,9 +67,9 @@ Shield::Shield(const ShieldData& rData) : ShipModule(rData)
 	newShield.fixComp.shape = leon::Shape::Circle;
 	newShield.fixComp.size.x = rData.radius;
 	newShield.fixComp.offset = rData.fixComp.offset;
-	this->m_parentChunk->add(newShield);
+	this->m_parent->add(newShield);
 
-	m_pShield = dynamic_cast<ShieldComponent*>(this->m_parentChunk->getModuleList().back().get());
+	m_pShield = dynamic_cast<ShieldComponent*>(this->m_parent->getModuleList().back().get());
 	assert(m_pShield != NULL);
 
 	auto shieldArt = rData.shieldArt;
@@ -106,7 +106,7 @@ void Shield::disableShield()
 }
 void Shield::triggerGroupDisable()
 {
-	int target = m_parentChunk->m_io.getPosition();
+	int target = m_parent->thisAsChunk()->m_io.getPosition();
 	Message off(target, "disableShields", voidPacket, 0, false);
 	Message::SendUniverse(off);
 }

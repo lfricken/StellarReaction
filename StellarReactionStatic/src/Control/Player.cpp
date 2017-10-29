@@ -471,7 +471,6 @@ void Player::updateView()
 			}
 
 			//Radar TODO THIS ALL SHOULD BE IN THE MINIMAP CLASS
-			//List<sptr<GameObject> > goList = game.getUniverse().getgoList();
 			//int index = 0;
 			//float maxRange = 50.f;
 			//float mapScale = -0.005f;
@@ -480,7 +479,6 @@ void Player::updateView()
 			//for(auto it = goList.begin(); it != goList.end(); ++it)
 			//{
 			//	//Determine team.
-			//	GameObject* p = it->get();
 			//	Chunk* object = dynamic_cast<Chunk*>(p);
 			//	Team other_team = object->getBodyComponent().getTeam();
 

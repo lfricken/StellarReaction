@@ -7,7 +7,7 @@
 #include "IOManager.hpp"
 #include "Player.hpp"
 #include "QuadComponent.hpp"
-#include "GameObject.hpp"
+#include "Chunk.hpp"
 #include "Chunk.hpp"
 #include "ShipModule.hpp"
 #include "Sensor.hpp"
@@ -206,7 +206,7 @@ Universe::~Universe()
 	m_capturePoints.clear();
 	game.getLocalPlayer().onBeforeUniverseDestroyed();
 }
-int Universe::getGameObjectPosition(String& name)
+int Universe::getChunkPosition(String& name)
 {
 	for(auto it = m_goList.begin(); it != m_goList.end(); ++it)
 	{
@@ -216,7 +216,7 @@ int Universe::getGameObjectPosition(String& name)
 	}
 	return -1;
 }
-sptr<GameObject> Universe::getGameObject(int pos)
+sptr<Chunk> Universe::getChunk(int pos)
 {
 	return m_goList.get(pos);
 }
@@ -256,7 +256,7 @@ Factory<ShipAI>& Universe::getShipAI()
 {
 	return m_shipAI;
 }
-Factory<GameObject>& Universe::getGameObjects()
+Factory<Chunk>& Universe::getChunks()
 {
 	return m_goList;
 }
@@ -297,7 +297,7 @@ float Universe::getTimeStep() const
 	return m_timeStep;
 }
 /// <summary>
-/// Where we call prePhysUpdate on all GameObjects
+/// Where we call prePhysUpdate on all Chunks
 /// </summary>
 void Universe::prePhysUpdate()
 {
@@ -322,7 +322,7 @@ void Universe::physUpdate()
 	}
 }
 /// <summary>
-/// Where we call postPhysUpdate on all GameObjects
+/// Where we call postPhysUpdate on all Chunks
 /// </summary>
 void Universe::postPhysUpdate()
 {
@@ -349,7 +349,7 @@ wptr<Chunk> Universe::getNearestChunk(const Vec2& target, const Chunk* exception
 		sptr<Chunk> object = std::dynamic_pointer_cast<Chunk>(*it);
 		if(object != nullptr && object.get() != exception && listContains(validTeams, object->getBodyComponent().getTeam()))
 		{
-			Vec2 dif = target - object->getBodyPtr()->GetPosition();
+			Vec2 dif = target - object->getBodyComponent().getPosition();
 			float dist = dif.len();
 			if(dist < prevDist || prevDist == -1)
 			{
@@ -476,9 +476,9 @@ void Universe::loadBlueprints(const String& bpDir)//loads blueprints
 {
 	m_spBPLoader->loadBlueprints(bpDir);
 }
-int Universe::add(GameObject* pGO)
+int Universe::add(Chunk* pGO)
 {
-	return m_goList.insert(sptr<GameObject>(pGO));
+	return m_goList.insert(sptr<Chunk>(pGO));
 }
 void Universe::input(String rCommand, sf::Packet rData)
 {
@@ -519,7 +519,7 @@ void Universe::input(String rCommand, sf::Packet rData)
 		auto chunkData(m_spBPLoader->getChunkSPtr(data.blueprintName)->clone());
 		chunkData->bodyComp.coords = data.coordinates;
 		chunkData->bodyComp.rotation = data.rotation;
-		chunkData->team = (Team)data.team;
+		chunkData->bodyComp.team = (Team)data.team;
 		chunkData->ioComp.name = slaveName;// data.slaveName;
 
 
@@ -564,7 +564,7 @@ bool Universe::isClear(Vec2 position, float radius, const Chunk* exception)
 	if(auto nearestChunk = nearest.lock())
 	{
 		float nearestRad = nearestChunk->getRadius();
-		float dist = (nearestChunk->getBodyPtr()->GetPosition() - position).Length();
+		float dist = (nearestChunk->getBodyComponent().getPosition() - position).len();
 		if(dist < (nearestRad + radius))
 			return false;
 		else

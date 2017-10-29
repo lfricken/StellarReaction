@@ -5,6 +5,7 @@
 #include "NetworkComponent.hpp"
 #include "NonCopyable.hpp"
 
+class ModuleParent;
 enum class Team;
 
 /// Initializes BodyComponent
@@ -23,6 +24,8 @@ struct BodyComponentData
 	{
 
 	}
+	Team team;
+
 	Vec2 coords;
 	/// <summary>
 	/// Rotation in Degrees CCW
@@ -67,7 +70,7 @@ public:
 	///Returns the team of the Ship this body represents.
 	Team getTeam() const;
 
-	Chunk* parent;
+	ModuleParent* parent;
 
 protected:
 	virtual void pack(sf::Packet& rPacket);

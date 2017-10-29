@@ -11,13 +11,11 @@ class Capacitor : public ShipModule
 public:
 	Capacitor(const CapacitorData& rData);
 	virtual ~Capacitor();
-	///Actions to process on object when HealthState changes.
-	virtual void setHealthStateHook(HealthState newState);
+
 
 protected:
 private:
 
-	float m_storage;
 };
 
 
@@ -25,13 +23,11 @@ private:
 struct CapacitorData : ShipModuleData
 {
 	CapacitorData() :
-		ShipModuleData(),
-		storage(100)
+		ShipModuleData()
 	{
 		baseDecor.texName = "capacitor/capacitor_base";
 	}
 
-	float storage;
 	///Create Capacitor object from this data object.
 	virtual Module* generate(GenerateParams params) const
 	{

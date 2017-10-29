@@ -35,7 +35,7 @@ void Teleport::directive(const CommandInfo& commands)
 	{
 		//get mouse position and use that to decide how far we are teleporting
 		Vec2 mousePos = game.getLocalPlayer().getMouseInWorld();
-		b2Body* bod = m_parentChunk->getBodyPtr();
+		b2Body* bod = m_parent->getBodyComponent().getBodyPtr();
 		Vec2 orgPos = bod->GetPosition();
 		Vec2 diff = mousePos - orgPos;
 		float dist = diff.len();
@@ -54,7 +54,8 @@ void Teleport::directive(const CommandInfo& commands)
 		if((*ranges)[RangeList::Energy].tryChange(-m_eConsump) && m_teleTimer.isTimeUp() && isFunctioning())
 		{
 			//check if the destination is clear
-			if(game.getUniverse().isClear(target, m_parentChunk->getRadius(), m_parentChunk))
+			Chunk* me = dynamic_cast<Chunk*>(m_parent);
+			if(game.getUniverse().isClear(target, me->getRadius(), me))
 			{
 				//restart timer, perfrom teleport
 				m_teleTimer.restartCountDown();

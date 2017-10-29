@@ -45,6 +45,8 @@ public:
 	///Get a reference to the fixture component of this module.
 	const FixtureComponent& getFixtureComponent();
 
+	virtual bool isFunctioning();
+
 	IOComponent m_io;
 protected:
 	virtual void input(String rCommand, sf::Packet rData);
@@ -53,6 +55,7 @@ protected:
 	virtual void startContactCB(FixtureComponent* pOther);
 	virtual void endContactCB(FixtureComponent* pOther);
 
+	void applyModifierRates();
 
 	Range& energyRange();
 	Range& ballisticRange();
@@ -74,27 +77,27 @@ protected:
 
 	String m_title;//how the game refers to it
 	String m_name;//what gets displayed to player
-	Chunk* m_parentChunk;
+	ModuleParent* m_parent;
 	int m_collisionDamage;
 private:
 };
 
 /// Blueprint for Module
-struct ModuleData : public BlueprintData
+struct ModuleData : public BlueprintableData
 {
 	ModuleData() :
+		parent(nullptr),
+		rangeModifiers(0),
 		name("defaultName"),
 		collisionDamage(0),
 		ioComp(&game.getUniverse().getUniverseIO()),
 		nwComp(),
-		fixComp(),
-		chunkParent(nullptr),
-		rangeModifiers(0)
+		fixComp()
 	{
 		title = "MODULE_DEFAULT_TITLE";
 	}
 
-	Chunk* chunkParent;
+	ModuleParent* parent;
 	RangeModifierList rangeModifiers;
 
 	String name;//what gets displayed to player
@@ -109,7 +112,7 @@ struct ModuleData : public BlueprintData
 
 	struct GenerateParams
 	{
-		Chunk* parent;
+		ModuleParent* parent;
 	};
 	///Create Module object from this data object.
 	virtual Module* generate(GenerateParams params) const
@@ -132,8 +135,8 @@ protected:
 	T* generateSub(GenerateParams params, const TData* const me) const
 	{
 		TData copy(*me);//data copy
-		copy.chunkParent = params.parent;
-		copy.rangeModifiers.ranges = &(params.parent->ranges);
+		copy.parent = params.parent;
+		copy.rangeModifiers.ranges = params.parent->getRanges();
 		copy.fixComp.pBody = params.parent->getBodyComponent().getBodyPtr();
 		return new T(copy);
 	}

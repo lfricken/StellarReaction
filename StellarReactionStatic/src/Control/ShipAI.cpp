@@ -75,7 +75,7 @@ void ShipAI::updateDecision()
 		//fire at and fly toward target if we have one
 		if(auto target = m_pCurrentTarget.lock())
 		{
-			Vec2 targetPos = target->getBodyPtr()->GetPosition();
+			Vec2 targetPos = target->getBodyComponent().getPosition();
 
 			//TODO, lead target
 			rController.setAim(targetPos);

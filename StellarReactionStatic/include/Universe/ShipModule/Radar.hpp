@@ -20,8 +20,7 @@ public:
 
 protected:
 private:
-	///Zoom change.
-	float m_zoom;
+
 	///The index of our dish in our list.
 	int m_dishIndex;
 };
@@ -30,8 +29,7 @@ private:
 struct RadarData : public ShipModuleData
 {
 	RadarData() :
-		ShipModuleData(),
-		zoomAddition(1)///units?
+		ShipModuleData()
 	{
 		dish.texName = "module/dish";
 		dish.randomRot = true;
@@ -40,8 +38,7 @@ struct RadarData : public ShipModuleData
 	}
 
 	SpinnerData dish;
-	//How much more we can zoom with this module active?
-	float zoomAddition;
+
 	///Create Radar object from this data object.
 	virtual Module* generate(GenerateParams params) const
 	{

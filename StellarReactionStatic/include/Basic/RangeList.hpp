@@ -1,14 +1,33 @@
 #pragma once
 
 #include "Range.hpp"
+#include "Debugging.hpp"
 
 struct RangeListData;
 class RangeList;
 
+#define ENUMTOSTRING(key, ENUMNAME) \
+	 if(key == ENUMNAME) return #ENUMNAME
 
 class RangeList
 {
 public:
+
+	static String getFieldName(int key)
+	{
+		ENUMTOSTRING(key, Energy);
+		ENUMTOSTRING(key, Ballistic);
+		ENUMTOSTRING(key, Missiles);
+
+		ENUMTOSTRING(key, Zoom);
+		ENUMTOSTRING(key, Teleport);
+		ENUMTOSTRING(key, Stealth);
+
+		ENUMTOSTRING(key, Shield);
+
+		WARNING;
+		return "ERROR_FIELDNAME";
+	}
 
 	enum
 	{
@@ -19,6 +38,8 @@ public:
 		Zoom,
 		Teleport,
 		Stealth,
+		
+		Shield,
 
 		LAST_VAL,
 	};
@@ -54,15 +75,21 @@ struct RangeListData
 	virtual void loadJson(const Json::Value& root);
 };
 
+
+
 class RangeModifierList : RangeData
 {
 public:
 	RangeModifierList(int null)
 	{
 		assert(null == 0);
+		for(int i = 0; i < RangeList::LAST_VAL; ++i)
+			modifiers.push_back(RangeModifier());
 	}
-	RangeModifierList(const RangeModifier& other)
+	RangeModifierList(const RangeModifierList& other)
 	{
+		for(int i = 0; i < RangeList::LAST_VAL; ++i)
+			modifiers.push_back(RangeModifier());
 		*this = other;
 
 		if(ranges != nullptr)
@@ -80,6 +107,12 @@ public:
 	const RangeModifier& operator[](int index) const
 	{
 		return modifiers[index];
+	}
+
+	void applyRateModifiers(float deltaTime)
+	{
+		for(int i = 0; i < RangeList::LAST_VAL; ++i)
+			(*ranges)[i].changeValue(deltaTime * modifiers[i].ModifierPerSecond);
 	}
 
 	void tryApply()

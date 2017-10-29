@@ -1,11 +1,11 @@
 #pragma once
 
 #include "stdafx.hpp"
-#include "BlueprintData.hpp"
+#include "BlueprintableData.hpp"
 #include "QuadComponent.hpp"
 #include "ClassRegister.hpp"
 
-struct Particles : public BlueprintData
+struct Particles : public BlueprintableData
 {
 public:
 	Particles()

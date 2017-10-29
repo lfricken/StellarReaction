@@ -18,7 +18,7 @@ TEST(MiniMapTest, NumberOfMarkers)
 
 	//// Make sure the number of items on minimap is equal to the number of things,
 	//// that it should be detecting.
-	//int totalItems = game.getUniverse().getGameObjects().size();
+	//int totalItems = game.getUniverse().getChunks().size();
 	//int radarItems = game.getLocalPlayer().radarsize();
 
 	//EXPECT_LE(totalItems, radarItems);

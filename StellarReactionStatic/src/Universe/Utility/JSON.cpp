@@ -100,3 +100,36 @@ Resources JSON::get(const Json::Value& root, const String& fieldName, Resources 
 
 	return res;
 }
+RangeList JSON::get(const Json::Value& root, const String& fieldName, RangeList defaultValue)
+{
+	//RangeList res(0);
+
+	//for(int key = 0; key < root[fieldName].size(); ++key)
+	//{
+	//	
+	//}
+	RangeListData d;
+	return RangeList(d);
+}
+RangeModifierList JSON::get(const Json::Value& root, const String& fieldName, RangeModifierList defaultValue)
+{
+	if(root[fieldName].isNull())
+		return defaultValue;
+
+	RangeModifierList res(0);
+	RangeModifier def;
+
+	for(int key = 0; key < root[fieldName].size(); ++key)
+	{
+		String rangeName = RangeList::getFieldName(key);
+		auto& modifierRoot = root[fieldName][rangeName];
+
+		if(!modifierRoot.isNull())
+			res[key].loadJson(modifierRoot);
+	}
+
+	return res;
+}
+
+
+

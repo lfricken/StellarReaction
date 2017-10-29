@@ -35,10 +35,10 @@ void Loot::entered(FixtureComponent* pOther)
 		if(!m_used)//if it doesn't already contain it
 		{
 			m_used = false;
-			int target = newGuest->m_io.getPosition();
+			int target = newGuest->thisAsChunk()->m_io.getPosition();
 			sf::Packet loot;
 			m_resources.intoPacket(&loot);
-			loot << m_parentChunk->universePosition;
+			loot << m_parent->thisAsChunk()->universePosition;
 			Message giveLoot(target, "pickupLoot", loot, 0, false);
 			Message::SendUniverse(giveLoot);
 		}

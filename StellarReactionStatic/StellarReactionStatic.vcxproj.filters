@@ -108,6 +108,8 @@
     <ClCompile Include="src\Basic\Clock.cpp" />
     <ClCompile Include="src\Basic\Range.cpp" />
     <ClCompile Include="src\Basic\RangeList.cpp" />
+    <ClCompile Include="src\Universe\Chunk\ModuleParent.cpp" />
+    <ClCompile Include="src\Basic\BlueprintableData.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Game\Directory.hpp" />
@@ -339,7 +341,6 @@
     <ClInclude Include="include\Weapon\LaserWeapon.hpp" />
     <ClInclude Include="include\Weapon\GrappleWeapon.hpp" />
     <ClInclude Include="include\Weapon\BallisticWeapon.hpp" />
-    <ClInclude Include="include\Basic\BlueprintData.hpp" />
     <ClInclude Include="include\Universe\Utility\BlueprintLoader.hpp" />
     <ClInclude Include="include\Universe\Utility\DebugDraw.hpp" />
     <ClInclude Include="include\Universe\Utility\GameObject.hpp" />
@@ -434,6 +435,9 @@
     <ClInclude Include="include\Basic\Clock.hpp" />
     <ClInclude Include="include\Basic\Range.hpp" />
     <ClInclude Include="include\Basic\RangeList.hpp" />
+    <ClInclude Include="include\Universe\Chunk\ModuleParent.hpp" />
+    <ClInclude Include="include\Basic\BlueprintableData.hpp" />
+    <ClInclude Include="include\Basic\OddballFunctions.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\API\SFML\Audio\SoundFileFactory.inl" />

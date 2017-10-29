@@ -29,7 +29,7 @@ CaptureGraphic::CaptureGraphic(const CaptureGraphicData& rData) : Module(rData)
 	m_lights.push_back(sptr<GraphicsComponent>(new Spinner(rData.pinkLights)));
 	m_lights.push_back(sptr<GraphicsComponent>(new Spinner(rData.redLights)));
 
-	Vec2 parentPos = m_parentChunk->getBodyPtr()->GetPosition();
+	Vec2 parentPos = m_parent->getBodyComponent().getPosition();
 	m_base_decor->setPosition(parentPos);
 	for (auto light = m_lights.begin(); light != m_lights.end(); ++light)
 	{
@@ -46,8 +46,8 @@ void CaptureGraphic::prePhysUpdate()
 {
 	if (m_cap == NULL) 
 	{
-		m_cap = dynamic_cast<CaptureArea*>((&*m_parentChunk->getModuleList()[0]));
-		m_parentChunk->getBodyComponent().setTeam(Team::Capturable);
+		m_cap = dynamic_cast<CaptureArea*>((&*m_parent->getModuleList()[0]));
+		m_parent->getBodyComponent().setTeam(Team::Capturable);
 	}
 }
 void CaptureGraphic::postPhysUpdate()

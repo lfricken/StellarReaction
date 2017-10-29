@@ -6,7 +6,7 @@
 #include "QuadComponent.hpp"
 #include "Globals.hpp"
 #include "ClassRegister.hpp"
-#include "BlueprintData.hpp"
+#include "BlueprintableData.hpp"
 #include "NonCopyable.hpp"
 #include "Sound.hpp"
 #include "Debugging.hpp"
@@ -87,7 +87,7 @@ private:
 };
 
 /// Blueprint for Weapon.
-struct WeaponData : public BlueprintData
+struct WeaponData : public BlueprintableData
 {
 	WeaponData() :
 		energyConsumption(1),

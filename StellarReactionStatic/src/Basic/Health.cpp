@@ -1,24 +1,26 @@
 #include "Health.hpp"
 #include "stdafx.hpp"
+#include "JSON.hpp"
 
 
 void HealthData::loadJson(const Json::Value& root)
 {
-	PoolData::loadJson<int>(root);
+	RangeData::loadJson(root);
 
 	GETJSON(Armor);
+
 	GETJSON(PercentStartCrit);
 	GETJSON(MaxCritOdds);
 	GETJSON(MaxCrits);
 }
-Health::Health(const HealthData& rData) : Pool(rData)
+Health::Health(const HealthData& data) : Range(data)
 {
-	m_armor = rData.Armor;
+	m_armor = data.Armor;
 	m_critHits = 0;
-	m_maxCritHits = rData.MaxCrits;
+	m_maxCritHits = data.MaxCrits;
 
-	m_percentStartCrit = rData.PercentStartCrit;
-	m_maxCritOdds = rData.MaxCritOdds;
+	m_percentStartCrit = data.PercentStartCrit;
+	m_maxCritOdds = data.MaxCritOdds;
 }
 Health::~Health()
 {
@@ -31,7 +33,7 @@ bool Health::damage(int injure)
 
 	if(!isDead() && damageDealt > 0)//we aren't dead, and are taking damage
 	{
-		changeValue(-damageDealt);//deal damage
+		changeValue((float)-damageDealt);//deal damage
 		changeArmor(-damageDealt / 4);
 		return updateCrits();
 	}
@@ -59,7 +61,7 @@ bool Health::updateCrits()
 void Health::heal(int health)
 {
 	if(health > 0)
-		changeValue(health);
+		changeValue((float)health);
 
 	if(getHealthPercent() == 1.f)
 		m_critHits = 0;
@@ -75,11 +77,11 @@ bool Health::isDead() const
 }
 int Health::getHealth() const
 {
-	return getValue();
+	return (int)getValue();
 }
 int Health::getMaxHealth() const
 {
-	return getMax();
+	return (int)getMax();
 }
 float Health::getHealthPercent() const
 {

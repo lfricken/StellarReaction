@@ -125,8 +125,11 @@ void ShipModule::input(String rCommand, sf::Packet rData)
 
 			if(overkill > 0)//check if damage should bleed
 			{
-				ShipModule* newTarget = m_parentChunk->getNearestValidTarget(m_fix.getOffset());//returns null if there are no valid targets
-				if(newTarget != nullptr)//if there is a valid target
+				ShipModule* newTarget = m_parent->getNearestValidTarget(m_fix.getOffset());//returns null if there are no valid targets
+
+				if(newTarget != nullptr)
+					return;
+				else
 				{
 					int newModuleTarget = newTarget->m_io.getPosition();//damage it with excess damage
 					Weapon::damage(&game.getUniverse().getUniverseIO(), newModuleTarget, overkill, ioPosOfDealer, team, hitPoint, fromDir, effect, true);
@@ -160,14 +163,10 @@ void ShipModule::moduleDamageGraphics()
 	}
 
 	// show health damage on HUD
-	if(m_parentChunk != nullptr)
+	auto boardPtr = m_parent->thisAsChunk()->getStatusBoard();
+	if(auto statusBoard = boardPtr.lock())
 	{
-		auto pos = getOffset();
-		auto boardPtr = m_parentChunk->getStatusBoard();
-		if(auto statusBoard = boardPtr.lock())
-		{
-			statusBoard->damageModule(pos, m_healthState, m_health.getHealthPercent(), true);
-		}
+		statusBoard->damageModule(getOffset(), m_healthState, m_health.getHealthPercent(), true);
 	}
 }
 void ShipModule::changeHealthState(int ioPosOfDealer)
@@ -190,7 +189,7 @@ void ShipModule::changeHealthState(int ioPosOfDealer)
 }
 bool ShipModule::isValidDamageSource(int damage, Team damagingTeam)
 {
-	const Team myTeam = m_parentChunk->getBodyComponent().getTeam();
+	const Team myTeam = m_parent->getBodyComponent().getTeam();
 	const bool damagePositive = damage > 0;
 	const bool differentTeams = damagingTeam != myTeam || damagingTeam == Team::Alone;
 	const bool validTeams = (damagingTeam != Team::Invalid && damagingTeam != Team::Capturable) && (myTeam != Team::Invalid && myTeam != Team::Neutral && myTeam != Team::Capturable);

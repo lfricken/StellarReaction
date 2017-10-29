@@ -1,6 +1,6 @@
 #pragma once
 
-#include "JSON.hpp"
+#include "stdafx.hpp"
 
 struct RangeData
 {
@@ -17,12 +17,7 @@ struct RangeData
 	float Value;
 
 	///Fill this object with data from a json file.
-	void loadJson(const Json::Value& root)
-	{
-		GETJSON(Max);
-		GETJSON(Min);
-		GETJSON(Value);
-	}
+	void loadJson(const Json::Value& root);
 };
 
 
@@ -46,11 +41,8 @@ struct RangeModifier : RangeData
 
 	float ModifierPerSecond;
 
-	void loadJson(const Json::Value& root)
-	{
-		GETJSON(ModifierPerSecond);
-		RangeData::loadJson(root);
-	}
+	void loadJson(const Json::Value& root);
+
 };
 
 

@@ -30,19 +30,11 @@ struct HealthData : public RangeData
 		MaxCrits = 3;
 	}
 
-	int Armor;///How much damage is subtracted per hit.
-	/// <summary>
-	/// At what percentage does the odds of a crit go above 0.
-	/// </summary>
-	float PercentStartCrit;
-	/// <summary>
-	/// At 100% damage, what are the odds of a crit. 
-	/// </summary>
-	float MaxCritOdds;
-	/// <summary>
-	/// Number of crits for this object to stop working.
-	/// </summary>
-	int MaxCrits;
+	int Armor; // How much damage is subtracted per hit.
+
+	float PercentStartCrit; // At what percentage does the odds of a crit go above 0.
+	float MaxCritOdds; // At 100% damage, what are the odds of a crit. 
+	int MaxCrits; // Number of crits for this object to stop working.
 
 	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);

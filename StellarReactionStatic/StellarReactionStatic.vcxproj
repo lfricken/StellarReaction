@@ -11,6 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Basic\OddballFunctions.hpp" />
+    <ClInclude Include="include\Universe\Chunk\ModuleParent.hpp" />
     <ClInclude Include="include\Basic\Clock.hpp" />
     <ClInclude Include="include\Basic\Factory.hpp" />
     <ClInclude Include="include\Overlay\Grid.hpp" />
@@ -65,7 +67,7 @@
     <ClInclude Include="include\API\TGUI\TGUI.hpp" />
     <ClInclude Include="include\API\TGUI\Transformable.hpp" />
     <ClInclude Include="include\API\TGUI\Widget.hpp" />
-    <ClInclude Include="include\Basic\BlueprintData.hpp" />
+    <ClInclude Include="include\Basic\BlueprintableData.hpp" />
     <ClInclude Include="include\Headers\Debugging.hpp" />
     <ClInclude Include="include\Universe\Module\CaptureGraphic.hpp" />
     <ClInclude Include="include\Basic\NonCopyable.hpp" />
@@ -336,6 +338,8 @@
     <ClInclude Include="include\Basic\RangeList.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Universe\Chunk\ModuleParent.cpp" />
+    <ClCompile Include="src\Basic\BlueprintableData.cpp" />
     <ClCompile Include="src\Basic\RangeList.cpp" />
     <ClCompile Include="src\Basic\Clock.cpp" />
     <ClCompile Include="src\Overlay\ReturnSelection.cpp" />

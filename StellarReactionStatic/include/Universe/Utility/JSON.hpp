@@ -4,6 +4,7 @@
 #include "Team.hpp"
 #include "CollisionCategory.hpp"
 #include "Resources.hpp"
+#include "RangeList.hpp"
 
 #define GETJSON(VARNAME) \
 	 VARNAME = JSON::get(root, #VARNAME, VARNAME);
@@ -42,6 +43,13 @@ public:
 	/// Load resource value from JSON.
 	/// </summary>
 	static Resources get(const Json::Value& root, const String& fieldName, Resources defaultValue);
+
+
+	static RangeList get(const Json::Value& root, const String& fieldName, RangeList defaultValue);
+	static RangeModifierList get(const Json::Value& root, const String& fieldName, RangeModifierList defaultValue);
+
+	static Range get(const Json::Value& root, const String& fieldName, Range defaultValue);
+	static RangeModifier get(const Json::Value& root, const String& fieldName, RangeModifier defaultValue);
 
 	//template<typename T>
 	static List<String> get(const Json::Value& root, const String& fieldName, List<String> defaultValue)

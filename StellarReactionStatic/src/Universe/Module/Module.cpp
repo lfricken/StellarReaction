@@ -7,6 +7,8 @@
 
 void ModuleData::loadJson(const Json::Value& root)
 {
+	GETJSON(rangeModifiers);
+
 	GETJSON(name);
 	GETJSON(cost);
 	GETJSON(collisionDamage);
@@ -15,12 +17,12 @@ void ModuleData::loadJson(const Json::Value& root)
 	LOADJSON(fixComp);
 	LOADJSON(nwComp);
 
+
 }
 Module::Module(const ModuleData& rData) : m_io(rData.ioComp, &Module::input, this), m_fix(rData.fixComp), rangeModifiers(rData.rangeModifiers)
 {
 	m_collisionDamage = rData.collisionDamage;
-	m_parentChunk = rData.chunkParent;
-	m_title = rData.title;
+	m_parent = rData.parent;
 	m_name = rData.name;
 
 	m_fix.setIOPos(m_io.getPosition());
@@ -33,6 +35,18 @@ Module::Module(const ModuleData& rData) : m_io(rData.ioComp, &Module::input, thi
 Module::~Module()
 {
 
+}
+
+bool Module::isFunctioning()
+{
+	return true;
+}
+void Module::applyModifierRates()
+{
+	if(this->isFunctioning())
+	{                   
+		rangeModifiers.applyRateModifiers(game.getUniverse().getTimeStep());
+	}
 }
 void Module::prePhysUpdate()
 {
@@ -56,7 +70,7 @@ void Module::startContactCB(FixtureComponent* pOther)
 	//e.effect = "";
 	//e.normal = pOther->getCenter().to(this->m_fix.getCenter());
 	//e.pos
-	Weapon::damage(&game.getUniverse().getUniverseIO(), pOther->getIOPos(), m_collisionDamage, m_io.getPosition(), m_parentChunk->getBodyComponent().getTeam(), Vec2(0, 0), Vec2(0, 0), "");
+	Weapon::damage(&game.getUniverse().getUniverseIO(), pOther->getIOPos(), m_collisionDamage, m_io.getPosition(), m_parent->getBodyComponent().getTeam(), Vec2(0, 0), Vec2(0, 0), "");
 }
 void Module::endContactCB(FixtureComponent* pOther)
 {
