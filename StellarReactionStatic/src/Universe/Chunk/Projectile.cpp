@@ -33,27 +33,25 @@ void ProjectileData::loadJson(const Json::Value& root)
 		}
 	}
 }
-Projectile::Projectile(const ProjectileData& rData) : m_body(rData.body), m_energyPool(rData.energyData), m_ballisticPool(rData.ballisticData), m_missilePool(rData.missileData), m_zoomPool(rData.zoomData)
+Projectile::Projectile(const ProjectileData& data) : ModuleParent(data), m_body(data.body), ranges(data.rangesData)
 {
+	ModuleData::GenerateParams params;
+	params.parent = this;
+
 	m_inPlay = false;
-	m_timer.setCountDown(rData.lifetime);
-	m_title = rData.title;
-	PoolCollection myPools;
-	myPools.ballisticPool = &m_ballisticPool;
-	myPools.zoomPool = &m_zoomPool;
-	myPools.missilePool = &m_missilePool;
-	myPools.energyPool = &m_energyPool;
+	m_timer.setCountDown(data.lifetime);
+	m_title = data.title;
 
 
 	List<sptr<ModuleData> > thisData;
-	for(auto it = rData.moduleData.begin(); it != rData.moduleData.end(); ++it)
+	for(auto it = data.moduleData.begin(); it != data.moduleData.end(); ++it)
 		thisData.push_back(sptr<ModuleData>((*it)->clone()));
 
 	for(auto it = thisData.begin(); it != thisData.end(); ++it)
 		(*it)->ioComp.pMyManager = &game.getUniverse().getUniverseIO();
 
 	for(auto it = thisData.begin(); it != thisData.end(); ++it)
-		m_modules.push_back(sptr<ProjectileModule>(dynamic_cast<ProjectileModule*>((*it)->generate(m_body.getBodyPtr(), myPools, NULL))));
+		m_modules.push_back(sptr<ProjectileModule>(dynamic_cast<ProjectileModule*>((*it)->generate(params))));
 }
 Projectile::~Projectile()
 {

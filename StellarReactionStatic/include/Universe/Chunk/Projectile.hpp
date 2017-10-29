@@ -7,11 +7,12 @@
 #include "RangeList.hpp"
 #include "NonCopyable.hpp"
 
+
 struct ProjectileData;
 
 
 /// A Chunk that travels to do damage to other objects.
-class Projectile : NonCopyable
+class Projectile : public ModuleParent, NonCopyable
 {
 public:
 	Projectile(const ProjectileData& rData);
@@ -27,6 +28,8 @@ public:
 	///Return the title of this object.
 	const String& getTitle() const;
 
+
+	virtual RangeList* getRanges();
 protected:
 	BodyComponent m_body;
 	List<sptr<ProjectileModule> > m_modules;
@@ -38,7 +41,7 @@ private:
 };
 
 ///Initiailze Projectile.
-struct ProjectileData : public BlueprintData
+struct ProjectileData : public ModuleParentData
 {
 	ProjectileData() :
 		body(),
