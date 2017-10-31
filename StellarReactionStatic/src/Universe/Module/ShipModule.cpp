@@ -76,9 +76,6 @@ void ShipModule::postPhysUpdate()
 		m_decors[i]->setPosition(center);
 		m_decors[i]->setRotation(angle);
 	}
-
-	//TODO game.getUniverse().getTimeStep() apply modifiers with time and add function maybe? also use the is functioning flag
-
 }
 void ShipModule::pack(sf::Packet& rPacket)
 {

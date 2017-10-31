@@ -120,18 +120,10 @@ struct ChunkData : public ModuleParentData
 {
 	ChunkData() :
 		minShieldPower(0.25),
-		ioComp(&game.getUniverse().getUniverseIO())
+		ioComp(&game.getUniverse().getUniverseIO()),
+		universeParent(nullptr)
 	{
 		title = "CHUNK_DEFAULT_TITLE";
-
-
-		universeParent = nullptr;
-
-		///TODO: for 
-		for(float i = -5; i < 5; i += 0.5)
-			for(float j = -5; j < 5; j += 0.5)
-				validPos.push_back(Vec2(i, j));
-
 	}
 
 	Universe* universeParent;

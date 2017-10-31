@@ -1,9 +1,12 @@
 {
     "ClassName": "ReactorData",
-	"rate": 10,
-	"respawnTime": 3,
     "baseDecor": {
         "texName": "module/reactor"
     },
-	"cost": 150
+	"cost": 150,
+	"rangeModifiers": {
+		"Energy": {
+			"ModifierPerSecond": 10
+		}
+	}
 }

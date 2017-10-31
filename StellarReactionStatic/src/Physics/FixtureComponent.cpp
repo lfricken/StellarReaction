@@ -57,7 +57,6 @@ FixtureComponent::FixtureComponent(const FixtureComponentData& rData)
 		m_fixtureDef.density = rData.mass / (temp->m_radius * temp->m_radius * Math::Pi);
 	}
 
-
 	m_fixtureDef.isSensor = rData.isSensor;
 	m_fixtureDef.shape = &*m_spShape;//give our shape to our fixture definition
 	m_fixtureDef.friction = rData.friction;
@@ -89,9 +88,6 @@ const Vec2 FixtureComponent::getOffset() const
 {
 	return m_offset;
 }
-/// <summary>
-/// Finds the center in world coordinates of the fixture
-/// </summary>
 Vec2 FixtureComponent::getCenter() const
 {
 	Vec2 center(0, 0);
@@ -139,25 +135,16 @@ void FixtureComponent::setIOPos(int ioPos)
 {
 	m_ioPos = ioPos;
 }
-/// <summary>
-/// Applies force (Newtons) to center of body unless paused
-/// </summary>
 void FixtureComponent::applyForce(const Vec2& rForce)//applies force to center of body(Newtons)
 {
 	if(!game.getUniverse().isPaused())
 		m_pFixture->GetBody()->ApplyForceToCenter(rForce, true);
 }
-/// <summary>
-/// Applies force (Newtons) to center of fixture unless paused
-/// </summary>
 void FixtureComponent::applyForceFixture(const Vec2& rForce)//applies force at the center of fixture(Newtons)
 {
 	if(!game.getUniverse().isPaused())
 		m_pFixture->GetBody()->ApplyForce(rForce, getCenter(), true);
 }
-/// <summary>
-/// applies torque (Newton Meters) to body unless paused
-/// </summary>
 void FixtureComponent::applyTorque(float radiansCCW)//applies torque to body(Newton Meters)
 {
 	if(!game.getUniverse().isPaused())
@@ -179,3 +166,9 @@ bool FixtureComponent::isSensor() const
 {
 	return m_pFixture->IsSensor();
 }
+
+
+
+
+
+

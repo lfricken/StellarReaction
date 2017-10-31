@@ -57,7 +57,9 @@ public:
 	virtual ~FixtureComponent();
 	/// Returns if this object is a sensor.
 	bool isSensor() const;
+	/// <summary>
 	/// Returns the current center position.
+	/// </summary>
 	Vec2 getCenter() const;
 	/// Returns the angle in RADCCW of the fixture.
 	float getAngle() const;	

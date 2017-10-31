@@ -50,7 +50,7 @@ void Module::applyModifierRates()
 }
 void Module::prePhysUpdate()
 {
-
+	applyModifierRates();
 }
 void Module::postPhysUpdate()
 {

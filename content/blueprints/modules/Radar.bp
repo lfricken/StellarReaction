@@ -1,9 +1,11 @@
 {
     "ClassName": "RadarData",
-	"Name": "Sensor thing",
-	"zoomAddition": 16,
+	"rangeModifiers": {
+		"Zoom": {
+			"Value": 20
+		}
+	},
 	"baseDecor": {
 		"texName": "module/radar"
-	},
-	"cost": 100
+	}
 }

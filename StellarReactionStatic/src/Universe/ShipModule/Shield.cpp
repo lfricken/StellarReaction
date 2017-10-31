@@ -2,7 +2,6 @@
 #include "Controller.hpp"
 
 
-
 void ShieldComponentData::loadJson(const Json::Value& root)
 {
 	SensorData::loadJson(root);
@@ -123,3 +122,8 @@ void Shield::postPhysUpdate()
 	else
 		m_spShieldArt->setAlpha(0);
 }
+
+
+
+
+

@@ -98,6 +98,10 @@ struct ModuleParentData : public BlueprintableData
 		rangeData.rangeData[RangeList::Zoom].Min = 1;
 		rangeData.rangeData[RangeList::Zoom].Value = 1;
 		rangeData.rangeData[RangeList::Zoom].Max = 128;
+
+		for(float i = -5; i < 5; i += 0.5)
+			for(float j = -5; j < 5; j += 0.5)
+				validPos.push_back(Vec2(i, j));
 	}
 
 	RangeListData rangeData;

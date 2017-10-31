@@ -5,9 +5,9 @@
 struct RangeData
 {
 	RangeData() :
-		Max(47),
+		Max(0),
 		Min(0),
-		Value(22)
+		Value(0)
 	{
 	
 	}
@@ -175,7 +175,7 @@ private:
 
 	void reevaluate()
 	{
-		assert(m_max > m_min);
+		assert(m_max >= m_min);
 		if(m_value > m_max)
 			m_value = m_max;
 		else if(m_value < m_min)

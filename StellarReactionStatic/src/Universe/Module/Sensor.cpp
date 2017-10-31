@@ -1,7 +1,6 @@
 #include "Sensor.hpp"
 
 
-
 void SensorData::loadJson(const Json::Value& root)
 {
 	ModuleData::loadJson(root);
@@ -68,16 +67,10 @@ void Sensor::endContactCB(FixtureComponent* pOther)
 		exited(pOther);
 	}
 }
-/// <summary>
-/// Called for each fixture that enters us this step
-/// </summary>
 void Sensor::entered(FixtureComponent* pOther)
 {
 
 }
-/// <summary>
-/// Called for each fixture that exits us this step
-/// </summary>
 void Sensor::exited(FixtureComponent* pOther)
 {
 
@@ -90,4 +83,10 @@ bool Sensor::isEnabled() const
 {
 	return m_enabled;
 }
+
+
+
+
+
+
 

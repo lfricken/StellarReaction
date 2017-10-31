@@ -5,7 +5,9 @@
 struct SensorData;
 
 
-///Detects other objects that overlap their region (usualy circular). Do not cause rebounding collisions.
+/// <summary>
+/// Detects other objects that overlap their region (usualy circular). Do not cause rebounding collisions.
+/// </summary>
 class Sensor : public Module
 {
 public:

@@ -47,7 +47,7 @@ struct ShieldComponentData : public SensorData
 	///Create ShieldComponent object from this data object.
 	virtual Module* generate(GenerateParams params) const
 	{
-		return generateSub<Sensor, SensorData>(params, this);
+		return generateSub<ShieldComponent, ShieldComponentData>(params, this);
 	}
 	///Create new copy of this data object.
 	virtual ModuleData* clone() const
@@ -118,8 +118,8 @@ struct ShieldData : public ShipModuleData
 	float energyPerSecond;
 	///Energy consumed per hit.
 	float energyPerHit;
-	///How big the shield is.
-	float radius;
+	
+	float radius; // How big the shield is.
 	///How frequently we can turn it on or off.
 	float toggleFrequency;
 

@@ -12,7 +12,6 @@ public:
 	Capacitor(const CapacitorData& rData);
 	virtual ~Capacitor();
 
-
 protected:
 private:
 
