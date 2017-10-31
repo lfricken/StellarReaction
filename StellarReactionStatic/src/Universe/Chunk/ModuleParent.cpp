@@ -20,7 +20,7 @@ void ModuleParentData::loadJson(const Json::Value& root)
 			if(!(*it)["title"].isNull())
 			{
 				String bpName = (*it)["title"].asString();
-				auto clone = game.getUniverse().getBlueprints().getModuleSPtr(title)->clone();
+				auto clone = game.getUniverse().getBlueprints().getModuleSPtr(bpName)->clone();
 				spMod.reset(clone);
 
 				spMod->fixComp.offset.x = (*it)["Position"][0].asFloat();
@@ -35,8 +35,6 @@ void ModuleParentData::loadJson(const Json::Value& root)
 		}
 	}
 }
-
-
 ModuleParent::ModuleParent(const ModuleParentData& data) : Blueprintable(data), m_body(data.bodyComp), m_ranges(data.rangeData)
 {
 	m_body.parent = this;

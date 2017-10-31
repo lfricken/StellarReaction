@@ -1,15 +1,4 @@
 {
-	"Spawners": [{
-		"m_team": 2,
-		"m_makesAI": true,
-		"m_isEnabled": true,
-		"m_blueprints": ["GunBoat", "GunBoat", "GunBoat"],
-		"m_spawnAmount": 1,
-		"m_spawnPeriod": 1,
-		"m_spawnPeriodVariance": 1,
-		"m_radius": 5,
-		"m_origin": [0,30]
-	}],
 	"decorations": [
     {
 		"count": 1,
@@ -168,12 +157,5 @@
 			[-25, 165, 0],
 			[0, 200, 0]
 		]
-	}],
-	"Chunks": [{
-		"blueprintName": "Anubis",
-		"coordinates": [-60, -5, 0]
-	}, {
-		"blueprintName": "Caterina",
-		"coordinates": [-50, -5, 0]
 	}]
 }

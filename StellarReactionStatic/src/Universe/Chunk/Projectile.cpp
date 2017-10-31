@@ -4,8 +4,6 @@
 #include "BlueprintLoader.hpp"
 
 
-
-
 void ProjectileData::loadJson(const Json::Value& root)
 {
 	ModuleParentData::loadJson(root);
@@ -14,22 +12,8 @@ void ProjectileData::loadJson(const Json::Value& root)
 }
 Projectile::Projectile(const ProjectileData& data) : ModuleParent(data)
 {
-	ModuleData::GenerateParams params;
-	params.parent = this;
-
 	m_inPlay = false;
 	m_timer.setCountDown(data.lifetime);
-
-
-	List<sptr<ModuleData> > thisData;
-	for(auto it = data.moduleData.begin(); it != data.moduleData.end(); ++it)
-		thisData.push_back(sptr<ModuleData>((*it)->clone()));
-
-	for(auto it = thisData.begin(); it != thisData.end(); ++it)
-		(*it)->ioComp.pMyManager = &game.getUniverse().getUniverseIO();
-
-	for(auto it = thisData.begin(); it != thisData.end(); ++it)
-		m_modules.push_back(sptr<ProjectileModule>(dynamic_cast<ProjectileModule*>((*it)->generate(params))));
 }
 Projectile::~Projectile()
 {
