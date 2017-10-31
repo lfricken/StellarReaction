@@ -18,22 +18,19 @@ void Missile::missileLaunch(Vec2 rStart, wptr<Chunk> target, float module_orient
 	m_acceleration = acceleration * 2;
 	m_maxVelocity = max_velocity;
 
+	Vec2 inititalDirection(cos(module_orientation), sin(module_orientation));
+	inititalDirection = inititalDirection.unit();
+	inititalDirection *= init_velocity;
+
 	m_inPlay = true;
 	m_timer.setCountDown(10);
 	m_timer.restartCountDown();
+	m_body.wake(rStart, module_orientation, inititalDirection, 0);
 
-	Vec2 init_vec(cos(module_orientation), sin(module_orientation));
-	init_vec = init_vec.unit();
-	init_vec *= init_velocity;
-
-	m_body.wake(rStart, module_orientation, init_vec, 0);
-	for (auto it = m_modules.begin(); it != m_modules.end(); ++it)
-		(*it)->setPayload(damage, pParent, collisions);
+	setPayloadOnModules(damage, pParent, collisions);
 }
-
-void Missile::prePhysUpdate()
+void Missile::steer()
 {
-	Projectile::prePhysUpdate();
 	b2Body& bod = *m_body.getBodyPtr();
 	Vec2 vel = bod.GetLinearVelocity();
 
@@ -75,6 +72,16 @@ void Missile::prePhysUpdate()
 		bod.ApplyForceToCenter(direction, true);
 	}
 }
+void Missile::prePhysUpdate()
+{
+	Projectile::prePhysUpdate();
+
+	steer();
+}
+void Missile::postPhysUpdate()
+{
+	Projectile::postPhysUpdate();
+}
 void Missile::minimizeAngle(float& angle)
 {
 	if(angle < -pi / 5.f)
@@ -103,10 +110,6 @@ Vec2 Missile::getTargetDirection(sptr<Chunk> target)
 	targetPos.y = targetPos.y + targetVel.y * eta;
 
 	return targetPos - ourPos;
-}
-void Missile::postPhysUpdate()
-{
-	Projectile::postPhysUpdate();
 }
 void MissileData::loadJson(const Json::Value& root)
 {

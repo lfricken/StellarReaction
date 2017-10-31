@@ -17,7 +17,7 @@ struct ModuleData;
 
 
 /// Basic building block of Chunks and physical objects.
-class Module : NonCopyable
+class Module : public Blueprintable, NonCopyable
 {
 public:
 	Module(const ModuleData& rData);
@@ -34,8 +34,6 @@ public:
 	/// Get center of this module with respect to center of body.
 	/// </summary>
 	const Vec2& getOffset() const;
-	///Get title of module.
-	const String& getTitle() const;
 	///Get name of module.
 	const String& getName() const;
 	///Set stealth to on or off.
@@ -75,7 +73,6 @@ protected:
 
 	Timer m_stealthTimer; //timer used to turn stealth mode off;
 
-	String m_title;//how the game refers to it
 	String m_name;//what gets displayed to player
 	ModuleParent* m_parent;
 	int m_collisionDamage;
@@ -87,7 +84,7 @@ struct ModuleData : public BlueprintableData
 {
 	ModuleData() :
 		parent(nullptr),
-		rangeModifiers(0),
+		rangeModifiers(),
 		name("defaultName"),
 		collisionDamage(0),
 		ioComp(&game.getUniverse().getUniverseIO()),

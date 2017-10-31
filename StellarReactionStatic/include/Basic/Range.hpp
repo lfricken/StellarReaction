@@ -5,11 +5,11 @@
 struct RangeData
 {
 	RangeData() :
-		Max(0),
+		Max(47),
 		Min(0),
-		Value(0)
+		Value(22)
 	{
-
+	
 	}
 
 	float Max;
@@ -46,16 +46,12 @@ struct RangeModifier : RangeData
 };
 
 
-/// \brief Generic container to limit value ranges.
-///
-/// Good for any attribute that has a min value, current value, max value.
-/// The functions prevent the current value from escaping min-max, as well as prevent
-/// min-max from being reversed, such as min=3, max=2
+/// <summary>
+/// Generic container to limit value ranges.
+/// </summary>
 class Range
 {
 public:
-
-
 
 	Range(const RangeData& rData)
 	{
@@ -63,7 +59,10 @@ public:
 		setMax(rData.Max);
 		setValue(rData.Value);
 	}
-	virtual ~Range() {}
+	virtual ~Range() 
+	{
+	
+	}
 
 	/// <summary>
 	/// Consumes the value if possible. Returns true if it does.

@@ -8,39 +8,17 @@
 
 void ProjectileData::loadJson(const Json::Value& root)
 {
-	GETJSON(title);
+	ModuleParentData::loadJson(root);
 
-	LOADJSON(body);
-
-	if(!root["Modules"].isNull())
-	{
-		sptr<ModuleData> spMod;
-		for(auto it = root["Modules"].begin(); it != root["Modules"].end(); ++it)
-		{
-			if(!(*it)["title"].isNull() && (*it)["ClassName"].isNull())//from title
-			{
-				spMod.reset(game.getUniverse().getBlueprints().getModuleSPtr((*it)["title"].asString())->clone());
-
-				spMod->fixComp.offset.x = (*it)["Position"][0].asFloat();
-				spMod->fixComp.offset.y = (*it)["Position"][1].asFloat();
-			}
-			else
-			{
-				WARNING;
-			}
-
-			moduleData.push_back(spMod);
-		}
-	}
+	GETJSON(lifetime);
 }
-Projectile::Projectile(const ProjectileData& data) : ModuleParent(data), m_body(data.body), ranges(data.rangesData)
+Projectile::Projectile(const ProjectileData& data) : ModuleParent(data)
 {
 	ModuleData::GenerateParams params;
 	params.parent = this;
 
 	m_inPlay = false;
 	m_timer.setCountDown(data.lifetime);
-	m_title = data.title;
 
 
 	List<sptr<ModuleData> > thisData;
@@ -63,10 +41,21 @@ void Projectile::launch(const Vec2& rStart, const Vec2& rVel, float radCCW, floa
 	m_timer.setCountDown(lifetime);
 	m_timer.restartCountDown();
 	m_body.wake(rStart, radCCW, rVel, radCCWps);
-	for(auto it = m_modules.begin(); it != m_modules.end(); ++it)
-		(*it)->setPayload(damage, pParent, collisions);
+
+	setPayloadOnModules(damage, pParent, collisions);
 }
-void Projectile::reset()//this projectile will go back into projectile pool
+void Projectile::setPayloadOnModules(int damage, const FixtureComponent* pParent, int collisions)
+{
+	for(auto it = m_modules.begin(); it != m_modules.end(); ++it)
+	{
+		ProjectileModule* mod = dynamic_cast<ProjectileModule*>(it->get());
+		if(mod != nullptr)
+			mod->setPayload(damage, pParent, collisions);
+		else
+			WARNING;
+	}
+}
+void Projectile::reset()
 {
 	m_inPlay = false;
 	game.getUniverse().getProjMan().freeProjectile(this);
@@ -85,12 +74,20 @@ void Projectile::postPhysUpdate()
 	{
 		//check to see if we should terminate
 		bool endThyself = false;
+
 		if(m_timer.isTimeUp())
 			endThyself = true;
 		else
 			for(auto it = m_modules.begin(); it != m_modules.end(); ++it)
-				if((*it)->shouldTerminate())
-					endThyself = true;
+			{
+				ProjectileModule* mod = dynamic_cast<ProjectileModule*>(it->get());
+				if(mod != nullptr)
+					if(mod->shouldTerminate())
+						endThyself = true;
+				else
+					WARNING;
+			}
+
 		if(endThyself)
 			reset();
 
@@ -99,10 +96,6 @@ void Projectile::postPhysUpdate()
 			(*it)->postPhysUpdate();
 	}
 	//update hull
-}
-const String& Projectile::getTitle() const
-{
-	return m_title;
 }
 
 

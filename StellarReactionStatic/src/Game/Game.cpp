@@ -138,14 +138,6 @@ Scoreboard& Game::getScoreboard()
 {
 	return *m_spScoreboard;
 }
-/// <summary>
-/// Use this to put the player in a new level from anywhere (multiplayer or otherwise)
-/// It will minimize the menu's automatically
-/// </summary>
-/// <param name="level">The level.</param>
-/// <param name="localController">The local controller.</param>
-/// <param name="bluePrints">The blue prints.</param>
-/// <param name="rControllerList">The r controller list.</param>
 void Game::launchGame(const GameLaunchData& data)
 {
 	game.loadUniverse("meaninglessString");
@@ -161,10 +153,6 @@ SoundManager& Game::getSound()
 {
 	return *m_spSound;
 }
-/// <summary>
-/// Global Time, cannot be paused
-/// </summary>
-/// <returns></returns>
 float Game::getTime() const
 {
 	return m_lastTime;

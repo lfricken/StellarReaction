@@ -6,11 +6,23 @@
 #include "Resources.hpp"
 #include "RangeList.hpp"
 
-#define GETJSON(VARNAME) \
-	 VARNAME = JSON::get(root, #VARNAME, VARNAME);
+/// <summary>
+/// Returns variable name as string.
+/// </summary>
+#define NAMEOF(VARNAME) \
+	#VARNAME
 
+/// <summary>
+/// Loads the variable from JSON.
+/// </summary>
+#define GETJSON(VARNAME) \
+	VARNAME = JSON::get(root, #VARNAME, VARNAME);
+
+/// <summary>
+/// Calls loadJson function and passes in root of the name.
+/// </summary>
 #define LOADJSON(BASEVAR) \
-	 if(!root[#BASEVAR].isNull()) BASEVAR.loadJson(root[#BASEVAR]);
+	if(!root[#BASEVAR].isNull()) BASEVAR.loadJson(root[#BASEVAR]);
 
 
 /// Provides more convenient loading of Json data. Use the define: GETJSON(varname)
@@ -44,12 +56,9 @@ public:
 	/// </summary>
 	static Resources get(const Json::Value& root, const String& fieldName, Resources defaultValue);
 
+	//static List<RangeModifier> get(const Json::Value& root, const String& fieldName, List<RangeModifier> defaultValue);
 
-	static RangeList get(const Json::Value& root, const String& fieldName, RangeList defaultValue);
-	static RangeModifierList get(const Json::Value& root, const String& fieldName, RangeModifierList defaultValue);
-
-	static Range get(const Json::Value& root, const String& fieldName, Range defaultValue);
-	static RangeModifier get(const Json::Value& root, const String& fieldName, RangeModifier defaultValue);
+	//static List<Range> get(const Json::Value& root, const String& fieldName, RangeModifier defaultValue);
 
 	//template<typename T>
 	static List<String> get(const Json::Value& root, const String& fieldName, List<String> defaultValue)

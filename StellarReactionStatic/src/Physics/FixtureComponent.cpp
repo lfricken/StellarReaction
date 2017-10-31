@@ -43,6 +43,8 @@ FixtureComponent::FixtureComponent(const FixtureComponentData& rData)
 		m_spShape = sptr<b2Shape>(new b2PolygonShape);
 		Vec2 offset(m_offset.x * sizeScalingFactor, m_offset.y * sizeScalingFactor);
 		static_cast<b2PolygonShape*>(m_spShape.get())->SetAsBox(rData.size.x / 2.f * sizeScalingFactor, rData.size.y / 2.f * sizeScalingFactor, offset, 0);
+
+		m_fixtureDef.density = rData.mass / (rData.size.x * rData.size.y);
 	}
 	/**CIRCLE**/
 	else if(rData.shape == leon::Shape::Circle)
@@ -51,12 +53,13 @@ FixtureComponent::FixtureComponent(const FixtureComponentData& rData)
 		b2CircleShape* temp = static_cast<b2CircleShape*>(m_spShape.get());
 		temp->m_p.Set(m_offset.x * sizeScalingFactor, m_offset.y * sizeScalingFactor);
 		temp->m_radius = rData.size.x / 2.f * sizeScalingFactor;
+
+		m_fixtureDef.density = rData.mass / (temp->m_radius * temp->m_radius * Math::Pi);
 	}
 
 
 	m_fixtureDef.isSensor = rData.isSensor;
 	m_fixtureDef.shape = &*m_spShape;//give our shape to our fixture definition
-	m_fixtureDef.density = rData.mass / (rData.size.x * rData.size.y);
 	m_fixtureDef.friction = rData.friction;
 	m_fixtureDef.restitution = rData.restitution;//setting our fixture data
 	m_fixtureDef.filter.maskBits = static_cast<uint16_t>(rData.colMask);
@@ -91,14 +94,14 @@ const Vec2 FixtureComponent::getOffset() const
 /// </summary>
 Vec2 FixtureComponent::getCenter() const
 {
-	Vec2 center(0,0);
+	Vec2 center(0, 0);
 
 	if(m_spShape->GetType() == b2Shape::e_polygon)
 	{
 		b2PolygonShape* pPShape = static_cast<b2PolygonShape*>(m_spShape.get());
 
 		int num = pPShape->GetVertexCount();
-		for(int i = 0; i<num; ++i)
+		for(int i = 0; i < num; ++i)
 			center += (Vec2)pPShape->GetVertex(i);
 
 		center.x /= num;

@@ -7,7 +7,9 @@
 
 void ModuleData::loadJson(const Json::Value& root)
 {
-	GETJSON(rangeModifiers);
+	BlueprintableData::loadJson(root);
+
+	LOADJSON(rangeModifiers);
 
 	GETJSON(name);
 	GETJSON(cost);
@@ -16,10 +18,8 @@ void ModuleData::loadJson(const Json::Value& root)
 	LOADJSON(ioComp);
 	LOADJSON(fixComp);
 	LOADJSON(nwComp);
-
-
 }
-Module::Module(const ModuleData& rData) : m_io(rData.ioComp, &Module::input, this), m_fix(rData.fixComp), rangeModifiers(rData.rangeModifiers)
+Module::Module(const ModuleData& rData) : Blueprintable(rData), m_io(rData.ioComp, &Module::input, this), m_fix(rData.fixComp), rangeModifiers(rData.rangeModifiers)
 {
 	m_collisionDamage = rData.collisionDamage;
 	m_parent = rData.parent;
@@ -87,10 +87,6 @@ void Module::unpack(sf::Packet& rPacket)
 const Vec2& Module::getOffset() const
 {
 	return m_fix.getOffset();
-}
-const String& Module::getTitle() const
-{
-	return m_title;
 }
 const String& Module::getName() const
 {

@@ -5,19 +5,24 @@
 struct MissileData;
 class Chunk;
 
-
+/// <summary>
 /// Projectile that follows target to deal damage.
+/// </summary>
 class Missile : public Projectile
 {
 public:
 	Missile(const MissileData& rData);
 	virtual ~Missile();
-	///Launches a missle with given direction, parent, target, position and acceleration.
+
+	/// <summary>
+	/// Launches a missle with given direction, parent, target, position and acceleration.
+	/// </summary>
 	void missileLaunch(Vec2 rStart, wptr<Chunk>, float radCCW, float init_velocity, float acceleration, float max_velocity, int damage, const FixtureComponent* pParent, int collisions);
-	///Actions to process on object before performing physics updates.
+
+
 	void prePhysUpdate();
-	///Actions to process on chunk after performing physics updates.
 	void postPhysUpdate();
+
 protected:
 	Vec2 getTargetDirection(sptr<Chunk> target);
 	void minimizeAngle(float& angle);
@@ -25,6 +30,8 @@ protected:
 	wptr<Chunk> m_pTarget;
 	float m_acceleration;
 	float m_maxVelocity;
+
+	void steer();
 private:
 
 };
@@ -35,9 +42,11 @@ struct MissileData : ProjectileData
 	MissileData()
 	{
 		title = "missile_projectile";
-		body.linearDampening = 1.7f;
-		body.angularDampening = 6.7f;
+		bodyComp.linearDampening = 1.7f;
+		bodyComp.angularDampening = 6.7f;
 	}
+
+
 	///Create Missle object from this data object.
 	virtual Missile* generate() const
 	{

@@ -23,7 +23,7 @@ struct HitEffect
 };
 
 /// Basic object that provides easier interface for making complex types of weapons.
-class Weapon : NonCopyable
+class Weapon : public Blueprintable, NonCopyable
 {
 public:
 	Weapon(const WeaponData& rData);

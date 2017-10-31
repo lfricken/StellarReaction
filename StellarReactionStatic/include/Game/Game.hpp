@@ -38,7 +38,9 @@ public:
 
 	/// Return reference to local Player.
 	Player& getLocalPlayer();
-	/// Return current time since Game was initialized.
+	/// <summary>
+	/// Return time since Game was initialized.
+	/// </summary>
 	float getTime() const;
 	/// Return RenderWindow, (the Game Window).
 	sf::RenderWindow& getWindow();
@@ -65,7 +67,10 @@ public:
 	/// Return Directory.
 	const Directory& getDir() const;
 	
-	/// Launch a game with the given GameLaunchData.
+	/// <summary>
+	/// Use this to put the player in a new level from anywhere (multiplayer or otherwise).
+	/// It will minimize the menu's automatically.
+	/// </summary>
 	void launchGame(const GameLaunchData& data);
 	/// A function to be called by tests to reset the global Game object.
 	void restartTest(const String& level = "Testbed");

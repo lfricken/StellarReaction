@@ -160,8 +160,7 @@ Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input,
 	m_positionIterations = 1;
 	m_timeStep = 1.0f / 120.0f;///LOAD FROM FILE
 
-	m_spBPLoader = sptr<BlueprintLoader>(new BlueprintLoader);//MUST BE AFTER IO
-	//m_spSlaveLocator = sptr<SlaveLocator>(new SlaveLocator);
+	m_spBPLoader = sptr<BlueprintLoader>(new BlueprintLoader);
 	m_spBatchLayers = sptr<BatchLayers>(new BatchLayers);
 	m_spGfxUpdater = sptr<GraphicsComponentUpdater>(new GraphicsComponentUpdater);
 	m_spControlFactory = sptr<ControlFactory>(new ControlFactory);
@@ -520,7 +519,7 @@ void Universe::input(String rCommand, sf::Packet rData)
 		chunkData->bodyComp.coords = data.coordinates;
 		chunkData->bodyComp.rotation = data.rotation;
 		chunkData->bodyComp.team = (Team)data.team;
-		chunkData->ioComp.name = slaveName;// data.slaveName;
+		chunkData->ioComp.name = slaveName;
 
 
 		//important this happens before creation of the controller

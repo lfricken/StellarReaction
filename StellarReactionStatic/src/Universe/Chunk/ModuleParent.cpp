@@ -8,7 +8,7 @@
 void ModuleParentData::loadJson(const Json::Value& root)
 {
 	BlueprintableData::loadJson(root);
-
+	
 	LOADJSON(rangeData);
 	LOADJSON(bodyComp);
 
@@ -37,13 +37,19 @@ void ModuleParentData::loadJson(const Json::Value& root)
 }
 
 
-ModuleParent::ModuleParent(const ModuleParentData& data) : m_body(data.bodyComp), m_ranges(data.rangeData)
+ModuleParent::ModuleParent(const ModuleParentData& data) : Blueprintable(data), m_body(data.bodyComp), m_ranges(data.rangeData)
 {
 	m_body.parent = this;
 	m_validOffsets = data.validPos;
 
-
 	m_radius = 0.f;
+	m_recalcRadius = true;
+
+	//Add Modules.
+	for(auto it = data.moduleData.cbegin(); it != data.moduleData.cend(); ++it)
+	{
+		add(**it);
+	}
 }
 ModuleParent::~ModuleParent()
 {
@@ -55,6 +61,8 @@ bool ModuleParent::allows(const Vec2& gridPos)
 }
 void ModuleParent::add(const ModuleData& data)
 {
+	m_recalcRadius = true;
+
 	if(data.fixComp.offset.x == 3)
 	{
 		m_storedModules.push_back(Pair<String, sf::Vector2i>(data.title, (sf::Vector2i)data.fixComp.offset));
@@ -125,14 +133,16 @@ Chunk* ModuleParent::thisAsChunk()
 }
 float ModuleParent::getRadius()
 {
-	if(m_radius > 0.f)
-		return m_radius;
-	Vec2 max(0, 0);
-	for(auto it = m_modules.cbegin(); it != m_modules.cend(); ++it)
-		if(max.len() < Vec2((*it)->getOffset()).len())
-			max = Vec2((*it)->getOffset());
+	if(m_recalcRadius)
+	{
+		Vec2 max(0, 0);
+		for(auto it = m_modules.cbegin(); it != m_modules.cend(); ++it)
+			if(max.len() < Vec2((*it)->getOffset()).len())
+				max = Vec2((*it)->getOffset());
 
-	m_radius = max.len();
+		m_radius = max.len();
+	}
+
 	return m_radius;
 }
 ShipModule* ModuleParent::getNearestValidTarget(Vec2 target)

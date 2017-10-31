@@ -1,4 +1,5 @@
 #include "RangeList.hpp"
+#include "JSON.hpp"
 
 
 
@@ -21,6 +22,15 @@ void RangeListData::loadJson(const Json::Value& root)
 	for(int i = 0; i < rangeData.size(); ++i)
 	{
 		rangeData[i].loadJson(root[i]);
+	}
+}
+
+
+void RangeModifierList::loadJson(const Json::Value& root)
+{
+	for(int i = 0; i < modifiers.size(); ++i)
+	{
+		modifiers[i].loadJson(root[i]);
 	}
 }
 

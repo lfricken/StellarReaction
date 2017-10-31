@@ -10,7 +10,7 @@ class Module;
 class Chunk;
 class ShipModule;
 
-class ModuleParent
+class ModuleParent : public Blueprintable
 {
 public:
 	ModuleParent(const ModuleParentData& data);
@@ -76,7 +76,6 @@ public:
 	/// </summary>
 	Chunk* thisAsChunk();
 protected:
-
 	RangeList m_ranges;//List of range values.
 
 	BodyComponent m_body;//Our BodyComponent.
@@ -87,10 +86,11 @@ protected:
 	List<Vec2> m_validOffsets;//valid module locations
 
 private:
-	float m_radius;
+	float m_radius;//calculated radius of this chunk.
+	bool m_recalcRadius;//mark true if the radius of the module should be recalculated
 };
 
-struct ModuleParentData : BlueprintableData
+struct ModuleParentData : public BlueprintableData
 {
 	ModuleParentData() : 
 		bodyComp()

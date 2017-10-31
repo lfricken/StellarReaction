@@ -33,7 +33,7 @@ void WeaponData::loadJson(const Json::Value& root)
 
 	LOADJSON(weaponQuad);
 }
-Weapon::Weapon(const WeaponData& rData) : m_decor(rData.weaponQuad)
+Weapon::Weapon(const WeaponData& rData) : Blueprintable(rData), m_decor(rData.weaponQuad)
 {
 	m_effectName = rData.effectName;
 

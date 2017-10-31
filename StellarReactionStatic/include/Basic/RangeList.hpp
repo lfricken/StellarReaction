@@ -77,23 +77,24 @@ struct RangeListData
 
 
 
-class RangeModifierList : RangeData
+class RangeModifierList
 {
 public:
-	RangeModifierList(int null)
+	RangeModifierList()
 	{
-		assert(null == 0);
+		hasAppliedModifiers = false;
+
 		for(int i = 0; i < RangeList::LAST_VAL; ++i)
 			modifiers.push_back(RangeModifier());
 	}
 	RangeModifierList(const RangeModifierList& other)
 	{
+		hasAppliedModifiers = false;
+
 		for(int i = 0; i < RangeList::LAST_VAL; ++i)
 			modifiers.push_back(RangeModifier());
-		*this = other;
 
-		if(ranges != nullptr)
-			tryApply();
+		*this = other;
 	}
 	~RangeModifierList()
 	{
@@ -139,4 +140,6 @@ public:
 	bool hasAppliedModifiers;
 	List<RangeModifier> modifiers;
 	RangeList* ranges;
+
+	virtual void loadJson(const Json::Value& root);
 };

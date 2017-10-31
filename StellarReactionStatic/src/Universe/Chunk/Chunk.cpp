@@ -49,10 +49,12 @@ void ChunkDataMessage::unpack(const sf::Packet& data)
 }
 void ChunkData::loadJson(const Json::Value& root)
 {
+	ModuleParentData::loadJson(root);
+
+	GETJSON(minShieldPower);
 	LOADJSON(ioComp);
 
 	LOADJSON(hullSpriteData);
-	GETJSON(minShieldPower);
 
 	if(!root["afterburnerSpriteData"].isNull())
 		for(auto it = root["afterburnerSpriteData"].begin(); it != root["afterburnerSpriteData"].end(); ++it)
@@ -69,11 +71,7 @@ void ChunkData::loadJson(const Json::Value& root)
 			quad.loadJson(*it);
 			afterburnerThrustSpriteData.push_back(quad);
 		}
-
-
 }
-
-
 Chunk::Chunk(const ChunkData& data) : ModuleParent(data), m_io(data.ioComp, &Chunk::input, this), m_universe(*data.universeParent)
 {
 
@@ -94,14 +92,6 @@ Chunk::Chunk(const ChunkData& data) : ModuleParent(data), m_io(data.ioComp, &Chu
 	m_timer.restartCountDown();
 	m_areShieldsOn = false;
 	m_minShieldPower = data.minShieldPower;
-
-	//Set valid module positions.
-
-	//Add Modules.
-	for(auto it = data.moduleData.cbegin(); it != data.moduleData.cend(); ++it)
-		add(**it);
-
-	//Register for controlling.
 
 
 	//Hull Sprite

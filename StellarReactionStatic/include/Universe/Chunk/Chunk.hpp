@@ -135,10 +135,9 @@ struct ChunkData : public ModuleParentData
 	}
 
 	Universe* universeParent;
-	IOComponentData ioComp;
 
 	float minShieldPower;
-
+	IOComponentData ioComp;
 
 	QuadComponentData hullSpriteData;
 	List<QuadComponentData> afterburnerSpriteData;

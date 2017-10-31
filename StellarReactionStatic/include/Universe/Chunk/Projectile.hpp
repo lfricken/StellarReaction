@@ -17,52 +17,49 @@ class Projectile : public ModuleParent, NonCopyable
 public:
 	Projectile(const ProjectileData& rData);
 	virtual ~Projectile();
-	///Launches projectile with given coordinates, direction, damage and lifetime.
+	
+	/// <summary>
+	/// Launches projectile with given coordinates, direction, damage and lifetime.
+	/// </summary>
 	void launch(const Vec2& rStart, const Vec2& rVel, float radCCW, float radCCWps, float lifetime, int damage, const FixtureComponent* pParent, int collisions);
-	///Return this projectile back into projectile pool of parent.
+	/// <summary>
+	/// Return this projectile back into projectile pool of parent.
+	/// </summary>
 	void reset();
-	///Actions to process on object before performing physics updates.
+	/// <summary>
+	/// Sets payload on each projectile module.
+	/// </summary>
+	void setPayloadOnModules(int damage, const FixtureComponent* pParent, int collisions);
+
+
 	virtual void prePhysUpdate();
-	///Actions to process on object after performing physics updates.
 	virtual void postPhysUpdate();
-	///Return the title of this object.
-	const String& getTitle() const;
-
-
-	virtual RangeList* getRanges();
 protected:
-	BodyComponent m_body;
-	List<sptr<ProjectileModule> > m_modules;
-	String m_title;
-	Timer m_timer;
+
+	Timer m_timer;//Time till we explode due to no fuel.
 	bool m_inPlay;
-private:
-	RangeList ranges;
+
 };
 
 ///Initiailze Projectile.
 struct ProjectileData : public ModuleParentData
 {
 	ProjectileData() :
-		body(),
-		moduleData()
+		lifetime(1)
 	{
+
 		title = "PROJECTILE_DEFAULT_TITLE";
-		body.angularDampening = 0;
-		body.coords = Vec2(0, 5);
-		body.isBullet = true;
-		body.isDynamic = true;
-		body.syncedNetwork = false;
-		body.linearDampening = 0;
-		body.rotation = 0;
-		body.startAwake = true;
-		lifetime = 0.5f;
+
+		bodyComp.angularDampening = 0;
+		bodyComp.coords = Vec2(0, 5);
+		bodyComp.isBullet = true;
+		bodyComp.isDynamic = true;
+		bodyComp.syncedNetwork = false;
+		bodyComp.linearDampening = 0;
+		bodyComp.rotation = 0;
+		bodyComp.startAwake = true;
 	}
 
-	RangeListData rangesData;
-
-	BodyComponentData body;
-	List<sptr<const ModuleData> > moduleData;
 	float lifetime;//time in seconds that the projectile poof out of existence if not already colided
 
 	///Create Projectile object from this data object.
