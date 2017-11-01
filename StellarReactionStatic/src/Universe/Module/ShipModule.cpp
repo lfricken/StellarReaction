@@ -131,6 +131,12 @@ void ShipModule::input(String rCommand, sf::Packet rData)
 					bool isBleed = true;
 					Weapon::damage(&game.getUniverse().getUniverseIO(), newModuleTarget, overkill, ioPosOfDealer, team, hitPoint, fromDir, effect, isBleed);
 				}
+				else
+				{
+					Chunk* parent = dynamic_cast<Chunk*>(m_parent);
+					parent->explode();
+
+				}
 			}
 		}
 	}

@@ -319,18 +319,22 @@ float Chunk::get(Request value) const//return the requested value
 }
 void Chunk::explode()
 {
-		if(m_canDie && !m_inDeathProcess)
-		{
-			m_inDeathProcess = true;
+	if(m_canDie && !m_inDeathProcess)
+	{
+		m_inDeathProcess = true;
+		removeFromUniverse(this->universePosition, true, 0.1f);
 
+		//TODO death effects group
+		{ // death effects
 			game.getUniverse().spawnParticles("SparkExplosion", getBodyComponent().getPosition(), Vec2(1, 0), Vec2(0, 0));
 			game.getUniverse().spawnParticles("WhiteFlash", getBodyComponent().getPosition(), Vec2(1, 0), Vec2(0, 0));
 			game.getUniverse().spawnParticles("DebrisExplosion1", getBodyComponent().getPosition(), Vec2(1, 0), Vec2(0, 0));
 			game.getUniverse().spawnParticles("DebrisExplosion2", getBodyComponent().getPosition(), Vec2(1, 0), Vec2(0, 0));
 			game.getUniverse().spawnParticles("DebrisExplosion3", getBodyComponent().getPosition(), Vec2(1, 0), Vec2(0, 0));
+		}
 
-			removeFromUniverse(this->universePosition, true, 0.1f);
 
+		{ // create loot
 			ChunkDataMessage ship;
 
 			ship.aiControlled = false;
@@ -341,7 +345,7 @@ void Chunk::explode()
 			ship.team = static_cast<int>(Team::Neutral);
 			ShipBuilder::Server::createChunk(ship, 0.3f);
 		}
-		//TODO death effects group
+	}
 }
 void Chunk::removeFromUniverse(int targetChunkUniversePos, bool shake, float delay)
 {

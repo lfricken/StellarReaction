@@ -11,19 +11,9 @@ enum class Team;
 /// Initializes BodyComponent
 struct BodyComponentData
 {
-	BodyComponentData() :
-		coords(0,0),
-		rotation(0),
-		isDynamic(true),
-		isBullet(false),
-		startAwake(true),
-		syncedNetwork(true),
-		linearDampening(1.5),
-		angularDampening(1.5),
-		nwComp()
-	{
+	BodyComponentData();
 
-	}
+
 	Team team;
 
 	Vec2 coords;

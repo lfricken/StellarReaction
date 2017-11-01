@@ -56,6 +56,10 @@ public:
 	void setStealth(bool stealthToggle);
 	///Get stealth toggle.
 	bool isStealth();
+	/// <summary>
+	/// Causes explosion effects and calls removeFromUniverse.
+	/// </summary>
+	void explode();
 
 	void resetStatusBoard(wptr<leon::Grid> grid);
 	wptr<leon::Grid> getStatusBoard();
@@ -68,10 +72,6 @@ public:
 	sptr<Resources> m_resources;
 	int universePosition;
 protected:
-	/// <summary>
-	/// Causes explosion effects and calls removeFromUniverse.
-	/// </summary>
-	void explode();
 	/// <summary>
 	/// Deletes us.
 	/// </summary>

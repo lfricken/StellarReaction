@@ -8,6 +8,29 @@
 
 
 
+BodyComponentData::BodyComponentData() :
+coords(0, 0),
+rotation(0),
+isDynamic(true),
+isBullet(false),
+startAwake(true),
+syncedNetwork(true),
+linearDampening(0.5f),
+angularDampening(0.5f),
+nwComp()
+{
+
+}
+void BodyComponentData::loadJson(const Json::Value& root)
+{
+	GETJSON(coords);
+	GETJSON(rotation);
+	GETJSON(isDynamic);
+	GETJSON(isBullet);
+	GETJSON(startAwake);
+	GETJSON(linearDampening);
+	GETJSON(angularDampening);
+}
 BodyComponent::BodyComponent(const BodyComponentData& rData)
 {
 	m_team = rData.team;
@@ -134,15 +157,3 @@ Team BodyComponent::getTeam() const
 {
 	return m_team;
 }
-void BodyComponentData::loadJson(const Json::Value& root)
-{
-	GETJSON(coords);
-	GETJSON(rotation);
-	GETJSON(isDynamic);
-	GETJSON(isBullet);
-	GETJSON(startAwake);
-	GETJSON(linearDampening);
-	GETJSON(angularDampening);
-}
-
-
