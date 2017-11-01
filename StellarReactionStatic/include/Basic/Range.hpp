@@ -65,7 +65,7 @@ public:
 	}
 
 	/// <summary>
-	/// Consumes the value if possible. Returns true if it does.
+	/// Consumes the value without capping if possible. Returns true if it does. False means it did not consume.
 	/// </summary>
 	bool tryChange(float val)
 	{
@@ -93,7 +93,7 @@ public:
 	}
 	/// <summary>
 	/// Change value by amount. Defaults to addition rather than subtraction.
-	/// Return true if it changed the entire value.
+	/// Return true if it changed the entire value without getting capped.
 	/// </summary>
 	bool changeValue(float changeVal)
 	{
@@ -107,7 +107,8 @@ public:
 	{
 		if(newVal >= m_min)
 			m_max = newVal;
-		setValue(m_value);//update our value
+
+		reevaluate();
 	}
 	///Set min value. Will be equal to max if passed value is greater than min.
 	///Will update current value to cap at min.
@@ -115,23 +116,28 @@ public:
 	{
 		if(newVal <= m_max)
 			m_min = newVal;
-		setValue(m_value);//update our value
+
+		reevaluate();
 	}
-	///Set current value. Will be capped by max and min.
+	/// <summary>
+	/// Set value. Will be capped. Return true if it wasn't capped.
+	/// </summary>
 	bool setValue(float newVal)
 	{
+		bool wasNotCapped = true;
 		if(newVal > m_max)
 		{
 			newVal = m_max;
-			return false;
+			wasNotCapped = false;
 		}
 		else if(newVal < m_min)
 		{
 			newVal = m_min;
-			return false;
+			wasNotCapped = false;
 		}
+
 		m_value = newVal;
-		return true;
+		return wasNotCapped;
 	}
 
 

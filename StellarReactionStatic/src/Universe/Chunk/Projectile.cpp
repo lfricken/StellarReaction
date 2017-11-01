@@ -66,10 +66,14 @@ void Projectile::postPhysUpdate()
 			{
 				ProjectileModule* mod = dynamic_cast<ProjectileModule*>(it->get());
 				if(mod != nullptr)
+				{
 					if(mod->shouldTerminate())
 						endThyself = true;
+				}
 				else
+				{
 					WARNING;
+				}
 			}
 
 		if(endThyself)

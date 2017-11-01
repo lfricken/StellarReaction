@@ -104,7 +104,8 @@ void ShipModule::input(String rCommand, sf::Packet rData)
 
 		if(isValidDamageSource(damageAmount, team))//if not same team and valid damage value
 		{
-			int overkill = damageAmount - m_health.getHealth() - m_health.getArmor();
+			static const float bleedFraction = 2.f; // how much is damage reduced when bleeding?
+			int overkill = (int)((damageAmount - m_health.getHealth() - m_health.getArmor()));// / bleedFraction); // how much excess damage there is.
 
 			{//do standard damage
 				m_health.damage(damageAmount); //actually do the damage
@@ -125,11 +126,10 @@ void ShipModule::input(String rCommand, sf::Packet rData)
 				ShipModule* newTarget = m_parent->getNearestValidTarget(m_fix.getOffset());//returns null if there are no valid targets
 
 				if(newTarget != nullptr)
-					return;
-				else
 				{
 					int newModuleTarget = newTarget->m_io.getPosition();//damage it with excess damage
-					Weapon::damage(&game.getUniverse().getUniverseIO(), newModuleTarget, overkill, ioPosOfDealer, team, hitPoint, fromDir, effect, true);
+					bool isBleed = true;
+					Weapon::damage(&game.getUniverse().getUniverseIO(), newModuleTarget, overkill, ioPosOfDealer, team, hitPoint, fromDir, effect, isBleed);
 				}
 			}
 		}
