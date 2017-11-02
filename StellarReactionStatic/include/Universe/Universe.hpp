@@ -93,7 +93,7 @@ public:
 	/// Set whether debug draw is on or not.
 	void toggleDebugDraw();
 	/// Find Chunk that is on one of the specified teams
-	wptr<Chunk> getNearestChunk(const Vec2& target, const Chunk* exception = nullptr, std::list<Team> validTeams = std::list<Team>());
+	wptr<Chunk> getNearestChunk(const Vec2& target, const ModuleParent* exception = nullptr, std::list<Team> validTeams = std::list<Team>());
 	
 	/// Get a bed positions for a Chunk to sleep at.
 	Vec2 getBed();
@@ -109,11 +109,11 @@ public:
 
 
 	/// Return whether a position is clear of other objects.
-	bool isClear(Vec2 position, float radius, const Chunk* exception);
+	bool isClear(Vec2 position, float radius, const ModuleParent* exception);
 	/// Return a spawn point for this team.
 
 	bool started = true; //tell whether this is the initial universe created by Game, or a later one
-	Vec2 getAvailableSpawn(Team team, float radius, const Chunk* exception);
+	Vec2 getAvailableSpawn(Team team, float radius, const ModuleParent* exception);
 
 	/// Add a Chunk to the Universe, return its index
 	int add(Chunk* pGO);

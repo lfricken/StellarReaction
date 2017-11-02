@@ -313,7 +313,7 @@
     <ClInclude Include="include\Universe\ShipModule\Reactor.hpp" />
     <ClInclude Include="include\Universe\ShipModule\Shield.hpp" />
     <ClInclude Include="include\Universe\ShipModule\Stealth.hpp" />
-    <ClInclude Include="include\Universe\ShipModule\Teleport.hpp" />
+    <ClInclude Include="include\Universe\ShipModule\Teleporter.hpp" />
     <ClInclude Include="include\Universe\ShipModule\Thruster.hpp" />
     <ClInclude Include="include\Universe\ShipModule\Turret.hpp" />
     <ClInclude Include="include\Universe\Universe.hpp" />
@@ -435,7 +435,7 @@
     <ClCompile Include="src\Universe\ShipModule\Reactor.cpp" />
     <ClCompile Include="src\Universe\ShipModule\Shield.cpp" />
     <ClCompile Include="src\Universe\ShipModule\Stealth.cpp" />
-    <ClCompile Include="src\Universe\ShipModule\Teleport.cpp" />
+    <ClCompile Include="src\Universe\ShipModule\Teleporter.cpp" />
     <ClCompile Include="src\Universe\ShipModule\Thruster.cpp" />
     <ClCompile Include="src\Universe\ShipModule\Turret.cpp" />
     <ClCompile Include="src\Universe\Universe.cpp" />

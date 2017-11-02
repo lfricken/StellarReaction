@@ -339,7 +339,7 @@ void Universe::postPhysUpdate()
 	}
 }
 
-wptr<Chunk> Universe::getNearestChunk(const Vec2& target, const Chunk* exception, std::list<Team> validTeams)
+wptr<Chunk> Universe::getNearestChunk(const Vec2& target, const ModuleParent* exception, std::list<Team> validTeams)
 {
 	float prevDist = -1;
 	wptr<Chunk> closest;
@@ -557,7 +557,7 @@ void Universe::input(String rCommand, sf::Packet rData)
 		Print << m_io.getName() << ":[" << rCommand << "] not found." << FILELINE;
 	}
 }
-bool Universe::isClear(Vec2 position, float radius, const Chunk* exception)
+bool Universe::isClear(Vec2 position, float radius, const ModuleParent* exception)
 {
 	auto nearest = getNearestChunk(position, exception);
 	if(auto nearestChunk = nearest.lock())
@@ -571,7 +571,7 @@ bool Universe::isClear(Vec2 position, float radius, const Chunk* exception)
 	}
 	return true;
 }
-Vec2 Universe::getAvailableSpawn(Team team, float radius, const Chunk* exception)
+Vec2 Universe::getAvailableSpawn(Team team, float radius, const ModuleParent* exception)
 {
 	for(auto it = m_spawnPoints[team].begin(); it != m_spawnPoints[team].end(); it++)
 	{
