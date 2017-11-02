@@ -36,7 +36,7 @@ public:
 		Missiles,
 
 		Zoom,
-		Teleport,
+		TeleportRange,
 		Stealth,
 		
 		Shield,

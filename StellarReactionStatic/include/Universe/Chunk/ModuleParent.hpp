@@ -20,7 +20,7 @@ public:
 	/// <summary>
 	/// Range of stats.
 	/// </summary>
-	RangeList* getRanges();
+	RangeList& getRanges();
 	/// <summary>
 	/// Physics body.
 	/// </summary>

@@ -11,6 +11,7 @@
 #include "Resources.hpp"
 #include "ModuleParent.hpp"
 #include "Universe.hpp"
+#include "Teleporter.hpp"
 
 struct ChunkData;
 class Module;
@@ -44,8 +45,6 @@ public:
 	float get(Request value) const;
 	///Returns the graphical component for the hull.
 	sptr<GraphicsComponent> getHull() const;
-	///Increments the number of deaths by this chunk.
-	int incDeaths();
 	///Get the spawn location in the world.
 	Vec2 getSpawn();
 	///Set the spawn location in the world.
@@ -65,8 +64,8 @@ public:
 	wptr<leon::Grid> getStatusBoard();
 	IOComponent m_io;
 
-	bool m_inDeathProcess;//true if we have already sent a message to destroy ourselves
-	bool m_canDie;
+	bool m_inDeathProcess; // true if we have already sent a message to destroy ourselves
+	bool m_canDie; // true if this chunk can be destroyed
 	int m_controller;
 	int m_shipAI;
 	sptr<Resources> m_resources;
@@ -82,6 +81,11 @@ protected:
 	Chunk(const ChunkData& rData);
 	friend struct ChunkData;
 private:
+	/// <summary>
+	/// The ship will try and teleport to the location.
+	/// </summary>
+	
+	Teleporter m_teleporter;
 
 	Universe& m_universe;
 
@@ -97,20 +101,16 @@ private:
 	bool m_wasBoosting;
 	List<sptr<GraphicsComponent> > afterburners_boost;
 
-	/// <summary>
-	/// Controls how frequently you can toggle the shields.
-	/// </summary>
-	Timer m_shieldToggleTimer;
-	/// <summary>
-	/// Minimum energy required to sustain shields.
-	/// </summary>
-	float m_minShieldPower;
-	bool m_areShieldsOn;
-	bool m_stealth;
+	Timer m_shieldToggleTimer; // Controls how frequently you can toggle the shields.
+	float m_minShieldPower; // Minimum energy required to sustain shields.
+	bool m_areShieldsOn; // True if the shields are on.
+
+
+	bool m_stealth; // True if we are in stealth mode.
+
 
 	int m_thrustNoiseIndex;
 	int m_boostNoiseIndex;
-	int m_deaths;
 	float m_radius;
 	Vec2 m_lastAim;
 };
@@ -128,8 +128,9 @@ struct ChunkData : public ModuleParentData
 
 	Universe* universeParent;
 
-	float minShieldPower;
+	float minShieldPower; // if shield power
 	IOComponentData ioComp;
+	TeleporterData teleporterComp;
 
 	QuadComponentData hullSpriteData;
 	List<QuadComponentData> afterburnerSpriteData;

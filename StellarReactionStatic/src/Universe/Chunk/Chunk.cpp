@@ -53,6 +53,7 @@ void ChunkData::loadJson(const Json::Value& root)
 
 	GETJSON(minShieldPower);
 	LOADJSON(ioComp);
+	LOADJSON(teleporterComp);
 
 	LOADJSON(hullSpriteData);
 
@@ -72,7 +73,7 @@ void ChunkData::loadJson(const Json::Value& root)
 			afterburnerThrustSpriteData.push_back(quad);
 		}
 }
-Chunk::Chunk(const ChunkData& data) : ModuleParent(data), m_io(data.ioComp, &Chunk::input, this), m_universe(*data.universeParent)
+Chunk::Chunk(const ChunkData& data) : ModuleParent(data), m_io(data.ioComp, &Chunk::input, this), m_universe(*data.universeParent), m_teleporter(data.teleporterComp)
 {
 
 	m_resources.reset(new Resources);
@@ -84,7 +85,6 @@ Chunk::Chunk(const ChunkData& data) : ModuleParent(data), m_io(data.ioComp, &Chu
 
 	m_spawnPoint = m_body.getBodyPtr()->GetPosition();
 	m_radius = -1.f;
-	m_deaths = 0;
 	m_wasThrusting = false;
 	m_wasBoosting = false;
 	m_stealth = false;
@@ -126,11 +126,6 @@ Chunk::~Chunk()
 		m_universe.getControllerFactory().m_list.free(m_controller);
 	if(m_shipAI != -1)
 		m_universe.getShipAI().free(m_shipAI);
-}
-
-int Chunk::incDeaths()
-{
-	return m_deaths++;
 }
 Vec2 Chunk::getSpawn()
 {
