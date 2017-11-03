@@ -73,7 +73,7 @@ void ChunkData::loadJson(const Json::Value& root)
 			afterburnerThrustSpriteData.push_back(quad);
 		}
 }
-Chunk::Chunk(const ChunkData& data) : ModuleParent(data), m_io(data.ioComp, &Chunk::input, this), m_universe(*data.universeParent), m_teleporter(data.teleporterComp)
+Chunk::Chunk(const ChunkData& data) : ModuleParent(data), m_io(data.ioComp, &Chunk::input, this), m_universe(*data.universeParent), m_teleporter(data.teleporterComp, this)
 {
 
 	m_resources.reset(new Resources);
@@ -149,6 +149,10 @@ void Chunk::setStealth(bool stealthToggle)
 bool Chunk::isStealth()
 {
 	return m_stealth;
+}
+Vec2 Chunk::getAim() const
+{
+	return m_lastAim;
 }
 sptr<GraphicsComponent> Chunk::getHull() const
 {
@@ -275,6 +279,8 @@ void Chunk::directive(const CommandInfo& commands)//send command to target
 
 	m_wasThrusting = rIssues[Directive::Up];
 	m_wasBoosting = (rIssues[Directive::Up] && rIssues[Directive::Boost]);
+
+	m_teleporter.directive(commands);
 }
 float Chunk::get(Request value) const//return the requested value
 {
