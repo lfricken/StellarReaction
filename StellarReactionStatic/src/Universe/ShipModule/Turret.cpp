@@ -4,6 +4,7 @@
 #include "Controller.hpp"
 #include "Game.hpp"
 #include "BlueprintLoader.hpp"
+#include "ModuleParent.hpp"
 
 
 void TurretData::loadJson(const Json::Value& root)

@@ -3,13 +3,13 @@
 
 #include "ShipModule.hpp"
 
-struct TeleportData;
+struct TeleporterData;
 
 /// Allows the ship to teleport some distance.
 class Teleporter
 {
 public:
-	Teleporter(const TeleporterData& data);
+	Teleporter(const TeleporterData& data, ModuleParent* parent);
 	virtual ~Teleporter();
 
 	/// <summary>
@@ -19,10 +19,10 @@ public:
 
 protected:
 private:
-	ModuleParent* parent; // ship/chunk this is attached to
+	ModuleParent* m_parent; // ship/chunk this is attached to
 
-	float energyConsumptionPerDist; // how much energy is consumed when you teleport
-	float cooldown; // time in seconds till you can teleport again
+	float m_energyConsumptionPerDist; // how much energy is consumed when you teleport
+	float m_cooldown; // time in seconds till you can teleport again
 
 	Timer m_cooldownTimer; // lets us know when we can teleport again
 };
@@ -36,14 +36,12 @@ struct TeleporterData
 	{
 	}
 
-	ModuleParent* parent; // ship/chunk this is attached to
 
 	float energyConsumptionPerDist; // how much energy is consumed when you teleport
 	float cooldown; // time in seconds till you can teleport again
 
 	virtual void loadJson(const Json::Value& root);
 
-	MyType(ModuleData, TeleportData);
 };
 
 

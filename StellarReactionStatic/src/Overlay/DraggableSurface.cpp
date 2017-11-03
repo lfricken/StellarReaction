@@ -6,6 +6,7 @@
 #include "Player.hpp"
 #include "Resources.hpp"
 #include "Controller.hpp"
+#include "Chunk.hpp"
 
 using namespace leon;
 

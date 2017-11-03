@@ -6,6 +6,7 @@
 #include "QuadComponent.hpp"
 #include "RangeList.hpp"
 #include "NonCopyable.hpp"
+#include "ModuleParent.hpp"
 
 
 struct ProjectileData;

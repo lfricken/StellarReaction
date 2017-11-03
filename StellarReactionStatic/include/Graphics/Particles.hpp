@@ -1,7 +1,7 @@
 #pragma once
 
 #include "stdafx.hpp"
-#include "BlueprintableData.hpp"
+#include "Blueprintable.hpp"
 #include "QuadComponent.hpp"
 #include "ClassRegister.hpp"
 

@@ -4,6 +4,7 @@
 #include "BlueprintLoader.hpp"
 #include "ShipModule.hpp"
 #include "OddballFunctions.hpp"
+#include "Chunk.hpp"
 
 void ModuleParentData::loadJson(const Json::Value& root)
 {
@@ -77,9 +78,9 @@ void ModuleParent::add(const ModuleData& data)
 	else
 		WARNING;
 }
-RangeList* ModuleParent::getRanges()
+RangeList& ModuleParent::getRanges()
 {
-	return &m_ranges;
+	return m_ranges;
 }
 BodyComponent& ModuleParent::getBodyComponent()
 {

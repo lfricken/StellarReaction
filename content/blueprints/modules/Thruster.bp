@@ -9,5 +9,11 @@
     "baseDecor": {
         "texName": "module/thruster"
     },
+	"rangeModifiers": {
+		"TeleportRange": {
+			"Max": 100,
+			"Value": 60
+		}
+	},
 	"cost": 150
 }

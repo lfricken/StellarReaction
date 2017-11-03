@@ -7,6 +7,10 @@
     "energyData": {
         "Max": 50
     },
+	"teleporterComp": {
+		"energyConsumptionPerDist": 1,
+		"cooldown": 1
+	},
 	"hullSpriteData": {
 		"dimensions": [2200, 2000],
 		"texName": "hulls/ship1",
@@ -73,13 +77,6 @@
             "title": "Thruster",
             "Position": [
                 0,
-                -1
-            ]
-        },
-		{
-            "title": "Teleport",
-            "Position": [
-                1,
                 -1
             ]
         }

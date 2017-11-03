@@ -2,6 +2,7 @@
 #include "Weapon.hpp"
 #include "JSON.hpp"
 #include "BodyComponent.hpp"
+#include "Chunk.hpp"
 
 
 

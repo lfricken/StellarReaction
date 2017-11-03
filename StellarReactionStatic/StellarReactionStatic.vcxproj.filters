@@ -108,8 +108,8 @@
     <ClCompile Include="src\Basic\Range.cpp" />
     <ClCompile Include="src\Basic\RangeList.cpp" />
     <ClCompile Include="src\Universe\Chunk\ModuleParent.cpp" />
-    <ClCompile Include="src\Universe\Utility\BlueprintableData.cpp" />
     <ClCompile Include="src\Universe\ShipModule\Teleporter.cpp" />
+    <ClCompile Include="src\Universe\Utility\Blueprintable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Game\Directory.hpp" />
@@ -436,8 +436,8 @@
     <ClInclude Include="include\Basic\RangeList.hpp" />
     <ClInclude Include="include\Universe\Chunk\ModuleParent.hpp" />
     <ClInclude Include="include\Basic\OddballFunctions.hpp" />
-    <ClInclude Include="include\Universe\Utility\BlueprintableData.hpp" />
     <ClInclude Include="include\Universe\ShipModule\Teleporter.hpp" />
+    <ClInclude Include="include\Universe\Utility\Blueprintable.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\API\SFML\Audio\SoundFileFactory.inl" />

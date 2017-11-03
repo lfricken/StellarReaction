@@ -5,7 +5,6 @@
 #include "RangeList.hpp"
 #include "ClassRegister.hpp"
 #include "QuadComponent.hpp"
-#include "BlueprintableData.hpp"
 #include "NonCopyable.hpp"
 #include "Team.hpp"
 #include "Resources.hpp"
@@ -59,6 +58,10 @@ public:
 	/// Causes explosion effects and calls removeFromUniverse.
 	/// </summary>
 	void explode();
+	/// <summary>
+	/// Get where this ship is aiming.
+	/// </summary>
+	Vec2 getAim() const;
 
 	void resetStatusBoard(wptr<leon::Grid> grid);
 	wptr<leon::Grid> getStatusBoard();

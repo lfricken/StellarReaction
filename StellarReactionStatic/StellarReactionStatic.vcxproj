@@ -67,7 +67,7 @@
     <ClInclude Include="include\API\TGUI\TGUI.hpp" />
     <ClInclude Include="include\API\TGUI\Transformable.hpp" />
     <ClInclude Include="include\API\TGUI\Widget.hpp" />
-    <ClInclude Include="include\Universe\Utility\BlueprintableData.hpp" />
+    <ClInclude Include="include\Universe\Utility\Blueprintable.hpp" />
     <ClInclude Include="include\Headers\Debugging.hpp" />
     <ClInclude Include="include\Universe\Module\CaptureGraphic.hpp" />
     <ClInclude Include="include\Basic\NonCopyable.hpp" />
@@ -339,7 +339,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Universe\Chunk\ModuleParent.cpp" />
-    <ClCompile Include="src\Universe\Utility\BlueprintableData.cpp" />
+    <ClCompile Include="src\Universe\Utility\Blueprintable.cpp" />
     <ClCompile Include="src\Basic\RangeList.cpp" />
     <ClCompile Include="src\Basic\Clock.cpp" />
     <ClCompile Include="src\Overlay\ReturnSelection.cpp" />
@@ -515,14 +515,15 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>..\StellarReactionStatic\include\Weapon;..\StellarReactionStatic\include\Universe\Utility;..\StellarReactionStatic\include\Universe\ShipModule;..\StellarReactionStatic\include\Universe\Module;..\StellarReactionStatic\include\Universe\Chunk;..\StellarReactionStatic\include\Graphics\Utility;..\StellarReactionStatic\include\Universe;..\StellarReactionStatic\include\Physics;..\StellarReactionStatic\include\Overlay;..\StellarReactionStatic\include\Network;..\StellarReactionStatic\include\IO;..\StellarReactionStatic\include\Headers;..\StellarReactionStatic\include\Graphics;..\StellarReactionStatic\include\Game;..\StellarReactionStatic\include\Control;..\StellarReactionStatic\include\Basic;..\StellarReactionStatic\include\Audio;..\StellarReactionStatic\include\API;..\StellarReactionStatic\include\Graphics\QuadComponents</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile />
+      <PrecompiledHeaderOutputFile />
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

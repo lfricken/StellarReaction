@@ -1,5 +1,4 @@
-#ifndef SHIPMODULE_HPP
-#define SHIPMODULE_HPP
+#pragma once
 
 #include "Module.hpp"
 #include "QuadComponent.hpp"
@@ -10,7 +9,9 @@
 
 struct ShipModuleData;
 
+/// <summary>
 /// Represent functional components of a ship, which go on a Chunk.
+/// </summary>
 class ShipModule : public Module
 {
 public:
@@ -112,6 +113,3 @@ protected:
 	}
 };
 
-
-
-#endif // SHIPMODULE_HPP

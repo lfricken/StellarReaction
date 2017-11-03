@@ -13,7 +13,6 @@
 
 #include "Thruster.hpp"
 #include "Stealth.hpp"
-#include "Teleport.hpp"
 #include "GravityField.hpp"
 #include "TriggerSensor.hpp"
 #include "BlackHoleGraphic.hpp"
@@ -44,7 +43,6 @@ RegisterClass(ModuleData, ProjectileModuleData);
 
 RegisterClass(ModuleData, ThrusterData);
 RegisterClass(ModuleData, StealthData);
-RegisterClass(ModuleData, TeleportData);
 
 RegisterClass(ModuleData, CaptureGraphicData);
 RegisterClass(ModuleData, BlackHoleGraphicData);

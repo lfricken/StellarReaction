@@ -2,7 +2,7 @@
 
 #include "RangeList.hpp"
 #include "BodyComponent.hpp"
-#include "BlueprintableData.hpp"
+#include "Blueprintable.hpp"
 
 struct ModuleParentData;
 struct ModuleData;

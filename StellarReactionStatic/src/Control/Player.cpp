@@ -16,6 +16,41 @@
 #include "Debugging.hpp"
 #include "Grid.hpp"
 
+InputConfig::InputConfig()
+{
+	/**MOVEMENT**/
+	up = sf::Keyboard::W;
+	down = sf::Keyboard::S;
+	rollCCW = sf::Keyboard::A;
+	rollCW = sf::Keyboard::D;
+
+	/**SPECIAL**/
+	stealth = sf::Keyboard::Q;
+	shield = sf::Keyboard::Space;
+	teleport = sf::Keyboard::E;
+	boost = sf::Keyboard::LShift;
+
+	/**WEAPON**/
+	primary = sf::Mouse::Left;
+	secondary = sf::Mouse::Right;
+
+	cgroup_1 = sf::Keyboard::Num1;
+	cgroup_2 = sf::Keyboard::Num2;
+	cgroup_3 = sf::Keyboard::Num3;
+	cgroup_4 = sf::Keyboard::Num4;
+
+	/**OTHER**/
+	store = sf::Keyboard::B;
+	respawn = sf::Keyboard::R;
+	grabTarget = sf::Keyboard::T;
+	buildNewShip = sf::Keyboard::V;
+
+	cameraUp = sf::Keyboard::Up;
+	cameraDown = sf::Keyboard::Down;
+	cameraLeft = sf::Keyboard::Left;
+	cameraRight = sf::Keyboard::Right;
+}
+
 Player::Player(const PlayerData& rData) : m_io(rData.ioComp, &Player::input, this), BasePlayerTraits(rData.name), m_resourceUpdateTimer(0.f)
 {
 	m_hasFocus = true;

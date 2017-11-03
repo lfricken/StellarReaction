@@ -56,7 +56,10 @@ private:
 		if(parsedSuccess)
 			blueprints[title] = loadData<T>(title, root);
 		else
+		{
+			WARNING;
 			Print << "\nParse Failed [" << fullPath << "].";
+		}
 	}
 	template <typename T>
 	sptr<const T> loadData(const String& title, const Json::Value& root)
@@ -67,7 +70,10 @@ private:
 		GETJSON(ClassName);
 
 		if(ClassName == "garbage")
+		{
+			WARNING;
 			Print << "\nClassName not found in [" << title << "].";
+		}
 
 		const T* instance = Deduce<T>::from(ClassName);
 
@@ -79,7 +85,10 @@ private:
 			spMod.reset(data);
 		}
 		else
+		{
+			WARNING;
 			Print << "\nCan't Deduce Type [" << ClassName << "].";
+		}
 
 		return spMod;
 	}
@@ -92,6 +101,7 @@ private:
 			return it->second;
 		else
 		{
+			WARNING;
 			Print << "\nCouldnt find [" << rBPName << "].";
 			return blueprints.begin()->second;
 		}

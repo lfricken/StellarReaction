@@ -6,7 +6,7 @@
 #include "QuadComponent.hpp"
 #include "Globals.hpp"
 #include "ClassRegister.hpp"
-#include "BlueprintableData.hpp"
+#include "Blueprintable.hpp"
 #include "NonCopyable.hpp"
 #include "Sound.hpp"
 #include "Debugging.hpp"

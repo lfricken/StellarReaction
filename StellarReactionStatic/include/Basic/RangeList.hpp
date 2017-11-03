@@ -20,7 +20,7 @@ public:
 		ENUMTOSTRING(key, Missiles);
 
 		ENUMTOSTRING(key, Zoom);
-		ENUMTOSTRING(key, Teleport);
+		ENUMTOSTRING(key, TeleportRange);
 		ENUMTOSTRING(key, Stealth);
 
 		ENUMTOSTRING(key, Shield);

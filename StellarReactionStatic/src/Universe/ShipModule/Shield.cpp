@@ -1,5 +1,6 @@
 #include "Shield.hpp"
 #include "Controller.hpp"
+#include "Chunk.hpp"
 
 
 void ShieldComponentData::loadJson(const Json::Value& root)

@@ -25,6 +25,7 @@ class ProjectileMan;
 class BodyComponent;
 class Scoreboard;
 class DecorationEngine;
+class ModuleParent;
 
 /// Contains everything in the "world". Relaunching a game totally recreates this object.
 class Universe : public Clock, NonCopyable

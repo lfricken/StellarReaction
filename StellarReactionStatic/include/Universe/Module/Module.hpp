@@ -6,12 +6,13 @@
 #include "FixtureComponent.hpp"
 #include "Universe.hpp"
 #include "RangeList.hpp"
-#include "Chunk.hpp"
 #include "ClassRegister.hpp"
 #include "JSON.hpp"
 #include "CommandInfo.hpp"
 #include "NonCopyable.hpp"
 #include "Debugging.hpp"
+#include "Blueprintable.hpp"
+#include "ModuleParent.hpp"
 
 struct ModuleData;
 
@@ -133,7 +134,7 @@ protected:
 	{
 		TData copy(*me);//data copy
 		copy.parent = params.parent;
-		copy.rangeModifiers.ranges = params.parent->getRanges();
+		copy.rangeModifiers.ranges = &params.parent->getRanges();
 		copy.fixComp.pBody = params.parent->getBodyComponent().getBodyPtr();
 		return new T(copy);
 	}
