@@ -63,8 +63,6 @@ public:
 	/// </summary>
 	Vec2 getAim() const;
 
-	void resetStatusBoard(wptr<leon::Grid> grid);
-	wptr<leon::Grid> getStatusBoard();
 	IOComponent m_io;
 
 	bool m_inDeathProcess; // true if we have already sent a message to destroy ourselves
@@ -79,15 +77,10 @@ protected:
 	/// </summary>
 	void removeFromUniverse(int targetChunkUniversePos, bool shake, float delay);
 
-	wptr<leon::Grid> m_statusBoard;
 	virtual void input(String rCommand, sf::Packet rData);
 	Chunk(const ChunkData& rData);
 	friend struct ChunkData;
-private:
-	/// <summary>
-	/// The ship will try and teleport to the location.
-	/// </summary>
-	
+private:	
 	Teleporter m_teleporter;
 
 	Universe& m_universe;

@@ -9,6 +9,10 @@ struct ModuleData;
 class Module;
 class Chunk;
 class ShipModule;
+namespace leon
+{
+	class Grid;
+}
 
 class ModuleParent : public Blueprintable
 {
@@ -69,6 +73,8 @@ public:
 	float getRadius();
 
 
+	void resetStatusBoard(wptr<leon::Grid> grid);
+	wptr<leon::Grid> getStatusBoard();
 
 
 	/// <summary>
@@ -88,6 +94,7 @@ protected:
 private:
 	float m_radius;//calculated radius of this chunk.
 	bool m_recalcRadius;//mark true if the radius of the module should be recalculated
+	wptr<leon::Grid> m_statusBoard; // if someone is targeting us, this is the board we should update
 };
 
 struct ModuleParentData : public BlueprintableData

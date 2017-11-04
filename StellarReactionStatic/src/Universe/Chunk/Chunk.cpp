@@ -8,7 +8,6 @@
 #include "ShipModule.hpp"
 #include "CommandInfo.hpp"
 #include "Shield.hpp"
-#include "Grid.hpp"
 #include "Resources.hpp"
 #include "BlueprintLoader.hpp"
 
@@ -356,27 +355,6 @@ void Chunk::removeFromUniverse(int targetChunkUniversePos, bool shake, float del
 	Message death("universe", "killChunkCommand", myPosData, delay, false);
 	Message::SendUniverse(death);
 }
-void Chunk::resetStatusBoard(wptr<leon::Grid> grid)
-{
-	m_statusBoard = grid;
-	if(auto board = m_statusBoard.lock())
-	{
-		board->reset(getModuleBPs());
-		auto modules = getModuleList();
-		for(auto it = modules.begin(); it != modules.end(); ++it)
-		{
-			auto module = dynamic_cast<ShipModule*>(it->get());
-			if(module != nullptr)
-			{
-				board->damageModule(module->getOffset(), module->getHealthState(), module->getHealth().getHealthPercent(), false);
-			}
-		}
-	}//else we set it to null
-}
-wptr<leon::Grid> Chunk::getStatusBoard()
-{
-	return m_statusBoard;
-}
 void Chunk::input(String rCommand, sf::Packet rData)
 {
 	if(rCommand == "clear")
@@ -395,16 +373,9 @@ void Chunk::input(String rCommand, sf::Packet rData)
 		if(lootChunkUniversePos != -1)
 			removeFromUniverse(lootChunkUniversePos, false, 0.f);
 	}
-	else if(rCommand == "rebuiltComplete")
-	{
-		resetStatusBoard(m_statusBoard);
-	}
 	else if(rCommand == "doneBuilding")
 	{
-		if(auto grid = m_statusBoard.lock())
-		{
-			grid->reset(getModuleBPs());
-		}
+		resetStatusBoard(getStatusBoard());
 	}
 	else if(rCommand == "attachModule")
 	{

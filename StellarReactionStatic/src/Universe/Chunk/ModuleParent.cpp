@@ -5,6 +5,7 @@
 #include "ShipModule.hpp"
 #include "OddballFunctions.hpp"
 #include "Chunk.hpp"
+#include "Grid.hpp"
 
 void ModuleParentData::loadJson(const Json::Value& root)
 {
@@ -185,5 +186,25 @@ ShipModule* ModuleParent::getNearestValidTarget(Vec2 target)
 		return availableTargets[choice];
 	}
 }
-
+void ModuleParent::resetStatusBoard(wptr<leon::Grid> grid)
+{
+	m_statusBoard = grid;
+	if(auto board = m_statusBoard.lock())
+	{
+		board->reset(getModuleBPs());
+		auto modules = getModuleList();
+		for(auto it = modules.begin(); it != modules.end(); ++it)
+		{
+			auto module = dynamic_cast<ShipModule*>(it->get());
+			if(module != nullptr)
+			{
+				board->damageModule(module->getOffset(), module->getHealthState(), module->getHealth().getHealthPercent(), false);
+			}
+		}
+	}//else we set it to null
+}
+wptr<leon::Grid> ModuleParent::getStatusBoard()
+{
+	return m_statusBoard;
+}
 
