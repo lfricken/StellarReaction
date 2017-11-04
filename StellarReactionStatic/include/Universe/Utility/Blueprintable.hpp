@@ -17,8 +17,17 @@ private:
 };
 
 
+class ILoadsJson
+{
+public:
+	/// <summary>
+	/// Fill this object with data from a json file.
+	/// </summary>
+	virtual void loadJson(const Json::Value& root) = 0;
+};
+
 /// The interface for blueprint data.
-struct BlueprintableData
+struct BlueprintableData : public ILoadsJson
 {
 	BlueprintableData()
 	{
@@ -35,7 +44,9 @@ struct BlueprintableData
 		inherit(parent);
 	}
 
+	/// <summary>
 	/// Fill this object with data from a json file.
+	/// </summary>
 	virtual void loadJson(const Json::Value& root);
 	/// Make a copy of this object.
 	virtual BlueprintableData* clone() const = 0;

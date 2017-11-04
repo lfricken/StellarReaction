@@ -110,6 +110,7 @@
     <ClCompile Include="src\Universe\Chunk\ModuleParent.cpp" />
     <ClCompile Include="src\Universe\ShipModule\Teleporter.cpp" />
     <ClCompile Include="src\Universe\Utility\Blueprintable.cpp" />
+    <ClCompile Include="src\Universe\Chunk\ShipProfile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Game\Directory.hpp" />
@@ -438,6 +439,7 @@
     <ClInclude Include="include\Basic\OddballFunctions.hpp" />
     <ClInclude Include="include\Universe\ShipModule\Teleporter.hpp" />
     <ClInclude Include="include\Universe\Utility\Blueprintable.hpp" />
+    <ClInclude Include="include\Universe\Chunk\ShipProfile.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\API\SFML\Audio\SoundFileFactory.inl" />

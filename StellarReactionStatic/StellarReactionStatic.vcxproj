@@ -336,8 +336,10 @@
     <ClInclude Include="include\Overlay\Store.hpp" />
     <ClInclude Include="include\Overlay\Tooltip.hpp" />
     <ClInclude Include="include\Basic\RangeList.hpp" />
+    <ClInclude Include="include\Universe\Chunk\ShipProfile.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Universe\Chunk\ShipProfile.cpp" />
     <ClCompile Include="src\Universe\Chunk\ModuleParent.cpp" />
     <ClCompile Include="src\Universe\Utility\Blueprintable.cpp" />
     <ClCompile Include="src\Basic\RangeList.cpp" />
