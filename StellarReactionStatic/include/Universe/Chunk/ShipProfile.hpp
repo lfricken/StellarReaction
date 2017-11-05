@@ -3,12 +3,25 @@
 #include "stdafx.hpp"
 #include "Blueprintable.hpp"
 
-
-class Hardpoint : public ILoadsJson
+class HardpointRequirements : public ILoadsJson
 {
 public:
-	sf::Vector2i position;
-	bool allowsWeapons;
+	bool weapon;
+	bool engine;
+	bool special;
+
+	virtual void loadJson(const Json::Value& root);
+};
+
+class Hardpoint : public HardpointRequirements
+{
+public:
+	Vec2 position;
+
+	/// <summary>
+	/// Does this hard point provide the specialties?
+	/// </summary>
+	bool providesRequirements(const HardpointRequirements& other) const;
 
 	virtual void loadJson(const Json::Value& root);
 };
@@ -19,9 +32,6 @@ public:
 class ShipProfile : public ILoadsJson
 {
 public:
-	ShipProfile();
-	~ShipProfile();
-
 	List<Hardpoint> hardpoints;
 
 	virtual void loadJson(const Json::Value& root);

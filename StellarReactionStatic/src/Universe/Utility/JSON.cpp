@@ -7,6 +7,13 @@ Vec2 JSON::get(const Json::Value& root, const String& fieldName, const Vec2& def
 
 	return Vec2(root[fieldName][0].asFloat(), root[fieldName][1].asFloat());
 }
+sf::Vector2i JSON::get(const Json::Value& root, const String& fieldName, const sf::Vector2i& defaultValue)
+{
+	if(root[fieldName].isNull())
+		return defaultValue;
+
+	return sf::Vector2i(root[fieldName][0].asInt(), root[fieldName][1].asInt());
+}
 sf::Vector2f JSON::get(const Json::Value& root, const String& fieldName, const sf::Vector2f& defaultValue)
 {
 	if(root[fieldName].isNull())

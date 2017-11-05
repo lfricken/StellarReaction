@@ -10,7 +10,8 @@
 void ModuleParentData::loadJson(const Json::Value& root)
 {
 	BlueprintableData::loadJson(root);
-	
+
+	LOADJSON(profile);
 	LOADJSON(rangeData);
 	LOADJSON(bodyComp);
 
@@ -39,8 +40,8 @@ void ModuleParentData::loadJson(const Json::Value& root)
 }
 ModuleParent::ModuleParent(const ModuleParentData& data) : Blueprintable(data), m_body(data.bodyComp), m_ranges(data.rangeData)
 {
+	m_profile = data.profile;
 	m_body.parent = this;
-	m_validOffsets = data.validPos;
 
 	m_radius = 0.f;
 	m_recalcRadius = true;
@@ -55,19 +56,33 @@ ModuleParent::~ModuleParent()
 {
 
 }
-bool ModuleParent::allows(const Vec2& gridPos)
+bool ModuleParent::allows(const ModuleData& data)
 {
-	return (std::find(m_validOffsets.begin(), m_validOffsets.end(), gridPos) != m_validOffsets.end());
+	if(m_profile.hardpoints.size() == 0)//if they didn't define anything, allow anything.
+		return true;
+
+	for(auto it = m_profile.hardpoints.begin(); it != m_profile.hardpoints.end(); ++it)
+	{
+		if(it->position == data.fixComp.offset)//if we are talking about the same position
+		{
+			if(it->providesRequirements(data.requirements))//if the hardpoint requirements are met
+				return true;
+
+			break;//otherwise exit
+		}
+	}
+
+	return false;
 }
 void ModuleParent::add(const ModuleData& data)
 {
 	m_recalcRadius = true;
 
-	if(data.fixComp.offset.x == 3)
+	if(data.fixComp.offset.x == 3) // defines the storage TODO: (storage should be defined better)
 	{
 		m_storedModules.push_back(Pair<String, sf::Vector2i>(data.title, (sf::Vector2i)data.fixComp.offset));
 	}
-	else if(this->allows(data.fixComp.offset))
+	else if(this->allows(data))
 	{
 		sptr<ModuleData> moduleDataCopy(data.clone());
 		moduleDataCopy->ioComp.pMyManager = &game.getUniverse().getUniverseIO();

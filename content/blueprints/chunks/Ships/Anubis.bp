@@ -4,9 +4,12 @@
         "Max": 64,
         "Value": 16
     },
-    "energyData": {
-        "Max": 50
-    },
+
+	"rangeData": {
+		"Energy": {
+			"Max": 50
+		}
+	},
 	"teleporterComp": {
 		"energyConsumptionPerDist": 1,
 		"cooldown": 1

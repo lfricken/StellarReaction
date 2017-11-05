@@ -96,6 +96,8 @@ struct ModuleData : public BlueprintableData
 	}
 
 	ModuleParent* parent;
+	HardpointRequirements requirements;
+
 	RangeModifierList rangeModifiers;
 
 	String name;//what gets displayed to player
@@ -105,8 +107,6 @@ struct ModuleData : public BlueprintableData
 	IOComponentData ioComp;
 	NetworkComponentData nwComp;
 	FixtureComponentData fixComp;
-
-
 
 	struct GenerateParams
 	{

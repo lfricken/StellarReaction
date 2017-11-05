@@ -3,6 +3,7 @@
 #include "RangeList.hpp"
 #include "BodyComponent.hpp"
 #include "Blueprintable.hpp"
+#include "ShipProfile.hpp"
 
 struct ModuleParentData;
 struct ModuleData;
@@ -86,15 +87,18 @@ protected:
 
 	BodyComponent m_body;//Our BodyComponent.
 
-	bool allows(const Vec2& gridPos);
+	/// <summary>
+	/// Checks hardpoints and their requirements.
+	/// </summary>
+	bool allows(const ModuleData& data);
 	List<sptr<Module> > m_modules;//List of modules on us.
 	List<Pair<String, sf::Vector2i> > m_storedModules; //Stored as Blueprint,position.
-	List<Vec2> m_validOffsets;//valid module locations
 
 private:
 	float m_radius;//calculated radius of this chunk.
 	bool m_recalcRadius;//mark true if the radius of the module should be recalculated
 	wptr<leon::Grid> m_statusBoard; // if someone is targeting us, this is the board we should update
+	ShipProfile m_profile;
 };
 
 struct ModuleParentData : public BlueprintableData
@@ -105,16 +109,12 @@ struct ModuleParentData : public BlueprintableData
 		rangeData.rangeData[RangeList::Zoom].Min = 1;
 		rangeData.rangeData[RangeList::Zoom].Value = 1;
 		rangeData.rangeData[RangeList::Zoom].Max = 128;
-
-		for(float i = -5; i < 5; i += 0.5)
-			for(float j = -5; j < 5; j += 0.5)
-				validPos.push_back(Vec2(i, j));
 	}
 
+	ShipProfile profile;
 	RangeListData rangeData;
 	BodyComponentData bodyComp;
 	List<sptr<const ModuleData> > moduleData;
-	List<Vec2> validPos;
 
 	virtual ModuleParentData* clone() const
 	{

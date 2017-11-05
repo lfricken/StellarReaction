@@ -31,6 +31,7 @@ class JSON
 public:
 	///Get a Vec2 from JSON array.
 	static Vec2 get(const Json::Value& root, const String& fieldName, const Vec2& defaultValue);
+	static sf::Vector2i get(const Json::Value& root, const String& fieldName, const sf::Vector2i& defaultValue);
 	///Get a color from JSON.
 	static sf::Color get(const Json::Value& root, const String& fieldName, const sf::Color& defaultValue);
 	///Get a sf::Vector2f from a JSON array.

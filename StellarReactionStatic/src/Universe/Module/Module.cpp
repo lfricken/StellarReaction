@@ -10,6 +10,7 @@ void ModuleData::loadJson(const Json::Value& root)
 	BlueprintableData::loadJson(root);
 
 	LOADJSON(rangeModifiers);
+	LOADJSON(requirements);
 
 	GETJSON(name);
 	GETJSON(cost);
