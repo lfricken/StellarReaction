@@ -52,8 +52,6 @@ protected:
 	bool m_functionsDamaged;
 
 	List<sptr<GraphicsComponent> > m_decors;
-	///index in m_decors where the module sprite is.
-	int m_baseDecor;
 	///index in m_decors where the hit sprite is.
 	int m_hitDecorIndex;
 	///index in m_decors where the exposion sprite is.

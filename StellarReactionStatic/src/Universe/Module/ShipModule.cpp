@@ -21,8 +21,6 @@ void ShipModuleData::loadJson(const Json::Value& root)
 ShipModule::ShipModule(const ShipModuleData& rData) : Module(rData), m_health(rData.health)
 {
 	m_deathSound = rData.deathSound;
-	m_decors.push_back(sptr<GraphicsComponent>(new QuadComponent(rData.baseDecor)));
-	m_baseDecor = m_decors.size() - 1;
 
 	m_healthState = rData.initHealthState;
 	m_functionsDamaged = rData.functionsDamaged;
@@ -218,11 +216,10 @@ void ShipModule::setHealthState(HealthState newState)
 
 	if(m_healthState == HealthState::Nominal)
 	{
-		m_decors[m_baseDecor]->setColor(sf::Color(255, 255, 255, 255));///makes the sprite red when destroyed
+
 	}
 	else if(m_healthState == HealthState::Broken)
 	{
-		m_decors[m_baseDecor]->setColor(sf::Color(255, 0, 0, 255));///makes the sprite red when destroyed
 		f_died();
 	}
 
@@ -252,10 +249,7 @@ void ShipModule::f_died()
 }
 void ShipModule::toggleStealth(bool toggle)
 {
-	if(toggle)
-		m_decors[m_baseDecor]->setAlpha(alpha_stealth_on);
-	else
-		m_decors[m_baseDecor]->setAlpha(alpha_stealth_off);
+
 }
 void ShipModule::healToMax()
 {
