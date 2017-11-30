@@ -11,16 +11,19 @@ void HardpointRequirements::loadJson(const Json::Value& root)
 void Hardpoint::loadJson(const Json::Value& root)
 {
 	HardpointRequirements::loadJson(root);
-	GETJSON(special);
+	GETJSON(position);
 }
 
 void ShipProfile::loadJson(const Json::Value& root)
 {
-	for(auto it = root.begin(); it != root.end(); ++it)
-	{
-		hardpoints.push_back(Hardpoint());
-		hardpoints.back().loadJson(*it);
-	}
+	const Json::Value& hardpointsRoot = root[NAMEOF(hardpoints)];
+
+	if(!hardpointsRoot.isNull())
+		for(auto it = hardpointsRoot.begin(); it != hardpointsRoot.end(); ++it)
+		{
+			hardpoints.push_back(Hardpoint());
+			hardpoints.back().loadJson(*it);
+		}
 }
 
 bool Hardpoint::providesRequirements(const HardpointRequirements& other) const
