@@ -19,11 +19,14 @@ Panel::~Panel()
 }
 void Panel::f_initialize(const PanelData& rData)
 {
+	m_movesWithMouse = rData.movesWithMouse;
 	f_assign(m_pPanel.get(), rData);
 
 	m_pPanel->setBackgroundColor(rData.backgroundColor);
 	if(rData.backgroundTex != "")
 		m_pPanel->setBackgroundTexture(game.getTextureAllocator().request(rData.backgroundTex));
+
+	m_truePosition = getPosition();
 }
 void Panel::load(const String& fullFilePath)
 {
@@ -41,3 +44,14 @@ void Panel::clear()//destroys all draggables
 {
 	m_widgetList.clear();
 }
+void Panel::mouseMoveToPosition(sf::Vector2f pos)
+{
+	WidgetBase::mouseMoveToPosition(pos);
+
+	for each(auto widget in m_widgetList)
+	{
+		widget->mouseMoveToPosition(pos);
+	}
+}
+
+

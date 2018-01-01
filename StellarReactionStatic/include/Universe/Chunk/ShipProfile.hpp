@@ -6,6 +6,8 @@
 class HardpointRequirements : public ILoadsJson
 {
 public:
+	HardpointRequirements();
+
 	bool weapon;
 	bool engine;
 	bool special;

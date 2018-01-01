@@ -34,6 +34,7 @@ namespace leon
 		/// Delete all objects held by this Panel.
 		void clear();
 
+		virtual void mouseMoveToPosition(sf::Vector2f pos);
 	protected:
 		virtual void load(const String& fullFilePath);
 		tgui::Panel::Ptr m_pPanel;//the gui panel
@@ -41,6 +42,5 @@ namespace leon
 
 	private:
 		void f_initialize(const PanelData& data);
-
 	};
 }

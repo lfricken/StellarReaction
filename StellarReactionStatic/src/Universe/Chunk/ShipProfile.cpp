@@ -1,6 +1,12 @@
 #include "ShipProfile.hpp"
 #include "JSON.hpp"
 
+HardpointRequirements::HardpointRequirements()
+{
+	weapon = false;
+	engine = false;
+	special = false;
+}
 void HardpointRequirements::loadJson(const Json::Value& root)
 {
 	GETJSON(weapon);

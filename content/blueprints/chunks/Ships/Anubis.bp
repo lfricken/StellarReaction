@@ -4,16 +4,6 @@
         "Max": 64,
         "Value": 16
     },
-	"profile": {
-		"hardpoints": [
-			{
-				"position": [1, 2],
-				"weapon": true,
-				"engine": true,
-				"special": true
-			}
-		]		
-	},
 	"rangeData": {
 		"Energy": {
 			"Max": 50

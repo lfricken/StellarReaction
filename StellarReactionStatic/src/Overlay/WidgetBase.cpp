@@ -46,6 +46,9 @@ WidgetBase::WidgetBase(tgui::Container& rContainer, const WidgetBaseData& rData)
 }
 void WidgetBase::init(const WidgetBaseData& rData)
 {
+	m_movesWithMouse = rData.movesWithMouse;
+	m_percievedDistance = rData.percievedDistance;
+
 	if(rData.tooltip.text != "")//if not empty
 	{
 		sf::Packet tooltipData;
@@ -140,7 +143,21 @@ void WidgetBase::setSize(sf::Vector2f size)
 }
 void WidgetBase::setPosition(const sf::Vector2f& realPos)
 {
-	m_pWidget->setPosition(realPos);
+	m_truePosition = realPos;
+	m_pWidget->setPosition(m_truePosition);
+}
+void WidgetBase::mouseMoveToPosition(sf::Vector2f pos)
+{
+	if(m_movesWithMouse)
+	{
+		auto size = (sf::Vector2f)game.getWindow().getSize();
+		size.x /= 2;
+		size.y /= 2;
+		auto positionOffset = pos - size;
+		positionOffset.x /= m_percievedDistance;
+		positionOffset.y /= m_percievedDistance;
+		m_pWidget->setPosition(m_truePosition - positionOffset);
+	}
 }
 const sf::Vector2f& WidgetBase::getPosition() const
 {

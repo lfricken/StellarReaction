@@ -291,6 +291,7 @@ void Game::tick(float frameTime)
 	rWindow.setView(*m_spStaticView);
 	getUniverse().getBatchLayers().drawOverlay(rWindow);
 	m_spOverlay->getGui().draw(false);
+	m_spOverlay->mouseMoveToPosition((sf::Vector2f)sf::Mouse::getPosition(rWindow));
 
 	/**== DISPLAY ==**/
 	rWindow.display();

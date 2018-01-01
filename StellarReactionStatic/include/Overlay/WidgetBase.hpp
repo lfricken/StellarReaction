@@ -51,20 +51,20 @@ namespace leon
 			alpha(255),
 			ioComp(&game.getCoreIO()),
 			gridSize(0, 0),
+			movesWithMouse(false),
+			percievedDistance(80),
 			gridPosition(1, 1)
 		{
 		}
-		bool startHidden;/**should this widget start invisible**/
-		String configFile;/**TGUI config file**/
-		/// <summary>
-		/// Tooltip to show on mouseover. 
-		/// </summary>
-		TooltipTextData tooltip;
+		bool startHidden; // should this widget start invisible
+		String configFile; // TGUI config file
 
-		/// <summary>
-		/// 0 is fully transparent
-		/// </summary>
-		unsigned char alpha;
+		TooltipTextData tooltip; // Tooltip to show on mouseover.
+
+		unsigned char alpha; // 0 is fully transparent
+
+		bool movesWithMouse; // true if this widget moves with the mouse
+		float percievedDistance; // large (80+) for less movement with mouse
 
 		sf::Vector2i gridSize;//how big are the grid snaps, THIS GETS SET IN DraggableSurface.cpp
 		sf::Vector2i gridPosition;//if this isn't -1,-1, we will override our screen coordinates and set to this grid position
@@ -104,6 +104,7 @@ namespace leon
 		/// Return the position of this Widgets top right corner in window coordinates.
 		virtual const sf::Vector2f& getPosition() const;
 
+		virtual void mouseMoveToPosition(sf::Vector2f pos);
 
 		void setGridPosition(sf::Vector2i gridPos);
 		sf::Vector2i getGridPosition() const;
@@ -139,18 +140,13 @@ namespace leon
 
 		void f_trigger();
 
-		/// <summary>
-		/// Size of the grid in pixels.
-		/// </summary>
-		sf::Vector2i m_gridSize;
-		/// <summary>
-		/// Record the last position we were in so we can go back if dropped in a invalid location.
-		/// </summary>
-		sf::Vector2i m_lastGridPosition;
-		/// <summary>
-		/// If true, when setting the position
-		/// </summary>
-		bool m_onGrid;
+
+		float m_percievedDistance; // large (80+) for less movement with mouse
+		sf::Vector2f m_truePosition; // The intended position of this widget (could be offset by mouse movement).
+		bool m_movesWithMouse; // True if this grid reacts to the mouse moving.
+		sf::Vector2i m_gridSize; // Size of the grid in pixels.
+		sf::Vector2i m_lastGridPosition; // Record the last position we were in so we can go back if dropped in a invalid location.
+		bool m_onGrid; // If true, when setting the position
 
 		/// <summary>
 		/// Return true if the hook handled the call.

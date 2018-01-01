@@ -21,6 +21,11 @@ namespace leon
 		/// Add a Panel to the list.
 		void addPanel(sptr<leon::Panel> spPanel);
 
+		/// <summary>
+		/// 
+		/// </summary>
+		void mouseMoveToPosition(sf::Vector2f pos);
+
 		/// Handle an SFML Window or Keyboard event.
 		void handleEvent(sf::Event& rEvent);
 		/// Load the menus.

@@ -83,6 +83,14 @@ void Overlay::addPanel(sptr<leon::Panel> spPanel)
 {
 	m_panelList.push_back(spPanel);
 }
+
+void Overlay::mouseMoveToPosition(sf::Vector2f pos)
+{
+	for each(auto panel in m_panelList)
+	{
+		panel->mouseMoveToPosition(pos);
+	}
+}
 void Overlay::handleEvent(sf::Event& rEvent)
 {
 	m_gui.handleEvent(rEvent, false);
@@ -155,7 +163,7 @@ leon::Panel* Overlay::loadSellMenu()
 leon::Panel* Overlay::loadMainMenu()
 {
 	leon::Panel* pMain_menu = nullptr;
-
+	leon::Panel* pButtons = nullptr;
 	//main menu panel
 	{
 		leon::PanelData mainMenuData;
@@ -175,6 +183,18 @@ leon::Panel* Overlay::loadMainMenu()
 		pMain_menu->add(sptr<leon::WidgetBase>(picture));
 	}
 
+	//buttons panel
+	{
+		leon::PanelData mainMenuData;
+		mainMenuData.ioComp.name = "main_menu_buttons";
+		mainMenuData.backgroundColor = sf::Color::Transparent;
+		mainMenuData.screenCoords = sf::Vector2f(0, 0);
+		mainMenuData.size = sf::Vector2f(1920, 1080);
+		mainMenuData.movesWithMouse = true;
+		pButtons = new leon::Panel(*pMain_menu->getPanelPtr(), mainMenuData);
+		pMain_menu->add(sptr<leon::WidgetBase>(pButtons));
+	}
+
 	//resume button
 	{
 		leon::ButtonData resumeButtonData;
@@ -189,8 +209,8 @@ leon::Panel* Overlay::loadMainMenu()
 		resumeMessage1.message.reset("overlay", "toggleMenu", voidPacket, 0, false);
 
 		resumeButtonData.ioComp.courierList.push_back(resumeMessage1);
-		leon::WidgetBase* pResume = new leon::Button(*pMain_menu->getPanelPtr(), resumeButtonData);
-		pMain_menu->add(sptr<leon::WidgetBase>(pResume));
+		leon::WidgetBase* pResume = new leon::Button(*pButtons->getPanelPtr(), resumeButtonData);
+		pButtons->add(sptr<leon::WidgetBase>(pResume));
 	}
 	//multiplayer
 	{
@@ -210,7 +230,7 @@ leon::Panel* Overlay::loadMainMenu()
 		hideMultiplayerButton.message.reset("multiplayer_button", "toggleHidden", voidPacket, 0, false);
 		multiplayer.ioComp.courierList.push_back(hideMultiplayerButton);
 
-		pMain_menu->add(sptr<leon::WidgetBase>(new leon::Button(*pMain_menu->getPanelPtr(), multiplayer)));
+		pButtons->add(sptr<leon::WidgetBase>(new leon::Button(*pButtons->getPanelPtr(), multiplayer)));
 	}
 	//exit game
 	{
@@ -224,7 +244,7 @@ leon::Panel* Overlay::loadMainMenu()
 		exitButtonData.screenCoords = sf::Vector2f(20, 600);
 		exitButtonData.ioComp.courierList.push_back(buttonMessage);
 
-		pMain_menu->add(sptr<leon::WidgetBase>(new leon::Button(*pMain_menu->getPanelPtr(), exitButtonData)));
+		pButtons->add(sptr<leon::WidgetBase>(new leon::Button(*pButtons->getPanelPtr(), exitButtonData)));
 	}
 
 	return pMain_menu;
@@ -242,6 +262,8 @@ leon::Panel* Overlay::loadConnectionHub(leon::Panel* pMain_menu)
 		multiplayerConnect.backgroundColor = sf::Color(50, 50, 50, 128);
 		multiplayerConnect.screenCoords = sf::Vector2f(game.getWindow().getSize().x / 2 - multPanelSize.x / 2, game.getWindow().getSize().y / 2 - multPanelSize.y / 2);
 		multiplayerConnect.size = sf::Vector2f(multPanelSize.x, multPanelSize.y);
+		multiplayerConnect.movesWithMouse = true;
+		multiplayerConnect.percievedDistance = 40.f;
 		pMultMenu = new leon::Panel(*pMain_menu->getPanelPtr(), multiplayerConnect);
 	}
 	/**JOIN**/

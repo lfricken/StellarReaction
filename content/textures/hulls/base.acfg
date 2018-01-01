@@ -1,0 +1,19 @@
+{
+    "texTileSize": [
+        768,
+        768
+    ],
+    "stateList": [
+        {
+            "state": "Default",
+            "repeats": true,
+            "tileList": [
+				{
+                    "x": 0,
+                    "y": 0,
+                    "t": 1.0
+                }
+            ]
+        }
+    ]
+}
