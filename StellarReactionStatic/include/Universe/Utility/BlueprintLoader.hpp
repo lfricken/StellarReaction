@@ -13,7 +13,7 @@ struct WeaponData;
 struct StaticDecorData;
 struct DynamicDecorData;
 struct Particles;
-
+enum class UpgradeType;
 
 
 
@@ -39,6 +39,10 @@ public:
 	sptr<const StaticDecorData> getStaticDecorSPtr(const String& rBPName) const;
 	///Returns a shared pointer to the DynamicDecorData object created from the given blueprint.
 	sptr<const DynamicDecorData> getDynamicDecorSPtr(const String& rBPName) const;
+	/// <summary>
+	/// Upgrades the stats on a module or weapon blueprint. Weapons are searched first.
+	/// </summary>
+	bool upgrade(String bpName, UpgradeType type);
 protected:
 private:
 
@@ -46,7 +50,7 @@ private:
 	/** Changing this file doesn't always trigger a recompile, you may need to manually do it!
 	**/
 	template <typename T>
-	void storeData(const String& title, const String& fullPath, std::map<String, sptr<const T> >& blueprints)//load that blueprint
+	void storeData(const String& title, const String& fullPath, std::map<String, sptr<T> >& blueprints)//load that blueprint
 	{
 		std::ifstream stream(fullPath, std::ifstream::binary);
 		Json::Reader reader;
@@ -93,7 +97,7 @@ private:
 		return spMod;
 	}
 	template <typename T>
-	sptr<const T> getData(const String& rBPName, const std::map<String, sptr<const T> >& blueprints) const
+	sptr<const T> getData(const String& rBPName, const std::map<String, sptr<T> >& blueprints) const
 	{
 		auto it = blueprints.find(rBPName);
 
@@ -107,11 +111,11 @@ private:
 		}
 	}
 
-	std::map<String, sptr<const ModuleData> > m_modBP;
-	std::map<String, sptr<const WeaponData> > m_wepBP;
-	std::map<String, sptr<const ChunkData> > m_cnkBP;
-	std::map<String, sptr<const ProjectileData> > m_prjBP;
-	std::map<String, sptr<const StaticDecorData> > m_sdcBP;
-	std::map<String, sptr<const DynamicDecorData> > m_ddcBP;
-	std::map<String, sptr<const Particles> > m_particlesBP;
+	std::map<String, sptr<ModuleData> > m_modBP;
+	std::map<String, sptr<WeaponData> > m_wepBP;
+	std::map<String, sptr<ChunkData> > m_cnkBP;
+	std::map<String, sptr<ProjectileData> > m_prjBP;
+	std::map<String, sptr<StaticDecorData> > m_sdcBP;
+	std::map<String, sptr<DynamicDecorData> > m_ddcBP;
+	std::map<String, sptr<Particles> > m_particlesBP;
 };

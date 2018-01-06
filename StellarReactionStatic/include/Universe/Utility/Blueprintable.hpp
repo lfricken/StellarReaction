@@ -51,6 +51,7 @@ struct BlueprintableData : public ILoadsJson
 	/// Make a copy of this object.
 	virtual BlueprintableData* clone() const = 0;
 
+	virtual void applyUpgrade(UpgradeType type);
 protected:
 
 	virtual void inherit(const BlueprintableData& parent)

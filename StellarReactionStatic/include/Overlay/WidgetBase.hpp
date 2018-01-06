@@ -52,7 +52,7 @@ namespace leon
 			ioComp(&game.getCoreIO()),
 			gridSize(0, 0),
 			movesWithMouse(false),
-			percievedDistance(80),
+			percievedDistance(100),
 			gridPosition(1, 1)
 		{
 		}

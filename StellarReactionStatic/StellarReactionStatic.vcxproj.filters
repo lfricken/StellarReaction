@@ -440,6 +440,7 @@
     <ClInclude Include="include\Universe\ShipModule\Teleporter.hpp" />
     <ClInclude Include="include\Universe\Utility\Blueprintable.hpp" />
     <ClInclude Include="include\Universe\Chunk\ShipProfile.hpp" />
+    <ClInclude Include="include\Basic\UpgradeType.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\API\SFML\Audio\SoundFileFactory.inl" />

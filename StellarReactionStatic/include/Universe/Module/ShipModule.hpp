@@ -39,6 +39,7 @@ public:
 	virtual void healToMax();
 
 
+	Health m_health;
 	Vec2 getNearestNeighbor(List<Vec2>& positions);
 
 protected:
@@ -47,7 +48,6 @@ protected:
 	virtual void unpack(sf::Packet& rPacket);
 	virtual void f_died();
 
-	Health m_health;
 	HealthState m_healthState;
 	bool m_functionsDamaged;
 

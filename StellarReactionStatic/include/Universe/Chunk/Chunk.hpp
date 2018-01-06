@@ -132,14 +132,7 @@ struct ChunkData : public ModuleParentData
 	List<QuadComponentData> afterburnerSpriteData;
 	List<QuadComponentData> afterburnerThrustSpriteData;
 
-	///Create Chunk object from this data object.
-	virtual Chunk* generate(Universe* universeParent) const
-	{
-		ChunkData copy(*this);
-		copy.universeParent = universeParent;
-		copy.ioComp.pMyManager = &universeParent->getUniverseIO();
-		return new Chunk(copy);
-	}
+
 	///Create new copy of this data object.
 	virtual ChunkData* clone() const
 	{
@@ -148,6 +141,15 @@ struct ChunkData : public ModuleParentData
 	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
 private:
+	friend class Universe;
+	///Create Chunk object from this data object.
+	virtual Chunk* generate(Universe* universeParent) const
+	{
+		ChunkData copy(*this);
+		copy.universeParent = universeParent;
+		copy.ioComp.pMyManager = &universeParent->getUniverseIO();
+		return new Chunk(copy);
+	}
 	void loadModules(const Json::Value& root);
 	MyType(ChunkData, ChunkData);
 };

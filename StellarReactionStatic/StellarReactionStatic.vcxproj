@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Basic\OddballFunctions.hpp" />
+    <ClInclude Include="include\Basic\UpgradeType.hpp" />
     <ClInclude Include="include\Universe\Chunk\ModuleParent.hpp" />
     <ClInclude Include="include\Basic\Clock.hpp" />
     <ClInclude Include="include\Basic\Factory.hpp" />

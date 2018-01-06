@@ -263,7 +263,7 @@ leon::Panel* Overlay::loadConnectionHub(leon::Panel* pMain_menu)
 		multiplayerConnect.screenCoords = sf::Vector2f(game.getWindow().getSize().x / 2 - multPanelSize.x / 2, game.getWindow().getSize().y / 2 - multPanelSize.y / 2);
 		multiplayerConnect.size = sf::Vector2f(multPanelSize.x, multPanelSize.y);
 		multiplayerConnect.movesWithMouse = true;
-		multiplayerConnect.percievedDistance = 40.f;
+		multiplayerConnect.percievedDistance = 30.f;
 		pMultMenu = new leon::Panel(*pMain_menu->getPanelPtr(), multiplayerConnect);
 	}
 	/**JOIN**/
