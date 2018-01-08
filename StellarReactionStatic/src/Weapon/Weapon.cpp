@@ -8,9 +8,16 @@
 
 #include "Convert.hpp"
 #include "Team.hpp"
+#include "UpgradeType.hpp"
 
 
-
+void WeaponData::applyUpgrade(UpgradeType type)
+{
+	if(type == UpgradeType::Other)
+	{
+		Upgrade::increase(type, &damage);
+	}
+}
 void WeaponData::loadJson(const Json::Value& root)
 {
 	GETJSON(energyConsumption);

@@ -14,6 +14,7 @@
 enum class Team;
 struct WeaponData;
 class FixtureComponent;
+enum class UpgradeType;
 
 struct HitEffect
 {
@@ -146,6 +147,10 @@ struct WeaponData : public BlueprintableData
 	}
 	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
+	/// <summary>
+	/// Upgrades this blueprint;
+	/// </summary>
+	virtual void applyUpgrade(UpgradeType type);
 
 	MyType(WeaponData, WeaponData);
 };

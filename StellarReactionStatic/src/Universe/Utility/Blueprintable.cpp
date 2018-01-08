@@ -9,7 +9,7 @@ void BlueprintableData::loadJson(const Json::Value& root)
 }
 void BlueprintableData::applyUpgrade(UpgradeType type)
 {
-
+	WARNING;
 }
 Blueprintable::Blueprintable(const BlueprintableData& data)
 {

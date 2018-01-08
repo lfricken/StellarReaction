@@ -76,7 +76,9 @@ struct RangeListData
 };
 
 
-
+/// <summary>
+/// Stores, and can apply, modifiers to a chunk, such as energy and storage.
+/// </summary>
 class RangeModifierList
 {
 public:
@@ -109,13 +111,17 @@ public:
 	{
 		return modifiers[index];
 	}
-
+	/// <summary>
+	/// Increase values that increase over time.
+	/// </summary>
 	void applyRateModifiers(float deltaTime)
 	{
 		for(int i = 0; i < RangeList::LAST_VAL; ++i)
 			(*ranges)[i].changeValue(deltaTime * modifiers[i].ModifierPerSecond);
 	}
-
+	/// <summary>
+	/// Applies these changes to the ranges.
+	/// </summary>
 	void tryApply()
 	{
 		if(hasAppliedModifiers == false)
@@ -126,6 +132,9 @@ public:
 
 		hasAppliedModifiers = true;
 	}
+	/// <summary>
+	/// Removes these changes to the ranges.
+	/// </summary>
 	void tryRemove()
 	{
 		if(hasAppliedModifiers)
@@ -137,9 +146,9 @@ public:
 		hasAppliedModifiers = false;
 	}
 
-	bool hasAppliedModifiers;
-	List<RangeModifier> modifiers;
-	RangeList* ranges;
+	bool hasAppliedModifiers; // True if this instance has already applied modifiers.
+	List<RangeModifier> modifiers; // List of modifying values.
+	RangeList* ranges; // The ranges to apply these modifiers to.
 
 	virtual void loadJson(const Json::Value& root);
 };

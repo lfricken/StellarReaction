@@ -3,6 +3,7 @@
 #include "stdafx.hpp"
 
 struct BlueprintableData;
+enum class UpgradeType;
 
 class Blueprintable
 {

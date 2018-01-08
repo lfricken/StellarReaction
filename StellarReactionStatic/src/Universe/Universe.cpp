@@ -551,9 +551,16 @@ void Universe::input(String rCommand, sf::Packet rData)
 				game.getLocalPlayer().getCamera().shake(0.5, 60, 0.5);
 		}
 	}
+	else if(rCommand == "perceptionIncrease")
+	{
+		int teamT;
+		rData >> teamT;
+		Team team = (Team)teamT; // Which team got the perception.
+
+		// TODO need to decide what kind of upgrade to do, then apply to team blueprint.
+	}
 	else
 	{
-		///ERROR LOG
 		Print << m_io.getName() << ":[" << rCommand << "] not found." << FILELINE;
 	}
 }

@@ -66,10 +66,10 @@ private:
 		}
 	}
 	template <typename T>
-	sptr<const T> loadData(const String& title, const Json::Value& root)
+	sptr<T> loadData(const String& title, const Json::Value& root)
 	{
 		static_assert(std::is_base_of<BlueprintableData, T>::value, "T1 must derive from Base");
-		sptr<const T> spMod;
+		sptr<T> spMod;
 		String ClassName = "garbage";
 		GETJSON(ClassName);
 

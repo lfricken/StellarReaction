@@ -6,7 +6,7 @@
 #include "Sound.hpp"
 #include "Debugging.hpp"
 
-
+enum class UpgradeType;
 struct ShipModuleData;
 
 /// <summary>
@@ -101,6 +101,10 @@ struct ShipModuleData : public ModuleData
 	}
 	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
+	/// <summary>
+	/// Upgrades this blueprint;
+	/// </summary>
+	virtual void applyUpgrade(UpgradeType type);
 
 	MyType(ModuleData, ShipModuleData);
 

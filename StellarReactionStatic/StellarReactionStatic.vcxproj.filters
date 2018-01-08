@@ -111,6 +111,7 @@
     <ClCompile Include="src\Universe\ShipModule\Teleporter.cpp" />
     <ClCompile Include="src\Universe\Utility\Blueprintable.cpp" />
     <ClCompile Include="src\Universe\Chunk\ShipProfile.cpp" />
+    <ClCompile Include="src\Basic\UpgradeType.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Game\Directory.hpp" />

@@ -80,7 +80,9 @@ protected:
 private:
 };
 
+/// <summary>
 /// Blueprint for Module
+/// </summary>
 struct ModuleData : public BlueprintableData
 {
 	ModuleData() :
@@ -112,24 +114,33 @@ struct ModuleData : public BlueprintableData
 	{
 		ModuleParent* parent;
 	};
-	///Create Module object from this data object.
+	/// <summary>
+	/// Create Module object from this data object.
+	/// </summary>
 	virtual Module* generate(GenerateParams params) const
 	{
 		WARNING;
 		return NULL;
 	}
-	///Create new copy of this data object.
+	/// <summary>
+	/// Create new copy of this data object.
+	/// </summary>
 	virtual ModuleData* clone() const
 	{
 		return new ModuleData(*this);
 	}
-	///Fill this object with data from a json file.
+	/// <summary>
+	/// Fill this object with data from a json file.
+	/// </summary>
 	virtual void loadJson(const Json::Value& root);
 
 	MyType(ModuleData, ModuleData);
 
 protected:
 	template<class T, class TData>
+	/// <summary>
+	/// Generalized code for the generate function.
+	/// </summary>
 	T* generateSub(GenerateParams params, const TData* const me) const
 	{
 		TData copy(*me);//data copy
@@ -138,6 +149,9 @@ protected:
 		copy.fixComp.pBody = params.parent->getBodyComponent().getBodyPtr();
 		return new T(copy);
 	}
+	/// <summary>
+	/// Overwrites data in this object from another ModuleData object.
+	/// </summary>
 	virtual void inherit(const ModuleData& parent)
 	{
 		*this = parent;

@@ -340,6 +340,7 @@
     <ClInclude Include="include\Universe\Chunk\ShipProfile.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Basic\UpgradeType.cpp" />
     <ClCompile Include="src\Universe\Chunk\ShipProfile.cpp" />
     <ClCompile Include="src\Universe\Chunk\ModuleParent.cpp" />
     <ClCompile Include="src\Universe\Utility\Blueprintable.cpp" />

@@ -1,4 +1,5 @@
 #include "Capacitor.hpp"
+#include "UpgradeType.hpp"
 
 
 void CapacitorData::loadJson(const Json::Value& root)

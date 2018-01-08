@@ -5,9 +5,32 @@
 #include "Grid.hpp"
 #include "Weapon.hpp"
 #include "Chunk.hpp"
+#include "UpgradeType.hpp"
 
 
+void ShipModuleData::applyUpgrade(UpgradeType type)
+{
+	if(type == UpgradeType::Armor)
+		Upgrade::increase(type, &health.Armor);
+	else if(type == UpgradeType::Health)
+		Upgrade::increase(type, &health.Max);
+	else if(type == UpgradeType::Other)
+		for(auto it = rangeModifiers.modifiers.begin(); it != rangeModifiers.modifiers.end(); ++it)
+		{
+			auto& mod = *it;
 
+			if(mod.Max != 0)
+				Upgrade::increase(type, &mod.Max);
+			else if(mod.Value != 0)
+				Upgrade::increase(type, &mod.Value);
+			else if(mod.Min != 0)
+				Upgrade::increase(type, &mod.Min);
+			else if(mod.ModifierPerSecond != 0)
+				Upgrade::increase(type, &mod.ModifierPerSecond);
+		}
+	else
+		WARNING;
+}
 void ShipModuleData::loadJson(const Json::Value& root)
 {
 	LOADJSON(health);
