@@ -105,7 +105,6 @@ namespace leon
 
 	private:
 
-
 		bool m_menuShowing;//true if menu is showing
 		bool m_scoreboardShowing;//true if the scoreboard is showing
 

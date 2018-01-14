@@ -590,10 +590,6 @@ leon::Panel* Overlay::loadStore()
 		if(parsedSuccess)
 		{
 			storeData.loadJson(root);
-			while(storeData.addRandomButton(m_pStore))
-			{
-
-			}
 		}
 		else
 			WARNING;

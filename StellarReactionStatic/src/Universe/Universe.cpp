@@ -555,17 +555,27 @@ void Universe::input(String rCommand, sf::Packet rData)
 	}
 	else if(rCommand == "perceptionIncrease")
 	{
+		static bool allUnlocked;
+
 		int teamT;
 		rData >> teamT;
 		Team team = (Team)teamT; // Which team got the perception.
 
-		String blueprint = chooseBPtoUpgrade();
-		UpgradeType upgradeType = chooseUpgradeType();
+		
+		float unlockOdds = 0.30f;
+		float roll = Rand::get(0.f, 1.f);
+		if(!allUnlocked && (roll < unlockOdds))
+		{
+			allUnlocked = game.getOverlay().addStoreButton();
+		}
+		else
+		{
+			String blueprint = chooseBPtoUpgrade();
+			UpgradeType upgradeType = chooseUpgradeType();
 
-		// TODO need to decide what kind of upgrade to do, then apply to team blueprint.
+			m_spBPLoader->upgrade(blueprint, upgradeType, team);
+		}
 
-
-		m_spBPLoader->upgrade(blueprint, upgradeType, team);
 	}
 	else
 	{
