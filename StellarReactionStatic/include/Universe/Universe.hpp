@@ -26,6 +26,7 @@ class BodyComponent;
 class Scoreboard;
 class DecorationEngine;
 class ModuleParent;
+enum class UpgradeType;
 
 /// Contains everything in the "world". Relaunching a game totally recreates this object.
 class Universe : public Clock, NonCopyable
@@ -108,6 +109,8 @@ public:
 	/// Used to create impact particles.
 	void spawnParticles(const String& particleBP, const Vec2& pos, const Vec2& dir, const Vec2& transverse);
 
+	UpgradeType chooseUpgradeType();
+	String chooseBPtoUpgrade();
 
 	/// Return whether a position is clear of other objects.
 	bool isClear(Vec2 position, float radius, const ModuleParent* exception);

@@ -8,7 +8,6 @@ void Upgrade::increase(UpgradeType type, int* value)
 {
 	*value = (int)(*value * getAmount());
 }
-
 float Upgrade::getAmount()
 {
 	float increase = 0.25;

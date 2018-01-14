@@ -18,55 +18,103 @@
 #include "Tooltip.hpp"
 #include "JSON.hpp"
 
+using namespace leon;
 
 
-struct StoreLoader
+
+
+bool StoreLoader::addRandomButton(leon::Panel* pStore)
 {
-	sf::Vector2f buttonSize;
-	float previewWidth;
-	unsigned char baseTransparency;
-	sf::Vector2f moduleSpawnPos;
+	if(lockedButtons.size() == 0)
+		return false;
 
-	struct StoreButtonLoader
+	sf::Vector2i initialGridPos = (sf::Vector2i)moduleSpawnPos;
+
+	auto butPos = sf::Vector2i(0, lastPosition);
+	sf::Vector2i gridsize((int)buttonSize.y, (int)buttonSize.y);
+
+	int index = lockedButtons.back();
+	lockedButtons.pop_back();
+	auto& button = buttonList[index];
+
+	{//cost display
+		NumericDisplayData cost;
+		cost.gridPosition = sf::Vector2i(1, lastPosition);
+		cost.gridSize = gridsize;
+		cost.numDigits = 2;
+		cost.digitSize = sf::Vector2f(buttonSize.y / 2, buttonSize.y);
+		auto display = new NumericDisplay(*pStore->getPanelPtr(), cost);
+		display->setNumber(button.cost.m_resourceValues.find(0)->second);
+		pStore->add(sptr<leon::WidgetBase>(display));
+	}
+	{//icon
+		PictureData preview;
+		preview.texName = button.previewTexture;
+		preview.size.x = buttonSize.y;
+		preview.size.y = buttonSize.y;
+		preview.gridPosition = butPos;
+		preview.gridSize = gridsize;
+		pStore->add(sptr<leon::WidgetBase>(new Picture(*pStore->getPanelPtr(), preview)));
+	}
+	{//purchase button
+		sf::Packet moduleInfo;
+		moduleInfo << button.moduleBlueprint;
+		moduleInfo << initialGridPos.x << initialGridPos.y;
+		button.cost.intoPacket(&moduleInfo);
+
+
+		Courier purchaseMessage;
+		purchaseMessage.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
+		purchaseMessage.message.reset("ship_editor", "buyModule", moduleInfo, 0, false);
+
+		leon::ButtonData buyButton;
+		buyButton.configFile = "TGUI/widgets/PartialTransparent.conf";
+		buyButton.ioComp.name = "buy" + String(lastPosition);
+		buyButton.gridPosition = butPos;
+		buyButton.gridSize = gridsize;
+		buyButton.size = (sf::Vector2f)gridsize;
+		buyButton.buttonText = button.buttonName;
+		buyButton.startHidden = false;
+		buyButton.alpha = 100;
+		buyButton.tooltip.text = "DEF: 4\nHP:  100";
+		buyButton.tooltip.textColor = sf::Color::White;
+		buyButton.tooltip.textPixelHeight = 16;
+		buyButton.tooltip.align = TooltipTextData::Alignment::RightOfMouse;
+		buyButton.ioComp.courierList.push_back(purchaseMessage);
+
+		pStore->add(sptr<leon::WidgetBase>(new leon::Button(*pStore->getPanelPtr(), buyButton)));
+	}
+
+	++lastPosition;
+	return true;
+}
+void StoreLoader::loadJson(const Json::Value& root)
+{
+	GETJSON(buttonSize);
+	GETJSON(previewWidth);
+	GETJSON(baseTransparency);
+	GETJSON(moduleSpawnPos);
+
+	if(!root["buttonList"].isNull())
 	{
-		String previewTexture;
-		Resources cost;
-		String moduleBlueprint;
-		String buttonName;
-
-		void loadJson(const Json::Value& root)
+		const Json::Value storeButtons = root["buttonList"];
+		for(auto it = storeButtons.begin(); it != storeButtons.end(); ++it)
 		{
-			GETJSON(previewTexture);
-			GETJSON(cost);
-			GETJSON(moduleBlueprint);
-			GETJSON(buttonName);
-		}
-	};
-
-	List<StoreButtonLoader> buttonList;
-
-	void loadJson(const Json::Value& root)
-	{
-		GETJSON(buttonSize);
-		GETJSON(previewWidth);
-		GETJSON(baseTransparency);
-		GETJSON(moduleSpawnPos);
-
-		if(!root["buttonList"].isNull())
-		{
-			const Json::Value storeButtons = root["buttonList"];
-			for(auto it = storeButtons.begin(); it != storeButtons.end(); ++it)
-			{
-				StoreButtonLoader button;
-				button.loadJson(*it);
-				buttonList.push_back(button);
-			}
+			StoreButtonLoader button;
+			button.loadJson(*it);
+			buttonList.push_back(button);
 		}
 	}
-};
+
+	for(int i = 0; i < buttonList.size(); ++i)
+	{
+		lockedButtons.push_back(i);
+	}
+	std::random_shuffle(lockedButtons.begin(), lockedButtons.end()); // make the buttons unlock in a random order.
+}
 
 
-using namespace leon;
+
 
 Overlay::Overlay(const IOComponentData& rData) : m_gui(game.getWindow()), m_io(rData, &Overlay::input, this)
 {
@@ -488,11 +536,13 @@ leon::Panel* Overlay::loadMultiplayerLobby(leon::Panel* pMain_menu)
 
 	return pLobby;
 }
+bool Overlay::addStoreButton()
+{
+	return storeData.addRandomButton(m_pStore);
+}
 leon::Panel* Overlay::loadStore()
 {
-
-
-	leon::Panel* pStore = nullptr;
+	m_pStore = nullptr;
 	auto size = game.getWindow().getSize();
 	sf::Vector2f storePanelSize = sf::Vector2f(size);
 
@@ -504,7 +554,7 @@ leon::Panel* Overlay::loadStore()
 		storePanelData.backgroundColor = sf::Color(50, 50, 50, 128);
 		storePanelData.screenCoords = sf::Vector2f(game.getWindow().getSize().x / 2 - storePanelSize.x / 2, game.getWindow().getSize().y / 2 - storePanelSize.y / 2);
 		storePanelData.size = sf::Vector2f(storePanelSize.x, storePanelSize.y);
-		pStore = new leon::Panel(game.getOverlay().getGui(), storePanelData);
+		m_pStore = new leon::Panel(game.getOverlay().getGui(), storePanelData);
 	}
 	//close store button
 	{
@@ -529,7 +579,7 @@ leon::Panel* Overlay::loadStore()
 		reconstruct.message.reset("ship_editor", "buildShipWithConfiguration", voidPacket, 0, false);
 		close.ioComp.courierList.push_back(reconstruct);
 
-		pStore->add(sptr<leon::WidgetBase>(new leon::Button(*pStore->getPanelPtr(), close)));
+		m_pStore->add(sptr<leon::WidgetBase>(new leon::Button(*m_pStore->getPanelPtr(), close)));
 	}
 	//purchase buttons
 	{
@@ -539,66 +589,10 @@ leon::Panel* Overlay::loadStore()
 		bool parsedSuccess = reader.parse(store, root, false);
 		if(parsedSuccess)
 		{
-			StoreLoader storeData;
 			storeData.loadJson(root);
-			auto& buttons = storeData.buttonList;
-
-			for(auto it = buttons.begin(); it < buttons.end(); ++it)
+			while(storeData.addRandomButton(m_pStore))
 			{
-				int pos = it - buttons.begin();
-				sf::Vector2i initialGridPos = (sf::Vector2i)storeData.moduleSpawnPos;
-				StoreLoader::StoreButtonLoader& button = *it;
 
-				auto butPos = sf::Vector2i(0, pos);
-				sf::Vector2i gridsize((int)storeData.buttonSize.y, (int)storeData.buttonSize.y);
-
-				{//cost display
-					NumericDisplayData cost;
-					cost.gridPosition = sf::Vector2i(1, pos);
-					cost.gridSize = gridsize;
-					cost.numDigits = 2;
-					cost.digitSize = sf::Vector2f(storeData.buttonSize.y / 2, storeData.buttonSize.y);
-					auto display = new NumericDisplay(*pStore->getPanelPtr(), cost);
-					display->setNumber(button.cost.m_resourceValues[0]);
-					pStore->add(sptr<leon::WidgetBase>(display));
-				}
-				{//icon
-					PictureData preview;
-					preview.texName = button.previewTexture;
-					preview.size.x = storeData.buttonSize.y;
-					preview.size.y = storeData.buttonSize.y;
-					preview.gridPosition = butPos;
-					preview.gridSize = gridsize;
-					pStore->add(sptr<leon::WidgetBase>(new Picture(*pStore->getPanelPtr(), preview)));
-				}
-				{//purchase button
-					sf::Packet moduleInfo;
-					moduleInfo << button.moduleBlueprint;
-					moduleInfo << initialGridPos.x << initialGridPos.y;
-					button.cost.intoPacket(&moduleInfo);
-
-
-					Courier purchaseMessage;
-					purchaseMessage.condition.reset(EventType::LeftMouseClicked, 0, 'd', true);
-					purchaseMessage.message.reset("ship_editor", "buyModule", moduleInfo, 0, false);
-
-					leon::ButtonData buyButton;
-					buyButton.configFile = "TGUI/widgets/PartialTransparent.conf";
-					buyButton.ioComp.name = "buy" + String(pos);
-					buyButton.gridPosition = butPos;
-					buyButton.gridSize = gridsize;
-					buyButton.size = (sf::Vector2f)gridsize;
-					buyButton.buttonText = button.buttonName;
-					buyButton.startHidden = false;
-					buyButton.alpha = 100;
-					buyButton.tooltip.text = "DEF: 4\nHP:  100";
-					buyButton.tooltip.textColor = sf::Color::White;
-					buyButton.tooltip.textPixelHeight = 16;
-					buyButton.tooltip.align = TooltipTextData::Alignment::RightOfMouse;
-					buyButton.ioComp.courierList.push_back(purchaseMessage);
-
-					pStore->add(sptr<leon::WidgetBase>(new leon::Button(*pStore->getPanelPtr(), buyButton)));
-				}
 			}
 		}
 		else
@@ -613,12 +607,12 @@ leon::Panel* Overlay::loadStore()
 		float height = 7.f * editGridSize.y;
 		//ship editor background
 		{
-			PictureData editorBackground;   
+			PictureData editorBackground;
 			editorBackground.texName = "overlay/shipEditor";
 			editorBackground.screenCoords = editGridPos;
 			editorBackground.gridSize = editGridSize;
 			editorBackground.size = sf::Vector2f(width, height);
-			pStore->add(sptr<leon::WidgetBase>(new leon::Picture(*pStore->getPanelPtr(), editorBackground)));
+			m_pStore->add(sptr<leon::WidgetBase>(new leon::Picture(*m_pStore->getPanelPtr(), editorBackground)));
 		}
 		//ship editor
 		{
@@ -629,7 +623,7 @@ leon::Panel* Overlay::loadStore()
 			surfaceData.size = sf::Vector2f(width, height);
 			surfaceData.backgroundColor = sf::Color(32, 32, 32, 128);
 
-			pStore->add(sptr<leon::WidgetBase>(new leon::DraggableSurface(*pStore->getPanelPtr(), surfaceData)));
+			m_pStore->add(sptr<leon::WidgetBase>(new leon::DraggableSurface(*m_pStore->getPanelPtr(), surfaceData)));
 		}
 	}
 
@@ -638,10 +632,10 @@ leon::Panel* Overlay::loadStore()
 		tipData.ioComp.name = "tooltip";
 		tipData.screenCoords = sf::Vector2f(512, 512);
 
-		pStore->add(sptr<leon::WidgetBase>(new leon::Tooltip(*pStore->getPanelPtr(), tipData)));
+		m_pStore->add(sptr<leon::WidgetBase>(new leon::Tooltip(*m_pStore->getPanelPtr(), tipData)));
 	}
 
-	return pStore;
+	return m_pStore;
 }
 leon::Panel* Overlay::loadHud()
 {

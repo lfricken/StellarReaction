@@ -26,19 +26,23 @@ void BlueprintLoader::loadBlueprints(const String& rDir)
 	List<Pair<String, String> > projectiles = game.getDir().getAllFiles(rDir + "projectiles", ".bp");
 	List<Pair<String, String> > particles = game.getDir().getAllFiles(rDir + "particles", ".bp");
 
+	const int numTeams = 2;
+	const int startTeam = 1;
 
 	for(auto it = weapons.begin(); it != weapons.end(); ++it)
 		storeData<WeaponData>(it->first, it->second, m_wepBP);
+	for(int team = startTeam; team <= numTeams; ++team) // add teams
+		for(auto it = weapons.begin(); it != weapons.end(); ++it)
+			storeData<WeaponData>(it->first + String(team), it->second, m_wepBP);
 
 	for(auto it = modules.begin(); it != modules.end(); ++it)
-	{
 		storeData<ModuleData>(it->first, it->second, m_modBP);
-	}
+	for(int team = startTeam; team <= numTeams; ++team) // add teams
+		for(auto it = modules.begin(); it != modules.end(); ++it)
+			storeData<ModuleData>(it->first + String(team), it->second, m_modBP);
 
 	for(auto it = chunks.begin(); it != chunks.end(); ++it)
-	{
 		storeData<ChunkData>(it->first, it->second, m_cnkBP);
-	}
 
 	for(auto it = projectiles.begin(); it != projectiles.end(); ++it)
 		storeData<ProjectileData>(it->first, it->second, m_prjBP);
@@ -74,13 +78,15 @@ sptr<const DynamicDecorData> BlueprintLoader::getDynamicDecorSPtr(const String& 
 {
 	return getData<DynamicDecorData>(rBPName, m_ddcBP);
 }
-bool BlueprintLoader::upgrade(String bpName, UpgradeType type)
+bool BlueprintLoader::upgrade(String bpName, UpgradeType type, Team team)
 {
 	bool found = false;
 
+	String bluePrint = bpName + String((int)team);
+
 	for each(auto pair in m_wepBP)
 	{
-		if(pair.first == bpName)
+		if(pair.first == bluePrint)
 		{
 			found = true;
 			pair.second->applyUpgrade(type);
@@ -90,7 +96,7 @@ bool BlueprintLoader::upgrade(String bpName, UpgradeType type)
 	{
 		for each(auto pair in m_modBP)
 		{
-			if(pair.first == bpName)
+			if(pair.first == bluePrint)
 			{
 				found = true;
 				pair.second->applyUpgrade(type);

@@ -22,6 +22,8 @@
 #include "Convert.hpp"
 #include "DecorationEngine.hpp"
 #include "CaptureArea.hpp"
+#include "UpgradeType.hpp"
+#include "Overlay.hpp"
 
 
 
@@ -557,12 +559,36 @@ void Universe::input(String rCommand, sf::Packet rData)
 		rData >> teamT;
 		Team team = (Team)teamT; // Which team got the perception.
 
+		String blueprint = chooseBPtoUpgrade();
+		UpgradeType upgradeType = chooseUpgradeType();
+
 		// TODO need to decide what kind of upgrade to do, then apply to team blueprint.
+
+
+		m_spBPLoader->upgrade(blueprint, upgradeType, team);
 	}
 	else
 	{
 		Print << m_io.getName() << ":[" << rCommand << "] not found." << FILELINE;
 	}
+}
+UpgradeType Universe::chooseUpgradeType()
+{
+	int max = (int)UpgradeType::Other;
+	UpgradeType gen = (UpgradeType)Rand::get(0, max); // TODO, this api needs to update to be exclusive, and then the code needs to be fixed.
+
+	return gen;
+}
+String Universe::chooseBPtoUpgrade()
+{
+	auto& data = game.getOverlay().storeData;
+	List<String> blueprints; // possible blueprints to choose from
+
+	for each(auto button in data.buttonList)
+	{
+		blueprints.push_back(button.moduleBlueprint);
+	}
+	return blueprints[Rand::get(0, blueprints.size() - 1)];
 }
 bool Universe::isClear(Vec2 position, float radius, const ModuleParent* exception)
 {

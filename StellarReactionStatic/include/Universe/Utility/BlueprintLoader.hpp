@@ -42,7 +42,7 @@ public:
 	/// <summary>
 	/// Upgrades the stats on a module or weapon blueprint. Weapons are searched first.
 	/// </summary>
-	bool upgrade(String bpName, UpgradeType type);
+	bool upgrade(String bpName, UpgradeType type, Team team);
 protected:
 private:
 

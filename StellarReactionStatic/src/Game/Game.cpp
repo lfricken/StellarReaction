@@ -33,6 +33,7 @@ Game::Game()
 
 	loadWindow(contentDir() + "settings/" + "window.ini");
 
+	std::srand(std::time(nullptr));
 	m_sampleClock = 0;
 	m_sampleFreq = 40;
 	m_lastTime = 0;
