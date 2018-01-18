@@ -31,11 +31,14 @@ public:
 	/// </summary>
 	BodyComponent& getBodyComponent();
 
-
 	/// <summary>
 	/// Add a module to this.
 	/// </summary>
-	void add(const ModuleData& rData);
+	void add(ModuleData& data);
+	/// <summary>
+	/// Add a module to this.
+	/// </summary>
+	void add(const String bpName, const Vec2& pos);
 	/// <summary>
 	/// Enables or disables stealth on this. Uses stealth pool for effectiveness.
 	/// </summary>
@@ -84,7 +87,6 @@ public:
 	Chunk* thisAsChunk();
 protected:
 	RangeList m_ranges;//List of range values.
-
 	BodyComponent m_body;//Our BodyComponent.
 
 	/// <summary>
@@ -114,7 +116,7 @@ struct ModuleParentData : public BlueprintableData
 	ShipProfile profile;
 	RangeListData rangeData;
 	BodyComponentData bodyComp;
-	List<sptr<const ModuleData> > moduleData;
+	List<Pair<String, Vec2> > moduleData;
 
 	virtual ModuleParentData* clone() const
 	{

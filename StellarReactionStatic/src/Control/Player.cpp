@@ -345,14 +345,6 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 		if(m_inGuiMode)
 		{
 			game.getOverlay().handleEvent(event);
-			if(cont != nullptr && m_resources.expired())
-			{
-				auto chunk = cont->getChunk();
-				if(chunk != nullptr)
-				{
-					m_resources = chunk->m_resources;
-				}
-			}
 		}
 		else
 		{
@@ -417,12 +409,12 @@ void Player::updateView()
 	if(m_resourceUpdateTimer.isTimeUp())
 	{
 		m_resourceUpdateTimer.restartCountDown();
-		if(auto myResources = m_resources.lock())//if we have resources
+		auto resources = getResources();
+		if(resources != nullptr) // if we have resources
 		{
-			Resources current = *myResources;
-			current.subtract(m_resourcesSpent);
+			auto& myResources = *resources;
 			int resourceCounter = 0;
-			for(auto it = current.m_resourceValues.begin(); it != current.m_resourceValues.end(); ++it)
+			for(auto it = myResources.m_resourceValues.begin(); it != myResources.m_resourceValues.end(); ++it)
 			{
 				int32_t resourceValue = it->second;
 				sf::Packet data;
@@ -432,6 +424,8 @@ void Player::updateView()
 				++resourceCounter;
 			}
 		}
+		else
+			WARNING;
 	}
 
 	//update HUD, camera
@@ -480,16 +474,6 @@ void Player::updateView()
 			if(abs(location.x) > bounds.x || abs(location.y) > bounds.y)//if out of bounds
 				m_boundsDanger->getAnimator().setAnimation("Default", 2.f);
 
-
-			//Score and Money
-			if(cont != nullptr && m_resources.expired())
-			{
-				auto chunk = cont->getChunk();
-				if(chunk != nullptr)
-				{
-					m_resources = chunk->m_resources;
-				}
-			}
 
 			//m_targetReticules
 			int i = 0;
@@ -683,8 +667,6 @@ void Player::onBeforeUniverseDestroyed()
 	// to add 4 more to it, the old null
 	// pointers are left behind and cause a crash.
 	m_groupIcon.clear();
-	m_resourcesSpent = Resources();
-	m_resources.reset();
 }
 void Player::onUniverseCreated()
 {
@@ -732,23 +714,22 @@ void Player::input(String rCommand, sf::Packet rData)
 	}
 	else if(rCommand == "cameraShake")
 	{
-
 		m_camera.shake(0.5f, 60.f, 0.4f);
 	}
 }
-bool Player::canSpend(const Resources& cost) const
+Resources* Player::getResources() const
 {
-	Resources spent = m_resourcesSpent;
-	spent.add(cost);
-	if(auto availablePtr = m_resources.lock())
-	{
-		Resources available = *availablePtr;
-		available.subtract(spent);
-		return !available.hasNegatives();
-	}
-	return false;
+	return &(game.getUniverse().m_teamResources[getTeam()]);
 }
-void Player::spend(const Resources& cost)
+bool Player::canSpendResources(const Resources& cost) const
 {
-	m_resourcesSpent.add(cost);
+	auto resources = getResources();
+
+	Resources available = *resources; // make copy
+	available.subtract(cost);
+	return !available.hasNegatives();
+}
+void Player::changeResources(const Resources& cost)
+{
+	//TODO actually need to send NetworkBoss the spendResources message.
 }

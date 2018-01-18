@@ -143,26 +143,19 @@ public:
 	/// <summary>
 	/// Returns true if you can spend it.
 	/// </summary>
-	bool canSpend(const Resources& cost) const;
+	bool canSpendResources(const Resources& cost) const;
 	/// <summary>
-	/// 
+	/// Spends the amount of money from team resources.
 	/// </summary>
-	void spend(const Resources& cost);
-	/// <summary>
-	/// 
-	/// </summary>
-	/// <returns></returns>
-	Resources getCurrent() const;
+	void changeResources(const Resources& delta);
 
+	Resources* Player::getResources() const;
 protected:
 	void input(String rCommand, sf::Packet rData);
 
 private:
 	Timer m_resourceUpdateTimer;
-
-	Resources m_resourcesSpent;
-	wptr<Resources> m_resources;
-
+	
 	void selectTarget(const Vec2& targetNearPos, const Chunk* playersShip);
 	void createReticles();
 	bool hasTarget(const Chunk* target);

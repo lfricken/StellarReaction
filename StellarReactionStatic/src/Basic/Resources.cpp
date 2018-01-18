@@ -3,9 +3,10 @@
 
 Resources::Resources()
 {
-	m_resourceValues[0] = 0;
-	m_resourceValues[1] = 0;
+	m_resourceValues[0] = 0; // Matter
+	m_resourceValues[1] = 0; // 
 	m_resourceValues[2] = 0;
+	m_resourceValues[3] = 0;
 }
 Resources::~Resources()
 {

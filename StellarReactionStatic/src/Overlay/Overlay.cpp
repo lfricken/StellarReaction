@@ -158,6 +158,10 @@ void Overlay::loadMenus()
 	game.getOverlay().addPanel(sptr<leon::Panel>(loadHud()));
 	game.getOverlay().addPanel(sptr<leon::Panel>(loadSellMenu()));
 
+	//unlock some initially for debugging
+	addStoreButton();
+	addStoreButton();
+	addStoreButton();
 
 
 	/**MESSAGE**/
@@ -594,7 +598,6 @@ leon::Panel* Overlay::loadStore()
 		else
 			WARNING;
 	}
-
 	//ship editor
 	{
 		sf::Vector2i editGridSize(64, 64);

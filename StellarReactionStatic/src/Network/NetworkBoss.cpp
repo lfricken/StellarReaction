@@ -568,6 +568,16 @@ void NetworkBoss::playerOption(sf::Packet rData, BasePlayerTraits* pFrom)
 		pFrom->setShipChoice(shipName);
 		messageLobby(pFrom->getName() + " changed ship to [" + shipName + "].");
 	}
+	else if(command == "changeResources") // lets a client spend money
+	{
+		Resources cost;
+		int team;
+
+		rData >> team;
+		cost.fromPacket(&rData);
+
+		game.getUniverse().changeTeamResources((Team)team, cost);
+	}
 	else if(command == "setTeam")
 	{
 		String steam;

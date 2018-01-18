@@ -31,6 +31,14 @@ public:
 
 	Map<ResourceType, ResourceValue> m_resourceValues;
 
+	enum ResourceDefinitions
+	{
+		Matter,
+		Energy,
+		Perception,
+		NumBrains,
+	};
+
 private:
 	/// <summary>
 	/// Guarantee that a type of resource is initialized.

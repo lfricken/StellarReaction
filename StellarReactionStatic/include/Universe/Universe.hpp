@@ -13,6 +13,7 @@
 #include "NonCopyable.hpp"
 #include "Team.hpp"
 #include "Clock.hpp"
+#include "Resources.hpp"
 
 class BatchLayers;
 class GraphicsComponentUpdater;
@@ -78,7 +79,7 @@ public:
 	void updateShipAI();
 
 	/// Change the Money a team gets each tick.
-	void changeTeamMoney(Team team, Money money);
+	void changeTeamResources(Team team, Resources money);
 
 	/// Is debug draw on or not?
 	bool debugDraw() const;
@@ -124,13 +125,14 @@ public:
 
 	int getChunkPosition(String& name);
 	sptr<Chunk> getChunk(int pos);
+
+	/**Money**/
+	std::map<Team, Resources> m_teamResources;
+	std::map<Team, Resources> m_income;//how many resources does each team get per time
 protected:
 	bool listContains(std::list<Team> teams, Team value);
-
 	wptr<Chunk> gameObject(int index);
-
 	void loadBlueprints(const String& bluePrints);//loads blueprints
-
 	void input(String rCommand, sf::Packet rData);
 
 private:
@@ -184,9 +186,7 @@ private:
 
 	std::map<Team, List<Vec2> > m_spawnPoints;//places for people to spawn, int is team
 
-	/**Money**/
-	std::map<Team, Money> m_moneyTotals;
-	std::map<Team, Money> m_income;//how much money does each team get for capture points
+
 	bool m_restartedMoneyTimer;
 	sptr<Timer> m_spMoneyTimer;//how long to wait for each money gift
 

@@ -7,7 +7,6 @@
 #include "QuadComponent.hpp"
 #include "NonCopyable.hpp"
 #include "Team.hpp"
-#include "Resources.hpp"
 #include "ModuleParent.hpp"
 #include "Universe.hpp"
 #include "Teleporter.hpp"
@@ -69,7 +68,6 @@ public:
 	bool m_canDie; // true if this chunk can be destroyed
 	int m_controller;
 	int m_shipAI;
-	sptr<Resources> m_resources;
 	int universePosition;
 protected:
 	/// <summary>

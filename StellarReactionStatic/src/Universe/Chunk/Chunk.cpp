@@ -74,9 +74,6 @@ void ChunkData::loadJson(const Json::Value& root)
 }
 Chunk::Chunk(const ChunkData& data) : ModuleParent(data), m_io(data.ioComp, &Chunk::input, this), m_universe(*data.universeParent), m_teleporter(data.teleporterComp, this)
 {
-
-	m_resources.reset(new Resources);
-	m_resources->m_resourceValues.begin()->second = 139;
 	m_inDeathProcess = false;
 	m_canDie = true;
 	m_shieldToggleTimer.setCountDown(0.5f);
@@ -369,6 +366,7 @@ void Chunk::input(String rCommand, sf::Packet rData)
 		loot.fromPacket(&rData);
 		rData >> lootChunkUniversePos;
 
+		//TODO add money to team
 		m_resources->add(loot);
 		if(lootChunkUniversePos != -1)
 			removeFromUniverse(lootChunkUniversePos, false, 0.f);
@@ -386,11 +384,12 @@ void Chunk::input(String rCommand, sf::Packet rData)
 		rData >> pos.x;
 		rData >> pos.y;
 
+		Vec2 offset = (Vec2)pos;
+
 		auto pNewModuleData = sptr<ModuleData>(m_universe.getBlueprints().getModuleSPtr(bpName)->clone());
 		if(pNewModuleData != nullptr)
 		{
-			pNewModuleData->fixComp.offset = Vec2((float)pos.x, (float)pos.y);
-			this->add(*pNewModuleData);
+			this->add(bpName, offset);
 		}
 		else
 		{

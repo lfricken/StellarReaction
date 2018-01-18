@@ -15,26 +15,27 @@ void ModuleParentData::loadJson(const Json::Value& root)
 	LOADJSON(rangeData);
 	LOADJSON(bodyComp);
 
-	if(!root["moduleData"].isNull())
+	if(!root[NAMEOF(moduleData)].isNull())
 	{
 		sptr<ModuleData> spMod;
-		for(auto it = root["moduleData"].begin(); it != root["moduleData"].end(); ++it)
+		for(auto it = root[NAMEOF(moduleData)].begin(); it != root[NAMEOF(moduleData)].end(); ++it)
 		{
+			Pair<String, Vec2> data;
 			if(!(*it)["title"].isNull())
 			{
-				String bpName = (*it)["title"].asString();
-				auto clone = game.getUniverse().getBlueprints().getModuleSPtr(bpName)->clone();
-				spMod.reset(clone);
+				data.first = (*it)["title"].asString();
 
-				spMod->fixComp.offset.x = (*it)["Position"][0].asFloat();
-				spMod->fixComp.offset.y = (*it)["Position"][1].asFloat();
+				Vec2 position;
+				position.x = (*it)["Position"][0].asFloat();
+				position.y = (*it)["Position"][1].asFloat();
+				data.second = position;
 			}
 			else
 			{
 				WARNING;
 			}
 
-			moduleData.push_back(spMod);
+			moduleData.push_back(data);
 		}
 	}
 }
@@ -49,7 +50,7 @@ ModuleParent::ModuleParent(const ModuleParentData& data) : Blueprintable(data), 
 	//Add Modules.
 	for(auto it = data.moduleData.cbegin(); it != data.moduleData.cend(); ++it)
 	{
-		add(**it);
+		add(it->first, it->second);
 	}
 }
 ModuleParent::~ModuleParent()
@@ -74,9 +75,22 @@ bool ModuleParent::allows(const ModuleData& data)
 
 	return false;
 }
-void ModuleParent::add(const ModuleData& data)
+void ModuleParent::add(const String bpName, const Vec2& pos)
+{
+	auto dataPtr = sptr<ModuleData>(game.getUniverse().getBlueprints().getModuleSPtr(bpName)->clone());
+	auto& data = *dataPtr;
+
+	data.fixComp.offset = pos;
+	add(data);
+}
+void ModuleParent::add(ModuleData& data)
 {
 	m_recalcRadius = true;
+
+	if(!isdigit(data.title.back()))
+	{
+		data.title += String((int)m_body.getTeam());
+	}
 
 	if(data.fixComp.offset.x == 3) // defines the storage TODO: (storage should be defined better)
 	{
@@ -128,7 +142,8 @@ List<std::pair<String, sf::Vector2i> > ModuleParent::getModuleBPs() const
 		if(dynamic_cast<ShipModule*>(it->get()) != nullptr)//make sure it's not a strange item, like a ShieldComponent
 		{
 			Vec2 pos = (*it)->getOffset();
-			list.push_back(std::pair<String, sf::Vector2i>((*it)->getTitle(), sf::Vector2i((int)pos.x, (int)pos.y)));
+			String title = (*it)->getTitle();
+			list.push_back(std::pair<String, sf::Vector2i>(title, sf::Vector2i((int)pos.x, (int)pos.y)));
 		}
 	}
 	return list;

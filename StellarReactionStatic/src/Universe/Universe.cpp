@@ -179,11 +179,7 @@ Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input,
 	m_spMoneyTimer.reset(new Timer(this->getTime()));
 	m_spMoneyTimer->setCountDown(moneyTickTime);
 	m_restartedMoneyTimer = false;
-
-	for(int i = minTeam; i <= maxTeam; ++i)
-		m_income[(Team)i] = defaultTickMoney;
-
-
+	
 	/**PHYControlCS**/
 	m_paused = false;
 	m_skippedTime = game.getTime();
@@ -311,9 +307,9 @@ void Universe::prePhysUpdate()
 		m_spProjMan->prePhysUpdate();
 	}
 }
-void Universe::changeTeamMoney(Team team, Money money)
+void Universe::changeTeamResources(Team team, Resources money)
 {
-	this->m_income[team] += money;
+	this->m_income[team].add(money);
 }
 void Universe::physUpdate()
 {
@@ -391,9 +387,13 @@ void Universe::teamMoneyUpdate()
 		if(m_spMoneyTimer->isTimeUp())
 		{
 			for(auto it = m_income.cbegin(); it != m_income.cend(); ++it)
-				m_moneyTotals[it->first] += it->second;
+				m_teamResources[it->first].add(it->second);
 
 			List<sptr<Connection> > cons = game.getNwBoss().getConnections();
+
+
+			//TODO Send money to clients somehow?
+
 			/*for(auto it = cons.begin(); it != cons.end(); ++it)
 				(**it).changeMoney(m_income[(**it).getTeam()]);*/
 
@@ -539,6 +539,11 @@ void Universe::input(String rCommand, sf::Packet rData)
 	}
 	else if(rCommand == "killChunkCommand")
 	{
+		sf::Packet t;
+		t << 1;
+		Message m("universe", "perceptionIncrease", t, 0.f, false);
+		Message::SendUniverse(m);
+
 		int position;
 		bool shake;
 
@@ -562,7 +567,7 @@ void Universe::input(String rCommand, sf::Packet rData)
 		Team team = (Team)teamT; // Which team got the perception.
 
 		
-		float unlockOdds = 0.30f;
+		float unlockOdds = 0.990f;
 		float roll = Rand::get(0.f, 1.f);
 		if(!allUnlocked && (roll < unlockOdds))
 		{
