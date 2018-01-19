@@ -717,19 +717,27 @@ void Player::input(String rCommand, sf::Packet rData)
 		m_camera.shake(0.5f, 60.f, 0.4f);
 	}
 }
-Resources* Player::getResources() const
+const Resources* Player::getResources() const
 {
-	return &(game.getUniverse().m_teamResources[getTeam()]);
+	return &(game.getUniverse().getTeamResources(getTeam()));
 }
-bool Player::canSpendResources(const Resources& cost) const
+bool Player::canChangeResources(const Resources& cost) const
 {
 	auto resources = getResources();
 
 	Resources available = *resources; // make copy
-	available.subtract(cost);
+	available.add(cost);
 	return !available.hasNegatives();
 }
-void Player::changeResources(const Resources& cost)
+void Player::changeResourcesFromClient(const Resources& cost)
 {
-	//TODO actually need to send NetworkBoss the spendResources message.
+	sf::Packet data;
+	int team = (int)getTeam();
+
+	data << team;
+	cost.intoPacket(&data);
+
+	Message nwMessage("universe", "changeTeamResourcesFromClient", data, 0.f, false);
+	nwMessage.sendOverNW(true);
+	Message::SendUniverse(nwMessage);
 }

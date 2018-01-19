@@ -89,7 +89,7 @@ void IOManager::free(int position)//don't adjust the list, just mark the node as
 {
 	if((signed)m_componentPtrs.size() > position)
 	{
-		m_componentPtrs[position] = NULL;
+		m_componentPtrs[position] = nullptr;
 		m_freeIndexes.push_back(position);
 		for(auto it = m_nameLookup.begin(); it != m_nameLookup.end(); ++it)
 		{
@@ -115,7 +115,7 @@ void IOManager::f_send(const Message& rMessage)
 		auto it = m_nameLookup.find(rMessage.getTargetName());
 		if(it != m_nameLookup.end())
 		{
-			if(m_componentPtrs[it->second] != NULL)
+			if(m_componentPtrs[it->second] != nullptr)
 			{
 				m_componentPtrs[it->second]->recieve(rMessage.getCommand(), rMessage.getData());
 			}
@@ -131,7 +131,7 @@ void IOManager::f_send(const Message& rMessage)
 	}
 	else if(pos >= 0 && pos < (signed)m_componentPtrs.size())
 	{
-		if(m_componentPtrs[pos] != NULL)
+		if(m_componentPtrs[pos] != nullptr)
 			m_componentPtrs[pos]->recieve(rMessage.getCommand(), rMessage.getData());
 	}
 	else

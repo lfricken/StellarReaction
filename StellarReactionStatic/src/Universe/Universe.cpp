@@ -29,6 +29,13 @@
 
 void Universe::loadLevel(const GameLaunchData& data)//loads a level using blueprints
 {
+
+	for(int i = (int)Team::MinTeam + 1; i < (int)Team::MaxTeam; ++i) // initialize team resources
+	{
+		m_teamResources[(Team)i] = Resources();
+		m_teamResources[(Team)i].m_resourceValues[Resources::Matter] = 30;
+	}
+
 	ShipBuilder::Client::resetSlaveName();
 	m_spControlFactory.reset(new ControlFactory);//remove all controllers.
 
@@ -162,6 +169,8 @@ Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input,
 	m_positionIterations = 1;
 	m_timeStep = 1.0f / 120.0f;///LOAD FROM FILE
 
+	m_nw.reset(new NetworkComponent(NetworkComponentData(), &Universe::pack, &Universe::unpack, this, game.getNwBoss().getNWFactoryTcp()));
+
 	m_spBPLoader = sptr<BlueprintLoader>(new BlueprintLoader);
 	m_spBatchLayers = sptr<BatchLayers>(new BatchLayers);
 	m_spGfxUpdater = sptr<GraphicsComponentUpdater>(new GraphicsComponentUpdater);
@@ -197,6 +206,7 @@ Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input,
 	m_debugDrawEnabled = false;
 
 	m_realTime = game.getTime();
+
 }
 Universe::~Universe()
 {
@@ -481,6 +491,19 @@ int Universe::add(Chunk* pGO)
 {
 	return m_goList.insert(sptr<Chunk>(pGO));
 }
+const Resources& Universe::getTeamResources(Team team) const
+{
+	const auto it = m_teamResources.find(team);
+	return it->second;
+}
+void Universe::pack(sf::Packet& data)
+{
+	//TODO< sync resources, but client was somehow recieving money change
+}
+void Universe::unpack(sf::Packet& data)
+{
+
+}
 void Universe::input(String rCommand, sf::Packet rData)
 {
 	sf::Packet data(rData);
@@ -580,7 +603,20 @@ void Universe::input(String rCommand, sf::Packet rData)
 
 			m_spBPLoader->upgrade(blueprint, upgradeType, team);
 		}
+	}
+	else if(rCommand == "changeTeamResources")
+	{
+		int team;
+		Resources delta;
+		rData >> team;
+		delta.fromPacket(&rData);
 
+		m_teamResources[(Team)team].add(delta);
+	}
+	else if(rCommand == "changeTeamResourcesFromClient") // resend the message so every client gets the news!
+	{
+		Message message("universe", "changeTeamResources", rData, 0.f, false);
+		Message::SendUniverse(message);
 	}
 	else
 	{

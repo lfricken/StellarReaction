@@ -126,9 +126,8 @@ public:
 	int getChunkPosition(String& name);
 	sptr<Chunk> getChunk(int pos);
 
-	/**Money**/
-	std::map<Team, Resources> m_teamResources;
-	std::map<Team, Resources> m_income;//how many resources does each team get per time
+	const Resources& getTeamResources(Team team) const;
+
 protected:
 	bool listContains(std::list<Team> teams, Team value);
 	wptr<Chunk> gameObject(int index);
@@ -136,7 +135,12 @@ protected:
 	void input(String rCommand, sf::Packet rData);
 
 private:
+	void pack(sf::Packet& data);
+	void unpack(sf::Packet& data);
 
+	/**Money**/
+	std::map<Team, Resources> m_teamResources;
+	std::map<Team, Resources> m_income;//how many resources does each team get per time
 	/**Atomic Actions**/
 
 	/// <summary>
@@ -148,7 +152,7 @@ private:
 
 	/**Atomic Actions**/
 
-
+	sptr<NetworkComponent> m_nw;
 
 
 	/**SLEEP**/

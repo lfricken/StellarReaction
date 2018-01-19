@@ -152,14 +152,9 @@ bool DraggableSurface::inputHook(const String rCommand, sf::Packet data)
 				{//give money
 					String bpName = pDrag->getMetaData();
 					auto bp = game.getUniverse().getBlueprints().getModuleSPtr(bpName);
-					Resources res = bp->cost.percentOf(0.5);
-					auto ship = game.getLocalPlayer().getChunk();
+					Resources resources = bp->cost.percentOf(0.5f);
 
-					sf::Packet loot;
-					res.intoPacket(&loot);
-					loot << -1;
-					Message giveLoot(ship->m_io.getPosition(), "pickupLoot", loot, 0, false);
-					Message::SendUniverse(giveLoot);
+					game.getLocalPlayer().changeResourcesFromClient(resources);
 				}
 				m_widgetList.erase(it);
 				break;
@@ -168,19 +163,6 @@ bool DraggableSurface::inputHook(const String rCommand, sf::Packet data)
 
 		return true;
 	}
-	//else if(rCommand == "addModuleToGui")
-	//{
-	//	String title;
-	//	sf::Vector2i shipModulePos;
-
-	//	data >> title;
-	//	data >> shipModulePos.x;
-	//	data >> shipModulePos.y;
-	//	
-	//	addModuleToEditor(title, shipModulePos);
-
-	//	return true;
-	//}
 	else if(rCommand == "buyModule")
 	{
 		Player& player = game.getLocalPlayer();
@@ -197,9 +179,11 @@ bool DraggableSurface::inputHook(const String rCommand, sf::Packet data)
 		const ModuleData* module = game.getUniverse().getBlueprints().getModuleSPtr(title).get();
 		if(module != nullptr)
 		{
-			if(player.canSpend(cost))
+			Resources delta;
+			delta.subtract(cost);
+			if(player.canChangeResources(delta))
 			{
-				player.spend(cost);
+				player.changeResourcesFromClient(delta);
 				addModuleToEditor(title, shipModulePos);
 			}
 			else

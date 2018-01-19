@@ -28,7 +28,7 @@ int NetworkFactory::give(NetworkComponent* pComponent)//we recieve a pointer to 
 void NetworkFactory::free(int position)//don't adjust the list, just mark the node as null and offer it as a position to future customers
 {
 	if((signed)m_componentPtrs.size() > position)
-		m_componentPtrs[position] = NULL;
+		m_componentPtrs[position] = nullptr;
 	else
 	{
 		WARNING;
@@ -39,7 +39,7 @@ void NetworkFactory::clean()
 {
 	while(m_componentPtrs.size() > 0)
 	{
-		if(m_componentPtrs.back() == NULL)
+		if(m_componentPtrs.back() == nullptr)
 			m_componentPtrs.resize(m_componentPtrs.size() - 1);
 		else
 			break;

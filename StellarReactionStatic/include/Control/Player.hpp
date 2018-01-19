@@ -141,15 +141,15 @@ public:
 	/// Number of items on radar.
 	int radarsize();
 	/// <summary>
-	/// Returns true if you can spend it.
+	/// Returns true if none of the resources will go negative.
 	/// </summary>
-	bool canSpendResources(const Resources& cost) const;
+	bool canChangeResources(const Resources& cost) const;
 	/// <summary>
-	/// Spends the amount of money from team resources.
+	/// Spends the amount of money from team resources regardless of if you are Server or not.
 	/// </summary>
-	void changeResources(const Resources& delta);
+	void changeResourcesFromClient(const Resources& delta);
 
-	Resources* Player::getResources() const;
+	const Resources* Player::getResources() const;
 protected:
 	void input(String rCommand, sf::Packet rData);
 
