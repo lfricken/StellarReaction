@@ -147,6 +147,11 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 
 	Message initBackground(this->m_io.getName(), "initBackgroundCommand", voidPacket, 0, false);
 	Message::SendUniverse(initBackground);
+
+	game.getOverlay().resetStore();
+	game.getOverlay().addStoreButton();
+	game.getOverlay().addStoreButton();
+	game.getOverlay().addStoreButton();
 }
 void Universe::createControllers(Team team, bool isAnAI, const String& slaveName, int& controller, int& aiPos)
 {
@@ -635,7 +640,7 @@ String Universe::chooseBPtoUpgrade()
 	auto& data = game.getOverlay().storeData;
 	List<String> blueprints; // possible blueprints to choose from
 
-	for each(auto button in data.buttonList)
+	for each(auto button in data->buttonList)
 	{
 		blueprints.push_back(button.moduleBlueprint);
 	}

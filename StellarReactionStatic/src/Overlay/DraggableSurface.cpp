@@ -7,6 +7,7 @@
 #include "Resources.hpp"
 #include "Controller.hpp"
 #include "Chunk.hpp"
+#include "Overlay.hpp"
 
 using namespace leon;
 
@@ -150,11 +151,18 @@ bool DraggableSurface::inputHook(const String rCommand, sf::Packet data)
 			if(draggablePos == target)
 			{
 				{//give money
+					Resources cost;
 					String bpName = pDrag->getMetaData();
-					auto bp = game.getUniverse().getBlueprints().getModuleSPtr(bpName);
-					Resources resources = bp->cost.percentOf(0.5f);
+					const auto& ref = game.getOverlay().storeData->buttonList;
 
-					game.getLocalPlayer().changeResourcesFromClient(resources);
+					for(auto it = ref.cbegin(); it != ref.cend(); ++it)
+					{
+						if(it->moduleBlueprint == bpName)
+						{
+							cost = it->cost;
+						}
+					}
+					game.getLocalPlayer().changeResourcesFromClient(cost.percentOf(0.5f));
 				}
 				m_widgetList.erase(it);
 				break;

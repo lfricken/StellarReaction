@@ -13,7 +13,6 @@ void ModuleData::loadJson(const Json::Value& root)
 	LOADJSON(requirements);
 
 	GETJSON(name);
-	GETJSON(cost);
 	GETJSON(collisionDamage);
 
 	LOADJSON(ioComp);

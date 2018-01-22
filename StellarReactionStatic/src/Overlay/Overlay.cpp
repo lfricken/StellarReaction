@@ -17,12 +17,19 @@
 #include "ReturnSelection.hpp"
 #include "Tooltip.hpp"
 #include "JSON.hpp"
+#include "Player.hpp"
 
 using namespace leon;
 
+void StoreLoader::StoreButtonLoader::loadJson(const Json::Value& root)
+{
+	GETJSON(previewTexture);
+	GETJSON(cost);
+	GETJSON(moduleBlueprint);
+	GETJSON(buttonName);
 
-
-
+	moduleBlueprint += String((int)game.getLocalPlayer().getTeam());
+}
 bool StoreLoader::addRandomButton(leon::Panel* pStore)
 {
 	if(lockedButtons.size() == 0)
@@ -58,7 +65,8 @@ bool StoreLoader::addRandomButton(leon::Panel* pStore)
 	}
 	{//purchase button
 		sf::Packet moduleInfo;
-		moduleInfo << button.moduleBlueprint;
+		String title = button.moduleBlueprint;
+		moduleInfo << title;
 		moduleInfo << initialGridPos.x << initialGridPos.y;
 		button.cost.intoPacket(&moduleInfo);
 
@@ -138,6 +146,8 @@ void Overlay::mouseMoveToPosition(sf::Vector2f pos)
 	{
 		panel->mouseMoveToPosition(pos);
 	}
+	if(storePanel)
+		storePanel->mouseMoveToPosition(pos);
 }
 void Overlay::handleEvent(sf::Event& rEvent)
 {
@@ -147,6 +157,10 @@ tgui::Gui& Overlay::getGui()
 {
 	return m_gui;
 }
+void Overlay::resetStore()
+{
+	storePanel.reset(loadStore());
+}
 void Overlay::loadMenus()
 {
 	auto pMain_menu = loadMainMenu();
@@ -154,14 +168,10 @@ void Overlay::loadMenus()
 	//load other menus
 	game.getOverlay().addPanel(sptr<leon::Panel>(loadConnectionHub(pMain_menu)));
 	game.getOverlay().addPanel(sptr<leon::Panel>(loadMultiplayerLobby(pMain_menu)));
-	game.getOverlay().addPanel(sptr<leon::Panel>(loadStore()));
 	game.getOverlay().addPanel(sptr<leon::Panel>(loadHud()));
 	game.getOverlay().addPanel(sptr<leon::Panel>(loadSellMenu()));
 
 	//unlock some initially for debugging
-	addStoreButton();
-	addStoreButton();
-	addStoreButton();
 
 
 	/**MESSAGE**/
@@ -542,11 +552,17 @@ leon::Panel* Overlay::loadMultiplayerLobby(leon::Panel* pMain_menu)
 }
 bool Overlay::addStoreButton()
 {
-	return storeData.addRandomButton(m_pStore);
+	if(storeData)
+		return storeData->addRandomButton(storePanel.get());
+	else
+	{
+		WARNING;
+		return false;
+	}
 }
 leon::Panel* Overlay::loadStore()
 {
-	m_pStore = nullptr;
+	leon::Panel* pStore = nullptr;
 	auto size = game.getWindow().getSize();
 	sf::Vector2f storePanelSize = sf::Vector2f(size);
 
@@ -558,7 +574,7 @@ leon::Panel* Overlay::loadStore()
 		storePanelData.backgroundColor = sf::Color(50, 50, 50, 128);
 		storePanelData.screenCoords = sf::Vector2f(game.getWindow().getSize().x / 2 - storePanelSize.x / 2, game.getWindow().getSize().y / 2 - storePanelSize.y / 2);
 		storePanelData.size = sf::Vector2f(storePanelSize.x, storePanelSize.y);
-		m_pStore = new leon::Panel(game.getOverlay().getGui(), storePanelData);
+		pStore = new leon::Panel(game.getOverlay().getGui(), storePanelData);
 	}
 	//close store button
 	{
@@ -583,7 +599,7 @@ leon::Panel* Overlay::loadStore()
 		reconstruct.message.reset("ship_editor", "buildShipWithConfiguration", voidPacket, 0, false);
 		close.ioComp.courierList.push_back(reconstruct);
 
-		m_pStore->add(sptr<leon::WidgetBase>(new leon::Button(*m_pStore->getPanelPtr(), close)));
+		pStore->add(sptr<leon::WidgetBase>(new leon::Button(*pStore->getPanelPtr(), close)));
 	}
 	//purchase buttons
 	{
@@ -593,7 +609,8 @@ leon::Panel* Overlay::loadStore()
 		bool parsedSuccess = reader.parse(store, root, false);
 		if(parsedSuccess)
 		{
-			storeData.loadJson(root);
+			storeData.reset(new StoreLoader());
+			storeData->loadJson(root);
 		}
 		else
 			WARNING;
@@ -611,7 +628,7 @@ leon::Panel* Overlay::loadStore()
 			editorBackground.screenCoords = editGridPos;
 			editorBackground.gridSize = editGridSize;
 			editorBackground.size = sf::Vector2f(width, height);
-			m_pStore->add(sptr<leon::WidgetBase>(new leon::Picture(*m_pStore->getPanelPtr(), editorBackground)));
+			pStore->add(sptr<leon::WidgetBase>(new leon::Picture(*pStore->getPanelPtr(), editorBackground)));
 		}
 		//ship editor
 		{
@@ -622,7 +639,7 @@ leon::Panel* Overlay::loadStore()
 			surfaceData.size = sf::Vector2f(width, height);
 			surfaceData.backgroundColor = sf::Color(32, 32, 32, 128);
 
-			m_pStore->add(sptr<leon::WidgetBase>(new leon::DraggableSurface(*m_pStore->getPanelPtr(), surfaceData)));
+			pStore->add(sptr<leon::WidgetBase>(new leon::DraggableSurface(*pStore->getPanelPtr(), surfaceData)));
 		}
 	}
 
@@ -631,10 +648,10 @@ leon::Panel* Overlay::loadStore()
 		tipData.ioComp.name = "tooltip";
 		tipData.screenCoords = sf::Vector2f(512, 512);
 
-		m_pStore->add(sptr<leon::WidgetBase>(new leon::Tooltip(*m_pStore->getPanelPtr(), tipData)));
+		pStore->add(sptr<leon::WidgetBase>(new leon::Tooltip(*pStore->getPanelPtr(), tipData)));
 	}
 
-	return m_pStore;
+	return pStore;
 }
 leon::Panel* Overlay::loadHud()
 {

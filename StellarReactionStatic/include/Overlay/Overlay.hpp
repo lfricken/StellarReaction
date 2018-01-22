@@ -28,13 +28,10 @@ namespace leon
 			String moduleBlueprint;
 			String buttonName;
 
-			void loadJson(const Json::Value& root)
-			{
-				GETJSON(previewTexture);
-				GETJSON(cost);
-				GETJSON(moduleBlueprint);
-				GETJSON(buttonName);
-			}
+			/// <summary>
+			/// Load this data from file.
+			/// </summary>
+			void loadJson(const Json::Value& root);
 		};
 
 		/// <summary>
@@ -88,6 +85,7 @@ namespace leon
 		/// Return TGUI Gui.
 		tgui::Gui& getGui();
 
+		void resetStore();
 
 		/// Turn the Main Menu on or off. Handles input switching, pausing game, visuals switch.
 		void toggleMenu(bool show);
@@ -99,7 +97,8 @@ namespace leon
 		/// </summary>
 		bool Overlay::addStoreButton();
 
-		StoreLoader storeData; // Data for the store.
+		sptr<StoreLoader> storeData; // Data for the store.
+		sptr<Panel> storePanel;
 	protected:
 		void input(const String rCommand, sf::Packet rData);
 
@@ -111,7 +110,5 @@ namespace leon
 		IOComponent m_io;
 		tgui::Gui m_gui;//the TGUI gui that handles most things
 		List<sptr<leon::Panel> > m_panelList;//all the Panels that can get displayed, each item can be active or inactive, if its active, it gets displayed.
-
-		leon::Panel* m_pStore;
 	};
 }

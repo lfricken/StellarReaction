@@ -192,7 +192,7 @@ namespace tgui
             }
         }
 
-        TGUI_OUTPUT("TGUI warning: Can't remove texture that wasn't loaded by TextureManager.");
+        //TGUI_OUTPUT("TGUI warning: Can't remove texture that wasn't loaded by TextureManager.");
         return;
     }
 

@@ -103,7 +103,6 @@ struct ModuleData : public BlueprintableData
 	RangeModifierList rangeModifiers;
 
 	String name;//what gets displayed to player
-	Resources cost;//how much does this cost?
 	int collisionDamage;//how much damage we apply to someone who collides with us
 
 	IOComponentData ioComp;
