@@ -13,6 +13,10 @@
   <ItemGroup>
     <ClInclude Include="include\Basic\OddballFunctions.hpp" />
     <ClInclude Include="include\Basic\UpgradeType.hpp" />
+    <ClInclude Include="include\Universe\BuildingModules\Extractor.hpp" />
+    <ClInclude Include="include\Universe\BuildingModules\Mind.hpp" />
+    <ClInclude Include="include\Universe\BuildingModules\Relay.hpp" />
+    <ClInclude Include="include\Universe\BuildingModules\Replicator.hpp" />
     <ClInclude Include="include\Universe\Chunk\ModuleParent.hpp" />
     <ClInclude Include="include\Basic\Clock.hpp" />
     <ClInclude Include="include\Basic\Factory.hpp" />
@@ -340,7 +344,11 @@
     <ClInclude Include="include\Universe\Chunk\ShipProfile.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Universe\BuildingModules\Extractor.cpp" />
     <ClCompile Include="src\Basic\UpgradeType.cpp" />
+    <ClCompile Include="src\Universe\BuildingModules\Mind.cpp" />
+    <ClCompile Include="src\Universe\BuildingModules\Relay.cpp" />
+    <ClCompile Include="src\Universe\BuildingModules\Replicator.cpp" />
     <ClCompile Include="src\Universe\Chunk\ShipProfile.cpp" />
     <ClCompile Include="src\Universe\Chunk\ModuleParent.cpp" />
     <ClCompile Include="src\Universe\Utility\Blueprintable.cpp" />

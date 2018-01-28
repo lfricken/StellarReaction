@@ -112,6 +112,10 @@
     <ClCompile Include="src\Universe\Utility\Blueprintable.cpp" />
     <ClCompile Include="src\Universe\Chunk\ShipProfile.cpp" />
     <ClCompile Include="src\Basic\UpgradeType.cpp" />
+    <ClCompile Include="src\Universe\BuildingModules\Extractor.cpp" />
+    <ClCompile Include="src\Universe\BuildingModules\Mind.cpp" />
+    <ClCompile Include="src\Universe\BuildingModules\Relay.cpp" />
+    <ClCompile Include="src\Universe\BuildingModules\Replicator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Game\Directory.hpp" />
@@ -442,6 +446,10 @@
     <ClInclude Include="include\Universe\Utility\Blueprintable.hpp" />
     <ClInclude Include="include\Universe\Chunk\ShipProfile.hpp" />
     <ClInclude Include="include\Basic\UpgradeType.hpp" />
+    <ClInclude Include="include\Universe\BuildingModules\Extractor.hpp" />
+    <ClInclude Include="include\Universe\BuildingModules\Mind.hpp" />
+    <ClInclude Include="include\Universe\BuildingModules\Relay.hpp" />
+    <ClInclude Include="include\Universe\BuildingModules\Replicator.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\API\SFML\Audio\SoundFileFactory.inl" />

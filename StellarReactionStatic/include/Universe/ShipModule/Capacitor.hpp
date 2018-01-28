@@ -1,5 +1,4 @@
-#ifndef CAPACITOR_HPP
-#define CAPACITOR_HPP
+#pragma once
 
 #include "ShipModule.hpp"
 
@@ -43,5 +42,3 @@ struct CapacitorData : ShipModuleData
 	MyType(ModuleData, CapacitorData);
 };
 
-
-#endif // CAPACITOR_HPP
