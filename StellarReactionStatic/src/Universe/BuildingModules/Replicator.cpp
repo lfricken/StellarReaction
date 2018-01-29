@@ -1,7 +1,7 @@
-#include "ExtractorModule.hpp"
+#include "Replicator.hpp"
 
 
-void ExtractorModuleData::loadJson(const Json::Value& root)
+void ReplicatorData::loadJson(const Json::Value& root)
 {
 	ShipModuleData::loadJson(root);
 }

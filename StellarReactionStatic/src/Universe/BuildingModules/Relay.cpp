@@ -1,15 +1,15 @@
-#include "ExtractorModule.hpp"
+#include "Relay.hpp"
 
 
-void ExtractorModuleData::loadJson(const Json::Value& root)
+void RelayData::loadJson(const Json::Value& root)
 {
 	ShipModuleData::loadJson(root);
 }
-ExtractorModule::ExtractorModule(const ExtractorModuleData& rData) : ShipModule(rData)
+Relay::Relay(const RelayData& rData) : ShipModule(rData)
 {
 
 }
-ExtractorModule::~ExtractorModule()
+Relay::~Relay()
 {
 
 }

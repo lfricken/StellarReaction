@@ -1,15 +1,15 @@
-#include "ExtractorModule.hpp"
+#include "Mind.hpp"
 
 
-void ExtractorModuleData::loadJson(const Json::Value& root)
+void MindData::loadJson(const Json::Value& root)
 {
 	ShipModuleData::loadJson(root);
 }
-ExtractorModule::ExtractorModule(const ExtractorModuleData& rData) : ShipModule(rData)
+Mind::Mind(const MindData& rData) : ShipModule(rData)
 {
 
 }
-ExtractorModule::~ExtractorModule()
+Mind::~Mind()
 {
 
 }

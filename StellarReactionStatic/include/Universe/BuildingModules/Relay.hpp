@@ -2,17 +2,17 @@
 
 #include "ShipModule.hpp"
 
-struct ExtractorModuleData;
+struct RelayData;
 
 /// <summary>
 /// Module that represents the extractor.
 /// </summary>
-class ExtractorModule : public ShipModule
+class Relay : public ShipModule
 {
 public:
 
-	ExtractorModule(const ExtractorModuleData& rData);
-	virtual ~ExtractorModule();
+	Relay(const RelayData& rData);
+	virtual ~Relay();
 
 protected:
 private:
@@ -22,9 +22,9 @@ private:
 /// <summary>
 /// 
 /// </summary>
-struct ExtractorModuleData : ShipModuleData
+struct RelayData : ShipModuleData
 {
-	ExtractorModuleData() :
+	RelayData() :
 		ShipModuleData()
 
 	{
@@ -33,15 +33,15 @@ struct ExtractorModuleData : ShipModuleData
 	///Create Capacitor object from this data object.
 	virtual Module* generate(GenerateParams params) const
 	{
-		return generateSub<ExtractorModule, ExtractorModuleData>(params, this);
+		return generateSub<Relay, RelayData>(params, this);
 	}
 	///Create new copy of this data object.
 	virtual ModuleData* clone() const
 	{
-		return new ExtractorModuleData(*this);
+		return new RelayData(*this);
 	}
 	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
 
-	MyType(ModuleData, ExtractorModuleData);
+	MyType(ModuleData, RelayData);
 };

@@ -136,17 +136,17 @@ struct ModuleData : public BlueprintableData
 	MyType(ModuleData, ModuleData);
 
 protected:
-	template<class T, class TData>
+	template<class Type, class TypeData>
 	/// <summary>
 	/// Generalized code for the generate function.
 	/// </summary>
-	T* generateSub(GenerateParams params, const TData* const me) const
+	Type* generateSub(GenerateParams params, const TypeData* const me) const
 	{
-		TData copy(*me);//data copy
+		TypeData copy(*me);//data copy
 		copy.parent = params.parent;
 		copy.rangeModifiers.ranges = &params.parent->getRanges();
 		copy.fixComp.pBody = params.parent->getBodyComponent().getBodyPtr();
-		return new T(copy);
+		return new Type(copy);
 	}
 	/// <summary>
 	/// Overwrites data in this object from another ModuleData object.
