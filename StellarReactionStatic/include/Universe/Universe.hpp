@@ -165,10 +165,10 @@ private:
 	/**SLEEP**/
 
 	/**TIME**/
-	float m_realTime;
-	float m_pauseTime;
-	float m_skippedTime;
-	bool m_paused;
+	float m_realTime; // actual time since application start
+	float m_pauseTime; // when the last pause started
+	float m_skippedTime; // how much time has been skipped from being paused?
+	bool m_paused; // true if the universe is paused
 	/**TIME**/
 
 	/**PHYSICS**/

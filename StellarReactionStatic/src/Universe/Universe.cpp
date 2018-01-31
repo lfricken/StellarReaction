@@ -210,7 +210,7 @@ Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input,
 
 	m_debugDrawEnabled = false;
 
-	m_realTime = game.getTime();
+	setTime(game.getTime());
 
 }
 Universe::~Universe()
