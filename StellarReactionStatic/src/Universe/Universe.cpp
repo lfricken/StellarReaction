@@ -324,7 +324,11 @@ void Universe::prePhysUpdate()
 }
 void Universe::changeTeamResources(Team team, Resources money)
 {
-	this->m_income[team].add(money);
+	this->m_teamResources[team].add(money);
+}
+void Universe::changeTeamIncome(Team team, Resources money)
+{
+	this->m_teamIncome[team].add(money);
 }
 void Universe::physUpdate()
 {
@@ -401,19 +405,19 @@ void Universe::teamMoneyUpdate()
 	if(game.getNwBoss().getNWState() == NWState::Server)
 		if(m_spMoneyTimer->isTimeUp())
 		{
-			for(auto it = m_income.cbegin(); it != m_income.cend(); ++it)
+
+			//TODO make this network safe
+
+			for(auto it = m_teamIncome.cbegin(); it != m_teamIncome.cend(); ++it)
 				m_teamResources[it->first].add(it->second);
 
 			List<sptr<Connection> > cons = game.getNwBoss().getConnections();
 
 
-			//TODO Send money to clients somehow?
+			//TODO Send money to clients 
 
-			/*for(auto it = cons.begin(); it != cons.end(); ++it)
-				(**it).changeMoney(m_income[(**it).getTeam()]);*/
 
-			//also give money to host!
-			//game.getLocalPlayer().changeMoney(m_income[game.getLocalPlayer().getTeam()]);
+
 			m_spMoneyTimer->restartCountDown();
 		}
 }
@@ -595,7 +599,7 @@ void Universe::input(String rCommand, sf::Packet rData)
 		Team team = (Team)teamT; // Which team got the perception.
 
 		
-		float unlockOdds = 0.990f;
+		float unlockOdds = 99 / 100.f;
 		float roll = Rand::get(0.f, 1.f);
 		if(!allUnlocked && (roll < unlockOdds))
 		{
@@ -609,6 +613,15 @@ void Universe::input(String rCommand, sf::Packet rData)
 			m_spBPLoader->upgrade(blueprint, upgradeType, team);
 		}
 	}
+	else if(rCommand == "changeTeamIncome")
+	{
+		int team;
+		Resources delta;
+		rData >> team;
+		delta.fromPacket(&rData);
+
+		changeTeamIncome((Team)team, delta);
+	}
 	else if(rCommand == "changeTeamResources")
 	{
 		int team;
@@ -616,7 +629,7 @@ void Universe::input(String rCommand, sf::Packet rData)
 		rData >> team;
 		delta.fromPacket(&rData);
 
-		m_teamResources[(Team)team].add(delta);
+		changeTeamResources((Team)team, delta);
 	}
 	else if(rCommand == "changeTeamResourcesFromClient") // resend the message so every client gets the news!
 	{
@@ -625,6 +638,7 @@ void Universe::input(String rCommand, sf::Packet rData)
 	}
 	else
 	{
+
 		Print << m_io.getName() << ":[" << rCommand << "] not found." << FILELINE;
 	}
 }

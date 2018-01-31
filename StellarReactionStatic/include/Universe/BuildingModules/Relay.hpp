@@ -5,7 +5,7 @@
 struct RelayData;
 
 /// <summary>
-/// Module that represents the extractor.
+/// Module that creates energy.
 /// </summary>
 class Relay : public ShipModule
 {
@@ -19,9 +19,6 @@ private:
 
 };
 
-/// <summary>
-/// 
-/// </summary>
 struct RelayData : ShipModuleData
 {
 	RelayData() :

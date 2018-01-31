@@ -16,8 +16,9 @@
 
 struct ModuleData;
 
-
+/// <summary>
 /// Basic building block of Chunks and physical objects.
+/// </summary>
 class Module : public Blueprintable, NonCopyable
 {
 public:

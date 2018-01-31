@@ -16,11 +16,11 @@ class ShipModule : public Module
 {
 public:
 	ShipModule(const ShipModuleData& rData);
-	virtual ~ShipModule() = 0;
+	virtual ~ShipModule() = 0; // prevent anyone from instantiating this object
 	//Return health state.
 	const Health getHealth();
 	/// <summary>
-	/// Is this module broken or damaged or something?
+	/// Is this module broken or damaged?
 	/// </summary>
 	HealthState getHealthState() const;
 	///Actions to process on object before performing physics updates.
@@ -37,7 +37,6 @@ public:
 	virtual void toggleStealth(bool toggle);
 	///Heal to full health.
 	virtual void healToMax();
-
 
 	Health m_health;
 	Vec2 getNearestNeighbor(List<Vec2>& positions);

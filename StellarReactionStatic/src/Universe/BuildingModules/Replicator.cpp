@@ -5,11 +5,11 @@ void ReplicatorData::loadJson(const Json::Value& root)
 {
 	ShipModuleData::loadJson(root);
 }
-ExtractorModule::ExtractorModule(const ExtractorModuleData& rData) : ShipModule(rData)
+Replicator::Replicator(const ReplicatorData& rData) : ShipModule(rData)
 {
 
 }
-ExtractorModule::~ExtractorModule()
+Replicator::~Replicator()
 {
 
 }

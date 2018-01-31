@@ -21,7 +21,13 @@ public:
 	Resources();
 	~Resources();
 
+	/// <summary>
+	/// Adds the amount to this instance.
+	/// </summary>
 	void add(const Resources& other);
+	/// <summary>
+	/// Subtracts the amount from this instance.
+	/// </summary>
 	void subtract(const Resources& other);
 	Resources percentOf(float fraction) const;
 	bool hasNegatives() const;

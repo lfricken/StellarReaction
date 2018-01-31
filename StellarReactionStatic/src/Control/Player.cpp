@@ -308,7 +308,7 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 
 				ChunkDataMessage data;
 				data.aiControlled = true;
-				data.blueprintName = "BaseStructure";
+				data.blueprintName = "Extractor";
 				data.coordinates = m_aim;
 				data.needsController = true;
 				data.rotation = 0.f;

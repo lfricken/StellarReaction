@@ -18,6 +18,11 @@
 #include "BlackHoleGraphic.hpp"
 #include "CaptureGraphic.hpp"
 
+#include "Mind.hpp"
+#include "Extractor.hpp"
+#include "Replicator.hpp"
+#include "Relay.hpp"
+
 #include "Capacitor.hpp"
 #include "Module.hpp"
 
@@ -50,6 +55,11 @@ RegisterClass(ModuleData, TriggerSensorData);
 RegisterClass(ModuleData, GravityFieldData);
 RegisterClass(ModuleData, CaptureAreaData);
 RegisterClass(ModuleData, SensorData);
+
+RegisterClass(ModuleData, MindData);
+RegisterClass(ModuleData, ExtractorData);
+RegisterClass(ModuleData, ReplicatorData);
+RegisterClass(ModuleData, RelayData);
 
 RegisterClass(ModuleData, ShieldData);
 RegisterClass(ModuleData, ShieldComponentData);

@@ -5,7 +5,7 @@
 struct ReplicatorData;
 
 /// <summary>
-/// Module that represents the extractor.
+/// Module that creates ships.
 /// </summary>
 class Replicator : public ShipModule
 {
@@ -19,9 +19,6 @@ private:
 
 };
 
-/// <summary>
-/// 
-/// </summary>
 struct ReplicatorData : ShipModuleData
 {
 	ReplicatorData() :

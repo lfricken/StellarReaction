@@ -78,8 +78,6 @@ public:
 	/// Tell the AI to determine
 	void updateShipAI();
 
-	/// Change the Money a team gets each tick.
-	void changeTeamResources(Team team, Resources money);
 
 	/// Is debug draw on or not?
 	bool debugDraw() const;
@@ -135,12 +133,17 @@ protected:
 	void input(String rCommand, sf::Packet rData);
 
 private:
+	friend class NetworkBoss;
 	void pack(sf::Packet& data);
 	void unpack(sf::Packet& data);
 
 	/**Money**/
 	std::map<Team, Resources> m_teamResources;
-	std::map<Team, Resources> m_income;//how many resources does each team get per time
+	std::map<Team, Resources> m_teamIncome;//how many resources does each team get per time
+
+	/// Change the Money a team gets each tick.
+	void changeTeamResources(Team team, Resources money);
+	void changeTeamIncome(Team team, Resources money);
 	/**Atomic Actions**/
 
 	/// <summary>

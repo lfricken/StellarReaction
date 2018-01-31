@@ -5,7 +5,7 @@
 struct MindData;
 
 /// <summary>
-/// Module that represents the extractor.
+/// Module that creates technology.
 /// </summary>
 class Mind : public ShipModule
 {
@@ -19,9 +19,6 @@ private:
 
 };
 
-/// <summary>
-/// 
-/// </summary>
 struct MindData : ShipModuleData
 {
 	MindData() :
