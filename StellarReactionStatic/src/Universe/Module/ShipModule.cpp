@@ -176,6 +176,7 @@ void ShipModule::input(String rCommand, sf::Packet rData)
 	else if(rCommand == "increase_score")
 	{
 		WARNING;
+		Print << "\nTODO: increase_score on ship module";
 	}
 	else
 		Module::input(rCommand, rData);

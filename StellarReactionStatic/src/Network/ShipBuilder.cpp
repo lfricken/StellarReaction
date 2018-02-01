@@ -23,7 +23,7 @@ ShipBuilder::~ShipBuilder()
 {
 
 }
-void ShipBuilder::Client::shipToGui(const Chunk* ship)
+void ShipBuilder::shipToGui(const Chunk* ship)
 {
 	if(ship != nullptr)
 	{
@@ -31,7 +31,7 @@ void ShipBuilder::Client::shipToGui(const Chunk* ship)
 		list.insert(list.end(), ship->getStoredModuleBPs().begin(), ship->getStoredModuleBPs().end());
 		sf::Packet data;
 		data << ship->m_io.getPosition();
-		ShipBuilder::Client::writeToPacket(list, &data);
+		ShipBuilder::writeToPacket(list, &data);
 
 		Message ship("ship_editor", "setState", data, 0, false);
 		game.getCoreIO().recieve(ship);
@@ -39,7 +39,7 @@ void ShipBuilder::Client::shipToGui(const Chunk* ship)
 	else
 		WARNING;
 }
-void ShipBuilder::Client::writeToPacket(const List<Pair<String, sf::Vector2i> >& modules, sf::Packet* data)
+void ShipBuilder::writeToPacket(const List<Pair<String, sf::Vector2i> >& modules, sf::Packet* data)
 {
 	sf::Packet& pack = *data;
 	pack << (int32_t)modules.size();
@@ -51,7 +51,7 @@ void ShipBuilder::Client::writeToPacket(const List<Pair<String, sf::Vector2i> >&
 		pack << it->second.y;//grid position y
 	}
 }
-void ShipBuilder::Client::readFromPacket(int* targetShipIOPosition, List<Pair<String, sf::Vector2i> >* pModules, sf::Packet data)
+void ShipBuilder::readFromPacket(int* targetShipIOPosition, List<Pair<String, sf::Vector2i> >* pModules, sf::Packet data)
 {
 	auto& modules = *pModules;
 	int size;
@@ -66,26 +66,34 @@ void ShipBuilder::Client::readFromPacket(int* targetShipIOPosition, List<Pair<St
 		data >> it->second.y;//grid position y
 	}
 }
-String ShipBuilder::Client::getNextSlaveName()
+String ShipBuilder::getNextSlaveName()
 {
 	return "slv_" + String(counter++);
 }
-void ShipBuilder::Client::resetSlaveName()
+void ShipBuilder::resetSlaveName()
 {
 	counter = 0;
 }
 
 
-
-
-void ShipBuilder::Server::rebuild(sf::Packet& rData)
+void ShipBuilder::Server::createChunk(const ChunkDataMessage& data, float delay)
 {
-	int targetShip;
+	if(game.getNwBoss().getNWState() == NWState::Server)
+		ShipBuilder::Networked::createChunkFromClient(data, delay);
+}
 
 
-	List<Pair<String, sf::Vector2i> > moduleList;
-	Client::readFromPacket(&targetShip, &moduleList, rData);
+void ShipBuilder::Networked::createChunkFromClient(const ChunkDataMessage& data, float delay)
+{
+	sf::Packet messageData;
+	data.pack(&messageData);
 
+	Message newChunk("universe", "createChunkCommand", messageData, delay, false);
+	newChunk.sendOverNW(true);
+	Message::SendUniverse(newChunk);
+}
+void ShipBuilder::Networked::rebuildFromClient(int targetShip, const List<Pair<String, sf::Vector2i> >& moduleList)
+{
 	cleanShip(targetShip);
 	for(auto it = moduleList.cbegin(); it != moduleList.cend(); ++it)
 	{
@@ -93,7 +101,7 @@ void ShipBuilder::Server::rebuild(sf::Packet& rData)
 	}
 	doneBuilding(targetShip);
 }
-void ShipBuilder::Server::attachModule(int targetIOPos, const String& bpName, const sf::Vector2i offset)
+void ShipBuilder::Networked::attachModule(int targetIOPos, const String& bpName, const sf::Vector2i offset)
 {
 	sf::Packet pack;
 	pack << bpName;
@@ -101,23 +109,18 @@ void ShipBuilder::Server::attachModule(int targetIOPos, const String& bpName, co
 	pack << offset.y;
 
 	Message attachment((unsigned)targetIOPos, "attachModule", pack, 0, false);
+	attachment.sendOverNW(true);
 	Message::SendUniverse(attachment);
 }
-void ShipBuilder::Server::cleanShip(int targetIOPos)
+void ShipBuilder::Networked::cleanShip(int targetIOPos)
 {
 	Message clean((unsigned)targetIOPos, "clear", voidPacket, 0, false);
+	clean.sendOverNW(true);
 	Message::SendUniverse(clean);
 }
-void ShipBuilder::Server::doneBuilding(int targetIOPos)
+void ShipBuilder::Networked::doneBuilding(int targetIOPos)
 {
 	Message clean((unsigned)targetIOPos, "doneBuilding", voidPacket, 0, false);
+	clean.sendOverNW(true);
 	Message::SendUniverse(clean);
-}
-void ShipBuilder::Server::createChunk(const ChunkDataMessage& data, float delay)
-{
-	sf::Packet messageData;
-	data.pack(&messageData);
-
-	Message newChunk("universe", "createChunkCommand", messageData, delay, false);
-	Message::SendUniverse(newChunk);
 }

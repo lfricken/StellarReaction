@@ -111,7 +111,7 @@ void Resources::ChangeResourcesFromClient(const Resources& amount, Team team)
 	data << theTeam;
 	amount.intoPacket(&data);
 
-	Message nwMessage("universe", "changeResourcesFromClient", data, 0.f, false);
+	Message nwMessage("universe", "changeResources", data, 0.f, false);
 	nwMessage.sendOverNW(true);
 	Message::SendUniverse(nwMessage);
 }

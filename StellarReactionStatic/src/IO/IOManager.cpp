@@ -22,7 +22,6 @@ IOManager::~IOManager()
 }
 void IOManager::recieve(const Message& rMessage)
 {
-
 	if(m_networked && rMessage.sendOverNW())//we are someone about to send an important message
 	{
 		m_spNw->toggleNewData(true);
@@ -141,10 +140,8 @@ void IOManager::f_send(const Message& rMessage)
 }
 void IOManager::pack(sf::Packet& rPacket)//give us data to send to the twin in the other world
 {
-	//if(m_acceptsLocal)
-	//{
-	int32_t total = m_latest.size();
-	rPacket << total;
+	int32_t totalSize = m_latest.size(); // total number of messages
+	rPacket << totalSize;
 	for(int32_t i = 0; i < (signed)m_latest.size(); ++i)
 	{
 		rPacket << (int32_t)m_latest[i].getTargetPosition();
@@ -164,21 +161,19 @@ void IOManager::pack(sf::Packet& rPacket)//give us data to send to the twin in t
 
 		rPacket << m_latest[i].getDelay();
 	}
-	//}
+
 	m_latest.clear();
 }
 void IOManager::unpack(sf::Packet& rPacket)//process data from our twin
 {
-	//if(!m_acceptsLocal)
-	//{
-	int32_t total;
-	rPacket >> total;
-	for(int32_t i = 0; i < total; ++i)
+	int32_t totalNumber; // total number of messages
+	rPacket >> totalNumber;
+	for(int32_t i = 0; i < totalNumber; ++i)
 	{
 		int32_t pos;
 		String name;
 		String command;
-		int32_t size;
+		int32_t sizeInnerPacket; // size of the sf::Packet inside the message
 		int8_t* pData;
 		sf::Packet messageData;
 		float delay;
@@ -187,22 +182,27 @@ void IOManager::unpack(sf::Packet& rPacket)//process data from our twin
 		rPacket >> name;
 		rPacket >> command;
 
-		rPacket >> size;
+		rPacket >> sizeInnerPacket;
 
-		pData = new int8_t[size];
-		for(int index = 0; index < size; ++index)
+		pData = new int8_t[sizeInnerPacket];
+		for(int index = 0; index < sizeInnerPacket; ++index)
 		{
 			int8_t byte;
 			rPacket >> byte;
 			pData[index] = byte;
 		}
-		messageData.append(pData, size);
+		messageData.append(pData, sizeInnerPacket);
 
 		rPacket >> delay;
 
-		m_messageList.push_back(Message((unsigned int)pos, command, messageData, delay, false));
-		m_messageList.back().setName(name);
+		Message fromNetwork((unsigned int)pos, command, messageData, delay, false);
+		fromNetwork.setName(name);//if they sent a name instead of a position, set that instead
+
+		if(game.getNwBoss().getNWState() == NWState::Server) // if we are the server, we should forward it to our clients too!
+			recieve(fromNetwork);
+		else // if we are our clients, we should just hear it
+			m_messageList.push_back(fromNetwork);
+
 		delete pData;
 	}
-	//}
 }

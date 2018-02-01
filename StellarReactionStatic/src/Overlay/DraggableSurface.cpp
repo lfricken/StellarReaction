@@ -116,17 +116,7 @@ bool DraggableSurface::inputHook(const String rCommand, sf::Packet data)
 {
 	if(rCommand == "buildShipWithConfiguration")
 	{
-		List<Pair<String, sf::Vector2i> > modules = this->getRealPositions();
-		sf::Packet pack;
-		pack << ;
-		pack << ;
-		ShipBuilder::Client::writeToPacket(modules, &pack);
-
-		Message build(m_targetShip, "rebuild", pack, 0.f, false);
-		//Tell server that we moved a module. It is then moved there as well.
-		build.sendOverNW(true);
-		Message::SendUniverse(build);
-
+		ShipBuilder::Networked::rebuildFromClient(m_targetShip, this->getRealPositions());
 		return true;
 	}
 	else if(rCommand == "setState")
@@ -134,7 +124,7 @@ bool DraggableSurface::inputHook(const String rCommand, sf::Packet data)
 		m_widgetList.clear();
 
 		List<Pair<String, sf::Vector2i> > modules;
-		ShipBuilder::Client::readFromPacket(&m_targetShip, &modules, data);
+		ShipBuilder::readFromPacket(&m_targetShip, &modules, data);
 		setRealPositions(modules);
 
 		return true;

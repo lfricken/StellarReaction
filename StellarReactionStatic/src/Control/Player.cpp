@@ -200,7 +200,7 @@ void Player::getLiveInput()
 			myTeam.push_back(this->getTeam());
 			auto ship = game.getUniverse().getNearestChunk(m_aim, nullptr, myTeam);
 
-			ShipBuilder::Client::shipToGui(ship.lock().get());
+			ShipBuilder::shipToGui(ship.lock().get());
 		}
 		if(sf::Keyboard::isKeyPressed(m_inCfg.respawn))
 			m_directives[Directive::Respawn] = true;
@@ -307,14 +307,14 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 				//TODO cost
 
 				ChunkDataMessage data;
-				data.aiControlled = true;
+				data.aiControlled = false;
 				data.blueprintName = "Extractor";
 				data.coordinates = m_aim;
-				data.needsController = true;
+				data.needsController = false;
 				data.rotation = 0.f;
 				data.team = static_cast<int>(getTeam());
 
-				ShipBuilder::Server::createChunk(data, 0);
+				ShipBuilder::Networked::createChunkFromClient(data, 0);
 			}
 			/**== MAIN MENU ==**/
 			if(event.key.code == sf::Keyboard::Escape)

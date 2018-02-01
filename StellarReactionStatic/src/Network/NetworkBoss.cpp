@@ -582,10 +582,6 @@ void NetworkBoss::playerOption(sf::Packet rData, BasePlayerTraits* pFrom)
 		rData >> name;
 		pFrom->setName(name);
 	}
-	else if(command == "rebuild")
-	{
-		ShipBuilder::Server::rebuild(rData);
-	}
 	else
 		WARNING;
 }

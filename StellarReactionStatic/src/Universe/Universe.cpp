@@ -36,7 +36,7 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 		m_teamResources[(Team)i].m_resourceValues[Resources::Matter] = 30;
 	}
 
-	ShipBuilder::Client::resetSlaveName();
+	ShipBuilder::resetSlaveName();
 	m_spControlFactory.reset(new ControlFactory);//remove all controllers.
 
 	loadBlueprints("blueprints/");
@@ -536,7 +536,7 @@ void Universe::input(String rCommand, sf::Packet rData)
 		data.unpack(rData);
 
 		if(data.needsController)
-			slaveName = ShipBuilder::Client::getNextSlaveName();
+			slaveName = ShipBuilder::getNextSlaveName();
 
 
 		auto chunkData(m_spBPLoader->getChunkSPtr(data.blueprintName)->clone());
@@ -621,14 +621,8 @@ void Universe::input(String rCommand, sf::Packet rData)
 
 		changeTeamResources((Team)team, delta);
 	}
-	else if(rCommand == "changeResourcesFromClient") // resend the message so every client gets the news!
-	{
-		Message message("universe", "changeResources", rData, 0.f, false);
-		Message::SendUniverse(message);
-	}
 	else
 	{
-
 		Print << m_io.getName() << ":[" << rCommand << "] not found." << FILELINE;
 	}
 }

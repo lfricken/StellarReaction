@@ -14,50 +14,52 @@ public:
 	~ShipBuilder();
 
 	/// <summary>
-	/// Called only on the individual client.
+	/// Takes a chunk and sets the local editor to edit this.
 	/// </summary>
-	class Client
-	{
-	public:
-		/// <summary>
-		/// Takes a chunk and sets the local editor to edit this.
-		/// </summary>
-		static void shipToGui(const Chunk* ship);
-		/// <summary>
-		/// Returns the next name for a slave.
-		/// </summary>
-		static String getNextSlaveName();
-		/// <summary>
-		/// Resets the counter for generating slave names.
-		/// </summary>
-		static void resetSlaveName();
-
-		/// <summary>
-		/// Given a target, module list, write to a packet.
-		/// </summary>
-		static void writeToPacket(const List<Pair<String, sf::Vector2i> >& modules, sf::Packet* data);
-		/// <summary>
-		/// Get a target and modules out of a data packet.
-		/// </summary>
-		static void readFromPacket(int* targetShipIOPosition, List<Pair<String, sf::Vector2i> >* modules, sf::Packet data);
-	};
-
-
+	static void shipToGui(const Chunk* ship);
+	/// <summary>
+	/// Returns the next name for a slave.
+	/// </summary>
+	static String getNextSlaveName();
+	/// <summary>
+	/// Resets the counter for generating slave names.
+	/// </summary>
+	static void resetSlaveName();
 
 	/// <summary>
-	/// Functions that produce Universe messages that only the server processes.
+	/// Given a target, module list, write to a packet.
+	/// </summary>
+	static void writeToPacket(const List<Pair<String, sf::Vector2i> >& modules, sf::Packet* data);
+	/// <summary>
+	/// Get a target and modules out of a data packet.
+	/// </summary>
+	static void readFromPacket(int* targetShipIOPosition, List<Pair<String, sf::Vector2i> >* modules, sf::Packet data);
+
+	/// <summary>
+	/// Causes network events if you're the server.
 	/// </summary>
 	class Server
 	{
 	public:
 		/// <summary>
+		/// If we are the Server, create a chunk in the game from a chunk data message.
+		/// </summary>
+		static void createChunk(const ChunkDataMessage& data, float delay);
+	};
+	/// <summary>
+	/// Causes network events even on the client.
+	/// </summary>
+	class Networked
+	{
+	public:
+		/// <summary>
 		/// Build a ship using the writeToPacket return as input.
 		/// </summary>
-		static void rebuild(sf::Packet& rData);
+		static void rebuildFromClient(int targetShip, const List<Pair<String, sf::Vector2i> >& moduleList);
 		/// <summary>
 		/// Create a chunk in the game from a chunk data message.
 		/// </summary>
-		static void createChunk(const ChunkDataMessage& data, float delay);
+		static void createChunkFromClient(const ChunkDataMessage& data, float delay);
 	private:
 		/// <summary>
 		/// Attach a module blueprint to the target ship at the specified position.
