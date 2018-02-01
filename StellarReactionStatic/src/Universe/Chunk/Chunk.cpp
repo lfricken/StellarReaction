@@ -366,12 +366,7 @@ void Chunk::input(String rCommand, sf::Packet rData)
 		loot.fromPacket(&rData);
 		rData >> lootChunkUniversePos;
 
-		//TODO add money to team
-		sf::Packet data;
-		data << ((int)m_body.getTeam());
-		loot.intoPacket(&data);
-		Message resources("universe", "changeTeamResources", data, 0.f, false);
-		Message::SendUniverse(resources);
+		Resources::ChangeResources(loot, m_body.getTeam());
 
 		if(lootChunkUniversePos != -1)
 			removeFromUniverse(lootChunkUniversePos, false, 0.f);

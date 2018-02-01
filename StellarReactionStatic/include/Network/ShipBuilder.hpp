@@ -35,7 +35,7 @@ public:
 		/// <summary>
 		/// Given a target, module list, write to a packet.
 		/// </summary>
-		static void writeToPacket(int targetShipIOPosition, const List<Pair<String, sf::Vector2i> >& modules, sf::Packet* data);
+		static void writeToPacket(const List<Pair<String, sf::Vector2i> >& modules, sf::Packet* data);
 		/// <summary>
 		/// Get a target and modules out of a data packet.
 		/// </summary>

@@ -2,6 +2,7 @@
 
 #include "stdafx.hpp"
 
+enum class Team;
 /// <summary>
 /// The variable type used to record amounts of a resource.
 /// </summary>
@@ -44,6 +45,11 @@ public:
 		Perception,
 		NumBrains,
 	};
+
+	static void ChangeIncome(const Resources& amount, Team team);
+	static void ChangeResources(const Resources& amount, Team team);
+	static void ChangeResourcesFromClient(const Resources& amount, Team team);
+
 
 private:
 	/// <summary>

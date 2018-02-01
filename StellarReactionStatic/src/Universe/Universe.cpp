@@ -396,28 +396,18 @@ bool Universe::listContains(std::list<Team> intList, Team value)
 /// </summary>
 void Universe::teamMoneyUpdate()
 {
-	if(!m_restartedMoneyTimer)
+	if(!m_restartedMoneyTimer) // TODO why is this needed?
 	{
 		m_spMoneyTimer->restartCountDown();
 		m_restartedMoneyTimer = true;
 	}
 
-	if(game.getNwBoss().getNWState() == NWState::Server)
+	if(!game.getNwBoss().isClient()) // skip a bit of work
 		if(m_spMoneyTimer->isTimeUp())
 		{
-
-			//TODO make this network safe
-
 			for(auto it = m_teamIncome.cbegin(); it != m_teamIncome.cend(); ++it)
-				m_teamResources[it->first].add(it->second);
-
-			List<sptr<Connection> > cons = game.getNwBoss().getConnections();
-
-
-			//TODO Send money to clients 
-
-
-
+				Resources::ChangeResources(it->second, it->first);
+			
 			m_spMoneyTimer->restartCountDown();
 		}
 }
@@ -613,7 +603,7 @@ void Universe::input(String rCommand, sf::Packet rData)
 			m_spBPLoader->upgrade(blueprint, upgradeType, team);
 		}
 	}
-	else if(rCommand == "changeTeamIncome")
+	else if(rCommand == "changeIncome")
 	{
 		int team;
 		Resources delta;
@@ -622,7 +612,7 @@ void Universe::input(String rCommand, sf::Packet rData)
 
 		changeTeamIncome((Team)team, delta);
 	}
-	else if(rCommand == "changeTeamResources")
+	else if(rCommand == "changeResources")
 	{
 		int team;
 		Resources delta;
@@ -631,9 +621,9 @@ void Universe::input(String rCommand, sf::Packet rData)
 
 		changeTeamResources((Team)team, delta);
 	}
-	else if(rCommand == "changeTeamResourcesFromClient") // resend the message so every client gets the news!
+	else if(rCommand == "changeResourcesFromClient") // resend the message so every client gets the news!
 	{
-		Message message("universe", "changeTeamResources", rData, 0.f, false);
+		Message message("universe", "changeResources", rData, 0.f, false);
 		Message::SendUniverse(message);
 	}
 	else

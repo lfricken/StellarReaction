@@ -144,10 +144,6 @@ public:
 	/// Returns true if none of the resources will go negative.
 	/// </summary>
 	bool canChangeResources(const Resources& cost) const;
-	/// <summary>
-	/// Spends the amount of money from team resources regardless of if you are Server or not.
-	/// </summary>
-	void changeResourcesFromClient(const Resources& delta);
 
 	const Resources* Player::getResources() const;
 protected:

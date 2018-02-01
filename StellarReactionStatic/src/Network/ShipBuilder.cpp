@@ -30,7 +30,8 @@ void ShipBuilder::Client::shipToGui(const Chunk* ship)
 		auto list = ship->getModuleBPs();
 		list.insert(list.end(), ship->getStoredModuleBPs().begin(), ship->getStoredModuleBPs().end());
 		sf::Packet data;
-		ShipBuilder::Client::writeToPacket(ship->m_io.getPosition(), list, &data);
+		data << ship->m_io.getPosition();
+		ShipBuilder::Client::writeToPacket(list, &data);
 
 		Message ship("ship_editor", "setState", data, 0, false);
 		game.getCoreIO().recieve(ship);
@@ -38,10 +39,9 @@ void ShipBuilder::Client::shipToGui(const Chunk* ship)
 	else
 		WARNING;
 }
-void ShipBuilder::Client::writeToPacket(int targetShipIOPosition, const List<Pair<String, sf::Vector2i> >& modules, sf::Packet* data)
+void ShipBuilder::Client::writeToPacket(const List<Pair<String, sf::Vector2i> >& modules, sf::Packet* data)
 {
 	sf::Packet& pack = *data;
-	pack << targetShipIOPosition;
 	pack << (int32_t)modules.size();
 
 	for(auto it = modules.begin(); it != modules.end(); ++it)

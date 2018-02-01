@@ -118,12 +118,14 @@ bool DraggableSurface::inputHook(const String rCommand, sf::Packet data)
 	{
 		List<Pair<String, sf::Vector2i> > modules = this->getRealPositions();
 		sf::Packet pack;
-		pack << "rebuild";
+		pack << ;
+		pack << ;
+		ShipBuilder::Client::writeToPacket(modules, &pack);
 
-		ShipBuilder::Client::writeToPacket(m_targetShip, modules, &pack);
-
+		Message build(m_targetShip, "rebuild", pack, 0.f, false);
 		//Tell server that we moved a module. It is then moved there as well.
-		Network::toHostAtomic(pack);
+		build.sendOverNW(true);
+		Message::SendUniverse(build);
 
 		return true;
 	}
@@ -162,7 +164,7 @@ bool DraggableSurface::inputHook(const String rCommand, sf::Packet data)
 							cost = it->cost;
 						}
 					}
-					game.getLocalPlayer().changeResourcesFromClient(cost.percentOf(0.5f));
+					Resources::ChangeResourcesFromClient(cost.percentOf(0.5f), game.getLocalPlayer().getTeam());
 				}
 				m_widgetList.erase(it);
 				break;
@@ -191,7 +193,7 @@ bool DraggableSurface::inputHook(const String rCommand, sf::Packet data)
 			delta.subtract(cost);
 			if(player.canChangeResources(delta))
 			{
-				player.changeResourcesFromClient(delta);
+				Resources::ChangeResourcesFromClient(delta, player.getTeam());
 				addModuleToEditor(title, shipModulePos);
 			}
 			else

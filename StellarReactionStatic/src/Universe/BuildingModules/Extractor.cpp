@@ -1,32 +1,21 @@
 #include "Extractor.hpp"
 
 
-void changeIncome(Team team, Resources delta)
-{
-	Message changeIncome;
-	sf::Packet data;
-	data << (int)team;
-	delta.intoPacket(&data);
-	changeIncome.reset("universe", "changeTeamIncome", data, 0.f, false);
-
-	Message::SendUniverse(changeIncome);
-}
-
 void deltaIncome(Team thisTeam, bool opposing, Resources delta)
 {
 	if(opposing)
 	{
 		for(int i = (int)Team::MinTeam; i < (int)Team::MaxTeam; ++i)
 		{
-			if((int)thisTeam != i)
+			if((Team)i == thisTeam)
 			{
-				changeIncome((Team)i, delta);
+				Resources::ChangeIncome(delta, (Team)i);
 			}
 		}
 	}
 	else
 	{
-		changeIncome(thisTeam, delta);
+		Resources::ChangeIncome(delta, thisTeam);
 	}
 }
 

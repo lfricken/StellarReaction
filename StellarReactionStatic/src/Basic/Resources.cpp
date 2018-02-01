@@ -1,5 +1,6 @@
 #include "Resources.hpp"
-
+#include "Team.hpp"
+#include "Message.hpp"
 
 Resources::Resources()
 {
@@ -77,4 +78,40 @@ void Resources::initResourceType(ResourceType type)
 	{
 		m_resourceValues[type] = ResourceValue();
 	}
+}
+void Resources::ChangeIncome(const Resources& amount, Team team)
+{
+	sf::Packet data;
+	int theTeam = (int)team;
+
+	data << theTeam;
+	amount.intoPacket(&data);
+
+	Message nwMessage("universe", "changeIncome", data, 0.f, false);
+	nwMessage.sendOverNW(false);
+	Message::SendUniverse(nwMessage);
+}
+void Resources::ChangeResources(const Resources& amount, Team team)
+{
+	sf::Packet data;
+	int theTeam = (int)team;
+
+	data << theTeam;
+	amount.intoPacket(&data);
+
+	Message nwMessage("universe", "changeResources", data, 0.f, false);
+	nwMessage.sendOverNW(false);
+	Message::SendUniverse(nwMessage);
+}
+void Resources::ChangeResourcesFromClient(const Resources& amount, Team team)
+{
+	sf::Packet data;
+	int theTeam = (int)team;
+
+	data << theTeam;
+	amount.intoPacket(&data);
+
+	Message nwMessage("universe", "changeResourcesFromClient", data, 0.f, false);
+	nwMessage.sendOverNW(true);
+	Message::SendUniverse(nwMessage);
 }

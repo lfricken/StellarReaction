@@ -729,15 +729,3 @@ bool Player::canChangeResources(const Resources& cost) const
 	available.add(cost);
 	return !available.hasNegatives();
 }
-void Player::changeResourcesFromClient(const Resources& cost)
-{
-	sf::Packet data;
-	int team = (int)getTeam();
-
-	data << team;
-	cost.intoPacket(&data);
-
-	Message nwMessage("universe", "changeTeamResourcesFromClient", data, 0.f, false);
-	nwMessage.sendOverNW(true);
-	Message::SendUniverse(nwMessage);
-}
