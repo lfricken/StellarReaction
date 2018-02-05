@@ -76,6 +76,26 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 			m_bounds.y = (float)(boundsList[1].asInt());
 		}
 
+		if(!root["BuildBounds"].isNull())
+		{
+			String ChunkName;
+			const Json::Value typeList = root["BuildBounds"];
+			for(auto it = typeList.begin(); it != typeList.end(); ++it)
+			{
+				String ChunkName = (*it)[NAMEOF(ChunkName)].asString();
+				const Json::Value boundList = (*it)["BoundList"];
+				for(auto bound = boundList.begin(); bound != boundList.end(); ++bound)
+				{
+					BuildBounds bounds;
+					bounds.center.x = (*bound)["center"][0].asFloat();
+					bounds.center.y = (*bound)["center"][1].asFloat();
+					bounds.halfSize.x = (*bound)["halfSize"][0].asFloat();
+					bounds.halfSize.y = (*bound)["halfSize"][1].asFloat();
+					m_buildBounds[ChunkName].push_back(bounds);
+				}
+			}
+		}
+
 		/**Spawn Points**/
 		if(!root["SpawnPoints"].isNull())
 		{
@@ -494,6 +514,22 @@ const Resources& Universe::getTeamResources(Team team) const
 {
 	const auto it = m_teamResources.find(team);
 	return it->second;
+}
+bool Universe::canBuildAtLocation(String chunkBPName, Vec2 pos) const
+{
+	auto it = m_buildBounds.find(chunkBPName);
+	if(it != m_buildBounds.cend())
+	{
+		const auto& list = it->second;
+		for each (auto bounds in list)
+		{
+			if(bounds.contains(pos))
+				return true;
+		}
+		return false;
+	}
+	Print << "\n\"" << chunkBPName << "\" has no build positions on this map!";
+	return false;
 }
 void Universe::pack(sf::Packet& data)
 {

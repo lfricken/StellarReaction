@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Basic\BuildBounds.hpp" />
     <ClInclude Include="include\Basic\OddballFunctions.hpp" />
     <ClInclude Include="include\Basic\UpgradeType.hpp" />
     <ClInclude Include="include\Universe\BuildingModules\Extractor.hpp" />
@@ -344,6 +345,7 @@
     <ClInclude Include="include\Universe\Chunk\ShipProfile.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Basic\BuildBounds.cpp" />
     <ClCompile Include="src\Universe\BuildingModules\Extractor.cpp" />
     <ClCompile Include="src\Basic\UpgradeType.cpp" />
     <ClCompile Include="src\Universe\BuildingModules\Mind.cpp" />

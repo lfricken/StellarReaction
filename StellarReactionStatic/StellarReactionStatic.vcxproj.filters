@@ -116,6 +116,7 @@
     <ClCompile Include="src\Universe\BuildingModules\Mind.cpp" />
     <ClCompile Include="src\Universe\BuildingModules\Relay.cpp" />
     <ClCompile Include="src\Universe\BuildingModules\Replicator.cpp" />
+    <ClCompile Include="src\Basic\BuildBounds.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Game\Directory.hpp" />
@@ -450,6 +451,7 @@
     <ClInclude Include="include\Universe\BuildingModules\Mind.hpp" />
     <ClInclude Include="include\Universe\BuildingModules\Relay.hpp" />
     <ClInclude Include="include\Universe\BuildingModules\Replicator.hpp" />
+    <ClInclude Include="include\Basic\BuildBounds.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\API\SFML\Audio\SoundFileFactory.inl" />

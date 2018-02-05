@@ -305,16 +305,19 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 			if(event.key.code == m_inCfg.buildNewShip)
 			{
 				//TODO cost
+				String bpName = "Extractor";
+				if(game.getUniverse().canBuildAtLocation(bpName, m_aim))
+				{
+					ChunkDataMessage data;
+					data.aiControlled = false;
+					data.blueprintName = bpName;
+					data.coordinates = m_aim;
+					data.needsController = false;
+					data.rotation = 0.f;
+					data.team = static_cast<int>(getTeam());
+					ShipBuilder::Networked::createChunkFromClient(data, 0);
+				}
 
-				ChunkDataMessage data;
-				data.aiControlled = false;
-				data.blueprintName = "Extractor";
-				data.coordinates = m_aim;
-				data.needsController = false;
-				data.rotation = 0.f;
-				data.team = static_cast<int>(getTeam());
-
-				ShipBuilder::Networked::createChunkFromClient(data, 0);
 			}
 			/**== MAIN MENU ==**/
 			if(event.key.code == sf::Keyboard::Escape)
@@ -397,6 +400,8 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 					game.getUniverse().toggleDebugDraw();
 				if(event.key.code == sf::Keyboard::Numpad5)
 					m_tracking = !m_tracking;
+				if(event.key.code == sf::Keyboard::Numpad4)
+					Print << m_aim;
 				if(event.key.code == sf::Keyboard::Numpad0)
 					game.getUniverse().togglePause();
 			}

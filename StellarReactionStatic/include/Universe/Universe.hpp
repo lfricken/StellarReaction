@@ -14,6 +14,7 @@
 #include "Team.hpp"
 #include "Clock.hpp"
 #include "Resources.hpp"
+#include "BuildBounds.hpp"
 
 class BatchLayers;
 class GraphicsComponentUpdater;
@@ -125,6 +126,7 @@ public:
 	sptr<Chunk> getChunk(int pos);
 
 	const Resources& getTeamResources(Team team) const;
+	bool canBuildAtLocation(String chunkBPName, Vec2 pos) const;
 
 protected:
 	bool listContains(std::list<Team> teams, Team value);
@@ -137,6 +139,7 @@ private:
 	void pack(sf::Packet& data);
 	void unpack(sf::Packet& data);
 
+	Map<String, List<BuildBounds> > m_buildBounds;
 	/**Money**/
 	std::map<Team, Resources> m_teamResources;
 	std::map<Team, Resources> m_teamIncome;//how many resources does each team get per time
