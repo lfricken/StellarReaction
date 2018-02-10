@@ -15,6 +15,8 @@ public:
 	virtual ~Relay();
 
 protected:
+	bool m_opposingTeams; // true if this change in resources is applied to the opposing teams
+	Resources m_resourceChange; // how much income does this object add or subtract from its team?
 private:
 
 };
@@ -26,6 +28,8 @@ struct RelayData : ShipModuleData
 
 	{
 	}
+	bool opposingTeams; // true if this change in resources is applied to the opposing teams
+	Resources resourceChange; // how much income does this object add or subtract from its team just by existing?
 
 	///Create Capacitor object from this data object.
 	virtual Module* generate(GenerateParams params) const
