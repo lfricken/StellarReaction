@@ -13,6 +13,6 @@ public:
 	bool contains(const Vec2& point);
 
 	Vec2 center;
-	Vec2 halfSize;
+	float radius;
 };
 

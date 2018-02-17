@@ -48,7 +48,8 @@ struct InputConfig
 	/**OTHER**/
 	sf::Keyboard::Key store;
 	sf::Keyboard::Key respawn;
-	sf::Keyboard::Key buildNewShip;
+	sf::Keyboard::Key buildExtractor;
+	sf::Keyboard::Key buildRelay;
 
 	sf::Keyboard::Key cameraUp;
 	sf::Keyboard::Key cameraDown;

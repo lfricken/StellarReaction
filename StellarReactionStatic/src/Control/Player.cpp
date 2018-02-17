@@ -43,7 +43,8 @@ InputConfig::InputConfig()
 	store = sf::Keyboard::B;
 	respawn = sf::Keyboard::R;
 	grabTarget = sf::Keyboard::T;
-	buildNewShip = sf::Keyboard::V;
+	buildExtractor = sf::Keyboard::V;
+	buildRelay = sf::Keyboard::G;
 
 	cameraUp = sf::Keyboard::Up;
 	cameraDown = sf::Keyboard::Down;
@@ -302,7 +303,7 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 		if(event.type == sf::Event::KeyPressed)
 		{
 
-			if(event.key.code == m_inCfg.buildNewShip)
+			if(event.key.code == m_inCfg.buildExtractor)
 			{
 				//TODO cost
 				String bpName = "Extractor";
@@ -319,6 +320,25 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 				}
 
 			}
+			if(event.key.code == m_inCfg.buildRelay)
+			{
+				//TODO cost
+				String bpName = "Relay";
+				if(game.getUniverse().canBuildAtLocation(bpName, m_aim))
+				{
+					ChunkDataMessage data;
+					data.aiControlled = false;
+					data.blueprintName = bpName;
+					data.coordinates = m_aim;
+					data.needsController = false;
+					data.rotation = 0.f;
+					data.team = static_cast<int>(getTeam());
+					ShipBuilder::Networked::createChunkFromClient(data, 0);
+				}
+
+			}
+			
+
 			/**== MAIN MENU ==**/
 			if(event.key.code == sf::Keyboard::Escape)
 			{

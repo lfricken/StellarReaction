@@ -21,17 +21,25 @@
 			"ChunkName": "Extractor",
 			"BoundList": [{
 					"center": [0, 0],
-					"halfSize": [10, 10]
+					"radius": 10
 				},
 				{
 					"center": [30, 0],
-					"halfSize": [10, 10]
+					"radius": 40
 				}
 			]
 		},
 		{
 			"ChunkName": "Relay",
-			"BoundList": []
+			"BoundList": [{
+					"center": [0, 0],
+					"radius": 10
+				},
+				{
+					"center": [30, 0],
+					"radius": 200
+				}
+			]
 		}
 	],
 	"decorations": [{

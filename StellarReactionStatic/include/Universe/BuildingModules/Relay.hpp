@@ -24,8 +24,8 @@ private:
 struct RelayData : ShipModuleData
 {
 	RelayData() :
-		ShipModuleData()
-
+		ShipModuleData(),
+		opposingTeams(false)
 	{
 	}
 	bool opposingTeams; // true if this change in resources is applied to the opposing teams

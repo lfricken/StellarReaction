@@ -89,8 +89,7 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 					BuildBounds bounds;
 					bounds.center.x = (*bound)["center"][0].asFloat();
 					bounds.center.y = (*bound)["center"][1].asFloat();
-					bounds.halfSize.x = (*bound)["halfSize"][0].asFloat();
-					bounds.halfSize.y = (*bound)["halfSize"][1].asFloat();
+					bounds.radius = (*bound)["radius"].asFloat();
 					m_buildBounds[ChunkName].push_back(bounds);
 				}
 			}
