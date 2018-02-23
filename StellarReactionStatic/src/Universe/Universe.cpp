@@ -185,13 +185,11 @@ void Universe::createControllers(Team team, bool isAnAI, const String& slaveName
 Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input, this), m_physWorld(Vec2(0, 0))
 {
 	const Money defaultTickMoney = 1;
-	const float moneyTickTime = 1.f;
-	const int minTeam = (int)Team::One;
-	const int maxTeam = (int)Team::Four;
+	const float moneyTickTime = 60.f; // How often do we get income applied?
 
 	m_velocityIterations = 1;
 	m_positionIterations = 1;
-	m_timeStep = 1.0f / 120.0f;///LOAD FROM FILE
+	m_timeStep = 1.0f / 120.0f; // TODO LOAD FROM FILE
 
 	m_nw.reset(new NetworkComponent(NetworkComponentData(), &Universe::pack, &Universe::unpack, this, game.getNwBoss().getNWFactoryTcp()));
 

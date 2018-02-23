@@ -14,6 +14,7 @@
 
 void ChunkDataMessage::loadJson(const Json::Value& root)
 {
+	GETJSON(cost);
 	GETJSON(blueprintName);
 	GETJSON(coordinates);
 	GETJSON(rotation);

@@ -1,0 +1,25 @@
+{
+    "ClassName": "ChunkData",
+	"cost": [7, 2, 0],
+    "zoomData": {
+        "Max": 64,
+        "Value": 16
+    },
+    "energyData": {
+        "Max": 50
+    },
+	"hullSpriteData": {
+		"dimensions": [768, 768],
+		"texName": "hulls/Extractor",
+		"layer": "ShipHull"
+	},
+    "moduleData": [
+        {
+            "title": "Extractor",
+            "Position": [
+                0,
+                0
+            ]
+        }
+    ]
+}

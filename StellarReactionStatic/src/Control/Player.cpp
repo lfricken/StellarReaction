@@ -43,8 +43,12 @@ InputConfig::InputConfig()
 	store = sf::Keyboard::B;
 	respawn = sf::Keyboard::R;
 	grabTarget = sf::Keyboard::T;
-	buildExtractor = sf::Keyboard::V;
-	buildRelay = sf::Keyboard::G;
+
+	buildHardpoint = sf::Keyboard::F;
+	buildExtractor = sf::Keyboard::G;
+	buildRelay = sf::Keyboard::H;
+	buildMind = sf::Keyboard::J;
+	buildReplicator = sf::Keyboard::K;
 
 	cameraUp = sf::Keyboard::Up;
 	cameraDown = sf::Keyboard::Down;
@@ -323,7 +327,7 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 			if(event.key.code == m_inCfg.buildRelay)
 			{
 				//TODO cost
-				String bpName = "Relay";
+				String bpName = "Hardpoint";
 				if(game.getUniverse().canBuildAtLocation(bpName, m_aim))
 				{
 					ChunkDataMessage data;

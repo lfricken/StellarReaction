@@ -43,7 +43,6 @@ public:
 		Matter,
 		Energy,
 		Perception,
-		NumBrains,
 	};
 
 	static void ChangeIncome(const Resources& amount, Team team);

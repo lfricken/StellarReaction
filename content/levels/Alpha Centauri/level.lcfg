@@ -21,11 +21,7 @@
 			"ChunkName": "Extractor",
 			"BoundList": [{
 					"center": [0, 0],
-					"radius": 10
-				},
-				{
-					"center": [30, 0],
-					"radius": 40
+					"radius": 5000
 				}
 			]
 		},
@@ -33,11 +29,31 @@
 			"ChunkName": "Relay",
 			"BoundList": [{
 					"center": [0, 0],
-					"radius": 10
-				},
-				{
-					"center": [30, 0],
-					"radius": 200
+					"radius": 5000
+				}
+			]
+		},
+		{
+			"ChunkName": "Hardpoint",
+			"BoundList": [{
+					"center": [0, 0],
+					"radius": 5000
+				}
+			]
+		},
+		{
+			"ChunkName": "Mind",
+			"BoundList": [{
+					"center": [0, 0],
+					"radius": 5000
+				}
+			]
+		},
+		{
+			"ChunkName": "Replicator",
+			"BoundList": [{
+					"center": [0, 0],
+					"radius": 5000
 				}
 			]
 		}

@@ -167,6 +167,8 @@ struct ChunkDataMessage
 		needsController = false;
 		aiControlled = false;
 	}
+
+	Resources cost; // How much this chunk costs to build.
 	String blueprintName;
 	Vec2 coordinates;
 	/// <summary>

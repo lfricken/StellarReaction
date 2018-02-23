@@ -1,5 +1,6 @@
 {
     "ClassName": "ChunkData",
+	"cost": [3, 3, 0],
     "zoomData": {
         "Max": 64,
         "Value": 16
@@ -9,12 +10,12 @@
     },
 	"hullSpriteData": {
 		"dimensions": [768, 768],
-		"texName": "hulls/base",
+		"texName": "hulls/Mind",
 		"layer": "ShipHull"
 	},
     "moduleData": [
         {
-            "title": "Relay",
+            "title": "Mind",
             "Position": [
                 0,
                 0
