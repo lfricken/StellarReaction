@@ -196,7 +196,7 @@ private:
 
 	std::map<Team, List<Vec2> > m_spawnPoints;//places for people to spawn, int is team
 
-
+	bool m_allModulesUnlocked;
 	bool m_restartedMoneyTimer;
 	sptr<Timer> m_spMoneyTimer;//how long to wait for each money gift
 

@@ -184,8 +184,9 @@ void Universe::createControllers(Team team, bool isAnAI, const String& slaveName
 }
 Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input, this), m_physWorld(Vec2(0, 0))
 {
+	m_allModulesUnlocked = false;
 	const Money defaultTickMoney = 1;
-	const float moneyTickTime = 60.f; // How often do we get income applied?
+	const float moneyTickTime = 5.f; // How often do we get income applied?
 
 	m_velocityIterations = 1;
 	m_positionIterations = 1;
@@ -613,10 +614,10 @@ void Universe::input(String rCommand, sf::Packet rData)
 				game.getLocalPlayer().getCamera().shake(0.5, 60, 0.5);
 		}
 	}
-	else if(rCommand == "perceptionIncrease")
+	else if(rCommand == "upgrade")
 	{
-		static bool allUnlocked;
-
+		Print << "\n" << rCommand;
+		
 		int teamT;
 		rData >> teamT;
 		Team team = (Team)teamT; // Which team got the perception.
@@ -624,14 +625,16 @@ void Universe::input(String rCommand, sf::Packet rData)
 		
 		float unlockOdds = 99 / 100.f;
 		float roll = Rand::get(0.f, 1.f);
-		if(!allUnlocked && (roll < unlockOdds))
+		if(!m_allModulesUnlocked && (roll < unlockOdds))
 		{
-			allUnlocked = game.getOverlay().addStoreButton();
+			m_allModulesUnlocked = game.getOverlay().addStoreButton();
 		}
 		else
 		{
 			String blueprint = chooseBPtoUpgrade();
 			UpgradeType upgradeType = chooseUpgradeType();
+
+			Print << "\n" << blueprint << " " << (int)upgradeType;
 
 			m_spBPLoader->upgrade(blueprint, upgradeType, team);
 		}

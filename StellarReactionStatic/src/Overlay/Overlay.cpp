@@ -33,7 +33,7 @@ void StoreLoader::StoreButtonLoader::loadJson(const Json::Value& root)
 bool StoreLoader::addRandomButton(leon::Panel* pStore)
 {
 	if(lockedButtons.size() == 0)
-		return false;
+		return true;
 
 	sf::Vector2i initialGridPos = (sf::Vector2i)moduleSpawnPos;
 
@@ -94,7 +94,7 @@ bool StoreLoader::addRandomButton(leon::Panel* pStore)
 	}
 
 	++lastPosition;
-	return true;
+	return false;
 }
 void StoreLoader::loadJson(const Json::Value& root)
 {

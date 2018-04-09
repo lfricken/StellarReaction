@@ -155,6 +155,8 @@ protected:
 	void input(String rCommand, sf::Packet rData);
 
 private:
+	void build(String bpName, Vec2 pos);
+
 	Timer m_resourceUpdateTimer;
 	
 	void selectTarget(const Vec2& targetNearPos, const Chunk* playersShip);

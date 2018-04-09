@@ -203,6 +203,6 @@ void IOManager::unpack(sf::Packet& rPacket)//process data from our twin
 		else // if we are our clients, we should just hear it
 			m_messageList.push_back(fromNetwork);
 
-		delete pData;
+		delete[] pData;
 	}
 }

@@ -159,5 +159,5 @@ void Connection::recieveSpecialIo(sf::Packet& rPacket)
 		game.getCoreIO().recieve(mes);
 		
 		
-		delete pData;
+		delete[] pData;
 }

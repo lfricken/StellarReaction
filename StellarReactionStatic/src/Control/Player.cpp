@@ -306,40 +306,31 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 			rWindow.close();
 		if(event.type == sf::Event::KeyPressed)
 		{
-
 			if(event.key.code == m_inCfg.buildExtractor)
 			{
-				//TODO cost
-				String bpName = "Extractor";
-				if(game.getUniverse().canBuildAtLocation(bpName, m_aim))
-				{
-					ChunkDataMessage data;
-					data.aiControlled = false;
-					data.blueprintName = bpName;
-					data.coordinates = m_aim;
-					data.needsController = false;
-					data.rotation = 0.f;
-					data.team = static_cast<int>(getTeam());
-					ShipBuilder::Networked::createChunkFromClient(data, 0);
-				}
-
+				build("Extractor", m_aim);
 			}
 			if(event.key.code == m_inCfg.buildRelay)
 			{
-				//TODO cost
-				String bpName = "Hardpoint";
-				if(game.getUniverse().canBuildAtLocation(bpName, m_aim))
-				{
-					ChunkDataMessage data;
-					data.aiControlled = false;
-					data.blueprintName = bpName;
-					data.coordinates = m_aim;
-					data.needsController = false;
-					data.rotation = 0.f;
-					data.team = static_cast<int>(getTeam());
-					ShipBuilder::Networked::createChunkFromClient(data, 0);
-				}
-
+				build("Relay", m_aim);
+			}
+			if(event.key.code == m_inCfg.buildHardpoint)
+			{
+				build("Hardpoint", m_aim);
+			}
+			if(event.key.code == m_inCfg.buildMind)
+			{
+				build("Mind", m_aim);
+			}
+			if(event.key.code == m_inCfg.buildReplicator)
+			{
+				build("Replicator", m_aim);
+			}
+			if(event.key.code == sf::Keyboard::LBracket)
+			{
+				sf::Packet data;
+				data << 1;
+				Message::SendUniverse(Message("universe", "upgrade", data, 0.f, false));
 			}
 			
 
@@ -430,6 +421,20 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 					game.getUniverse().togglePause();
 			}
 		}
+	}
+}
+void Player::build(String bpName, Vec2 pos)
+{
+	if(game.getUniverse().canBuildAtLocation(bpName, pos))
+	{
+		ChunkDataMessage data;
+		data.aiControlled = false;
+		data.blueprintName = bpName;
+		data.coordinates = m_aim;
+		data.needsController = false;
+		data.rotation = 0.f;
+		data.team = static_cast<int>(getTeam());
+		ShipBuilder::Networked::createChunkFromClient(data, 0);
 	}
 }
 void Player::updateView()
