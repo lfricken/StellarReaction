@@ -81,7 +81,6 @@ sptr<const DynamicDecorData> BlueprintLoader::getDynamicDecorSPtr(const String& 
 bool BlueprintLoader::upgrade(String bpName, UpgradeType type, Team team)
 {
 	bool found = false;
-
 	String bluePrint = bpName + String((int)team);
 
 	for each(auto pair in m_wepBP)
@@ -90,17 +89,16 @@ bool BlueprintLoader::upgrade(String bpName, UpgradeType type, Team team)
 		{
 			found = true;
 			pair.second->applyUpgrade(type);
+			break;
 		}
 	}
-	if(!found)
+	for each(auto pair in m_modBP)
 	{
-		for each(auto pair in m_modBP)
+		if(pair.first == bluePrint)
 		{
-			if(pair.first == bluePrint)
-			{
-				found = true;
-				pair.second->applyUpgrade(type);
-			}
+			found = true;
+			pair.second->applyUpgrade(type);
+			break;
 		}
 	}
 

@@ -10,26 +10,24 @@
 
 void ShipModuleData::applyUpgrade(UpgradeType type)
 {
-	if(type == UpgradeType::Armor)
-		Upgrade::increase(type, &health.Armor);
-	else if(type == UpgradeType::Health)
-		Upgrade::increase(type, &health.Max);
-	else if(type == UpgradeType::Other)
-		for(auto it = rangeModifiers.modifiers.begin(); it != rangeModifiers.modifiers.end(); ++it)
-		{
-			auto& mod = *it;
+	Upgrade::increase(type, &health.Armor);
+	Upgrade::increase(type, &health.Max);
 
-			if(mod.Max != 0)
-				Upgrade::increase(type, &mod.Max);
-			else if(mod.Value != 0)
-				Upgrade::increase(type, &mod.Value);
-			else if(mod.Min != 0)
-				Upgrade::increase(type, &mod.Min);
-			else if(mod.ModifierPerSecond != 0)
-				Upgrade::increase(type, &mod.ModifierPerSecond);
-		}
-	else
-		WARNING;
+	//apply modifier upgrades per module basis???
+
+	//for(auto it = rangeModifiers.modifiers.begin(); it != rangeModifiers.modifiers.end(); ++it)
+	//{
+	//	auto& mod = *it;
+
+	//	if(mod.Max != 0)
+	//		Upgrade::increase(type, &mod.Max);
+	//	else if(mod.Value != 0)
+	//		Upgrade::increase(type, &mod.Value);
+	//	else if(mod.Min != 0)
+	//		Upgrade::increase(type, &mod.Min);
+	//	else if(mod.ModifierPerSecond != 0)
+	//		Upgrade::increase(type, &mod.ModifierPerSecond);
+	//}
 }
 void ShipModuleData::loadJson(const Json::Value& root)
 {

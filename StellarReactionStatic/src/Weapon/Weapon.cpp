@@ -13,10 +13,7 @@
 
 void WeaponData::applyUpgrade(UpgradeType type)
 {
-	if(type == UpgradeType::Other)
-	{
-		Upgrade::increase(type, &damage);
-	}
+	Upgrade::increase(type, &damage);
 }
 void WeaponData::loadJson(const Json::Value& root)
 {

@@ -5,6 +5,10 @@
 
 
 
+void ModuleData::applyUpgrade(UpgradeType type)
+{
+	WARNING;
+}
 void ModuleData::loadJson(const Json::Value& root)
 {
 	BlueprintableData::loadJson(root);

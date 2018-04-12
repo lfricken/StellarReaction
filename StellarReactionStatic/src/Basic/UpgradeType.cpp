@@ -6,7 +6,7 @@ void Upgrade::increase(UpgradeType type, float* value)
 }
 void Upgrade::increase(UpgradeType type, int* value)
 {
-	*value = (int)(*value * getAmount());
+	*value = (int)(*value * getAmount() + 0.5f);
 }
 float Upgrade::getAmount()
 {

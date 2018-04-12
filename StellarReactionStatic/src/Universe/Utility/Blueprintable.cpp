@@ -3,13 +3,13 @@
 #include "UpgradeType.hpp"
 
 
-void BlueprintableData::loadJson(const Json::Value& root)
-{
-	GETJSON(title);
-}
 void BlueprintableData::applyUpgrade(UpgradeType type)
 {
 	WARNING;
+}
+void BlueprintableData::loadJson(const Json::Value& root)
+{
+	GETJSON(title);
 }
 Blueprintable::Blueprintable(const BlueprintableData& data)
 {

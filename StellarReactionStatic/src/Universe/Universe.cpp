@@ -609,7 +609,7 @@ void Universe::input(String rCommand, sf::Packet rData)
 		if(position < m_goList.size())
 		{
 			auto chunk = dynamic_cast<Chunk*>(m_goList[position].get());
- 			m_goList.free(position);
+			m_goList.free(position);
 			if(shake)
 				game.getLocalPlayer().getCamera().shake(0.5, 60, 0.5);
 		}
@@ -617,15 +617,14 @@ void Universe::input(String rCommand, sf::Packet rData)
 	else if(rCommand == "upgrade")
 	{
 		Print << "\n" << rCommand;
-		
+
 		int teamT;
 		rData >> teamT;
 		Team team = (Team)teamT; // Which team got the perception.
 
-		
-		float unlockOdds = 99 / 100.f;
-		float roll = Rand::get(0.f, 1.f);
-		if(!m_allModulesUnlocked && (roll < unlockOdds))
+		//float unlockOdds = 99.f / 100.f;
+		//float roll = Rand::get(0.f, 1.f);
+		if(!m_allModulesUnlocked)// && (roll < unlockOdds))
 		{
 			m_allModulesUnlocked = game.getOverlay().addStoreButton();
 		}
