@@ -32,13 +32,13 @@
 	{
 		"previewTexture": "module/turret/ballistic_turret",
 		"cost": [10, 0, 0],
-		"moduleBlueprint": "BallisticTurret",
+		"moduleBlueprint": "BallisticWeapon",
 		"buttonName": ""
 	},
 	{
 		"previewTexture": "module/turret/gauss_rifle_turret",
 		"cost": [1, 0, 0],
-		"moduleBlueprint": "GaussRifleTurret",
+		"moduleBlueprint": "GaussRifleWeapon",
 		"buttonName": ""
 	}
 	

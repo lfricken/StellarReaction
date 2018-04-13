@@ -59,14 +59,14 @@
             ]
         },
         {
-            "title": "LaserTurret",
+            "title": "LaserWeapon",
             "Position": [
                 0,
                 1
             ]
         },
         {
-            "title": "LaserTurret",
+            "title": "LaserWeapon",
             "Position": [
                 -2,
                 0
@@ -101,7 +101,7 @@
             ]
         },
 		{
-            "title": "BallisticTurret",
+            "title": "BallisticWeapon",
             "Position": [
                 2,
                 0

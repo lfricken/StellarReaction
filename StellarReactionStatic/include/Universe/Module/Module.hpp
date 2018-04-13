@@ -136,8 +136,6 @@ struct ModuleData : public BlueprintableData
 
 	MyType(ModuleData, ModuleData);
 
-	virtual void applyUpgrade(UpgradeType type);
-
 protected:
 	template<class Type, class TypeData>
 	/// <summary>

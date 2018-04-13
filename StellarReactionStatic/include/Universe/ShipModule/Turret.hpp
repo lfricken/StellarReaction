@@ -14,7 +14,7 @@ public:
 	Turret(const TurretData& rData);
 	virtual ~Turret();
 	///Set the weapon for this turret.
-	void setWep(sptr<const WeaponData> spWep);
+	void setWep(String wepName);
 	///Remove the weapon from this turret.
 	void removeWep();
 	///Actions to process on object before performing physics updates.
@@ -49,8 +49,13 @@ struct TurretData : public ShipModuleData
 		baseDecor.texName = "turret/turret_base";
 	}
 
+	/// <summary>
+	/// Sets this blueprint to be on a specific team.
+	/// </summary>
+	virtual void setTeam(Team team);
+
 	int controlGroup;
-	sptr<const WeaponData> startWep;
+	String startWep;
 	///Create Turret object from this data object.
 	virtual Module* generate(GenerateParams params) const
 	{

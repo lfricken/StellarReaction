@@ -13,6 +13,7 @@
 
 void WeaponData::applyUpgrade(UpgradeType type)
 {
+	BlueprintableData::applyUpgrade(type);
 	Upgrade::increase(type, &damage);
 }
 void WeaponData::loadJson(const Json::Value& root)

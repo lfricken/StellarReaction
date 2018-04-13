@@ -12,7 +12,9 @@ void ShipModuleData::applyUpgrade(UpgradeType type)
 {
 	Upgrade::increase(type, &health.Armor);
 	Upgrade::increase(type, &health.Max);
+	Upgrade::increase(type, &health.Value);
 
+	ModuleData::applyUpgrade(type);
 	//apply modifier upgrades per module basis???
 
 	//for(auto it = rangeModifiers.modifiers.begin(); it != rangeModifiers.modifiers.end(); ++it)
@@ -124,14 +126,21 @@ void ShipModule::input(String rCommand, sf::Packet rData)
 
 		if(isValidDamageSource(damageAmount, team))//if not same team and valid damage value
 		{
-			static const float bleedFraction = 2.f; // how much is damage reduced when bleeding?
-			int overkill = (int)((damageAmount - m_health.getHealth() - m_health.getArmor()));// / bleedFraction); // how much excess damage there is.
+			static const float bleedFraction = 0.5f; // how much is damage reduced when bleeding?
+			bool wasCrit = false;
+			int damageDealt = 0;
+			int overkill = 0;
+			m_health.damage(damageAmount, &wasCrit, &damageDealt, &overkill); //actually do the damage
 
 			{//do standard damage
-				m_health.damage(damageAmount); //actually do the damage
 				changeHealthState(ioPosOfDealer);//potentially award a point
 				m_io.event(EventType::Health, m_health.getHealth(), voidPacket);
 				moduleDamageGraphics(); //flash hud and module
+
+				if(wasCrit)
+				{
+					//TODO: do something special if we took a crit
+				}
 
 				if(!isBleedDamage && effect != "") //spark effects
 				{
@@ -141,7 +150,8 @@ void ShipModule::input(String rCommand, sf::Packet rData)
 				}
 			}
 
-			if(overkill > 0)//check if damage should bleed
+			//check if damage should bleed
+			if(overkill > 0)
 			{
 				ShipModule* newTarget = m_parent->getNearestValidTarget(m_fix.getOffset());//returns null if there are no valid targets
 
@@ -155,9 +165,10 @@ void ShipModule::input(String rCommand, sf::Packet rData)
 				{
 					Chunk* parent = dynamic_cast<Chunk*>(m_parent);
 					parent->explode();
-
 				}
 			}
+
+			Print << "\nAttack for " << damageAmount << " with " << m_health.getArmor() << " armor dealt " << damageDealt << " damage.";
 		}
 	}
 	else if(rCommand == "heal")
@@ -173,8 +184,9 @@ void ShipModule::input(String rCommand, sf::Packet rData)
 	}
 	else if(rCommand == "increase_score")
 	{
-		WARNING;
-		Print << "\nTODO: increase_score on ship module";
+		//WARNING;
+		//TODO
+		//Print << "\nTODO: increase_score on ship module";
 	}
 	else
 		Module::input(rCommand, rData);

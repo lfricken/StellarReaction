@@ -1,6 +1,7 @@
 #pragma once
 
 #include "stdafx.hpp"
+#include "Team.hpp"
 
 struct BlueprintableData;
 enum class UpgradeType;
@@ -33,7 +34,13 @@ struct BlueprintableData : public ILoadsJson
 	BlueprintableData()
 	{
 		title = "VOIDCRAP";
+		upgradeCount = 0;
 	}
+
+	/// <summary>
+	/// Sets this blueprint to be on a specific team.
+	/// </summary>
+	virtual void setTeam(Team team);
 
 	/// <summary>
 	/// Do NOT load from JSON. This is set by the blueprint loader class.
@@ -44,6 +51,11 @@ struct BlueprintableData : public ILoadsJson
 	{
 		inherit(parent);
 	}
+
+	/// <summary>
+	/// Starts at 0. Represents how many times this module has been upgraded.
+	/// </summary>
+	int upgradeCount;
 
 	/// <summary>
 	/// Fill this object with data from a json file.

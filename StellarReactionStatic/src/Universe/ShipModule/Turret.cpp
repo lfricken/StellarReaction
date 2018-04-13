@@ -7,19 +7,22 @@
 #include "ModuleParent.hpp"
 
 
+void TurretData::setTeam(Team team)
+{
+	ShipModuleData::setTeam(team);
+	startWep = startWep + String((int)team);
+}
 void TurretData::loadJson(const Json::Value& root)
 {
 	GETJSON(controlGroup);
-
-	if(!root["startWep"].isNull())
-		startWep = game.getUniverse().getBlueprints().getWeaponSPtr(root["startWep"].asString());
+	GETJSON(startWep);
 
 	ShipModuleData::loadJson(root);
 }
 Turret::Turret(const TurretData& rData) : ShipModule(rData)
 {
-	if(rData.startWep)
-		setWep(rData.startWep);
+	setWep(rData.startWep);
+
 	m_lastAngle = 0;
 
 	m_controlGroup = rData.controlGroup;
@@ -62,10 +65,9 @@ void Turret::directive(const CommandInfo& commands)
 				//m_parentChunk->increaseScore();	
 			}
 }
-void Turret::setWep(sptr<const WeaponData> spWep)
+void Turret::setWep(String wepName)
 {
-	assert(spWep.get());
-	m_spWep.reset(spWep->generate());
+	m_spWep.reset(game.getUniverse().getBlueprints().getWeaponSPtr(wepName)->generate());
 	Team team = m_parent->getBodyComponent().getTeam();
 	m_spWep->setTeam(team);
 }

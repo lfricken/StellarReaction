@@ -40,9 +40,9 @@ public:
 	///Returns a shared pointer to the DynamicDecorData object created from the given blueprint.
 	sptr<const DynamicDecorData> getDynamicDecorSPtr(const String& rBPName) const;
 	/// <summary>
-	/// Upgrades the stats on a module or weapon blueprint. Weapons are searched first.
+	/// Upgrades the stats on a module or weapon blueprint. Returns what value it was upgraded to.
 	/// </summary>
-	bool upgrade(String bpName, UpgradeType type, Team team);
+	int upgrade(String bpName, UpgradeType type, Team team);
 protected:
 private:
 

@@ -40,7 +40,7 @@
 	"minShieldPower": 0.50,
     "moduleData": [
         {
-            "title": "LaserTurret",
+            "title": "BallisticWeapon",
             "Position": [
                 1,
                 1

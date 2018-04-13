@@ -49,9 +49,9 @@ public:
 	virtual ~Health();
 
 	/// <summary>
-	/// Deal damage to us. Return true if a crit damage.
+	/// Deal damage to us.
 	/// </summary>
-	bool damage(int injure);
+	void damage(int injure, bool* wasCrit, int* damageDealt, int* overkill);
 	///Restore health.
 	void heal(int health);
 	///Changes the armor by the specfied amount. Defaults to addition rather than subraction.
@@ -110,7 +110,7 @@ protected:
 private:
 
 	///Armor reduces incoming damage by that amount. Can't cause negative damage.
-	int m_armor;
+	sptr<Range> m_armor;
 
 	int m_critHits;
 	int m_maxCritHits;

@@ -633,9 +633,8 @@ void Universe::input(String rCommand, sf::Packet rData)
 			String blueprint = chooseBPtoUpgrade();
 			UpgradeType upgradeType = chooseUpgradeType();
 
-			Print << "\n" << blueprint << " " << (int)upgradeType;
-
-			m_spBPLoader->upgrade(blueprint, upgradeType, team);
+			int count = m_spBPLoader->upgrade(blueprint, upgradeType, team);
+			Print << "\n" << blueprint << " " << count; // << " " << (int)upgradeType;
 		}
 	}
 	else if(rCommand == "changeIncome")
@@ -658,7 +657,7 @@ void Universe::input(String rCommand, sf::Packet rData)
 	}
 	else
 	{
-		Print << m_io.getName() << ":[" << rCommand << "] not found." << FILELINE;
+		Print << "\n" << m_io.getName() << ":[" << rCommand << "] not found." << FILELINE;
 	}
 }
 UpgradeType Universe::chooseUpgradeType()

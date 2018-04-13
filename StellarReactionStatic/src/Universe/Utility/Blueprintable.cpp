@@ -5,7 +5,7 @@
 
 void BlueprintableData::applyUpgrade(UpgradeType type)
 {
-	WARNING;
+	upgradeCount++;
 }
 void BlueprintableData::loadJson(const Json::Value& root)
 {

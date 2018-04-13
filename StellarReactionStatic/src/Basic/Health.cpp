@@ -15,7 +15,13 @@ void HealthData::loadJson(const Json::Value& root)
 }
 Health::Health(const HealthData& data) : Range(data)
 {
-	m_armor = data.Armor;
+	RangeData armorData;
+	armorData.Max = 10000;
+	armorData.Value = (float)data.Armor;
+	armorData.Min = 0;
+
+	m_armor.reset(new Range(armorData));
+
 	m_critHits = 0;
 	m_maxCritHits = data.MaxCrits;
 
@@ -26,18 +32,24 @@ Health::~Health()
 {
 
 }
-bool Health::damage(int injure)
+void Health::damage(int injure, bool* wasCrit, int* damageDealt, int* overkill)
 {
-	int damageDealt = injure - m_armor;
+	*damageDealt = injure - (int)m_armor->getValue();
+	if(*damageDealt < 0)
+		*damageDealt = 0;
 
+	*overkill = *damageDealt - getHealth();
+	if(*overkill < 0)
+		*overkill = 0;
 
-	if(!isDead() && damageDealt > 0)//we aren't dead, and are taking damage
+	*wasCrit = false;
+
+	if(!isDead() && *damageDealt > 0)//we aren't dead, and are taking damage
 	{
-		changeValue((float)-damageDealt);//deal damage
-		changeArmor(-damageDealt / 4);
-		return updateCrits();
+		changeValue((float)-*damageDealt);//deal damage
+		changeArmor(-*damageDealt / 4);
+		*wasCrit = updateCrits();
 	}
-	return false;
 }
 bool Health::updateCrits()
 {
@@ -68,7 +80,7 @@ void Health::heal(int health)
 }
 void Health::changeArmor(int change)
 {
-	m_armor += change;
+	m_armor->changeValue((float)change);
 }
 
 bool Health::isDead() const
@@ -92,7 +104,7 @@ float Health::getHealthPercent() const
 }
 int Health::getArmor() const
 {
-	return m_armor;
+	return (int)m_armor->getValue();
 }
 sf::Color Health::getColor(float percent)
 {

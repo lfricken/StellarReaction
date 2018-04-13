@@ -83,7 +83,6 @@ namespace leon
 			m_modules.push_back(GridElement(moduleData->baseDecor.texName, shipModulePos, m_gridSize));
 			auto pos = getPixelOffset(shipModulePos);
 			m_modules.back().setGuiPosition(pos);
-
 		}
 	}
 	void Grid::damageModule(Vec2 pos, HealthState state, float healthPercent, bool flashDamage)

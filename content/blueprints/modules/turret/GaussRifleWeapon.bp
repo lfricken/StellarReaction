@@ -1,6 +1,6 @@
 {
     "ClassName": "TurretData",
-    "startWep": "GaussRifle",
+    "startWep": "GaussRifleWeapon",
 	"health": {
 		"Armor": 10
 	},
