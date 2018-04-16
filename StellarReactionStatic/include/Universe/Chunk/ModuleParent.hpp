@@ -38,7 +38,7 @@ public:
 	/// <summary>
 	/// Add a module to this.
 	/// </summary>
-	void add(const String bpName, const Vec2& pos);
+	void add(String bpName, const Vec2& pos);
 	/// <summary>
 	/// Enables or disables stealth on this. Uses stealth pool for effectiveness.
 	/// </summary>

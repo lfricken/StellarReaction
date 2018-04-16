@@ -3,6 +3,10 @@
 #include "UpgradeType.hpp"
 
 
+void BlueprintableData::setTeam(Team team)
+{
+	title = title + String((int)team);
+}
 void BlueprintableData::applyUpgrade(UpgradeType type)
 {
 	upgradeCount++;

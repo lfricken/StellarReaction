@@ -46,11 +46,32 @@ public:
 protected:
 private:
 
+	template <typename T>
+	void createTeamBlueprintCopies(std::map<String, sptr<T> >& blueprints)
+	{
+		std::map<String, sptr<T> > additionalBlueprints;
+
+		const int numTeams = 2;
+		const int startTeam = 1;
+
+		for(int team = startTeam; team <= numTeams; ++team) // add teams
+			for(auto it = blueprints.begin(); it != blueprints.end(); ++it)
+			{
+				String originalTitle = it->first;
+
+				sptr<T> bp (getData<T>(originalTitle, blueprints)->clone());
+				bp->setTeam((Team)team);
+				additionalBlueprints[bp->title] = bp;
+			}
+
+		blueprints.insert(additionalBlueprints.begin(), additionalBlueprints.end());
+	}
+
 	/** IMPORTANT NOTE:
 	/** Changing this file doesn't always trigger a recompile, you may need to manually do it!
 	**/
 	template <typename T>
-	void storeData(const String& title, const String& fullPath, std::map<String, sptr<T> >& blueprints)//load that blueprint
+	void storeFromFile(const String& title, const String& fullPath, std::map<String, sptr<T> >& blueprints)//load that blueprint
 	{
 		std::ifstream stream(fullPath, std::ifstream::binary);
 		Json::Reader reader;
@@ -68,7 +89,7 @@ private:
 	template <typename T>
 	sptr<T> loadData(const String& title, const Json::Value& root)
 	{
-		static_assert(std::is_base_of<BlueprintableData, T>::value, "T1 must derive from Base");
+		static_assert(std::is_base_of<BlueprintableData, T>::value, "T1 must derive from Base!");
 		sptr<T> spMod;
 		String ClassName = "garbage";
 		GETJSON(ClassName);

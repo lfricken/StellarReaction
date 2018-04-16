@@ -75,8 +75,17 @@ bool ModuleParent::allows(const ModuleData& data)
 
 	return false;
 }
-void ModuleParent::add(const String bpName, const Vec2& pos)
+void ModuleParent::add(String bpName, const Vec2& pos)
 {
+	if(!isdigit(bpName.back())) // necessary for when our ship is created from the base blueprint
+	{
+		int team = (int)m_body.getTeam();
+		if(team > 0)
+		{
+			bpName += String(team);
+		}
+	}
+
 	auto dataPtr = sptr<ModuleData>(game.getUniverse().getBlueprints().getModuleSPtr(bpName)->clone());
 	auto& data = *dataPtr;
 
@@ -86,11 +95,6 @@ void ModuleParent::add(const String bpName, const Vec2& pos)
 void ModuleParent::add(ModuleData& data)
 {
 	m_recalcRadius = true;
-
-	if(!isdigit(data.title.back())) // necessary for when our ship is created from the base blueprint
-	{
-		data.title += String((int)m_body.getTeam());
-	}
 
 	if(data.fixComp.offset.x == 3) // defines the storage TODO: (storage should be defined better)
 	{

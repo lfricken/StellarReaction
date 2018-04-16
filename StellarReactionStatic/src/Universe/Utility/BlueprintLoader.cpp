@@ -26,29 +26,23 @@ void BlueprintLoader::loadBlueprints(const String& rDir)
 	List<Pair<String, String> > projectiles = game.getDir().getAllFiles(rDir + "projectiles", ".bp");
 	List<Pair<String, String> > particles = game.getDir().getAllFiles(rDir + "particles", ".bp");
 
-	const int numTeams = 2;
-	const int startTeam = 1;
-
 	for(auto it = weapons.begin(); it != weapons.end(); ++it)
-		storeData<WeaponData>(it->first, it->second, m_wepBP);
-	for(int team = startTeam; team <= numTeams; ++team) // add teams
-		for(auto it = weapons.begin(); it != weapons.end(); ++it)
-			storeData<WeaponData>(it->first + String(team), it->second, m_wepBP);
+		storeFromFile<WeaponData>(it->first, it->second, m_wepBP);
 
 	for(auto it = modules.begin(); it != modules.end(); ++it)
-		storeData<ModuleData>(it->first, it->second, m_modBP);
-	for(int team = startTeam; team <= numTeams; ++team) // add teams
-		for(auto it = modules.begin(); it != modules.end(); ++it)
-			storeData<ModuleData>(it->first + String(team), it->second, m_modBP);
+		storeFromFile<ModuleData>(it->first, it->second, m_modBP);
 
 	for(auto it = chunks.begin(); it != chunks.end(); ++it)
-		storeData<ChunkData>(it->first, it->second, m_cnkBP);
+		storeFromFile<ChunkData>(it->first, it->second, m_cnkBP);
 
 	for(auto it = projectiles.begin(); it != projectiles.end(); ++it)
-		storeData<ProjectileData>(it->first, it->second, m_prjBP);
+		storeFromFile<ProjectileData>(it->first, it->second, m_prjBP);
 
 	for(auto it = particles.begin(); it != particles.end(); ++it)
-		storeData<Particles>(it->first, it->second, m_particlesBP);
+		storeFromFile<Particles>(it->first, it->second, m_particlesBP);
+
+	createTeamBlueprintCopies(m_wepBP);
+	createTeamBlueprintCopies(m_modBP);
 }
 sptr<const ChunkData> BlueprintLoader::getChunkSPtr(const String& rBPName) const
 {

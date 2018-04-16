@@ -10,12 +10,13 @@
 void TurretData::setTeam(Team team)
 {
 	ShipModuleData::setTeam(team);
-	startWep = startWep + String((int)team);
+	startWep = this->title;
+
 }
 void TurretData::loadJson(const Json::Value& root)
 {
 	GETJSON(controlGroup);
-	GETJSON(startWep);
+	//GETJSON(startWep); this is computed from title now in setTeam!
 
 	ShipModuleData::loadJson(root);
 }
@@ -67,7 +68,8 @@ void Turret::directive(const CommandInfo& commands)
 }
 void Turret::setWep(String wepName)
 {
-	m_spWep.reset(game.getUniverse().getBlueprints().getWeaponSPtr(wepName)->generate());
+	auto wep = game.getUniverse().getBlueprints().getWeaponSPtr(wepName);
+	m_spWep.reset(wep->generate());
 	Team team = m_parent->getBodyComponent().getTeam();
 	m_spWep->setTeam(team);
 }
