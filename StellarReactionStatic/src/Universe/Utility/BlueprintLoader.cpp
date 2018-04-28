@@ -90,7 +90,7 @@ int BlueprintLoader::upgrade(String bpName, UpgradeType type, Team team)
 		if(pair.first == bluePrintName)
 		{
 			pair.second->applyUpgrade(type);
-			upgradeNum = pair.second->upgradeCount;
+			upgradeNum = pair.second->upgradeLevel;
 			break;
 		}
 	}

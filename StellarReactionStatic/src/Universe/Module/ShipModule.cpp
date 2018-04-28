@@ -10,11 +10,11 @@
 
 void ShipModuleData::applyUpgrade(UpgradeType type)
 {
-	Upgrade::increase(type, &health.Armor);
-	Upgrade::increase(type, &health.Max);
-	Upgrade::increase(type, &health.Value);
-
 	ModuleData::applyUpgrade(type);
+	Upgrade::increase(type, &health.Armor, startHealth.Armor, upgradeLevel);
+	Upgrade::increase(type, &health.Max, startHealth.Max, upgradeLevel);
+	Upgrade::increase(type, &health.Value, startHealth.Value, upgradeLevel);
+
 	//apply modifier upgrades per module basis???
 
 	//for(auto it = rangeModifiers.modifiers.begin(); it != rangeModifiers.modifiers.end(); ++it)
@@ -34,6 +34,7 @@ void ShipModuleData::applyUpgrade(UpgradeType type)
 void ShipModuleData::loadJson(const Json::Value& root)
 {
 	LOADJSON(health);
+	startHealth = health;
 	LOADJSON(baseDecor);
 	LOADJSON(deathSound);
 	GETJSON(functionsDamaged);

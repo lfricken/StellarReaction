@@ -9,7 +9,7 @@ void BlueprintableData::setTeam(Team team)
 }
 void BlueprintableData::applyUpgrade(UpgradeType type)
 {
-	upgradeCount++;
+	upgradeLevel++;
 }
 void BlueprintableData::loadJson(const Json::Value& root)
 {

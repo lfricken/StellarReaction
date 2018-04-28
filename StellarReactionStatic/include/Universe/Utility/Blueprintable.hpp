@@ -34,7 +34,7 @@ struct BlueprintableData : public ILoadsJson
 	BlueprintableData()
 	{
 		title = "VOIDCRAP";
-		upgradeCount = 0;
+		upgradeLevel = 0;
 	}
 
 	/// <summary>
@@ -55,7 +55,7 @@ struct BlueprintableData : public ILoadsJson
 	/// <summary>
 	/// Starts at 0. Represents how many times this module has been upgraded.
 	/// </summary>
-	int upgradeCount;
+	int upgradeLevel;
 
 	/// <summary>
 	/// Fill this object with data from a json file.

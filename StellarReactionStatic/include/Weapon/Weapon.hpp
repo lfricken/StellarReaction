@@ -123,6 +123,7 @@ struct WeaponData : public BlueprintableData
 	int shotsInSpread;// if this weapon is a shotgun, how many shots in its spread
 	float fireArc;
 	int damage;//damage we do per shot
+	int startDamage;
 
 	float shotDelay;//how much time between shots
 	float fireDelay;//reload time

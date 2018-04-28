@@ -83,6 +83,7 @@ struct ShipModuleData : public ModuleData
 
 	QuadComponentData baseDecor;
 	HealthData health;
+	HealthData startHealth;
 	HealthState initHealthState;
 	bool functionsDamaged;//does this module still function when damaged?
 	leon::Sound deathSound;

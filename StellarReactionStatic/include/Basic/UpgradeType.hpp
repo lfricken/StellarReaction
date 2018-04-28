@@ -17,15 +17,14 @@ public:
 	/// <summary>
 	/// Upgrades the value.
 	/// </summary>
-	static void increase(UpgradeType type, float* value);
+	static void increase(UpgradeType type, float* value, float initValue, int level);
 	/// <summary>
 	/// Upgrades the value.
 	/// </summary>
-	static void increase(UpgradeType type, int* value);
+	static void increase(UpgradeType type, int* value, int initValue, int level);
 
 private:
-
-	static float getAmount();
+	static float getAmount(int level);
 };
 
 

@@ -12,10 +12,8 @@
 	}],
 	"Chunks": [{
 		"blueprintName": "Anubis",
-		"coordinates": [-60, -5, 0]
-	}, {
-		"blueprintName": "Caterina",
-		"coordinates": [-50, -5, 0]
+		"coordinates": [-60, -5, 0],
+		"team": 1
 	}],
 	"BuildBounds": [{
 			"ChunkName": "Extractor",

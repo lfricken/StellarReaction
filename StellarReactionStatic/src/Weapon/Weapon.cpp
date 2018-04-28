@@ -14,7 +14,7 @@
 void WeaponData::applyUpgrade(UpgradeType type)
 {
 	BlueprintableData::applyUpgrade(type);
-	Upgrade::increase(type, &damage);
+	Upgrade::increase(type, &damage, startDamage, upgradeLevel);
 }
 void WeaponData::loadJson(const Json::Value& root)
 {
@@ -25,6 +25,7 @@ void WeaponData::loadJson(const Json::Value& root)
 	GETJSON(shotsInSpread);
 	GETJSON(fireArc);
 	GETJSON(damage);
+	startDamage = damage;
 
 	LOADJSON(startSound);
 	LOADJSON(shotSound);
