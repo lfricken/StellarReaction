@@ -1,0 +1,13 @@
+{
+    "ClassName": "TurretData",
+	"controlGroup": 1,
+    "baseDecor": {
+        "texName": "module/turret/laser_turret"
+    },
+	"cost": 100,
+	"health": {
+		"Max": 100,
+		"Value": 100,
+		"Armor": 0
+	}
+}

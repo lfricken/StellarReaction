@@ -47,6 +47,13 @@
             ]
         },
         {
+            "title": "BallisticWeapon",
+            "Position": [
+                2,
+                1
+            ]
+        },
+        {
             "title": "Shield",
             "Position": [
                 -1,

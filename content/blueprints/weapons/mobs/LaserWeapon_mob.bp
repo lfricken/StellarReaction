@@ -1,0 +1,25 @@
+{
+    "ClassName": "LaserWeaponData",
+	
+    "energyConsumption": 10,
+	"fireDelay": 2,
+    "damage": 9,
+	
+    "shots": 3,
+	"shotDelay": 0.2,
+	
+	"range": 75,
+
+	"beamColor": [
+        0,
+        255,
+        0,
+        255
+    ],
+	"weaponQuad": {
+		"dimensions": [128, 256]
+	},
+    "shotSound": {
+        "name": "LaserShot.wav"
+    }
+}

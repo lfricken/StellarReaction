@@ -1,0 +1,17 @@
+{
+    "ClassName": "ThrusterData",
+	"force": 10,
+	"torque": 5,
+	"boostCostMult": 1,
+	"boostThrustMult": 1,
+	"energyConsumption": 1,
+    "baseDecor": {
+        "texName": "module/thruster"
+    },
+	"cost": 150,
+	"health": {
+		"Max": 100,
+		"Value": 100,
+		"Armor": 0
+	}
+}

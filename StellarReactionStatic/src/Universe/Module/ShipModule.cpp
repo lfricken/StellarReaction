@@ -14,7 +14,7 @@ void ShipModuleData::applyUpgrade(UpgradeType type)
 	Upgrade::increase(type, &health.Armor, startHealth.Armor, upgradeLevel);
 	Upgrade::increase(type, &health.Max, startHealth.Max, upgradeLevel);
 	Upgrade::increase(type, &health.Value, startHealth.Value, upgradeLevel);
-
+	
 	//apply modifier upgrades per module basis???
 
 	//for(auto it = rangeModifiers.modifiers.begin(); it != rangeModifiers.modifiers.end(); ++it)
@@ -22,7 +22,7 @@ void ShipModuleData::applyUpgrade(UpgradeType type)
 	//	auto& mod = *it;
 
 	//	if(mod.Max != 0)
-	//		Upgrade::increase(type, &mod.Max);
+	//		Upgrade::increase(type, &mod.Max, upgradeLevel);
 	//	else if(mod.Value != 0)
 	//		Upgrade::increase(type, &mod.Value);
 	//	else if(mod.Min != 0)

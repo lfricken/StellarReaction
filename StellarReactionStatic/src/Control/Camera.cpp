@@ -22,7 +22,7 @@ void Camera::shake(float duration, float frequency, float amplitude)
 }
 void Camera::setPosition(const Vec2& rPos)//world position
 {
-	sf::Listener::setPosition(rPos.x, rPos.y, 5);///HOW DO WE SET Z OF LISTENER rPos.y
+	sf::Listener::setPosition(rPos.x, rPos.y, 5);///TODO: HOW DO WE SET Z OF LISTENER? is 5 far enough away? put this behind an api
 	Vec2 shakePos = m_shaker.getPosition() + rPos;
 	m_view.setCenter(leon::b2Tosf<float>(shakePos));
 }
@@ -34,7 +34,7 @@ void Camera::move(const Vec2& change)
 	m_view.move(delta);
 
 	Vec2 rPos = leon::sfTob2(m_view.getCenter());
-	sf::Listener::setPosition(rPos.x, rPos.y, 5);///HOW DO WE SET Z OF LISTENER rPos.y
+	sf::Listener::setPosition(rPos.x, rPos.y, 5);///TODO: HOW DO WE SET Z OF LISTENER? is 5 far enough away? put this behind an api
 }
 void Camera::setZoom(float level)//multiple of each dimension to find new
 {

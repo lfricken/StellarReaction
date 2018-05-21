@@ -1,0 +1,17 @@
+{
+    "ClassName": "ReactorData",
+    "baseDecor": {
+        "texName": "module/reactor"
+    },
+	"cost": 150,
+	"rangeModifiers": {
+		"Energy": {
+			"ModifierPerSecond": 10
+		}
+	},
+	"health": {
+		"Max": 100,
+		"Value": 100,
+		"Armor": 0
+	}
+}

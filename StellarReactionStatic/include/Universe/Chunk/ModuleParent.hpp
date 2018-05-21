@@ -111,6 +111,9 @@ struct ModuleParentData : public BlueprintableData
 		rangeData.rangeData[RangeList::Zoom].Min = 1;
 		rangeData.rangeData[RangeList::Zoom].Value = 1;
 		rangeData.rangeData[RangeList::Zoom].Max = 128;
+
+		rangeData.rangeData[RangeList::Energy].Value = 200;
+		rangeData.rangeData[RangeList::Energy].Max = 200;
 	}
 
 	ShipProfile profile;

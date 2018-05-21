@@ -595,22 +595,41 @@ void Universe::input(String rCommand, sf::Packet rData)
 	}
 	else if(rCommand == "killChunkCommand")
 	{
-		sf::Packet t;
-		t << 1;
-		Message m("universe", "perceptionIncrease", t, 0.f, false);
-		Message::SendUniverse(m);
+		int chunkListPosition;
+		bool shouldShakeScreen;
 
-		int position;
-		bool shake;
+		rData >> chunkListPosition;
+		rData >> shouldShakeScreen;
 
-		rData >> position;
-		rData >> shake;
-
-		if(position < m_goList.size())
+		if(chunkListPosition < m_goList.size())
 		{
-			auto chunk = dynamic_cast<Chunk*>(m_goList[position].get());
-			m_goList.free(position);
-			if(shake)
+			auto chunk = dynamic_cast<Chunk*>(m_goList[chunkListPosition].get());
+
+			if(chunk != nullptr)
+			{ // perception increase for enemy dying
+				sf::Packet data;
+				int team;
+				if(chunk->getBodyComponent().getTeam() == Team::One)
+					team = (int)Team::Two;
+				else
+				{
+					team = (int)Team::One;
+				}
+
+				data << team;
+
+				Resources perceptionIncrease;
+				perceptionIncrease.m_resourceValues[Resources::Perception] = 1;
+				perceptionIncrease.intoPacket(&data);
+
+				Message killPerception("universe", "changeResources", data, 0.f, false);
+				Message::SendUniverse(killPerception);
+			}
+			else
+				WARNING;
+
+			m_goList.free(chunkListPosition);
+			if(shouldShakeScreen)
 				game.getLocalPlayer().getCamera().shake(0.5, 60, 0.5);
 		}
 	}
@@ -649,6 +668,7 @@ void Universe::input(String rCommand, sf::Packet rData)
 	else if(rCommand == "changeResources")
 	{
 		int team;
+
 		Resources delta;
 		rData >> team;
 		delta.fromPacket(&rData);

@@ -30,7 +30,7 @@ private:
 
 	List<Vec2> m_samples;
 	/// <summary>
-	/// tells you where the shake should be
+	/// used to let us know where our position should be in the shake
 	/// </summary>
 	Timer m_shakeTimer;
 };
