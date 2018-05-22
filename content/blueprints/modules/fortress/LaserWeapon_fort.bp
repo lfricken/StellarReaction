@@ -1,0 +1,9 @@
+{
+    "ClassName": "TurretData",
+    "startWep": "LaserWeapon",
+	"controlGroup": 1,
+    "baseDecor": {
+        "texName": "module/turret/laser_turret"
+    },
+	"cost": 100
+}

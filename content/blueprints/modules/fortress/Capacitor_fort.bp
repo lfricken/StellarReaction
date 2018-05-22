@@ -1,0 +1,12 @@
+{
+    "ClassName": "CapacitorData",
+    "baseDecor": {
+        "texName": "module/capacitor"
+    },
+	"cost": [4, 4, 4],
+	"rangeModifiers": {
+		"Energy": {
+			"Max": 100
+		}
+	}
+}

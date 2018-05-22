@@ -3,18 +3,19 @@
 	
     "energyConsumption": 10,
 	"fireDelay": 2,
-    "damage": 2,
+    "damage": 80,
 	
-    "shots": 1,
-	"shotDelay": 1,
+    "shots": 4,
+	"shotDelay": 0.15,
 	
-	"range": 50,
+	"range": 85,
+	"fireArc": 0,
 
 	"beamColor": [
-        0,
         255,
         0,
-        255
+        0,
+        205
     ],
 	"weaponQuad": {
 		"dimensions": [128, 256]

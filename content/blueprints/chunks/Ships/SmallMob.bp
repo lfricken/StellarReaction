@@ -8,45 +8,29 @@
         "Max": 50
     },
 	"hullSpriteData": {
-		"dimensions": [2600, 2371],
-		"center": [0,-600],
+		"dimensions": [1350, 1740],
+		"center": [0, 0],
 		"texName": "hulls/bluefighter",
 		"layer": "ShipHull"
 	},
 	"afterburnerSpriteData": [
 		{
 			"dimensions": [200, 600],
-			"center": [-150, 795],
+			"center": [0, 600],
 			"texName": "effects/thrust",
 			"animSheetName": "effects/thrust.acfg",
 			"layer": "ShipModules",
 			"permanentRot": -2
-		},
-		{
-			"dimensions": [200, 600],
-			"center": [150, 795],
-			"texName": "effects/thrust",
-			"animSheetName": "effects/thrust.acfg",
-			"layer": "ShipModules",
-			"permanentRot": 2
 		}
 	],
 	"afterburnerThrustSpriteData": [
 		{
 			"dimensions": [200, 1400],
-			"center": [-150, 1050],
+			"center": [0, 600],
 			"texName": "effects/boost",
 			"animSheetName": "effects/boost.acfg",
 			"layer": "ShipModules",
 			"permanentRot": -2
-		},
-		{
-			"dimensions": [200, 1400],
-			"center": [150, 1050],
-			"texName": "effects/boost",
-			"animSheetName": "effects/boost.acfg",
-			"layer": "ShipModules",
-			"permanentRot": 2
 		}
 	],
     "moduleData": [

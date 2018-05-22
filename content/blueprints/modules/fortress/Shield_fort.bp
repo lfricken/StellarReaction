@@ -1,0 +1,11 @@
+{
+    "ClassName": "ShieldData",
+    "radius": 10,
+	"energyPerSecond": 2,
+  	"energyPerHit": 5,
+	"toggleFrequency": 1,
+	"baseDecor": {
+		"texName": "module/shield"
+	},
+	"cost": 200
+}

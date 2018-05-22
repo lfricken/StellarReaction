@@ -1,0 +1,129 @@
+{
+    "ClassName": "ChunkData",
+    "zoomData": {
+        "Max": 64,
+        "Value": 06
+    },
+	"hullSpriteData": {
+		"dimensions": [2048, 2048],
+		"texName": "hulls/loltower",
+		"layer": "ShipHull"
+	},
+	"bodyComp": {
+		"isDynamic": false
+	},
+    "moduleData": [
+        {
+            "title": "Reactor_fort",
+            "Position": [
+                0,
+                0
+            ]
+        },
+        {
+            "title": "LaserWeapon_fort",
+            "Position": [
+                0,
+                1
+            ]
+        },
+        {
+            "title": "Capacitor_fort",
+            "Position": [
+                1,
+                0
+            ]
+        },
+        {
+            "title": "Shield_fort",
+            "Position": [
+                1,
+                1
+            ]
+        },
+        {
+            "title": "Plating_fort",
+            "Position": [
+                -1,
+                -1
+            ]
+        },
+        {
+            "title": "Plating_fort",
+            "Position": [
+                0,
+                -1
+            ]
+        },
+        {
+            "title": "Plating_fort",
+            "Position": [
+                1,
+                -1
+            ]
+        },
+        {
+            "title": "Plating_fort",
+            "Position": [
+                2,
+                -1
+            ]
+        },
+        {
+            "title": "Plating_fort",
+            "Position": [
+                -1,
+                2
+            ]
+        },
+        {
+            "title": "Plating_fort",
+            "Position": [
+                0,
+                2
+            ]
+        },
+        {
+            "title": "Plating_fort",
+            "Position": [
+                1,
+                2
+            ]
+        },
+        {
+            "title": "Plating_fort",
+            "Position": [
+                2,
+                2
+            ]
+        },
+        {
+            "title": "Plating_fort",
+            "Position": [
+                -1,
+                0
+            ]
+        },
+        {
+            "title": "Plating_fort",
+            "Position": [
+                -1,
+                1
+            ]
+        },
+        {
+            "title": "Plating_fort",
+            "Position": [
+                2,
+                0
+            ]
+        },
+        {
+            "title": "Plating_fort",
+            "Position": [
+                2,
+                1
+            ]
+        }
+    ]
+}

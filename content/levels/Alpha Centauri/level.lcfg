@@ -14,7 +14,13 @@
 		"blueprintName": "Anubis",
 		"coordinates": [-60, -5, 0],
 		"team": 1
-	}],
+	},{
+		"blueprintName": "Fortress_1",
+		"coordinates": [-75, -5, 0],
+		"team": 1,
+		"aiControlled": true
+	}	
+	],
 	"BuildBounds": [{
 			"ChunkName": "Extractor",
 			"BoundList": [{

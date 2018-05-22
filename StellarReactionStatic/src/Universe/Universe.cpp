@@ -603,6 +603,8 @@ void Universe::input(String rCommand, sf::Packet rData)
 
 		if(chunkListPosition < m_goList.size())
 		{
+			Print << "\nkill " << chunkListPosition;
+
 			auto chunk = dynamic_cast<Chunk*>(m_goList[chunkListPosition].get());
 
 			if(chunk != nullptr)
@@ -632,6 +634,8 @@ void Universe::input(String rCommand, sf::Packet rData)
 			if(shouldShakeScreen)
 				game.getLocalPlayer().getCamera().shake(0.5, 60, 0.5);
 		}
+		else
+			WARNING;
 	}
 	else if(rCommand == "upgrade")
 	{

@@ -11,7 +11,6 @@ void TurretData::setTeam(Team team)
 {
 	ShipModuleData::setTeam(team);
 	startWep = this->title;
-
 }
 void TurretData::loadJson(const Json::Value& root)
 {
