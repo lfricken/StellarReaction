@@ -55,8 +55,9 @@ void Turret::postPhysUpdate()
 }
 void Turret::directive(const CommandInfo& commands)
 {
-
-	if(rIssues[Directive::FirePrimary] && controlGroups[m_controlGroup])
+	//Map<int, bool> controlGroups = commands.weaponGroups;
+	auto it = commands.directives.find(Directive::FirePrimary);
+	if(it != commands.directives.cend() && it->second)
 		if(m_spWep && isFunctioning())//if we have a weapon
 			if(m_spWep->fire(m_fix, rangeModifiers.ranges))//if we successfully fired
 			{
@@ -86,6 +87,10 @@ void Turret::toggleStealth(bool toggle)
 		m_spWep->getDecor()->setAlpha(alpha_stealth_on);
 	else 
 		m_spWep->getDecor()->setAlpha(alpha_stealth_off);
+}
+const Weapon* Turret::getWeapon()
+{
+	return m_spWep.get();
 }
 
 

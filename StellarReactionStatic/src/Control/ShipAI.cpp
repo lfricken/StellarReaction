@@ -74,7 +74,8 @@ void ShipAI::updateDecision()
 			angleToTarget(targetPos);
 			
 			const float fireRange = rController.getChunk()->maxWeaponRange();
-			if(ourPos.to(targetPos).len() < fireRange)
+			const float len = ourPos.to(targetPos).len();
+			if(len < fireRange)
 				fireAtTarget();
 			else
 				m_directives[Directive::Up] = true;
