@@ -6,11 +6,13 @@
 #include "OddballFunctions.hpp"
 #include "Chunk.hpp"
 #include "Grid.hpp"
+#include "Turret.hpp"
 
 void ModuleParentData::loadJson(const Json::Value& root)
 {
 	BlueprintableData::loadJson(root);
 
+	GETJSON(isPlayer);
 	LOADJSON(profile);
 	LOADJSON(rangeData);
 	LOADJSON(bodyComp);
@@ -41,6 +43,7 @@ void ModuleParentData::loadJson(const Json::Value& root)
 }
 ModuleParent::ModuleParent(const ModuleParentData& data) : Blueprintable(data), m_body(data.bodyComp), m_ranges(data.rangeData)
 {
+	m_isPlayer = data.isPlayer;
 	m_profile = data.profile;
 	m_body.parent = this;
 
@@ -56,6 +59,26 @@ ModuleParent::ModuleParent(const ModuleParentData& data) : Blueprintable(data), 
 ModuleParent::~ModuleParent()
 {
 
+}
+bool ModuleParent::isPlayer()
+{
+	return m_isPlayer;
+}
+float ModuleParent::maxWeaponRange()
+{
+	float range = 0.f;
+	for each (sptr<Module> module in m_modules)
+	{
+		Turret* turret = dynamic_cast<Turret*>(module.get());
+		if(turret != nullptr)
+		{
+			String title = turret->getWeapon()->getTitle();
+			const float thisWeaponRange = game.getUniverse().getBlueprints().getWeaponSPtr(title)->range;
+			if(thisWeaponRange > range)
+				range = thisWeaponRange;
+		}
+	}
+	return range;
 }
 bool ModuleParent::allows(const ModuleData& data)
 {

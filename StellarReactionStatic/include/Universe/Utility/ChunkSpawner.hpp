@@ -25,6 +25,7 @@ private:
 
 	Universe* m_pUniverse;
 
+	int m_spawnPer; // How many chunks to spawn per spawn event.
 	/// <summary>
 	/// The team of the chunks this spawner creates.
 	/// </summary>

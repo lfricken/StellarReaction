@@ -41,9 +41,10 @@ LaserWeapon::~LaserWeapon()
 void LaserWeapon::preShot(const Vec2& center, const Vec2& aim, float radCCW, float module_orientation)
 {
 	m_ray.setIgnoreBody(m_pBody);
-
-	float mult = m_range / leon::Dist(aim, center);
-	Vec2 end = Vec2(center.x + (aim.x - center.x)*mult, center.y + (aim.y - center.y)*mult);
+	
+	const Vec2 angle = center.to(aim).unit();
+	const Vec2 laserVector = angle * m_range;
+	const Vec2 end = aim + laserVector;
 	game.getUniverse().getWorld().RayCast(&m_ray, center, end);
 }
 /// <summary>

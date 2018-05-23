@@ -75,7 +75,14 @@ public:
 	/// Returns the radius of this chunk.
 	/// </summary>
 	float getRadius();
-
+	/// <summary>
+	/// Used by turrets to pick priority.
+	/// </summary>
+	bool isPlayer();
+	/// <summary>
+	/// Return max range of this chunk;
+	/// </summary>
+	float maxWeaponRange();
 
 	void resetStatusBoard(wptr<leon::Grid> grid);
 	wptr<leon::Grid> getStatusBoard();
@@ -97,8 +104,9 @@ protected:
 	List<Pair<String, sf::Vector2i> > m_storedModules; //Stored as Blueprint,position.
 
 private:
-	float m_radius;//calculated radius of this chunk.
-	bool m_recalcRadius;//mark true if the radius of the module should be recalculated
+	bool m_isPlayer; // true if this chunk is controlled by a player
+	float m_radius; // calculated max radius of this chunk.
+	bool m_recalcRadius; // mark true if the radius of the module should be recalculated
 	wptr<leon::Grid> m_statusBoard; // if someone is targeting us, this is the board we should update
 	ShipProfile m_profile;
 };
@@ -108,6 +116,7 @@ struct ModuleParentData : public BlueprintableData
 	ModuleParentData() : 
 		bodyComp()
 	{
+		isPlayer = true;
 		rangeData.rangeData[RangeList::Zoom].Min = 1;
 		rangeData.rangeData[RangeList::Zoom].Value = 1;
 		rangeData.rangeData[RangeList::Zoom].Max = 128;
@@ -116,6 +125,7 @@ struct ModuleParentData : public BlueprintableData
 		rangeData.rangeData[RangeList::Energy].Max = 200;
 	}
 
+	bool isPlayer; // true if this chunk is controlled by a player
 	ShipProfile profile;
 	RangeListData rangeData;
 	BodyComponentData bodyComp;

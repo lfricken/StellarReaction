@@ -31,7 +31,7 @@ private:
 
 	Timer m_huntingTimer; //timer for how long we should hunt enemies for
 	Timer m_targetTimer; //timer for switching to a closer enemy
-	void flyToTarget(Vec2 target);//fly ship towards chunk
+	void angleToTarget(Vec2 target);//fly ship towards chunk
 	void fireAtTarget();//fire at m_pCurrentTarget
 
 	wptr<Chunk> m_pCurrentTarget;//our current enemy target nearest to us

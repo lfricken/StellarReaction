@@ -51,7 +51,7 @@ Weapon::Weapon(const WeaponData& rData) : Blueprintable(rData), m_decor(rData.we
 	m_ballistic = rData.ballisticConsumption;
 	m_missiles = rData.missileConsumption;
 
-	m_range = rData.range * sizeScalingFactor;
+	m_range = rData.range;
 	m_damage = rData.damage;
 	m_shots = rData.shots;
 	m_shotsInSpread = rData.shotsInSpread;

@@ -3,12 +3,12 @@
 	
     "energyConsumption": 10,
 	"fireDelay": 2,
-    "damage": 2,
+    "damage": 4,
 	
     "shots": 1,
 	"shotDelay": 1,
 	
-	"range": 50,
+	"range": 30,
 
 	"beamColor": [
         0,

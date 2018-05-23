@@ -27,6 +27,10 @@ public:
 	virtual void directive(const CommandInfo& commands);
 	///Set the stealth state.
 	virtual void toggleStealth(bool toggle);
+	/// <summary>
+	/// The weapon on this turret.
+	/// </summary>
+	const Weapon* getWeapon();
 
 protected:
 private:

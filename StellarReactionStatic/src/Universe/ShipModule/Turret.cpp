@@ -55,8 +55,6 @@ void Turret::postPhysUpdate()
 }
 void Turret::directive(const CommandInfo& commands)
 {
-	Map<Directive, bool> rIssues = commands.directives;
-	Map<int, bool> controlGroups = commands.weaponGroups;
 
 	if(rIssues[Directive::FirePrimary] && controlGroups[m_controlGroup])
 		if(m_spWep && isFunctioning())//if we have a weapon

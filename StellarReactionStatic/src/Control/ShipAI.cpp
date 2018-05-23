@@ -71,10 +71,12 @@ void ShipAI::updateDecision()
 			//TODO, lead target
 			rController.setAim(targetPos);
 
-			flyToTarget(targetPos);
-			fireAtTarget();
-
-			if(ourPos.to(targetPos).len() > 30)
+			angleToTarget(targetPos);
+			
+			const float fireRange = rController.getChunk()->maxWeaponRange();
+			if(ourPos.to(targetPos).len() < fireRange)
+				fireAtTarget();
+			else
 				m_directives[Directive::Up] = true;
 		}
 	}
@@ -86,7 +88,7 @@ void ShipAI::updateDecision()
 	commands.weaponGroups = m_weaponGroups;
 	rController.locallyUpdate(commands);
 }
-void ShipAI::flyToTarget(Vec2 target)
+void ShipAI::angleToTarget(Vec2 target)
 {
 	Controller* cont = game.getUniverse().getControllerFactory().getController(m_controller);
 	if(cont == nullptr)
@@ -114,25 +116,7 @@ void ShipAI::flyToTarget(Vec2 target)
 }
 void ShipAI::fireAtTarget()
 {
-	if(auto target = m_pCurrentTarget.lock())
-	{
-		Controller* cont = game.getUniverse().getControllerFactory().getController(m_controller);
-		if(cont == nullptr)
-			return;
-		Controller& rController = *cont;
-
-		auto& body = rController.getChunk()->getBodyComponent();
-
-		Vec2 ourPos = body.getPosition();
-		Vec2 targetPos = target->getBodyComponent().getPosition();
-
-		Vec2 diff = targetPos - ourPos;
-
-		if(diff.len() < 40)
-		{
-			m_directives[Directive::FirePrimary] = true;
-		}
-	}
+	m_directives[Directive::FirePrimary] = true;
 }
 bool ShipAI::isStuck(Vec2 curPos)
 {
