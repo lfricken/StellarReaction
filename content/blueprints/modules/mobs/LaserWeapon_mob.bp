@@ -6,8 +6,8 @@
     },
 	"cost": 100,
 	"health": {
-		"Max": 20,
-		"Value": 20,
+		"Max": 100,
+		"Value": 100,
 		"Armor": 0
 	}
 }

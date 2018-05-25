@@ -33,6 +33,7 @@ private:
 	Timer m_targetTimer; //timer for switching to a closer enemy
 	void angleToTarget(Vec2 target);//fly ship towards chunk
 	void fireAtTarget();//fire at m_pCurrentTarget
+	float m_weaponRange;
 
 	wptr<Chunk> m_pCurrentTarget;//our current enemy target nearest to us
 	wptr<Chunk> m_pCurrentDest;//our current destination to fly to

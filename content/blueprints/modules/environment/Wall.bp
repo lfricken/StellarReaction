@@ -1,0 +1,22 @@
+{
+    "ClassName": "PlatingData",
+	"health": {
+		"Max": 1000,
+		"Min": 0,
+		"Value": 1000,
+		"Armor": 500
+	},
+	"fixComp": {
+		"offset": [
+			0,
+			0
+		],
+		"size": [
+			50,
+			3
+		],
+		"shape": "rectangle",
+		"mass": 1
+	},
+	"collisionDamage": 3
+}

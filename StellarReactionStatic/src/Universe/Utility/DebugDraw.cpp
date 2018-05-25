@@ -7,8 +7,8 @@
 
 DebugDraw::DebugDraw()
 {
-	sf::Color outline(255,0,60,255);
-	sf::Color fillC(0,0,255,64);
+	sf::Color outline(255, 0, 60, 255);
+	sf::Color fillC(0, 0, 255, 64);
 	float thickness = -2.f;
 
 	m_convex.setFillColor(fillC);
@@ -24,10 +24,10 @@ DebugDraw::DebugDraw()
 	m_circle.setOutlineColor(outline);
 	m_circle.setOutlineThickness(thickness);
 
-	m_line.append(sf::Vertex(sf::Vector2f(0,0), outline));
-	m_line.append(sf::Vertex(sf::Vector2f(0,0), outline));
-	m_line[0].texCoords = sf::Vector2f(0,0);
-	m_line[1].texCoords = sf::Vector2f(0,0);
+	m_line.append(sf::Vertex(sf::Vector2f(0, 0), outline));
+	m_line.append(sf::Vertex(sf::Vector2f(0, 0), outline));
+	m_line[0].texCoords = sf::Vector2f(0, 0);
+	m_line[1].texCoords = sf::Vector2f(0, 0);
 	m_line.setPrimitiveType(sf::Lines);
 }
 
@@ -38,10 +38,15 @@ DebugDraw::~DebugDraw()
 void DebugDraw::DrawPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color)
 {
 	(void)color;
+
 	m_convex2.setPointCount(vertexCount);
-	for (int i = 0; i < vertexCount; i++)
+	for(int i = 0; i < vertexCount; i++)
 	{
-		m_convex2.setPoint(i, leon::b2Tosf<float>(vertices[i]));
+		auto point = Vec2((float)vertices[i].x, (float)vertices[i].y);
+		auto b = Convert::worldToUniverse(point);
+		auto a = Convert::universeToScreen(b);
+		auto pos = sf::Vector2f(a);
+		m_convex2.setPoint(i, pos);
 	}
 	game.getWindow().draw(m_convex2);
 }
@@ -49,34 +54,38 @@ void DebugDraw::DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, cons
 {
 	(void)color;
 
-	for (int i = 0; i < 4; i++)
+	for(int i = 0; i < 4; i++)
 	{
-		m_convex.setPoint(i, leon::b2Tosf<float>(vertices[i]));
+		m_convex.setPoint(i, sf::Vector2f(Convert::universeToScreen(Convert::worldToUniverse(Vec2(vertices[i])))));
 	}
 	game.getWindow().draw(m_convex);
 }
 void DebugDraw::DrawCircle(const b2Vec2& center, float32 radius, const b2Color& color)
 {
 	(void)color;
-	m_circle.setRadius(radius*scale);
-	m_circle.setPosition(leon::b2Tosf<float>(center));
+
+	m_circle.setRadius(Convert::universeToScreen(Convert::worldToUniverse(radius)));
+	m_circle.setPosition(sf::Vector2f(Convert::universeToScreen(Convert::worldToUniverse(Vec2(center)))));
 	game.getWindow().draw(m_circle);
 }
 void DebugDraw::DrawSolidCircle(const b2Vec2& center, float32 radius, const b2Vec2& axis, const b2Color& color)
 {
-
 	(void)color;
 	(void)axis;
-	m_circle.setOrigin(radius*scale, radius*scale);
-	m_circle.setRadius(radius*scale);
-	m_circle.setPosition(leon::b2Tosf<float>(center));
+
+	float radiusInPixels = Convert::universeToScreen(Convert::worldToUniverse(radius));
+
+	m_circle.setOrigin(radiusInPixels, radiusInPixels);
+	m_circle.setRadius(radiusInPixels);
+	m_circle.setPosition(sf::Vector2f(Convert::universeToScreen(Convert::worldToUniverse(Vec2(center)))));
 	game.getWindow().draw(m_circle);
 }
 void DebugDraw::DrawSegment(const b2Vec2& p1, const b2Vec2& p2, const b2Color& color)
 {
 	(void)color;
-	m_line[0].position = leon::b2Tosf<float>(p1);
-	m_line[1].position = leon::b2Tosf<float>(p2);
+
+	m_line[0].position = sf::Vector2f(Convert::universeToScreen(Convert::worldToUniverse(Vec2(p1))));
+	m_line[1].position = sf::Vector2f(Convert::universeToScreen(Convert::worldToUniverse(Vec2(p2))));
 
 	game.getWindow().draw(m_line);
 }
@@ -84,8 +93,8 @@ void DebugDraw::DrawTransform(const b2Transform& xf)
 {
 	(void)xf;
 
-	m_line[0].position = leon::b2Tosf<float>(Vec2(0,0));
-	m_line[1].position = leon::b2Tosf<float>(xf.p);
+	m_line[0].position = sf::Vector2f(Convert::universeToScreen(Convert::worldToUniverse(Vec2(Vec2(0, 0)))));
+	m_line[1].position = sf::Vector2f(Convert::universeToScreen(Convert::worldToUniverse(Vec2(xf.p))));
 
 	game.getWindow().draw(m_line);
 }

@@ -15,6 +15,7 @@ enum class Team;
 struct WeaponData;
 class FixtureComponent;
 enum class UpgradeType;
+class BodyComponent;
 
 struct HitEffect
 {
@@ -34,9 +35,9 @@ public:
 	/// returns true if we will fire.
 	bool fire(const FixtureComponent& pParent, RangeList* ranges);
 	/// Called by our parent module
-	virtual void prePhysUpdate(const Vec2& center, const Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation);
+	virtual void prePhysUpdate(const Vec2& center, const Vec2& aim, float32 radCCW, BodyComponent* pBody, float module_orientation);
 	/// Called by our parent module
-	virtual void postPhysUpdate(const Vec2& center, const Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation);
+	virtual void postPhysUpdate(const Vec2& center, const Vec2& aim, float32 radCCW, BodyComponent* pBody, float module_orientation);
 	/// Called before physics update if this weapon should fire this tick
 	/// Look at laser and projectile weapon.
 	/// Overwrite this when making a new weapon.
@@ -55,7 +56,7 @@ public:
 protected:
 	///Team that owns this wep.
 	Team m_team;
-	b2Body* m_pBody;
+	BodyComponent* m_pBody;
 	const FixtureComponent* m_pTempParent;
 	int m_shots;//how many shots we do upon each fire command
 	String m_effectName;

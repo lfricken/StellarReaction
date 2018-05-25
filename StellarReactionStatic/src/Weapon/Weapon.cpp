@@ -55,7 +55,7 @@ Weapon::Weapon(const WeaponData& rData) : Blueprintable(rData), m_decor(rData.we
 	m_damage = rData.damage;
 	m_shots = rData.shots;
 	m_shotsInSpread = rData.shotsInSpread;
-	m_fireArc = leon::degToRad(rData.fireArc);
+	m_fireArc = Convert::degToRad(rData.fireArc);
 	m_shotsRemain = 0;
 	m_collisions = rData.collisions;
 
@@ -92,7 +92,7 @@ bool Weapon::fire(const FixtureComponent& pParent, RangeList* ranges)//we were t
 	else
 		return false;
 }
-void Weapon::prePhysUpdate(const Vec2& center, const Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation)//we are checking whether we should take a shot
+void Weapon::prePhysUpdate(const Vec2& center, const Vec2& aim, float32 radCCW, BodyComponent* pBody, float module_orientation)//we are checking whether we should take a shot
 {
 	m_pBody = pBody;
 
@@ -107,7 +107,7 @@ void Weapon::prePhysUpdate(const Vec2& center, const Vec2& aim, float32 radCCW, 
 			preShot(center, randArc(center, aim), radCCW, module_orientation);
 	}
 }
-void Weapon::postPhysUpdate(const Vec2& center, const Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation)//we are determining our next shot
+void Weapon::postPhysUpdate(const Vec2& center, const Vec2& aim, float32 radCCW, BodyComponent* pBody, float module_orientation)//we are determining our next shot
 {
 	m_pBody = pBody;
 	m_decor.setRotation(radCCW);

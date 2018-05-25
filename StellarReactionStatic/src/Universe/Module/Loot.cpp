@@ -29,7 +29,7 @@ void Loot::postPhysUpdate()
 /// </summary>
 void Loot::entered(FixtureComponent* pOther)
 {
-	auto newGuest = static_cast<BodyComponent*>(pOther->getBodyPtr()->GetUserData())->parent;
+	auto newGuest = pOther->getParentBody()->moduleParent;
 
 	if(newGuest)
 	{

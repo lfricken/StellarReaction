@@ -73,8 +73,10 @@ Shield::Shield(const ShieldData& rData) : ShipModule(rData)
 	assert(m_pShield != NULL);
 
 	auto shieldArt = rData.shieldArt;
-	shieldArt.dimensions.x = leon::toScreen(rData.radius);
-	shieldArt.dimensions.y = leon::toScreen(rData.radius);
+
+	auto pixelRadius = Convert::universeToScreen(rData.radius);
+	shieldArt.dimensions.x = pixelRadius;
+	shieldArt.dimensions.y = pixelRadius;
 	m_spShieldArt.reset(new QuadComponent(shieldArt));
 }
 void Shield::prePhysUpdate()

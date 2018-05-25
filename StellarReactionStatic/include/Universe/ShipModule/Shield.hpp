@@ -110,7 +110,7 @@ struct ShieldData : public ShipModuleData
 		toggleFrequency(1)
 	{
 		baseDecor.texName = "module/shield";
-		shieldArt.dimensions = leon::b2Tosf<float>(Vec2(5, 5));
+		shieldArt.dimensions = (sf::Vector2f)Convert::universeToScreen(Vec2(5.f, 5.f));
 		shieldArt.texName = "module/barrier";
 	}
 

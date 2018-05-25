@@ -145,9 +145,9 @@ void ShipModule::input(String rCommand, sf::Packet rData)
 
 				if(!isBleedDamage && effect != "") //spark effects
 				{
-					const Vec2 bodyCenter = m_fix.getBodyPtr()->GetWorldCenter();
+					const Vec2 bodyCenter = m_fix.getParentBody()->getPosition();
 					const Vec2 bounce = fromDir.bounce(bodyCenter.to(hitPoint));
-					game.getUniverse().spawnParticles(effect, hitPoint, bounce, m_fix.getBodyPtr()->GetLinearVelocity());
+					game.getUniverse().spawnParticles(effect, hitPoint, bounce, m_fix.getParentBody()->getLinearVelocity());
 				}
 			}
 

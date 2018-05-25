@@ -5,6 +5,7 @@
 #include "JSON.hpp"
 #include "Convert.hpp"
 #include "Debugging.hpp"
+#include "RayCastCallback.hpp"
 
 
 
@@ -35,7 +36,7 @@ BodyComponent::BodyComponent(const BodyComponentData& rData)
 {
 	m_team = rData.team;
 
-	parent = nullptr;
+	moduleParent = nullptr;
 
 	if(rData.syncedNetwork)
 		m_nw.reset(new NetworkComponent(rData.nwComp, &BodyComponent::pack, &BodyComponent::unpack, this, game.getNwBoss().getNWDataFactory()));
@@ -45,8 +46,8 @@ BodyComponent::BodyComponent(const BodyComponentData& rData)
 	else
 		m_bodyDef.type = b2BodyType::b2_staticBody;
 
-	m_bodyDef.position = rData.coords;
-	m_bodyDef.angle = leon::degToRad(rData.rotation);
+	m_bodyDef.position = Convert::universeToWorld(rData.coords);
+	m_bodyDef.angle = Convert::degToRad(rData.rotation);
 	m_bodyDef.bullet = rData.isBullet;
 	m_bodyDef.angularDamping = rData.angularDampening;
 	m_bodyDef.linearDamping = rData.linearDampening;
@@ -54,8 +55,8 @@ BodyComponent::BodyComponent(const BodyComponentData& rData)
 	m_pBody = game.getUniverse().getWorld().CreateBody(&m_bodyDef);
 	m_pBody->SetUserData(this);
 
-	if(!rData.startAwake)//if it should be asleep
-		sleep();//then cleanly put it to sleep
+	if(!rData.startAwake) // if it should be asleep
+		sleep(); // then cleanly put it to sleep
 }
 BodyComponent::~BodyComponent()
 {
@@ -63,7 +64,7 @@ BodyComponent::~BodyComponent()
 }
 Vec2 BodyComponent::getPosition() const
 {
-	return m_pBody->GetPosition();
+	return Convert::worldToUniverse(m_pBody->GetPosition());
 }
 float BodyComponent::getAngle() const
 {
@@ -77,8 +78,37 @@ NetworkComponent& BodyComponent::getNWComp()
 {
 	return *m_nw;
 }
+Vec2 BodyComponent::getLinearVelocity() const
+{
+	return Convert::worldToUniverse(m_pBody->GetLinearVelocity());
+}
+void BodyComponent::applyTorque(float torqueCCW)
+{
+	m_pBody->ApplyTorque(torqueCCW, true);
+}
+void BodyComponent::applyForce(const Vec2& rForce)
+{
+	m_pBody->ApplyForceToCenter(rForce, true);
+}
+void BodyComponent::setTransform(const Vec2& pos, float rotCCW)
+{
+	m_pBody->SetTransform(Convert::universeToWorld(pos), rotCCW);
+}
+void BodyComponent::setIgnoreBody(RayCastCallback* ray)
+{
+	ray->setIgnoreBody(m_pBody);
+}
+float BodyComponent::getInertia()
+{
+	return m_pBody->GetInertia();
+}
+float BodyComponent::getMass()
+{
+	return m_pBody->GetMass();
+}
 void BodyComponent::pack(sf::Packet& rPacket)
 {
+	//TODO consider switching to universal units
 	rPacket << static_cast<float32>(m_pBody->GetPosition().x);
 	rPacket << static_cast<float32>(m_pBody->GetPosition().y);
 	rPacket << static_cast<float32>(m_pBody->GetLinearVelocity().x);
@@ -88,6 +118,7 @@ void BodyComponent::pack(sf::Packet& rPacket)
 }
 void BodyComponent::unpack(sf::Packet& rPacket)
 {
+	//TODO consider switching to universal units
 	Vec2 pos;
 	Vec2 vel;
 	float32 posX, posY, velX, velY;
@@ -119,8 +150,8 @@ bool BodyComponent::isAwake() const
 }
 void BodyComponent::sleep()
 {
-	m_oldAngle = m_pBody->GetAngle();
-	m_oldPos = m_pBody->GetPosition();
+	m_oldAngle = getAngle();
+	m_oldPos = getPosition();
 
 	m_pBody->SetActive(false);
 	m_pBody->SetAwake(false);
@@ -132,12 +163,7 @@ void BodyComponent::sleep()
 void BodyComponent::wake()
 {
 	if(!isAwake())
-	{
-		m_pBody->SetActive(true);
-		m_pBody->SetAwake(true);
-
-		m_pBody->SetTransform(m_oldPos, m_oldAngle);
-	}
+		wake(m_oldPos, m_oldAngle, Vec2(0,0), 0);
 	else
 		WARNING;
 }
@@ -145,8 +171,8 @@ void BodyComponent::wake(const Vec2& rCoords, float radiansCCW, const Vec2& rVel
 {
 	m_pBody->SetActive(true);
 	m_pBody->SetAwake(true);
-	m_pBody->SetTransform(rCoords, radiansCCW);
-	m_pBody->SetLinearVelocity(rVel);
+	m_pBody->SetTransform(Convert::universeToWorld(rCoords), radiansCCW);
+	m_pBody->SetLinearVelocity(Convert::universeToWorld(rVel));
 	m_pBody->SetAngularVelocity(angularVel);
 }
 void BodyComponent::setTeam(Team team)

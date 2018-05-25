@@ -14,7 +14,7 @@ ProjectileModule::ProjectileModule(const ProjectileModuleData& rData) : Sensor(r
 {
 	m_freeThisProjectile = false;
 	m_decors.push_back(sptr<GraphicsComponent>(new QuadComponent(rData.baseDecor)));
-	m_pParent = NULL;
+	m_pParentBody = nullptr;
 	m_currentCollisions = 0;
 	m_maxCollisions = 2;
 	m_damage = 0;
@@ -33,7 +33,7 @@ ProjectileModule::~ProjectileModule()
 /// <param name="collisions">how many modules to damage</param>
 void ProjectileModule::setPayload(int damage, const FixtureComponent* pParent, int collisions)
 {
-	const BodyComponent* pParentBody = static_cast<const BodyComponent*>(pParent->getBodyPtr()->GetUserData());
+	const BodyComponent* pParentBody = pParent->getParentBody();
 
 	m_currentCollisions = 0;
 	m_freeThisProjectile = false;
@@ -42,7 +42,7 @@ void ProjectileModule::setPayload(int damage, const FixtureComponent* pParent, i
 	m_maxCollisions = collisions;
 
 	m_team = pParentBody->getTeam();
-	m_pParent = pParent->getBodyPtr();//make sure the module we damage isn't from our own ship!
+	m_pParentBody = pParent->getParentBody();//make sure the module we damage isn't from our own ship!
 	m_sourceIOPos = pParent->getIOPos();
 }
 void ProjectileModule::postPhysUpdate()
@@ -58,14 +58,12 @@ void ProjectileModule::postPhysUpdate()
 /// </summary>
 void ProjectileModule::entered(FixtureComponent* pOther)
 {
-	auto collidingBody = static_cast<BodyComponent*>(pOther->getBodyPtr()->GetUserData());
-	Team collidingTeam = collidingBody->getTeam();
-	auto myBody = static_cast<BodyComponent*>(m_pParent->GetUserData());
-	Team myTeam = myBody->getTeam();
+	Team collidingTeam = pOther->getParentBody()->getTeam();
+	Team myTeam = m_pParentBody->getTeam();
 
-	if(pOther->getBodyPtr() != m_pParent && m_currentCollisions < m_maxCollisions && collidingTeam != myTeam)
+	if(pOther->getParentBody() != m_pParentBody && m_currentCollisions < m_maxCollisions && collidingTeam != myTeam)
 	{
-		const Vec2 dir = m_fix.getBodyPtr()->GetLinearVelocity();
+		const Vec2 dir = m_pParentBody->getLinearVelocity();
 		Weapon::damage(&game.getUniverse().getUniverseIO(), pOther->getIOPos(), m_damage, m_sourceIOPos, m_team, m_fix.getCenter(), dir, "LowSparks");
 
 		++m_currentCollisions;

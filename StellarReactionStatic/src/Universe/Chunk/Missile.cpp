@@ -32,13 +32,12 @@ void Missile::missileLaunch(Vec2 rStart, wptr<Chunk> target, float module_orient
 }
 void Missile::steer()
 {
-	b2Body& bod = *m_body.getBodyPtr();
-	Vec2 vel = bod.GetLinearVelocity();
+	Vec2 vel = m_body.getLinearVelocity();
 
 	float totalVelocity = vel.len();
-	float velAngle = leon::normRad(atan2(vel.y, vel.x));
+	float velAngle = Convert::normRad(atan2(vel.y, vel.x));
 
-	float ourAngle = leon::normRad(bod.GetAngle());
+	float ourAngle = Convert::normRad(m_body.getAngle());
 
 	if(totalVelocity < m_maxVelocity)
 	{
@@ -46,13 +45,13 @@ void Missile::steer()
 		{
 			Vec2 direction = getTargetDirection(target);
 
-			float targetAngle = leon::normRad(atan2(direction.y, direction.x));//angle of target
-			float diffAngle = leon::normRad(targetAngle - velAngle);//between velocity and target
+			float targetAngle = Convert::normRad(atan2(direction.y, direction.x));//angle of target
+			float diffAngle = Convert::normRad(targetAngle - velAngle);//between velocity and target
 
 			normalizeAngle(diffAngle);
 			minimizeAngle(diffAngle);
-			float objectiveAngle = leon::normRad(diffAngle + targetAngle);//objective angle is what we want to face right now
-			float diffObjectiveAngle = leon::normRad(objectiveAngle - ourAngle);
+			float objectiveAngle = Convert::normRad(diffAngle + targetAngle);//objective angle is what we want to face right now
+			float diffObjectiveAngle = Convert::normRad(objectiveAngle - ourAngle);
 
 			normalizeAngle(diffObjectiveAngle);
 
@@ -60,17 +59,17 @@ void Missile::steer()
 			if(diffObjectiveAngle < 0)
 				mod = -1;
 
-			float torque = 30.f*mod*bod.GetInertia();
+			float torque = 30.f*mod* m_body.getInertia();
 
-			bod.ApplyTorque(torque, true);
+			m_body.applyTorque(torque);
 
 		}
 
 		Vec2 direction(cos(ourAngle), sin(ourAngle));
 		direction = direction.unit();
-		direction *= bod.GetMass()*m_acceleration;
+		direction *= m_body.getMass()*m_acceleration;
 
-		bod.ApplyForceToCenter(direction, true);
+		m_body.applyForce(direction);
 	}
 }
 void Missile::prePhysUpdate()
@@ -85,26 +84,25 @@ void Missile::postPhysUpdate()
 }
 void Missile::minimizeAngle(float& angle)
 {
-	if(angle < -pi / 5.f)
-		angle = -pi / 5.f;
-	else if(angle > pi / 5.f)
-		angle = pi / 5.f;
+	if(angle < -Math::Pi / 5.f)
+		angle = -Math::Pi / 5.f;
+	else if(angle > Math::Pi / 5.f)
+		angle = Math::Pi / 5.f;
 }
 void Missile::normalizeAngle(float& diffObjectiveAngle)
 {
-	if(diffObjectiveAngle > pi)
-		diffObjectiveAngle -= 2 * pi;
+	if(diffObjectiveAngle > Math::Pi)
+		diffObjectiveAngle -= 2 * Math::Pi;
 }
 Vec2 Missile::getTargetDirection(sptr<Chunk> target)
 {
-	b2Body& bod = *m_body.getBodyPtr();
-	Vec2 ourPos = bod.GetPosition();
-	b2Body& tBod = *target->getBodyComponent().getBodyPtr();
-	Vec2 targetVel = tBod.GetLinearVelocity();
-	Vec2 targetPos = tBod.GetPosition();
-	Vec2 diff = targetPos - ourPos;
+	Vec2 ourPos = m_body.getPosition();
 
-	float dist = diff.len();
+	BodyComponent& targetBody = target->getBodyComponent();
+	Vec2 targetVel = targetBody.getLinearVelocity();
+	Vec2 targetPos = targetBody.getPosition();
+
+	float dist = ourPos.to(targetPos).len();
 	float eta = 3 * dist / m_maxVelocity;
 
 	targetPos.x = targetPos.x + targetVel.x * eta;

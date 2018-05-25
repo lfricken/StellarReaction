@@ -16,8 +16,8 @@ void ThrusterData::loadJson(const Json::Value& root)
 Thruster::Thruster(const ThrusterData& rData) : ShipModule(rData)
 {
 	m_eConsump = rData.energyConsumption;
-	m_force = rData.force * sizeScalingFactor;
-	m_torque = rData.torque * sizeScalingFactor * sizeScalingFactor;
+	m_force = rData.force;
+	m_torque = rData.torque;
 
 	m_boostThrust = rData.boostThrustMult;
 	m_boostCostMulti = rData.boostCostMult;

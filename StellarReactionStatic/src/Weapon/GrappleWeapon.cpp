@@ -5,9 +5,7 @@
 #include "FixtureComponent.hpp"
 #include "BlueprintLoader.hpp"
 #include "Weapon.hpp"
-
-
-
+#include "BodyComponent.hpp"
 
 void GrappleWeaponData::loadJson(const Json::Value& root)
 {
@@ -26,7 +24,7 @@ GrappleWeapon::~GrappleWeapon()
 {
 
 }
-void GrappleWeapon::postPhysUpdate(const Vec2& center, const Vec2& aim, float32 radCCW, b2Body* pBody, float module_orientation)
+void GrappleWeapon::postPhysUpdate(const Vec2& center, const Vec2& aim, float32 radCCW, BodyComponent* pBody, float module_orientation)
 {
 	LaserWeapon::postPhysUpdate(center, aim, radCCW, pBody, module_orientation);
 	if(!m_grappleTimer.isTimeUp())
@@ -34,16 +32,16 @@ void GrappleWeapon::postPhysUpdate(const Vec2& center, const Vec2& aim, float32 
 }
 void GrappleWeapon::grappleTo()
 {
-	if(m_target != NULL)
+	if(m_target != nullptr)
 	{
-		Vec2 targetPos = m_target->getBodyPtr()->GetPosition();
-		Vec2 ourPos = m_pBody->GetPosition();
+		Vec2 targetPos = m_target->getCenter();
+		Vec2 ourPos = m_pBody->getPosition();
 		Vec2 appliedForce = (targetPos - ourPos);
 
 		appliedForce = appliedForce.unit();
 		appliedForce *= m_pullStrength;
-		m_pBody->ApplyForceToCenter(appliedForce, true);
-		m_target->getBodyPtr()->ApplyForceToCenter(Vec2(-appliedForce.x, -appliedForce.y), true);
+		m_pBody->applyForce(appliedForce);
+		m_target->applyForce(Vec2(-appliedForce.x, -appliedForce.y));
 	}
 }
 Vec2 GrappleWeapon::collisionHandle(const RayData& data)

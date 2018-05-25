@@ -20,8 +20,8 @@ MissileWeapon::MissileWeapon(const MissileWeaponData& rData) : Weapon(rData)
 	m_max_velocity = 70.f;
 	m_init_velocity = 2.f;
 
-	m_velocity = rData.velocity * sizeScalingFactor;
-	m_projLifetime = rData.range * sizeScalingFactor / m_velocity;
+	m_velocity = rData.velocity;
+	m_projLifetime = rData.range / m_velocity;
 }
 MissileWeapon::~MissileWeapon()
 {

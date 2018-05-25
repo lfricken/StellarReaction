@@ -15,8 +15,8 @@ void BallisticWeaponData::loadJson(const Json::Value& root)
 BallisticWeapon::BallisticWeapon(const BallisticWeaponData& rData) : Weapon(rData)
 {
 	m_projName = rData.projName;
-	m_velocity = rData.velocity * sizeScalingFactor;
-	m_projLifetime = rData.range * sizeScalingFactor / m_velocity;
+	m_velocity = rData.velocity;
+	m_projLifetime = rData.range / m_velocity;
 }
 BallisticWeapon::~BallisticWeapon()
 {

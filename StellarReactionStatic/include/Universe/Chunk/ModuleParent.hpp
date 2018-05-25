@@ -21,7 +21,6 @@ public:
 	ModuleParent(const ModuleParentData& data);
 	virtual ~ModuleParent();
 
-
 	/// <summary>
 	/// Range of stats.
 	/// </summary>
@@ -30,7 +29,6 @@ public:
 	/// Physics body.
 	/// </summary>
 	BodyComponent& getBodyComponent();
-
 	/// <summary>
 	/// Add a module to this.
 	/// </summary>
@@ -86,7 +84,6 @@ public:
 
 	void resetStatusBoard(wptr<leon::Grid> grid);
 	wptr<leon::Grid> getStatusBoard();
-
 
 	/// <summary>
 	/// Return this dynamic casted to a Chunk*.

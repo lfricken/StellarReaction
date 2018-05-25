@@ -346,6 +346,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Basic\BuildBounds.cpp" />
+    <ClCompile Include="src\Headers\Convert.cpp" />
     <ClCompile Include="src\Universe\BuildingModules\Extractor.cpp" />
     <ClCompile Include="src\Basic\UpgradeType.cpp" />
     <ClCompile Include="src\Universe\BuildingModules\Mind.cpp" />

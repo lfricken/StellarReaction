@@ -80,7 +80,7 @@ Chunk::Chunk(const ChunkData& data) : ModuleParent(data), m_io(data.ioComp, &Chu
 	m_shieldToggleTimer.setCountDown(0.5f);
 	m_shieldToggleTimer.restartCountDown();
 
-	m_spawnPoint = m_body.getBodyPtr()->GetPosition();
+	m_spawnPoint = data.bodyComp.coords;
 	m_radius = -1.f;
 	m_wasThrusting = false;
 	m_wasBoosting = false;
@@ -93,22 +93,16 @@ Chunk::Chunk(const ChunkData& data) : ModuleParent(data), m_io(data.ioComp, &Chu
 
 	//Hull Sprite
 	hull = sptr<GraphicsComponent>(new QuadComponent(data.hullSpriteData));
-	hull->setPosition(m_body.getPosition());
-	hull->setRotation(m_body.getBodyPtr()->GetAngle());
 	//Thrust sprite.
 	for(auto it = data.afterburnerSpriteData.begin(); it != data.afterburnerSpriteData.end(); ++it)
 	{
 		sptr<GraphicsComponent> temp = sptr<GraphicsComponent>(new QuadComponent(*it));
-		temp->setPosition(m_body.getPosition());
-		temp->setRotation(m_body.getBodyPtr()->GetAngle());
 		afterburners.push_back(temp);
 	}
 	//Boost sprite.
 	for(auto it = data.afterburnerThrustSpriteData.begin(); it != data.afterburnerThrustSpriteData.end(); ++it)
 	{
 		sptr<GraphicsComponent> temp = sptr<GraphicsComponent>(new QuadComponent(*it));
-		temp->setPosition(m_body.getPosition());
-		temp->setRotation(m_body.getBodyPtr()->GetAngle());
 		afterburners_boost.push_back(temp);
 	}
 
@@ -157,16 +151,19 @@ sptr<GraphicsComponent> Chunk::getHull() const
 }
 void Chunk::prePhysUpdate()
 {
+	//TODO 
+	const int forceMult = 10;
+
 	//push chunk in bounds if out of bounds
-	Vec2 location = m_body.getBodyPtr()->GetPosition();
+	Vec2 location = m_body.getPosition();
 	Vec2 bounds = game.getUniverse().getBounds();
 	if(abs(location.x) > bounds.x || abs(location.y) > bounds.y)
 	{
 		Vec2 force = Vec2(-location.x, -location.y);
 		float diff = std::max(abs(location.x) - bounds.x, abs(location.y) - bounds.y);
 		force = force.unit();
-		force *= 10 * diff;
-		m_body.getBodyPtr()->ApplyForceToCenter(force, true);
+		force *= forceMult * diff;
+		m_body.applyForce(force);
 	}
 
 	for(auto it = m_modules.begin(); it != m_modules.end(); ++it)
@@ -179,18 +176,21 @@ void Chunk::postPhysUpdate()
 
 	m_body.getNWComp().toggleNewData(true);//update our physics self
 
-	//Evan - rotate hull, afterburner and afterburner_thrust
-	hull->setPosition(m_body.getPosition());
-	hull->setRotation(m_body.getBodyPtr()->GetAngle());
-	for(auto it = afterburners.begin(); it != afterburners.end(); ++it)
+
+	const auto pos = m_body.getPosition();
+	const auto angle = m_body.getAngle();
+
+	hull->setPosition(pos);
+	hull->setRotation(angle);
+	for each (auto image in afterburners)
 	{
-		(*it)->setPosition(m_body.getPosition());
-		(*it)->setRotation(m_body.getBodyPtr()->GetAngle());
+		image->setPosition(pos);
+		image->setRotation(angle);
 	}
-	for(auto it = afterburners_boost.begin(); it != afterburners_boost.end(); ++it)
+	for each (auto image in afterburners_boost)
 	{
-		(*it)->setPosition(m_body.getPosition());
-		(*it)->setRotation(m_body.getBodyPtr()->GetAngle());
+		image->setPosition(pos);
+		image->setRotation(angle);
 	}
 }
 void Chunk::setAim(const Vec2& world)//send our aim coordinates

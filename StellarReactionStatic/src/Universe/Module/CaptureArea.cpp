@@ -50,9 +50,7 @@ void CaptureArea::prePhysUpdate()
 	Team firstGuestTeam = Team::Invalid;
 	for(auto it = m_guests.cbegin(); it != m_guests.cend(); ++it)
 	{
-		void* p = (*it)->getBodyPtr()->GetUserData();
-		Team thisTeam = static_cast<BodyComponent*>(p)->getTeam();
-
+		Team thisTeam = (*it)->getTeam();
 
 		if(thisTeam != Team::Neutral)//ignore asteroids
 		{

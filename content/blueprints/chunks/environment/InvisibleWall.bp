@@ -1,0 +1,25 @@
+{
+    "ClassName": "ChunkData",
+	"team": -1,
+    "bodyComp": {
+		"linearDampening": 0.0,
+		"angularDampening": 0.0,
+		"isDynamic": false
+    },
+	"hullSpriteData": {
+		"dimensions": [1024, 1024],
+		"center": [0,0],
+		"texName": "hulls/asteroid",
+		"animSheetName": "hulls/asteroid.acfg",
+		"layer": "ShipHull"
+	},
+    "moduleData": [
+        {
+            "title": "Wall",
+            "Position": [
+                0,
+                0
+            ]
+        }
+    ]
+}

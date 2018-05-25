@@ -3,31 +3,33 @@
 #include "stdafx.hpp"
 #include "Globals.hpp"
 
-
-
 /// <summary>
 /// Useful conversions
 /// </summary>
-namespace leon
+class Convert
 {
-	/** Normalize Radians and Degrees **/
+public:
 	template<typename T>
+	/// <summary>
 	/// Normalize radians to between 0 and 2PI.
-	inline float normRad(T value)
+	/// </summary>
+	static inline float normRad(T value)
 	{
-		float pi2 = 2.f * pi;
-		while(value > pi2)
-			value -= pi2;
+		while(value >= Math::Tau)
+			value -= Math::Tau;
 
 		while(value < 0.f)
-			value += pi2;
+			value += Math::Tau;
 
 		return value;
 	}
 	template<typename T>
-	inline float normDeg(T value)
+	/// <summary>
+	/// Normalize degrees to between 0 and 360.
+	/// </summary>
+	static inline float normDeg(T value)
 	{
-		while(value > 360.f)
+		while(value >= 360.f)
 			value -= 360.f;
 
 		while(value < 0.f)
@@ -35,25 +37,27 @@ namespace leon
 
 		return value;
 	}
-
-	/**=====RADIANS AND DEGREES=====**/
 	template<typename T>
-	inline float degToRad(T value)
+	/// <summary>
+	/// Convert degrees to radians.
+	/// </summary>
+	static inline float degToRad(T value)
 	{
-		return (pi*value) / 180.0f;
+		return (Math::Pi*value) / 180.0f;
 	}
 	template<typename T>
-	inline float radToDeg(T value)
+	/// <summary>
+	/// Convert radians to degrees.
+	/// </summary>
+	static inline float radToDeg(T value)
 	{
 		return (180.0f*value) / pi;
 	}
-
-
-
-
 	template<typename T>
+	/// <summary>
 	/// Distance formula for two 2D points.
-	inline float Dist(const T& p1, const T& p2)
+	/// </summary>
+	static inline float Dist(const T& p1, const T& p2)
 	{
 		return sqrtf((p2.x - p1.x)*(p2.x - p1.x) + (p2.y - p1.y)*(p2.y - p1.y));
 	}
@@ -61,40 +65,55 @@ namespace leon
 	/// <summary>
 	/// Negates y coordinate.
 	/// </summary>
-	inline T screenToCart(const T& screenCoords)//reverses y
+	static inline T flipYAxis(const T& screenCoords)//reverses y
 	{
 		return T(screenCoords.x, -screenCoords.y);
 	}
 	template<typename T>
 	/// <summary>
-	/// Take a coordinate from SFML world coordinates (pixels) to Box2D world coordinates (meters).
+	/// Take a dimension from SFML world coordinates (pixels) to universal coordinates.
 	/// </summary>
-	inline Vec2 sfTob2(const T& screenCoords)
+	static inline T screenToUniverse(const T& value)
 	{
-		return Vec2(screenCoords.x / scale, -screenCoords.y / scale);
+		return value / static_cast<float>(standardModuleSize);
 	}
 	template<typename T>
 	/// <summary>
-	/// Take a coordinate from Box2D world coordinates (meters) to SFML world coordinates (pixels).
+	/// Take a dimension from universal to SFML world coordinates (pixels).
 	/// </summary>
-	inline sf::Vector2<T> b2Tosf(const Vec2& worldCoords)
+	static inline T universeToScreen(const T& value)
 	{
-		return sf::Vector2<T>(worldCoords.x*scale, -worldCoords.y*scale);
+		return value * static_cast<float>(standardModuleSize);
 	}
 	template<typename T>
 	/// <summary>
-	/// Take a dimension from SFML world coordinates (pixels) to Box2D world coordinates (meters).
+	/// Convert from box2d to universal.
 	/// </summary>
-	inline T toWorld(const T& screenCoords)
+	static T worldToUniverse(const T& value)
 	{
-		return screenCoords / (scale * sizeScalingFactor);
+		return value / static_cast<float>(universeToWorldFactor);
 	}
 	template<typename T>
 	/// <summary>
-	/// Take a dimension from Box2D world coordinates (meters) to SFML world coordinates (pixels).
+	/// Convert from universal to box2d.
 	/// </summary>
-	inline T toScreen(const T& worldCoords)
+	static T universeToWorld(const T& value)
 	{
-		return worldCoords * (scale * sizeScalingFactor);
+		return value * static_cast<float>(universeToWorldFactor);
 	}
-}
+
+private:
+
+	/// <summary>
+	/// 1 Box2d unit in pixels at 1 zoom.
+	/// </summary>
+	static const int scale;
+	/// <summary>
+	/// size in pixels of module at 1 zoom
+	/// </summary>
+	static const int standardModuleSize;
+	/// <summary>
+	/// How big is 1 universal unit in b2Meter units.
+	/// </summary>
+	static const float universeToWorldFactor;
+};

@@ -2,6 +2,7 @@
 #include "BodyComponent.hpp"
 #include "FixtureComponent.hpp"
 #include "Weapon.hpp"
+#include "Convert.hpp"
 
 void TriggerSensorData::loadJson(const Json::Value& root)
 {
@@ -15,7 +16,7 @@ TriggerSensor::TriggerSensor(const TriggerSensorData& rData) : Sensor(rData)
 	m_maxDamage = rData.maxDamage;
 	m_minDamage = rData.minDamage;
 	m_period = rData.period;
-	m_radius = rData.fixComp.size.x / 2.f * sizeScalingFactor;
+	m_radius = rData.fixComp.size.x / 2.f;
 }
 TriggerSensor::~TriggerSensor()
 {
@@ -27,12 +28,12 @@ void TriggerSensor::prePhysUpdate()
 	{
 		for(auto it = m_guests.cbegin(); it != m_guests.cend(); ++it)
 		{
-			b2Body* bod = (*it)->getBodyPtr();
+			BodyComponent* guestBody = (*it)->getParentBody();
 			Vec2 myPos = m_fix.getCenter();
-			Vec2 targetPos = bod->GetPosition();
+			Vec2 targetPos = guestBody->getPosition();
 			Vec2 direction = myPos - targetPos;
 
-			float fractionToCenter = 1 - (direction.len() / m_radius);
+			float fractionToCenter = 1 - (direction.len() / Convert::universeToWorld(m_radius));
 
 			int damage = (int)(fractionToCenter * m_maxDamage);
 			if(damage < m_minDamage)

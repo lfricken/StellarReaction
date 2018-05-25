@@ -33,7 +33,7 @@ GraphicsComponent::GraphicsComponent(const GraphicsComponentData& rData) : m_rUp
 
 	m_dimensions = rData.dimensions;
 
-	m_permanentRot = leon::degToRad(rData.permanentRot);
+	m_permanentRot = Convert::degToRad(rData.permanentRot);
 	m_center = rData.center;
 }
 GraphicsComponent::~GraphicsComponent()
@@ -51,17 +51,17 @@ float GraphicsComponent::getScale() const
 {
 	return m_scale;
 }
-void GraphicsComponent::setPosition(const Vec2& rWorldCoords)
+void GraphicsComponent::setPosition(const Vec2& rUniverseCoords)
 {
-	coordinates = rWorldCoords;
+	coordinates = rUniverseCoords;
 }
 void GraphicsComponent::setGuiPosition(const sf::Vector2f& rScreenCoordinates)
 {
-	coordinates = leon::sfTob2(rScreenCoordinates);
+	coordinates = Convert::screenToUniverse((Vec2)Convert::flipYAxis(rScreenCoordinates));
 }
 void GraphicsComponent::setRotation(float radCCW)
 {
-	m_rotation = leon::normRad(radCCW);
+	m_rotation = Convert::normRad(radCCW);
 }
 void GraphicsComponent::setOffset(const sf::Vector2f pixels)//sets the origin of us
 {
@@ -88,11 +88,11 @@ const Vec2& GraphicsComponent::getPosition() const
 }
 const sf::Vector2f GraphicsComponent::getGuiPosition() const
 {
-	return leon::b2Tosf<float>(coordinates);
+	return Convert::flipYAxis((sf::Vector2f)Convert::universeToScreen(coordinates));
 }
 float GraphicsComponent::getRotation() const
 {
-	return leon::normRad(m_rotation);
+	return Convert::normRad(m_rotation);
 }
 const sf::Vector2f& GraphicsComponent::getOffset() const
 {
@@ -122,7 +122,7 @@ void GraphicsComponent::update()
 sf::Transform GraphicsComponent::getTransform() const
 {
 	sf::Transform transform;
-	transform.translate(leon::b2Tosf<float>(coordinates)).rotate(leon::radToDeg(-m_rotation - m_permanentRot));
+	transform.translate((sf::Vector2f)Convert::flipYAxis(Convert::universeToScreen(coordinates))).rotate(Convert::radToDeg(-m_rotation - m_permanentRot));
 	return transform;
 }
 Vec2 GraphicsComponent::getSize() const
@@ -146,8 +146,9 @@ Vec2 GraphicsComponent::getSize() const
 				minSize.y = m_originPos[i].y;
 
 		m_size = maxSize - minSize;
-		m_size.x *= m_scale / scale;// / scale to put it into box2d units
-		m_size.y *= m_scale / scale;// / scale to put it into box2d units
+		m_size.x *= m_scale;
+		m_size = Convert::screenToUniverse(m_size);
+
 		m_calculatedSize = true;
 	}
 	return m_size;

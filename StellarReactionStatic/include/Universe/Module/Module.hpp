@@ -140,6 +140,7 @@ protected:
 	template<class Type, class TypeData>
 	/// <summary>
 	/// Generalized code for the generate function.
+	/// Called in the add function of ModuleParent.
 	/// </summary>
 	Type* generateSub(GenerateParams params, const TypeData* const me) const
 	{

@@ -36,7 +36,7 @@ protected:
 	/// <summary>
 	/// The ship that fired us (we shouldn't collide with them)
 	/// </summary>
-	const b2Body* m_pParent;
+	const BodyComponent* m_pParentBody;
 	///IO position?
 	int m_sourceIOPos;
 

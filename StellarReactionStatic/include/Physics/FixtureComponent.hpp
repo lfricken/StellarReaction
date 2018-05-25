@@ -4,6 +4,8 @@
 #include "CollisionCategory.hpp"
 #include "NonCopyable.hpp"
 
+class BodyComponent;
+
 namespace leon
 {
 	enum class Shape
@@ -65,10 +67,12 @@ public:
 	float getAngle() const;	
 	/// Gets the io position of our owner.
 	int getIOPos() const;
-	/// Returns a pointer to the box2D body pointer.
-	b2Body* getBodyPtr();
+	/// <summary>
+	/// 
+	/// </summary>
+	BodyComponent* getParentBody() const;
 	/// Returns a const pointer to the box2D body pointer.
-	const b2Body* getBodyPtr() const;
+	//const b2Body* getBodyPtr() const;
 	/// <summary>
 	/// Center of this fixture with respect to the body.
 	/// </summary>
@@ -83,6 +87,10 @@ public:
 	void setCategory(Category cat);
 	/// Sets the mask of the FixtureComponent.
 	void setMask(Mask mask);
+	/// <summary>
+	/// 
+	/// </summary>
+	Team getTeam() const;
 
 protected:
 private:

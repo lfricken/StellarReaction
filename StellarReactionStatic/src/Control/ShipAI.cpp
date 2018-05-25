@@ -9,8 +9,9 @@
 
 ShipAI::ShipAI(Team team, int controller_index) : BasePlayerTraits("ai")
 {
+	m_weaponRange = 0.f;
 	m_huntingTimer.setCountDown(Rand::get(15.f, 30.f));
-	m_targetTimer.setCountDown(5.f);
+	m_targetTimer.setCountDown(1.f);
 	m_stuckTimer.setCountDown(2.f);
 	m_unstuckTimer.setCountDown(1.f);
 	setController(controller_index);
@@ -18,7 +19,6 @@ ShipAI::ShipAI(Team team, int controller_index) : BasePlayerTraits("ai")
 	for(int i = 1; i <= 9; ++i)
 		m_weaponGroups[i] = true;
 }
-
 ShipAI::~ShipAI()
 {
 
@@ -37,12 +37,6 @@ void ShipAI::updateDecision()
 	
 	auto& body = rController.getChunk()->getBodyComponent();
 	auto ourPos = body.getPosition();
-
-	//if(pBody == nullptr)//detect that ship was destroyed
-	//{
-	//	onShipDestroyed();
-	//	return;
-	//}
 
 	//set controller to be local
 	if(!rController.isLocal())
@@ -73,9 +67,12 @@ void ShipAI::updateDecision()
 
 			angleToTarget(targetPos);
 			
-			const float fireRange = rController.getChunk()->maxWeaponRange();
+			if(m_weaponRange == 0.f)
+			{
+				m_weaponRange = rController.getChunk()->maxWeaponRange();
+			}
 			const float len = ourPos.to(targetPos).len();
-			if(len < fireRange)
+			if(len < m_weaponRange)
 				fireAtTarget();
 			else
 				m_directives[Directive::Up] = true;

@@ -32,10 +32,10 @@ void Teleporter::directive(const CommandInfo& commands)
 	if(rIssues[Directive::Teleport])
 	{
 		//get mouse position and use that to decide how far we are teleporting
-		b2Body* bod = m_parent->getBodyComponent().getBodyPtr();
+		BodyComponent& body = m_parent->getBodyComponent();
 
 		const Vec2 mousePos = dynamic_cast<Chunk*>(m_parent)->getAim();
-		const Vec2 origPos = bod->GetPosition();
+		const Vec2 origPos = body.getPosition();
 
 		Vec2 direction = mousePos - origPos;
 		float actualDist = 0;
@@ -68,7 +68,7 @@ void Teleporter::directive(const CommandInfo& commands)
 				{
 					//restart timer, perform teleport
 					m_cooldownTimer.restartCountDown();
-					bod->SetTransform(target, bod->GetAngle());
+					body.setTransform(target, body.getAngle());
 				}
 			}
 		}

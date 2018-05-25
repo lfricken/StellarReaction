@@ -117,6 +117,7 @@
     <ClCompile Include="src\Universe\BuildingModules\Relay.cpp" />
     <ClCompile Include="src\Universe\BuildingModules\Replicator.cpp" />
     <ClCompile Include="src\Basic\BuildBounds.cpp" />
+    <ClCompile Include="src\Headers\Convert.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Game\Directory.hpp" />

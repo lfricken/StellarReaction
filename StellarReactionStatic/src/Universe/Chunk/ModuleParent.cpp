@@ -45,7 +45,7 @@ ModuleParent::ModuleParent(const ModuleParentData& data) : Blueprintable(data), 
 {
 	m_isPlayer = data.isPlayer;
 	m_profile = data.profile;
-	m_body.parent = this;
+	m_body.moduleParent = this;
 
 	m_radius = 0.f;
 	m_recalcRadius = true;

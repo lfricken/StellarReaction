@@ -11,7 +11,7 @@ void GravityFieldData::loadJson(const Json::Value& root)
 }
 GravityField::GravityField(const GravityFieldData& rData) : Sensor(rData)
 {
-	m_radius = rData.fixComp.size.x / 2.f * sizeScalingFactor;
+	m_radius = rData.fixComp.size.x;
 	m_maxForce = rData.maxForce;
 	m_minForce = rData.minForce;
 }
@@ -23,10 +23,10 @@ void GravityField::prePhysUpdate()
 {
 	for(auto it = m_guests.cbegin(); it != m_guests.cend(); ++it)
 	{
-		b2Body* pBody = (**it).getBodyPtr();
-		float bodyMass = pBody->GetMass();
+		BodyComponent* pBody = (**it).getParentBody();
+		//float bodyMass = pBody->GetMass();
 
-		Vec2 targetPos = pBody->GetPosition();
+		Vec2 targetPos = pBody->getPosition();
 		Vec2 myPos = m_fix.getCenter();
 		Vec2 direction = myPos - targetPos;
 
@@ -36,10 +36,10 @@ void GravityField::prePhysUpdate()
 		if(force < m_minForce)
 			force = m_minForce;
 
-		direction = direction.unit();
-		direction.x *= force*bodyMass;
-		direction.y *= force*bodyMass;
-		pBody->ApplyForceToCenter(direction, true);
+		direction = direction.unit() * 100;
+		//direction.x *= force*bodyMass;
+		//direction.y *= force*bodyMass;
+		pBody->applyForce(direction);
 	}
 
 }

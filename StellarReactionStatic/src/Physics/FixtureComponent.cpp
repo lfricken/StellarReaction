@@ -4,9 +4,7 @@
 #include "Universe.hpp"
 #include "JSON.hpp"
 #include "Debugging.hpp"
-
-
-
+#include "BodyComponent.hpp"
 
 void FixtureComponentData::loadJson(const Json::Value& root)
 {
@@ -57,6 +55,7 @@ FixtureComponent::FixtureComponent(const FixtureComponentData& rData)
 		m_fixtureDef.density = rData.mass / (temp->m_radius * temp->m_radius * Math::Pi);
 	}
 
+	m_fixtureDef.density *= sizeScalingFactor * sizeScalingFactor; // fix squaring mass
 	m_fixtureDef.isSensor = rData.isSensor;
 	m_fixtureDef.shape = &*m_spShape;//give our shape to our fixture definition
 	m_fixtureDef.friction = rData.friction;
@@ -112,7 +111,7 @@ Vec2 FixtureComponent::getCenter() const
 	{
 		WARNING;
 	}
-	return center;
+	return center / sizeScalingFactor;
 }
 float FixtureComponent::getAngle() const//RADIANS CCW
 {
@@ -123,13 +122,10 @@ int FixtureComponent::getIOPos() const
 {
 	return m_ioPos;
 }
-b2Body* FixtureComponent::getBodyPtr()
+BodyComponent* FixtureComponent::getParentBody() const
 {
-	return m_pFixture->GetBody();
-}
-const b2Body* FixtureComponent::getBodyPtr() const
-{
-	return m_pFixture->GetBody();
+	void* parent = m_pFixture->GetBody()->GetUserData();
+	return static_cast<BodyComponent*>(parent);
 }
 void FixtureComponent::setIOPos(int ioPos)
 {
@@ -161,6 +157,10 @@ void FixtureComponent::setMask(Mask mask)
 	b2Filter filter = m_pFixture->GetFilterData();
 	filter.maskBits = static_cast<uint16_t>(mask);
 	m_pFixture->SetFilterData(filter);
+}
+Team FixtureComponent::getTeam() const
+{
+	return getParentBody()->getTeam();
 }
 bool FixtureComponent::isSensor() const
 {

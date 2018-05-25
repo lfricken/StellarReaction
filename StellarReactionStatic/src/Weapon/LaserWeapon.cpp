@@ -5,9 +5,7 @@
 #include "FixtureComponent.hpp"
 #include "BlueprintLoader.hpp"
 #include "Player.hpp"
-
-
-
+#include "BodyComponent.hpp"
 
 void LaserWeaponData::loadJson(const Json::Value& root)
 {
@@ -40,7 +38,7 @@ LaserWeapon::~LaserWeapon()
 /// <param name="radCCW">The RAD CCW.</param>
 void LaserWeapon::preShot(const Vec2& center, const Vec2& aim, float radCCW, float module_orientation)
 {
-	m_ray.setIgnoreBody(m_pBody);
+	m_pBody->setIgnoreBody(&m_ray);
 	
 	const Vec2 angle = center.to(aim).unit();
 	const Vec2 laserVector = angle * m_range;
@@ -61,7 +59,7 @@ void LaserWeapon::postShot(const Vec2& fixtureDoingDamageCenter, const Vec2& aim
 	const Vec2 shotDir = fixtureDoingDamageCenter.to(aim);
 	if(collisions.empty())
 	{
-		float mult = m_range / leon::Dist(aim, fixtureDoingDamageCenter);
+		float mult = m_range / aim.to(fixtureDoingDamageCenter).len();
 		end = fixtureDoingDamageCenter + shotDir * mult;
 	}
 	else

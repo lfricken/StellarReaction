@@ -116,7 +116,7 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 		{
 			int num = it - data.playerList.cbegin();
 			Vec2 spawn = m_spawnPoints[it->team][num];
-			float angle = Math::toDeg(atan2(spawn.y, spawn.x) + (pi / 2.f));
+			float angle = Math::toDeg(atan2(spawn.y, spawn.x) + (Math::Pi / 2.f));
 
 			ChunkDataMessage chunkMessageData;
 
@@ -557,8 +557,8 @@ void Universe::input(String rCommand, sf::Packet rData)
 		{
 			auto pos = controller->getChunk()->getBodyComponent().getPosition();
 			float maxZoom = game.getLocalPlayer().getCamera().m_maxZoom * 0.4f;
-			float size = (float)game.getWindow().getSize().x / scale;
-			m_spDecorEngine->initSpawns(pos, Vec2(maxZoom* size, maxZoom* size));
+			float sizeInUniverse = Convert::screenToUniverse((float)game.getWindow().getSize().x);
+			m_spDecorEngine->initSpawns(pos, Vec2(maxZoom * sizeInUniverse, maxZoom * sizeInUniverse));
 		}
 
 		game.getUniverse().getControllerFactory().setAllNonLocallyControlled();
