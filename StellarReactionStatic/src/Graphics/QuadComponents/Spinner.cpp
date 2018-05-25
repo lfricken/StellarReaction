@@ -17,7 +17,7 @@ Spinner::Spinner(const SpinnerData& rData) : QuadComponent(rData)
 	setRotationRate(rData.rate);
 
 	if(rData.randomRot)
-		m_permanentRot += Rand::get(0.f, 2.f * pi);
+		m_permanentRot += Rand::get(0.f, Math::Tau);
 
 	toggleOn(rData.startOn);
 }
@@ -31,7 +31,7 @@ void Spinner::toggleOn(bool on)
 }
 void Spinner::setRotationRate(float degCCW)
 {
-	m_rate = leon::degToRad(degCCW);
+	m_rate = Convert::degToRad(degCCW);
 }
 void Spinner::postUpdate()
 {

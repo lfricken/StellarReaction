@@ -68,7 +68,7 @@ void Decoration::randSpin()
 {
 	m_spinRate = Rand::get(m_minSpin, m_maxSpin);
 	if(m_minSpin != 0.f)
-		m_spGfx->setRotation(Rand::get(0.f, 2.f * pi));
+		m_spGfx->setRotation(Rand::get(0.f, Math::Tau));
 }
 //void Decoration::input(String rCommand, sf::Packet rData)
 //{

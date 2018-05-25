@@ -41,7 +41,7 @@ void GrappleWeapon::grappleTo()
 		appliedForce = appliedForce.unit();
 		appliedForce *= m_pullStrength;
 		m_pBody->applyForce(appliedForce);
-		m_target->applyForce(Vec2(-appliedForce.x, -appliedForce.y));
+		m_target->getParentBody()->applyForce(appliedForce.inv());
 	}
 }
 Vec2 GrappleWeapon::collisionHandle(const RayData& data)

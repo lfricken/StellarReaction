@@ -217,7 +217,8 @@ void Player::getLiveInput()
 		if(sf::Mouse::isButtonPressed(m_inCfg.secondary))
 			m_directives[Directive::FireSecondary] = true;
 
-		m_aim = leon::sfTob2(game.getWindow().mapPixelToCoords(sf::Mouse::getPosition(game.getWindow()), m_camera.getView()));
+		auto mouseSfmlWorldPos = game.getWindow().mapPixelToCoords(sf::Mouse::getPosition(game.getWindow()), m_camera.getView());
+		m_aim = (Vec2)Convert::screenToUniverse(Convert::flipYAxis(mouseSfmlWorldPos));
 
 		/**== DEVELOPER ==**/
 		static Timer spawnTimer;

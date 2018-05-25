@@ -1,8 +1,7 @@
 #include "Beam.hpp"
+#include "Convert.hpp"
 
-#include "Globals.hpp"
-
-Beam::Beam(const BeamData& rData) : QuadComponent(rData), m_start(rData.start), m_end(rData.end)
+Beam::Beam(const BeamData& rData) : QuadComponent(rData), m_startSprite(rData.start), m_endSprite(rData.end)
 {
 	m_startPos = (Vec2(0,0));
 	m_endPos = (Vec2(0,0));
@@ -30,27 +29,25 @@ void Beam::setEnd(const Vec2& rEnd)
 void Beam::activate(float secs, int beamWidth, const sf::Color& color)//seconds to be active, and then deactivate, beam width pixels
 {
 	setColor(color);
-	m_start.setColor(color);
-	m_end.setColor(color);
+	m_startSprite.setColor(color);
+	m_endSprite.setColor(color);
 
-	Vec2 midpoint;
-	midpoint.x = (m_startPos.x+m_endPos.x)/2;
-	midpoint.y = (m_startPos.y+m_endPos.y)/2;
+	Vec2 midpoint = (m_startPos + m_endPos) / 2;
 	float angle = atan2(m_startPos.y - m_endPos.y, m_startPos.x - m_endPos.x);
-	float distance = scale*sqrtf((m_endPos.x-m_startPos.x)*(m_endPos.x-m_startPos.x)  +  (m_endPos.y-m_startPos.y)*(m_endPos.y-m_startPos.y));
 
 	m_deactivateTimer.setCountDown(secs);
 	m_deactivateTimer.restartCountDown();
 
-	m_start.setPosition(m_startPos);
-	m_start.setRotation(angle);
+	m_startSprite.setPosition(m_startPos);
+	m_startSprite.setRotation(angle);
 
-	m_end.setPosition(m_endPos);
-	m_end.setRotation(angle);
+	m_endSprite.setPosition(m_endPos);
+	m_endSprite.setRotation(angle);
 
 	setPosition(midpoint);
 	setRotation(angle);
 
+	float distance = Convert::universeToScreen(m_startPos.to(m_endPos).len());
 	m_originPos[0] = sf::Vector2f(-distance/2.f, -beamWidth/2.f);
 	m_originPos[1] = sf::Vector2f(-distance/2.f,  beamWidth/2.f);
 	m_originPos[2] = sf::Vector2f( distance/2.f,  beamWidth/2.f);
@@ -60,8 +57,8 @@ void Beam::deactivate()
 {
 	sf::Color transparent = sf::Color(0,0,0,0);
 	setColor(transparent);
-	m_start.setColor(transparent);
-	m_end.setColor(transparent);
+	m_startSprite.setColor(transparent);
+	m_endSprite.setColor(transparent);
 }
 void Beam::postUpdate()
 {

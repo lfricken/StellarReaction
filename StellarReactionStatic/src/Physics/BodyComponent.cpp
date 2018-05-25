@@ -64,7 +64,7 @@ BodyComponent::~BodyComponent()
 }
 Vec2 BodyComponent::getPosition() const
 {
-	return Convert::worldToUniverse(m_pBody->GetPosition());
+	return Convert::worldToUniverse((Vec2)m_pBody->GetPosition());
 }
 float BodyComponent::getAngle() const
 {
@@ -80,15 +80,22 @@ NetworkComponent& BodyComponent::getNWComp()
 }
 Vec2 BodyComponent::getLinearVelocity() const
 {
-	return Convert::worldToUniverse(m_pBody->GetLinearVelocity());
+	return Convert::worldToUniverse((Vec2)m_pBody->GetLinearVelocity());
 }
 void BodyComponent::applyTorque(float torqueCCW)
 {
-	m_pBody->ApplyTorque(torqueCCW, true);
+	if(!game.getUniverse().isPaused())
+		m_pBody->ApplyTorque(torqueCCW, true);
 }
-void BodyComponent::applyForce(const Vec2& rForce)
+void BodyComponent::applyForce(const Vec2& force)
 {
-	m_pBody->ApplyForceToCenter(rForce, true);
+	if(!game.getUniverse().isPaused())
+		m_pBody->ApplyForceToCenter(force, true);
+}
+void BodyComponent::applyForceOffset(const Vec2& force, const Vec2 offset)
+{
+	if(!game.getUniverse().isPaused())
+		m_pBody->ApplyForce(Convert::universeToWorld(force), offset, true);
 }
 void BodyComponent::setTransform(const Vec2& pos, float rotCCW)
 {

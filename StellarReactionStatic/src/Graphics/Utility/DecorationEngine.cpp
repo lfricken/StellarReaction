@@ -75,9 +75,9 @@ void DecorationEngine::loadJson(const Json::Value& decorations)
 {
 	m_deltaTime.getTimeElapsed();
 
-	const float maxZoom = game.getLocalPlayer().getCamera().m_maxZoom;
-	const float maxDim = (float)Math::max(game.getWindow().getSize().x / 2, game.getWindow().getSize().y / 2) / scale;
-	const float halfSize = maxZoom * maxDim;
+	//const float maxZoom = game.getLocalPlayer().getCamera().m_maxZoom;
+	//const float maxDim = (float)Math::max(game.getWindow().getSize().x / 2, game.getWindow().getSize().y / 2) / scale;
+	//const float halfSize = maxZoom * maxDim;
 
 
 	for(auto it = decorations.begin(); it != decorations.end(); ++it)

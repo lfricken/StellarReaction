@@ -133,6 +133,11 @@ public:
 		x = cast.x;
 		y = cast.y;
 	}
+	explicit Vec2(const sf::Vector2u& cast)
+	{
+		x = static_cast<float>(cast.x);
+		y = static_cast<float>(cast.y);
+	}
 	explicit Vec2(const sf::Vector2i& cast)
 	{
 		x = static_cast<float>(cast.x);

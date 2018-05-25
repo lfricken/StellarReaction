@@ -71,7 +71,8 @@ public:
 
 	void applyTorque(float torqueCCW);
 
-	void applyForce(const Vec2& rForce);
+	void applyForce(const Vec2& force);
+	void applyForceOffset(const Vec2& force, const Vec2 offset);
 	/// <summary>
 	/// Return velocity in universal m/s.
 	/// </summary>

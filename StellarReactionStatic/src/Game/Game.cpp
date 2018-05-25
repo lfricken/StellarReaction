@@ -269,7 +269,7 @@ void Game::tick(float frameTime)
 	rWindow.setView(*m_spStaticView);
 	getLocalPlayer().getWindowEvents(rWindow);
 	const Vec2 camPos = getLocalPlayer().getCamera().getPosition();
-	const Vec2 halfSize = leon::sfTob2(sf::Vector2f(rWindow.getSize().x / 2.f, -(signed)rWindow.getSize().y / 2.f));
+	const Vec2 halfSize = Convert::screenToUniverse((Vec2)rWindow.getSize()) / 2;
 	const float maxZoom = getLocalPlayer().getCamera().m_maxZoom * 1;// TODO should access ships max zoom UPDATE this should be fine
 	const Vec2 maxHalfSize(halfSize.x * maxZoom, halfSize.y * maxZoom);
 	const float zoom = getLocalPlayer().getCamera().getZoom();

@@ -24,16 +24,16 @@ void Camera::setPosition(const Vec2& rPos)//world position
 {
 	sf::Listener::setPosition(rPos.x, rPos.y, 5);///TODO: HOW DO WE SET Z OF LISTENER? is 5 far enough away? put this behind an api
 	Vec2 shakePos = m_shaker.getPosition() + rPos;
-	m_view.setCenter(leon::b2Tosf<float>(shakePos));
+	m_view.setCenter((sf::Vector2f)Convert::universeToScreen(Convert::flipYAxis(shakePos)));
 }
 void Camera::move(const Vec2& change)
 {
-	sf::Vector2f delta = leon::b2Tosf<float>(change);
+	sf::Vector2f delta = ((sf::Vector2f)Convert::universeToScreen(Convert::flipYAxis(change)));
 	delta.x *= m_zoomLevel;
 	delta.y *= m_zoomLevel;
 	m_view.move(delta);
 
-	Vec2 rPos = leon::sfTob2(m_view.getCenter());
+	sf::Vector2f rPos = m_view.getCenter(); // TODO leon::sfTob2( used to be here???
 	sf::Listener::setPosition(rPos.x, rPos.y, 5);///TODO: HOW DO WE SET Z OF LISTENER? is 5 far enough away? put this behind an api
 }
 void Camera::setZoom(float level)//multiple of each dimension to find new
@@ -47,7 +47,7 @@ void Camera::setZoom(float level)//multiple of each dimension to find new
 }
 void Camera::setRotation(float radiansCCW)
 {
-	m_view.setRotation(-leon::radToDeg(leon::normRad(radiansCCW)));
+	m_view.setRotation(-Convert::radToDeg(Convert::normRad(radiansCCW)));
 }
 void Camera::resize()
 {
@@ -58,7 +58,7 @@ void Camera::resize()
 
 Vec2 Camera::getPosition() const
 {
-	return leon::sfTob2(m_view.getCenter());
+	return (Vec2)Convert::screenToUniverse(m_view.getCenter());
 }
 float Camera::getZoom() const
 {
@@ -66,7 +66,7 @@ float Camera::getZoom() const
 }
 float Camera::getRotation() const
 {
-	return -leon::degToRad(leon::normDeg(m_view.getRotation()));
+	return -Convert::degToRad(Convert::normDeg(m_view.getRotation()));
 }
 const sf::View& Camera::getView() const
 {

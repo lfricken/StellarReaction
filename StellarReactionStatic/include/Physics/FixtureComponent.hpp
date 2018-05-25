@@ -5,6 +5,7 @@
 #include "NonCopyable.hpp"
 
 class BodyComponent;
+enum class Team;
 
 namespace leon
 {
@@ -77,12 +78,8 @@ public:
 	/// Center of this fixture with respect to the body.
 	/// </summary>
 	const Vec2 getOffset() const;
-	/// Applies the given force to the center of the body.
-	void applyForce(const Vec2& rForce);
 	/// Applies the given force to the fixture.
 	void applyForceFixture(const Vec2& rForce);
-	/// Applies the given rotation to the body.
-	void applyTorque(float radiansCCW);
 	/// Sets the category of the FixtureComponent.
 	void setCategory(Category cat);
 	/// Sets the mask of the FixtureComponent.

@@ -43,7 +43,7 @@ public:
 	/// </summary>
 	static inline float degToRad(T value)
 	{
-		return (Math::Pi*value) / 180.0f;
+		return (Math::Tau*value) / Math::Degrees;
 	}
 	template<typename T>
 	/// <summary>
@@ -51,7 +51,7 @@ public:
 	/// </summary>
 	static inline float radToDeg(T value)
 	{
-		return (180.0f*value) / pi;
+		return (Math::Degrees*value) / Math::Tau;
 	}
 	template<typename T>
 	/// <summary>

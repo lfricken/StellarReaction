@@ -98,16 +98,16 @@ void ShipAI::angleToTarget(Vec2 target)
 	Controller& rController = *cont;
 	auto& body = rController.getChunk()->getBodyComponent();
 
-	float ourAngle = leon::normRad(body.getAngle() + pi / 2);
+	float ourAngle = Convert::normRad(body.getAngle() + Math::Tau / 4);
 	Vec2 ourPos = body.getPosition();
 
 	Vec2 diff = target - ourPos;
 
-	float targetAngle = leon::normRad(atan2(diff.y, diff.x));
-	float diffAngle = leon::normRad(targetAngle - ourAngle);
+	float targetAngle = Convert::normRad(atan2(diff.y, diff.x));
+	float diffAngle = Convert::normRad(targetAngle - ourAngle);
 
 	//angle toward target
-	if(diffAngle < pi)
+	if(diffAngle < Math::Pi)
 		m_directives[Directive::RollCCW] = true;
 	else
 		m_directives[Directive::RollCW] = true;

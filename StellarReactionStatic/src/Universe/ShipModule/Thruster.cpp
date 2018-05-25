@@ -71,7 +71,7 @@ void Thruster::thrust(const Vec2& rDirMultiplier)
 			Vec2 forceVec = rDirMultiplier.rotate(angle);
 			forceVec *= m_force;
 
-			m_fix.applyForce(forceVec);
+			m_fix.getParentBody()->applyForce(forceVec);
 		}
 	}
 }
@@ -84,9 +84,9 @@ void Thruster::torque(bool CCW)
 		if((*ranges)[RangeList::Energy].tryChange(-eThisStep))
 		{
 			if(CCW)
-				m_fix.applyTorque(m_torque);
+				m_fix.getParentBody()->applyTorque(m_torque);
 			else
-				m_fix.applyTorque(-m_torque);
+				m_fix.getParentBody()->applyTorque(-m_torque);
 		}
 	}
 }

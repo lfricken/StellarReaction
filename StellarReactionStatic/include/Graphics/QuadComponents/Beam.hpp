@@ -49,10 +49,10 @@ private:
 	Timer m_deactivateTimer;
 
 	Vec2 m_startPos;
-	QuadComponent m_start;
+	QuadComponent m_startSprite;
 
 	Vec2 m_endPos;
-	QuadComponent m_end;
+	QuadComponent m_endSprite;
 };
 
 #endif // BEAM_HPP

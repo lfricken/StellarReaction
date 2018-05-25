@@ -35,27 +35,26 @@ FixtureComponent::FixtureComponent(const FixtureComponentData& rData)
 {
 	m_offset = rData.offset;
 	m_ioPos = -1;
+	Vec2 size = Convert::universeToWorld(rData.size);
 	/**RECTANGLE**/
 	if(rData.shape == leon::Shape::Rectangle)
 	{
 		m_spShape = sptr<b2Shape>(new b2PolygonShape);
-		Vec2 offset(m_offset.x * sizeScalingFactor, m_offset.y * sizeScalingFactor);
-		static_cast<b2PolygonShape*>(m_spShape.get())->SetAsBox(rData.size.x / 2.f * sizeScalingFactor, rData.size.y / 2.f * sizeScalingFactor, offset, 0);
+		static_cast<b2PolygonShape*>(m_spShape.get())->SetAsBox(size.x / 2.f, size.y / 2.f, Convert::universeToWorld(m_offset), 0);
 
-		m_fixtureDef.density = rData.mass / (rData.size.x * rData.size.y);
+		m_fixtureDef.density = rData.mass / (size.x * size.y);
 	}
 	/**CIRCLE**/
 	else if(rData.shape == leon::Shape::Circle)
 	{
 		m_spShape = sptr<b2Shape>(new b2CircleShape);
 		b2CircleShape* temp = static_cast<b2CircleShape*>(m_spShape.get());
-		temp->m_p.Set(m_offset.x * sizeScalingFactor, m_offset.y * sizeScalingFactor);
-		temp->m_radius = rData.size.x / 2.f * sizeScalingFactor;
+		temp->m_p.Set(Convert::universeToWorld(m_offset.x), Convert::universeToWorld(m_offset.y));
+		temp->m_radius = size.x / 2.f;
 
 		m_fixtureDef.density = rData.mass / (temp->m_radius * temp->m_radius * Math::Pi);
 	}
 
-	m_fixtureDef.density *= sizeScalingFactor * sizeScalingFactor; // fix squaring mass
 	m_fixtureDef.isSensor = rData.isSensor;
 	m_fixtureDef.shape = &*m_spShape;//give our shape to our fixture definition
 	m_fixtureDef.friction = rData.friction;
@@ -103,7 +102,7 @@ Vec2 FixtureComponent::getCenter() const
 		center.y /= num;
 		center = m_pFixture->GetBody()->GetWorldPoint(center);
 	}
-	else if(m_spShape->GetType() == b2Shape::e_circle)//must be a circle
+	else if(m_spShape->GetType() == b2Shape::e_circle)
 	{
 		center = m_pFixture->GetBody()->GetWorldPoint(static_cast<b2CircleShape*>(m_spShape.get())->GetVertex(0));
 	}
@@ -111,12 +110,12 @@ Vec2 FixtureComponent::getCenter() const
 	{
 		WARNING;
 	}
-	return center / sizeScalingFactor;
+	return Convert::worldToUniverse(center);
 }
-float FixtureComponent::getAngle() const//RADIANS CCW
+float FixtureComponent::getAngle() const
 {
 	float ret = m_pFixture->GetBody()->GetAngle();
-	return leon::normRad(ret);
+	return Convert::normRad(ret);
 }
 int FixtureComponent::getIOPos() const
 {
@@ -130,21 +129,6 @@ BodyComponent* FixtureComponent::getParentBody() const
 void FixtureComponent::setIOPos(int ioPos)
 {
 	m_ioPos = ioPos;
-}
-void FixtureComponent::applyForce(const Vec2& rForce)//applies force to center of body(Newtons)
-{
-	if(!game.getUniverse().isPaused())
-		m_pFixture->GetBody()->ApplyForceToCenter(rForce, true);
-}
-void FixtureComponent::applyForceFixture(const Vec2& rForce)//applies force at the center of fixture(Newtons)
-{
-	if(!game.getUniverse().isPaused())
-		m_pFixture->GetBody()->ApplyForce(rForce, getCenter(), true);
-}
-void FixtureComponent::applyTorque(float radiansCCW)//applies torque to body(Newton Meters)
-{
-	if(!game.getUniverse().isPaused())
-		m_pFixture->GetBody()->ApplyTorque(radiansCCW, true);
 }
 void FixtureComponent::setCategory(Category cat)
 {
