@@ -221,7 +221,7 @@ void Decoration::updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bot
 
 
 	/**Scales with zoom out**/
-	const float staticSize = (1 * (zoom - 1) + 1);//counters the zoom scaling
+	const float staticSize = zoom; // counters the normal zoom scaling
 	if(m_infiniteZ)
 	{
 		setScale(staticSize);
@@ -232,6 +232,7 @@ void Decoration::updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bot
 		const float angle = atan(halfSize.x / zDist);
 		setScale(angle*staticSize*staticZoom);
 	}
+
 	/**Compute fading In**/
 	if(m_isFadingIn)
 	{

@@ -58,7 +58,7 @@ void Camera::resize()
 
 Vec2 Camera::getPosition() const
 {
-	return (Vec2)Convert::screenToUniverse(m_view.getCenter());
+	return (Vec2)Convert::flipYAxis(Convert::screenToUniverse(m_view.getCenter()));
 }
 float Camera::getZoom() const
 {

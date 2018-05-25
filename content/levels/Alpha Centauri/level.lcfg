@@ -129,12 +129,12 @@
 			"count": 1,
 			"quadData": {
 				"layer": "Back6",
-				"dimensions": [800, 800],
+				"dimensions": [200, 200],
 				"texName": "planets/desert",
 				"animSheetName": "planets/desert.acfg"
 			},
 			"decorData": {
-				"zPos": 760,
+				"zPos": 740,
 				"realPosition": [-300, 0]
 			}
 		},

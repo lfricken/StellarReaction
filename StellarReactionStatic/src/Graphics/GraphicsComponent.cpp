@@ -146,7 +146,7 @@ Vec2 GraphicsComponent::getSize() const
 				minSize.y = m_originPos[i].y;
 
 		m_size = maxSize - minSize;
-		m_size.x *= m_scale;
+		m_size *= m_scale;
 		m_size = Convert::screenToUniverse(m_size);
 
 		m_calculatedSize = true;
