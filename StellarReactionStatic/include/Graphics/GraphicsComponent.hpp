@@ -51,9 +51,7 @@ public:
 	void setRotation(float radCCW);
 	/// Offset where we are drawn in pixels from our center.
 	void setOffset(const sf::Vector2f pixels);
-	/// \brief Set the color that is multiplied with our texture.
-	///
-	/// Basically turns the image this color.
+	/// Turns the image this color. 
 	void setColor(sf::Color);
 	/// Return Animator that animates us.
 	Animator& getAnimator();
@@ -65,9 +63,17 @@ public:
 
 	/// Return our scale.
 	float getScale() const;
-	/// Return our dimensions in world coordinates.
+	/// <summary>
+	/// Return our dimensions in universe coordinates if we have a scale of 1.
+	/// </summary>
+	Vec2 getUnscaledSize() const;
+	/// <summary>
+	/// Get size in universe dimensions
+	/// </summary>
 	Vec2 getSize() const;
-	/// Return our position in world coordinates.
+	/// <summary>
+	/// Our position in universe coordinates.
+	/// </summary>
 	const Vec2& getPosition() const;
 	/// Return our position in world coordinates.
 	const sf::Vector2f getGuiPosition() const;
@@ -108,6 +114,9 @@ protected:
 	Animator m_animator;
 private:
 	mutable bool m_calculatedSize;
+	/// <summary>
+	/// Unscaled universe size.
+	/// </summary>
 	mutable Vec2 m_size;
 	float m_scale;
 };

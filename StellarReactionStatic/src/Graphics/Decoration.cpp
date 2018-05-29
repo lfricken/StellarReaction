@@ -133,11 +133,15 @@ bool Decoration::isRandSpawn() const
 {
 	return m_spawnRandom;
 }
-void Decoration::updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bottomLeft, const Vec2& topRight, const float zoom, const float dTime)
+void Decoration::updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bottomLeft2, const Vec2& topRight2, const float zoom, const float dTime)
 {
+	const Vec2 shrink(3, 3);
+	const Vec2 bottomLeft = bottomLeft2 - shrink;
+	const Vec2 topRight = topRight2 - shrink;
+
 	m_lastCameraPos = rCameraCenter;
 	const float zDist = zoom + m_zPos;//z dist from camera to source
-	const Vec2 halfSize(m_spGfx->getSize().x / 2.f, m_spGfx->getSize().y / 2.f);
+	const Vec2 halfSize(m_spGfx->getUnscaledSize().x / 2.f, m_spGfx->getUnscaledSize().y / 2.f);
 
 	/**Spins**/
 	{
@@ -173,14 +177,13 @@ void Decoration::updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bot
 	/**Repeats itself over view box**/
 	/**Relies on graphics object so position is by appearance**/
 	{
-
 		const Vec2 pos = m_spGfx->getPosition();
 		const Vec2 ourBotLeft = pos - halfSize;
 		const Vec2 ourTopRight = pos + halfSize;
 
 		if(m_repeatsRandom || m_repeats)
 		{
-			if(ourTopRight.x < bottomLeft.x)//has exited left
+			if(ourTopRight.x < bottomLeft.x) // has exited left
 			{
 				float starting = m_spGfx->getPosition().y;
 
@@ -189,7 +192,7 @@ void Decoration::updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bot
 
 				setPosition(Vec2(topRight.x, starting));
 			}
-			if(ourBotLeft.x > topRight.x)//has exited right
+			if(ourBotLeft.x > topRight.x) // has exited right
 			{
 				float starting = m_spGfx->getPosition().y;
 
@@ -198,7 +201,7 @@ void Decoration::updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bot
 
 				setPosition(Vec2(bottomLeft.x, starting));
 			}
-			if(ourBotLeft.y > topRight.y)//has exited top
+			if(ourBotLeft.y > topRight.y) // has exited top
 			{
 				float starting = m_spGfx->getPosition().x;
 
@@ -207,7 +210,7 @@ void Decoration::updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bot
 
 				setPosition(Vec2(starting, bottomLeft.y));
 			}
-			if(ourTopRight.y < bottomLeft.y)//has exited bottom
+			if(ourTopRight.y < bottomLeft.y) // has exited bottom
 			{
 				float starting = m_spGfx->getPosition().x;
 
@@ -220,7 +223,7 @@ void Decoration::updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bot
 	}
 
 
-	/**Scales with zoom out**/
+	// scales with zoom out
 	const float staticSize = zoom; // counters the normal zoom scaling
 	if(m_infiniteZ)
 	{
@@ -228,12 +231,15 @@ void Decoration::updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bot
 	}
 	else
 	{
-		const float staticZoom = (m_maxZoom + m_zPos);
-		const float angle = atan(halfSize.x / zDist);
-		setScale(angle*staticSize*staticZoom);
+		const float one_scale_zoom = 1; // at what zoom should the scale of the sprite be 1?
+		const float staticZoom = (one_scale_zoom + m_zPos);
+		// divide by half size otherwise you square size because 
+		// you factor size into scale, which factors into size
+		const float relativeAngle = atan(halfSize.x / zDist) / halfSize.x;
+		setScale(relativeAngle * staticSize * staticZoom);
 	}
 
-	/**Compute fading In**/
+	// compute fading in
 	if(m_isFadingIn)
 	{
 		if(m_fadeInTimeElapsed <= m_totalFadeInTime)
@@ -242,23 +248,23 @@ void Decoration::updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bot
 			int alpha = (int)(0.f + Math::min(1.f, (m_fadeInTimeElapsed / m_totalFadeInTime)) * 255.f);
 			m_spGfx->setAlpha(alpha);
 		}
-		else//fade time expired
+		else // fade time expired
 		{
 			m_isFadingIn = false;
 			m_spGfx->setAlpha(255);
 		}
 	}
-	/**Compute fading Out**/
+	// compute fading out
 	if(m_isFadingOut)
 	{
 		if(m_fadeOutTimeElapsed <= m_totalFadeOutTime)
 		{
-			m_fadeOutTimeElapsed += dTime;//if we dont take min of 1,x then it can go past 255 alpha and reappear for a second
-			//TODO make it so it can fade from non max alpha (so fade in partial, fade out partial)
+			m_fadeOutTimeElapsed += dTime;// if we dont take min of 1,x then it can go past 255 alpha and reappear for a second
+			// TODO make it so it can fade from non max alpha (so fade in partial, fade out partial)
 			int alpha = (int)(255.f - Math::min(1.f, (m_fadeOutTimeElapsed / m_totalFadeOutTime)) * 255.f);
 			m_spGfx->setAlpha(alpha);
 		}
-		else//fade time expired
+		else // fade time expired
 		{
 			m_spGfx->setAlpha(0);
 		}

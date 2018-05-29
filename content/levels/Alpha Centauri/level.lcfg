@@ -129,7 +129,7 @@
 			"count": 1,
 			"quadData": {
 				"layer": "Back6",
-				"dimensions": [200, 200],
+				"dimensions": [600, 600],
 				"texName": "planets/desert",
 				"animSheetName": "planets/desert.acfg"
 			},

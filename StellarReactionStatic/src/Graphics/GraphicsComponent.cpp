@@ -125,7 +125,7 @@ sf::Transform GraphicsComponent::getTransform() const
 	transform.translate((sf::Vector2f)Convert::flipYAxis(Convert::universeToScreen(coordinates))).rotate(Convert::radToDeg(-m_rotation - m_permanentRot));
 	return transform;
 }
-Vec2 GraphicsComponent::getSize() const
+Vec2 GraphicsComponent::getUnscaledSize() const
 {
 	if(!m_calculatedSize)
 	{
@@ -143,17 +143,17 @@ Vec2 GraphicsComponent::getSize() const
 				minSize.x = m_originPos[i].x;
 		for(int i = 0; i < m_numVerts; ++i)
 			if(m_originPos[i].y < minSize.y)
+
 				minSize.y = m_originPos[i].y;
 
 		m_size = maxSize - minSize;
-		m_size *= m_scale;
 		m_size = Convert::screenToUniverse(m_size);
 
 		m_calculatedSize = true;
 	}
 	return m_size;
 }
-
-
-
-
+Vec2 GraphicsComponent::getSize() const
+{
+	return m_size * m_scale;
+}
