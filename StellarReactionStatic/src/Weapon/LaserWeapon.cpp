@@ -30,12 +30,6 @@ LaserWeapon::~LaserWeapon()
 {
 
 }
-/// <summary>
-/// Casts the raycast to get colliding bodies
-/// </summary>
-/// <param name="center">The center.</param>
-/// <param name="aim">The aim.</param>
-/// <param name="radCCW">The RAD CCW.</param>
 void LaserWeapon::preShot(const Vec2& center, const Vec2& aim, float radCCW, float module_orientation)
 {
 	m_pBody->setIgnoreBody(&m_ray);
@@ -43,14 +37,8 @@ void LaserWeapon::preShot(const Vec2& center, const Vec2& aim, float radCCW, flo
 	const Vec2 angle = center.to(aim).unit();
 	const Vec2 laserVector = angle * m_range;
 	const Vec2 end = aim + laserVector;
-	game.getUniverse().getWorld().RayCast(&m_ray, center, end);
+	game.getUniverse().getWorld().RayCast(&m_ray, Convert::universeToWorld(center), Convert::universeToWorld(end));
 }
-/// <summary>
-/// after physics calculation, we know who we hit, so we send a damage packet
-/// </summary>
-/// <param name="center">The center.</param>
-/// <param name="aim">The aim.</param>
-/// <param name="radCCW">The RAD CCW.</param>
 void LaserWeapon::postShot(const Vec2& fixtureDoingDamageCenter, const Vec2& aim, float radCCW, float module_orientation)
 {
 	const Map<float, RayData>& collisions = m_ray.getLatest();

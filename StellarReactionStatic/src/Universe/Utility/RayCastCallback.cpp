@@ -1,5 +1,5 @@
 #include "RayCastCallback.hpp"
-
+#include "Convert.hpp"
 
 
 RayCastCallback::RayCastCallback()
@@ -17,7 +17,7 @@ float32 RayCastCallback::ReportFixture(b2Fixture* pFixture, const b2Vec2& point,
 	{
 		RayData data;
 		data.pFixture = pFixture;
-		data.point = point;
+		data.point = Convert::worldToUniverse((Vec2)point);
 		m_collisions[fraction] = data;
 	}
 
