@@ -68,7 +68,6 @@ public:
 	bool m_canDie; // true if this chunk can be destroyed
 	int m_controller;
 	int m_shipAI;
-	int universePosition;
 protected:
 	/// <summary>
 	/// Deletes us.

@@ -19,7 +19,9 @@ int ControlFactory::addController(const String& slave)
 {
 	ControllerData data;
 	data.slaveName = slave;
-	return m_list.insert(sptr<Controller>(new Controller(data)));
+	auto controller = sptr<Controller>(new Controller(data));
+	m_list.insert(controller);
+	return controller->getFactoryPosition();
 }
 void ControlFactory::resetControllers(const List<String>& slaves)
 {

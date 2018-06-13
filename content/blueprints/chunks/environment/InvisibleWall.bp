@@ -7,10 +7,9 @@
 		"isDynamic": false
     },
 	"hullSpriteData": {
-		"dimensions": [1024, 1024],
+		"dimensions": [12800, 256],
 		"center": [0,0],
-		"texName": "hulls/asteroid",
-		"animSheetName": "hulls/asteroid.acfg",
+		"texName": "old/default",
 		"layer": "ShipHull"
 	},
     "moduleData": [

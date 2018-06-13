@@ -116,7 +116,7 @@
 			"count": 1,
 			"quadData": {
 				"layer": "Back7",
-				"dimensions": [400, 400],
+				"dimensions": [200, 200],
 				"texName": "planets/rocky",
 				"animSheetName": "planets/rocky.acfg"
 			},
@@ -142,7 +142,7 @@
 			"count": 9,
 			"quadData": {
 				"layer": "Back5",
-				"dimensions": [256, 256],
+				"dimensions": [128, 128],
 				"texName": "backgrounds/debris/debris10",
 				"animSheetName": "backgrounds/debris/debris.acfg",
 				"color": [96, 96, 96, 255]
@@ -163,7 +163,7 @@
 			"count": 9,
 			"quadData": {
 				"layer": "Back4",
-				"dimensions": [256, 256],
+				"dimensions": [128, 128],
 				"texName": "backgrounds/debris/debris7",
 				"animSheetName": "backgrounds/debris/debris.acfg",
 				"color": [96, 96, 96, 255]
@@ -184,7 +184,7 @@
 			"count": 9,
 			"quadData": {
 				"layer": "Back3",
-				"dimensions": [256, 256],
+				"dimensions": [128, 128],
 				"texName": "backgrounds/debris/debris2",
 				"animSheetName": "backgrounds/debris/debris.acfg",
 				"color": [96, 96, 96, 255]

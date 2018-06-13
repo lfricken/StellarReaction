@@ -31,7 +31,7 @@ struct ControllerData
 ///
 /// A local players' commands are sent to a designated controller, who's state is updated between games.
 /// Those commands are duplicated between games, and those commands are sent to the targets.
-class Controller
+class Controller : public FactoryObject
 {
 public:
 	Controller(const ControllerData& rData);

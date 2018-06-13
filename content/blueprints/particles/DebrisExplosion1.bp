@@ -5,14 +5,14 @@
 	"duration": 3,
 	"fadeOutTime": 0.5,
 	"fadeInTime": 0,
-	"velocity": 3,
+	"velocity": 6,
 	"randVelScalarMax": 2,
 	"randArc": 360,
 	"minSpinRate": -45,
 	"maxSpinRate": 45,
 	"quadData": {
 		"texName": "backgrounds/debris/debris1",
-		"dimensions": [180, 180]
+		"dimensions": [1000, 1000]
 	}
 }
 

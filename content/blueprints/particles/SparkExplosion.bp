@@ -12,7 +12,7 @@
 	"maxSpinRate": 720,
 	"quadData": {
 		"texName": "effects/spark",
-		"dimensions": [64, 64]
+		"dimensions": [128, 128]
 	}
 }
 

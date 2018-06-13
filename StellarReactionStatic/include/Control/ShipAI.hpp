@@ -3,6 +3,7 @@
 #include "BasePlayerTraits.hpp"
 #include "NonCopyable.hpp"
 #include "Timer.hpp"
+#include "Factory.hpp"
 
 class Chunk;
 enum class Directive;
@@ -11,7 +12,7 @@ enum class Directive;
 ///
 /// A list of these are stored on the host, which send commands to Controllers.
 /// These controllers are synced between each Game.
-class ShipAI : public BasePlayerTraits, NonCopyable
+class ShipAI : public BasePlayerTraits, public FactoryObject, NonCopyable
 {
 public:
 	ShipAI(Team team, int controller_index);

@@ -8,7 +8,7 @@
     "shots": 4,
 	"shotDelay": 0.15,
 	
-	"range": 20,
+	"range": 50,
 	"fireArc": 0,
 
 	"beamColor": [

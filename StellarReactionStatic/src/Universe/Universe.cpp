@@ -179,7 +179,8 @@ void Universe::createControllers(Team team, bool isAnAI, const String& slaveName
 	if(isAnAI && !game.getNwBoss().isClient())
 	{
 		sptr<ShipAI> ai = sptr<ShipAI>(new ShipAI(team, controller));
-		aiPos = m_shipAI.insert(ai);
+		m_shipAI.insert(ai);
+		aiPos = ai->getFactoryPosition();
 	}
 }
 Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input, this), m_physWorld(Vec2(0, 0))
@@ -506,7 +507,8 @@ void Universe::loadBlueprints(const String& bpDir)//loads blueprints
 }
 int Universe::add(Chunk* pGO)
 {
-	return m_goList.insert(sptr<Chunk>(pGO));
+	m_goList.insert(sptr<Chunk>(pGO));
+	return pGO->getFactoryPosition();
 }
 const Resources& Universe::getTeamResources(Team team) const
 {
@@ -581,15 +583,14 @@ void Universe::input(String rCommand, sf::Packet rData)
 
 
 		//important this happens before creation of the controller
-		int chunkIndex = add(chunkData->generate(this));
+		Chunk* chunk = chunkData->generate(this);
+		int chunkIndex = add(chunk);
 
 		int controller = -1;
 		int ai = -1;
 		if(data.needsController)
 			createControllers((Team)data.team, data.aiControlled, slaveName, controller, ai);// data.slaveName;
 
-		Chunk* chunk = dynamic_cast<Chunk*>(m_goList.get(chunkIndex).get());
-		chunk->universePosition = chunkIndex;
 		chunk->m_controller = controller;
 		chunk->m_shipAI = ai;
 	}

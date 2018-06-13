@@ -264,4 +264,3 @@ wptr<leon::Grid> ModuleParent::getStatusBoard()
 {
 	return m_statusBoard;
 }
-

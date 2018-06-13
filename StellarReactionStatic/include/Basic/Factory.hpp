@@ -2,6 +2,28 @@
 
 #include "stdafx.hpp"
 
+class FactoryObject
+{
+public:
+	/// <summary>
+	/// Set the position of this module parent in the Universe list.
+	/// </summary>
+	void setFactoryPosition(int pos)
+	{
+		m_position = pos;
+	}
+	/// <summary>
+	/// Returns the position of this module parent in the Universe list.
+	/// </summary>
+	int getFactoryPosition()
+	{
+		return m_position;
+	}
+
+private:
+	int m_position; // where is this stored in the universe list?
+};
+
 /// <summary>
 /// Provides a way of adding an item, then destroying it and freeing the location for future use
 /// </summary>
@@ -21,7 +43,7 @@ public:
 	/// <summary>
 	/// returns handle to object
 	/// </summary>
-	int insert(sptr<T> object)
+	void insert(sptr<T> object)
 	{
 		int position = -1;
 		if(m_freePositions.size() > 0)
@@ -36,7 +58,7 @@ public:
 			m_list.push_back(object);
 		}
 
-		return position;
+		object->setFactoryPosition(position);
 	}
 	/// <summary>
 	/// Returns object at position, or null if not exists

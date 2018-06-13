@@ -320,7 +320,7 @@ void Chunk::explode()
 	if(m_canDie && !m_inDeathProcess)
 	{
 		m_inDeathProcess = true;
-		removeFromUniverse(this->universePosition, true, 0.1f);
+		removeFromUniverse(this->getFactoryPosition(), true, 0.1f);
 
 		//TODO death effects group
 		{ // death effects

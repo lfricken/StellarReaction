@@ -4,6 +4,7 @@
 #include "BodyComponent.hpp"
 #include "Blueprintable.hpp"
 #include "ShipProfile.hpp"
+#include "Factory.hpp"
 
 struct ModuleParentData;
 struct ModuleData;
@@ -15,7 +16,7 @@ namespace leon
 	class Grid;
 }
 
-class ModuleParent : public Blueprintable
+class ModuleParent : public Blueprintable, public FactoryObject
 {
 public:
 	ModuleParent(const ModuleParentData& data);
@@ -84,7 +85,7 @@ public:
 
 	void resetStatusBoard(wptr<leon::Grid> grid);
 	wptr<leon::Grid> getStatusBoard();
-
+	
 	/// <summary>
 	/// Return this dynamic casted to a Chunk*.
 	/// </summary>
