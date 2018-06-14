@@ -15,6 +15,7 @@
 #include "Clock.hpp"
 #include "Resources.hpp"
 #include "BuildBounds.hpp"
+#include "AINode.hpp"
 
 class BatchLayers;
 class GraphicsComponentUpdater;
@@ -96,7 +97,7 @@ public:
 	void toggleDebugDraw();
 	/// Find Chunk that is on one of the specified teams
 	wptr<Chunk> getNearestChunk(const Vec2& target, const ModuleParent* exception = nullptr, std::list<Team> validTeams = std::list<Team>());
-	
+
 	/// Get a bed positions for a Chunk to sleep at.
 	Vec2 getBed();
 	/// Someone is no longer sleeping at a position. Other people can sleep there.
@@ -187,7 +188,7 @@ private:
 	sptr<Scoreboard> m_scoreboard;
 	sptr<ControlFactory> m_spControlFactory;
 	sptr<BlueprintLoader> m_spBPLoader;
-//	sptr<SlaveLocator> m_spSlaveLocator;//list of all slaves
+	//	sptr<SlaveLocator> m_spSlaveLocator;//list of all slaves
 	sptr<BatchLayers> m_spBatchLayers;
 	sptr<GraphicsComponentUpdater> m_spGfxUpdater;
 	sptr<IOManager> m_spUniverseIO;//manages IO for the game objects
@@ -205,10 +206,10 @@ private:
 	Factory<ShipAI> m_shipAI;
 
 	List<Chunk*> m_capturePoints;
+	List<List<Vec2> > m_lanes;
 
 	/**Hazards**/
 	List<sptr<ChunkSpawner> > hazardFields;
-
 
 	IOComponent m_io;
 	float m_lastTime;//used for update method//cant use timer because timer references us!
