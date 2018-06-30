@@ -531,6 +531,37 @@ bool Universe::canBuildAtLocation(String chunkBPName, Vec2 pos) const
 	Print << "\n\"" << chunkBPName << "\" has no build positions on this map!";
 	return false;
 }
+Vec2 Universe::getLaneTarget(Team team, Lane lane, const Vec2& pos) const
+{
+	int deltaDirection;
+	if(team == Team::One)
+		deltaDirection = 1;
+	else
+		deltaDirection = -1;
+
+	auto& points = m_lanes[(int)lane];
+	int index = 0;
+	int i = 0;
+	auto dist = pos.to(points[index]).len();
+	for each (auto point in points)
+	{
+		auto distToPoint = pos.to(point).len();
+		if(distToPoint < dist)
+		{
+			index = i;
+			dist = distToPoint;
+		}
+		++i;
+	}
+	index += deltaDirection;
+	//modify target index
+	if(index < 0)
+		index = 0;
+	else if(index >= m_lanes.size())
+		index = points.size() - 1;
+
+	return points[index];
+}
 void Universe::pack(sf::Packet& data)
 {
 	//TODO< sync resources, but client was somehow recieving money change

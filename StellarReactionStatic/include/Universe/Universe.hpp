@@ -16,6 +16,7 @@
 #include "Resources.hpp"
 #include "BuildBounds.hpp"
 #include "AINode.hpp"
+#include "Lanes.hpp"
 
 class BatchLayers;
 class GraphicsComponentUpdater;
@@ -128,6 +129,8 @@ public:
 
 	const Resources& getTeamResources(Team team) const;
 	bool canBuildAtLocation(String chunkBPName, Vec2 pos) const;
+
+	Vec2 getLaneTarget(Team team, Lane lane, const Vec2& pos) const;
 
 protected:
 	bool listContains(std::list<Team> teams, Team value);

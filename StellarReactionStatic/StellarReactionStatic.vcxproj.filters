@@ -455,6 +455,7 @@
     <ClInclude Include="include\Universe\BuildingModules\Replicator.hpp" />
     <ClInclude Include="include\Basic\BuildBounds.hpp" />
     <ClInclude Include="include\Basic\AINode.hpp" />
+    <ClInclude Include="include\Basic\Lanes.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\API\SFML\Audio\SoundFileFactory.inl" />

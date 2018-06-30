@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClInclude Include="include\Basic\AINode.hpp" />
     <ClInclude Include="include\Basic\BuildBounds.hpp" />
+    <ClInclude Include="include\Basic\Lanes.hpp" />
     <ClInclude Include="include\Basic\OddballFunctions.hpp" />
     <ClInclude Include="include\Basic\UpgradeType.hpp" />
     <ClInclude Include="include\Universe\BuildingModules\Extractor.hpp" />

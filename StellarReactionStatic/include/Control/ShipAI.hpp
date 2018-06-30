@@ -4,6 +4,7 @@
 #include "NonCopyable.hpp"
 #include "Timer.hpp"
 #include "Factory.hpp"
+#include "Lanes.hpp"
 
 class Chunk;
 enum class Directive;
@@ -21,10 +22,17 @@ public:
 	/// Update what the AI is trying to do.
 	void updateDecision();
 
+	void flyToTarget(Vec2 pos);
+
 protected:
+	void tryGetNewClosestTarget(Vec2 ourPos, Chunk* chunk);
 	void onShipDestroyed();
 
 private:
+
+	Lane m_lane;
+	float m_targetAquireRange;//how far away will the ai try to grab a target?
+
 	bool isStuck(Vec2 curPos);//check if we are stuck
 	Timer m_stuckTimer; //how often we check our position to see if we are stuck
 	Timer m_unstuckTimer; //how long we go in reverse to get unstuck
@@ -37,7 +45,7 @@ private:
 	float m_weaponRange;
 
 	wptr<Chunk> m_pCurrentTarget;//our current enemy target nearest to us
-	wptr<Chunk> m_pCurrentDest;//our current destination to fly to
+	Vec2 m_destination; // our current destination to fly to
 	
 	Map<Directive, bool> m_directives;
 	Map<int, bool> m_weaponGroups;
