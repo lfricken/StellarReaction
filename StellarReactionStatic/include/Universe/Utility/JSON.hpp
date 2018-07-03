@@ -5,6 +5,7 @@
 #include "CollisionCategory.hpp"
 #include "Resources.hpp"
 #include "RangeList.hpp"
+#include "Lanes.hpp"
 
 /// <summary>
 /// Returns variable name as string.
@@ -49,6 +50,8 @@ public:
 	///Get a Team from JSON.
 	static Team get(const Json::Value& root, const String& fieldName, Team defaultValue);
 	///Get a Team from JSON.
+	static Lane get(const Json::Value& root, const String& fieldName, Lane defaultValue);
+	///Get a Team from JSON.
 	static Category get(const Json::Value& root, const String& fieldName, Category defaultValue);
 	///Get a Team from JSON.
 	static Mask get(const Json::Value& root, const String& fieldName, Mask defaultValue);
@@ -61,22 +64,44 @@ public:
 
 	//static List<Range> get(const Json::Value& root, const String& fieldName, RangeModifier defaultValue);
 
-	//template<typename T>
-	static List<String> get(const Json::Value& root, const String& fieldName, List<String> defaultValue)
+	template <typename T>
+	static List<T> get(const Json::Value& root, const String& fieldName, List<T> defaultValue)
 	{
 		if(root[fieldName].isNull())
 			return defaultValue;
 
-		const Json::Value jsonList = root[fieldName];
-		List<String> list;
-		for(auto it = jsonList.begin(); it != jsonList.end(); ++it)
+		return getList<T>(root[fieldName]);
+	}
+	template <typename T>
+	static List<List<T>> get(const Json::Value& root, const String& fieldName, List<List<T>> defaultValue)
+	{
+		if(root[fieldName].isNull())
+			return defaultValue;
+
+		auto json = root[fieldName];
+		List<List<T>> list;
+		for(auto it = json.begin(); it != json.end(); ++it)
 		{
-			list.push_back(get<String>(it));//get<T>(it)
+			list.push_back(getList<T>(*it));
 		}
 		return list;
 	}
 
+
 private:
+
+	template <typename T>
+	static List<T> getList(const Json::Value& itRef)
+	{
+		List<T> list;
+		for(auto it = itRef.begin(); it != itRef.end(); ++it)
+		{
+			list.push_back(get<T>(*it));//get<T>(it)
+		}
+		return list;
+	}
+
+
 	//template <typename T>
 	//T get() { return 0; };
 	//template < >
@@ -88,35 +113,41 @@ private:
 	//template < >
 	//String get<String>() { return "lol"; };
 
+	
 	template <typename T>
-	static T get(const Json::ValueConstIterator& itRef)
+	static T get(const Json::Value& itRef)
 	{
 		return itRef->asString();
 	}
 	template < >
-	static String get<String>(const Json::ValueConstIterator& itRef)
+	static String get<String>(const Json::Value& itRef)
 	{
-		return itRef->asString();
+		return itRef.asString();
 	}
 	template < >
-	static int get<int>(const Json::ValueConstIterator& itRef)
+	static Vec2 get<Vec2>(const Json::Value& itRef)
 	{
-		return itRef->asInt();
+		return Vec2(itRef[0].asFloat(), itRef[1].asFloat());
 	}
 	template < >
-	static float get<float>(const Json::ValueConstIterator& itRef)
+	static int get<int>(const Json::Value& itRef)
 	{
-		return itRef->asFloat();
+		return itRef.asInt();
 	}
 	template < >
-	static double get<double>(const Json::ValueConstIterator& itRef)
+	static float get<float>(const Json::Value& itRef)
 	{
-		return itRef->asDouble();
+		return itRef.asFloat();
 	}
 	template < >
-	static bool get<bool>(const Json::ValueConstIterator& itRef)
+	static double get<double>(const Json::Value& itRef)
 	{
-		return itRef->asBool();
+		return itRef.asDouble();
+	}
+	template < >
+	static bool get<bool>(const Json::Value& itRef)
+	{
+		return itRef.asBool();
 	}
 };
 

@@ -1,7 +1,5 @@
 {
 	"Spawners": [{
-		"m_team": 1,
-		"m_makesAI": true,
 		"m_isEnabled": true,
 		"m_blueprints": ["SmallMob"],
 		"m_spawnAmount": -1,
@@ -9,18 +7,11 @@
 		"m_spawnPeriod": 30,
 		"m_spawnPeriodVariance": 0,
 		"m_radius": 1,
-		"m_origin": [-100, 10]
-	},{
-		"m_team": 2,
-		"m_makesAI": true,
-		"m_isEnabled": true,
-		"m_blueprints": ["SmallMob"],
-		"m_spawnAmount": -1,
-		"m_spawnPer": 3,
-		"m_spawnPeriod": 30,
-		"m_spawnPeriodVariance": 0,
-		"m_radius": 1,
-		"m_origin": [100, 10]
+		"m_origin": [400, 400],
+		"m_chunkData": {
+			"team": 2,
+			"aiControlled": true
+		}
 	}],
 	"Chunks": [{
 		"blueprintName": "InvisibleWall",
@@ -37,6 +28,10 @@
 		"team": 2,
 		"aiControlled": true
 	}
+	],
+	"m_lanes": [[[-300,0],[-200,100],[-100,30],[100,100],[200,0],[300,80],[400,0]],
+	[[-50,30],[-40,30],[-30,30],[-20,30],[-10,30]],
+	[]
 	],
 	"SpawnPoints": [{
 		"Team": 1,
@@ -202,5 +197,5 @@
 			}
 		}
 	],
-	"MapBounds": [1000, 1000]
+	"m_bounds": [1000, 1000]
 }

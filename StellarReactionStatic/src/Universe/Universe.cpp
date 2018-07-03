@@ -69,12 +69,8 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 			}
 		}
 		/**Map Bounds*/
-		if(!root["MapBounds"].isNull())
-		{
-			const Json::Value boundsList = root["MapBounds"];
-			m_bounds.x = (float)(boundsList[0].asInt());
-			m_bounds.y = (float)(boundsList[1].asInt());
-		}
+		GETJSON(m_bounds);
+		GETJSON(m_lanes);
 
 		if(!root["BuildBounds"].isNull())
 		{
@@ -557,7 +553,7 @@ Vec2 Universe::getLaneTarget(Team team, Lane lane, const Vec2& pos) const
 	//modify target index
 	if(index < 0)
 		index = 0;
-	else if(index >= m_lanes.size())
+	else if(index >= points.size())
 		index = points.size() - 1;
 
 	return points[index];

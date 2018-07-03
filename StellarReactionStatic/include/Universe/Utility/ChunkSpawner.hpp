@@ -6,6 +6,7 @@
 #include "Team.hpp"
 
 class Universe;
+struct ChunkDataMessage;
 
 /// Used briefly to create a collection of Hazards in the world.
 class ChunkSpawner
@@ -26,14 +27,6 @@ private:
 	Universe* m_pUniverse;
 
 	int m_spawnPer; // How many chunks to spawn per spawn event.
-	/// <summary>
-	/// The team of the chunks this spawner creates.
-	/// </summary>
-	Team m_team;
-	/// <summary>
-	/// True if AI are created with each chunk.
-	/// </summary>
-	bool m_makesAI;
 	/// <summary>
 	/// Should we be trying to spawn things now.
 	/// </summary>
@@ -66,6 +59,10 @@ private:
 	/// Keep track of time to spawn enemies from it.
 	/// </summary>
 	Timer m_timer;
+	/// <summary>
+	/// Type of thing to create, loaded from json.
+	/// </summary>
+	sptr<ChunkDataMessage> m_chunkData;
 
 	sptr<IOComponent> m_io;
 };

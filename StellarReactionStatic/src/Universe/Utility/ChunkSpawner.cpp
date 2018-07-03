@@ -14,7 +14,6 @@ ChunkSpawner::ChunkSpawner(Universe* universe, const Json::Value& root)
 	m_io.reset(new IOComponent(io, &ChunkSpawner::input, this));
 
 	GETJSON(m_spawnPeriod);
-	GETJSON(m_makesAI);
 	GETJSON(m_isEnabled);
 	GETJSON(m_blueprints);
 	GETJSON(m_spawnAmount);
@@ -23,7 +22,9 @@ ChunkSpawner::ChunkSpawner(Universe* universe, const Json::Value& root)
 	GETJSON(m_spawnPeriodVariance);
 	GETJSON(m_radius);
 	GETJSON(m_origin);
-	GETJSON(m_team);
+
+	m_chunkData.reset(new ChunkDataMessage);
+	m_chunkData->loadJson(root[NAMEOF(m_chunkData)]);
 
 	resetCountdown();
 }
@@ -37,13 +38,11 @@ void ChunkSpawner::update()
 {
 	if(m_spawnAmount != 0 && m_timer.isTimeUp())
 	{
-		ChunkDataMessage ship;
+		ChunkDataMessage ship = *m_chunkData;
 
-		ship.aiControlled = m_makesAI;
-		ship.needsController = m_makesAI;
+		ship.needsController = ship.aiControlled;
 		ship.blueprintName = m_blueprints[Rand::get(0,m_blueprints.size()-1)];
 		ship.rotation = 0;
-		ship.team = (int)m_team;
 		for(int i = 0; i < m_spawnPer; i++)
 		{
 			ship.coordinates = pickRandPoint();

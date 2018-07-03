@@ -5,7 +5,7 @@ Vec2 JSON::get(const Json::Value& root, const String& fieldName, const Vec2& def
 	if(root[fieldName].isNull())
 		return defaultValue;
 
-	return Vec2(root[fieldName][0].asFloat(), root[fieldName][1].asFloat());
+	return get<Vec2>(root[fieldName]);
 }
 sf::Vector2i JSON::get(const Json::Value& root, const String& fieldName, const sf::Vector2i& defaultValue)
 {
@@ -28,8 +28,6 @@ sf::Color JSON::get(const Json::Value& root, const String& fieldName, const sf::
 
 	return sf::Color(root[fieldName][0].asInt(), root[fieldName][1].asInt(), root[fieldName][2].asInt(), root[fieldName][3].asInt());
 }
-
-
 
 
 
@@ -77,6 +75,13 @@ Team JSON::get(const Json::Value& root, const String& fieldName, Team defaultVal
 		return defaultValue;
 
 	return (Team)root[fieldName].asInt();
+}
+Lane JSON::get(const Json::Value& root, const String& fieldName, Lane defaultValue)
+{
+	if(root[fieldName].isNull())
+		return defaultValue;
+
+	return (Lane)root[fieldName].asInt();
 }
 Category JSON::get(const Json::Value& root, const String& fieldName, Category defaultValue)
 {

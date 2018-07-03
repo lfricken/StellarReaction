@@ -14,6 +14,7 @@ ShipAI::ShipAI(Team team, int controller_index) : BasePlayerTraits("ai")
 	m_targetTimer.setCountDown(1.f);
 	m_stuckTimer.setCountDown(2.f);
 	m_unstuckTimer.setCountDown(1.f);
+	m_laneUpdateTimer.setCountDown(0.2f);
 	setController(controller_index);
 	setTeam(team);
 	m_targetAquireRange = 20;
@@ -32,6 +33,10 @@ void ShipAI::onShipDestroyed()
 }
 void ShipAI::updateDecision()
 {
+	//default all actions to false
+	for(auto it = m_directives.begin(); it != m_directives.end(); ++it)
+		it->second = false;
+
 	Controller* cont = game.getUniverse().getControllerFactory().getController(m_controller);
 	if(cont == nullptr)
 		return;
@@ -50,9 +55,6 @@ void ShipAI::updateDecision()
 	auto& body = rController.getChunk()->getBodyComponent();
 	auto ourPos = body.getPosition();
 
-	//default all actions to false
-	for(auto it = m_directives.begin(); it != m_directives.end(); ++it)
-		it->second = false;
 
 	{
 		tryGetNewClosestTarget(ourPos, rController.getChunk().get());
@@ -69,14 +71,18 @@ void ShipAI::updateDecision()
 			if(distToTarget < m_weaponRange)
 				fireAtTarget();
 			else
+
 				flyToTarget(targetPos);
 		}
 		else
 		{
-			if(m_destination == Vec2(0, 0))
-				m_destination = game.getUniverse().getLaneTarget(getTeam(), m_lane, ourPos);
+			if(m_laneUpdateTimer.isTimeUp())
+			{
+				m_laneUpdateTimer.restartCountDown();
+				m_laneDestination = getLaneTarget(ourPos);
+			}
 
-			flyToTarget(m_destination);
+			flyToTarget(m_laneDestination);
 		}
 	}
 
@@ -86,6 +92,10 @@ void ShipAI::updateDecision()
 	commands.directives = m_directives;
 	commands.weaponGroups = m_weaponGroups;
 	rController.locallyUpdate(commands);
+}
+Vec2 ShipAI::getLaneTarget(const Vec2& ourPos) const
+{
+	return game.getUniverse().getLaneTarget(getTeam(), m_lane, ourPos);
 }
 void ShipAI::tryGetNewClosestTarget(Vec2 ourPos, Chunk* chunk)
 {
