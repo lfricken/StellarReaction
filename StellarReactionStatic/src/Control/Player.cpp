@@ -417,7 +417,7 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 				if(event.key.code == sf::Keyboard::Numpad5)
 					m_tracking = !m_tracking;
 				if(event.key.code == sf::Keyboard::Numpad4)
-					Print << m_aim;
+					Print << "\n" << m_aim;
 				if(event.key.code == sf::Keyboard::Numpad0)
 					game.getUniverse().togglePause();
 			}

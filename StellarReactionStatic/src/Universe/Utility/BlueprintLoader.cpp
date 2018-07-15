@@ -97,3 +97,11 @@ int BlueprintLoader::upgrade(String bpName, UpgradeType type, Team team)
 
 	return upgradeNum;
 }
+void BlueprintLoader::addBp(String bpName, sptr<const ModuleData> bp)
+{
+	m_modBP[bpName] = sptr<ModuleData>(bp->clone());
+}
+void BlueprintLoader::addBp(String bpName, sptr<const ChunkData> bp)
+{
+	m_cnkBP[bpName] = sptr<ChunkData>(bp->clone());
+}

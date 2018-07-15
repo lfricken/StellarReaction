@@ -24,6 +24,7 @@
 #include "CaptureArea.hpp"
 #include "UpgradeType.hpp"
 #include "Overlay.hpp"
+#include "Plating.hpp"
 
 
 
@@ -146,6 +147,35 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 				chunkMessageData.loadJson(*it);
 
 				ShipBuilder::Server::createChunk(chunkMessageData, 0);
+			}
+		}
+		const String Custom = "Custom";
+		if(!root[Custom].isNull())
+		{
+			const String fixtureBpNameRoot = Custom;
+			const String chunkBpNameRoot = Custom;
+			const Json::Value custom = root[Custom];
+
+			int index = 0;
+			for(auto it = custom.begin(); it != custom.end(); ++it)
+			{
+				const String fixtureBpName = fixtureBpNameRoot + String(index);
+				const String chunkBpName = chunkBpNameRoot + String(index);
+
+				auto fixtureBp = sptr<PlatingData>(static_cast<PlatingData*>(getBlueprints().getModuleSPtr(fixtureBpNameRoot)->clone()));
+				auto chunkBp = sptr<ChunkData>(static_cast<ChunkData*>(getBlueprints().getChunkSPtr(chunkBpNameRoot)->clone()));
+
+				fixtureBp->fixComp.vertices = JSON::get(*it, "vertices", fixtureBp->fixComp.vertices);
+				chunkBp->moduleData.push_back(Pair<String, Vec2>(fixtureBpName, Vec2(0, 0)));
+
+				getBlueprints().addBp(fixtureBpName, fixtureBp);
+				getBlueprints().addBp(chunkBpName, chunkBp);
+
+				ChunkDataMessage chunkMessageData;
+				chunkMessageData.blueprintName = chunkBpName;
+				ShipBuilder::Server::createChunk(chunkMessageData, 0);
+
+				++index;
 			}
 		}
 		/**Hazard Fields**/
@@ -560,7 +590,7 @@ Vec2 Universe::getLaneTarget(Team team, Lane lane, const Vec2& pos) const
 }
 void Universe::pack(sf::Packet& data)
 {
-	//TODO< sync resources, but client was somehow recieving money change
+	//TODO sync money maybe? Looks like that's already being done via seperate message
 }
 void Universe::unpack(sf::Packet& data)
 {

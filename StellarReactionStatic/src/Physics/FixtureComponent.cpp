@@ -15,6 +15,8 @@ void FixtureComponentData::loadJson(const Json::Value& root)
 			shape = leon::Shape::Rectangle;
 		else if(temp == "circle")
 			shape = leon::Shape::Circle;
+		else if(temp == "custom")
+			shape = leon::Shape::Custom;
 		else
 		{
 			WARNING;
@@ -30,6 +32,7 @@ void FixtureComponentData::loadJson(const Json::Value& root)
 	GETJSON(isSensor);
 	GETJSON(colCategory);
 	GETJSON(colMask);
+	GETJSON(vertices);
 }
 FixtureComponent::FixtureComponent(const FixtureComponentData& rData)
 {
@@ -53,6 +56,19 @@ FixtureComponent::FixtureComponent(const FixtureComponentData& rData)
 		temp->m_radius = size.x / 2.f;
 
 		m_fixtureDef.density = rData.mass / (temp->m_radius * temp->m_radius * Math::Pi);
+	}
+	else if(rData.shape == leon::Shape::Custom)
+	{
+		m_spShape = sptr<b2Shape>(new b2PolygonShape);
+		const int vertCount = rData.vertices.size();
+		b2Vec2* vecs = new b2Vec2[];
+		for(int i = 0; i < vertCount; ++i)
+		{
+			vecs[i] = Convert::universeToWorld(rData.vertices[i]);
+		}
+		static_cast<b2PolygonShape*>(m_spShape.get())->Set(vecs, vertCount);
+
+		m_fixtureDef.density = rData.mass;
 	}
 
 	m_fixtureDef.isSensor = rData.isSensor;

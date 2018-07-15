@@ -13,6 +13,7 @@ namespace leon
 	{
 		Rectangle,
 		Circle,
+		Custom,
 	};
 }
 
@@ -45,6 +46,7 @@ struct FixtureComponentData
 
 	Category colCategory;//what are we?
 	Mask colMask;//what do we collide with
+	List<Vec2> vertices;
 
 	///Fill this object with data from a json file.
 	void loadJson(const Json::Value& root);

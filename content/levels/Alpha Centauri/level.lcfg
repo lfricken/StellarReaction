@@ -13,25 +13,118 @@
 			"aiControlled": true
 		}
 	}],
+	"Custom": [{
+		"vertices": [
+			[0, 0],
+			[1, 1],
+			[1, 0],
+			[0, -2]
+		]
+	}],
 	"Chunks": [{
-		"blueprintName": "InvisibleWall",
-		"coordinates": [-80, 25, 0],
-		"team": -1
-	},{
-		"blueprintName": "Fortress_1",
-		"coordinates": [-80, 0, 0],
-		"team": 1,
-		"aiControlled": true
-	},{
-		"blueprintName": "Fortress_1",
-		"coordinates": [80, 0, 0],
-		"team": 2,
-		"aiControlled": true
-	}
+			"blueprintName": "InvisibleWall",
+			"coordinates": [-75, -125, 0],
+			"team": -1
+		},
+		{
+			"blueprintName": "InvisibleWall",
+			"coordinates": [-25, -125, 0],
+			"team": -1
+		},
+		{
+			"blueprintName": "InvisibleWall",
+			"coordinates": [25, -125, 0],
+			"team": -1
+		},
+		{
+			"blueprintName": "InvisibleWall",
+			"coordinates": [75, -125, 0],
+			"team": -1
+		},
+
+
+		{
+			"blueprintName": "InvisibleWall",
+			"coordinates": [-75, -75, 0],
+			"team": -1
+		},
+		{
+			"blueprintName": "InvisibleWall",
+			"coordinates": [-25, -75, 0],
+			"team": -1
+		},
+		{
+			"blueprintName": "InvisibleWall",
+			"coordinates": [25, -75, 0],
+			"team": -1
+		},
+		{
+			"blueprintName": "InvisibleWall",
+			"coordinates": [75, -75, 0],
+			"team": -1
+		},
+
+
+
+		{
+			"blueprintName": "InvisibleWall",
+			"coordinates": [-75, -25, 0],
+			"team": -1
+		},
+		{
+			"blueprintName": "InvisibleWall",
+			"coordinates": [-25, -25, 0],
+			"team": -1
+		},
+		{
+			"blueprintName": "InvisibleWall",
+			"coordinates": [25, -25, 0],
+			"team": -1
+		},
+		{
+			"blueprintName": "InvisibleWall",
+			"coordinates": [75, -25, 0],
+			"team": -1
+		},
+
+
+
+
+
+		{
+			"blueprintName": "Fortress_1",
+			"coordinates": [-80, 0, 0],
+			"team": 1,
+			"aiControlled": true
+		},
+		{
+			"blueprintName": "Fortress_1",
+			"coordinates": [80, 0, 0],
+			"team": 2,
+			"aiControlled": true
+		}
+
+
+
 	],
-	"m_lanes": [[[-300,0],[-200,100],[-100,30],[100,100],[200,0],[300,80],[400,0]],
-	[[-50,30],[-40,30],[-30,30],[-20,30],[-10,30]],
-	[]
+	"m_lanes": [
+		[
+			[-300, 0],
+			[-200, 100],
+			[-100, 30],
+			[100, 100],
+			[200, 0],
+			[300, 80],
+			[400, 0]
+		],
+		[
+			[-50, 30],
+			[-40, 30],
+			[-30, 30],
+			[-20, 30],
+			[-10, 30]
+		],
+		[]
 	],
 	"SpawnPoints": [{
 		"Team": 1,
@@ -55,42 +148,37 @@
 	"BuildBounds": [{
 			"ChunkName": "Extractor",
 			"BoundList": [{
-					"center": [0, 0],
-					"radius": 5000
-				}
-			]
+				"center": [0, 0],
+				"radius": 5000
+			}]
 		},
 		{
 			"ChunkName": "Relay",
 			"BoundList": [{
-					"center": [0, 0],
-					"radius": 5000
-				}
-			]
+				"center": [0, 0],
+				"radius": 5000
+			}]
 		},
 		{
 			"ChunkName": "Hardpoint",
 			"BoundList": [{
-					"center": [0, 0],
-					"radius": 5000
-				}
-			]
+				"center": [0, 0],
+				"radius": 5000
+			}]
 		},
 		{
 			"ChunkName": "Mind",
 			"BoundList": [{
-					"center": [0, 0],
-					"radius": 5000
-				}
-			]
+				"center": [0, 0],
+				"radius": 5000
+			}]
 		},
 		{
 			"ChunkName": "Replicator",
 			"BoundList": [{
-					"center": [0, 0],
-					"radius": 5000
-				}
-			]
+				"center": [0, 0],
+				"radius": 5000
+			}]
 		}
 	],
 	"decorations": [{

@@ -1,0 +1,12 @@
+{
+    "ClassName": "PlatingData",
+	"fixComp": {
+		"offset": [
+			0,
+			0
+		],
+		"shape": "custom",
+		"mass": 1
+	},
+	"collisionDamage": 0
+}

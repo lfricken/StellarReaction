@@ -43,6 +43,10 @@ public:
 	/// Upgrades the stats on a module or weapon blueprint. Returns what value it was upgraded to.
 	/// </summary>
 	int upgrade(String bpName, UpgradeType type, Team team);
+
+	void addBp(String bpName, sptr<const ModuleData> bp);
+	void addBp(String bpName, sptr<const ChunkData> bp);
+
 protected:
 private:
 
