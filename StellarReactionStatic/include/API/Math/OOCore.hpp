@@ -70,11 +70,11 @@ private:
 		//if it has a decimal place try removing 0s
 		if(this->find('.') != std::string::npos)
 		{
-			for(int x = length() - 1; x >= 0; --x)
+			for(int x = length() - 1; x >= 0; --x) // count backward
 			{
 				if((*this)[x] != '0' && (*this)[x] != '.')
 				{
-					(*this).resize(x + 1);
+					(*this).resize(x + 1); // shrink to appropriate size (x is counting backward)
 					break;
 				}
 			}

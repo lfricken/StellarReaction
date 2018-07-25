@@ -13,13 +13,9 @@ namespace Math
 		float y;
 
 		/// <summary>
-		/// Applies compontents pairwise.
+		/// Compares components pairwise.
 		/// </summary>
 		bool operator==(const Vec2& other) const;
-		bool operator!=(const Vec2& other) const
-		{
-			return !(*this == other);
-		}
 
 		Vec2 operator+(const Vec2& other) const;
 		Vec2 operator-(const Vec2& other) const;
@@ -46,40 +42,40 @@ namespace Math
 
 
 		/// <summary>
-		/// Returns vector inversed.
+		/// Returns this vector inversed.
 		/// </summary>
 		Vec2 inv() const;
 		/// <summary>
-		/// Returns vector from this vector to another.
+		/// Returns the vector that starts at this vector and ends at another.
 		/// </summary>
 		Vec2 to(const Vec2& other) const;
 		/// <summary>
-		/// Returns the vector rotated CCW the specified number of radians.
+		/// Return this vector rotated. CCW radians.
 		/// </summary>
 		Vec2 rotate(float radiansCCW) const;
 		/// <summary>
-		/// Find length of this vector.
+		/// Return length of this vector.
 		/// </summary>
 		float len() const;
 		/// <summary>
-		/// Return unit vector of this Vec2.
+		/// Return unit vector of this vector.
 		/// </summary>
 		Vec2 unit() const;
 		/// <summary>
-		/// Gets a bounced ray off of a surface normal vector.
+		/// Return this ray as if it was bounced off of a surface normal vector.
 		/// </summary>
 		Vec2 bounce(const Vec2& normal) const;
 		/// <summary>
-		/// Compute dot product of two vectors.
+		/// Return the dot product of this vector and another.
 		/// </summary>
 		float dot(const Vec2& other) const;
 		/// <summary>
-		/// This vector to an angle.
+		/// Return the angle this vector produces with respect to the positive x axis. CCW radians.
 		/// </summary>
 		float toAngle() const;
 
 		/// <summary>
-		/// Print this vector.
+		/// Print this vector as "(x, y)".
 		/// </summary>
 		inline friend std::ostream& operator<<(std::ostream &os, const Vec2& vec)
 		{
