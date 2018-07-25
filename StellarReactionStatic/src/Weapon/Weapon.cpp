@@ -92,24 +92,29 @@ bool Weapon::fire(const FixtureComponent& pParent, RangeList* ranges)//we were t
 	else
 		return false;
 }
-void Weapon::prePhysUpdate(const Vec2& center, const Vec2& aim, float32 radCCW, BodyComponent* pBody, float module_orientation)//we are checking whether we should take a shot
+void Weapon::prePhysUpdate(const Vec2& center, const Vec2& aim, float32 radCCW, BodyComponent* pBody, float module_orientation, float functionalCapacity)//we are checking whether we should take a shot
 {
-	m_pBody = pBody;
+	m_pBody = pBody; // TODO, why is this here?
 
-	if(m_shotsRemain > 0 && m_shotTimer.isTimeUp())
+	float jamCheck = Rand::get(0.f, 1.f);
+
+	if(jamCheck < functionalCapacity)
 	{
-		--m_shotsRemain;
-		m_shotSound.play(m_decor.getPosition());
-		m_shotTimer.restartCountDown();
-		m_shotThisTick = true;
+		if(m_shotsRemain > 0 && m_shotTimer.isTimeUp())
+		{
+			--m_shotsRemain;
+			m_shotSound.play(m_decor.getPosition());
+			m_shotTimer.restartCountDown();
+			m_shotThisTick = true;
 
-		for(int i = 0; i < m_shotsInSpread; i++)
-			preShot(center, randArc(center, aim), radCCW, module_orientation);
+			for(int i = 0; i < m_shotsInSpread; i++)
+				preShot(center, randArc(center, aim), radCCW, module_orientation);
+		}
 	}
 }
 void Weapon::postPhysUpdate(const Vec2& center, const Vec2& aim, float32 radCCW, BodyComponent* pBody, float module_orientation)//we are determining our next shot
 {
-	m_pBody = pBody;
+	m_pBody = pBody; // TODO, why is this here?
 	m_decor.setRotation(radCCW);
 	m_decor.setPosition(center);
 

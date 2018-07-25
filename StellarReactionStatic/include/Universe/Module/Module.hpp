@@ -45,7 +45,7 @@ public:
 	///Get a reference to the fixture component of this module.
 	const FixtureComponent& getFixtureComponent();
 
-	virtual bool isFunctioning();
+	virtual float functionalCapacity();
 
 	IOComponent m_io;
 protected:

@@ -27,8 +27,10 @@ public:
 	virtual void prePhysUpdate();
 	///Actions to process on object after performing physics updates.
 	virtual void postPhysUpdate();
-	///Should this module still work?
-	virtual bool isFunctioning();
+	/// <summary>
+	/// Returns as a percentage how functional this module is.
+	/// </summary>
+	virtual float functionalCapacity();
 	///Set the health state of this module.
 	void setHealthState(HealthState newState);
 	///Actions to process on object when HealthState changes.

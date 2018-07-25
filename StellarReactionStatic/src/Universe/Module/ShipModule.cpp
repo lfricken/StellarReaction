@@ -233,17 +233,17 @@ bool ShipModule::isValidDamageSource(int damage, Team damagingTeam)
 
 	return (damagePositive && differentTeams && validTeams);
 }
-bool ShipModule::isFunctioning()//does this module still do its function
+float ShipModule::functionalCapacity()//does this module still do its function
 {
 	if(m_healthState == HealthState::Nominal)
-		return true;
+		return 1.00f;
 	else if(m_healthState == HealthState::Broken)
-		return false;
+		return 0.50f;
 	else if(m_healthState == HealthState::CriticallyDamaged)
-		return m_functionsDamaged;
+		return 0.75f;
 
 	WARNING;
-	return true;
+	return 1.00;
 }
 void ShipModule::setHealthState(HealthState newState)
 {

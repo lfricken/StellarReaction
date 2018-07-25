@@ -35,7 +35,7 @@ public:
 	/// returns true if we will fire.
 	bool fire(const FixtureComponent& pParent, RangeList* ranges);
 	/// Called by our parent module
-	virtual void prePhysUpdate(const Vec2& center, const Vec2& aim, float32 radCCW, BodyComponent* pBody, float module_orientation);
+	virtual void prePhysUpdate(const Vec2& center, const Vec2& aim, float32 radCCW, BodyComponent* pBody, float module_orientation, float functionalCapacity);
 	/// Called by our parent module
 	virtual void postPhysUpdate(const Vec2& center, const Vec2& aim, float32 radCCW, BodyComponent* pBody, float module_orientation);
 	/// Called before physics update if this weapon should fire this tick

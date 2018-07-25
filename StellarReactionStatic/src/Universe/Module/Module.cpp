@@ -37,9 +37,9 @@ Module::~Module()
 
 }
 
-bool Module::isFunctioning()
+float Module::functionalCapacity()
 {
-	return true;
+	return 1.00f;
 }
 void Module::applyModifierRates()
 {
