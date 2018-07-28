@@ -17,9 +17,10 @@ public:
 	/// <summary>
 	/// Launches a missle with given direction, parent, target, position and acceleration.
 	/// </summary>
-	void missileLaunch(Vec2 rStart, wptr<Chunk>, float radCCW, float init_velocity, float acceleration, float max_velocity, int damage, const FixtureComponent* pParent, int collisions);
+	static void missileLaunch(ProjectileMan* manager, Vec2 rStart, wptr<Chunk>, float radCCW, float init_velocity, float acceleration, float max_velocity, int damage, const FixtureComponent* pParent, int collisions);
 
-
+	void launchMissileFromManager(ProjectileMan* manager, Vec2 rStart, wptr<Chunk>, float radCCW, float init_velocity, float acceleration, float max_velocity, int damage, const FixtureComponent* pParent, int collisions);
+	
 	void prePhysUpdate();
 	void postPhysUpdate();
 

@@ -96,17 +96,15 @@ void Weapon::prePhysUpdate(const Vec2& center, const Vec2& aim, float32 radCCW, 
 {
 	m_pBody = pBody; // TODO, why is this here?
 
-	float jamCheck = Rand::get(0.f, 1.f);
-
-	if(jamCheck < functionalCapacity)
+	if(m_shotsRemain > 0 && m_shotTimer.isTimeUp())
 	{
-		if(m_shotsRemain > 0 && m_shotTimer.isTimeUp())
-		{
-			--m_shotsRemain;
-			m_shotSound.play(m_decor.getPosition());
-			m_shotTimer.restartCountDown();
-			m_shotThisTick = true;
+		--m_shotsRemain;
+		m_shotTimer.restartCountDown();
 
+		if(Rand::didSucceed(functionalCapacity))
+		{
+			m_shotThisTick = true;
+			m_shotSound.play(m_decor.getPosition());
 			for(int i = 0; i < m_shotsInSpread; i++)
 				preShot(center, randArc(center, aim), radCCW, module_orientation);
 		}

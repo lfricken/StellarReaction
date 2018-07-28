@@ -25,14 +25,16 @@ BallisticWeapon::~BallisticWeapon()
 void BallisticWeapon::preShot(const Vec2& center, const Vec2& aim, float radCCW, float module_orientation)
 {
 	/**Fire projectiles**/
-	Projectile* pProj = game.getUniverse().getProjMan().getProjectile(m_projName);
+	ProjectileMan* pProj = &game.getUniverse().getProjMan();
 
-	Vec2 dif = aim - center;
-	Vec2 vel = aim - center;
-	vel = vel.unit();
-	vel *= m_velocity;
-	pProj->launch(center, vel, atan2(dif.y, dif.x), 0, m_projLifetime, m_damage/m_shots, m_pTempParent, m_collisions);///CHANGE FIRST 0 TO ANGLE of shot
+	const Vec2 dif = center.to(aim);
+	const Vec2 direction = dif.unit();
+	const float spin = 0;
+	const float shotAngle = atan2(direction.y, direction.x);
+	const Vec2 vel = direction * m_velocity;
+	const int damagePerShot = m_damage / m_shots;
 
+	Projectile::launch(pProj, center, vel, shotAngle, spin, m_projLifetime, damagePerShot, m_pTempParent, m_collisions);
 }
 void BallisticWeapon::postShot(const Vec2& center, const Vec2& aim, float radCCW, float module_orientation)
 {

@@ -13,7 +13,6 @@ public:
 	ProjectileMan();
 	virtual ~ProjectileMan();
 	///Returns a pointer to a projectile for the given blueprint name.
-	Projectile* getProjectile(const String& rBPName);
 	///Frees the given projectile.
 	void freeProjectile(Projectile* pProj);
 	///Adds new projectile from blueprint.
@@ -23,7 +22,13 @@ public:
 	///Actions to process on object after performing physics updates.
 	void postPhysUpdate();
 
+	void launch(const String& rBPName);
+
+	IOComponent m_ioComponent;
+
 protected:
+	Projectile* getProjectile(const String& rBPName);
+
 private:
 	enum
 	{

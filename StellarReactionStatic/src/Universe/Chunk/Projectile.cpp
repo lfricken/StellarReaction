@@ -19,6 +19,12 @@ Projectile::~Projectile()
 {
 
 }
+void Projectile::launch(ProjectileMan* manager, const Vec2& rStart, const Vec2& rVel, float radCCW, float radCCWps, float lifetime, int damage, const FixtureComponent* pParent, int collisions)
+{
+	manager->
+
+	setPayloadOnModules(damage, pParent, collisions);
+}
 void Projectile::launch(const Vec2& rStart, const Vec2& rVel, float radCCW, float radCCWps, float lifetime, int damage, const FixtureComponent* pParent, int collisions)
 {
 	m_inPlay = true;

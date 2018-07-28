@@ -22,7 +22,7 @@ public:
 	/// <summary>
 	/// Launches projectile with given coordinates, direction, damage and lifetime.
 	/// </summary>
-	void launch(const Vec2& rStart, const Vec2& rVel, float radCCW, float radCCWps, float lifetime, int damage, const FixtureComponent* pParent, int collisions);
+	static void launch(ProjectileMan* manager, const Vec2& rStart, const Vec2& rVel, float radCCW, float radCCWps, float lifetime, int damage, const FixtureComponent* pParent, int collisions);
 	/// <summary>
 	/// Return this projectile back into projectile pool of parent.
 	/// </summary>
@@ -32,6 +32,7 @@ public:
 	/// </summary>
 	void setPayloadOnModules(int damage, const FixtureComponent* pParent, int collisions);
 
+	void launchFromManager(const Vec2& rStart, const Vec2& rVel, float radCCW, float radCCWps, float lifetime, int damage, const FixtureComponent* pParent, int collisions);
 
 	virtual void prePhysUpdate();
 	virtual void postPhysUpdate();

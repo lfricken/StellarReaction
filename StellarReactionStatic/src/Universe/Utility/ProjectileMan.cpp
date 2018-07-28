@@ -6,7 +6,7 @@
 
 
 
-ProjectileMan::ProjectileMan()
+ProjectileMan::ProjectileMan() : m_ioComponent(
 {
 
 }
