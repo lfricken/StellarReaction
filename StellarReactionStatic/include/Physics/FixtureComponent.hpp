@@ -22,7 +22,7 @@ struct FixtureComponentData
 {
 	FixtureComponentData() :
 		offset(0,0),
-		pBody(NULL),
+		pBody(nullptr),
 		shape(leon::Shape::Circle),
 		size(1,1),
 		mass(1.f),

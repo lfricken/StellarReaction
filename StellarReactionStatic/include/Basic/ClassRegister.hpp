@@ -14,13 +14,13 @@ class Deduce
 {
 public:
 	///Deduce which derived class a String refers to, given a base type.
-	static B* from(const String& name, B* instance = NULL)
+	static B* from(const String& name, B* instance = nullptr)
 	{
 		static std::map<String, B*> mapping;
-		if(instance != NULL)
+		if(instance != nullptr)
 		{
 			mapping[name] = instance;
-			return NULL;
+			return nullptr;
 		}
 		else//should check if name is in map first
 			return mapping[name];

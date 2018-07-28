@@ -13,7 +13,7 @@ namespace leon
 	{
 		DraggableData() :
 			ButtonData(),
-			parentPtr(NULL),
+			parentPtr(nullptr),
 			myPanelOffset(0, 0)
 		{
 			this->configFile = "TGUI/widgets/Transparency.conf";

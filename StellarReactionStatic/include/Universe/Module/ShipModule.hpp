@@ -90,11 +90,11 @@ struct ShipModuleData : public ModuleData
 	bool functionsDamaged;//does this module still function when damaged?
 	leon::Sound deathSound;
 
-	///Returns NULL and prints the file and line that attempted to instantiate this virtual class.
+	///Returns nullptr and prints the file and line that attempted to instantiate this virtual class.
 	virtual Module* generate(GenerateParams params) const
 	{
 		WARNING;
-		return NULL;
+		return nullptr;
 	}
 	///Create new copy of this data object.
 	virtual ModuleData* clone() const

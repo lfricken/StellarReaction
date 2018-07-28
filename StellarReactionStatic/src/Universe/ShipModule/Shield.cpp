@@ -70,7 +70,7 @@ Shield::Shield(const ShieldData& rData) : ShipModule(rData)
 	this->m_parent->add(newShield);
 
 	m_pShield = dynamic_cast<ShieldComponent*>(this->m_parent->getModuleList().back().get());
-	assert(m_pShield != NULL);
+	assert(m_pShield != nullptr);
 
 	auto shieldArt = rData.shieldArt;
 

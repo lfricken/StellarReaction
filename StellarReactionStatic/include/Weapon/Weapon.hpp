@@ -139,7 +139,7 @@ struct WeaponData : public BlueprintableData
 	{
 		WeaponData copy(*this);
 		WARNING;
-		return NULL;
+		return nullptr;
 	}
 	///Create new copy of this data object and prints out the file and line that attempted to clone this data object.
 	virtual WeaponData* clone() const

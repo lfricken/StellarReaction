@@ -18,7 +18,7 @@ GrappleWeapon::GrappleWeapon(const GrappleWeaponData& rData) : LaserWeapon(rData
 {
 	m_grappleTimer.setCountDown(rData.pullTime);
 	m_pullStrength = rData.pullStrength;
-	m_target = NULL;
+	m_target = nullptr;
 }
 GrappleWeapon::~GrappleWeapon()
 {

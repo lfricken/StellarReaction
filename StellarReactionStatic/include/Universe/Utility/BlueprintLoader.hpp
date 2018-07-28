@@ -106,7 +106,7 @@ private:
 
 		const T* instance = Deduce<T>::from(ClassName);
 
-		if(instance != NULL)//we derived it!
+		if(instance != nullptr)//we derived it!
 		{
 			T* data = instance->clone();
 			data->title = title;

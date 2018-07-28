@@ -84,8 +84,8 @@ void DecorationEngine::loadJson(const Json::Value& decorations)
 	{
 		auto root = *it;
 		int count = 1;
-		Decoration* pDecor = NULL;
-		QuadComponent* pQuad = NULL;
+		Decoration* pDecor = nullptr;
+		QuadComponent* pQuad = nullptr;
 		QuadComponentData quadData;
 		DecorationData decorData;
 

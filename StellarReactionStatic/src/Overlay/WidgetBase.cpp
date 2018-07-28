@@ -34,14 +34,14 @@ void TooltipTextData::fromPacket(sf::Packet* dataPtr)
 
 WidgetBase::WidgetBase(tgui::Gui& gui, const WidgetBaseData& rData) : m_io(rData.ioComp, &leon::WidgetBase::input, this)
 {
-	pCon = NULL;
+	pCon = nullptr;
 	pGui = &gui;
 	init(rData);
 }
 WidgetBase::WidgetBase(tgui::Container& rContainer, const WidgetBaseData& rData) : m_io(rData.ioComp, &leon::WidgetBase::input, this)
 {
 	pCon = &rContainer;
-	pGui = NULL;
+	pGui = nullptr;
 	init(rData);
 }
 void WidgetBase::init(const WidgetBaseData& rData)

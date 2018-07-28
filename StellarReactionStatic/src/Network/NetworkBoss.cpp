@@ -223,7 +223,7 @@ Connection* NetworkBoss::findConnection(const sf::IpAddress& remoteAddress, unsi
 		if((*it)->getTcpSocket().getRemoteAddress() == remoteAddress && ((*it)->getTcpSocket().getRemotePort() + 1) == remotePort)
 			return it->get();
 
-	return NULL;
+	return nullptr;
 }
 /// <summary>
 /// anyone Do we have connections?
@@ -364,7 +364,7 @@ void NetworkBoss::udpRecieve()
 			if(m_udp.receive(data, remoteIP, remotePort) == sf::Socket::Done)/**FOR EACH PACKET**/
 			{
 				Connection* pCon = findConnection(remoteIP, remotePort);
-				if(pCon != NULL)//the message is from one of our connections
+				if(pCon != nullptr)//the message is from one of our connections
 				{
 					Protocol proto = pCon->recievePacket(data);
 

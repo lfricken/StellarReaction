@@ -20,7 +20,7 @@ CaptureGraphic::CaptureGraphic(const CaptureGraphicData& rData) : Module(rData)
 	m_light1 = 0;
 	m_light2 = 0;
 	m_onlyRed = false;
-	m_cap = NULL;
+	m_cap = nullptr;
 	m_base_decor = sptr<GraphicsComponent>(new Spinner(rData.baseDecor));
 	m_lights.push_back(sptr<GraphicsComponent>(new Spinner(rData.whiteLights)));
 	m_lights.push_back(sptr<GraphicsComponent>(new Spinner(rData.blueLights)));
@@ -44,7 +44,7 @@ CaptureGraphic::~CaptureGraphic()
 }
 void CaptureGraphic::prePhysUpdate()
 {
-	if (m_cap == NULL) 
+	if(m_cap == nullptr)
 	{
 		m_cap = dynamic_cast<CaptureArea*>((&*m_parent->getModuleList()[0]));
 		m_parent->getBodyComponent().setTeam(Team::Capturable);
@@ -52,7 +52,7 @@ void CaptureGraphic::prePhysUpdate()
 }
 void CaptureGraphic::postPhysUpdate()
 {
-	if (m_cap == NULL)
+	if(m_cap == nullptr)
 		return;
 
 	Team cur_team = m_cap->getCurrentTeam();

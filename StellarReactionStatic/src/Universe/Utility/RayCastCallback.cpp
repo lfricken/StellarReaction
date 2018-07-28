@@ -5,7 +5,7 @@
 RayCastCallback::RayCastCallback()
 {
 	m_colMask = static_cast<uint16_t>(Mask::None);//by default, collide with nothing
-	m_pIgnoreBody = NULL;
+	m_pIgnoreBody = nullptr;
 }
 RayCastCallback::~RayCastCallback()
 {

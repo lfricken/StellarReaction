@@ -18,7 +18,7 @@ Directory::~Directory()
 }
 List<std::pair<String, String> > Directory::getAllFiles(const String& rDir, bool(*evalFunc)(const String& name)) const
 {
-	if(evalFunc == NULL)
+	if(evalFunc == nullptr)
 		evalFunc = &defaultAllExtensions;
 
 	List<std::pair<String, String> > list;

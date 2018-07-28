@@ -549,7 +549,7 @@ void Player::updateView()
 			//	else
 			//		dotColor = sf::Color::Red;
 
-			//	if(object != NULL && !object->isStealth())
+			//	if(object != nullptr && !object->isStealth())
 			//	{
 			//		Vec2 dif = pBody->GetPosition() - object->getBodyPtr()->GetPosition();
 			//		float dist = dif.len();

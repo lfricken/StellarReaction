@@ -120,7 +120,7 @@ struct ModuleData : public BlueprintableData
 	virtual Module* generate(GenerateParams params) const
 	{
 		WARNING;
-		return NULL;
+		return nullptr;
 	}
 	/// <summary>
 	/// Create new copy of this data object.

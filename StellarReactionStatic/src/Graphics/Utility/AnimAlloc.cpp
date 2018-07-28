@@ -32,7 +32,7 @@ const AnimSet* AnimAlloc::request(const String& rAnimFile)
 		fileName += ".acfg";
 	}
 
-	const AnimSet* pSet = NULL;
+	const AnimSet* pSet = nullptr;
 	auto it_find = m_animationSets.find(fileName);
 
 
