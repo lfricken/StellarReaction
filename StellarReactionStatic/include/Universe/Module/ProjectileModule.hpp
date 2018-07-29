@@ -17,7 +17,7 @@ public:
 	///Actions to process on object after performing physics updates.
 	void postPhysUpdate();
 	///Set the damage, origin ship, and number of allowed collisions.
-	void setPayload(int damage, const FixtureComponent* pParent, int collisions);
+	void setPayload(int damage, Team team, int parentIoPosition, int collisions);
 	///Actions to process when fixture component enters our sensor. May be called multiple times in a single step.
 	virtual void entered(FixtureComponent* pOther);
 	///Actions to process when fixture component exits our sensor. May be called multiple times in a single step.
@@ -31,14 +31,15 @@ protected:
 	bool m_freeThisProjectile;
 	int m_damage;
 
-	///Which team is this damage coming from?
-	Team m_team;
 	/// <summary>
-	/// The ship that fired us (we shouldn't collide with them)
+	/// Don't collide with this team.
 	/// </summary>
-	const BodyComponent* m_pParentBody;
-	///IO position?
-	int m_sourceIOPos;
+	Team m_friendlyTeam;
+	
+	/// <summary>
+	/// IO position of the module that holds the weapon that fired this projectile (for awarding points).
+	/// </summary>
+	int m_launcherModuleIoPosition;
 
 
 

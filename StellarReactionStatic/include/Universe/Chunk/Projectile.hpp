@@ -7,6 +7,7 @@
 #include "RangeList.hpp"
 #include "NonCopyable.hpp"
 #include "ModuleParent.hpp"
+#include "ISerializable.hpp"
 
 
 struct ProjectileData;
@@ -16,27 +17,51 @@ struct ProjectileData;
 class Projectile : public ModuleParent, NonCopyable
 {
 public:
+	struct LaunchData : ISerializable
+	{
+		String blueprint;
+		int targetChunkPosition;
+		int launcherModuleIoPosition;
+
+		Vec2 startPosition;
+
+		float rotation;
+		float rotationRate;
+		Vec2 velocity;
+		float maxVelocity;
+		float acceleration;
+
+		Team team;
+		float lifetime;
+		int damage;
+		int collisions;
+
+		virtual void fromPacket(sf::Packet* data);
+		virtual void intoPacket(sf::Packet* data) const;
+		virtual sptr<sf::Packet> intoPacket() const;
+	};
+
 	Projectile(const ProjectileData& rData);
 	virtual ~Projectile();
 	
 	/// <summary>
-	/// Launches projectile with given coordinates, direction, damage and lifetime.
-	/// </summary>
-	static void launch(ProjectileMan* manager, const Vec2& rStart, const Vec2& rVel, float radCCW, float radCCWps, float lifetime, int damage, const FixtureComponent* pParent, int collisions);
-	/// <summary>
 	/// Return this projectile back into projectile pool of parent.
 	/// </summary>
 	void reset();
-	/// <summary>
-	/// Sets payload on each projectile module.
-	/// </summary>
-	void setPayloadOnModules(int damage, const FixtureComponent* pParent, int collisions);
-
-	void launchFromManager(const Vec2& rStart, const Vec2& rVel, float radCCW, float radCCWps, float lifetime, int damage, const FixtureComponent* pParent, int collisions);
 
 	virtual void prePhysUpdate();
 	virtual void postPhysUpdate();
 protected:
+
+	/// <summary>
+	/// Launch this projectile.
+	/// </summary>
+	virtual void launch(const LaunchData& data);
+
+	/// <summary>
+	/// Sets payload on each projectile module.
+	/// </summary>
+	void setPayloadOnModules(int damage, Team team, int launcherModuleIoPosition, int collisions);
 
 	Timer m_timer;//Time till we explode due to no fuel.
 	bool m_inPlay;

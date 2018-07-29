@@ -1,36 +1,29 @@
 #ifndef BALLISTICWEAPON_HPP
 #define BALLISTICWEAPON_HPP
 
-#include "Weapon.hpp"
+#include "ProjectileWeaponBase.hpp"
 struct BallisticWeaponData;
 
 /// Fire a Projectile at a target to do damage.
-class BallisticWeapon : public Weapon
+class BallisticWeapon : public ProjectileWeaponBase
 {
 public:
 	BallisticWeapon(const BallisticWeaponData& rData);
 	virtual ~BallisticWeapon();
 	///Actions to be processed before a shot is taken.
-	void preShot(const Vec2& center, const Vec2& aim, float radCCW, float module_orientation);
+	virtual void preShot(const ShotData& data);
 	///Actions to be processed after a shot is taken.
-	void postShot(const Vec2& center, const Vec2& aim, float radCCW, float module_orientation);
+	virtual void postShot(const ShotData& data);
 protected:
 
-	float m_projLifetime;
-	///Blueprint name of the projetile
-	String m_projName;
-	///Velocity of the projectile
-	float m_velocity;
 private:
 };
 
 
 /// Blueprint for BallisticWeapon.
-struct BallisticWeaponData : public WeaponData
+struct BallisticWeaponData : public ProjectileWeaponBaseData
 {
-	BallisticWeaponData() :
-		velocity(50),
-		projName("DefaultProjectile")
+	BallisticWeaponData()
 	{
 		weaponQuad.texName = "weapons/BallisticWeapon";
 		energyConsumption = 1;///TODO SHOULD BE CONSUMING BALLISTIC ONLY, THIS IS JUST FOR TESTING
@@ -41,15 +34,7 @@ struct BallisticWeaponData : public WeaponData
 		shots = 1;
 		fireDelay = 1;
 		range = 45.0f;
-		radCCWps = 0;
 	}
-
-	///the Blueprint name of the projectile we fire, to be passed to projectileMan
-	String projName;
-	///m/s (blocks per second)
-	float velocity;
-	///rotation rate of the projectile Radians CCW per second
-	float radCCWps;
 
 	///Create BallisticWeapon object from this data object.
 	virtual Weapon* generate() const
@@ -57,7 +42,7 @@ struct BallisticWeaponData : public WeaponData
 		return new BallisticWeapon(*this);
 	}
 	///Create new copy of this data object.
-	virtual BallisticWeaponData* clone() const
+	virtual WeaponData* clone() const
 	{
 		return new BallisticWeaponData(*this);
 	}

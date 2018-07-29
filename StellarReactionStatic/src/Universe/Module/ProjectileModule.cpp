@@ -14,12 +14,12 @@ ProjectileModule::ProjectileModule(const ProjectileModuleData& rData) : Sensor(r
 {
 	m_freeThisProjectile = false;
 	m_decors.push_back(sptr<GraphicsComponent>(new QuadComponent(rData.baseDecor)));
-	m_pParentBody = nullptr;
+
 	m_currentCollisions = 0;
 	m_maxCollisions = 2;
 	m_damage = 0;
-	m_team = Team::Invalid;
-	m_sourceIOPos = -1;
+	m_friendlyTeam = Team::Invalid;
+	m_launcherModuleIoPosition = -1;
 }
 ProjectileModule::~ProjectileModule()
 {
@@ -31,19 +31,16 @@ ProjectileModule::~ProjectileModule()
 /// <param name="rPayload">Message to give fixtures we encounter</param>
 /// <param name="pParent">to get body that we shouldn't collide with (because they are our parent)</param>
 /// <param name="collisions">how many modules to damage</param>
-void ProjectileModule::setPayload(int damage, const FixtureComponent* pParent, int collisions)
+void ProjectileModule::setPayload(int damage, Team team, int launcherModuleIoPosition, int collisions)
 {
-	const BodyComponent* pParentBody = pParent->getParentBody();
-
 	m_currentCollisions = 0;
 	m_freeThisProjectile = false;
 
 	m_damage = damage;
 	m_maxCollisions = collisions;
 
-	m_team = pParentBody->getTeam();
-	m_pParentBody = pParent->getParentBody();//make sure the module we damage isn't from our own ship!
-	m_sourceIOPos = pParent->getIOPos();
+	m_friendlyTeam = team;
+	m_launcherModuleIoPosition = launcherModuleIoPosition;
 }
 void ProjectileModule::postPhysUpdate()
 {
@@ -59,12 +56,14 @@ void ProjectileModule::postPhysUpdate()
 void ProjectileModule::entered(FixtureComponent* pOther)
 {
 	Team collidingTeam = pOther->getParentBody()->getTeam();
-	Team myTeam = m_pParentBody->getTeam();
 
-	if(pOther->getParentBody() != m_pParentBody && m_currentCollisions < m_maxCollisions && collidingTeam != myTeam)
+	if(collidingTeam != m_friendlyTeam && m_currentCollisions < m_maxCollisions)
 	{
-		const Vec2 dir = m_pParentBody->getLinearVelocity();
-		Weapon::damage(&game.getUniverse().getUniverseIO(), pOther->getIOPos(), m_damage, m_sourceIOPos, m_team, m_fix.getCenter(), dir, "LowSparks");
+		const Vec2 ourVelocity = m_parent->getBodyComponent().getLinearVelocity();
+		const Vec2 theirVelocity = pOther->getParentBody()->getLinearVelocity();
+		const Vec2 impactVelocity = ourVelocity - theirVelocity;
+
+		Weapon::damage(&game.getUniverse().getUniverseIO(), pOther->getIOPos(), m_damage, m_launcherModuleIoPosition, m_friendlyTeam, m_fix.getCenter(), impactVelocity, "LowSparks");
 
 		++m_currentCollisions;
 		if(m_currentCollisions >= m_maxCollisions)

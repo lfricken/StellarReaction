@@ -9,7 +9,7 @@
 #include "Convert.hpp"
 #include "Team.hpp"
 #include "UpgradeType.hpp"
-
+#include "BodyComponent.hpp"
 
 void WeaponData::applyUpgrade(UpgradeType type)
 {
@@ -52,7 +52,7 @@ Weapon::Weapon(const WeaponData& rData) : Blueprintable(rData), m_decor(rData.we
 	m_missiles = rData.missileConsumption;
 
 	m_range = rData.range;
-	m_damage = rData.damage;
+	m_damagePerShot = rData.damage / rData.shots;
 	m_shots = rData.shots;
 	m_shotsInSpread = rData.shotsInSpread;
 	m_fireArc = Convert::degToRad(rData.fireArc);
@@ -92,10 +92,8 @@ bool Weapon::fire(const FixtureComponent& pParent, RangeList* ranges)//we were t
 	else
 		return false;
 }
-void Weapon::prePhysUpdate(const Vec2& center, const Vec2& aim, float32 radCCW, BodyComponent* pBody, float module_orientation, float functionalCapacity)//we are checking whether we should take a shot
+void Weapon::prePhysUpdate(const Vec2& center, const Vec2& aim, BodyComponent* pBody, float functionalCapacity)//we are checking whether we should take a shot
 {
-	m_pBody = pBody; // TODO, why is this here?
-
 	if(m_shotsRemain > 0 && m_shotTimer.isTimeUp())
 	{
 		--m_shotsRemain;
@@ -106,14 +104,20 @@ void Weapon::prePhysUpdate(const Vec2& center, const Vec2& aim, float32 radCCW, 
 			m_shotThisTick = true;
 			m_shotSound.play(m_decor.getPosition());
 			for(int i = 0; i < m_shotsInSpread; i++)
-				preShot(center, randArc(center, aim), radCCW, module_orientation);
+			{
+				ShotData data;
+				data.aim = randArc(center, aim);
+				data.shipRotation = pBody->getAngle();
+				data.weaponCenter = center;
+
+				preShot(data);
+			}
 		}
 	}
 }
-void Weapon::postPhysUpdate(const Vec2& center, const Vec2& aim, float32 radCCW, BodyComponent* pBody, float module_orientation)//we are determining our next shot
+void Weapon::postPhysUpdate(const Vec2& center, const Vec2& aim, BodyComponent* pBody)//we are determining our next shot
 {
-	m_pBody = pBody; // TODO, why is this here?
-	m_decor.setRotation(radCCW);
+	m_decor.setRotation(pBody->getAngle());
 	m_decor.setPosition(center);
 
 	if(m_shotThisTick)
@@ -121,7 +125,14 @@ void Weapon::postPhysUpdate(const Vec2& center, const Vec2& aim, float32 radCCW,
 		m_shotThisTick = false;
 
 		for(int i = 0; i < m_shotsInSpread; i++)
-			postShot(center, randArc(center, aim), radCCW, module_orientation);
+		{
+			ShotData data;
+			data.aim = randArc(center, aim);
+			data.shipRotation = pBody->getAngle();
+			data.weaponCenter = center;
+
+			preShot(data);
+		}
 	}
 
 	if(m_shotsRemain == 0)
@@ -145,9 +156,10 @@ QuadComponent* Weapon::getDecor()
 {
 	return &m_decor;
 }
-void Weapon::setTeam(Team newTeam)
+void Weapon::setParentData(BodyComponent* parent)
 {
-	m_team = newTeam;
+	m_pParentBody = parent;
+	m_team = m_pParentBody->getTeam();
 }
 Vec2 Weapon::randArc(const Vec2& center, const Vec2& aim) const
 {

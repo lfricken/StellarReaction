@@ -14,9 +14,9 @@ public:
 	LaserWeapon(const LaserWeaponData& rData);
 	virtual ~LaserWeapon();
 	///Actions to be processed before a shot is taken.
-	void preShot(const Vec2& center, const Vec2& aim, float radCCW, float module_orientation);
+	void preShot(const ShotData& data);
 	///Actions to be processed after a shot is taken.
-	void postShot(const Vec2& center, const Vec2& aim, float radCCW, float module_orientation);
+	void postShot(const ShotData& data);
 protected:
 
 	RayCastCallback m_ray;
@@ -58,7 +58,7 @@ struct LaserWeaponData : public WeaponData
 		return new LaserWeapon(*this);
 	}
 	///Create new copy of this data object.
-	virtual LaserWeaponData* clone() const
+	virtual WeaponData* clone() const
 	{
 		return new LaserWeaponData(*this);
 	}

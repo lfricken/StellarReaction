@@ -26,21 +26,21 @@ GrappleWeapon::~GrappleWeapon()
 }
 void GrappleWeapon::postPhysUpdate(const Vec2& center, const Vec2& aim, float32 radCCW, BodyComponent* pBody, float module_orientation)
 {
-	LaserWeapon::postPhysUpdate(center, aim, radCCW, pBody, module_orientation);
-	if(!m_grappleTimer.isTimeUp())
-		grappleTo();
+	//LaserWeapon::postPhysUpdate(center, aim, radCCW, pBody, module_orientation);
+	//if(!m_grappleTimer.isTimeUp())
+	//	grappleTo();
 }
 void GrappleWeapon::grappleTo()
 {
 	if(m_target != nullptr)
 	{
 		Vec2 targetPos = m_target->getCenter();
-		Vec2 ourPos = m_pBody->getPosition();
+		Vec2 ourPos = m_pParentBody->getPosition();
 		Vec2 appliedForce = (targetPos - ourPos);
 
 		appliedForce = appliedForce.unit();
 		appliedForce *= m_pullStrength;
-		m_pBody->applyForce(appliedForce);
+		m_pParentBody->applyForce(appliedForce);
 		m_target->getParentBody()->applyForce(appliedForce.inv());
 	}
 }

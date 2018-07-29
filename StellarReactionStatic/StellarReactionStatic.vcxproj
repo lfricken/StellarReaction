@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Weapon\ProjectileWeaponBase.hpp" />
     <ClInclude Include="include\Basic\AINode.hpp" />
     <ClInclude Include="include\Basic\BuildBounds.hpp" />
     <ClInclude Include="include\Basic\Lanes.hpp" />
@@ -345,8 +346,10 @@
     <ClInclude Include="include\Overlay\Tooltip.hpp" />
     <ClInclude Include="include\Basic\RangeList.hpp" />
     <ClInclude Include="include\Universe\Chunk\ShipProfile.hpp" />
+    <ClInclude Include="include\Basic\ISerializable.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Weapon\ProjectileWeaponBase.cpp" />
     <ClCompile Include="src\Basic\AINode.cpp" />
     <ClCompile Include="src\Basic\BuildBounds.cpp" />
     <ClCompile Include="src\Headers\Convert.cpp" />

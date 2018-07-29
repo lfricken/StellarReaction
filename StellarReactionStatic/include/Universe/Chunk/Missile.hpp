@@ -11,20 +11,22 @@ class Chunk;
 class Missile : public Projectile
 {
 public:
+
 	Missile(const MissileData& rData);
 	virtual ~Missile();
 
 	/// <summary>
-	/// Launches a missle with given direction, parent, target, position and acceleration.
+	/// Launches a missile with given stats.
 	/// </summary>
-	static void missileLaunch(ProjectileMan* manager, Vec2 rStart, wptr<Chunk>, float radCCW, float init_velocity, float acceleration, float max_velocity, int damage, const FixtureComponent* pParent, int collisions);
+	static void launchNew(ProjectileMan* manager, LaunchData data);
 
-	void launchMissileFromManager(ProjectileMan* manager, Vec2 rStart, wptr<Chunk>, float radCCW, float init_velocity, float acceleration, float max_velocity, int damage, const FixtureComponent* pParent, int collisions);
-	
 	void prePhysUpdate();
 	void postPhysUpdate();
 
 protected:
+
+	virtual void launch(const LaunchData& data);
+
 	Vec2 getTargetDirection(sptr<Chunk> target);
 	void minimizeAngle(float& angle);
 	void normalizeAngle(float& angle);
@@ -47,15 +49,13 @@ struct MissileData : ProjectileData
 		bodyComp.angularDampening = 6.7f;
 	}
 
-
-	///Create Missle object from this data object.
-	virtual Missile* generate() const
+	virtual Projectile* generate() const
 	{
 		MissileData copy(*this);
 		return new Missile(copy);
 	}
-	///Create new copy of this data object.
-	virtual MissileData* clone() const
+
+	virtual ProjectileData* clone() const
 	{
 		return new MissileData(*this);
 	}

@@ -63,22 +63,16 @@ public:
 	/// Returns if this object is a sensor.
 	bool isSensor() const;
 	/// <summary>
-	/// Returns the current center position.
+	/// Returns the center of this fixture in universe coordinates.
 	/// </summary>
 	Vec2 getCenter() const;
-	/// Returns the angle in RADCCW of the fixture.
-	float getAngle() const;	
-	/// Gets the io position of our owner.
+	/// <summary>
+	/// Return io position of parent
+	/// </summary>
 	int getIOPos() const;
-	/// <summary>
-	/// 
-	/// </summary>
+
 	BodyComponent* getParentBody() const;
-	/// Returns a const pointer to the box2D body pointer.
-	//const b2Body* getBodyPtr() const;
-	/// <summary>
-	/// Center of this fixture with respect to the body.
-	/// </summary>
+
 	const Vec2 getOffset() const;
 	/// Applies the given force to the fixture.
 	void applyForceFixture(const Vec2& rForce);
@@ -121,4 +115,6 @@ private:
 
 	String m_store;
 	Vec2 m_offset;
+
+	mutable BodyComponent* m_parentBody;
 };

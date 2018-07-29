@@ -73,6 +73,10 @@ namespace Math
 		/// Return the angle this vector produces with respect to the positive x axis. CCW radians.
 		/// </summary>
 		float toAngle() const;
+		/// <summary>
+		/// Return the unit vector created from the angle. CCW radians.
+		/// </summary>
+		static Vec2 fromAngle(float angle);
 
 		/// <summary>
 		/// Print this vector as "(x, y)".

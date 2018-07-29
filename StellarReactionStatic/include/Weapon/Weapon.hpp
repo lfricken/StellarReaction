@@ -28,6 +28,13 @@ struct HitEffect
 class Weapon : public Blueprintable, NonCopyable
 {
 public:
+	struct ShotData
+	{
+		Vec2 weaponCenter;
+		Vec2 aim;
+		float shipRotation;
+	};
+
 	Weapon(const WeaponData& rData);
 	virtual ~Weapon();
 	/// Called when the controller wants to fire. This activates and consumes any ammo,
@@ -35,39 +42,44 @@ public:
 	/// returns true if we will fire.
 	bool fire(const FixtureComponent& pParent, RangeList* ranges);
 	/// Called by our parent module
-	virtual void prePhysUpdate(const Vec2& center, const Vec2& aim, float32 radCCW, BodyComponent* pBody, float module_orientation, float functionalCapacity);
+	virtual void prePhysUpdate(const Vec2& center, const Vec2& aim, BodyComponent* pBody, float functionalCapacity);
 	/// Called by our parent module
-	virtual void postPhysUpdate(const Vec2& center, const Vec2& aim, float32 radCCW, BodyComponent* pBody, float module_orientation);
-	/// Called before physics update if this weapon should fire this tick
-	/// Look at laser and projectile weapon.
-	/// Overwrite this when making a new weapon.
-	virtual void preShot(const Vec2& center, const Vec2& aim, float radCCW, float module_orientation) = 0;
-	/// Called after physics update if this weapon fired this tick
-	/// Overwrite this when making a new weapon.
-	/// Look at laser and projectile weapon.
-	virtual void postShot(const Vec2& center, const Vec2& aim, float radCCW, float module_orientation) = 0;
+	virtual void postPhysUpdate(const Vec2& center, const Vec2& aim, BodyComponent* pBody);
+	/// <summary>
+	/// Called before physics update if this weapon should fire this tick.
+	/// </summary>
+	virtual void preShot(const ShotData& data) = 0;
+	/// <summary>
+	/// Called after physics update if this weapon fired this tick.
+	/// </summary>
+	virtual void postShot(const ShotData& data) = 0;
 	///Does damage to target. Leave last param blank for no visual effects.
 	static void damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmount, int ioCausePos, Team team, const Vec2& collisionPoint, const Vec2& fromDirection, const String& effect = "", bool bleed = false);
 	///Gets the decoration object corresponding to this weapon.
 	QuadComponent* getDecor();
 	///Tell this weapon which team it is working for.
-	void setTeam(Team newTeam);
+	void setParentData(BodyComponent* parent);
 
 protected:
 	///Team that owns this wep.
 	Team m_team;
-	BodyComponent* m_pBody;
 	const FixtureComponent* m_pTempParent;
 	int m_shots;//how many shots we do upon each fire command
 	String m_effectName;
 	int m_shotsInSpread; //how many shots per spread
 	float m_fireArc;
-	int m_damage;
+	int m_damagePerShot;
 	float m_range;
 	int m_collisions;//how many collisions should we do? MODULE PENETRATION LOGIC
 	//TODO m_collisions is not used in the laser weapon type
 	/// Damages the specified fixture (which has a module). Meant to be called by a weapon only. Leave last param blank for no visual effects.
 	void damage(b2Fixture* pFixtureTakingDamage, int damageAmount, const Vec2& collisionPoint = Vec2(0, 0), const Vec2& fromDirection = Vec2(0, 0));
+
+
+	/// <summary>
+	/// Used by laser and grapple.
+	/// </summary>
+	BodyComponent* m_pParentBody;
 private:
 	Vec2 randArc(const Vec2& center, const Vec2& aim) const;
 	QuadComponent m_decor;//the weapon sprite
@@ -75,7 +87,6 @@ private:
 	leon::Sound m_startSound;//when we start firing
 	leon::Sound m_shotSound;//when we take a shot
 	leon::Sound m_endSound;//when last shot is taken
-
 
 	Timer m_shotTimer;// Records how often we can "shot"
 	int m_shotsRemain;//how many shots we have remaining on this fire
@@ -86,6 +97,7 @@ private:
 	Timer m_fireTimer;//Records how often we can fire
 	float m_fireDelay;//time in seconds that it takes to fire again
 	bool m_shotThisTick;//did we fire this tick?
+
 };
 
 /// Blueprint for Weapon.
@@ -135,18 +147,10 @@ struct WeaponData : public BlueprintableData
 	QuadComponentData weaponQuad;
 
 	///Returns null and prints out the file and line that attempted to instantiate this virtual object.
-	virtual Weapon* generate() const
-	{
-		WeaponData copy(*this);
-		WARNING;
-		return nullptr;
-	}
+	virtual Weapon* generate() const = 0;
 	///Create new copy of this data object and prints out the file and line that attempted to clone this data object.
-	virtual WeaponData* clone() const
-	{
-		WARNING;
-		return new WeaponData(*this);
-	}
+	virtual WeaponData* clone() const = 0;
+
 	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
 	/// <summary>

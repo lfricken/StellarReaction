@@ -30,25 +30,25 @@ LaserWeapon::~LaserWeapon()
 {
 
 }
-void LaserWeapon::preShot(const Vec2& center, const Vec2& aim, float radCCW, float module_orientation)
+void LaserWeapon::preShot(const ShotData& data)
 {
-	m_pBody->setIgnoreBody(&m_ray);
+	m_pParentBody->setIgnoreBody(&m_ray);
 	
-	const Vec2 angle = center.to(aim).unit();
+	const Vec2 angle = data.weaponCenter.to(data.aim).unit();
 	const Vec2 laserVector = angle * m_range;
-	const Vec2 end = aim + laserVector;
-	game.getUniverse().getWorld().RayCast(&m_ray, Convert::universeToWorld(center), Convert::universeToWorld(end));
+	const Vec2 end = data.aim + laserVector;
+	game.getUniverse().getWorld().RayCast(&m_ray, Convert::universeToWorld(data.weaponCenter), Convert::universeToWorld(end));
 }
-void LaserWeapon::postShot(const Vec2& fixtureDoingDamageCenter, const Vec2& aim, float radCCW, float module_orientation)
+void LaserWeapon::postShot(const ShotData& data)
 {
 	const Map<float, RayData>& collisions = m_ray.getLatest();
 
 	Vec2 end;
-	const Vec2 shotDir = fixtureDoingDamageCenter.to(aim);
+	const Vec2 shotDir = data.weaponCenter.to(data.aim);
 	if(collisions.empty())
 	{
-		float mult = m_range / aim.to(fixtureDoingDamageCenter).len();
-		end = fixtureDoingDamageCenter + shotDir * mult;
+		float mult = m_range / data.aim.to(data.weaponCenter).len();
+		end = data.weaponCenter + shotDir * mult;
 	}
 	else
 	{
@@ -56,12 +56,12 @@ void LaserWeapon::postShot(const Vec2& fixtureDoingDamageCenter, const Vec2& aim
 		for(auto it = collisions.cbegin(); i < m_collisions && it != collisions.cend(); ++it, ++i)
 		{
 			const Vec2 hit = it->second.point;
-			damage(it->second.pFixture, m_damage, hit, shotDir);
+			damage(it->second.pFixture, m_damagePerShot, hit, shotDir);
 			end = hit;
 		}
 	}
 
-	m_beam.setStart(fixtureDoingDamageCenter);
+	m_beam.setStart(data.weaponCenter);
 	m_beam.setEnd(end);
 	m_beam.activate(m_showTime, m_beamWidth, m_beamColor);
 

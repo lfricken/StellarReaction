@@ -3,8 +3,7 @@
 
 #include "stdafx.hpp"
 #include "NonCopyable.hpp"
-
-class Projectile;
+#include "Projectile.hpp"
 
 /// Stores projectiles and creates new ones when needed.
 class ProjectileMan : NonCopyable
@@ -12,28 +11,45 @@ class ProjectileMan : NonCopyable
 public:
 	ProjectileMan();
 	virtual ~ProjectileMan();
-	///Returns a pointer to a projectile for the given blueprint name.
-	///Frees the given projectile.
-	void freeProjectile(Projectile* pProj);
-	///Adds new projectile from blueprint.
-	void addNew(const String& rBPName);
-	///Actions to process on object before performing physics updates.
+	
+	/// <summary>
+	/// Returns the given projectile to the projectile cache.
+	/// </summary>
+	void freeProjectile(Projectile* projectile);
+
+	/// <summary>
+	/// Sends a global message to launch a projectile.
+	/// </summary>
+	void launchNewProjectile(const Projectile::LaunchData& launchData);
+
 	void prePhysUpdate();
-	///Actions to process on object after performing physics updates.
 	void postPhysUpdate();
-
-	void launch(const String& rBPName);
-
-	IOComponent m_ioComponent;
-
 protected:
-	Projectile* getProjectile(const String& rBPName);
 
+	virtual void input(String command, sf::Packet data);
+
+	/// <summary>
+	/// Launch the projectile into the universe on the local machine.
+	/// </summary>
+	void localLaunch(String blueprint, const Projectile::LaunchData& launchData);
+
+	/// <summary>
+	/// Returnt the requested projectile type.
+	/// </summary>
+	Projectile* getProjectile(const String& blueprint);
+
+	/// <summary>
+	/// Add a new instance of this kind of projectile.
+	/// </summary>
+	void addNew(const String& blueprint);
 private:
+
+	sptr<IOComponent> m_ioComponent;
+
 	enum
 	{
-		Vec = 0,
-		FreeIndex = 1,
+		Projectiles = 0,
+		FreeIndexes = 1,
 	};
     typedef std::tuple<List<sptr<Projectile> >, int> IndexedList;
 	std::map<String, IndexedList> m_projectileList;//access[projectileName][index]

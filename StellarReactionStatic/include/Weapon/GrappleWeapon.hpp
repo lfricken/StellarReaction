@@ -45,12 +45,12 @@ struct GrappleWeaponData : public LaserWeaponData
 	///Create GrappleWeapon object from this data object.
 	virtual Weapon* generate() const
 	{
-		return new GrappleWeapon(*this);
+		return nullptr; // new GrappleWeapon(*this);
 	}
 	///Create new copy of this data object.
-	virtual GrappleWeaponData* clone() const
+	virtual WeaponData* clone() const
 	{
-		return new GrappleWeaponData(*this);
+		return nullptr;// new GrappleWeaponData(*this);
 	}
 	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);

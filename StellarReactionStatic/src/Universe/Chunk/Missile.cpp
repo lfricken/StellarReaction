@@ -13,22 +13,13 @@ Missile::~Missile()
 {
 
 }
-void Missile::missileLaunch(Vec2 rStart, wptr<Chunk> target, float module_orientation, float init_velocity, float acceleration, float max_velocity, int damage, const FixtureComponent* pParent, int collisions)
+void Missile::launch(const LaunchData& data)
 {
-	m_pTarget = target;
-	m_acceleration = acceleration * 2;
-	m_maxVelocity = max_velocity;
+	Projectile::launch(data);
 
-	Vec2 inititalDirection(cos(module_orientation), sin(module_orientation));
-	inititalDirection = inititalDirection.unit();
-	inititalDirection *= init_velocity;
-
-	m_inPlay = true;
-	m_timer.setCountDown(10);
-	m_timer.restartCountDown();
-	m_body.wake(rStart, module_orientation, inititalDirection, 0);
-
-	setPayloadOnModules(damage, pParent, collisions);
+	m_pTarget = game.getUniverse().getChunk(data.targetChunkPosition);
+	m_acceleration = data.acceleration;
+	m_maxVelocity = data.maxVelocity;
 }
 void Missile::steer()
 {

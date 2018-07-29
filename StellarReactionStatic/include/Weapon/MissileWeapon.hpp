@@ -1,37 +1,65 @@
 #pragma once
 
-#include "Weapon.hpp"
-struct MissileWeaponData;
+#include "ProjectileWeaponBase.hpp"
+struct MissileWeaponBlueprint;
 
 ///Fires a Missile to deal damage to a target. Will target nearest Ship to mouse cursor.
-class MissileWeapon : public Weapon
+class MissileWeapon : public ProjectileWeaponBase
 {
 public:
-	MissileWeapon(const MissileWeaponData& rData);
 	virtual ~MissileWeapon();
 	///Actions to be processed before a shot is taken.
-	void preShot(const Vec2& center, const Vec2& aim, float radCCW, float module_orientation);
+	virtual void preShot(const ShotData& data);
 	///Actions to be processed after a shot is taken.
-	void postShot(const Vec2& center, const Vec2& aim, float radCCW, float module_orientation);
+	virtual void postShot(const ShotData& data);
+
+
+	struct Data
+	{
+		/// <summary>
+		/// True if when launching the missile nose should point at the target.
+		/// </summary>
+		bool alignWithAim;
+
+		/// <summary>
+		/// If we don't align with aim, where should our nose should point when we launch in relation to the ship?
+		/// </summary>
+		float alignAngle;
+
+		/// <summary>
+		/// True if the missile initial velocity should point at the target.
+		/// </summary>
+		bool launchVelocityWithAim;
+
+		/// <summary>
+		/// If we don't launch with aim, where should our initial velocity point in relation to the ship?
+		/// </summary>
+		float launchVelocityAngle;
+
+		/// <summary>
+		/// How much does this missile accelerate.
+		/// </summary>
+		float acceleration;
+
+		/// <summary>
+		/// Missile will not accelerate past this speed.
+		/// </summary>
+		float maxVelocity;
+	};
+
 protected:
-	float m_projLifetime;
-	///bp name of projectile
-	String m_projName;
-	///velocity of projectiles
-	float m_velocity;
-	float m_acceleration;
-	float m_max_velocity;
-	float m_init_velocity;
-private:
+	MissileWeapon(const MissileWeaponBlueprint& rData);
+
+	Data missileData;
+
+	friend struct MissileWeaponBlueprint;
 };
 
 
 /// Blueprint for MissileWeapon.
-struct MissileWeaponData : public WeaponData
+struct MissileWeaponBlueprint : public ProjectileWeaponBaseData
 {
-	MissileWeaponData() :
-		velocity(20),
-		projName("DefaultMissile")
+	MissileWeaponBlueprint()
 	{
 		weaponQuad.texName = "weapons/MissileWeapon";
 		energyConsumption = 1;///TODO SHOULD BE CONSUMING BALLISTIC ONLY, THIS IS JUST FOR TESTING
@@ -42,12 +70,9 @@ struct MissileWeaponData : public WeaponData
 		shots = 1;
 		fireDelay = 1.f;
 		range = 45.0f;
-		radCCWps = 0;
 	}
-
-	String projName;//the bp name of the projectile we fire, to be passed to projectileMan
-	float velocity;//m/s (blocks per second)
-	float radCCWps;//rotation rate of the projectile Radians CCW per second
+	
+	MissileWeapon::Data missileData;
 
 	///Create MissileWeapon object from this data object.
 	virtual Weapon* generate() const
@@ -55,12 +80,12 @@ struct MissileWeaponData : public WeaponData
 		return new MissileWeapon(*this);
 	}
 	///Create new copy of this data object.
-	virtual MissileWeaponData* clone() const
+	virtual WeaponData* clone() const
 	{
-		return new MissileWeaponData(*this);
+		return new MissileWeaponBlueprint(*this);
 	}
 	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
 
-	MyType(WeaponData, MissileWeaponData);
+	MyType(WeaponData, MissileWeaponBlueprint);
 };

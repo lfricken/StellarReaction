@@ -36,6 +36,7 @@ void FixtureComponentData::loadJson(const Json::Value& root)
 }
 FixtureComponent::FixtureComponent(const FixtureComponentData& rData)
 {
+	m_parentBody = nullptr;
 	m_offset = rData.offset;
 	m_ioPos = -1;
 	Vec2 size = Convert::universeToWorld(rData.size);
@@ -128,19 +129,16 @@ Vec2 FixtureComponent::getCenter() const
 	}
 	return Convert::worldToUniverse(center);
 }
-float FixtureComponent::getAngle() const
-{
-	float ret = m_pFixture->GetBody()->GetAngle();
-	return Convert::normRad(ret);
-}
 int FixtureComponent::getIOPos() const
 {
 	return m_ioPos;
 }
 BodyComponent* FixtureComponent::getParentBody() const
 {
-	void* parent = m_pFixture->GetBody()->GetUserData();
-	return static_cast<BodyComponent*>(parent);
+	if(m_parentBody == nullptr)
+		m_parentBody = static_cast<BodyComponent*>(m_pFixture->GetBody()->GetUserData());
+
+	return m_parentBody;
 }
 void FixtureComponent::setIOPos(int ioPos)
 {

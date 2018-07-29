@@ -119,6 +119,7 @@
     <ClCompile Include="src\Basic\BuildBounds.cpp" />
     <ClCompile Include="src\Headers\Convert.cpp" />
     <ClCompile Include="src\Basic\AINode.cpp" />
+    <ClCompile Include="src\Weapon\ProjectileWeaponBase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Game\Directory.hpp" />
@@ -456,6 +457,8 @@
     <ClInclude Include="include\Basic\BuildBounds.hpp" />
     <ClInclude Include="include\Basic\AINode.hpp" />
     <ClInclude Include="include\Basic\Lanes.hpp" />
+    <ClInclude Include="include\Basic\ISerializable.hpp" />
+    <ClInclude Include="include\Weapon\ProjectileWeaponBase.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\API\SFML\Audio\SoundFileFactory.inl" />
