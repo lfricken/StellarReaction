@@ -22,7 +22,7 @@ Thruster::Thruster(const ThrusterData& rData) : ShipModule(rData)
 	m_boostThrust = rData.boostThrustMult;
 	m_boostCostMulti = rData.boostCostMult;
 
-	m_forceVec = Vec2(0,1);
+	m_forceVec = Vec2(0, 1);
 	m_isCCW = true;
 }
 Thruster::~Thruster()
@@ -49,7 +49,7 @@ void Thruster::directive(const CommandInfo& commands)
 			thrust(Vec2(0, 1));
 	}
 	if(rIssues[Directive::Down])
-		thrust(Vec2(0,-1));
+		thrust(Vec2(0, -1));
 	if(rIssues[Directive::RollCCW])
 		torque(true);
 	if(rIssues[Directive::RollCW])
@@ -57,37 +57,32 @@ void Thruster::directive(const CommandInfo& commands)
 }
 void Thruster::thrust(const Vec2& rDirMultiplier)
 {
-	if(isFunctioning())
+	float eThisStep = m_eConsump*game.getUniverse().getTimeStep();
+	if(rDirMultiplier.len() > 1.0f)//if they are boosting at all
+		eThisStep *= m_boostCostMulti;//Boosting costs more.
+
+	if((*ranges)[RangeList::Energy].tryChange(-eThisStep))
 	{
-		float eThisStep = m_eConsump*game.getUniverse().getTimeStep();
-		if(rDirMultiplier.len() > 1.0f)//if they are boosting at all
-			eThisStep *= m_boostCostMulti;//Boosting costs more.
+		float angle = m_fix.getParentBody()->getAngle();
 
+		Vec2 forceVec = rDirMultiplier.rotate(angle);
+		forceVec *= m_force * functionalCapacity();
 
-		if((*ranges)[RangeList::Energy].tryChange(-eThisStep))
-		{
-			float angle = m_fix.getAngle();
-
-			Vec2 forceVec = rDirMultiplier.rotate(angle);
-			forceVec *= m_force;
-
-			m_fix.getParentBody()->applyForce(forceVec);
-		}
+		m_fix.getParentBody()->applyForce(forceVec);
 	}
 }
 void Thruster::torque(bool CCW)
 {
-	if(isFunctioning())
-	{
-		float eThisStep = m_eConsump*game.getUniverse().getTimeStep();
+	float eThisStep = m_eConsump*game.getUniverse().getTimeStep();
 
-		if((*ranges)[RangeList::Energy].tryChange(-eThisStep))
-		{
-			if(CCW)
-				m_fix.getParentBody()->applyTorque(m_torque);
-			else
-				m_fix.getParentBody()->applyTorque(-m_torque);
-		}
+	if((*ranges)[RangeList::Energy].tryChange(-eThisStep))
+	{
+		float torque = m_torque * functionalCapacity();
+
+		if(CCW)
+			m_fix.getParentBody()->applyTorque(torque);
+		else
+			m_fix.getParentBody()->applyTorque(-torque);
 	}
 }
 

@@ -63,7 +63,9 @@ private:
 			{
 				String originalTitle = it->first;
 
-				sptr<T> bp (getData<T>(originalTitle, blueprints)->clone());
+				sptr<const T> data = getData<T>(originalTitle, blueprints);
+
+				sptr<T> bp(data->clone());
 				bp->setTeam((Team)team);
 				additionalBlueprints[bp->title] = bp;
 			}

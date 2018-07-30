@@ -39,6 +39,10 @@ void ProjectileMan::input(String rCommand, sf::Packet data)
 		localLaunch(blueprint, launchData);
 	}
 }
+void ProjectileMan::localLaunch(String blueprint, const Projectile::LaunchData& launchData)
+{
+	Print << "\nProjectile fired!";
+}
 Projectile* ProjectileMan::getProjectile(const String& blueprint)
 {
 	//Find if the blueprint already exists in the list.

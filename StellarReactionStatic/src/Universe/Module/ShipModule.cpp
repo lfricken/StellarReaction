@@ -93,7 +93,7 @@ void ShipModule::prePhysUpdate()
 void ShipModule::postPhysUpdate()
 {
 	Vec2 center = m_fix.getCenter();
-	float angle = m_fix.getAngle();
+	float angle = m_fix.getParentBody()->getAngle();
 	for(int i = 0; i < (signed)m_decors.size(); ++i)
 	{
 		m_decors[i]->setPosition(center);
@@ -258,7 +258,7 @@ void ShipModule::setHealthState(HealthState newState)
 		f_died();
 	}
 
-	applyModifiers(isFunctioning());
+	applyModifiers(true);
 
 	setHealthStateHook(m_healthState);
 }

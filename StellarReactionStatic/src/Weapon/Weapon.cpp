@@ -117,7 +117,7 @@ void Weapon::prePhysUpdate(const Vec2& center, const Vec2& aim, BodyComponent* p
 }
 void Weapon::postPhysUpdate(const Vec2& center, const Vec2& aim, BodyComponent* pBody)//we are determining our next shot
 {
-	m_decor.setRotation(pBody->getAngle());
+	m_decor.setRotation(center.to(aim).toAngle());
 	m_decor.setPosition(center);
 
 	if(m_shotThisTick)

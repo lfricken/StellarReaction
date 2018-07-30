@@ -16,13 +16,13 @@ Radar::~Radar()
 }
 void Radar::setHealthStateHook(HealthState newState)
 {
-	if(isFunctioning())
+	if(getHealthState() == HealthState::CriticallyDamaged)
 	{
-		static_cast<Spinner*>(m_decors[m_dishIndex].get())->toggleOn(true);
+		static_cast<Spinner*>(m_decors[m_dishIndex].get())->toggleOn(false);
 	}
 	else
 	{
-		static_cast<Spinner*>(m_decors[m_dishIndex].get())->toggleOn(false);
+		static_cast<Spinner*>(m_decors[m_dishIndex].get())->toggleOn(true);
 	}
 }
 

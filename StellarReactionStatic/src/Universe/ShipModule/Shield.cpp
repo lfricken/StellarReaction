@@ -35,9 +35,9 @@ void ShieldComponent::input(String rCommand, sf::Packet rData)
 	{
 		if(m_pParentShieldModule->hitConsumption())
 		{
-
+			// we took the hit successfully
 		}
-		else
+		else // we ran out of energy
 			m_pParentShieldModule->triggerGroupDisable();
 	}
 }
@@ -84,15 +84,15 @@ void Shield::prePhysUpdate()
 	ShipModule::prePhysUpdate();
 
 	float thisTickConsumption = m_energyPerSecond*m_consumptionTimer.getTimeElapsed();
-	if(!isFunctioning())
-		disableShield();
-
+	float additionalCost = thisTickConsumption * (1 - functionalCapacity());
+	
 	if(m_pShield->isEnabled())
 		(*ranges)[RangeList::Energy].changeValue(-thisTickConsumption);
 }
 bool Shield::hitConsumption()
 {
-	return (*ranges)[RangeList::Energy].tryChange(-m_energyPerHit);
+	float additionalCost = m_energyPerHit * (1 - functionalCapacity());
+	return (*ranges)[RangeList::Energy].changeValue(-(m_energyPerHit + additionalCost));
 }
 void Shield::directive(const CommandInfo& commands)
 {

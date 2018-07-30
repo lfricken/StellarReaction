@@ -37,6 +37,7 @@ class Universe : public Clock, NonCopyable
 {
 public:
 	Universe(const IOComponentData& rData);
+	void postConstructor();
 	virtual ~Universe();
 
 	/// Return the ControlFactory for this Universe.

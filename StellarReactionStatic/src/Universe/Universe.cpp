@@ -204,7 +204,7 @@ void Universe::createControllers(Team team, bool isAnAI, const String& slaveName
 
 	if(isAnAI && !game.getNwBoss().isClient())
 	{
-		sptr<ShipAI> ai = sptr<ShipAI>(new ShipAI(team, controller));
+		ShipAI* ai = new ShipAI(team, controller);
 		m_shipAI.insert(ai);
 		aiPos = ai->getFactoryPosition();
 	}
@@ -225,13 +225,13 @@ Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input,
 	m_spBatchLayers = sptr<BatchLayers>(new BatchLayers);
 	m_spGfxUpdater = sptr<GraphicsComponentUpdater>(new GraphicsComponentUpdater);
 	m_spControlFactory = sptr<ControlFactory>(new ControlFactory);
-	m_spProjMan = sptr<ProjectileMan>(new ProjectileMan);
 
 	/**IO**/
 	m_spUniverseIO = sptr<IOManager>(new IOManager(true, true));
 	m_spUniverseIO->give(&m_io);
 	m_spUniverseIO->give(&game.getLocalPlayer().getIOComp());
 	/**IO**/
+
 
 	//how often are people given capture rewards?
 	m_spDecorEngine.reset(new DecorationEngine);
@@ -257,6 +257,10 @@ Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input,
 
 	setTime(game.getTime());
 
+}
+void Universe::postConstructor()
+{
+	m_spProjMan = sptr<ProjectileMan>(new ProjectileMan); // because it needs to do IO
 }
 Universe::~Universe()
 {
@@ -531,10 +535,10 @@ void Universe::loadBlueprints(const String& bpDir)//loads blueprints
 {
 	m_spBPLoader->loadBlueprints(bpDir);
 }
-int Universe::add(Chunk* pGO)
+int Universe::add(Chunk* chunk)
 {
-	m_goList.insert(sptr<Chunk>(pGO));
-	return pGO->getFactoryPosition();
+	m_goList.insert(chunk);
+	return chunk->getFactoryPosition();
 }
 const Resources& Universe::getTeamResources(Team team) const
 {

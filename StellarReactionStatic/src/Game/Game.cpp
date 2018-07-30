@@ -315,6 +315,8 @@ void Game::loadUniverse(const String& stuff)
 
 	m_spUniverse.reset();
 	m_spUniverse.reset(new Universe(universeData));
+	m_spUniverse->postConstructor();
+
 	getLocalPlayer().onUniverseCreated();
 
 	m_spUniverse->getUniverseIO().give(m_spIO.get());

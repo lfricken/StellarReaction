@@ -85,23 +85,6 @@
 			"blueprintName": "InvisibleWall",
 			"coordinates": [75, -25, 0],
 			"team": -1
-		},
-
-
-
-
-
-		{
-			"blueprintName": "Fortress_1",
-			"coordinates": [-80, 0, 0],
-			"team": 1,
-			"aiControlled": true
-		},
-		{
-			"blueprintName": "Fortress_1",
-			"coordinates": [80, 0, 0],
-			"team": 2,
-			"aiControlled": true
 		}
 
 

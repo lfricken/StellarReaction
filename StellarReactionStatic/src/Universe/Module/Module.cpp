@@ -42,11 +42,8 @@ float Module::functionalCapacity()
 	return 1.00f;
 }
 void Module::applyModifierRates()
-{
-	if(this->isFunctioning())
-	{                   
-		rangeModifiers.applyRateModifiers(game.getUniverse().getTimeStep());
-	}
+{            
+	rangeModifiers.applyRateModifiers(game.getUniverse().getTimeStep());
 }
 void Module::prePhysUpdate()
 {

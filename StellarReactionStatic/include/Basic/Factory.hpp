@@ -43,19 +43,19 @@ public:
 	/// <summary>
 	/// returns handle to object
 	/// </summary>
-	void insert(sptr<T> object)
+	void insert(T* object)
 	{
 		int position = -1;
 		if(m_freePositions.size() > 0)
 		{
 			position = m_freePositions.back();
 			m_freePositions.pop_back();
-			m_list[position] = object;
+			m_list[position] = sptr<T>(object);
 		}
 		else
 		{
 			position = m_list.size();
-			m_list.push_back(object);
+			m_list.push_back(sptr<T>(object));
 		}
 
 		object->setFactoryPosition(position);
@@ -63,12 +63,12 @@ public:
 	/// <summary>
 	/// Returns object at position, or null if not exists
 	/// </summary>
-	sptr<T> get(int position)
+	wptr<T> get(int position)
 	{
 		if(position < static_cast<signed int>(m_list.size()))
-			return m_list[position];
+			return m_list[position].get();
 		else
-			return sptr<T>(nullptr);
+			return nullptr;
 	}
 	/// <summary>
 	/// removes the element from the position and potentially reuses it
@@ -93,13 +93,13 @@ public:
 		m_freePositions.clear();
 	}
 
-	typename List<sptr<T> >::iterator begin()
+	typename List<sptr<T> >::iterator begin() const
 	{
-		return m_list.begin();
+		return m_list.cbegin();
 	}
-	typename List<sptr<T> >::iterator end()
+	typename List<sptr<T> >::iterator end() const
 	{
-		return m_list.end();
+		return m_list.cend();
 	}
 
 	int size() const
@@ -107,7 +107,7 @@ public:
 		return static_cast<signed>(m_list.size());
 	}
 
-	typename sptr<T> operator [](int i)
+	typename T* operator [](int i)
 	{
 		return m_list[i];
 	}

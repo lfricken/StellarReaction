@@ -47,7 +47,7 @@ void ProjectileModule::postPhysUpdate()
 	for(int i = 0; i < (signed)m_decors.size(); ++i)
 	{
 		m_decors[i]->setPosition(m_fix.getCenter());
-		m_decors[i]->setRotation(m_fix.getAngle());
+		m_decors[i]->setRotation(m_fix.getParentBody()->getAngle());
 	}
 }
 /// <summary>
