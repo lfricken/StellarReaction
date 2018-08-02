@@ -32,11 +32,8 @@ void Missile::steer()
 
 	if(totalVelocity < m_maxVelocity)
 	{
-		if(auto target = m_pTarget.lock())
-		{
-			Vec2 direction = getTargetDirection(target);
-
-			float targetAngle = Convert::normRad(atan2(direction.y, direction.x));//angle of target
+		{ // torque direction
+			float targetAngle = getTargetDirection(m_pTarget).toAngle();//angle of target
 			float diffAngle = Convert::normRad(targetAngle - velAngle);//between velocity and target
 
 			normalizeAngle(diffAngle);
@@ -53,14 +50,15 @@ void Missile::steer()
 			float torque = 30.f*mod* m_body.getInertia();
 
 			m_body.applyTorque(torque);
-
 		}
 
-		Vec2 direction(cos(ourAngle), sin(ourAngle));
-		direction = direction.unit();
-		direction *= m_body.getMass()*m_acceleration;
+		{ // thrust direction
+			Vec2 thrustDirection = Vec2::fromAngle(ourAngle);
+			thrustDirection = thrustDirection.unit();
+			thrustDirection *= m_body.getMass()*m_acceleration;
 
-		m_body.applyForce(direction);
+			m_body.applyForce(thrustDirection);
+		}
 	}
 }
 void Missile::prePhysUpdate()
@@ -85,7 +83,7 @@ void Missile::normalizeAngle(float& diffObjectiveAngle)
 	if(diffObjectiveAngle > Math::Pi)
 		diffObjectiveAngle -= 2 * Math::Pi;
 }
-Vec2 Missile::getTargetDirection(sptr<Chunk> target)
+Vec2 Missile::getTargetDirection(Chunk* target)
 {
 	Vec2 ourPos = m_body.getPosition();
 

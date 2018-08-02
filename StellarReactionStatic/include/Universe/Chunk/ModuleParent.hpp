@@ -82,17 +82,17 @@ public:
 	/// Return max range of this chunk;
 	/// </summary>
 	float maxWeaponRange();
+	/// <summary>
+	/// This as chunk.
+	/// </summary>
+	Chunk* thisAsChunk();
 
 	void resetStatusBoard(wptr<leon::Grid> grid);
 	wptr<leon::Grid> getStatusBoard();
-	
-	/// <summary>
-	/// Return this dynamic casted to a Chunk*.
-	/// </summary>
-	Chunk* thisAsChunk();
+
+	BodyComponent m_body;//Our BodyComponent.
 protected:
 	RangeList m_ranges;//List of range values.
-	BodyComponent m_body;//Our BodyComponent.
 
 	/// <summary>
 	/// Checks hardpoints and their requirements.

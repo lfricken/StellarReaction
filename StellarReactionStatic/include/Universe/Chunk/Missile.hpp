@@ -27,10 +27,10 @@ protected:
 
 	virtual void launch(const LaunchData& data);
 
-	Vec2 getTargetDirection(sptr<Chunk> target);
+	Vec2 getTargetDirection(Chunk* target);
 	void minimizeAngle(float& angle);
 	void normalizeAngle(float& angle);
-	wptr<Chunk> m_pTarget;
+	Chunk* m_pTarget;
 	float m_acceleration;
 	float m_maxVelocity;
 

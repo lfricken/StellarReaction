@@ -45,12 +45,11 @@ ModuleParent::ModuleParent(const ModuleParentData& data) : Blueprintable(data), 
 {
 	m_isPlayer = data.isPlayer;
 	m_profile = data.profile;
-	m_body.moduleParent = this;
 
 	m_radius = 0.f;
 	m_recalcRadius = true;
 
-	//Add Modules.
+	// add modules
 	for(auto it = data.moduleData.cbegin(); it != data.moduleData.cend(); ++it)
 	{
 		add(it->first, it->second);
@@ -79,6 +78,10 @@ float ModuleParent::maxWeaponRange()
 		}
 	}
 	return range;
+}
+Chunk* ModuleParent::thisAsChunk()
+{
+	return dynamic_cast<Chunk*>(this);
 }
 bool ModuleParent::allows(const ModuleData& data)
 {
@@ -183,10 +186,6 @@ void ModuleParent::clear()
 {
 	m_modules.clear();
 	m_storedModules.clear();
-}
-Chunk* ModuleParent::thisAsChunk()
-{
-	return dynamic_cast<Chunk*>(this);
 }
 float ModuleParent::getRadius()
 {

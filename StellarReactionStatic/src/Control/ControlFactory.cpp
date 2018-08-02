@@ -36,7 +36,7 @@ void ControlFactory::setAllNonLocallyControlled()
 }
 Controller* ControlFactory::getController(int index)
 {
-	return m_list.get(index).get();
+	return m_list.get(index);
 }
 int ControlFactory::getSize()
 {

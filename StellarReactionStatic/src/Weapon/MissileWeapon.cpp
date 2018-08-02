@@ -28,8 +28,8 @@ void MissileWeapon::preShot(const ShotData& data)
 {
 	ProjectileMan* manager = &game.getUniverse().getProjMan();
 
-	auto target = game.getUniverse().getNearestChunk(data.aim);
-	if(auto chunk = target.lock())
+	Chunk* target = game.getUniverse().getNearestChunk(data.aim);
+	if(target != nullptr)
 	{
 		Vec2 computedVelocity;
 		float computedRotation;
@@ -60,7 +60,7 @@ void MissileWeapon::preShot(const ShotData& data)
 		Projectile::LaunchData launchData;
 
 		launchData.blueprint = projectileData.blueprint; 
-		launchData.targetChunkPosition = chunk->getFactoryPosition();
+		launchData.targetChunkPosition = target->getFactoryPosition();
 		launchData.launcherModuleIoPosition = m_pTempParent->getIOPos();
 
 		launchData.startPosition = data.weaponCenter;

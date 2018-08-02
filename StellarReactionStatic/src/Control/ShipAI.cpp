@@ -42,6 +42,8 @@ void ShipAI::updateDecision()
 		return;
 	
 	Controller& rController = *cont;
+	Chunk* chunk = rController.getChunk();
+
 	//set controller to be local
 	if(!rController.isLocal())
 	{
@@ -49,19 +51,19 @@ void ShipAI::updateDecision()
 	}
 	if(m_weaponRange == 0.f)
 	{
-		m_weaponRange = rController.getChunk()->maxWeaponRange();
+		m_weaponRange = chunk->maxWeaponRange();
 	}
 	
-	auto& body = rController.getChunk()->getBodyComponent();
+	auto& body = chunk->getBodyComponent();
 	auto ourPos = body.getPosition();
 
 
 	{
-		tryGetNewClosestTarget(ourPos, rController.getChunk().get());
+		tryGetNewClosestTarget(ourPos, chunk);
 		//fire at and fly toward target if we have one
-		if(auto target = m_pCurrentTarget.lock())
+		if(m_pCurrentTarget != nullptr)
 		{
-			Vec2 targetPos = target->getBodyComponent().getPosition();
+			Vec2 targetPos = m_pCurrentTarget->getBodyComponent().getPosition();
 
 			//aim at target. TODO, lead target
 			rController.setAim(targetPos);
@@ -97,7 +99,7 @@ Vec2 ShipAI::getLaneTarget(const Vec2& ourPos) const
 {
 	return game.getUniverse().getLaneTarget(getTeam(), m_lane, ourPos);
 }
-void ShipAI::tryGetNewClosestTarget(Vec2 ourPos, Chunk* chunk)
+void ShipAI::tryGetNewClosestTarget(const Vec2& ourPos, const Chunk* chunk)
 {
 	//check for a new target
 	if(m_targetTimer.isTimeUp())
@@ -107,17 +109,17 @@ void ShipAI::tryGetNewClosestTarget(Vec2 ourPos, Chunk* chunk)
 		std::list<Team> teamList(teams, teams + 4);
 		teamList.remove(getTeam());
 		m_pCurrentTarget = game.getUniverse().getNearestChunk(ourPos, chunk, teamList);
-		if(auto target = m_pCurrentTarget.lock())
+		if(auto target = m_pCurrentTarget)
 		{
 			const auto targetPos = target->getBodyComponent().getPosition();
 			const auto distToTarget = targetPos.to(ourPos).len();
 			if(distToTarget > m_targetAquireRange)
 			{
-				m_pCurrentTarget.reset();
+				m_pCurrentTarget = nullptr;
 			}
 		}
 		else
-			m_pCurrentTarget.reset();
+			m_pCurrentTarget = nullptr;
 	}
 }
 void ShipAI::flyToTarget(Vec2 pos)
@@ -134,8 +136,9 @@ void ShipAI::angleToTarget(Vec2 target)
 		return;
 	}
 
-	Controller& rController = *cont;
-	auto& body = rController.getChunk()->getBodyComponent();
+	Controller& controller = *cont;
+	Chunk* chunk = controller.getChunk();
+	auto& body = chunk->getBodyComponent();
 
 	float ourAngle = Convert::normRad(body.getAngle() + Math::Tau / 4);
 	Vec2 ourPos = body.getPosition();

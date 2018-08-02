@@ -87,7 +87,6 @@ private:
 struct ModuleData : public BlueprintableData
 {
 	ModuleData() :
-		parent(nullptr),
 		rangeModifiers(),
 		name("defaultName"),
 		collisionDamage(0),

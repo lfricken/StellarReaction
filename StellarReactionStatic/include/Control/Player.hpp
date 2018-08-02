@@ -93,7 +93,7 @@ public:
 	/// <summary>
 	/// Return ship for local player.
 	/// </summary>
-	sptr<Chunk> getChunk() const;
+	Chunk* getChunk() const;
 	/// <summary>
 	/// Return controller for local player.
 	/// </summary>
@@ -180,7 +180,7 @@ private:
 
 	int m_nextTarget;
 	int m_maxTargets;
-	List<wptr<Chunk> > m_targets;
+	List<Chunk* > m_targets;
 	List<sptr<leon::Grid> > m_targetBoards;
 	List<sptr<QuadComponent> > m_targetReticules;
 

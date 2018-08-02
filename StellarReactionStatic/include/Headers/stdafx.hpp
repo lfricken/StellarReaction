@@ -43,6 +43,11 @@
 
 #include <Math/Math.hpp>/**LEON MATH**/
 
+template<class T, class U>
+std::weak_ptr<T> sptr_cast(std::weak_ptr<U> const& r)
+{
+	return std::static_pointer_cast<T, U>(r.lock());
+}
 
 template<typename T>
 using sptr = std::shared_ptr<T>;

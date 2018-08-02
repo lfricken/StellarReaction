@@ -25,7 +25,7 @@ public:
 	void flyToTarget(Vec2 pos);
 
 protected:
-	void tryGetNewClosestTarget(Vec2 ourPos, Chunk* chunk);
+	void tryGetNewClosestTarget(const Vec2& ourPos, const Chunk* chunk);
 	void onShipDestroyed();
 	Vec2 getLaneTarget(const Vec2& ourPos) const;
 
@@ -45,7 +45,7 @@ private:
 	void fireAtTarget();//fire at m_pCurrentTarget
 	float m_weaponRange;
 
-	wptr<Chunk> m_pCurrentTarget;//our current enemy target nearest to us
+	Chunk* m_pCurrentTarget;//our current enemy target nearest to us
 
 	Timer m_laneUpdateTimer; // how frequently to grab a new lane.
 	Vec2 m_laneDestination; // our current destination to fly to

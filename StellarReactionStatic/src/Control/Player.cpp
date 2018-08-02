@@ -74,10 +74,10 @@ Player::~Player()
 {
 
 }
-sptr<Chunk> Player::getChunk() const
+Chunk* Player::getChunk() const
 {
 	Controller* cont = getController();
-	sptr<Chunk> ship(nullptr);
+	Chunk* ship = nullptr;
 	if(cont != nullptr)
 	{
 		ship = cont->getChunk();
@@ -205,7 +205,7 @@ void Player::getLiveInput()
 			myTeam.push_back(this->getTeam());
 			auto ship = game.getUniverse().getNearestChunk(m_aim, nullptr, myTeam);
 
-			ShipBuilder::shipToGui(ship.lock().get());
+			ShipBuilder::shipToGui(ship);
 		}
 		if(sf::Keyboard::isKeyPressed(m_inCfg.respawn))
 			m_directives[Directive::Respawn] = true;
@@ -246,19 +246,19 @@ void Player::getLiveInput()
 }
 void Player::selectTarget(const Vec2& targetNearPos, const Chunk* playersShip)
 {
-	wptr<Chunk> newTarget = game.getUniverse().getNearestChunk(targetNearPos, playersShip);
-	if(auto target = newTarget.lock())
+	Chunk* newTarget = game.getUniverse().getNearestChunk(targetNearPos, playersShip);
+	if(newTarget != nullptr)
 	{
-		if(!hasTarget(target.get()))//if we don't already have that target
+		if(!hasTarget(newTarget))//if we don't already have that target
 		{
-			if(auto oldTarget = m_targets[m_nextTarget].lock())
+			if(auto oldTarget = m_targets[m_nextTarget])
 			{
 				oldTarget->resetStatusBoard(wptr<leon::Grid>());//reset the old target
 			}
 
 			m_targets[m_nextTarget] = newTarget;
 			wptr<leon::Grid> grid = m_targetBoards[m_nextTarget];
-			target->resetStatusBoard(grid);
+			newTarget->resetStatusBoard(grid);
 		}
 		++m_nextTarget;
 		m_nextTarget = m_nextTarget % m_maxTargets;
@@ -269,8 +269,7 @@ void Player::selectTarget(const Vec2& targetNearPos, const Chunk* playersShip)
 bool Player::hasTarget(const Chunk* newTarget)
 {
 	for(auto it = m_targets.cbegin(); it != m_targets.cend(); ++it)
-		if(auto target = it->lock())
-			if(target.get() == newTarget)
+		if(*it != newTarget)
 				return true;
 
 	return false;
@@ -343,11 +342,13 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 			}
 			if(event.key.code == m_inCfg.grabTarget)
 			{
-				Chunk* myShip = nullptr;
+				const Chunk* myShip;
 				if(cont != nullptr)
-					myShip = cont->getChunk().get();
+				{
+					myShip = cont->getChunk();
+					this->selectTarget(m_aim, myShip);
+				}
 
-				this->selectTarget(m_aim, myShip);
 			}
 			/**== SCOREBOARD ==**/
 			if(event.key.code == sf::Keyboard::Tab)
@@ -514,9 +515,9 @@ void Player::updateView()
 			int i = 0;
 			for(auto it = m_targets.begin(); it != m_targets.cend(); ++it, ++i)
 			{
-				if(auto target = it->lock())
+				if((*it) != nullptr)
 				{
-					m_targetReticules[i]->setPosition(target->getBodyComponent().getPosition());
+					m_targetReticules[i]->setPosition((**it).getBodyComponent().getPosition());
 				}
 				else
 				{

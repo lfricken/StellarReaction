@@ -53,7 +53,7 @@ public:
 	/// Get a value from our ship.
 	float get(Request value);
 	/// Get pointer to body of ship.
-	sptr<Chunk> getChunk() const;
+	Chunk* getChunk() const;
 	/// Return the networking object for this controller.
 	NetworkComponent& getNWComp();
 	/// Return the io object for this controller.

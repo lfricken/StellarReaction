@@ -154,7 +154,8 @@ void ShipModule::input(String rCommand, sf::Packet rData)
 			//check if damage should bleed
 			if(overkill > 0)
 			{
-				ShipModule* newTarget = m_parent->getNearestValidTarget(m_fix.getOffset());//returns null if there are no valid targets
+				Chunk* parent = m_parent->thisAsChunk();
+				ShipModule* newTarget = parent->getNearestValidTarget(m_fix.getOffset());//returns null if there are no valid targets
 
 				if(newTarget != nullptr)
 				{
@@ -164,7 +165,6 @@ void ShipModule::input(String rCommand, sf::Packet rData)
 				}
 				else
 				{
-					Chunk* parent = dynamic_cast<Chunk*>(m_parent);
 					parent->explode();
 				}
 			}
@@ -200,7 +200,7 @@ void ShipModule::moduleDamageGraphics()
 	}
 
 	// show health damage on HUD
-	auto boardPtr = m_parent->thisAsChunk()->getStatusBoard();
+	auto boardPtr = m_parent->getStatusBoard();
 	if(auto statusBoard = boardPtr.lock())
 	{
 		statusBoard->damageModule(getOffset(), m_healthState, m_health.getHealthPercent(), true);

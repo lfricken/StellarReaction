@@ -31,17 +31,18 @@ void Teleporter::directive(const CommandInfo& commands)
 
 	if(rIssues[Directive::Teleport])
 	{
-		//get mouse position and use that to decide how far we are teleporting
-		BodyComponent& body = m_parent->getBodyComponent();
+		Chunk* chunk = m_parent->thisAsChunk();
 
-		const Vec2 mousePos = dynamic_cast<Chunk*>(m_parent)->getAim();
+		BodyComponent& body = chunk->getBodyComponent();
+
+		const Vec2 mousePos = chunk->getAim();
 		const Vec2 origPos = body.getPosition();
 
 		Vec2 direction = mousePos - origPos;
 		float actualDist = 0;
 
 		const float attemptDistance = direction.len();
-		const float maxDist = m_parent->getRanges()[RangeList::TeleportRange].getValue();
+		const float maxDist = chunk->getRanges()[RangeList::TeleportRange].getValue();
 
 		Vec2 target;
 		if(attemptDistance <= maxDist)
@@ -62,9 +63,9 @@ void Teleporter::directive(const CommandInfo& commands)
 
 		if(m_cooldownTimer.isTimeUp())
 		{
-			if(game.getUniverse().isClear(target, m_parent->getRadius(), m_parent))//check if the destination is clear
+			if(game.getUniverse().isClear(target, chunk->getRadius(), chunk))//check if the destination is clear
 			{
-				if(m_parent->getRanges()[RangeList::Energy].tryChange(-consumption))
+				if(chunk->getRanges()[RangeList::Energy].tryChange(-consumption))
 				{
 					//restart timer, perform teleport
 					m_cooldownTimer.restartCountDown();

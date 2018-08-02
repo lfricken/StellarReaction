@@ -41,7 +41,7 @@ void ChunkSpawner::update()
 		ChunkDataMessage ship = *m_chunkData;
 
 		ship.needsController = ship.aiControlled;
-		ship.blueprintName = m_blueprints[Rand::get(0,m_blueprints.size()-1)];
+		ship.blueprintName = m_blueprints[Rand::get(0,m_blueprints.size())];
 		ship.rotation = 0;
 		for(int i = 0; i < m_spawnPer; i++)
 		{

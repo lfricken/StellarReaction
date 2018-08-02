@@ -204,7 +204,7 @@ void Universe::createControllers(Team team, bool isAnAI, const String& slaveName
 
 	if(isAnAI && !game.getNwBoss().isClient())
 	{
-		ShipAI* ai = new ShipAI(team, controller);
+		sptr<ShipAI> ai(new ShipAI(team, controller));
 		m_shipAI.insert(ai);
 		aiPos = ai->getFactoryPosition();
 	}
@@ -238,7 +238,7 @@ Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input,
 	m_spMoneyTimer.reset(new Timer(this->getTime()));
 	m_spMoneyTimer->setCountDown(moneyTickTime);
 	m_restartedMoneyTimer = false;
-	
+
 	/**PHYControlCS**/
 	m_paused = false;
 	m_skippedTime = game.getTime();
@@ -271,13 +271,14 @@ int Universe::getChunkPosition(String& name)
 {
 	for(auto it = m_goList.begin(); it != m_goList.end(); ++it)
 	{
-		if(it->get() != nullptr)
-			if((**it).m_io.getName() == name)
+		sptr<Chunk> chunk = *it;;
+		if(chunk.get() != nullptr)
+			if(chunk->m_io.getName() == name)
 				return (it - m_goList.begin());
 	}
 	return -1;
 }
-sptr<Chunk> Universe::getChunk(int pos)
+Chunk* Universe::getChunk(int pos)
 {
 	return m_goList.get(pos);
 }
@@ -340,8 +341,11 @@ void Universe::setBounds(const Vec2& bounds)
 void Universe::updateShipAI()
 {
 	for(auto it = m_shipAI.begin(); it != m_shipAI.end(); ++it)
-		if(it->get() != nullptr)
-			(*it)->updateDecision();
+	{
+		sptr<ShipAI> chunk = *it;
+		if(chunk.get() != nullptr)
+			chunk->updateDecision();
+	}
 }
 /// <summary>
 /// If true, we only draw box2d things on screen.
@@ -365,9 +369,11 @@ void Universe::prePhysUpdate()
 	if(!m_paused)
 	{
 		for(auto it = m_goList.begin(); it != m_goList.end(); ++it)
-			if(it->get() != nullptr)
-				(*it)->prePhysUpdate();
-
+		{
+			sptr<Chunk> chunk = *it;;
+			if(chunk.get() != nullptr)
+				chunk->prePhysUpdate();
+		}
 		m_spProjMan->prePhysUpdate();
 	}
 }
@@ -394,32 +400,38 @@ void Universe::postPhysUpdate()
 	if(!m_paused)
 	{
 		for(auto it = m_goList.begin(); it != m_goList.end(); ++it)
-			if(it->get() != nullptr)
-				(*it)->postPhysUpdate();
+		{
+			sptr<Chunk> chunk = *it;;
+			if(chunk.get() != nullptr)
+				chunk->postPhysUpdate();
+		}
 
 		m_spProjMan->postPhysUpdate();
 
 		for(auto it = hazardFields.begin(); it != hazardFields.end(); ++it)
-			if(it->get() != nullptr)
-				(**it).update();
+		{
+			sptr<ChunkSpawner> spawner = *it;
+			if(spawner.get() != nullptr)
+				spawner->update();
+		}
 	}
 }
 
-wptr<Chunk> Universe::getNearestChunk(const Vec2& target, const ModuleParent* exception, std::list<Team> validTeams)
+Chunk* Universe::getNearestChunk(const Vec2& target, const ModuleParent* exception, std::list<Team> validTeams)
 {
 	float prevDist = -1;
-	wptr<Chunk> closest;
+	Chunk* closest = nullptr;
 	for(auto it = m_goList.begin(); it != m_goList.end(); ++it)
 	{
-		sptr<Chunk> object = std::dynamic_pointer_cast<Chunk>(*it);
-		if(object != nullptr && object.get() != exception && listContains(validTeams, object->getBodyComponent().getTeam()))
+		Chunk* chunk = it->get();;
+		if(chunk != nullptr && chunk != exception && listContains(validTeams, chunk->getBodyComponent().getTeam()))
 		{
-			Vec2 dif = target - object->getBodyComponent().getPosition();
+			Vec2 dif = target - chunk->getBodyComponent().getPosition();
 			float dist = dif.len();
 			if(dist < prevDist || prevDist == -1)
 			{
 				prevDist = dist;
-				closest = object;
+				closest = chunk;
 			}
 		}
 	}
@@ -456,7 +468,7 @@ void Universe::teamMoneyUpdate()
 		{
 			for(auto it = m_teamIncome.cbegin(); it != m_teamIncome.cend(); ++it)
 				Resources::ChangeResources(it->second, it->first);
-			
+
 			m_spMoneyTimer->restartCountDown();
 		}
 }
@@ -535,7 +547,7 @@ void Universe::loadBlueprints(const String& bpDir)//loads blueprints
 {
 	m_spBPLoader->loadBlueprints(bpDir);
 }
-int Universe::add(Chunk* chunk)
+int Universe::add(sptr<Chunk> chunk)
 {
 	m_goList.insert(chunk);
 	return chunk->getFactoryPosition();
@@ -644,7 +656,7 @@ void Universe::input(String rCommand, sf::Packet rData)
 
 
 		//important this happens before creation of the controller
-		Chunk* chunk = chunkData->generate(this);
+		sptr<Chunk> chunk = chunkData->generate(this);
 		int chunkIndex = add(chunk);
 
 		int controller = -1;
@@ -667,7 +679,8 @@ void Universe::input(String rCommand, sf::Packet rData)
 		{
 			Print << "\nkill " << chunkListPosition;
 
-			auto chunk = dynamic_cast<Chunk*>(m_goList[chunkListPosition].get());
+			auto weakChunk = m_goList[chunkListPosition];
+			sptr<Chunk> chunk = weakChunk.lock();
 
 			if(chunk != nullptr)
 			{ // perception increase for enemy dying
@@ -764,19 +777,16 @@ String Universe::chooseBPtoUpgrade()
 	}
 	return blueprints[Rand::get(0, blueprints.size() - 1)];
 }
-bool Universe::isClear(Vec2 position, float radius, const ModuleParent* exception)
+bool Universe::isClear(const Vec2& position, float radius, const ModuleParent* exception)
 {
-	auto nearest = getNearestChunk(position, exception);
-	if(auto nearestChunk = nearest.lock())
-	{
-		float nearestRad = nearestChunk->getRadius();
-		float dist = (nearestChunk->getBodyComponent().getPosition() - position).len();
-		if(dist < (nearestRad + radius))
-			return false;
-		else
-			return true;
-	}
-	return true;
+	auto nearestChunk = getNearestChunk(position, exception);
+	float nearestRad = nearestChunk->getRadius();
+	float dist = (nearestChunk->getBodyComponent().getPosition() - position).len();
+
+	if(dist < (nearestRad + radius))
+		return false;
+	else
+		return true;
 }
 Vec2 Universe::getAvailableSpawn(Team team, float radius, const ModuleParent* exception)
 {

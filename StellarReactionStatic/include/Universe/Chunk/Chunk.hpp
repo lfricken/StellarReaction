@@ -140,12 +140,12 @@ struct ChunkData : public ModuleParentData
 private:
 	friend class Universe;
 	///Create Chunk object from this data object.
-	virtual Chunk* generate(Universe* universeParent) const
+	virtual sptr<Chunk> generate(Universe* universeParent) const
 	{
 		ChunkData copy(*this);
 		copy.universeParent = universeParent;
 		copy.ioComp.pMyManager = &universeParent->getUniverseIO();
-		return new Chunk(copy);
+		return sptr<Chunk>(new Chunk(copy));
 	}
 	void loadModules(const Json::Value& root);
 	MyType(ChunkData, ChunkData);

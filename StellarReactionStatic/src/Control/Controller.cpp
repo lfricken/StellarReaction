@@ -53,9 +53,9 @@ const Vec2& Controller::getAim() const
 {
 	return m_aim;
 }
-sptr<Chunk> Controller::getChunk() const
+Chunk* Controller::getChunk() const
 {
-	return std::dynamic_pointer_cast<Chunk>(game.getUniverse().getChunk(m_slavePosition));
+	return game.getUniverse().getChunk(m_slavePosition);
 }
 /// <summary>
 /// Find our slave and set it to aim at a location

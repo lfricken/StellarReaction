@@ -29,20 +29,17 @@ void Loot::postPhysUpdate()
 /// </summary>
 void Loot::entered(FixtureComponent* pOther)
 {
-	auto newGuest = pOther->getParentBody()->moduleParent;
+	Chunk* newGuest = pOther->getParentBody()->moduleParent->thisAsChunk();
 
-	if(newGuest)
+	if(!m_used)//if it doesn't already contain it
 	{
-		if(!m_used)//if it doesn't already contain it
-		{
-			m_used = false;
-			int target = newGuest->thisAsChunk()->m_io.getPosition();
-			sf::Packet loot;
-			m_resources.intoPacket(&loot);
-			loot << m_parent->thisAsChunk()->getFactoryPosition();
-			Message giveLoot(target, "pickupLoot", loot, 0, false);
-			Message::SendUniverse(giveLoot);
-		}
+		m_used = false;
+		int target = newGuest->m_io.getPosition();
+		sf::Packet loot;
+		m_resources.intoPacket(&loot);
+		loot << m_parent->getFactoryPosition();
+		Message giveLoot(target, "pickupLoot", loot, 0, false);
+		Message::SendUniverse(giveLoot);
 	}
 }
 /// <summary>
