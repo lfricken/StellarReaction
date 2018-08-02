@@ -128,10 +128,10 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 		}
 
 		/**Load Local Player Overlay**/
-		game.getLocalPlayer().loadOverlay("overlayconfig");
+		getGame()->getLocalPlayer().loadOverlay("overlayconfig");
 
 		/**Set Local Controller**/
-		game.getLocalPlayer().setController(data.localController);
+		getGame()->getLocalPlayer().setController(data.localController);
 
 		/**Hazard Field Spawn Hazards**/
 		//for(auto it = hazardFields.begin(); it != hazardFields.end(); ++it)
@@ -193,16 +193,16 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 	Message initBackground(this->m_io.getName(), "initBackgroundCommand", voidPacket, 0, false);
 	Message::SendUniverse(initBackground);
 
-	game.getOverlay().resetStore();
-	game.getOverlay().addStoreButton();
-	game.getOverlay().addStoreButton();
-	game.getOverlay().addStoreButton();
+	getGame()->getOverlay().resetStore();
+	getGame()->getOverlay().addStoreButton();
+	getGame()->getOverlay().addStoreButton();
+	getGame()->getOverlay().addStoreButton();
 }
 void Universe::createControllers(Team team, bool isAnAI, const String& slaveName, int& controller, int& aiPos)
 {
 	controller = m_spControlFactory->addController(slaveName);
 
-	if(isAnAI && !game.getNwBoss().isClient())
+	if(isAnAI && !getGame()->getNwBoss().isClient())
 	{
 		sptr<ShipAI> ai(new ShipAI(team, controller));
 		m_shipAI.insert(ai);
@@ -219,7 +219,7 @@ Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input,
 	m_positionIterations = 1;
 	m_timeStep = 1.0f / 120.0f; // TODO LOAD FROM FILE
 
-	m_nw.reset(new NetworkComponent(NetworkComponentData(), &Universe::pack, &Universe::unpack, this, game.getNwBoss().getNWFactoryTcp()));
+	m_nw.reset(new NetworkComponent(NetworkComponentData(), &Universe::pack, &Universe::unpack, this, getGame()->getNwBoss().getNWFactoryTcp()));
 
 	m_spBPLoader = sptr<BlueprintLoader>(new BlueprintLoader);
 	m_spBatchLayers = sptr<BatchLayers>(new BatchLayers);
@@ -229,7 +229,7 @@ Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input,
 	/**IO**/
 	m_spUniverseIO = sptr<IOManager>(new IOManager(true, true));
 	m_spUniverseIO->give(&m_io);
-	m_spUniverseIO->give(&game.getLocalPlayer().getIOComp());
+	m_spUniverseIO->give(&getGame()->getLocalPlayer().getIOComp());
 	/**IO**/
 
 
@@ -241,7 +241,7 @@ Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input,
 
 	/**PHYControlCS**/
 	m_paused = false;
-	m_skippedTime = game.getTime();
+	m_skippedTime = getGame()->getTime();
 	m_pauseTime = m_skippedTime;
 
 	m_inc = 10;
@@ -255,7 +255,7 @@ Universe::Universe(const IOComponentData& rData) : m_io(rData, &Universe::input,
 
 	m_debugDrawEnabled = false;
 
-	setTime(game.getTime());
+	setTime(getGame()->getTime());
 
 }
 void Universe::postConstructor()
@@ -264,8 +264,7 @@ void Universe::postConstructor()
 }
 Universe::~Universe()
 {
-	m_capturePoints.clear();
-	game.getLocalPlayer().onBeforeUniverseDestroyed();
+	//getGame()->getLocalPlayer().onBeforeUniverseDestroyed();
 }
 int Universe::getChunkPosition(String& name)
 {
@@ -463,7 +462,7 @@ void Universe::teamMoneyUpdate()
 		m_restartedMoneyTimer = true;
 	}
 
-	if(!game.getNwBoss().isClient()) // skip a bit of work
+	if(!getGame()->getNwBoss().isClient()) // skip a bit of work
 		if(m_spMoneyTimer->isTimeUp())
 		{
 			for(auto it = m_teamIncome.cbegin(); it != m_teamIncome.cend(); ++it)
@@ -627,16 +626,16 @@ void Universe::input(String rCommand, sf::Packet rData)
 	}
 	else if(rCommand == "initBackgroundCommand")
 	{
-		auto controller = game.getLocalPlayer().getController();
+		auto controller = getGame()->getLocalPlayer().getController();
 		if(controller != nullptr)
 		{
 			auto pos = controller->getChunk()->getBodyComponent().getPosition();
-			float maxZoom = game.getLocalPlayer().getCamera().m_maxZoom * 0.4f;
-			float sizeInUniverse = Convert::screenToUniverse((float)game.getWindow().getSize().x);
+			float maxZoom = getGame()->getLocalPlayer().getCamera().m_maxZoom * 0.4f;
+			float sizeInUniverse = Convert::screenToUniverse((float)getGame()->getWindow().getSize().x);
 			m_spDecorEngine->initSpawns(pos, Vec2(maxZoom * sizeInUniverse, maxZoom * sizeInUniverse));
 		}
 
-		game.getUniverse().getControllerFactory().setAllNonLocallyControlled();
+		getGame()->getUniverse().getControllerFactory().setAllNonLocallyControlled();
 	}
 	else if(rCommand == "createChunkCommand")
 	{
@@ -679,8 +678,7 @@ void Universe::input(String rCommand, sf::Packet rData)
 		{
 			Print << "\nkill " << chunkListPosition;
 
-			auto weakChunk = m_goList[chunkListPosition];
-			sptr<Chunk> chunk = weakChunk.lock();
+			auto chunk = m_goList[chunkListPosition];
 
 			if(chunk != nullptr)
 			{ // perception increase for enemy dying
@@ -705,9 +703,9 @@ void Universe::input(String rCommand, sf::Packet rData)
 			else
 				WARNING;
 
-			m_goList.free(chunkListPosition);
+			m_goList.freeThis(chunkListPosition);
 			if(shouldShakeScreen)
-				game.getLocalPlayer().getCamera().shake(0.5, 60, 0.5);
+				getGame()->getLocalPlayer().getCamera().shake(0.5, 60, 0.5);
 		}
 		else
 			WARNING;
@@ -724,7 +722,7 @@ void Universe::input(String rCommand, sf::Packet rData)
 		//float roll = Rand::get(0.f, 1.f);
 		if(!m_allModulesUnlocked)// && (roll < unlockOdds))
 		{
-			m_allModulesUnlocked = game.getOverlay().addStoreButton();
+			m_allModulesUnlocked = getGame()->getOverlay().addStoreButton();
 		}
 		else
 		{
@@ -768,7 +766,7 @@ UpgradeType Universe::chooseUpgradeType()
 }
 String Universe::chooseBPtoUpgrade()
 {
-	auto& data = game.getOverlay().storeData;
+	auto& data = getGame()->getOverlay().storeData;
 	List<String> blueprints; // possible blueprints to choose from
 
 	for each(auto button in data->buttonList)

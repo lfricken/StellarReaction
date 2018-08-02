@@ -2,7 +2,7 @@
 
 NetworkComponent::~NetworkComponent()
 {
-	m_pFactory->free(m_factoryID);
+	m_pFactory->freeThis(m_factoryID);
 }
 bool NetworkComponent::toggleNewData(bool newData)//set new data
 {

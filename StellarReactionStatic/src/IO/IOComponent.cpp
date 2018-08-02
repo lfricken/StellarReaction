@@ -6,7 +6,7 @@
 
 IOComponent::~IOComponent()
 {
-	m_pManager->free(m_ioManPosition);
+	m_pManager->freeThis(m_ioManPosition);
 }
 void IOComponent::event(EventType type, int value, const sf::Packet& rData)
 {

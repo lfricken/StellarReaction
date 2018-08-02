@@ -11,7 +11,7 @@ IOManager::IOManager(bool acceptsLocalMessages, bool networked)
 	m_networked = networked;
 	if(m_networked)
 	{
-		m_spNw = sptr<NetworkComponent>(new NetworkComponent(NetworkComponentData(), &IOManager::pack, &IOManager::unpack, this, game.getNwBoss().getNWFactoryTcp()));
+		m_spNw = sptr<NetworkComponent>(new NetworkComponent(NetworkComponentData(), &IOManager::pack, &IOManager::unpack, this, getGame()->getNwBoss().getNWFactoryTcp()));
 	}
 
 	m_acceptsLocal = acceptsLocalMessages;
@@ -27,7 +27,7 @@ void IOManager::recieve(const Message& rMessage)
 		m_spNw->toggleNewData(true);
 		m_latest.push_back(rMessage);
 	}
-	else if(m_networked && game.getNwBoss().getNWState() == NWState::Server)//we are the host with any info
+	else if(m_networked && getGame()->getNwBoss().getNWState() == NWState::Server)//we are the host with any info
 	{
 		m_spNw->toggleNewData(true);
 		m_latest.push_back(rMessage);
@@ -84,7 +84,7 @@ int IOManager::give(IOComponent* pComponent)//we recieve a pointer to a componen
 	
 	return position;
 }
-void IOManager::free(int position)//don't adjust the list, just mark the node as null and offer it as a position to future customers
+void IOManager::freeThis(int position)//don't adjust the list, just mark the node as null and offer it as a position to future customers
 {
 	if((signed)m_componentPtrs.size() > position)
 	{
@@ -198,7 +198,7 @@ void IOManager::unpack(sf::Packet& rPacket)//process data from our twin
 		Message fromNetwork((unsigned int)pos, command, messageData, delay, false);
 		fromNetwork.setName(name);//if they sent a name instead of a position, set that instead
 
-		if(game.getNwBoss().getNWState() == NWState::Server) // if we are the server, we should forward it to our clients too!
+		if(getGame()->getNwBoss().getNWState() == NWState::Server) // if we are the server, we should forward it to our clients too!
 			recieve(fromNetwork);
 		else // if we are our clients, we should just hear it
 			m_messageList.push_back(fromNetwork);

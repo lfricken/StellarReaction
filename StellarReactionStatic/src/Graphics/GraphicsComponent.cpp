@@ -21,7 +21,7 @@ void GraphicsComponentData::setCenterTopLeft()
 {
 	center = sf::Vector2f(-dimensions.x / 2, dimensions.y / 2);
 }
-GraphicsComponent::GraphicsComponent(const GraphicsComponentData& rData) : m_rUpdater(game.getUniverse().getGfxUpdater()), m_animator(rData.texName)
+GraphicsComponent::GraphicsComponent(const GraphicsComponentData& rData) : m_rUpdater(getGame()->getUniverse().getGfxUpdater()), m_animator(rData.texName)
 {
 	m_calculatedSize = false;
 
@@ -38,7 +38,7 @@ GraphicsComponent::GraphicsComponent(const GraphicsComponentData& rData) : m_rUp
 }
 GraphicsComponent::~GraphicsComponent()
 {
-	m_rUpdater.free(this);
+	m_rUpdater.freeThis(this);
 
 	for(int i = 0; i < m_numVerts; ++i)
 		(*m_pVerts)[i + m_startVert].color = sf::Color(0, 0, 0, 0);//make them transparent so they can no longer be seen

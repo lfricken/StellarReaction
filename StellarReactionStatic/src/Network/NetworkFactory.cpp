@@ -25,7 +25,7 @@ int NetworkFactory::give(NetworkComponent* pComponent)//we recieve a pointer to 
 	m_componentPtrs[position] = pComponent;
 	return position;
 }
-void NetworkFactory::free(int position)//don't adjust the list, just mark the node as null and offer it as a position to future customers
+void NetworkFactory::freeThis(int position)//don't adjust the list, just mark the node as null and offer it as a position to future customers
 {
 	if((signed)m_componentPtrs.size() > position)
 		m_componentPtrs[position] = nullptr;

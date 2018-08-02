@@ -114,9 +114,9 @@ Chunk::Chunk(const ChunkData& data) : ModuleParent(data), m_io(data.ioComp, &Chu
 Chunk::~Chunk()
 {
 	if(m_controller != -1)//this ship might not have a controller or ai
-		m_universe.getControllerFactory().m_list.free(m_controller);
+		m_universe.getControllerFactory().m_list.freeThis(m_controller);
 	if(m_shipAI != -1)
-		m_universe.getShipAI().free(m_shipAI);
+		m_universe.getShipAI().freeThis(m_shipAI);
 }
 Vec2 Chunk::getSpawn()
 {
@@ -124,10 +124,10 @@ Vec2 Chunk::getSpawn()
 }
 Vec2 Chunk::getClearSpawn()
 {
-	if(game.getUniverse().isClear(m_spawnPoint, getRadius(), this))
+	if(getGame()->getUniverse().isClear(m_spawnPoint, getRadius(), this))
 		return m_spawnPoint;
 	else
-		return game.getUniverse().getAvailableSpawn(m_body.getTeam(), getRadius(), this);
+		return getGame()->getUniverse().getAvailableSpawn(m_body.getTeam(), getRadius(), this);
 }
 void Chunk::setSpawn(float x, float y)
 {
@@ -156,7 +156,7 @@ void Chunk::prePhysUpdate()
 
 	//push chunk in bounds if out of bounds
 	Vec2 location = m_body.getPosition();
-	Vec2 bounds = game.getUniverse().getBounds();
+	Vec2 bounds = getGame()->getUniverse().getBounds();
 	if(abs(location.x) > bounds.x || abs(location.y) > bounds.y)
 	{
 		Vec2 force = Vec2(-location.x, -location.y);
@@ -215,8 +215,8 @@ void Chunk::directive(const CommandInfo& commands)//send command to target
 
 			Message toggle(store, "toggleHidden", voidPacket, 0, false);
 			Message mes2("local_player", "toggleGuiMode", voidPacket, 0, false);
-			game.getCoreIO().recieve(toggle);
-			game.getCoreIO().recieve(mes2);
+			getGame()->getCoreIO().recieve(toggle);
+			getGame()->getCoreIO().recieve(mes2);
 
 			m_timer.restartCountDown();
 		}
@@ -247,14 +247,14 @@ void Chunk::directive(const CommandInfo& commands)//send command to target
 		for(auto it = afterburners.begin(); it != afterburners.end(); ++it)
 			(*it)->getAnimator().setAnimation("Activated", 0.20f);
 		//Sound needed.
-		//m_thrustNoiseIndex = game.getSound().playSound("Afterburner.wav", 100, 20, 2, getBodyPtr()->GetPosition(), true, true);
+		//m_thrustNoiseIndex = getGame()->getSound().playSound("Afterburner.wav", 100, 20, 2, getBodyPtr()->GetPosition(), true, true);
 	}
 	if(startBoosting)
 	{
 		for(auto it = afterburners_boost.begin(); it != afterburners_boost.end(); ++it)
 			(*it)->getAnimator().setAnimation("Activated", 0.20f);
 		//Sound needed.
-		//m_boostNoiseIndex = game.getSound().playSound("Afterburner.wav", 100, 20, 2, getBodyPtr()->GetPosition(), true, true);
+		//m_boostNoiseIndex = getGame()->getSound().playSound("Afterburner.wav", 100, 20, 2, getBodyPtr()->GetPosition(), true, true);
 	}
 
 
@@ -264,14 +264,14 @@ void Chunk::directive(const CommandInfo& commands)//send command to target
 		for(auto it = afterburners.begin(); it != afterburners.end(); ++it)
 			(*it)->getAnimator().setAnimation("Default", 1.0f);
 		//Sound needed.
-		//m_thrustNoiseIndex = game.getSound().stopSound(m_thrustNoiseIndex);
+		//m_thrustNoiseIndex = getGame()->getSound().stopSound(m_thrustNoiseIndex);
 	}
 	if(!rIssues[Directive::Up] || !rIssues[Directive::Boost])
 	{
 		for(auto it = afterburners_boost.begin(); it != afterburners_boost.end(); ++it)
 			(*it)->getAnimator().setAnimation("Default", 1.0f);
 		//Sound needed.
-		//m_boostNoiseIndex = game.getSound().stopSound(m_boostNoiseIndex);
+		//m_boostNoiseIndex = getGame()->getSound().stopSound(m_boostNoiseIndex);
 	}
 
 	m_wasThrusting = rIssues[Directive::Up];
@@ -324,11 +324,11 @@ void Chunk::explode()
 
 		//TODO death effects group
 		{ // death effects
-			game.getUniverse().spawnParticles("SparkExplosion", getBodyComponent().getPosition(), Vec2(1, 0), Vec2(0, 0));
-			game.getUniverse().spawnParticles("WhiteFlash", getBodyComponent().getPosition(), Vec2(1, 0), Vec2(0, 0));
-			game.getUniverse().spawnParticles("DebrisExplosion1", getBodyComponent().getPosition(), Vec2(1, 0), Vec2(0, 0));
-			game.getUniverse().spawnParticles("DebrisExplosion2", getBodyComponent().getPosition(), Vec2(1, 0), Vec2(0, 0));
-			game.getUniverse().spawnParticles("DebrisExplosion3", getBodyComponent().getPosition(), Vec2(1, 0), Vec2(0, 0));
+			getGame()->getUniverse().spawnParticles("SparkExplosion", getBodyComponent().getPosition(), Vec2(1, 0), Vec2(0, 0));
+			getGame()->getUniverse().spawnParticles("WhiteFlash", getBodyComponent().getPosition(), Vec2(1, 0), Vec2(0, 0));
+			getGame()->getUniverse().spawnParticles("DebrisExplosion1", getBodyComponent().getPosition(), Vec2(1, 0), Vec2(0, 0));
+			getGame()->getUniverse().spawnParticles("DebrisExplosion2", getBodyComponent().getPosition(), Vec2(1, 0), Vec2(0, 0));
+			getGame()->getUniverse().spawnParticles("DebrisExplosion3", getBodyComponent().getPosition(), Vec2(1, 0), Vec2(0, 0));
 		}
 
 

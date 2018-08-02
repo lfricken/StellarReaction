@@ -5,6 +5,14 @@
 class FactoryObject
 {
 public:
+	enum Positions
+	{
+		/// <summary>
+		/// Equivalent to null
+		/// </summary>
+		NullPosition = -1
+	};
+
 	/// <summary>
 	/// Set the position of this module parent in the Universe list.
 	/// </summary>
@@ -73,7 +81,7 @@ public:
 	/// <summary>
 	/// removes the element from the position and potentially reuses it
 	/// </summary>
-	bool free(int position)
+	bool freeThis(int position)
 	{
 		if(position < (signed)m_list.size())
 			if(m_list[position].get() != nullptr)
@@ -107,9 +115,9 @@ public:
 		return static_cast<signed>(m_list.size());
 	}
 
-	typename wptr<T> operator [](int i)
+	typename T* operator [](int i)
 	{
-		return m_list[i];
+		return m_list[i].get();
 	}
 protected:
 	List<sptr<T> > m_list;

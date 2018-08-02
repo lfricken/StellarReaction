@@ -6,7 +6,7 @@ using namespace leon;
 
 DragComponent::~DragComponent()
 {
-	m_pOwner->free(this);
+	m_pOwner->freeThis(this);
 }
 bool DragComponent::isDragging() const
 {

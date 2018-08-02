@@ -90,7 +90,7 @@ Controller* Player::getController() const
 	Controller* cont = nullptr;
 	if(m_controller != -1)
 	{
-		cont = game.getUniverse().getControllerFactory().getController(m_controller);
+		cont = getGame()->getUniverse().getControllerFactory().getController(m_controller);
 	}
 	return cont;
 }
@@ -134,7 +134,7 @@ const sf::Vector2f& Player::getMouseWindowPos() const
 }
 void Player::setMouseWindowPos(const sf::Vector2f& rPos)
 {
-	sf::Mouse::setPosition(sf::Vector2i((int)rPos.x, (int)rPos.y), game.getWindow());
+	sf::Mouse::setPosition(sf::Vector2i((int)rPos.x, (int)rPos.y), getGame()->getWindow());
 	m_mouseWindowPos = rPos;
 }
 /// <summary>
@@ -153,7 +153,7 @@ void Player::getLiveInput()
 	if(m_controller == -1)
 		return;
 
-	cont = game.getUniverse().getControllerFactory().getController(m_controller);
+	cont = getGame()->getUniverse().getControllerFactory().getController(m_controller);
 	if(cont == nullptr)
 		return;
 
@@ -203,7 +203,7 @@ void Player::getLiveInput()
 			m_directives[Directive::ShowStore] = true;
 			std::list<Team> myTeam;
 			myTeam.push_back(this->getTeam());
-			auto ship = game.getUniverse().getNearestChunk(m_aim, nullptr, myTeam);
+			auto ship = getGame()->getUniverse().getNearestChunk(m_aim, nullptr, myTeam);
 
 			ShipBuilder::shipToGui(ship);
 		}
@@ -217,7 +217,7 @@ void Player::getLiveInput()
 		if(sf::Mouse::isButtonPressed(m_inCfg.secondary))
 			m_directives[Directive::FireSecondary] = true;
 
-		auto mouseSfmlWorldPos = game.getWindow().mapPixelToCoords(sf::Mouse::getPosition(game.getWindow()), m_camera.getView());
+		auto mouseSfmlWorldPos = getGame()->getWindow().mapPixelToCoords(sf::Mouse::getPosition(getGame()->getWindow()), m_camera.getView());
 		m_aim = (Vec2)Convert::screenToUniverse(Convert::flipYAxis(mouseSfmlWorldPos));
 
 		/**== DEVELOPER ==**/
@@ -229,13 +229,13 @@ void Player::getLiveInput()
 				spawnTimer.setCountDown(0.1f);
 				spawnTimer.restartCountDown();
 
-				game.getUniverse().spawnParticles("LowSparks", m_aim, Vec2(0, 0), Vec2(0, 0));
-				game.getSound().playSound("default.wav", m_aim);
+				getGame()->getUniverse().spawnParticles("LowSparks", m_aim, Vec2(0, 0), Vec2(0, 0));
+				getGame()->getSound().playSound("default.wav", m_aim);
 			}
 		}
 	}
 
-	m_mouseWindowPos = game.getWindow().mapPixelToCoords(sf::Mouse::getPosition(game.getWindow()), game.getStaticView());
+	m_mouseWindowPos = getGame()->getWindow().mapPixelToCoords(sf::Mouse::getPosition(getGame()->getWindow()), getGame()->getStaticView());
 
 	CommandInfo commands;
 	commands.directives = m_directives;
@@ -246,17 +246,17 @@ void Player::getLiveInput()
 }
 void Player::selectTarget(const Vec2& targetNearPos, const Chunk* playersShip)
 {
-	Chunk* newTarget = game.getUniverse().getNearestChunk(targetNearPos, playersShip);
+	Chunk* newTarget = getGame()->getUniverse().getNearestChunk(targetNearPos, playersShip);
 	if(newTarget != nullptr)
 	{
-		if(!hasTarget(newTarget))//if we don't already have that target
+		if(!hasTarget(newTarget->getFactoryPosition()))//if we don't already have that target
 		{
 			if(auto oldTarget = m_targets[m_nextTarget])
 			{
-				oldTarget->resetStatusBoard(wptr<leon::Grid>());//reset the old target
+				getGame()->getUniverse().getChunk(oldTarget)->resetStatusBoard(wptr<leon::Grid>());//reset the old target
 			}
 
-			m_targets[m_nextTarget] = newTarget;
+			m_targets[m_nextTarget] = newTarget->getFactoryPosition();
 			wptr<leon::Grid> grid = m_targetBoards[m_nextTarget];
 			newTarget->resetStatusBoard(grid);
 		}
@@ -266,11 +266,11 @@ void Player::selectTarget(const Vec2& targetNearPos, const Chunk* playersShip)
 	else
 		WARNING;
 }
-bool Player::hasTarget(const Chunk* newTarget)
+bool Player::hasTarget(int newTarget)
 {
 	for(auto it = m_targets.cbegin(); it != m_targets.cend(); ++it)
-		if(*it != newTarget)
-				return true;
+		if(*it == newTarget)
+			return true;
 
 	return false;
 }
@@ -284,7 +284,7 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 
 	Controller* cont = nullptr;
 	if(m_controller != -1)
-		cont = game.getUniverse().getControllerFactory().getController(m_controller);
+		cont = getGame()->getUniverse().getControllerFactory().getController(m_controller);
 
 
 	while(rWindow.pollEvent(event))
@@ -296,9 +296,9 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 		if(event.type == sf::Event::Resized)
 		{
 			//TODO WE MAY NEED TO ADJUST OTHER VIEW ELEMENTS???
-			game.resizeStaticView();
+			getGame()->resizeStaticView();
 			m_camera.resize();
-			game.getOverlay().getGui().handleEvent(event, false);
+			getGame()->getOverlay().getGui().handleEvent(event, false);
 		}
 
 		/** CLOSE **/
@@ -332,13 +332,13 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 				data << 1;
 				Message::SendUniverse(Message("universe", "upgrade", data, 0.f, false));
 			}
-			
+
 
 			/**== MAIN MENU ==**/
 			if(event.key.code == sf::Keyboard::Escape)
 			{
 				Message menu("overlay", "toggleMenu", voidPacket, 0, false);
-				game.getCoreIO().recieve(menu);
+				getGame()->getCoreIO().recieve(menu);
 			}
 			if(event.key.code == m_inCfg.grabTarget)
 			{
@@ -354,7 +354,7 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 			if(event.key.code == sf::Keyboard::Tab)
 			{
 				Message scoreboard("overlay", "toggleScoreboard", voidPacket, 0, false);
-				game.getCoreIO().recieve(scoreboard);
+				getGame()->getCoreIO().recieve(scoreboard);
 				//create message to display scoreboard overlay
 				//receive message
 			}
@@ -364,7 +364,7 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 		/**== GUI ==**/
 		if(m_inGuiMode)
 		{
-			game.getOverlay().handleEvent(event);
+			getGame()->getOverlay().handleEvent(event);
 		}
 		else
 		{
@@ -385,8 +385,8 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 				if(chunk != nullptr)
 				{
 					float zoomValue = rController.get(Request::Zoom);
-					float x1 = (float)game.getWindow().getSize().x; //getting the siz of x
-					float y1 = (float)game.getWindow().getSize().y; //getting the size of y
+					float x1 = (float)getGame()->getWindow().getSize().x; //getting the siz of x
+					float y1 = (float)getGame()->getWindow().getSize().y; //getting the size of y
 					float area = 1920 * 1080; // setting a fixed resolution
 					float area1 = x1*y1;
 
@@ -414,20 +414,20 @@ void Player::getWindowEvents(sf::RenderWindow& rWindow)//process window events
 
 				/**== DEVELOPER OPTIONS ==**/
 				if(event.key.code == sf::Keyboard::Numpad9)
-					game.getUniverse().toggleDebugDraw();
+					getGame()->getUniverse().toggleDebugDraw();
 				if(event.key.code == sf::Keyboard::Numpad5)
 					m_tracking = !m_tracking;
 				if(event.key.code == sf::Keyboard::Numpad4)
 					Print << "\n" << m_aim;
 				if(event.key.code == sf::Keyboard::Numpad0)
-					game.getUniverse().togglePause();
+					getGame()->getUniverse().togglePause();
 			}
 		}
 	}
 }
 void Player::build(String bpName, Vec2 pos)
 {
-	if(game.getUniverse().canBuildAtLocation(bpName, pos))
+	if(getGame()->getUniverse().canBuildAtLocation(bpName, pos))
 	{
 		ChunkDataMessage data;
 		data.aiControlled = false;
@@ -456,7 +456,7 @@ void Player::updateView()
 				sf::Packet data;
 				data << resourceValue;
 				Message setResource("hud_resource_" + String(resourceCounter), "setValue", data, 0, false);
-				game.getCoreIO().recieve(setResource);
+				getGame()->getCoreIO().recieve(setResource);
 				++resourceCounter;
 			}
 		}
@@ -506,7 +506,7 @@ void Player::updateView()
 
 
 			//Out of Bounds
-			Vec2 bounds = game.getUniverse().getBounds();
+			Vec2 bounds = getGame()->getUniverse().getBounds();
 			if(abs(location.x) > bounds.x || abs(location.y) > bounds.y)//if out of bounds
 				m_boundsDanger->getAnimator().setAnimation("Default", 2.f);
 
@@ -515,12 +515,16 @@ void Player::updateView()
 			int i = 0;
 			for(auto it = m_targets.begin(); it != m_targets.cend(); ++it, ++i)
 			{
-				if((*it) != nullptr)
+				int chunkPosition = *it;
+				Chunk* target = getGame()->getUniverse().getChunk(*it);
+
+				if(target != nullptr)
 				{
-					m_targetReticules[i]->setPosition((**it).getBodyComponent().getPosition());
+					m_targetReticules[i]->setPosition(target->getBodyComponent().getPosition());
 				}
 				else
 				{
+					*it = FactoryObject::NullPosition;
 					m_targetReticules[i]->setPosition(Vec2(-10000, -10000));
 				}
 			}
@@ -585,7 +589,7 @@ QuadComponentData createUI(sf::Vector2f size, String displayName)
 }
 void Player::loadOverlay(const String& rOverlay)
 {
-	Vec2 winDim((sf::Vector2f)game.getWindow().getSize());
+	Vec2 winDim((sf::Vector2f)getGame()->getWindow().getSize());
 	const float screenDist = 16.f;
 	const sf::Vector2f topLeftStart = sf::Vector2f(screenDist, screenDist);//Start of where the top left of the UI should be.
 
@@ -699,6 +703,7 @@ void Player::onBeforeUniverseDestroyed()
 	m_targetReticules.clear();
 	m_myStatusBoard.reset();
 	m_targetBoards.clear();
+	m_targets.clear();
 	// Clear, because otherwise, when we go 
 	// to add 4 more to it, the old null
 	// pointers are left behind and cause a crash.
@@ -755,7 +760,7 @@ void Player::input(String rCommand, sf::Packet rData)
 }
 const Resources* Player::getResources() const
 {
-	return &(game.getUniverse().getTeamResources(getTeam()));
+	return &(getGame()->getUniverse().getTeamResources(getTeam()));
 }
 bool Player::canChangeResources(const Resources& cost) const
 {

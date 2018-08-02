@@ -27,7 +27,7 @@ public:
 	/// Recieves a pointer to a component and stores it and remember the name and position.
 	int give(IOComponent* pComponent);
 	/// Marks the position as null and opens it for other IOComponents.
-	void free(int position);
+	void freeThis(int position);
 
 protected:
 private:

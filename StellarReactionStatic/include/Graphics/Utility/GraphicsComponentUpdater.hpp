@@ -16,7 +16,7 @@ public:
 	/// Pass in a pointer to an object that should get updated later.
 	void store(GraphicsComponent* pTarget);
 	/// Pass in a pointer to an object that should no longer be updated.
-	void free(GraphicsComponent* pTarget);
+	void freeThis(GraphicsComponent* pTarget);
 	/// Update all GraphicsComponents.
 	void update();
 

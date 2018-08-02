@@ -23,7 +23,7 @@ void DragUpdater::give(DragComponent* pComp)
 {
 	m_components.push_back(pComp);
 }
-void DragUpdater::free(DragComponent* pCompToDelete)
+void DragUpdater::freeThis(DragComponent* pCompToDelete)
 {
 	for(auto it = m_components.begin(); it != m_components.end(); ++it)
 		if(*it == pCompToDelete)

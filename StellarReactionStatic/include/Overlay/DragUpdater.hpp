@@ -8,7 +8,7 @@ namespace leon
 	class DragComponent;
 
 	/// <summary>
-	/// Held by Game. has update called to send mouse events to the drag components.
+	/// Held by getGame()-> has update called to send mouse events to the drag components.
 	/// </summary>
 	class DragUpdater : NonCopyable
 	{
@@ -24,7 +24,7 @@ namespace leon
 		/// Give a pointer to a DragComponent listening for dragging events.
 		void give(leon::DragComponent* pComp);
 		/// Remove an object from the listener.
-		void free(leon::DragComponent* pCompToDelete);
+		void freeThis(leon::DragComponent* pCompToDelete);
 
 	private:
 		List<leon::DragComponent*> m_components;

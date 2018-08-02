@@ -13,7 +13,7 @@ void GraphicsComponentUpdater::store(GraphicsComponent* pTarget)
 {
 	m_targets.push_back(pTarget);
 }
-void GraphicsComponentUpdater::free(GraphicsComponent* pTarget)
+void GraphicsComponentUpdater::freeThis(GraphicsComponent* pTarget)
 {
 	auto it = m_targets.begin();
 

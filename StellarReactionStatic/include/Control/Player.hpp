@@ -65,7 +65,7 @@ struct InputConfig
 struct PlayerData
 {
 	PlayerData() :
-		ioComp(&game.getCoreIO()),
+		ioComp(&getGame()->getCoreIO()),
 		keyConfig(),
 		tracking(true)
 	{
@@ -161,7 +161,7 @@ private:
 	
 	void selectTarget(const Vec2& targetNearPos, const Chunk* playersShip);
 	void createReticles();
-	bool hasTarget(const Chunk* target);
+	bool hasTarget(int newTarget);
 
 	///Where we are aiming in world coordinates.
 	Vec2 m_aim;
@@ -180,7 +180,7 @@ private:
 
 	int m_nextTarget;
 	int m_maxTargets;
-	List<Chunk* > m_targets;
+	List<int> m_targets;
 	List<sptr<leon::Grid> > m_targetBoards;
 	List<sptr<QuadComponent> > m_targetReticules;
 

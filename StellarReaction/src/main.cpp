@@ -1,19 +1,12 @@
 #include "Globals.hpp"
 
-
-//#define _CRTDBG_MAP_ALLOC
-//#include <stdlib.h>
-//#include <crtdbg.h>
-
-
 Game game;
-
 
 int main()
 {
-	game.run();
+	//getGame()->run();
 
-	//_CrtDumpMemoryLeaks;
+	_CrtDumpMemoryLeaks();
 
 	return 0;
 }

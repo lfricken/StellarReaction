@@ -64,7 +64,7 @@ public:
 	Scoreboard& getScoreboard();
 	/// Return the bounds of this Universe.
 	const Vec2& getBounds() const;
-	/// Set the bounds of the Universe. Leaving bounds pushes you back to the game.
+	/// Set the bounds of the Universe. Leaving bounds pushes you back to the getGame()->
 	void setBounds(const Vec2& bounds);
 
 	/// Return the physics time step. (how much the b2World's time increment is)
@@ -209,7 +209,6 @@ private:
 	Factory<Chunk> m_goList;// must be AFTER universe graphics//list of game objects that WE need to keep track of
 	Factory<ShipAI> m_shipAI;
 
-	List<Chunk* > m_capturePoints;
 	List<List<Vec2> > m_lanes;
 
 	/**Hazards**/

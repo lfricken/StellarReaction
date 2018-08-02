@@ -120,6 +120,7 @@
     <ClCompile Include="src\Headers\Convert.cpp" />
     <ClCompile Include="src\Basic\AINode.cpp" />
     <ClCompile Include="src\Weapon\ProjectileWeaponBase.cpp" />
+    <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Game\Directory.hpp" />
