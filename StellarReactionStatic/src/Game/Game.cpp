@@ -29,6 +29,9 @@ using namespace leon;
 
 Game::Game()
 {
+}
+void Game::initialize()
+{
 	m_spDragUpdater = sptr<DragUpdater>(new DragUpdater());
 
 	loadWindow(contentDir() + "settings/" + "window.ini");
@@ -141,14 +144,14 @@ Scoreboard& Game::getScoreboard()
 }
 void Game::launchGame(const GameLaunchData& data)
 {
-	game.loadUniverse("meaninglessString");
-	game.getUniverse().loadLevel(data);
+	getGame()->loadUniverse("meaninglessString");
+	getGame()->getUniverse().loadLevel(data);
 
 	sf::Packet boolean;
 	boolean << false;
 
 	Message closeMenu("overlay", "setMenu", boolean, 0, false);
-	game.getCoreIO().recieve(closeMenu);
+	getGame()->getCoreIO().recieve(closeMenu);
 }
 SoundManager& Game::getSound()
 {
@@ -165,8 +168,8 @@ void Game::updateTime()
 }
 void Game::runTicks(int ticks)
 {
-	if(game.getUniverse().isPaused())
-		game.getUniverse().togglePause();
+	if(getGame()->getUniverse().isPaused())
+		getGame()->getUniverse().togglePause();
 
 	sf::RenderWindow& rWindow = *m_spWindow;
 	float frameTime = 0;
@@ -179,13 +182,13 @@ void Game::runTicks(int ticks)
 		tick(frameTime);
 	}
 
-	if(!game.getUniverse().isPaused())
-		game.getUniverse().togglePause();
+	if(!getGame()->getUniverse().isPaused())
+		getGame()->getUniverse().togglePause();
 }
 void Game::runTime(float time)
 {
-	if(game.getUniverse().isPaused())
-		game.getUniverse().togglePause();
+	if(getGame()->getUniverse().isPaused())
+		getGame()->getUniverse().togglePause();
 
 	sf::RenderWindow& rWindow = *m_spWindow;
 	float frameTime = 0;
@@ -199,8 +202,8 @@ void Game::runTime(float time)
 			tick(frameTime);
 	}
 
-	if(!game.getUniverse().isPaused())
-		game.getUniverse().togglePause();
+	if(!getGame()->getUniverse().isPaused())
+		getGame()->getUniverse().togglePause();
 }
 /// <summary>
 /// Contains Main Game Loop
@@ -236,7 +239,7 @@ void Game::tick(float frameTime)
 	/**== IO ==**/
 	getCoreIO().update(frameTime);
 	getUniverse().getUniverseIO().update(frameTime);
-	game.updateTime();
+	getGame()->updateTime();
 
 	/**== PHYSICS ==**/
 	physTickTimeRemaining += frameTime;
@@ -298,7 +301,7 @@ void Game::tick(float frameTime)
 	rWindow.display();
 }
 /// <summary>
-/// Literally exits the game.
+/// Literally exits the getGame()->
 /// </summary>
 void Game::exit()
 {
@@ -321,7 +324,7 @@ void Game::loadUniverse(const String& stuff)
 
 	m_spUniverse->getUniverseIO().give(m_spIO.get());
 
-	if(game.getNwBoss().getNWState() == NWState::Client)
+	if(getGame()->getNwBoss().getNWState() == NWState::Client)
 		getUniverse().getUniverseIO().toggleAcceptsLocal(false);
 	else
 		getUniverse().getUniverseIO().toggleAcceptsLocal(true);
@@ -458,8 +461,8 @@ void Game::restartTest(const String& level)
 
 	data.level = level;
 	data.localController = -1;
-	game.launchGame(data);
+	getGame()->launchGame(data);
 
-	game.runTicks(10);
+	getGame()->runTicks(10);
 }
 

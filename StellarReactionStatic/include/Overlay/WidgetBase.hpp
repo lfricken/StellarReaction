@@ -49,7 +49,7 @@ namespace leon
 			screenCoords(-1, -1),
 			size(128, 64),
 			alpha(255),
-			ioComp(&game.getCoreIO()),
+			ioComp(&getGame()->getCoreIO()),
 			gridSize(0, 0),
 			movesWithMouse(false),
 			percievedDistance(100),

@@ -75,7 +75,7 @@ void DraggableSurface::setRealPositions(const List<Pair<String, sf::Vector2i> >&
 {
 	for(auto it = pos.cbegin(); it != pos.cend(); ++it)
 	{
-		auto pNewModuleData = dynamic_cast<const ShipModuleData*>(game.getUniverse().getBlueprints().getModuleSPtr(it->first).get());
+		auto pNewModuleData = dynamic_cast<const ShipModuleData*>(getGame()->getUniverse().getBlueprints().getModuleSPtr(it->first).get());
 
 		DraggableData draggable;
 		draggable.metaData = it->first;
@@ -103,7 +103,7 @@ sf::Vector2i DraggableSurface::fromWorldCoords(const sf::Vector2i& worldCoord) c
 }
 void DraggableSurface::addModuleToEditor(const String& title, sf::Vector2i shipModulePos)
 {
-	sptr<ShipModuleData> pNewModuleData = sptr<ShipModuleData>(dynamic_cast<ShipModuleData*>(game.getUniverse().getBlueprints().getModuleSPtr(title)->clone()));
+	sptr<ShipModuleData> pNewModuleData = sptr<ShipModuleData>(dynamic_cast<ShipModuleData*>(getGame()->getUniverse().getBlueprints().getModuleSPtr(title)->clone()));
 
 	DraggableData draggable;
 	draggable.metaData = title;
@@ -145,7 +145,7 @@ bool DraggableSurface::inputHook(const String rCommand, sf::Packet data)
 				{//give money
 					Resources cost;
 					String bpName = pDrag->getMetaData();
-					const auto& ref = game.getOverlay().storeData->buttonList;
+					const auto& ref = getGame()->getOverlay().storeData->buttonList;
 
 					for(auto it = ref.cbegin(); it != ref.cend(); ++it)
 					{
@@ -154,7 +154,7 @@ bool DraggableSurface::inputHook(const String rCommand, sf::Packet data)
 							cost = it->cost;
 						}
 					}
-					Resources::ChangeResourcesFromClient(cost.percentOf(0.5f), game.getLocalPlayer().getTeam());
+					Resources::ChangeResourcesFromClient(cost.percentOf(0.5f), getGame()->getLocalPlayer().getTeam());
 				}
 				m_widgetList.erase(it);
 				break;
@@ -165,7 +165,7 @@ bool DraggableSurface::inputHook(const String rCommand, sf::Packet data)
 	}
 	else if(rCommand == "buyModule")
 	{
-		Player& player = game.getLocalPlayer();
+		Player& player = getGame()->getLocalPlayer();
 
 		String title;
 		sf::Vector2i shipModulePos;
@@ -176,7 +176,7 @@ bool DraggableSurface::inputHook(const String rCommand, sf::Packet data)
 		data >> shipModulePos.y;
 		cost.fromPacket(&data);
 
-		const ModuleData* module = game.getUniverse().getBlueprints().getModuleSPtr(title).get();
+		const ModuleData* module = getGame()->getUniverse().getBlueprints().getModuleSPtr(title).get();
 		if(module != nullptr)
 		{
 			Resources delta;

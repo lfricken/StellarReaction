@@ -43,7 +43,7 @@ float Module::functionalCapacity()
 }
 void Module::applyModifierRates()
 {            
-	rangeModifiers.applyRateModifiers(game.getUniverse().getTimeStep());
+	rangeModifiers.applyRateModifiers(getGame()->getUniverse().getTimeStep());
 }
 void Module::prePhysUpdate()
 {
@@ -67,7 +67,7 @@ void Module::startContactCB(FixtureComponent* pOther)
 	//e.effect = "";
 	//e.normal = pOther->getCenter().to(this->m_fix.getCenter());
 	//e.pos
-	Weapon::damage(&game.getUniverse().getUniverseIO(), pOther->getIOPos(), m_collisionDamage, m_io.getPosition(), m_parent->getBodyComponent().getTeam(), Vec2(0, 0), Vec2(0, 0), "");
+	Weapon::damage(&getGame()->getUniverse().getUniverseIO(), pOther->getIOPos(), m_collisionDamage, m_io.getPosition(), m_parent->getBodyComponent().getTeam(), Vec2(0, 0), Vec2(0, 0), "");
 }
 void Module::endContactCB(FixtureComponent* pOther)
 {

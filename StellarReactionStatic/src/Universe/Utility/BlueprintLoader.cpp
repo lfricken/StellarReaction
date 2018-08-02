@@ -20,11 +20,11 @@ BlueprintLoader::~BlueprintLoader()
 }
 void BlueprintLoader::loadBlueprints(const String& rDir)
 {
-	List<Pair<String, String> > weapons = game.getDir().getAllFiles(rDir + "weapons", ".bp");
-	List<Pair<String, String> > modules = game.getDir().getAllFiles(rDir + "modules", ".bp");
-	List<Pair<String, String> > chunks = game.getDir().getAllFiles(rDir + "chunks", ".bp");
-	List<Pair<String, String> > projectiles = game.getDir().getAllFiles(rDir + "projectiles", ".bp");
-	List<Pair<String, String> > particles = game.getDir().getAllFiles(rDir + "particles", ".bp");
+	List<Pair<String, String> > weapons = getGame()->getDir().getAllFiles(rDir + "weapons", ".bp");
+	List<Pair<String, String> > modules = getGame()->getDir().getAllFiles(rDir + "modules", ".bp");
+	List<Pair<String, String> > chunks = getGame()->getDir().getAllFiles(rDir + "chunks", ".bp");
+	List<Pair<String, String> > projectiles = getGame()->getDir().getAllFiles(rDir + "projectiles", ".bp");
+	List<Pair<String, String> > particles = getGame()->getDir().getAllFiles(rDir + "particles", ".bp");
 
 	for(auto it = weapons.begin(); it != weapons.end(); ++it)
 		storeFromFile<WeaponData>(it->first, it->second, m_wepBP);

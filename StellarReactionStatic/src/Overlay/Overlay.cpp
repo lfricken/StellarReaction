@@ -28,7 +28,7 @@ void StoreLoader::StoreButtonLoader::loadJson(const Json::Value& root)
 	GETJSON(moduleBlueprint);
 	GETJSON(buttonName);
 
-	moduleBlueprint += String((int)game.getLocalPlayer().getTeam());
+	moduleBlueprint += String((int)getGame()->getLocalPlayer().getTeam());
 }
 bool StoreLoader::addRandomButton(leon::Panel* pStore)
 {
@@ -124,7 +124,7 @@ void StoreLoader::loadJson(const Json::Value& root)
 
 
 
-Overlay::Overlay(const IOComponentData& rData) : m_gui(game.getWindow()), m_io(rData, &Overlay::input, this)
+Overlay::Overlay(const IOComponentData& rData) : m_gui(getGame()->getWindow()), m_io(rData, &Overlay::input, this)
 {
 	m_gui.setGlobalFont(contentDir() + "TGUI/fonts/DejaVuSans.ttf");
 	m_menuShowing = true;
@@ -164,12 +164,12 @@ void Overlay::resetStore()
 void Overlay::loadMenus()
 {
 	auto pMain_menu = loadMainMenu();
-	game.getOverlay().addPanel(sptr<leon::Panel>(pMain_menu));
+	getGame()->getOverlay().addPanel(sptr<leon::Panel>(pMain_menu));
 	//load other menus
-	game.getOverlay().addPanel(sptr<leon::Panel>(loadConnectionHub(pMain_menu)));
-	game.getOverlay().addPanel(sptr<leon::Panel>(loadMultiplayerLobby(pMain_menu)));
-	game.getOverlay().addPanel(sptr<leon::Panel>(loadHud()));
-	game.getOverlay().addPanel(sptr<leon::Panel>(loadSellMenu()));
+	getGame()->getOverlay().addPanel(sptr<leon::Panel>(loadConnectionHub(pMain_menu)));
+	getGame()->getOverlay().addPanel(sptr<leon::Panel>(loadMultiplayerLobby(pMain_menu)));
+	getGame()->getOverlay().addPanel(sptr<leon::Panel>(loadHud()));
+	getGame()->getOverlay().addPanel(sptr<leon::Panel>(loadSellMenu()));
 
 	//unlock some initially for debugging
 
@@ -180,9 +180,9 @@ void Overlay::loadMenus()
 	messagePanel.ioComp.name = "message_panel";
 	messagePanel.startHidden = true;
 	messagePanel.backgroundColor = sf::Color::Blue;
-	messagePanel.screenCoords = sf::Vector2f(game.getWindow().getSize().x / 2 - closePanelSize.x / 2, game.getWindow().getSize().y / 2 - closePanelSize.y / 2);
+	messagePanel.screenCoords = sf::Vector2f(getGame()->getWindow().getSize().x / 2 - closePanelSize.x / 2, getGame()->getWindow().getSize().y / 2 - closePanelSize.y / 2);
 	messagePanel.size = sf::Vector2f(closePanelSize.x, closePanelSize.y);
-	leon::Panel* pMessBox = new leon::Panel(game.getOverlay().getGui(), messagePanel);
+	leon::Panel* pMessBox = new leon::Panel(getGame()->getOverlay().getGui(), messagePanel);
 	/**====OK====**/
 	leon::ButtonData closeMessBox;
 	closeMessBox.size = sf::Vector2f(50, 50);
@@ -194,7 +194,7 @@ void Overlay::loadMenus()
 	closeMessBox.ioComp.courierList.push_back(closeMess);
 	leon::WidgetBase* pClose = new leon::Button(*pMessBox->getPanelPtr(), closeMessBox);
 	pMessBox->add(sptr<leon::WidgetBase>(pClose));
-	game.getOverlay().addPanel(sptr<leon::Panel>(pMessBox));
+	getGame()->getOverlay().addPanel(sptr<leon::Panel>(pMessBox));
 }
 leon::Panel* Overlay::loadSellMenu()
 {
@@ -206,9 +206,9 @@ leon::Panel* Overlay::loadSellMenu()
 		data.ioComp.name = "return_selection";
 		data.startHidden = true;
 		data.backgroundColor = sf::Color(50, 50, 50, 128);
-		data.screenCoords = sf::Vector2f(game.getWindow().getSize().x / 2.f - panelSize.x / 2.f, game.getWindow().getSize().y / 2.f - panelSize.y / 2.f);
+		data.screenCoords = sf::Vector2f(getGame()->getWindow().getSize().x / 2.f - panelSize.x / 2.f, getGame()->getWindow().getSize().y / 2.f - panelSize.y / 2.f);
 		data.size = sf::Vector2f((float)panelSize.x, (float)panelSize.y);
-		panel = new leon::ReturnSelection(game.getOverlay().getGui(), data);
+		panel = new leon::ReturnSelection(getGame()->getOverlay().getGui(), data);
 	}
 	{
 		leon::ButtonData sell;
@@ -233,7 +233,7 @@ leon::Panel* Overlay::loadMainMenu()
 		mainMenuData.backgroundTex = "core/screen_1";
 		mainMenuData.screenCoords = sf::Vector2f(0, 0);
 		mainMenuData.size = sf::Vector2f(1920, 1080);
-		pMain_menu = new leon::Panel(game.getOverlay().getGui(), mainMenuData);
+		pMain_menu = new leon::Panel(getGame()->getOverlay().getGui(), mainMenuData);
 	}
 	//banner
 	{
@@ -322,7 +322,7 @@ leon::Panel* Overlay::loadConnectionHub(leon::Panel* pMain_menu)
 		multiplayerConnect.ioComp.name = "multiplayer_connect_lobby";
 		multiplayerConnect.startHidden = true;
 		multiplayerConnect.backgroundColor = sf::Color(50, 50, 50, 128);
-		multiplayerConnect.screenCoords = sf::Vector2f(game.getWindow().getSize().x / 2 - multPanelSize.x / 2, game.getWindow().getSize().y / 2 - multPanelSize.y / 2);
+		multiplayerConnect.screenCoords = sf::Vector2f(getGame()->getWindow().getSize().x / 2 - multPanelSize.x / 2, getGame()->getWindow().getSize().y / 2 - multPanelSize.y / 2);
 		multiplayerConnect.size = sf::Vector2f(multPanelSize.x, multPanelSize.y);
 		multiplayerConnect.movesWithMouse = true;
 		multiplayerConnect.percievedDistance = 30.f;
@@ -392,7 +392,7 @@ leon::Panel* Overlay::loadMultiplayerLobby(leon::Panel* pMain_menu)
 		lobbyPanel.ioComp.name = "lobby";
 		lobbyPanel.startHidden = true;
 		lobbyPanel.backgroundColor = sf::Color(50, 50, 50, 128);
-		lobbyPanel.screenCoords = sf::Vector2f(game.getWindow().getSize().x / 2 - lobbyPanelSize.x / 2, game.getWindow().getSize().y / 2 - lobbyPanelSize.y / 2);
+		lobbyPanel.screenCoords = sf::Vector2f(getGame()->getWindow().getSize().x / 2 - lobbyPanelSize.x / 2, getGame()->getWindow().getSize().y / 2 - lobbyPanelSize.y / 2);
 		lobbyPanel.size = sf::Vector2f(lobbyPanelSize.x, lobbyPanelSize.y);
 		pLobby = new leon::Panel(*pMain_menu->getPanelPtr(), lobbyPanel);
 	}
@@ -563,7 +563,7 @@ bool Overlay::addStoreButton()
 leon::Panel* Overlay::loadStore()
 {
 	leon::Panel* pStore = nullptr;
-	auto size = game.getWindow().getSize();
+	auto size = getGame()->getWindow().getSize();
 	sf::Vector2f storePanelSize = sf::Vector2f(size);
 
 	//load store first
@@ -572,9 +572,9 @@ leon::Panel* Overlay::loadStore()
 		storePanelData.ioComp.name = "store_default";
 		storePanelData.startHidden = true;
 		storePanelData.backgroundColor = sf::Color(50, 50, 50, 128);
-		storePanelData.screenCoords = sf::Vector2f(game.getWindow().getSize().x / 2 - storePanelSize.x / 2, game.getWindow().getSize().y / 2 - storePanelSize.y / 2);
+		storePanelData.screenCoords = sf::Vector2f(getGame()->getWindow().getSize().x / 2 - storePanelSize.x / 2, getGame()->getWindow().getSize().y / 2 - storePanelSize.y / 2);
 		storePanelData.size = sf::Vector2f(storePanelSize.x, storePanelSize.y);
-		pStore = new leon::Panel(game.getOverlay().getGui(), storePanelData);
+		pStore = new leon::Panel(getGame()->getOverlay().getGui(), storePanelData);
 	}
 	//close store button
 	{
@@ -666,7 +666,7 @@ leon::Panel* Overlay::loadHud()
 		hudPanelData.backgroundColor = sf::Color(50, 50, 50, 0);
 		hudPanelData.screenCoords = sf::Vector2f(768, 16);
 		hudPanelData.size = sf::Vector2f(textPanelSize.x, textPanelSize.y);
-		pHudPanel = new leon::Panel(game.getOverlay().getGui(), hudPanelData);
+		pHudPanel = new leon::Panel(getGame()->getOverlay().getGui(), hudPanelData);
 	}
 	//resources
 	Resources loop;
@@ -705,7 +705,7 @@ void Overlay::toggleMenu(bool show)//display menu, assume gui control, send paus
 	sf::Packet hideHUD;
 	hideHUD << (show);
 
-	Universe* x = &game.getUniverse();
+	Universe* x = &getGame()->getUniverse();
 
 	if(x->started)
 	{
@@ -716,11 +716,11 @@ void Overlay::toggleMenu(bool show)//display menu, assume gui control, send paus
 		Message mes4("hud_panel", "setHidden", hideHUD, 0, false);
 		Message mes5("resume_button", "setHidden", hideMenu, 0, false);
 
-		game.getCoreIO().recieve(mes1);
-		game.getCoreIO().recieve(mes2);
-		game.getCoreIO().recieve(mes3);
-		game.getCoreIO().recieve(mes4);
-		game.getCoreIO().recieve(mes5);
+		getGame()->getCoreIO().recieve(mes1);
+		getGame()->getCoreIO().recieve(mes2);
+		getGame()->getCoreIO().recieve(mes3);
+		getGame()->getCoreIO().recieve(mes4);
+		getGame()->getCoreIO().recieve(mes5);
 
 	}
 

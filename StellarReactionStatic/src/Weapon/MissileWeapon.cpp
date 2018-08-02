@@ -26,9 +26,9 @@ MissileWeapon::~MissileWeapon()
 }
 void MissileWeapon::preShot(const ShotData& data)
 {
-	ProjectileMan* manager = &game.getUniverse().getProjMan();
+	ProjectileMan* manager = &getGame()->getUniverse().getProjMan();
 
-	Chunk* target = game.getUniverse().getNearestChunk(data.aim);
+	Chunk* target = getGame()->getUniverse().getNearestChunk(data.aim);
 	if(target != nullptr)
 	{
 		Vec2 computedVelocity;
@@ -76,7 +76,7 @@ void MissileWeapon::preShot(const ShotData& data)
 		launchData.damage = m_damagePerShot;
 		launchData.collisions = m_collisions;
 
-		game.getUniverse().getProjMan().launchNewProjectile(launchData);
+		getGame()->getUniverse().getProjMan().launchNewProjectile(launchData);
 	}
 }
 void MissileWeapon::postShot(const ShotData& data)

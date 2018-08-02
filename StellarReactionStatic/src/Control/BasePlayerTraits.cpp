@@ -50,6 +50,6 @@ void BasePlayerTraits::setController(int index)
 //	pack << rPos.x;
 //	pack << rPos.y;
 //	Message modAdded("ship_editor", "addModuldeToGui", pack, 0.f, false);
-//	game.getCoreIO().recieve(modAdded);
+//	getGame()->getCoreIO().recieve(modAdded);
 //}
 

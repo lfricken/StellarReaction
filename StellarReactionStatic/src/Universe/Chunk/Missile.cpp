@@ -17,7 +17,7 @@ void Missile::launch(const LaunchData& data)
 {
 	Projectile::launch(data);
 
-	m_pTarget = game.getUniverse().getChunk(data.targetChunkPosition);
+	m_pTarget = getGame()->getUniverse().getChunk(data.targetChunkPosition);
 	m_acceleration = data.acceleration;
 	m_maxVelocity = data.maxVelocity;
 }

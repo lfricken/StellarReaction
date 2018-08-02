@@ -4,7 +4,7 @@
 #include "Money.hpp"
 #include "Team.hpp"
 
-///Data necessary to launch the game.
+///Data necessary to launch the getGame()->
 struct GameLaunchData
 {
 	struct PlayerData

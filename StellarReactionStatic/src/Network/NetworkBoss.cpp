@@ -40,7 +40,7 @@ void NetworkBoss::recieveLevel(sf::Packet& data)
 	data >> launchData.localController;
 
 	/**Launch the game!**/
-	game.launchGame(launchData);
+	getGame()->launchGame(launchData);
 }
 /// <summary>
 /// server deciding to launch the game
@@ -57,13 +57,13 @@ void NetworkBoss::launchMultiplayerGame()
 
 	//host
 	{
-//		game.getLocalPlayer().setMoney(initialMoney);
+//		getGame()->getLocalPlayer().setMoney(initialMoney);
 
 		data << "1";
-		data << game.getLocalPlayer().getName();
-		data << 3;// game.getLocalPlayer().getMoney();
-		data << game.getLocalPlayer().getShipChoice();
-		data << (int)game.getLocalPlayer().getTeam();
+		data << getGame()->getLocalPlayer().getName();
+		data << 3;// getGame()->getLocalPlayer().getMoney();
+		data << getGame()->getLocalPlayer().getShipChoice();
+		data << (int)getGame()->getLocalPlayer().getTeam();
 		data << false;
 	}
 	//for clients
@@ -193,7 +193,7 @@ void NetworkBoss::messageLobbyLocal(const String& rMessage)
 	sf::Packet data;
 	data << rMessage;
 	Message mes("lobby_chatbox", "addLineLocal", data, 0, true);
-	game.getCoreIO().recieve(mes);
+	getGame()->getCoreIO().recieve(mes);
 }
 /// <summary>
 /// anyone send a message to everyone
@@ -203,7 +203,7 @@ void NetworkBoss::messageLobby(const String& rMessage)
 	sf::Packet data;
 	data << rMessage;
 	Message mes("lobby_chatbox", "addLine", data, 0, true);
-	game.getCoreIO().recieve(mes);
+	getGame()->getCoreIO().recieve(mes);
 }
 bool NetworkBoss::isClient() const
 {
@@ -303,33 +303,33 @@ void NetworkBoss::setState(NWState state, bool open, bool acceptsLocal, bool hid
 	m_state = state;
 	m_isOpen = open;
 	m_connections.clear();
-	game.getUniverse().getUniverseIO().toggleAcceptsLocal(acceptsLocal);
+	getGame()->getUniverse().getUniverseIO().toggleAcceptsLocal(acceptsLocal);
 
 	Message clearChat("lobby_chatbox", "clear", voidPacket, 0, true);//clear chat
-	game.getCoreIO().recieve(clearChat);
+	getGame()->getCoreIO().recieve(clearChat);
 
 	sf::Packet pack1;
 	pack1 << hideLobby;
 	Message hideLobbyMes("lobby", "setHidden", pack1, 0, true);//show lobby
-	game.getCoreIO().recieve(hideLobbyMes);
+	getGame()->getCoreIO().recieve(hideLobbyMes);
 	
 	sf::Packet pack3;
 	if (state == NWState::Client){
 		pack3 << true;
 		Message hideLaunchButton("lobby_launch", "setHidden", pack3, 0, true);//hide launch
-		game.getCoreIO().recieve(hideLaunchButton);
+		getGame()->getCoreIO().recieve(hideLaunchButton);
 	}
 	else{
 		pack3 << false;
 		Message hideLaunchButton("lobby_launch", "setHidden", pack3, 0, true);//show launch
-		game.getCoreIO().recieve(hideLaunchButton);
+		getGame()->getCoreIO().recieve(hideLaunchButton);
 	}
 
 
 	sf::Packet pack2;
 	pack2 << hideConnectScreen;
 	Message hideMult("multiplayer_connect", "setHidden", pack2, 0, true); //hide multiplayer panel
-	game.getCoreIO().recieve(hideMult);
+	getGame()->getCoreIO().recieve(hideMult);
 	
 }
 /// <summary>
@@ -371,7 +371,7 @@ void NetworkBoss::udpRecieve()
 					if(proto != Protocol::End)
 					{
 						if(proto == Protocol::Control)
-							game.getUniverse().getControllerFactory().getNWFactory().process(data);
+							getGame()->getUniverse().getControllerFactory().getNWFactory().process(data);
 						else if(proto == Protocol::Data)
 							m_dataProtocol.process(data);
 						else if(proto == Protocol::PlayerTraits)
@@ -439,7 +439,7 @@ void NetworkBoss::tcpRecieve()
 						sf::Packet setNamePacket;
 
 						setNamePacket << "setName";
-						setNamePacket << game.getLocalPlayer().getName();
+						setNamePacket << getGame()->getLocalPlayer().getName();
 
 						if(m_connections.back()->validated())
 						{
@@ -487,7 +487,7 @@ void NetworkBoss::sendUdp()
 
 	//controller data
 	udpPacket.clear();
-	game.getUniverse().getControllerFactory().getNWFactory().getComponentData(udpPacket);
+	getGame()->getUniverse().getControllerFactory().getNWFactory().getComponentData(udpPacket);
 	for(int32_t i = 0; i < (signed)m_connections.size(); ++i)
 		m_connections[i]->sendUdp(Protocol::Control, udpPacket);
 	++counter;
@@ -635,7 +635,7 @@ void NetworkBoss::input(const String rCommand, sf::Packet rData)
 	else if(rCommand == "Protocol::PlayerOption")
 	{
 		if(getNWState() == NWState::Server)
-			playerOption(rData, &game.getLocalPlayer());
+			playerOption(rData, &getGame()->getLocalPlayer());
 		else
 			for(auto it = m_connections.begin(); it != m_connections.end(); ++it)
 				(*it)->sendTcp(Protocol::PlayerOption, rData);

@@ -5,7 +5,7 @@
 #include "CommandInfo.hpp"
 #include "Debugging.hpp"
 
-Controller::Controller(const ControllerData& rData) : m_aim(0, 0), m_io(rData.ioComp, &Controller::input, this), m_nw(rData.nwComp, &Controller::pack, &Controller::unpack, this, game.getUniverse().getControllerFactory().getNWFactory())
+Controller::Controller(const ControllerData& rData) : m_aim(0, 0), m_io(rData.ioComp, &Controller::input, this), m_nw(rData.nwComp, &Controller::pack, &Controller::unpack, this, getGame()->getUniverse().getControllerFactory().getNWFactory())
 {
 	m_local = false;
 	m_slavePosition = -1;
@@ -31,7 +31,7 @@ Controller::~Controller()
 void Controller::setSlave(const String& rSlaveName)
 {
 	m_slaveName = rSlaveName;
-	m_slavePosition = game.getUniverse().getChunkPosition(m_slaveName);
+	m_slavePosition = getGame()->getUniverse().getChunkPosition(m_slaveName);
 	if(m_slavePosition == -1)
 		throw new std::runtime_error("Controllers target doesn't exist yet.");
 }
@@ -55,7 +55,7 @@ const Vec2& Controller::getAim() const
 }
 Chunk* Controller::getChunk() const
 {
-	return game.getUniverse().getChunk(m_slavePosition);
+	return getGame()->getUniverse().getChunk(m_slavePosition);
 }
 /// <summary>
 /// Find our slave and set it to aim at a location
@@ -142,7 +142,7 @@ void Controller::pack(sf::Packet& rPacket)
 }
 void Controller::unpack(sf::Packet& rPacket)
 {
-	if(game.getNwBoss().getNWState() == NWState::Server)
+	if(getGame()->getNwBoss().getNWState() == NWState::Server)
 		m_nw.toggleNewData(true);//if we are the server and we got new data from a client about his control we need to tell the other clients
 
 	/**we need to extract the data no matter what**/

@@ -20,7 +20,7 @@ void ShieldComponent::entered(FixtureComponent* pOther)
 	//	int32_t ioPos = m_io.getPosition();
 	//	cause << ioPos;
 	//	Message mes(pOther->getIOPos(), "hitShield", cause, 0, false);
-	//	game.getUniverse().getUniverseIO().recieve(mes);
+	//	getGame()->getUniverse().getUniverseIO().recieve(mes);
 	//}
 	//else
 	//	this->toggleEnabled(false);

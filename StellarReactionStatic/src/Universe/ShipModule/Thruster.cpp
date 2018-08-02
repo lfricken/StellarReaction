@@ -57,7 +57,7 @@ void Thruster::directive(const CommandInfo& commands)
 }
 void Thruster::thrust(const Vec2& rDirMultiplier)
 {
-	float eThisStep = m_eConsump*game.getUniverse().getTimeStep();
+	float eThisStep = m_eConsump*getGame()->getUniverse().getTimeStep();
 	if(rDirMultiplier.len() > 1.0f)//if they are boosting at all
 		eThisStep *= m_boostCostMulti;//Boosting costs more.
 
@@ -73,7 +73,7 @@ void Thruster::thrust(const Vec2& rDirMultiplier)
 }
 void Thruster::torque(bool CCW)
 {
-	float eThisStep = m_eConsump*game.getUniverse().getTimeStep();
+	float eThisStep = m_eConsump*getGame()->getUniverse().getTimeStep();
 
 	if((*ranges)[RangeList::Energy].tryChange(-eThisStep))
 	{

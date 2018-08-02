@@ -46,7 +46,7 @@ void DebugDraw::DrawPolygon(const b2Vec2* vertices, int32 vertexCount, const b2C
 		auto pos = sf::Vector2f(Convert::flipYAxis(Convert::universeToScreen(Convert::worldToUniverse(point))));
 		m_convex2.setPoint(i, pos);
 	}
-	game.getWindow().draw(m_convex2);
+	getGame()->getWindow().draw(m_convex2);
 }
 void DebugDraw::DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color)
 {
@@ -56,7 +56,7 @@ void DebugDraw::DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, cons
 	{
 		m_convex.setPoint(i, sf::Vector2f(Convert::flipYAxis(Convert::universeToScreen(Convert::worldToUniverse(Vec2(vertices[i]))))));
 	}
-	game.getWindow().draw(m_convex);
+	getGame()->getWindow().draw(m_convex);
 }
 void DebugDraw::DrawCircle(const b2Vec2& center, float32 radius, const b2Color& color)
 {
@@ -64,7 +64,7 @@ void DebugDraw::DrawCircle(const b2Vec2& center, float32 radius, const b2Color& 
 
 	m_circle.setRadius(Convert::universeToScreen(Convert::worldToUniverse(radius)));
 	m_circle.setPosition(sf::Vector2f(Convert::flipYAxis(Convert::universeToScreen(Convert::worldToUniverse(Vec2(center))))));
-	game.getWindow().draw(m_circle);
+	getGame()->getWindow().draw(m_circle);
 }
 void DebugDraw::DrawSolidCircle(const b2Vec2& center, float32 radius, const b2Vec2& axis, const b2Color& color)
 {
@@ -76,7 +76,7 @@ void DebugDraw::DrawSolidCircle(const b2Vec2& center, float32 radius, const b2Ve
 	m_circle.setOrigin(radiusInPixels, radiusInPixels);
 	m_circle.setRadius(radiusInPixels);
 	m_circle.setPosition(sf::Vector2f(Convert::flipYAxis(Convert::universeToScreen(Convert::worldToUniverse(Vec2(center))))));
-	game.getWindow().draw(m_circle);
+	getGame()->getWindow().draw(m_circle);
 }
 void DebugDraw::DrawSegment(const b2Vec2& p1, const b2Vec2& p2, const b2Color& color)
 {
@@ -85,7 +85,7 @@ void DebugDraw::DrawSegment(const b2Vec2& p1, const b2Vec2& p2, const b2Color& c
 	m_line[0].position = Convert::flipYAxis(sf::Vector2f(Convert::universeToScreen(Convert::worldToUniverse(Vec2(p1)))));
 	m_line[1].position = Convert::flipYAxis(sf::Vector2f(Convert::universeToScreen(Convert::worldToUniverse(Vec2(p2)))));
 
-	game.getWindow().draw(m_line);
+	getGame()->getWindow().draw(m_line);
 }
 void DebugDraw::DrawTransform(const b2Transform& xf)
 {
@@ -94,7 +94,7 @@ void DebugDraw::DrawTransform(const b2Transform& xf)
 	m_line[0].position = Convert::flipYAxis(sf::Vector2f(Convert::universeToScreen(Convert::worldToUniverse(Vec2(Vec2(0, 0))))));
 	m_line[1].position = Convert::flipYAxis(sf::Vector2f(Convert::universeToScreen(Convert::worldToUniverse(Vec2(xf.p)))));
 
-	game.getWindow().draw(m_line);
+	getGame()->getWindow().draw(m_line);
 }
 void SetWindow(const sf::RenderWindow& rWindow)
 {

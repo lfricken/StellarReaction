@@ -7,11 +7,11 @@
 #include "Weapon.hpp"
 
 
-RegisterClass(WeaponData, ProjectileWeaponBaseData);
-RegisterClass(WeaponData, BallisticWeaponData);
-RegisterClass(WeaponData, MissileWeaponBlueprint);
-RegisterClass(WeaponData, LaserWeaponData);
-RegisterClass(WeaponData, GrappleWeaponData);
+//RegisterClass(WeaponData, ProjectileWeaponBaseData);
+//RegisterClass(WeaponData, BallisticWeaponData);
+//RegisterClass(WeaponData, MissileWeaponBlueprint);
+//RegisterClass(WeaponData, LaserWeaponData);
+//RegisterClass(WeaponData, GrappleWeaponData);
 
 
 

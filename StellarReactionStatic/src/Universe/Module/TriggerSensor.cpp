@@ -39,7 +39,7 @@ void TriggerSensor::prePhysUpdate()
 			if(damage < m_minDamage)
 				damage = m_minDamage;
 
-			Weapon::damage(&game.getUniverse().getUniverseIO(), (*it)->getIOPos(), damage, getFixtureComponent().getIOPos(), m_parent->getBodyComponent().getTeam(), Vec2(0, 0), Vec2(0, 0), "");
+			Weapon::damage(&getGame()->getUniverse().getUniverseIO(), (*it)->getIOPos(), damage, getFixtureComponent().getIOPos(), m_parent->getBodyComponent().getTeam(), Vec2(0, 0), Vec2(0, 0), "");
 		}
 		m_damageTimer.setCountDown(m_period);
 		m_damageTimer.restartCountDown();

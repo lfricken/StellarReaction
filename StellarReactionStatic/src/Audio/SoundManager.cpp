@@ -42,7 +42,7 @@ int SoundManager::playSound(const leon::Sound& sound)
 }
 int SoundManager::playSound(const String& rSoundName, const Vec2& rPos, int volume, float minDist, float dropOff, bool relative, bool looping, bool aquireLock)
 {
-	const float time = game.getTime();
+	const float time = getGame()->getTime();
 	auto i = getFreeNoise();
 	auto soundBuffer = loadSoundBuffer(rSoundName);
 

@@ -2,11 +2,11 @@
 
 using namespace leon;
 
-Tooltip::Tooltip(tgui::Gui& gui, const TooltipData& data) : Panel(gui, data), m_fadeTimer(game)
+Tooltip::Tooltip(tgui::Gui& gui, const TooltipData& data) : Panel(gui, data), m_fadeTimer(*getGame())
 {
 	f_init(data);
 }
-Tooltip::Tooltip(tgui::Container& container, const TooltipData& data) : Panel(container, data), m_fadeTimer(game)
+Tooltip::Tooltip(tgui::Container& container, const TooltipData& data) : Panel(container, data), m_fadeTimer(*getGame())
 {
 	f_init(data);
 }
@@ -20,7 +20,7 @@ void Tooltip::f_init(const TooltipData& data)
 	m_button.reset(new Button(*m_pPanel, data.buttonData));
 	add(m_button);
 
-	m_drag.reset(new DragComponent(&Tooltip::f_update, this, &game.getDragUpdater()));
+	m_drag.reset(new DragComponent(&Tooltip::f_update, this, &getGame()->getDragUpdater()));
 	m_fading = false;
 	m_drag->toggleDragging(true);
 

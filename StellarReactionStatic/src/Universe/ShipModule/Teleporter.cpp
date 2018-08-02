@@ -63,7 +63,7 @@ void Teleporter::directive(const CommandInfo& commands)
 
 		if(m_cooldownTimer.isTimeUp())
 		{
-			if(game.getUniverse().isClear(target, chunk->getRadius(), chunk))//check if the destination is clear
+			if(getGame()->getUniverse().isClear(target, chunk->getRadius(), chunk))//check if the destination is clear
 			{
 				if(chunk->getRanges()[RangeList::Energy].tryChange(-consumption))
 				{

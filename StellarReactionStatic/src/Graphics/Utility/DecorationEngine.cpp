@@ -29,7 +29,7 @@ void DecorationEngine::update(const Vec2& cameraPos, const Vec2& halfSize, const
 	const Vec2 bottomLeft = cameraPos - halfSize;
 	const Vec2 topRight = cameraPos + halfSize;
 	const float dTime = m_deltaTime.getTimeElapsed();
-	const float currentTime = game.getUniverse().getTime();
+	const float currentTime = getGame()->getUniverse().getTime();
 
 	{//particles fading in or fading
 
@@ -75,8 +75,8 @@ void DecorationEngine::loadJson(const Json::Value& decorations)
 {
 	m_deltaTime.getTimeElapsed();
 
-	//const float maxZoom = game.getLocalPlayer().getCamera().m_maxZoom;
-	//const float maxDim = (float)Math::max(game.getWindow().getSize().x / 2, game.getWindow().getSize().y / 2) / scale;
+	//const float maxZoom = getGame()->getLocalPlayer().getCamera().m_maxZoom;
+	//const float maxDim = (float)Math::max(getGame()->getWindow().getSize().x / 2, getGame()->getWindow().getSize().y / 2) / scale;
 	//const float halfSize = maxZoom * maxDim;
 
 
@@ -121,7 +121,7 @@ void DecorationEngine::spawnParticles(const String& particleBP, const Vec2& pos,
 		direction = Vec2(1, 1);
 	direction = direction.unit();
 
-	const Particles& effect = *game.getUniverse().getBlueprints().getParticleSPtr(particleBP);
+	const Particles& effect = *getGame()->getUniverse().getBlueprints().getParticleSPtr(particleBP);
 
 	DecorationData decorData;
 	Pair<float, float> expiration;
@@ -131,7 +131,7 @@ void DecorationEngine::spawnParticles(const String& particleBP, const Vec2& pos,
 	decorData.realPosition = pos;
 	decorData.zPos = 0;
 
-	float time = game.getUniverse().getTime();
+	float time = getGame()->getUniverse().getTime();
 
 	assert(!isinf(direction.x) && !isinf(direction.y));
 

@@ -113,7 +113,7 @@ struct ChunkData : public ModuleParentData
 {
 	ChunkData() :
 		minShieldPower(0.25),
-		ioComp(&game.getUniverse().getUniverseIO()),
+		ioComp(&getGame()->getUniverse().getUniverseIO()),
 		universeParent(nullptr)
 	{
 		title = "CHUNK_DEFAULT_TITLE";
@@ -152,7 +152,7 @@ private:
 };
 
 /// <summary>
-/// Used to create ALL chunks in the game.
+/// Used to create ALL chunks in the getGame()->
 /// </summary>
 struct ChunkDataMessage
 {

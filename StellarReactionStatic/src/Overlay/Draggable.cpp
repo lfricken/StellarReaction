@@ -20,7 +20,7 @@ void Draggable::f_initialize(const DraggableData& rData)
 {
 	m_metaData = rData.metaData;
 	m_pParent = rData.parentPtr;
-	m_spDrag = sptr<DragComponent>(new DragComponent(&Draggable::f_update, this, &game.getDragUpdater()));
+	m_spDrag = sptr<DragComponent>(new DragComponent(&Draggable::f_update, this, &getGame()->getDragUpdater()));
 	m_parentPanelOffset = rData.myPanelOffset;
 	m_spDrag->toggleDragging(false);
 
@@ -71,7 +71,7 @@ bool Draggable::callbackHook2(const tgui::Callback& callback)
 	{
 		sf::Vector2i grid = getGridPosition();
 
-		auto mousePos = sf::Mouse::getPosition(game.getWindow());
+		auto mousePos = sf::Mouse::getPosition(getGame()->getWindow());
 		auto myPos = getGridPosition();
 		sf::Packet data;
 		data << mousePos.x;
@@ -81,7 +81,7 @@ bool Draggable::callbackHook2(const tgui::Callback& callback)
 		data << true;//center it
 		data << true;//mouse off closes (otherwise you need a close button)
 		Message selection("return_selection", "show_sellscreen", data, 0, false);
-		game.getCoreIO().recieve(selection);
+		getGame()->getCoreIO().recieve(selection);
 		return true;
 	}
 	else

@@ -8,7 +8,7 @@
 /// </summary>
 void Message::SendUniverse(const Message& mes)
 {
-	game.getUniverse().getUniverseIO().recieve(mes);
+	getGame()->getUniverse().getUniverseIO().recieve(mes);
 }
 
 Message::Message()

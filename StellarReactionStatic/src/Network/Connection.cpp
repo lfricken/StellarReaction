@@ -156,7 +156,7 @@ void Connection::recieveSpecialIo(sf::Packet& rPacket)
 
 		Message mes((unsigned int)pos, command, messageData, delay, false);
 		mes.setName(name);
-		game.getCoreIO().recieve(mes);
+		getGame()->getCoreIO().recieve(mes);
 		
 		
 		delete[] pData;

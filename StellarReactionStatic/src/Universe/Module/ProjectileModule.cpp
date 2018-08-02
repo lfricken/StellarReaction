@@ -63,7 +63,7 @@ void ProjectileModule::entered(FixtureComponent* pOther)
 		const Vec2 theirVelocity = pOther->getParentBody()->getLinearVelocity();
 		const Vec2 impactVelocity = ourVelocity - theirVelocity;
 
-		Weapon::damage(&game.getUniverse().getUniverseIO(), pOther->getIOPos(), m_damage, m_launcherModuleIoPosition, m_friendlyTeam, m_fix.getCenter(), impactVelocity, "LowSparks");
+		Weapon::damage(&getGame()->getUniverse().getUniverseIO(), pOther->getIOPos(), m_damage, m_launcherModuleIoPosition, m_friendlyTeam, m_fix.getCenter(), impactVelocity, "LowSparks");
 
 		++m_currentCollisions;
 		if(m_currentCollisions >= m_maxCollisions)

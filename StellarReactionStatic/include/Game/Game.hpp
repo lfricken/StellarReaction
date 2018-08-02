@@ -34,6 +34,7 @@ class Game : public Clock, NonCopyable
 {
 public:
 	Game();
+	void initialize();
 	virtual ~Game();
 
 	/// Return reference to local Player.
@@ -84,7 +85,7 @@ public:
 	void runTicks(int ticks);
 	/// Run the game for a certain amount of time, variable ticks.
 	void runTime(float time);
-	/// Close the game.
+	/// Close the getGame()->
 	void exit(); 
 	/// <summary>
 	/// update internal time
@@ -105,13 +106,13 @@ private:
 	void loadUniverse(const String& stuff);
 
 
-	/// Icon for game.
+	/// Icon for getGame()->
 	sptr<sf::Image> m_spIcon;
 	/// IO component for global "game"
 	sptr<leon::DragUpdater> m_spDragUpdater;
 	/// The Global IO Manager for the game, which controlls all events (aka not networked or in game related, such as menus).
 	sptr<IOManager> m_spCoreIO;
-	/// Controls all sound for the game.
+	/// Controls all sound for the getGame()->
 	sptr<SoundManager> m_spSound;
 	/// Manages Network Connections.
 	sptr<NetworkBoss> m_spNetworkBoss;
@@ -123,7 +124,7 @@ private:
 	sptr<sf::View> m_spStaticView;
 	/// Wrapper for tgui GUI
 	sptr<leon::Overlay> m_spOverlay;
-	/// Allocates textures for game.
+	/// Allocates textures for getGame()->
 	sptr<TextureAllocator> m_spTexAlloc;
 	/// Loads and stores animations for QuadComponents
 	sptr<AnimAlloc> m_spAnimAlloc;

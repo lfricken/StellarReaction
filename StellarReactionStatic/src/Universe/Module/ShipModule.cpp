@@ -147,7 +147,7 @@ void ShipModule::input(String rCommand, sf::Packet rData)
 				{
 					const Vec2 bodyCenter = m_fix.getParentBody()->getPosition();
 					const Vec2 bounce = fromDir.bounce(bodyCenter.to(hitPoint));
-					game.getUniverse().spawnParticles(effect, hitPoint, bounce, m_fix.getParentBody()->getLinearVelocity());
+					getGame()->getUniverse().spawnParticles(effect, hitPoint, bounce, m_fix.getParentBody()->getLinearVelocity());
 				}
 			}
 
@@ -161,7 +161,7 @@ void ShipModule::input(String rCommand, sf::Packet rData)
 				{
 					int newModuleTarget = newTarget->m_io.getPosition();//damage it with excess damage
 					bool isBleed = true;
-					Weapon::damage(&game.getUniverse().getUniverseIO(), newModuleTarget, overkill, ioPosOfDealer, team, hitPoint, fromDir, effect, isBleed);
+					Weapon::damage(&getGame()->getUniverse().getUniverseIO(), newModuleTarget, overkill, ioPosOfDealer, team, hitPoint, fromDir, effect, isBleed);
 				}
 				else
 				{
@@ -216,7 +216,7 @@ void ShipModule::changeHealthState(int ioPosOfDealer)
 			sf::Packet pack;
 			pack << 1;
 			Message mess(ioPosOfDealer, "increase_score", pack, 0.0f, false);
-			game.getUniverse().getUniverseIO().recieve(mess);
+			getGame()->getUniverse().getUniverseIO().recieve(mess);
 		}
 		else if(m_health.hasCrits())
 		{
@@ -280,7 +280,7 @@ void ShipModule::f_died()
 	//SoundData sound;
 	//sound.name = "ExplodeSmall.wav";
 	//sound.pos = center;
-	//game.getSound().playSound(sound);
+	//getGame()->getSound().playSound(sound);
 }
 void ShipModule::toggleStealth(bool toggle)
 {
@@ -292,7 +292,7 @@ void ShipModule::healToMax()
 	packet << m_health.getMaxHealth() << m_fix.getIOPos();
 	Message mess;
 	mess.reset(m_fix.getIOPos(), "heal", packet, 0.f, false);
-	game.getUniverse().getUniverseIO().recieve(mess);
+	getGame()->getUniverse().getUniverseIO().recieve(mess);
 }
 
 

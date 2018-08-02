@@ -31,7 +31,7 @@ QuadComponent::QuadComponent(const QuadComponentData& rData) : GraphicsComponent
 	m_originTex[3] = sf::Vector2f(1, 0);
 
 
-	QuadData dat = game.getUniverse().getBatchLayers().request(rData.texName, rData.layer);
+	QuadData dat = getGame()->getUniverse().getBatchLayers().request(rData.texName, rData.layer);
 
 	m_pVerts = dat.vertexList;
 	m_startVert = dat.firstElement;

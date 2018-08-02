@@ -19,7 +19,7 @@ Picture::~Picture()
 }
 void Picture::f_initialize(const PictureData& rData)
 {
-	m_pPicture->loadFromTexture(*game.getTextureAllocator().request(rData.texName));
+	m_pPicture->loadFromTexture(*getGame()->getTextureAllocator().request(rData.texName));
 	f_assign(m_pPicture.get(), rData);
 }
 void Picture::load(const String& fullFilePath)
@@ -28,6 +28,6 @@ void Picture::load(const String& fullFilePath)
 }
 void Picture::setTexture(String texName)
 {
-	auto& texture = *game.getTextureAllocator().request(texName);
+	auto& texture = *getGame()->getTextureAllocator().request(texName);
 	m_pPicture->loadFromTexture(texture);
 }

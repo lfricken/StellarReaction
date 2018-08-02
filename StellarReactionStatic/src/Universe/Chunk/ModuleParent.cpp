@@ -72,7 +72,7 @@ float ModuleParent::maxWeaponRange()
 		if(turret != nullptr)
 		{
 			String title = turret->getWeapon()->getTitle();
-			const float thisWeaponRange = game.getUniverse().getBlueprints().getWeaponSPtr(title)->range;
+			const float thisWeaponRange = getGame()->getUniverse().getBlueprints().getWeaponSPtr(title)->range;
 			if(thisWeaponRange > range)
 				range = thisWeaponRange;
 		}
@@ -112,7 +112,7 @@ void ModuleParent::add(String bpName, const Vec2& pos)
 		}
 	}
 
-	auto dataPtr = sptr<ModuleData>(game.getUniverse().getBlueprints().getModuleSPtr(bpName)->clone());
+	auto dataPtr = sptr<ModuleData>(getGame()->getUniverse().getBlueprints().getModuleSPtr(bpName)->clone());
 	auto& data = *dataPtr;
 
 	data.fixComp.offset = pos;
@@ -129,7 +129,7 @@ void ModuleParent::add(ModuleData& data)
 	else if(this->allows(data))
 	{
 		sptr<ModuleData> moduleDataCopy(data.clone());
-		moduleDataCopy->ioComp.pMyManager = &game.getUniverse().getUniverseIO();
+		moduleDataCopy->ioComp.pMyManager = &getGame()->getUniverse().getUniverseIO();
 		ModuleData::GenerateParams params;
 		params.parent = this;
 		auto module = sptr<Module>(moduleDataCopy->generate(params));

@@ -34,7 +34,7 @@ void ShipBuilder::shipToGui(const Chunk* ship)
 		ShipBuilder::writeToPacket(list, &data);
 
 		Message ship("ship_editor", "setState", data, 0, false);
-		game.getCoreIO().recieve(ship);
+		getGame()->getCoreIO().recieve(ship);
 	}
 	else
 		WARNING;
@@ -78,7 +78,7 @@ void ShipBuilder::resetSlaveName()
 
 void ShipBuilder::Server::createChunk(const ChunkDataMessage& data, float delay)
 {
-	if(game.getNwBoss().getNWState() == NWState::Server)
+	if(getGame()->getNwBoss().getNWState() == NWState::Server)
 		ShipBuilder::Networked::createChunkFromClient(data, delay);
 }
 

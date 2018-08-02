@@ -8,7 +8,7 @@ const float Camera::m_minZoom = 1;
 Camera::Camera()
 {
 	m_zoomLevel = 1;
-	m_standardSize = static_cast<sf::Vector2f>(game.getWindow().getSize());
+	m_standardSize = static_cast<sf::Vector2f>(getGame()->getWindow().getSize());
 	m_view.setSize(m_standardSize);
 	m_view.setCenter(0,0);
 }
@@ -56,7 +56,7 @@ void Camera::setRotation(float radiansCCW)
 }
 void Camera::resize()
 {
-	m_standardSize = static_cast<sf::Vector2f>(game.getWindow().getSize());
+	m_standardSize = static_cast<sf::Vector2f>(getGame()->getWindow().getSize());
 	m_view.setSize(m_standardSize.x * m_zoomLevel, m_standardSize.y *m_zoomLevel);
 }
 

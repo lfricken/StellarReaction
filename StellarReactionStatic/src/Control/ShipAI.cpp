@@ -29,7 +29,7 @@ ShipAI::~ShipAI()
 }
 void ShipAI::onShipDestroyed()
 {
-	Controller* cont = game.getUniverse().getControllerFactory().getController(m_controller);
+	Controller* cont = getGame()->getUniverse().getControllerFactory().getController(m_controller);
 }
 void ShipAI::updateDecision()
 {
@@ -37,7 +37,7 @@ void ShipAI::updateDecision()
 	for(auto it = m_directives.begin(); it != m_directives.end(); ++it)
 		it->second = false;
 
-	Controller* cont = game.getUniverse().getControllerFactory().getController(m_controller);
+	Controller* cont = getGame()->getUniverse().getControllerFactory().getController(m_controller);
 	if(cont == nullptr)
 		return;
 	
@@ -97,7 +97,7 @@ void ShipAI::updateDecision()
 }
 Vec2 ShipAI::getLaneTarget(const Vec2& ourPos) const
 {
-	return game.getUniverse().getLaneTarget(getTeam(), m_lane, ourPos);
+	return getGame()->getUniverse().getLaneTarget(getTeam(), m_lane, ourPos);
 }
 void ShipAI::tryGetNewClosestTarget(const Vec2& ourPos, const Chunk* chunk)
 {
@@ -108,7 +108,7 @@ void ShipAI::tryGetNewClosestTarget(const Vec2& ourPos, const Chunk* chunk)
 		Team teams[] = { Team::One, Team::Two, Team::Three, Team::Four };
 		std::list<Team> teamList(teams, teams + 4);
 		teamList.remove(getTeam());
-		m_pCurrentTarget = game.getUniverse().getNearestChunk(ourPos, chunk, teamList);
+		m_pCurrentTarget = getGame()->getUniverse().getNearestChunk(ourPos, chunk, teamList);
 		if(auto target = m_pCurrentTarget)
 		{
 			const auto targetPos = target->getBodyComponent().getPosition();
@@ -129,7 +129,7 @@ void ShipAI::flyToTarget(Vec2 pos)
 }
 void ShipAI::angleToTarget(Vec2 target)
 {
-	Controller* cont = game.getUniverse().getControllerFactory().getController(m_controller);
+	Controller* cont = getGame()->getUniverse().getControllerFactory().getController(m_controller);
 	if(cont == nullptr)
 	{
 		WARNING;

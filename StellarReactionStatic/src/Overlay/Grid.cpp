@@ -75,7 +75,7 @@ namespace leon
 	void Grid::addHUDModule(const String& title, Vec2 shipModulePos)
 	{
 		sptr<ShipModuleData> moduleData;
-		moduleData.reset(dynamic_cast<ShipModuleData*>(game.getUniverse().getBlueprints().getModuleSPtr(title)->clone()));
+		moduleData.reset(dynamic_cast<ShipModuleData*>(getGame()->getUniverse().getBlueprints().getModuleSPtr(title)->clone()));
 		if(moduleData != nullptr)
 		{
 			dout << "\n " << title << "\t" << shipModulePos;

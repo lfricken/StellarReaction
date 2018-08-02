@@ -42,7 +42,7 @@ void BallisticWeapon::preShot(const ShotData& data)
 	launchData.damage = m_damagePerShot;
 	launchData.collisions = m_collisions;
 
-	game.getUniverse().getProjMan().launchNewProjectile(launchData);
+	getGame()->getUniverse().getProjMan().launchNewProjectile(launchData);
 }
 void BallisticWeapon::postShot(const ShotData& data)
 {

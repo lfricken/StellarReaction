@@ -8,7 +8,7 @@
 const String Animator::m_errorTiles = "Error";
 Animator::Animator(const String& setAnimationSheet)
 {
-	m_pSet = game.getAnimAlloc().request(setAnimationSheet);
+	m_pSet = getGame()->getAnimAlloc().request(setAnimationSheet);
 	m_startTime = m_timer.getTime();
 
 	m_currentDuration = 1.f;

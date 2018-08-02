@@ -31,7 +31,7 @@ QuadData QuadBatchContainer::request(const String& rTexName)///IMPLEMENT VERTEX 
 	else//It's a new texture!
 	{
 		m_vertexLists[rTexName] = sptr<Batch>(new Batch);
-		m_vertexLists[rTexName]->pTexture = game.getTextureAllocator().request(rTexName);
+		m_vertexLists[rTexName]->pTexture = getGame()->getTextureAllocator().request(rTexName);
 		it = m_vertexLists.find(rTexName);
 		it->second->vertexList.setPrimitiveType(sf::Quads);
 

@@ -13,17 +13,20 @@ template<class B>
 class Deduce
 {
 public:
-	///Deduce which derived class a String refers to, given a base type.
-	static B* from(const String& name, B* instance = nullptr)
+	/// <summary>
+	/// Deduce which derived class a String refers to, given a base type.
+	/// Pass a pointer to a new object to assign to the mapping.
+	/// </summary>
+	static const B* from(const String& name, B* instance = nullptr)
 	{
-		static std::map<String, B*> mapping;
+		static std::map<String, sptr<B> > mapping;
 		if(instance != nullptr)
 		{
-			mapping[name] = instance;
+			mapping[name] = sptr<B>(instance);
 			return nullptr;
 		}
-		else//should check if name is in map first
-			return mapping[name];
+		else // should check if name is in map first
+			return mapping[name].get();
 	}
 };
 

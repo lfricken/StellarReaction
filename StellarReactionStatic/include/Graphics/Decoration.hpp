@@ -94,7 +94,7 @@ private:
 struct DecorationData
 {
 	DecorationData() :
-		ioComp(&game.getUniverse().getUniverseIO()),
+		ioComp(&getGame()->getUniverse().getUniverseIO()),
 
 		minSpinRate(0),
 		maxSpinRate(0),

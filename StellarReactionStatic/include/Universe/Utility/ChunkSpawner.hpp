@@ -36,7 +36,7 @@ private:
 	/// </summary>
 	List<String> m_blueprints;
 	/// <summary>
-	/// Spawn limit. Can only spawn this many per game. -1 is unlimited.
+	/// Spawn limit. Can only spawn this many per getGame()-> -1 is unlimited.
 	/// </summary>
 	int m_spawnAmount;
 	/// <summary>

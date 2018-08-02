@@ -9,7 +9,7 @@
 ProjectileMan::ProjectileMan()
 {
 	// allow projectile manager to send and recieve events
-	IOComponentData data(&game.getUniverse().getUniverseIO());
+	IOComponentData data(&getGame()->getUniverse().getUniverseIO());
 	data.name = "projectileManager";
 	m_ioComponent.reset(new IOComponent(data, &ProjectileMan::input, this));
 }
@@ -89,7 +89,7 @@ void ProjectileMan::freeProjectile(Projectile* projectile)
 void ProjectileMan::addNew(const String& blueprint)
 {
 	List<sptr<Projectile> >& rProjs = std::get<Projectiles>(m_projectileList[blueprint]);
-	rProjs.push_back(sptr<Projectile>(game.getUniverse().getBlueprints().getProjectileSPtr(blueprint)->generate()));
+	rProjs.push_back(sptr<Projectile>(getGame()->getUniverse().getBlueprints().getProjectileSPtr(blueprint)->generate()));
 }
 void ProjectileMan::prePhysUpdate()
 {

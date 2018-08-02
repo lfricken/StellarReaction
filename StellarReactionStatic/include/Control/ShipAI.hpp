@@ -12,7 +12,7 @@ enum class Directive;
 /// \brief An AI designed to control a ship.
 ///
 /// A list of these are stored on the host, which send commands to Controllers.
-/// These controllers are synced between each Game.
+/// These controllers are synced between each getGame()->
 class ShipAI : public BasePlayerTraits, public FactoryObject, NonCopyable
 {
 public:

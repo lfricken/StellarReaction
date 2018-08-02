@@ -90,7 +90,7 @@ struct ModuleData : public BlueprintableData
 		rangeModifiers(),
 		name("defaultName"),
 		collisionDamage(0),
-		ioComp(&game.getUniverse().getUniverseIO()),
+		ioComp(&getGame()->getUniverse().getUniverseIO()),
 		nwComp(),
 		fixComp()
 	{

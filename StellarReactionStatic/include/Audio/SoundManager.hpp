@@ -11,7 +11,7 @@ namespace leon
 
 
 
-/// \brief Plays all sounds in game.
+/// \brief Plays all sounds in getGame()->
 ///
 /// We need a sound manager because there are a max number of sounds. So we want to prevent going over a certain number.
 /// Otherwise the program will crash.

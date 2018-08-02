@@ -43,7 +43,7 @@ void Projectile::setPayloadOnModules(int damage, Team team, int launcherModuleIo
 void Projectile::reset()
 {
 	m_inPlay = false;
-	game.getUniverse().getProjMan().freeProjectile(this);
+	getGame()->getUniverse().getProjMan().freeProjectile(this);
 	m_body.sleep();
 }
 void Projectile::prePhysUpdate()

@@ -8,9 +8,8 @@ const String& contentDir();
 const sf::Packet voidPacket;
 
 /// <summary>
-/// Globally accessible instance of Game.
+/// Globally accessible instance of getGame()->
 /// Declared in main.cpp
 /// </summary>
-extern Game game;
-
+extern Game* getGame(Game* instance = nullptr);
 

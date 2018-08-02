@@ -150,7 +150,7 @@ void Weapon::damage(IOManager* pMessageReciever, int ioTargetPos, int damageAmou
 void Weapon::damage(b2Fixture* pFixtureTakingDamage, int damageAmount, const Vec2& collisionPoint, const Vec2& fromDirection)
 {
 	FixtureComponent& rComp = *static_cast<FixtureComponent*>(pFixtureTakingDamage->GetUserData());
-	Weapon::damage(&game.getUniverse().getUniverseIO(), rComp.getIOPos(), (damageAmount / m_shots), m_pTempParent->getIOPos(), m_team, collisionPoint, fromDirection, m_effectName, false);
+	Weapon::damage(&getGame()->getUniverse().getUniverseIO(), rComp.getIOPos(), (damageAmount / m_shots), m_pTempParent->getIOPos(), m_team, collisionPoint, fromDirection, m_effectName, false);
 }
 QuadComponent* Weapon::getDecor()
 {

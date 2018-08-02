@@ -125,7 +125,7 @@ void WidgetBase::toggleHidden(bool hidden)
 
 		Message message;
 		message.reset("tooltip", "unsetTooltip", voidPacket, 0, false);
-		game.getCoreIO().recieve(message);
+		getGame()->getCoreIO().recieve(message);
 	}
 	else
 		show();
@@ -150,7 +150,7 @@ void WidgetBase::mouseMoveToPosition(sf::Vector2f pos)
 {
 	if(m_movesWithMouse)
 	{
-		auto size = (sf::Vector2f)game.getWindow().getSize();
+		auto size = (sf::Vector2f)getGame()->getWindow().getSize();
 		size.x /= 2;
 		size.y /= 2;
 		auto positionOffset = pos - size;

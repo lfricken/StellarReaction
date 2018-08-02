@@ -39,7 +39,7 @@ BodyComponent::BodyComponent(const BodyComponentData& rData)
 	moduleParent = nullptr;
 
 	if(rData.syncedNetwork)
-		m_nw.reset(new NetworkComponent(rData.nwComp, &BodyComponent::pack, &BodyComponent::unpack, this, game.getNwBoss().getNWDataFactory()));
+		m_nw.reset(new NetworkComponent(rData.nwComp, &BodyComponent::pack, &BodyComponent::unpack, this, getGame()->getNwBoss().getNWDataFactory()));
 
 	if(rData.isDynamic)
 		m_bodyDef.type = b2BodyType::b2_dynamicBody;
@@ -52,7 +52,7 @@ BodyComponent::BodyComponent(const BodyComponentData& rData)
 	m_bodyDef.angularDamping = rData.angularDampening;
 	m_bodyDef.linearDamping = rData.linearDampening;
 
-	m_pBody = game.getUniverse().getWorld().CreateBody(&m_bodyDef);
+	m_pBody = getGame()->getUniverse().getWorld().CreateBody(&m_bodyDef);
 	m_pBody->SetUserData(this);
 
 	if(!rData.startAwake) // if it should be asleep
@@ -84,17 +84,17 @@ Vec2 BodyComponent::getLinearVelocity() const
 }
 void BodyComponent::applyTorque(float torqueCCW)
 {
-	if(!game.getUniverse().isPaused())
+	if(!getGame()->getUniverse().isPaused())
 		m_pBody->ApplyTorque(torqueCCW, true);
 }
 void BodyComponent::applyForce(const Vec2& force)
 {
-	if(!game.getUniverse().isPaused())
+	if(!getGame()->getUniverse().isPaused())
 		m_pBody->ApplyForceToCenter(force, true);
 }
 void BodyComponent::applyForceOffset(const Vec2& force, const Vec2 offset)
 {
-	if(!game.getUniverse().isPaused())
+	if(!getGame()->getUniverse().isPaused())
 		m_pBody->ApplyForce(Convert::universeToWorld(force), offset, true);
 }
 void BodyComponent::setTransform(const Vec2& pos, float rotCCW)
@@ -165,7 +165,7 @@ void BodyComponent::sleep()
 
 	m_pBody->SetAngularVelocity(0);
 	m_pBody->SetLinearVelocity(Vec2(0, 0));
-	m_pBody->SetTransform(game.getUniverse().getBed(), 0);
+	m_pBody->SetTransform(getGame()->getUniverse().getBed(), 0);
 }
 void BodyComponent::wake()
 {

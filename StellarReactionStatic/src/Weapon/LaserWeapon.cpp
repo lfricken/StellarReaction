@@ -37,7 +37,7 @@ void LaserWeapon::preShot(const ShotData& data)
 	const Vec2 angle = data.weaponCenter.to(data.aim).unit();
 	const Vec2 laserVector = angle * m_range;
 	const Vec2 end = data.aim + laserVector;
-	game.getUniverse().getWorld().RayCast(&m_ray, Convert::universeToWorld(data.weaponCenter), Convert::universeToWorld(end));
+	getGame()->getUniverse().getWorld().RayCast(&m_ray, Convert::universeToWorld(data.weaponCenter), Convert::universeToWorld(end));
 }
 void LaserWeapon::postShot(const ShotData& data)
 {

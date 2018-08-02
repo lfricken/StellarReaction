@@ -89,13 +89,13 @@ void CaptureArea::prePhysUpdate()
 	if((m_oldProgress / m_captureTime) < m_capPercent && (m_progress / m_captureTime) >= m_capPercent)
 	{
 		m_owned = true;
-		//game.getUniverse().changeTeamMoney(m_currentTeam, m_value);
+		//getGame()->getUniverse().changeTeamMoney(m_currentTeam, m_value);
 	}
 	//we transitioned to not owning it
 	else if((m_oldProgress / m_captureTime) > m_capPercent && (m_progress / m_captureTime) <= m_capPercent)
 	{
 		m_owned = false;
-		//game.getUniverse().changeTeamMoney(m_currentTeam, -m_value);
+		//getGame()->getUniverse().changeTeamMoney(m_currentTeam, -m_value);
 	}
 
 	m_oldProgress = m_progress;

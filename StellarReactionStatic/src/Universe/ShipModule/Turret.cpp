@@ -62,7 +62,7 @@ void Turret::directive(const CommandInfo& commands)
 }
 void Turret::setWep(String wepName)
 {
-	auto wep = game.getUniverse().getBlueprints().getWeaponSPtr(wepName);
+	auto wep = getGame()->getUniverse().getBlueprints().getWeaponSPtr(wepName);
 	m_spWep.reset(wep->generate());
 	Team team = m_parent->getBodyComponent().getTeam();
 	m_spWep->setParentData(m_fix.getParentBody());

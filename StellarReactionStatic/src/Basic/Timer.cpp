@@ -47,7 +47,7 @@ float Timer::getTime() const//time elapsed as seconds since universe was initial
 	if(clock != nullptr)
 		return clock->getTime();
 	else
-		return game.getUniverse().getTime();
+		return getGame()->getUniverse().getTime();
 }
 float Timer::getTimeElapsed()//get time elapsed since we last called this function
 {

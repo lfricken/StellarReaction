@@ -18,7 +18,7 @@ SelectableItem::~SelectableItem()
 }
 void SelectableItem::f_initialize(const SelectableItemData& rData, void* container, bool isContainer)
 {
-	m_pic->loadFromTexture(*game.getTextureAllocator().request(rData.texName));
+	m_pic->loadFromTexture(*getGame()->getTextureAllocator().request(rData.texName));
 	m_pic->setPosition(rData.buttData.screenCoords);
 	m_pic->setSize(rData.buttData.size.x, rData.buttData.size.y);
 

@@ -5,11 +5,11 @@
 
 using namespace leon;
 
-Chatbox::Chatbox(tgui::Gui& gui, const ChatboxData& rData) : WidgetBase(gui, rData), m_pChatBox(gui), m_nw(rData.nwCompData, &Chatbox::pack, &Chatbox::unpack, this, game.getNwBoss().getNWFactoryTcp())
+Chatbox::Chatbox(tgui::Gui& gui, const ChatboxData& rData) : WidgetBase(gui, rData), m_pChatBox(gui), m_nw(rData.nwCompData, &Chatbox::pack, &Chatbox::unpack, this, getGame()->getNwBoss().getNWFactoryTcp())
 {
 	f_initialize(rData);
 }
-Chatbox::Chatbox(tgui::Container& container, const ChatboxData& rData = ChatboxData()) : WidgetBase(container, rData), m_pChatBox(container), m_nw(rData.nwCompData, &Chatbox::pack, &Chatbox::unpack, this, game.getNwBoss().getNWFactoryTcp())
+Chatbox::Chatbox(tgui::Container& container, const ChatboxData& rData = ChatboxData()) : WidgetBase(container, rData), m_pChatBox(container), m_nw(rData.nwCompData, &Chatbox::pack, &Chatbox::unpack, this, getGame()->getNwBoss().getNWFactoryTcp())
 {
 	f_initialize(rData);
 }
@@ -62,12 +62,12 @@ bool Chatbox::inputHook(const String rCommand, sf::Packet rData)
 	{
 		String text;
 		rData >> text;
-		text = game.getLocalPlayer().getName() + ": " + text;
+		text = getGame()->getLocalPlayer().getName() + ": " + text;
 
 		m_latest = text;
 		m_nw.toggleNewData(true);
 
-		if(!game.getNwBoss().isClient())//if we are a host, put it locally as well as to clients
+		if(!getGame()->getNwBoss().isClient())//if we are a host, put it locally as well as to clients
 			addLine(m_latest);
 		return true;
 	}
@@ -79,7 +79,7 @@ bool Chatbox::inputHook(const String rCommand, sf::Packet rData)
 		m_latest = text;
 		m_nw.toggleNewData(true);
 
-		if(!game.getNwBoss().isClient())//if we are a host, put it locally as well as to clients
+		if(!getGame()->getNwBoss().isClient())//if we are a host, put it locally as well as to clients
 			addLine(m_latest);
 		return true;
 	}
@@ -107,7 +107,7 @@ void Chatbox::unpack(sf::Packet& rPacket)//process data from our twin
 	String line;
 	rPacket >> line;
 	addLine(line);
-	if(game.getNwBoss().getNWState() == NWState::Server)
+	if(getGame()->getNwBoss().getNWState() == NWState::Server)
 	{
 		m_nw.toggleNewData(true);
 		m_latest = line;

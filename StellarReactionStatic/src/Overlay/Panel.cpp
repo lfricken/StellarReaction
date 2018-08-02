@@ -24,7 +24,7 @@ void Panel::f_initialize(const PanelData& rData)
 
 	m_pPanel->setBackgroundColor(rData.backgroundColor);
 	if(rData.backgroundTex != "")
-		m_pPanel->setBackgroundTexture(game.getTextureAllocator().request(rData.backgroundTex));
+		m_pPanel->setBackgroundTexture(getGame()->getTextureAllocator().request(rData.backgroundTex));
 
 	m_truePosition = getPosition();
 }

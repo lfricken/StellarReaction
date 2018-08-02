@@ -40,7 +40,7 @@ Decoration::Decoration(const DecorationData& data, sptr<GraphicsComponent> pGfx)
 
 
 	m_lastCameraPos = Vec2(0, 0);
-	m_maxZoom = game.getLocalPlayer().getCamera().m_maxZoom;
+	m_maxZoom = getGame()->getLocalPlayer().getCamera().m_maxZoom;
 	randSpin();
 	randVel();
 
@@ -101,7 +101,7 @@ void Decoration::randSpin()
 //}
 void Decoration::setPosition(const Vec2& rDesiredWorldPos)
 {
-	float zoom = game.getLocalPlayer().getCamera().getZoom();
+	float zoom = getGame()->getLocalPlayer().getCamera().getZoom();
 	{
 		float x = rDesiredWorldPos.x - m_lastCameraPos.x;//x dist from camera
 		const float slope = x / m_maxZoom;//slope
@@ -155,7 +155,7 @@ void Decoration::updateScaledPosition(const Vec2& rCameraCenter, const Vec2& bot
 		Vec2 appearPos(0, 0);
 		if(!m_infiniteZ)
 		{
-			const float zoom = game.getLocalPlayer().getCamera().getZoom();
+			const float zoom = getGame()->getLocalPlayer().getCamera().getZoom();
 			const float xDist = m_realPosition.x - rCameraCenter.x;
 			const float yDist = m_realPosition.y - rCameraCenter.y;
 			{
