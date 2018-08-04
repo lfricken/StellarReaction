@@ -275,7 +275,6 @@
     <ClInclude Include="include\API\SFML\Window\WindowStyle.hpp" />
     <ClInclude Include="include\Audio\Sound.hpp" />
     <ClInclude Include="include\Audio\SoundManager.hpp" />
-    <ClInclude Include="include\Basic\ClassRegister.hpp" />
     <ClInclude Include="include\Basic\Health.hpp" />
     <ClInclude Include="include\Basic\Timer.hpp" />
     <ClInclude Include="include\Control\BasePlayerTraits.hpp" />
@@ -460,6 +459,7 @@
     <ClInclude Include="include\Basic\Lanes.hpp" />
     <ClInclude Include="include\Basic\ISerializable.hpp" />
     <ClInclude Include="include\Weapon\ProjectileWeaponBase.hpp" />
+    <ClInclude Include="include\Game\ClassRegister.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\API\SFML\Audio\SoundFileFactory.inl" />

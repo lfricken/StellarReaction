@@ -133,8 +133,6 @@ struct ModuleData : public BlueprintableData
 	/// </summary>
 	virtual void loadJson(const Json::Value& root);
 
-	MyType(ModuleData, ModuleData);
-
 protected:
 	template<class Type, class TypeData>
 	/// <summary>

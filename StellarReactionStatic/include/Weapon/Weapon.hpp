@@ -157,8 +157,6 @@ struct WeaponData : public BlueprintableData
 	/// Upgrades this blueprint;
 	/// </summary>
 	virtual void applyUpgrade(UpgradeType type);
-
-	MyType(WeaponData, WeaponData);
 };
 
 #endif // WEAPON_HPP

@@ -23,8 +23,8 @@ int main()
 			sptr<Game> game(new Game());
 			getGame(game.get());
 			game->initialize();
+			getGame()->run();
 		}
-		//getGame()->run();
 	}
 
 	_CrtDumpMemoryLeaks();

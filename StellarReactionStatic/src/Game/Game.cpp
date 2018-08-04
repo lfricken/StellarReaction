@@ -24,6 +24,10 @@
 #include "Projectile.hpp"
 #include "Directory.hpp"
 #include "DecorationEngine.hpp"
+#include "Weapon.hpp"
+
+#define REGISTER(base, type) \
+instance->store<base>(#type, new type())
 
 using namespace leon;
 
@@ -32,6 +36,50 @@ Game::Game()
 }
 void Game::initialize()
 {
+	auto instance = new ClassRegister<ModuleData, ChunkData, WeaponData, ProjectileData>();
+	classRegister.reset(instance);
+
+	// put all this in another cpp file to avoid header bloat
+
+	REGISTER(ModuleData, TurretData);
+	REGISTER(ModuleData, CapacitorData);
+
+	REGISTER(ModuleData, ShipModuleData);
+	REGISTER(ModuleData, PlatingData);
+
+	REGISTER(ModuleData, RadarData);
+	REGISTER(ModuleData, ReactorData);
+
+	REGISTER(ModuleData, ModuleData);
+	REGISTER(ModuleData, ProjectileModuleData);
+
+	REGISTER(ModuleData, ThrusterData);
+	REGISTER(ModuleData, StealthData);
+
+	REGISTER(ModuleData, CaptureGraphicData);
+	REGISTER(ModuleData, BlackHoleGraphicData);
+	REGISTER(ModuleData, TriggerSensorData);
+	REGISTER(ModuleData, GravityFieldData);
+	REGISTER(ModuleData, CaptureAreaData);
+	REGISTER(ModuleData, SensorData);
+
+	REGISTER(ModuleData, MindData);
+	REGISTER(ModuleData, ExtractorData);
+	REGISTER(ModuleData, ReplicatorData);
+	REGISTER(ModuleData, RelayData);
+
+	REGISTER(ModuleData, ShieldData);
+	REGISTER(ModuleData, ShieldComponentData);
+
+	REGISTER(ModuleData, LootData);
+
+
+
+	REGISTER(Particles, Particles);
+
+
+
+
 	m_spDragUpdater = sptr<DragUpdater>(new DragUpdater());
 
 	loadWindow(contentDir() + "settings/" + "window.ini");

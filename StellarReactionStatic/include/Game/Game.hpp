@@ -105,7 +105,7 @@ private:
 	/// Load the universe. Input does nothing at the moment.
 	void loadUniverse(const String& stuff);
 
-
+	sptr<void> classRegister;
 	/// Icon for getGame()->
 	sptr<sf::Image> m_spIcon;
 	/// IO component for global "game"

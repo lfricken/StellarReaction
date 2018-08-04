@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Game\ClassRegister.hpp" />
     <ClInclude Include="include\Weapon\ProjectileWeaponBase.hpp" />
     <ClInclude Include="include\Basic\AINode.hpp" />
     <ClInclude Include="include\Basic\BuildBounds.hpp" />
@@ -239,7 +240,6 @@
     <ClInclude Include="include\Audio\Sound.hpp" />
     <ClInclude Include="include\Audio\SoundManager.hpp" />
     <ClInclude Include="include\Weapon\BallisticWeapon.hpp" />
-    <ClInclude Include="include\Basic\ClassRegister.hpp" />
     <ClInclude Include="include\Basic\Health.hpp" />
     <ClInclude Include="include\Weapon\LaserWeapon.hpp" />
     <ClInclude Include="include\Weapon\MissileWeapon.hpp" />

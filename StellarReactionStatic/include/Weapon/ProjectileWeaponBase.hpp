@@ -54,6 +54,4 @@ struct ProjectileWeaponBaseData : public WeaponData
 	}
 
 	virtual void loadJson(const Json::Value& root);
-
-	MyType(WeaponData, ProjectileWeaponBaseData);
 };

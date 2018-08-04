@@ -148,7 +148,6 @@ private:
 		return sptr<Chunk>(new Chunk(copy));
 	}
 	void loadModules(const Json::Value& root);
-	MyType(ChunkData, ChunkData);
 };
 
 /// <summary>

@@ -48,8 +48,6 @@ struct BallisticWeaponData : public ProjectileWeaponBaseData
 	}
 	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
-
-	MyType(WeaponData, BallisticWeaponData);
 };
 
 #endif // BALLISTICWEAPON_HPP

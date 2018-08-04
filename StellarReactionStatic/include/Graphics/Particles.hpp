@@ -67,6 +67,4 @@ public:
 
 	virtual void loadJson(const Json::Value& root);
 	virtual Particles* clone() const;
-
-	MyType(Particles, Particles);
 };

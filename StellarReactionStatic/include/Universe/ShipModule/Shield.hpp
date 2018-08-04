@@ -56,8 +56,6 @@ struct ShieldComponentData : public SensorData
 	}
 	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
-
-	MyType(ModuleData, ShieldComponentData);
 };
 
 /// ShipModule that controls a ShieldComponent.
@@ -137,7 +135,6 @@ struct ShieldData : public ShipModuleData
 	}
 	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
-	MyType(ModuleData, ShieldData);
 };
 
 #endif // SHIELD_HPP

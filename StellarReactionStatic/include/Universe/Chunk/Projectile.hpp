@@ -102,8 +102,6 @@ struct ProjectileData : public ModuleParentData
 	}
 	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
-
-	MyType(ProjectileData, ProjectileData);
 };
 
 #endif // PROJECTILE_HPP

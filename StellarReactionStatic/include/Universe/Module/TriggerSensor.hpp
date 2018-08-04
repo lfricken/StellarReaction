@@ -49,7 +49,5 @@ struct TriggerSensorData : public SensorData
 	}
 	///Fill this object with data from a json file.
 	virtual void loadJson(const Json::Value& root);
-
-	MyType(ModuleData, TriggerSensorData);
 };
 
