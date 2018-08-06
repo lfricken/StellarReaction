@@ -5,6 +5,7 @@
 #include "JSON.hpp"
 #include "NonCopyable.hpp"
 #include "Debugging.hpp"
+#include "ClassRegisterType.hpp"
 
 struct ModuleData;
 struct ProjectileData;
@@ -106,7 +107,12 @@ private:
 			Print << "\nClassName not found in [" << title << "].";
 		}
 
-		const T* instance = Deduce<T>::from(ClassName);
+
+		//std::tuple<int, double> mappings;
+		//const auto * instance = &std::get<int>(mappings);
+
+		ClassRegisterType* reg = static_cast<ClassRegisterType*>(getGame()->getClassRegister());
+		const T* instance = reg->deduce<T>(ClassName);
 
 		if(instance != nullptr)//we derived it!
 		{

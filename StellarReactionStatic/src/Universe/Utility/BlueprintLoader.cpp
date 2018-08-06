@@ -1,14 +1,13 @@
 #include "BlueprintLoader.hpp"
 
 #include "Directory.hpp"
-
-#include "ModuleRegistration.hpp"
-#include "WeaponRegistration.hpp"
-#include "ChunkRegistration.hpp"
-#include "ProjectileRegistration.hpp"
 #include "Debugging.hpp"
 
-
+#include "Weapon.hpp"
+#include "Module.hpp"
+#include "Chunk.hpp"
+#include "Projectile.hpp"
+#include "Particles.hpp"
 
 BlueprintLoader::BlueprintLoader()
 {

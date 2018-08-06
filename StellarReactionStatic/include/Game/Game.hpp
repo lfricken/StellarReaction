@@ -92,10 +92,17 @@ public:
 	/// </summary>
 	void updateTime();
 
+	void* getClassRegister();
+
 protected:
 	void input(String rCommand, sf::Packet rData);
 
 private:
+	/// <summary>
+	/// Register classes.
+	/// </summary>
+	void registerClasses();
+	sptr<void> classRegister;
 	/// Increment the game loop one step, telling it that frameTime seconds have passed.
 	void tick(float frameTime);
 	/// Loads player data from a file.
@@ -105,7 +112,6 @@ private:
 	/// Load the universe. Input does nothing at the moment.
 	void loadUniverse(const String& stuff);
 
-	sptr<void> classRegister;
 	/// Icon for getGame()->
 	sptr<sf::Image> m_spIcon;
 	/// IO component for global "game"

@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Game\ClassRegister.hpp" />
+    <ClInclude Include="include\Game\ClassRegisterType.hpp" />
     <ClInclude Include="include\Weapon\ProjectileWeaponBase.hpp" />
     <ClInclude Include="include\Basic\AINode.hpp" />
     <ClInclude Include="include\Basic\BuildBounds.hpp" />
@@ -246,7 +247,6 @@
     <ClInclude Include="include\Basic\Range.hpp" />
     <ClInclude Include="include\Basic\Timer.hpp" />
     <ClInclude Include="include\Weapon\Weapon.hpp" />
-    <ClInclude Include="include\Weapon\WeaponRegistration.hpp" />
     <ClInclude Include="include\Control\BasePlayerTraits.hpp" />
     <ClInclude Include="include\Control\Camera.hpp" />
     <ClInclude Include="include\Control\ControlFactory.hpp" />
@@ -303,15 +303,12 @@
     <ClInclude Include="include\Physics\CollisionCategory.hpp" />
     <ClInclude Include="include\Physics\FixtureComponent.hpp" />
     <ClInclude Include="include\Universe\Chunk\Chunk.hpp" />
-    <ClInclude Include="include\Universe\Chunk\ChunkRegistration.hpp" />
     <ClInclude Include="include\Universe\Chunk\Missile.hpp" />
     <ClInclude Include="include\Universe\Chunk\Projectile.hpp" />
-    <ClInclude Include="include\Universe\Chunk\ProjectileRegistration.hpp" />
     <ClInclude Include="include\Universe\Utility\ChunkSpawner.hpp" />
     <ClInclude Include="include\Universe\Module\CaptureArea.hpp" />
     <ClInclude Include="include\Universe\Module\GravityField.hpp" />
     <ClInclude Include="include\Universe\Module\Module.hpp" />
-    <ClInclude Include="include\Universe\Module\ModuleRegistration.hpp" />
     <ClInclude Include="include\Universe\Module\ProjectileModule.hpp" />
     <ClInclude Include="include\Universe\Module\Sensor.hpp" />
     <ClInclude Include="include\Universe\Module\ShipModule.hpp" />
@@ -349,6 +346,7 @@
     <ClInclude Include="include\Basic\ISerializable.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Game\RegisterFunction.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Weapon\ProjectileWeaponBase.cpp" />
     <ClCompile Include="src\Basic\AINode.cpp" />

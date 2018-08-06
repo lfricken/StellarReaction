@@ -121,6 +121,7 @@
     <ClCompile Include="src\Basic\AINode.cpp" />
     <ClCompile Include="src\Weapon\ProjectileWeaponBase.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Game\RegisterFunction.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Game\Directory.hpp" />
@@ -323,10 +324,8 @@
     <ClInclude Include="include\Physics\CollisionCategory.hpp" />
     <ClInclude Include="include\Physics\FixtureComponent.hpp" />
     <ClInclude Include="include\Universe\Chunk\Chunk.hpp" />
-    <ClInclude Include="include\Universe\Chunk\ChunkRegistration.hpp" />
     <ClInclude Include="include\Universe\Chunk\Missile.hpp" />
     <ClInclude Include="include\Universe\Chunk\Projectile.hpp" />
-    <ClInclude Include="include\Universe\Chunk\ProjectileRegistration.hpp" />
     <ClInclude Include="include\Universe\Module\CaptureArea.hpp" />
     <ClInclude Include="include\Universe\Module\GravityField.hpp" />
     <ClInclude Include="include\Universe\Module\Module.hpp" />
@@ -345,7 +344,6 @@
     <ClInclude Include="include\Universe\Universe.hpp" />
     <ClInclude Include="include\Control\ShipAI.hpp" />
     <ClInclude Include="include\Weapon\Weapon.hpp" />
-    <ClInclude Include="include\Weapon\WeaponRegistration.hpp" />
     <ClInclude Include="include\Weapon\MissileWeapon.hpp" />
     <ClInclude Include="include\Weapon\LaserWeapon.hpp" />
     <ClInclude Include="include\Weapon\GrappleWeapon.hpp" />
@@ -358,7 +356,6 @@
     <ClInclude Include="include\Universe\Utility\ProjectileMan.hpp" />
     <ClInclude Include="include\Universe\Utility\RayCastCallback.hpp" />
     <ClInclude Include="include\Universe\Utility\UniversalContactListener.hpp" />
-    <ClInclude Include="include\Universe\Module\ModuleRegistration.hpp" />
     <ClInclude Include="include\Universe\Utility\LaunchGame.hpp" />
     <ClInclude Include="include\Universe\Module\CaptureGraphic.hpp" />
     <ClInclude Include="include\Universe\Module\BlackHoleGraphic.hpp" />
@@ -460,6 +457,7 @@
     <ClInclude Include="include\Basic\ISerializable.hpp" />
     <ClInclude Include="include\Weapon\ProjectileWeaponBase.hpp" />
     <ClInclude Include="include\Game\ClassRegister.hpp" />
+    <ClInclude Include="include\Game\ClassRegisterType.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\API\SFML\Audio\SoundFileFactory.inl" />
