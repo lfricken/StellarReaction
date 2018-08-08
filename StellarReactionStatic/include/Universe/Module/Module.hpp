@@ -35,7 +35,7 @@ public:
 	/// <summary>
 	/// Get center of this module with respect to center of body.
 	/// </summary>
-	const Vec2& getOffset() const;
+	Vec2 getOffset() const;
 	///Get name of module.
 	const String& getName() const;
 	///Set stealth to on or off.

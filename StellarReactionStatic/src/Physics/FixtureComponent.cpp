@@ -62,7 +62,7 @@ FixtureComponent::FixtureComponent(const FixtureComponentData& rData)
 	{
 		m_spShape = sptr<b2Shape>(new b2PolygonShape);
 		const int vertCount = rData.vertices.size();
-		b2Vec2* vecs = new b2Vec2[];
+		b2Vec2* vecs = new b2Vec2[vertCount];
 		for(int i = 0; i < vertCount; ++i)
 		{
 			vecs[i] = Convert::universeToWorld(rData.vertices[i]);

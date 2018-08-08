@@ -24,10 +24,10 @@ List<std::pair<String, String> > Directory::getAllFiles(const String& rDir, bool
 	List<std::pair<String, String> > list;
 	for(std::tr2::sys::recursive_directory_iterator it(m_contentDir + rDir), end; it != end; ++it)
 		if(!is_directory(it->path()))
-			if((*evalFunc)(it->path().extension()))
+			if((*evalFunc)(it->path().extension().string()))
 			{
-				String fileName = it->path().basename();
-				String fullPath = it->path().directory_string();
+				String fileName = it->path().root_name().string();
+				String fullPath = it->path().root_directory().string();
 				list.push_back(std::pair<String, String>(fileName, fullPath));
 			}
 
@@ -39,10 +39,10 @@ List<std::pair<String, String> > Directory::getAllFiles(const String& rDir, cons
 	List<std::pair<String, String> > list;
 	for(std::tr2::sys::recursive_directory_iterator it(m_contentDir + rDir), end; it != end; ++it)
 		if(!is_directory(it->path()))
-			if(it->path().extension() == extension)
+			if(it->path().extension().string() == extension)
 			{
-				String fileName = it->path().basename();
-				String fullPath = it->path().directory_string();
+				String fileName = it->path().root_name().string();
+				String fullPath = it->path().root_directory().string();
 				list.push_back(std::pair<String, String>(fileName, fullPath));
 			}
 

@@ -81,7 +81,7 @@ void Module::unpack(sf::Packet& rPacket)
 {
 
 }
-const Vec2& Module::getOffset() const
+Vec2 Module::getOffset() const
 {
 	return m_fix.getOffset();
 }
