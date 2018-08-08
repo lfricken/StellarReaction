@@ -1,5 +1,0 @@
-# CMake generation dependency list for this directory.
-C:/Users/leon/Desktop/projects/StellarReaction/libsrc/TGUI-0.6.10/TGUI-0.6.10/src/TGUI/CMakeLists.txt
-C:/Program Files/CMake/share/cmake-3.9/Modules/FindOpenGL.cmake
-C:/Program Files/CMake/share/cmake-3.9/Modules/FindPackageHandleStandardArgs.cmake
-C:/Program Files/CMake/share/cmake-3.9/Modules/FindPackageMessage.cmake
