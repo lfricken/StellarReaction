@@ -111,7 +111,8 @@ private:
 		//std::tuple<int, double> mappings;
 		//const auto * instance = &std::get<int>(mappings);
 
-		ClassRegisterType* reg = static_cast<ClassRegisterType*>(getGame()->getClassRegister());
+		void* t = getGame()->getClassRegister();
+		ClassRegisterType* reg = static_cast<ClassRegisterType*>(t);
 		const T* instance = reg->deduce<T>(ClassName);
 
 		if(instance != nullptr)//we derived it!

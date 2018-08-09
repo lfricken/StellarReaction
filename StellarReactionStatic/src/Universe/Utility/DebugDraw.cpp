@@ -96,7 +96,9 @@ void DebugDraw::DrawTransform(const b2Transform& xf)
 
 	getGame()->getWindow().draw(m_line);
 }
-void SetWindow(const sf::RenderWindow& rWindow)
+void DebugDraw::DrawPoint(const b2Vec2& p, float32 size, const b2Color& color)
 {
-	(void)rWindow;//shutup the compiler about unused
+	(void)p;
+	(void)size;
+	(void)color;
 }

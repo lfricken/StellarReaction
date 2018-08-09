@@ -5,21 +5,27 @@
 
 Timer::Timer()
 {
+	clock = nullptr;
+
 	m_lastTimeElapsed = getTime();
 	m_countDownTime = 0.f;
 	m_timeUpTime = getTime() + m_countDownTime;
-	clock = nullptr;
 }
 Timer::Timer(float time)
 {
+	clock = nullptr;
+
 	m_lastTimeElapsed = time;
 	m_countDownTime = 0.f;
 	m_timeUpTime = time + m_countDownTime;
-	clock = nullptr;
 }
 Timer::Timer(const Clock& clockRef)
 {
 	clock = &clockRef;
+
+	m_lastTimeElapsed = getTime();
+	m_countDownTime = 0.f;
+	m_timeUpTime = getTime() + m_countDownTime;
 }
 Timer::~Timer()
 {

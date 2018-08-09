@@ -23,6 +23,7 @@ public:
 	///Draw a transformation.
 	void DrawTransform(const b2Transform& xf);
 
+	void DrawPoint(const b2Vec2& p, float32 size, const b2Color& color);
 protected:
 
 	sf::ConvexShape m_convex;//necessary to hold here to prevent major lag from creating and destroying

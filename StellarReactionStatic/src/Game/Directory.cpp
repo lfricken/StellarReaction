@@ -26,8 +26,8 @@ List<std::pair<String, String> > Directory::getAllFiles(const String& rDir, bool
 		if(!is_directory(it->path()))
 			if((*evalFunc)(it->path().extension().string()))
 			{
-				String fileName = it->path().root_name().string();
-				String fullPath = it->path().root_directory().string();
+				const String fileName = it->path().filename().string();
+				const String fullPath = it->path().relative_path().string();
 				list.push_back(std::pair<String, String>(fileName, fullPath));
 			}
 
@@ -41,8 +41,8 @@ List<std::pair<String, String> > Directory::getAllFiles(const String& rDir, cons
 		if(!is_directory(it->path()))
 			if(it->path().extension().string() == extension)
 			{
-				String fileName = it->path().root_name().string();
-				String fullPath = it->path().root_directory().string();
+				const String fileName = it->path().filename().string();
+				const String fullPath = it->path().relative_path().string();
 				list.push_back(std::pair<String, String>(fileName, fullPath));
 			}
 

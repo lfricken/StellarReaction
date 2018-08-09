@@ -31,14 +31,14 @@ public:
 	template<class B>
 	const B* deduce(const String& name)
 	{
-		std::map<String, sptr<const B> > map = std::get<std::map<String, sptr<const B> > >(mappings);
+		std::map<String, sptr<const B> >& map = std::get<std::map<String, sptr<const B> > >(mappings);
 		return map[name].get();
 	}
 
 	template<class B>
 	void store(const String& name, const B* instance)
 	{
-		std::map<String, sptr<const B> > map = std::get<std::map<String, sptr<const B> > >(mappings);
+		std::map<String, sptr<const B> >& map = std::get<std::map<String, sptr<const B> > >(mappings);
 		if(instance != nullptr)
 		{
 			map[name] = sptr<const B>(instance);

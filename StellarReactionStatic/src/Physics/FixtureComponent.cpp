@@ -111,9 +111,9 @@ Vec2 FixtureComponent::getCenter() const
 	{
 		b2PolygonShape* pPShape = static_cast<b2PolygonShape*>(m_spShape.get());
 
-		int num = pPShape->GetVertexCount();
+		int num = pPShape->m_count;
 		for(int i = 0; i < num; ++i)
-			center += (Vec2)pPShape->GetVertex(i);
+			center += (Vec2)pPShape->m_vertices[i];
 
 		center.x /= num;
 		center.y /= num;
@@ -121,7 +121,7 @@ Vec2 FixtureComponent::getCenter() const
 	}
 	else if(m_spShape->GetType() == b2Shape::e_circle)
 	{
-		center = m_pFixture->GetBody()->GetWorldPoint(static_cast<b2CircleShape*>(m_spShape.get())->GetVertex(0));
+		center = m_pFixture->GetBody()->GetWorldPoint(static_cast<b2CircleShape*>(m_spShape.get())->m_p);
 	}
 	else
 	{

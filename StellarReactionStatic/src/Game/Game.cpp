@@ -37,7 +37,7 @@ void Game::initialize()
 
 	loadWindow(contentDir() + "settings/" + "window.ini");
 
-	std::srand(std::time(nullptr));
+	std::srand((unsigned int)std::time(nullptr));
 	m_sampleClock = 0;
 	m_sampleFreq = 40;
 	m_lastTime = 0;
@@ -274,7 +274,7 @@ void Game::tick(float frameTime)
 	getLocalPlayer().getWindowEvents(rWindow);
 	const Vec2 camPos = getLocalPlayer().getCamera().getPosition();
 	const Vec2 halfSize = Convert::screenToUniverse((Vec2)rWindow.getSize()) / 2;
-	const float maxZoom = getLocalPlayer().getCamera().m_maxZoom * 1.5;
+	const float maxZoom = getLocalPlayer().getCamera().m_maxZoom * 1.5f;
 	const Vec2 maxHalfSize(halfSize.x * maxZoom, halfSize.y * maxZoom);
 	const float zoom = getLocalPlayer().getCamera().getZoom();
 	getUniverse().getDecors().update(camPos, maxHalfSize, zoom);
@@ -320,6 +320,9 @@ void Game::loadUniverse(const String& stuff)
 	m_spUniverse.reset();
 	m_spUniverse.reset(new Universe(universeData));
 	m_spUniverse->postConstructor();
+
+
+	registerClasses();
 
 	getLocalPlayer().onUniverseCreated();
 

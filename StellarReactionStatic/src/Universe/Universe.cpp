@@ -264,7 +264,7 @@ void Universe::postConstructor()
 }
 Universe::~Universe()
 {
-	//getGame()->getLocalPlayer().onBeforeUniverseDestroyed();
+	getGame()->getLocalPlayer().onBeforeUniverseDestroyed();
 }
 int Universe::getChunkPosition(String& name)
 {
