@@ -161,7 +161,7 @@ endif()
 # FindSFML couldn't find SFML.
 if( NOT SFML_FOUND )
     set( SFML_ROOT "" CACHE PATH "SFML root directory" )
-    message( FATAL_ERROR "CMake couldn't find SFML. Set the SFML_ROOT entry to SFML's root directory (containing \"include\" and \"lib\" directories)." )
+    message( FATAL_ERROR "CMake couldn't find SFML. Set the SFML_ROOT entry to SFML's root directory (containing \"include\" and \"lib\" directories). You need the release libraries directly under /lib in SFML root. - Leon" )
 endif()
 
 # Set the path for the libraries
