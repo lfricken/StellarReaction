@@ -109,10 +109,12 @@ void Universe::loadLevel(const GameLaunchData& data)//loads a level using bluepr
 		}
 
 		/**Create player ships**/
+		int spawnerCount[4] = { 0, 0, 0, 0 };
 		for(auto it = data.playerList.cbegin(); it != data.playerList.cend(); ++it)
 		{
-			int num = it - data.playerList.cbegin();
-			Vec2 spawn = m_spawnPoints[it->team][num];
+			int& spawner = spawnerCount[(int)(it->team) - 1]; // given team N, which spawner should we use?
+			Vec2 spawn = m_spawnPoints[it->team][spawner];
+			spawner += 1;
 			float angle = Math::toDeg(atan2(spawn.y, spawn.x) + (Math::Pi / 2.f));
 
 			ChunkDataMessage chunkMessageData;

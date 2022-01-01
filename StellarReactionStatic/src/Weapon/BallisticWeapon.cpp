@@ -33,7 +33,7 @@ void BallisticWeapon::preShot(const ShotData& data)
 
 	launchData.rotation = atan2(direction.y, direction.x);
 	launchData.rotationRate = 0;
-	launchData.velocity = direction * projectileData.velocity;
+	launchData.velocity = direction * projectileData.velocity * Vec2(0.1f,0.1f);
 	launchData.maxVelocity = 0.f;
 	launchData.acceleration = 0.f;
 

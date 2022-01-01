@@ -4,7 +4,10 @@
 	"energyConsumption": 1,
 	"fireDelay": 0.1,
     "damage": 6,
-	"velocity": 100,
+
+	"projectileData.lifetime": 2,
+	"projectileData.blueprint": "Ballistic",
+	"projectileData.velocity": 2,
 	
     "shots": 1,
 	"shotDelay": 0,

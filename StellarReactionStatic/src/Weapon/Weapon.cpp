@@ -131,7 +131,7 @@ void Weapon::postPhysUpdate(const Vec2& center, const Vec2& aim, BodyComponent* 
 			data.shipRotation = pBody->getAngle();
 			data.weaponCenter = center;
 
-			preShot(data);
+			postShot(data);
 		}
 	}
 

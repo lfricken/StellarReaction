@@ -249,14 +249,16 @@ void Player::selectTarget(const Vec2& targetNearPos, const Chunk* playersShip)
 	Chunk* newTarget = getGame()->getUniverse().getNearestChunk(targetNearPos, playersShip);
 	if(newTarget != nullptr)
 	{
-		if(!hasTarget(newTarget->getFactoryPosition()))//if we don't already have that target
+		auto targetIdx = newTarget->getFactoryPosition();
+		if(!hasTarget(targetIdx)) // if we don't already have that target
 		{
 			if(auto oldTarget = m_targets[m_nextTarget])
 			{
-				getGame()->getUniverse().getChunk(oldTarget)->resetStatusBoard(wptr<leon::Grid>());//reset the old target
+				if (oldTarget != FactoryObject::Positions::NullPosition)
+					getGame()->getUniverse().getChunk(oldTarget)->resetStatusBoard(wptr<leon::Grid>()); // reset the old target
 			}
 
-			m_targets[m_nextTarget] = newTarget->getFactoryPosition();
+			m_targets[m_nextTarget] = targetIdx;
 			wptr<leon::Grid> grid = m_targetBoards[m_nextTarget];
 			newTarget->resetStatusBoard(grid);
 		}

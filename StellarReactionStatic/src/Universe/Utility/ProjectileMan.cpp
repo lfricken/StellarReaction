@@ -41,6 +41,8 @@ void ProjectileMan::input(String rCommand, sf::Packet data)
 }
 void ProjectileMan::localLaunch(String blueprint, const Projectile::LaunchData& launchData)
 {
+	auto projectile = getProjectile(blueprint);
+	projectile->launch(launchData);
 	Print << "\nProjectile fired!";
 }
 Projectile* ProjectileMan::getProjectile(const String& blueprint)

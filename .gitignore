@@ -28,7 +28,8 @@
 StellarReactionTest/Debug/StellarReactionTest.pch
 *StellarReactionStatic-d.lib
 *StellarReactionStatic.lib
-
+*.vs
+desktop.ini
 
 
 #######################
@@ -41,3 +42,7 @@ StellarReactionTest/Debug/StellarReactionTest.pch
 *.pdb
 *.ilk
 StellarReaction.VC.VC.opendb
+UpgradeLog.htm
+*.recipe
+*.exp
+Math/Debug/Math.vcxproj.FileListAbsolute.txt

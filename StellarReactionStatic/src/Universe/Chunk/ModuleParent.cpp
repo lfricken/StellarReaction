@@ -43,6 +43,7 @@ void ModuleParentData::loadJson(const Json::Value& root)
 }
 ModuleParent::ModuleParent(const ModuleParentData& data) : Blueprintable(data), m_body(data.bodyComp), m_ranges(data.rangeData)
 {
+	m_body.moduleParent = this;
 	m_isPlayer = data.isPlayer;
 	m_profile = data.profile;
 
@@ -238,7 +239,9 @@ ShipModule* ModuleParent::getNearestValidTarget(Vec2 target)
 		return nullptr;
 	else
 	{
-		int choice = Rand::get(0, availableTargets.size() - 1);//it's inclusive for ints!
+		int choice = 0;
+		if (availableTargets.size() > 1)
+			choice = Rand::get(0, availableTargets.size() - 1);//it's inclusive for ints!
 		return availableTargets[choice];
 	}
 }

@@ -118,7 +118,9 @@ void StoreLoader::loadJson(const Json::Value& root)
 	{
 		lockedButtons.push_back(i);
 	}
-	std::random_shuffle(lockedButtons.begin(), lockedButtons.end()); // make the buttons unlock in a random order.
+	std::random_device rd;
+	std::mt19937 g(rd());
+	std::shuffle(lockedButtons.begin(), lockedButtons.end(), g); // make the buttons unlock in a random order.
 }
 
 

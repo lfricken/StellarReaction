@@ -5,4 +5,8 @@
 	"fireDelay": 6,
     "damage": 400,
 	"collisions": 2
+
+	"projectileData.lifetime": 2,
+	"projectileData.blueprint": "Missile",
+	"projectileData.velocity": 2,
 }

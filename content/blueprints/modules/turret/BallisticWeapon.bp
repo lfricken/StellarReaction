@@ -5,5 +5,11 @@
     "baseDecor": {
         "texName": "module/turret/ballistic_turret"
     },
-	"cost": 150
+	"cost": 150,
+	"rangeModifiers": {
+		"Ballistic": {
+			"Max": 100,
+			"Value": 100
+		}
+	}
 }

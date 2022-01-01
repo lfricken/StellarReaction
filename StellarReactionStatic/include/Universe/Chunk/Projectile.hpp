@@ -51,12 +51,12 @@ public:
 
 	virtual void prePhysUpdate();
 	virtual void postPhysUpdate();
-protected:
-
 	/// <summary>
 	/// Launch this projectile.
 	/// </summary>
 	virtual void launch(const LaunchData& data);
+protected:
+
 
 	/// <summary>
 	/// Sets payload on each projectile module.

@@ -73,7 +73,7 @@ public:
 	/// </summary>
 	T* get(int position)
 	{
-		if(position < static_cast<signed int>(m_list.size()))
+		if(0 <= position && position < static_cast<signed int>(m_list.size()))
 			return m_list[position].get();
 		else
 			return nullptr;

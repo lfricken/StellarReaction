@@ -54,6 +54,13 @@
             ]
         },
         {
+            "title": "LaserWeapon_fort",
+            "Position": [
+                0,
+                2
+            ]
+        },
+        {
             "title": "Shield",
             "Position": [
                 -1,

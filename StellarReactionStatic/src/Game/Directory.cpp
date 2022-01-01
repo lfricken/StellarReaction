@@ -3,6 +3,8 @@
 #include <filesystem>
 #include <iostream>
 
+#define _SILENCE_TR2_SYS_NAMESPACE_DEPRECATION_WARNING 1
+
 bool defaultAllExtensions(const String& rName)
 {
 	return true;
@@ -22,7 +24,7 @@ List<std::pair<String, String> > Directory::getAllFiles(const String& rDir, bool
 		evalFunc = &defaultAllExtensions;
 
 	List<std::pair<String, String> > list;
-	for(std::tr2::sys::recursive_directory_iterator it(m_contentDir + rDir), end; it != end; ++it)
+	for(std::filesystem::recursive_directory_iterator it(m_contentDir + rDir), end; it != end; ++it)
 		if(!is_directory(it->path()))
 			if((*evalFunc)(it->path().extension().string()))
 			{
@@ -37,7 +39,7 @@ List<std::pair<String, String> > Directory::getAllFiles(const String& rDir, bool
 List<std::pair<String, String> > Directory::getAllFiles(const String& rDir, const String& extension) const
 {
 	List<std::pair<String, String> > list;
-	for(std::tr2::sys::recursive_directory_iterator it(m_contentDir + rDir), end; it != end; ++it)
+	for(std::filesystem::recursive_directory_iterator it(m_contentDir + rDir), end; it != end; ++it)
 		if(!is_directory(it->path()))
 			if(it->path().extension().string() == extension)
 			{

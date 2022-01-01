@@ -23,9 +23,9 @@ public:
 	void prePhysUpdate();
 	void postPhysUpdate();
 
+	virtual void launch(const LaunchData& data);
 protected:
 
-	virtual void launch(const LaunchData& data);
 
 	Vec2 getTargetDirection(Chunk* target);
 	void minimizeAngle(float& angle);

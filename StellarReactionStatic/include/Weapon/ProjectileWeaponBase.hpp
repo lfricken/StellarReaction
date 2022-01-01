@@ -15,17 +15,17 @@ public:
 		/// <summary>
 		/// How long will this projectile last before exploding.
 		/// </summary>
-		float lifetime;
+		float lifetime = 2;
 
 		/// <summary>
 		/// Blueprint to use for the projectile.
 		/// </summary>
-		String blueprint;
+		String blueprint = "Ballistic";
 
 		/// <summary>
 		/// Initial velocity of the projectile.
 		/// </summary>
-		float velocity;
+		float velocity = 5;
 	};
 
 protected:
