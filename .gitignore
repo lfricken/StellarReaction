@@ -46,3 +46,4 @@ UpgradeLog.htm
 *.recipe
 *.exp
 Math/Debug/Math.vcxproj.FileListAbsolute.txt
+*.enc

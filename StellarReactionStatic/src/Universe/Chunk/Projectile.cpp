@@ -102,20 +102,21 @@ void Projectile::LaunchData::fromPacket(sf::Packet* data)
 	packet >> targetChunkPosition;
 	packet >> launcherModuleIoPosition;
 
-	packet >> startPosition.x << startPosition.y;
+	packet >> startPosition.x >> startPosition.y;
 
 	packet >> rotation;
 	packet >> rotationRate;
-	packet >> velocity.x << velocity.y;
+	packet >> velocity.x >> velocity.y;
 	packet >> maxVelocity;
 	packet >> acceleration;
 
 	packet >> tempTeam;
+	team = static_cast<Team>(tempTeam);
+
 	packet >> lifetime;
 	packet >> damage;
 	packet >> collisions;
 
-	team = static_cast<Team>(tempTeam);
 }
 void Projectile::LaunchData::intoPacket(sf::Packet* data) const
 {
@@ -129,11 +130,12 @@ void Projectile::LaunchData::intoPacket(sf::Packet* data) const
 
 	packet << rotation;
 	packet << rotationRate;
-	packet << velocity. x << velocity.y;
+	packet << velocity.x << velocity.y;
 	packet << maxVelocity;
 	packet << acceleration;
 
 	packet << static_cast<int>(team);
+
 	packet << lifetime;
 	packet << damage;
 	packet << collisions;

@@ -20,7 +20,6 @@ ProjectileMan::~ProjectileMan()
 void ProjectileMan::launchNewProjectile(const Projectile::LaunchData& launchParams)
 {
 	sf::Packet data;
-	data << launchParams.blueprint;
 	launchParams.intoPacket(&data);
 
 	Message message(m_ioComponent->getName(), "launch", data, 0.f, false);
@@ -30,13 +29,10 @@ void ProjectileMan::input(String rCommand, sf::Packet data)
 {
 	if(rCommand == "launch")
 	{
-		String blueprint;
 		Projectile::LaunchData launchData;
-
-		data >> blueprint;
 		launchData.fromPacket(&data);
 
-		localLaunch(blueprint, launchData);
+		localLaunch(launchData.blueprint, launchData);
 	}
 }
 void ProjectileMan::localLaunch(String blueprint, const Projectile::LaunchData& launchData)
