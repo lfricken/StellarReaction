@@ -1,6 +1,12 @@
 Project Started 2014-02-13<br />
 Readme Updated: 2016-12-01<br />
 
+# Libraries
+* [Box2D](https://box2d.org/documentation/md__d_1__git_hub_box2d_docs_collision.html)
+* [SFML](https://www.sfml-dev.org/)
+* [TGUI](https://tgui.eu/)
+* [JSONCPP](https://github.com/open-source-parsers/jsoncpp)
+
 # Build TGUI
 You need release libraries directly under lib in SFML root.
 
